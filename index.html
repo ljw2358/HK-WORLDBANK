@@ -250,7 +250,18 @@ const HK_V12 = {
     }
 };
 // DEX 실행 엔진 (249번 줄에 추가)
-async function executeHKSwap() {
+// 1. 파이 엔진 초기화 (이게 꼭 있어야 지갑이 열립니다)
+const Pi = window.Pi;
+Pi.init({ version: "2.0", sandbox: false });
+
+// 2. 사용자 인증 (지갑 연결 허락받기)
+Pi.authenticate(['payments']).then(function(auth) {
+    console.log("인증 성공:", auth.user.username);
+}).catch(function(error) {
+    console.error(error);
+});
+
+    async function executeHKSwap() {
     const amt = document.getElementById('swapAmount').value;
     if(!amt) return alert("형님, 수량을 입력하셔야죠!");
     try {
