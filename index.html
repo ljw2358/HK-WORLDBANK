@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>HK WORLD BANK</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&family=Oswald:wght@600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -13,7 +13,6 @@
             --neon-green: #39FF14;
             --sub-orange: #FF8C00;
             --text-white: #FFFFFF;
-            --card-bg: #1a1a1a;
         }
 
         body {
@@ -22,61 +21,75 @@
             color: var(--text-white);
             font-family: 'Noto Sans KR', sans-serif;
             display: flex; flex-direction: column; align-items: center;
+            width: 100%;
+            overflow-x: hidden; /* 가로 스크롤 방지 */
         }
 
-        /* 헤더 섹션 */
+        /* 전체 컨테이너: 크롬에서 하단이 잘리는 현상을 방지하기 위해 최소 높이 설정 */
+        .container {
+            width: 100%;
+            max-width: 420px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-bottom: 50px; /* 하단 여유 공간 확보 */
+        }
+
         .header-top { width: 100%; padding: 15px; display: flex; justify-content: flex-end; box-sizing: border-box; }
-        .lang-btn { background: none; color: var(--main-gold); border: 1px solid var(--main-gold); padding: 5px 15px; border-radius: 5px; font-weight: bold; }
+        .lang-btn { background: none; color: var(--main-gold); border: 1px solid var(--main-gold); padding: 5px 12px; border-radius: 5px; font-weight: bold; font-size: 12px; }
 
-        .brand-title { font-family: 'Oswald', sans-serif; font-size: 40px; color: var(--main-gold); text-align: center; margin: 20px 0 5px; line-height: 1.1; }
-        .secure-node { color: var(--neon-green); font-size: 13px; text-align: center; margin-bottom: 25px; font-weight: bold; }
+        .brand-title { font-family: 'Oswald', sans-serif; font-size: 38px; color: var(--main-gold); text-align: center; margin: 10px 0 5px; line-height: 1.1; }
+        .secure-node { color: var(--neon-green); font-size: 12px; text-align: center; margin-bottom: 20px; font-weight: bold; letter-spacing: 1px; }
 
-        /* 자산 카드 */
-        .asset-box { width: 90%; max-width: 400px; background: #111; border-radius: 30px; padding: 30px 15px; text-align: center; position: relative; border: 1px solid #222; }
-        .apr-tag { position: absolute; right: 20px; top: 15px; color: var(--neon-green); font-weight: bold; font-size: 14px; }
-        .ledger-label { color: var(--main-gold); font-size: 18px; margin-bottom: 25px; }
-        .balance-main { font-size: 50px; font-weight: 800; margin-bottom: 25px; }
-        .balance-main span { color: var(--sub-orange); font-size: 24px; }
-        .gcv-value { border: 2px solid var(--neon-green); border-radius: 50px; padding: 15px; color: var(--neon-green); font-weight: bold; font-size: 16px; margin: 0 10px; }
+        /* 자산 카드 레이아웃 최적화 */
+        .asset-box { width: 90%; background: #111; border-radius: 25px; padding: 25px 15px; text-align: center; position: relative; border: 1px solid #222; }
+        .apr-tag { position: absolute; right: 20px; top: 15px; color: var(--neon-green); font-weight: bold; font-size: 13px; }
+        .ledger-label { color: var(--main-gold); font-size: 17px; margin-bottom: 20px; }
+        .balance-main { font-size: 45px; font-weight: 800; margin-bottom: 20px; }
+        .balance-main span { color: var(--sub-orange); font-size: 22px; }
+        .gcv-value { border: 2px solid var(--neon-green); border-radius: 50px; padding: 12px; color: var(--neon-green); font-weight: bold; font-size: 15px; display: block; margin: 0 5px; }
 
-        /* 6구 메뉴 그리드 */
-        .menu-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; width: 90%; max-width: 400px; margin-top: 40px; }
+        /* 메뉴 그리드 */
+        .menu-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; width: 90%; margin-top: 30px; }
         .menu-item { text-align: center; }
-        .menu-item .icon-box { background: #222; width: 65px; height: 65px; border-radius: 20px; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; border: 1px solid #333; }
-        .menu-item i { font-size: 28px; color: var(--main-gold); }
-        .menu-item span { font-size: 14px; color: #ccc; }
+        .menu-item .icon-box { background: #1a1a1a; width: 60px; height: 60px; border-radius: 18px; display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; border: 1px solid #333; }
+        .menu-item i { font-size: 26px; color: var(--main-gold); }
+        .menu-item span { font-size: 13px; color: #ccc; font-weight: 500; }
 
-        /* 유동성 정보 섹션 */
-        .staking-info { width: 90%; max-width: 400px; margin-top: 40px; padding-left: 10px; border-left: 4px solid var(--main-gold); }
-        .staking-info div { margin-bottom: 8px; font-weight: bold; }
-        .staking-info .label { color: var(--sub-orange); font-size: 18px; }
-        .staking-info .amount { font-size: 32px; letter-spacing: 1px; }
-        .staking-info .status { color: #00e5ff; font-size: 14px; }
+        /* 유동성 정보 */
+        .staking-info { width: 85%; margin-top: 35px; padding-left: 12px; border-left: 4px solid var(--main-gold); align-self: flex-start; margin-left: 5%; }
+        .staking-info div { margin-bottom: 5px; font-weight: bold; }
+        .staking-info .label { color: var(--sub-orange); font-size: 16px; }
+        .staking-info .amount { font-size: 28px; letter-spacing: 0.5px; }
+        .staking-info .status { color: #00e5ff; font-size: 13px; }
 
-        /* 하단 3색 액션 버튼 (형님이 찾으시던 핵심!) */
-        .action-btns { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; width: 90%; max-width: 400px; margin-top: 30px; }
-        .btn { padding: 15px 5px; border-radius: 12px; font-weight: bold; text-align: center; border: none; font-size: 14px; cursor: pointer; }
-        .btn-gray { background: #333; color: white; border: 2px solid var(--main-gold); }
+        /* 하단 액션 버튼 */
+        .action-btns { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; width: 90%; margin-top: 25px; }
+        .btn { padding: 12px 0; border-radius: 10px; font-weight: bold; text-align: center; border: none; font-size: 13px; cursor: pointer; }
+        .btn-gray { background: #2a2a2a; color: white; border: 1.5px solid var(--main-gold); }
         .btn-orange { background: var(--sub-orange); color: white; }
         .btn-green { background: #22c55e; color: white; }
 
         /* 고객센터 버튼 */
-        .cs-wide-btn { width: 90%; max-width: 400px; background: linear-gradient(to right, #ff8c00, #ff4500); color: white; padding: 18px; border-radius: 15px; margin-top: 25px; text-align: center; font-weight: bold; text-decoration: none; font-size: 16px; }
+        .cs-wide-btn { width: 90%; background: linear-gradient(to right, #ff8c00, #ff4500); color: white; padding: 16px; border-radius: 12px; margin-top: 25px; text-align: center; font-weight: bold; text-decoration: none; font-size: 16px; display: block; box-shadow: 0 4px 15px rgba(255, 69, 0, 0.3); }
 
-        /* SNS 섹션 (유튜브/틱톡) */
-        .sns-section { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; width: 90%; max-width: 400px; margin-top: 30px; }
-        .sns-card { background: #111; border-radius: 20px; padding: 20px; text-align: center; border: 1px solid #222; text-decoration: none; color: white; }
-        .sns-card i { font-size: 35px; margin-bottom: 10px; }
+        .email-info { margin-top: 15px; color: #888; font-size: 12px; text-align: center; }
+
+        /* ✅ SNS 섹션 최적화 (짤림 방지 핵심) ✅ */
+        .sns-section { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: 90%; margin-top: 20px; }
+        .sns-card { background: #111; border-radius: 15px; padding: 15px; text-align: center; border: 1px solid #222; text-decoration: none; color: white; }
+        .sns-card i { font-size: 30px; margin-bottom: 8px; }
         .sns-card .yt { color: #ff0000; }
         .sns-card .tk { color: #ffffff; }
-        .sns-card div { font-size: 14px; font-weight: bold; margin-bottom: 5px; }
-        .sns-card span { font-size: 12px; color: #777; }
+        .sns-card div { font-size: 13px; font-weight: bold; margin-bottom: 3px; }
+        .sns-card span { font-size: 11px; color: #666; }
 
-        footer { margin: 50px 0; text-align: center; font-size: 11px; color: #444; line-height: 1.6; }
+        footer { margin: 40px 0 30px; text-align: center; font-size: 10px; color: #333; line-height: 1.6; width: 100%; }
     </style>
 </head>
 <body>
 
+<div class="container">
     <header class="header-top">
         <button class="lang-btn">KR (한국어) ∨</button>
     </header>
@@ -115,7 +128,7 @@
 
     <a href="#" class="cs-wide-btn"><i class="fa-solid fa-headset"></i> 24/7 글로벌 고객지원센터</a>
 
-    <div style="margin-top: 15px; color: #888; font-size: 13px;">info@hkwb.co.kr</div>
+    <div class="email-info">info@hkwb.co.kr</div>
 
     <div class="sns-section">
         <a href="https://youtube.com/@hyekong2025" class="sns-card">
@@ -134,6 +147,7 @@
         © 2026 HK GROUP GLOBAL HEGEMONY.<br>
         CHAIRMAN LEE JAEWAN. ALL RIGHTS RESERVED.
     </footer>
+</div>
 
 </body>
 </html>
