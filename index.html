@@ -21,77 +21,101 @@
             color: var(--text-white);
             font-family: 'Noto Sans KR', sans-serif;
             display: flex; flex-direction: column; align-items: center;
-            width: 100%;
-            overflow-x: hidden; /* 가로 스크롤 방지 */
+            width: 100%; overflow-x: hidden;
         }
 
-        /* 전체 컨테이너: 크롬에서 하단이 잘리는 현상을 방지하기 위해 최소 높이 설정 */
-        .container {
-            width: 100%;
-            max-width: 420px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding-bottom: 50px; /* 하단 여유 공간 확보 */
-        }
+        .container { width: 100%; max-width: 420px; display: flex; flex-direction: column; align-items: center; padding-bottom: 60px; }
 
-        .header-top { width: 100%; padding: 15px; display: flex; justify-content: flex-end; box-sizing: border-box; }
-        .lang-btn { background: none; color: var(--main-gold); border: 1px solid var(--main-gold); padding: 5px 12px; border-radius: 5px; font-weight: bold; font-size: 12px; }
+        /* ✅ 언어 선택 섹션 (형님 요청 12개국 + 50개국 효과) ✅ */
+        .header-top { width: 100%; padding: 15px; display: flex; justify-content: flex-end; box-sizing: border-box; position: relative; }
+        
+        /* 윅스 방식의 깔끔한 셀렉트 박스 */
+        .lang-select {
+            background: #111;
+            color: var(--main-gold);
+            border: 1px solid var(--main-gold);
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 13px;
+            outline: none;
+            cursor: pointer;
+            appearance: none; /* 기본 화살표 제거 */
+            -webkit-appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23FFD700' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 8px center;
+            background-size: 12px;
+            padding-right: 30px;
+        }
 
         .brand-title { font-family: 'Oswald', sans-serif; font-size: 38px; color: var(--main-gold); text-align: center; margin: 10px 0 5px; line-height: 1.1; }
         .secure-node { color: var(--neon-green); font-size: 12px; text-align: center; margin-bottom: 20px; font-weight: bold; letter-spacing: 1px; }
 
-        /* 자산 카드 레이아웃 최적화 */
+        /* 자산 카드 */
         .asset-box { width: 90%; background: #111; border-radius: 25px; padding: 25px 15px; text-align: center; position: relative; border: 1px solid #222; }
         .apr-tag { position: absolute; right: 20px; top: 15px; color: var(--neon-green); font-weight: bold; font-size: 13px; }
         .ledger-label { color: var(--main-gold); font-size: 17px; margin-bottom: 20px; }
         .balance-main { font-size: 45px; font-weight: 800; margin-bottom: 20px; }
         .balance-main span { color: var(--sub-orange); font-size: 22px; }
-        .gcv-value { border: 2px solid var(--neon-green); border-radius: 50px; padding: 12px; color: var(--neon-green); font-weight: bold; font-size: 15px; display: block; margin: 0 5px; }
+        .gcv-value { border: 2px solid var(--neon-green); border-radius: 50px; padding: 12px; color: var(--neon-green); font-weight: bold; font-size: 15px; display: block; }
 
         /* 메뉴 그리드 */
         .menu-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; width: 90%; margin-top: 30px; }
         .menu-item { text-align: center; }
         .menu-item .icon-box { background: #1a1a1a; width: 60px; height: 60px; border-radius: 18px; display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; border: 1px solid #333; }
         .menu-item i { font-size: 26px; color: var(--main-gold); }
-        .menu-item span { font-size: 13px; color: #ccc; font-weight: 500; }
+        .menu-item span { font-size: 13px; color: #ccc; }
 
         /* 유동성 정보 */
         .staking-info { width: 85%; margin-top: 35px; padding-left: 12px; border-left: 4px solid var(--main-gold); align-self: flex-start; margin-left: 5%; }
-        .staking-info div { margin-bottom: 5px; font-weight: bold; }
-        .staking-info .label { color: var(--sub-orange); font-size: 16px; }
-        .staking-info .amount { font-size: 28px; letter-spacing: 0.5px; }
-        .staking-info .status { color: #00e5ff; font-size: 13px; }
+        .staking-info .label { color: var(--sub-orange); font-size: 16px; margin-bottom: 5px; font-weight: bold; }
+        .staking-info .amount { font-size: 28px; font-weight: bold; letter-spacing: 0.5px; }
+        .staking-info .status { color: #00e5ff; font-size: 13px; font-weight: bold; }
 
-        /* 하단 액션 버튼 */
+        /* 액션 버튼 */
         .action-btns { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; width: 90%; margin-top: 25px; }
-        .btn { padding: 12px 0; border-radius: 10px; font-weight: bold; text-align: center; border: none; font-size: 13px; cursor: pointer; }
-        .btn-gray { background: #2a2a2a; color: white; border: 1.5px solid var(--main-gold); }
-        .btn-orange { background: var(--sub-orange); color: white; }
-        .btn-green { background: #22c55e; color: white; }
+        .btn { padding: 12px 0; border-radius: 10px; font-weight: bold; font-size: 13px; border: none; cursor: pointer; color: white; }
+        .btn-gray { background: #2a2a2a; border: 1.5px solid var(--main-gold); }
+        .btn-orange { background: var(--sub-orange); }
+        .btn-green { background: #22c55e; }
 
-        /* 고객센터 버튼 */
-        .cs-wide-btn { width: 90%; background: linear-gradient(to right, #ff8c00, #ff4500); color: white; padding: 16px; border-radius: 12px; margin-top: 25px; text-align: center; font-weight: bold; text-decoration: none; font-size: 16px; display: block; box-shadow: 0 4px 15px rgba(255, 69, 0, 0.3); }
+        /* 고객지원 */
+        .cs-wide-btn { width: 90%; background: linear-gradient(to right, #ff8c00, #ff4500); color: white; padding: 16px; border-radius: 12px; margin-top: 25px; text-align: center; font-weight: bold; text-decoration: none; font-size: 16px; display: block; }
 
-        .email-info { margin-top: 15px; color: #888; font-size: 12px; text-align: center; }
+        .email-info { margin-top: 15px; color: #888; font-size: 12px; }
 
-        /* ✅ SNS 섹션 최적화 (짤림 방지 핵심) ✅ */
+        /* SNS 섹션 */
         .sns-section { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: 90%; margin-top: 20px; }
         .sns-card { background: #111; border-radius: 15px; padding: 15px; text-align: center; border: 1px solid #222; text-decoration: none; color: white; }
         .sns-card i { font-size: 30px; margin-bottom: 8px; }
         .sns-card .yt { color: #ff0000; }
         .sns-card .tk { color: #ffffff; }
-        .sns-card div { font-size: 13px; font-weight: bold; margin-bottom: 3px; }
-        .sns-card span { font-size: 11px; color: #666; }
 
-        footer { margin: 40px 0 30px; text-align: center; font-size: 10px; color: #333; line-height: 1.6; width: 100%; }
+        footer { margin: 40px 0 30px; text-align: center; font-size: 10px; color: #333; width: 100%; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <header class="header-top">
-        <button class="lang-btn">KR (한국어) ∨</button>
+        <select class="lang-select">
+            <option>한국어 (KR)</option>
+            <option>English (US)</option>
+            <option>العربية (Arabic)</option>
+            <option>हिन्दी (Hindi)</option>
+            <option>Bahasa Indonesia</option>
+            <option>日本語 (JP)</option>
+            <option>Español (ES)</option>
+            <option>Português (PT)</option>
+            <option>Українська (UA)</option>
+            <option>Hausa (Nigeria)</option>
+            <option>Русский (RU)</option>
+            <option>Français (FR)</option>
+            <option>Deutsch (DE)</option>
+            <option disabled>────────────────</option>
+            <option disabled>+ More than 50 Languages</option>
+        </select>
     </header>
 
     <h1 class="brand-title">HK WORLD<br>BANK</h1>
