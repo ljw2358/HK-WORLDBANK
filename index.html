@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HK WORLD BANK</title>
+    <title>HK WORLD BANK | Global Digital Asset Management</title>
+    
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&family=Oswald:wght@600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
     <style>
         :root {
             --bg-color: #000000;
@@ -14,6 +16,7 @@
             --sub-orange: #FF8C00;
             --text-white: #FFFFFF;
             --icon-box-bg: rgba(42, 42, 42, 0.4); 
+            --card-gradient: linear-gradient(145deg, #1f1f1f, #0a0a0a);
         }
 
         body {
@@ -23,47 +26,175 @@
             font-family: 'Noto Sans KR', sans-serif;
             display: flex; flex-direction: column; align-items: center;
             min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
         }
 
-        header { width: 100%; padding: 20px; display: flex; justify-content: flex-end; box-sizing: border-box; }
-        .lang-select { background: rgba(255, 215, 0, 0.1); color: var(--main-gold); border: 1px solid var(--main-gold); padding: 8px 15px; border-radius: 8px; font-size: 14px; cursor: pointer; }
+        /* 헤더: 다국어 선택 섹션 */
+        header { 
+            width: 100%; 
+            padding: 25px; 
+            display: flex; 
+            justify-content: flex-end; 
+            box-sizing: border-box; 
+        }
+        .lang-select { 
+            background: rgba(255, 215, 0, 0.1); 
+            color: var(--main-gold); 
+            border: 1px solid var(--main-gold); 
+            padding: 10px 20px; 
+            border-radius: 12px; 
+            font-size: 14px; 
+            font-weight: bold;
+            cursor: pointer; 
+        }
 
-        .brand-section { text-align: center; margin-top: 10px; }
-        .brand-title { font-family: 'Oswald', sans-serif; font-size: 45px; line-height: 1.0; color: var(--main-gold); text-transform: uppercase; margin-bottom: 12px; }
+        /* 브랜드 타이틀 영역 */
+        .brand-section { text-align: center; margin-top: 20px; }
+        .brand-title { 
+            font-family: 'Oswald', sans-serif; 
+            font-size: 55px; 
+            line-height: 1.0; 
+            color: var(--main-gold); 
+            text-transform: uppercase; 
+            margin-bottom: 5px;
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+        }
+        .brand-subtitle {
+            color: var(--neon-green);
+            font-size: 14px;
+            letter-spacing: 3px;
+            font-weight: bold;
+        }
 
-        .asset-card { width: 90%; max-width: 380px; background: linear-gradient(145deg, #1f1f1f, #0a0a0a); border-radius: 35px; padding: 35px 20px; margin-top: 30px; text-align: center; border: 1px solid #2a2a2a; box-shadow: 0 15px 35px rgba(0,0,0,0.8); }
-        .ledger-title { color: var(--main-gold); font-size: 19px; margin-bottom: 30px; }
-        .pi-balance { font-size: 52px; font-weight: 800; margin-bottom: 30px; }
-        .pi-balance span { color: var(--sub-orange); font-size: 26px; }
-        .gcv-box { border: 2px solid var(--neon-green); border-radius: 50px; padding: 18px; color: var(--neon-green); font-weight: bold; font-size: 17px; }
-
-        .menu-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; width: 90%; max-width: 380px; margin-top: 45px; }
-        .menu-item { text-align: center; }
-        .menu-item .icon-wrapper { background-color: var(--icon-box-bg); width: 65px; height: 65px; border-radius: 20px; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; border: 1px solid #333; }
+        /* 메인 자산 대시보드 카드 */
+        .asset-card { 
+            width: 92%; 
+            max-width: 420px; 
+            background: var(--card-gradient); 
+            border-radius: 40px; 
+            padding: 45px 20px; 
+            margin-top: 40px; 
+            text-align: center; 
+            border: 1px solid #2a2a2a; 
+            box-shadow: 0 25px 50px rgba(0,0,0,0.9); 
+        }
+        .ledger-title { 
+            color: var(--main-gold); 
+            font-size: 21px; 
+            margin-bottom: 35px; 
+            font-weight: 700;
+        }
+        .pi-balance { 
+            font-size: 60px; 
+            font-weight: 800; 
+            margin-bottom: 35px; 
+            letter-spacing: -2px;
+        }
+        .pi-balance span { color: var(--sub-orange); font-size: 30px; margin-left: 5px; }
         
-        /* 📸 형님, 152번 줄 수치 확실히 35px로 고쳤습니다! 📸 */
-        .menu-item img { width: 35px; height: 35px; object-fit: contain; }
-        .menu-item span { font-size: 14px; font-weight: 500; color: #ddd; display: block; }
+        .gcv-box { 
+            border: 2px solid var(--neon-green); 
+            border-radius: 60px; 
+            padding: 22px; 
+            color: var(--neon-green); 
+            font-weight: bold; 
+            font-size: 19px;
+            background: rgba(57, 255, 20, 0.05);
+            display: inline-block;
+            width: 85%;
+        }
 
-        .cs-btn { width: 90%; max-width: 380px; background: linear-gradient(to right, #ff8c00, #ff4500); color: white; padding: 18px; border-radius: 15px; margin-top: 35px; text-align: center; font-weight: bold; text-decoration: none; font-size: 17px; display: block; margin-left: auto; margin-right: auto; }
+        /* 메뉴 그리드 (아이콘 + 텍스트) */
+        .menu-grid { 
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 30px; 
+            width: 92%; 
+            max-width: 420px; 
+            margin-top: 55px; 
+        }
+        .menu-item { text-align: center; cursor: pointer; }
+        .menu-item .icon-wrapper { 
+            background-color: var(--icon-box-bg); 
+            width: 75px; 
+            height: 75px; 
+            border-radius: 25px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            margin: 0 auto 15px; 
+            border: 1px solid #333; 
+            transition: all 0.3s ease;
+        }
+        .menu-item:hover .icon-wrapper {
+            background-color: var(--main-gold);
+            transform: translateY(-5px);
+        }
+        .menu-item:hover i { color: #000; }
+        
+        /* 📸 아이콘 크기 및 오타 완전 해결 (152번 줄 부근) 📸 */
+        .menu-item i { 
+            font-size: 32px; 
+            color: var(--main-gold); 
+            transition: 0.3s;
+        }
+        .menu-item span { 
+            font-size: 16px; 
+            font-weight: 500; 
+            color: #ccc; 
+            display: block; 
+        }
 
-        footer { margin: 60px 0 40px; text-align: center; font-size: 11px; color: #444; line-height: 1.8; }
+        /* 하단 고객센터 버튼 */
+        .cs-btn { 
+            width: 92%; 
+            max-width: 420px; 
+            background: linear-gradient(to right, #ff8c00, #ff4500); 
+            color: white; 
+            padding: 22px; 
+            border-radius: 20px; 
+            margin-top: 50px; 
+            text-align: center; 
+            font-weight: bold; 
+            text-decoration: none; 
+            font-size: 19px; 
+            display: block;
+            box-shadow: 0 10px 25px rgba(255, 69, 0, 0.4);
+        }
+
+        /* 하단 카피라이트 및 이메일 */
+        .footer-info {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+        }
+
+        footer { 
+            margin: 80px 0 50px; 
+            text-align: center; 
+            font-size: 12px; 
+            color: #333; 
+            line-height: 2.0; 
+            letter-spacing: 1px;
+        }
     </style>
 </head>
 <body>
 
     <header>
         <select class="lang-select" id="langSelector" onchange="changeLanguage()">
-            <option value="ko">KR (한국어)</option>
-            <option value="en">EN (English)</option>
-            <option value="vi">VI (Tiếng Việt)</option>
-            <option value="zh">ZH (中文)</option>
-            <option value="ja">JA (日本語)</option>
+            <option value="ko">KOREA (한국어)</option>
+            <option value="en">ENGLISH (US)</option>
+            <option value="vi">VIETNAM (Tiếng Việt)</option>
+            <option value="zh">CHINA (中文)</option>
+            <option value="ja">JAPAN (日本語)</option>
         </select>
     </header>
 
     <div class="brand-section">
         <h1 class="brand-title">HK WORLD<br>BANK</h1>
+        <div class="brand-subtitle">GLOBAL FINANCIAL HEGEMONY</div>
     </div>
 
     <div class="asset-card">
@@ -73,22 +204,26 @@
     </div>
 
     <div class="menu-grid">
-        <div class="menu-item"><div class="icon-wrapper"><img src="https://em-content.zobj.net/source/microsoft-teams/363/airplane_2708-fe0f.png"></div><span id="m1">송금</span></div>
-        <div class="menu-item"><div class="icon-wrapper"><img src="https://em-content.zobj.net/source/microsoft-teams/363/shopping-bags_1f6cd-fe0f.png"></div><span id="m2">결제</span></div>
+        <div class="menu-item"><div class="icon-wrapper"><i class="fa-solid fa-paper-plane"></i></div><span id="m1">송금</span></div>
+        <div class="menu-item"><div class="icon-wrapper"><i class="fa-solid fa-cart-shopping"></i></div><span id="m2">결제</span></div>
         
         <div class="menu-item">
             <div class="icon-wrapper">
-                <img src="https://em-content.zobj.net/source/microsoft-teams/363/fork-and-knife_1f37d-fe0f.png">
+                <i class="fa-solid fa-vault"></i>
             </div>
             <span id="m3">예치</span>
         </div>
 
-        <div class="menu-item"><div class="icon-wrapper"><img src="https://em-content.zobj.net/source/microsoft-teams/363/wrapped-gift_1f381.png"></div><span id="m4">보상</span></div>
-        <div class="menu-item"><div class="icon-wrapper"><img src="https://em-content.zobj.net/source/microsoft-teams/363/balance-scale_2696-fe0f.png"></div><span id="m5">소득</span></div>
-        <div class="menu-item"><div class="icon-wrapper"><img src="https://em-content.zobj.net/source/microsoft-teams/363/counterclockwise-arrows-button_1f504.png"></div><span id="m6">스왑</span></div>
+        <div class="menu-item"><div class="icon-wrapper"><i class="fa-solid fa-gift"></i></div><span id="m4">보상</span></div>
+        <div class="menu-item"><div class="icon-wrapper"><i class="fa-solid fa-scale-balanced"></i></div><span id="m5">소득</span></div>
+        <div class="menu-item"><div class="icon-wrapper"><i class="fa-solid fa-rotate"></i></div><span id="m6">스왑</span></div>
     </div>
 
     <a href="#" class="cs-btn" id="csBtn"><i class="fa-solid fa-headset"></i> 24/7 글로벌 고객지원센터</a>
+    
+    <div class="footer-info">
+        공식 문의: info@hkwb.co.kr
+    </div>
 
     <footer>
         © 2026 HK GROUP GLOBAL HEGEMONY.<br>
@@ -96,12 +231,13 @@
     </footer>
 
     <script>
+        // 🌍 40개국어 확장성을 고려한 다국어 데이터베이스 🌍
         const i18n = {
             ko: { ledgerTitle: "메인 자산 통합 원장", gcv: "가치 평가: $ 125,663,600<br>(GCV)", m1: "송금", m2: "결제", m3: "예치", m4: "보상", m5: "소득", m6: "스왑", csBtn: "24/7 글로벌 고객지원센터" },
             en: { ledgerTitle: "Main Asset Integrated Ledger", gcv: "Valuation: $ 125,663,600<br>(GCV)", m1: "Transfer", m2: "Payment", m3: "Deposit", m4: "Reward", m5: "Income", m6: "Swap", csBtn: "24/7 Global Support Center" },
             vi: { ledgerTitle: "Sổ cái tích hợp tài sản chính", gcv: "Định giá: $ 125,663,600<br>(GCV)", m1: "Gửi tiền", m2: "Thanh toán", m3: "Gửi tiết kiệm", m4: "Thưởng", m5: "Thu nhập", m6: "Hoán đổi", csBtn: "24/7 Trung tâm hỗ trợ" },
             zh: { ledgerTitle: "主要资产综合账簿", gcv: "估值: $ 125,663,600<br>(GCV)", m1: "转账", m2: "支付", m3: "存款", m4: "奖励", m5: "收入", m6: "交换", csBtn: "24/7 全球支持中心" },
-            ja: { ledgerTitle: "主要資産統合元帳", gcv: "評価額: $ 125,663,600<br>(GCV)", m1: "送금", m2: "決済", m3: "預금", m4: "報酬", m5: "所得", m6: "スワップ", csBtn: "24/7 グローバルサポート" }
+            ja: { ledgerTitle: "主要資産統合元帳", gcv: "評価額: $ 125,663,600<br>(GCV)", m1: "送金", m2: "決済", m3: "預金", m4: "報酬", m5: "所得", m6: "スワップ", csBtn: "24/7 グローバルサポート" }
         };
 
         function changeLanguage() {
