@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HK WORLD BANK - SMART GLOBAL</title>
+    <title>HK WORLD BANK - GLOBAL SMART</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@700;900&display=swap" rel="stylesheet">
     <style>
         :root { --gold: #FFB400; --green: #00E676; --red: #FF5252; }
@@ -16,38 +16,56 @@
             display: flex; flex-direction: column; box-sizing: border-box;
         }
 
-        /* --- 평상시 숨겨진 스마트 언어 배지 --- */
-        #auto-lang-badge {
-            position: absolute; right: 15px; top: 15px;
-            background: rgba(255, 180, 0, 0.2); border: 1px solid var(--gold);
-            color: var(--gold); padding: 4px 10px; border-radius: 5px;
-            font-size: 0.75rem; font-weight: bold; display: none; /* 기본은 숨김 */
+        /* --- 우측 상단 스마트 언어 선택 (마우스 올리면 나타남) --- */
+        .lang-container {
+            position: absolute; right: 10px; top: 15px; text-align: right; z-index: 1000;
         }
+        /* 평소 보이는 작은 네모 */
+        .lang-trigger {
+            background: transparent; color: var(--gold); border: 1px solid var(--gold);
+            padding: 4px 8px; font-size: 0.7rem; font-weight: bold; cursor: pointer; border-radius: 4px;
+        }
+        /* 숨겨진 언어 리스트 (한 줄 나열) */
+        .lang-list {
+            display: none; flex-direction: column; gap: 2px;
+            background: rgba(0,0,0,0.9); border: 1px solid var(--gold);
+            padding: 5px; border-radius: 5px; margin-top: 5px;
+        }
+        .lang-container:hover .lang-list { display: flex; }
+        .lang-option {
+            color: #fff; font-size: 0.65rem; padding: 3px 6px; cursor: pointer; text-align: center;
+        }
+        .lang-option:hover { background: var(--gold); color: #000; }
 
+        /* 헤더 */
         .header { text-align: left; margin-bottom: 15px; padding-right: 60px; }
         .logo h1 { color: var(--gold); font-size: 2rem; margin: 0; font-weight: 900; }
         .node-status { color: var(--green); font-size: 0.9rem; font-weight: bold; }
 
+        /* 메인 자산 */
         .asset-card {
             background: #111; border: 1px solid #222; border-radius: 30px;
             padding: 25px 10px; text-align: center; margin-bottom: 15px;
         }
-        .pi-val { font-size: 3.2rem; font-weight: 900; line-height: 1.1; border-bottom: 3px solid var(--gold); display: inline-block; }
+        .pi-val { font-size: 3.2rem; font-weight: 900; border-bottom: 3px solid var(--gold); display: inline-block; }
         .gcv-badge { border: 2px solid var(--green); border-radius: 40px; padding: 8px 15px; color: var(--green); font-size: 1.1rem; font-weight: 900; margin-top: 15px; display: inline-block; }
 
+        /* 메뉴 6구 */
         .menu-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
         .menu-item { background: #1a1a1a; border-radius: 15px; padding: 18px 5px; text-align: center; border: 1px solid #2a2a2a; }
         .m-icon { font-size: 1.8rem; display: block; margin-bottom: 5px; }
         .m-text { font-size: 0.95rem; font-weight: 800; }
 
+        /* 스테이킹 */
         .staking { border-left: 5px solid var(--gold); padding-left: 12px; text-align: left; margin-bottom: 20px; }
         .pool-num { font-size: 2.3rem; font-weight: 900; margin: 5px 0; letter-spacing: -1px; }
 
+        /* 버튼류 */
         .btn-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 15px; }
         .btn { border-radius: 10px; padding: 15px 5px; font-size: 0.95rem; font-weight: 900; border: none; }
-        
         .cs-btn { background: var(--red); border-radius: 15px; padding: 20px; text-align: center; font-size: 1.3rem; font-weight: 900; margin-bottom: 20px; }
         
+        /* 유튜브 & 틱톡 */
         .sns-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 30px; }
         .sns-card { background: #151515; border-radius: 15px; padding: 15px; text-align: center; border: 1px solid #2a2a2a; text-decoration: none; color: #fff; }
 
@@ -57,28 +75,42 @@
 <body>
 
 <div class="container">
-    <div id="auto-lang-badge">LOCATED: KR</div>
+    <div class="lang-container">
+        <div class="lang-trigger" id="current-lang">Language</div>
+        <div class="lang-list">
+            <div class="lang-option" onclick="changeLang('KR')">KR</div>
+            <div class="lang-option" onclick="changeLang('US')">US</div>
+            <div class="lang-option" onclick="changeLang('CN')">CN</div>
+            <div class="lang-option" onclick="changeLang('JP')">JP</div>
+            <div class="lang-option" onclick="changeLang('VN')">VN</div>
+            <div class="lang-option" onclick="changeLang('ID')">ID</div>
+            <div class="lang-option" onclick="changeLang('TH')">TH</div>
+            <div class="lang-option" onclick="changeLang('DE')">DE</div>
+            <div class="lang-option" onclick="changeLang('FR')">FR</div>
+            <div class="lang-option" onclick="changeLang('ES')">ES</div>
+        </div>
+    </div>
 
     <div class="header">
         <div class="logo">
-            <h1>HK WORLD BANK</h1>
+            <h1 id="brand-title">HK WORLD BANK</h1>
             <div class="node-status">🚀 SECURE NODES: ACTIVE</div>
         </div>
     </div>
 
     <div class="asset-card">
-        <div style="color:var(--gold); font-size:1.1rem; margin-bottom:8px;">메인 자산 통합 원장</div>
+        <div id="asset-label" style="color:var(--gold); font-size:1.1rem; margin-bottom:8px;">메인 자산 통합 원장</div>
         <div id="pi-display" class="pi-val">400.0201 <span style="font-size: 1.4rem; color:var(--gold);">Pi</span></div><br>
         <div class="gcv-badge">VALUE: $ 125,663,600 (GCV)</div>
     </div>
 
     <div class="menu-grid">
-        <div class="menu-item"><span class="m-icon">🚀</span><span class="m-text">송금</span></div>
-        <div class="menu-item"><span class="m-icon">🛒</span><span class="m-text">결제</span></div>
-        <div class="menu-item"><span class="m-icon">📀</span><span class="m-text">예치</span></div>
-        <div class="menu-item"><span class="m-icon">🎁</span><span class="m-text">리워드</span></div>
-        <div class="menu-item"><span class="m-icon">⚖️</span><span class="m-text">기본소득</span></div>
-        <div class="menu-item"><span class="m-icon">🔄</span><span class="m-text">스왑</span></div>
+        <div class="menu-item"><span class="m-icon">🚀</span><span id="m1" class="m-text">송금</span></div>
+        <div class="menu-item"><span class="m-icon">🛒</span><span id="m2" class="m-text">결제</span></div>
+        <div class="menu-item"><span class="m-icon">📀</span><span id="m3" class="m-text">예치</span></div>
+        <div class="menu-item"><span class="m-icon">🎁</span><span id="m4" class="m-text">리워드</span></div>
+        <div class="menu-item"><span class="m-icon">⚖️</span><span id="m5" class="m-text">기본소득</span></div>
+        <div class="menu-item"><span class="m-icon">🔄</span><span id="m6" class="m-text">스왑</span></div>
     </div>
 
     <div class="staking">
@@ -107,29 +139,31 @@
 </div>
 
 <script>
-    // 1. 자동 국가 감지 시스템 (브라우저 설정 기반)
-    function detectLanguage() {
-        const lang = navigator.language || navigator.userLanguage;
-        const badge = document.getElementById('auto-lang-badge');
-        
-        // 국가 코드 추출 (ko-KR -> KR)
-        let countryCode = lang.split('-')[1] || lang.toUpperCase();
-        
-        // 배지 업데이트 및 표시
-        badge.innerText = "LOCATED: " + countryCode;
-        badge.style.display = "block";
+    // 언어 변환 함수
+    function changeLang(lang) {
+        document.getElementById('current-lang').innerText = lang;
+        const translations = {
+            'KR': ['송금', '결제', '예치', '리워드', '기본소득', '스왑', '메인 자산 통합 원장'],
+            'US': ['Send', 'Pay', 'Deposit', 'Reward', 'UBI', 'Swap', 'Main Asset Ledger'],
+            'CN': ['转账', '支付', '存款', '奖励', '基本收入', '互换', '主资产总账']
+        };
+        const selected = translations[lang] || translations['US'];
+        document.getElementById('m1').innerText = selected[0];
+        document.getElementById('m2').innerText = selected[1];
+        document.getElementById('m3').innerText = selected[2];
+        document.getElementById('m4').innerText = selected[3];
+        document.getElementById('m5').innerText = selected[4];
+        document.getElementById('m6').innerText = selected[5];
+        document.getElementById('asset-label').innerText = selected[6];
     }
 
-    // 2. 실시간 데이터 시뮬레이션
+    // 실시간 데이터
     let pi = 400.0201; let pool = 88401811436;
     setInterval(() => {
         pi += 0.0001; pool += Math.floor(Math.random() * 2000) + 500;
         document.getElementById('pi-display').innerHTML = pi.toFixed(4) + ' <span style="font-size: 1.4rem; color:#FFB400;">Pi</span>';
         document.getElementById('pool-display').innerText = pool.toLocaleString();
     }, 1300);
-
-    // 실행
-    window.onload = detectLanguage;
 </script>
 
 </body>
