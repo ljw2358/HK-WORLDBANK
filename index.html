@@ -3,144 +3,129 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HK WORLD BANK - GLOBAL CENTRAL</title>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@700;900&family=Roboto:wght@900&display=swap" rel="stylesheet">
+    <title>HK WORLD BANK - FINAL OPTIMIZED</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@700;900&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --gold: #FFB400; --green: #00E676; --red: #FF5252; --bg: #000;
-        }
+        :root { --gold: #FFB400; --green: #00E676; --red: #FF5252; }
         body {
-            background-color: var(--bg); color: #fff;
-            font-family: 'Noto Sans KR', sans-serif;
-            margin: 0; padding: 0;
-            display: flex; justify-content: center; /* PC 중앙 정렬 핵심 */
-            min-height: 100vh;
+            background: #000; color: #fff; font-family: 'Noto Sans KR', sans-serif;
+            margin: 0; padding: 0; display: flex; justify-content: center; min-height: 100vh;
         }
-        /* 메인 컨테이너: PC에서는 중앙 600px 유지, 모바일은 꽉 차게 */
         .container {
-            width: 100%; max-width: 600px;
-            padding: 15px; box-sizing: border-box;
-            display: flex; flex-direction: column;
+            width: 100%; max-width: 500px; padding: 15px; position: relative;
+            display: flex; flex-direction: column; box-sizing: border-box;
         }
 
-        /* 상단 네비게이션 및 언어 선택창 */
-        .header {
-            display: flex; justify-content: space-between; align-items: flex-start;
-            margin-bottom: 20px;
+        /* --- 우측 상단 슬림 세로 언어창 (크기 대폭 축소) --- */
+        .lang-sidebar {
+            position: absolute; right: 5px; top: 15px;
+            display: flex; flex-direction: column; gap: 2px;
+            background: rgba(20, 20, 20, 0.8); border-radius: 5px; padding: 3px;
+            border: 1px solid rgba(255, 180, 0, 0.3); z-index: 100;
         }
-        .logo-area h1 {
-            color: var(--gold); font-size: 1.8rem; margin: 0; font-weight: 900;
+        .lang-node {
+            color: var(--gold); font-size: 0.65rem; font-weight: bold;
+            cursor: pointer; text-align: center; padding: 1px 4px;
+            opacity: 0.8;
         }
-        .node-status { color: var(--green); font-size: 0.9rem; font-weight: bold; margin-top: 5px; }
+        .lang-node:hover { opacity: 1; background: var(--gold); color: #000; }
 
-        /* 요청하신 우측 상단 작은 네모 언어창 */
-        .lang-box {
-            background: transparent; color: var(--gold);
-            border: 1px solid var(--gold); border-radius: 8px;
-            padding: 5px 10px; font-size: 0.85rem; font-weight: bold;
-            outline: none; cursor: pointer;
-        }
+        /* 헤더 */
+        .header { text-align: left; margin-bottom: 15px; padding-right: 50px; }
+        .logo h1 { color: var(--gold); font-size: 2.2rem; margin: 0; font-weight: 900; letter-spacing: -1px; }
+        .node-tag { color: var(--green); font-size: 1rem; font-weight: bold; }
 
-        /* 메인 자산 박스 (글자 크기 조절 적용) */
+        /* 메인 자산 (깨짐 방지 최적화) */
         .asset-card {
             background: #111; border: 1px solid #222; border-radius: 30px;
             padding: 25px 10px; text-align: center; margin-bottom: 20px;
         }
-        .asset-title { color: var(--gold); font-size: 1.3rem; margin-bottom: 10px; }
-        .asset-value { 
-            font-size: 3.2rem; font-family: 'Roboto', sans-serif; font-weight: 900; 
-            border-bottom: 3px solid var(--gold); display: inline-block; line-height: 1.1;
+        .pi-display { 
+            font-size: 3.5rem; font-weight: 900; line-height: 1.1;
+            border-bottom: 4px solid var(--gold); display: inline-block;
         }
-        .gcv-badge {
-            display: inline-block; border: 2px solid var(--green); border-radius: 50px;
-            padding: 10px 20px; color: var(--green); font-size: 1.2rem;
-            font-weight: 900; margin-top: 20px; max-width: 90%;
+        .gcv-box {
+            border: 2.5px solid var(--green); border-radius: 50px;
+            padding: 8px 15px; color: var(--green); font-size: 1.2rem;
+            font-weight: 900; margin-top: 20px; display: inline-block;
         }
 
         /* 메뉴 그리드 */
-        .grid-6 {
-            display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
-            margin-bottom: 25px;
-        }
-        .grid-item {
-            background: #1a1a1a; border-radius: 15px; padding: 15px 5px;
-            text-align: center; border: 1px solid #2a2a2a;
-        }
-        .icon { font-size: 1.8rem; display: block; margin-bottom: 5px; }
-        .label { font-size: 1rem; font-weight: 800; }
+        .menu-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
+        .menu-item { background: #1a1a1a; border-radius: 15px; padding: 20px 5px; text-align: center; border: 1px solid #2a2a2a; }
+        .m-icon { font-size: 2rem; display: block; margin-bottom: 5px; }
+        .m-text { font-size: 1rem; font-weight: 800; }
 
-        /* 스테이킹 정보 (글자 깨짐 방지) */
-        .staking-section {
-            border-left: 5px solid var(--gold); padding-left: 15px; text-align: left; margin-bottom: 25px;
-        }
-        .apr-text { color: var(--gold); font-size: 1.1rem; font-weight: 900; }
-        .pool-value { font-size: 2.5rem; font-weight: 900; letter-spacing: -1px; margin: 5px 0; }
-        .shield { color: #00E6F6; font-size: 0.9rem; font-weight: bold; }
+        /* 스테이킹 정보 */
+        .staking { border-left: 5px solid var(--gold); padding-left: 12px; text-align: left; margin-bottom: 20px; }
+        .pool-num { font-size: 2.5rem; font-weight: 900; margin: 5px 0; letter-spacing: -1px; }
 
-        /* 하단 버튼 */
-        .btn-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 20px; }
-        .btn { border-radius: 10px; padding: 15px 5px; font-size: 1rem; font-weight: 900; border: none; cursor: pointer; }
+        /* 하단 버튼 및 소셜 */
+        .btn-group { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 15px; }
+        .act-btn { border-radius: 10px; padding: 15px 5px; font-size: 1rem; font-weight: 900; border: none; }
+        
+        .cs-center { background: var(--red); border-radius: 15px; padding: 20px; text-align: center; font-size: 1.4rem; font-weight: 900; margin-bottom: 20px; }
+        
+        .social-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 30px; }
+        .social-link { background: #151515; border-radius: 15px; padding: 15px; text-align: center; border: 1px solid #2a2a2a; text-decoration: none; color: #fff; }
 
-        .cs-center {
-            background: var(--red); border-radius: 15px; padding: 20px;
-            text-align: center; font-size: 1.3rem; font-weight: 900; margin-bottom: 30px;
-        }
-
-        .footer {
-            text-align: center; font-size: 0.8rem; color: #444; line-height: 1.6;
-            border-top: 1px solid #222; padding-top: 20px; padding-bottom: 40px;
-        }
+        .footer { text-align: center; font-size: 0.8rem; color: #444; border-top: 1px solid #222; padding: 15px 0 40px; }
     </style>
 </head>
 <body>
 
 <div class="container">
+    <div class="lang-sidebar">
+        <div class="lang-node">KR</div><div class="lang-node">US</div>
+        <div class="lang-node">CN</div><div class="lang-node">JP</div>
+        <div class="lang-node">VN</div><div class="lang-node">ID</div>
+        <div class="lang-node">TH</div><div class="lang-node">DE</div>
+        <div class="lang-node">FR</div><div class="lang-node">ES</div>
+        <div class="lang-node">RU</div><div class="lang-node">PH</div>
+        <div class="lang-node">TR</div><div class="lang-node">BR</div>
+        <div class="lang-node">IN</div>
+    </div>
+
     <div class="header">
-        <div class="logo-area">
+        <div class="logo">
             <h1>HK WORLD BANK</h1>
-            <div class="node-status">🚀 SECURE NODE: ACTIVE</div>
+            <div class="node-tag">🚀 SECURE NODES: ACTIVE</div>
         </div>
-        <select class="lang-box">
-            <option>KR (한국어)</option><option>US (English)</option>
-            <option>CN (简体中文)</option><option>JP (日本語)</option>
-            <option>VN (Tiếng Việt)</option><option>ID (Bahasa)</option>
-            <option>TH (ภาษาไทย)</option><option>DE (Deutsch)</option>
-            <option>FR (Français)</option><option>ES (Español)</option>
-            <option>RU (Pусский)</option><option>PH (Tagalog)</option>
-            <option>TR (Türkçe)</option><option>BR (Português)</option>
-            <option>IN (हिन्दी)</option>
-        </select>
     </div>
 
     <div class="asset-card">
-        <div class="asset-title">메인 자산 통합 원장</div>
-        <div id="pi-val" class="asset-value">400.0195 <span style="font-size: 1.5rem; color:var(--gold);">Pi</span></div>
-        <br>
-        <div class="gcv-badge">VALUE: $ 125,663,600 (GCV)</div>
+        <div style="color:var(--gold); font-size:1.2rem; margin-bottom:8px;">메인 자산 통합 원장</div>
+        <div id="pi-val" class="pi-display">400.0195 <span style="font-size: 1.5rem; color:var(--gold);">Pi</span></div><br>
+        <div class="gcv-box">가치 평가: $ 125,663,600 (GCV)</div>
     </div>
 
-    <div class="grid-6">
-        <div class="grid-item"><span class="icon">🚀</span><span class="label">송금</span></div>
-        <div class="grid-item"><span class="icon">🛒</span><span class="label">결제</span></div>
-        <div class="grid-item"><span class="icon">📀</span><span class="label">예치</span></div>
-        <div class="grid-item"><span class="icon">🎁</span><span class="label">보상</span></div>
-        <div class="grid-item"><span class="icon">⚖️</span><span class="label">소득</span></div>
-        <div class="grid-item"><span class="icon">🔄</span><span class="label">스왑</span></div>
+    <div class="menu-grid">
+        <div class="menu-item"><span class="m-icon">🚀</span><span class="m-text">송금</span></div>
+        <div class="menu-item"><span class="m-icon">🛒</span><span class="m-text">결제</span></div>
+        <div class="menu-item"><span class="m-icon">📀</span><span class="m-text">예치</span></div>
+        <div class="menu-item"><span class="m-icon">🎁</span><span class="m-text">리워드</span></div>
+        <div class="menu-item"><span class="m-icon">⚖️</span><span class="m-text">기본소득</span></div>
+        <div class="menu-item"><span class="m-icon">🔄</span><span class="m-text">스왑</span></div>
     </div>
 
-    <div class="staking-section">
-        <div class="apr-text">STAKING APR 31.4% | 유동성 풀 $</div>
-        <div id="pool-val" class="pool-value">88,401,805,340</div>
-        <div class="shield">HK_퀀텀_쉴드_활성</div>
+    <div class="staking">
+        <div style="color:var(--gold); font-size:1rem; font-weight:900;">STAKING APR 31.4% | 유동성 풀 $</div>
+        <div id="pool-val" class="pool-num">88,401,805,340</div>
+        <div style="color:#00E6F6; font-size:0.8rem; font-weight:bold;">HK_QUANTUM_SHIELD_ACTIVE</div>
     </div>
 
-    <div class="btn-row">
-        <button class="btn" style="background:#222; color:#fff;">Pi 수량</button>
-        <button class="btn" style="background:var(--gold); color:#000;">SWAP</button>
-        <button class="btn" style="background:var(--green); color:#000;">LP 공급</button>
+    <div class="btn-group">
+        <button class="act-btn" style="background:#222; color:#fff;">Pi 수량</button>
+        <button class="act-btn" style="background:var(--gold); color:#000;">SWAP</button>
+        <button class="act-btn" style="background:var(--green); color:#000;">LP 공급</button>
     </div>
 
-    <div class="cs-center">🎧 24/7 글로벌 고객지원센터</div>
+    <div class="cs-center">🎧 글로벌 고객지원센터</div>
+
+    <div class="social-group">
+        <a href="#" class="social-link"><span style="color:red; font-size:1.5rem; display:block;">▶</span><span style="font-size:0.8rem;">hyekong2025</span></a>
+        <a href="#" class="social-link"><span style="font-size:1.5rem; display:block;">♪</span><span style="font-size:0.8rem;">hyekong2025</span></a>
+    </div>
 
     <div class="footer">
         © 2026 HK GROUP GLOBAL MANAGEMENT. GCV<br>
@@ -149,15 +134,12 @@
 </div>
 
 <script>
-    // 실시간 숫자 업데이트 로직
-    let pi = 400.0195;
-    let pool = 88401805340;
+    let pi = 400.0195; let pool = 88401805340;
     setInterval(() => {
-        pi += 0.0001;
-        pool += Math.floor(Math.random() * 2000) + 500;
+        pi += 0.0001; pool += Math.floor(Math.random() * 2500) + 500;
         document.getElementById('pi-val').innerHTML = pi.toFixed(4) + ' <span style="font-size: 1.5rem; color:#FFB400;">Pi</span>';
         document.getElementById('pool-val').innerText = pool.toLocaleString();
-    }, 1500);
+    }, 1300);
 </script>
 
 </body>
