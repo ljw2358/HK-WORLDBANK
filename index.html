@@ -149,39 +149,34 @@
         document.getElementById('pool_live').innerText = v.toLocaleString();
     }, 1800);
 </script>
-    <div style="text-align: center; margin: 30px 0; padding-bottom: 50px;">
-        <button onclick="startPayment()" style="padding: 15px 30px; background-color: #FFB400; border: none; border-radius: 10px; font-size: 1.2rem; font-weight: bold; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">
-            🛒 테스트 결제하기 (0.1 Pi)
-        </button>
-    </div>
-
+출발 언어영어도착 언어한국어번역하기
     <script>
+    // 페이지가 로드되면 기존 '결제' 버튼에 클릭 기능을 넣습니다.
+    window.onload = function() {
+        const payBtn = document.querySelector('.grid .item:nth-child(2)'); // 2번째 버튼(결제) 선택
+        if(payBtn) {
+            payBtn.setAttribute('onclick', 'startPayment()');
+            payBtn.style.cursor = 'pointer';
+        }
+    };
+
     async function startPayment() {
-      console.log("결제 시작 버튼 눌림");
       try {
         const payment = await Pi.createPayment({
           amount: 0.1, 
           memo: "HK World Bank 테스트 결제",
-          metadata: { orderId: "test-transaction-001" }
+          metadata: { orderId: "test-12345" }
         }, {
-          onReadyForServerApproval: (paymentId) => { 
-              console.log("서버 승인 대기 중:", paymentId); 
-          },
-          onReadyForServerCompletion: (paymentId, txid) => { 
-              alert("축하합니다! 결제가 완료되었습니다."); 
-          },
-          onCancel: (paymentId) => { 
-              console.log("사용자가 취소함"); 
-          },
-          onError: (error, payment) => { 
-              console.error("에러 발생:", error);
-              alert("에러가 발생했습니다: " + error.message);
-          },
+          onReadyForServerApproval: (id) => console.log("승인대기:", id),
+          onReadyForServerCompletion: (id, txid) => alert("결제 완료!"),
+          onCancel: (id) => console.log("취소됨"),
+          onError: (err) => alert("에러: " + err.message)
         });
       } catch (err) {
-        alert("반드시 '파이 브라우저' 앱에서 실행해야 버튼이 작동합니다!");
+        alert("파이 브라우저 메인 화면의 주소창에 직접 입력해서 들어오셔야 합니다!");
       }
     }
     </script>
   </body>
-</html>    
+</html>
+  
