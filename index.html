@@ -149,25 +149,39 @@
         document.getElementById('pool_live').innerText = v.toLocaleString();
     }, 1800);
 </script>
-    <button onclick="startPayment()" style="margin-top: 20px; padding: 10px; background: #FFB400; border: none; border-radius: 5px; font-weight: bold;">🛒 테스트 결제하기</button>
+    <div style="text-align: center; margin: 30px 0; padding-bottom: 50px;">
+        <button onclick="startPayment()" style="padding: 15px 30px; background-color: #FFB400; border: none; border-radius: 10px; font-size: 1.2rem; font-weight: bold; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">
+            🛒 테스트 결제하기 (0.1 Pi)
+        </button>
+    </div>
 
     <script>
     async function startPayment() {
+      console.log("결제 시작 버튼 눌림");
       try {
         const payment = await Pi.createPayment({
           amount: 0.1, 
           memo: "HK World Bank 테스트 결제",
-          metadata: { orderId: "12345" }
+          metadata: { orderId: "test-transaction-001" }
         }, {
-          onReadyForServerApproval: (paymentId) => { console.log("승인 대기:", paymentId); },
-          onReadyForServerCompletion: (paymentId, txid) => { alert("결제 완료!"); },
-          onCancel: (paymentId) => { console.log("취소됨"); },
-          onError: (error, payment) => { console.error(error); },
+          onReadyForServerApproval: (paymentId) => { 
+              console.log("서버 승인 대기 중:", paymentId); 
+          },
+          onReadyForServerCompletion: (paymentId, txid) => { 
+              alert("축하합니다! 결제가 완료되었습니다."); 
+          },
+          onCancel: (paymentId) => { 
+              console.log("사용자가 취소함"); 
+          },
+          onError: (error, payment) => { 
+              console.error("에러 발생:", error);
+              alert("에러가 발생했습니다: " + error.message);
+          },
         });
       } catch (err) {
-        alert("파이 브라우저에서 실행해 주세요!");
+        alert("반드시 '파이 브라우저' 앱에서 실행해야 버튼이 작동합니다!");
       }
     }
     </script>
   </body>
-</html>
+</html>    
