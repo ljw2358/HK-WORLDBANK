@@ -151,15 +151,16 @@
 </script>
 
 <script>
-    // 페이지가 로드되면 자동으로 '결제' 버튼에 기능을 연결합니다.
+    // 1. 페이지 로드 시 기존 '결제' 버튼에 기능 연결
     window.onload = function() {
         const payBtn = document.querySelector('.grid .item:nth-child(2)');
         if(payBtn) {
-            payBtn.setAttribute('onclick', 'startPayment()');
+            payBtn.onclick = startPayment;
             payBtn.style.cursor = 'pointer';
         }
     };
 
+    // 2. 파이 결제 실행 함수
     async function startPayment() {
       try {
         const payment = await Pi.createPayment({
@@ -167,13 +168,13 @@
           memo: "HK World Bank 테스트 결제",
           metadata: { orderId: "test-12345" }
         }, {
-          onReadyForServerApproval: (paymentId) => { console.log("승인 대기:", paymentId); },
-          onReadyForServerCompletion: (paymentId, txid) => { alert("축하합니다! 결제가 완료되었습니다."); },
-          onCancel: (paymentId) => { console.log("취소됨"); },
-          onError: (error, payment) => { alert("에러: " + error.message); },
+          onReadyForServerApproval: (id) => { console.log("승인대기:", id); },
+          onReadyForServerCompletion: (id, txid) => { alert("결제 완료!"); },
+          onCancel: (id) => { console.log("취소됨"); },
+          onError: (err) => { alert("에러: " + err.message); }
         });
       } catch (err) {
-        alert("반드시 '파이 브라우저' 앱의 주소창에 직접 입력해서 접속하세요!");
+        alert("파이 브라우저 앱 주소창에 주소를 직접 쳐서 들어오세요!");
       }
     }
 </script>
