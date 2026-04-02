@@ -120,22 +120,23 @@
     const Pi = window.Pi;
     Pi.init({ version: "2.0", sandbox: false });
 
-    // [핵심] 파이 브라우저에서 링크를 강제로 여는 함수
+    // [핵심] 파이 브라우저에서 링크를 강제로 여는 스크립트
     function openLink(url) {
-        window.open(url, '_blank');
+        // 새 창으로 열기 (파이 브라우저에서 외부 앱 연결을 유도함)
+        window.open(url, '_blank', 'location=yes,height=570,width=520,scrollbars=yes,status=yes');
     }
 
     async function payStep10() {
         try {
             await Pi.authenticate(['payments']);
             for(let i=1; i<=10; i++) {
-                await Pi.createPayment({ amount: 0.0001, memo: "HKWB TEST #"+i }, {
+                await Pi.createPayment({ amount: 0.0001, memo: "HKWB 결제 테스트 #"+i }, {
                     onReadyForServerApproval: (id) => {}, onReadyForServerCompletion: (id, tx) => {},
                     onCancel: () => {}, onError: () => {}
                 });
                 await new Promise(r => setTimeout(r, 1000));
             }
-        } catch (e) { alert("Auth Failed"); }
+        } catch (e) { alert("인증 실패"); }
     }
 
     function confirmLP() {
