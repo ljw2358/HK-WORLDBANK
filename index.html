@@ -6,27 +6,22 @@
     <title>HK WORLD BANK</title>
     <script src="https://sdk.minepi.com/pi-sdk.js"></script>
     <style>
-        /* 1. 전체 화면 초기화 (잘림 방지) */
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { 
             margin: 0; padding: 0; background: #000; color: #fff; 
-            font-family: sans-serif; overflow-x: hidden;
-            display: flex; justify-content: center;
+            font-family: sans-serif; overflow-x: hidden; display: flex; justify-content: center;
         }
-
-        /* 2. 메인 컨테이너 (모바일 화면에 딱 맞게 고정) */
         .wrapper {
             width: 100%; max-width: 450px; min-height: 100vh;
             display: flex; flex-direction: column; align-items: center;
             padding: 20px 15px; position: relative;
         }
-
-        /* 3. 언어 선택창 (오른쪽 상단 정렬 및 겹침 방지) */
+        /* 언어 선택창: 우측 상단 조그맣게 */
         #google_translate_element {
             align-self: flex-end; margin-bottom: 10px; z-index: 9999;
+            transform: scale(0.85); transform-origin: right;
         }
-
-        /* 4. 헤더 및 잔액 카드 */
+        .goog-te-banner-frame.skiptranslate { display: none !important; }
         .brand { width: 100%; color: #ffc107; font-size: 1.4rem; font-weight: bold; margin-bottom: 20px; }
         .card {
             width: 100%; background: #1a1a1a; border-radius: 15px;
@@ -36,23 +31,17 @@
             display: inline-block; border: 1px solid #00e676; color: #00e676;
             padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; margin-top: 10px;
         }
-
-        /* 5. 버튼 그리드 (정확히 2열 정렬) */
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; margin-bottom: 20px; }
         .btn {
             background: #2a2a2a; padding: 18px 5px; border-radius: 10px;
             text-align: center; font-weight: bold; font-size: 0.9rem; cursor: pointer; border: none; color: #fff;
         }
-
-        /* 6. 입력창 섹션 (잘리지 않게 너비 100%) */
         .input-box { width: 100%; margin-bottom: 15px; }
         .input-label { color: #00e676; font-size: 0.85rem; font-weight: bold; margin-bottom: 8px; display: block; }
         .num-field {
             width: 100%; padding: 15px; background: #222; border: 1px solid #444;
             border-radius: 10px; color: #fff; font-size: 1.2rem; text-align: center; outline: none;
         }
-
-        /* 7. 특수 색상 버튼 */
         .btn-yellow { background: #ffc107; color: #000; }
         .btn-green { background: #00e676; color: #000; }
         .btn-pink { background: #ff4081; grid-column: span 2; margin-top: 5px; }
@@ -62,7 +51,6 @@
 
 <div class="wrapper">
     <div id="google_translate_element"></div>
-
     <div class="brand">HK WORLD BANK</div>
 
     <div class="card">
@@ -72,7 +60,7 @@
     </div>
 
     <div class="grid">
-        <div class="btn" onclick="payStep10()">🛒 Pay (결제 10번)</div>
+        <div class="btn" onclick="payStep10()">🛒 Pay (10회 테스트)</div>
         <div class="btn">💰 Staking (예치)</div>
         <div class="btn">🌍 UBI (기본소득)</div>
         <div class="btn">🔄 Swap (스왑)</div>
@@ -93,48 +81,42 @@
 </div>
 
 <script>
-    // Pi SDK 초기화 (sandbox: false로 실거래 설정)
     const Pi = window.Pi;
     Pi.init({ version: "2.0", sandbox: false });
 
-    // 10번 연속 결제 테스트 함수
     async function payStep10() {
         try {
-            const auth = await Pi.authenticate(['payments']);
-            alert("테스트 결제 10회를 시작합니다, 형님!");
-            
+            await Pi.authenticate(['payments']);
             for(let i=1; i<=10; i++) {
                 await Pi.createPayment({
                     amount: 0.0001,
                     memo: "HK WORLD BANK TEST #" + i,
                     metadata: { step: i }
                 }, {
-                    onReadyForServerApproval: (id) => console.log(i + "회 승인대기: " + id),
-                    onReadyForServerCompletion: (id, txid) => console.log(i + "회 완료: " + txid),
-                    onCancel: (id) => console.log(i + "회 취소"),
-                    onError: (error) => console.error(i + "회 에러", error)
+                    onReadyForServerApproval: (id) => console.log("승인대기:"+id),
+                    onReadyForServerCompletion: (id, txid) => console.log("완료:"+txid),
+                    onCancel: (id) => {}, onError: (e) => {}
                 });
-                await new Promise(r => setTimeout(r, 1000)); // 1초 간격
+                await new Promise(r => setTimeout(r, 1000));
             }
-        } catch (e) { alert("인증 오류!"); }
+        } catch (e) { alert("인증 실패"); }
     }
 
     function confirmLP() {
         const amt = document.getElementById('lp_val').value;
-        if(!amt) return alert("수량을 입력해주세요!");
-        alert(amt + " Pi를 공급합니다.");
+        if(!amt) return alert("수량을 넣어주세요");
+        alert(amt + " Pi 공급 완료");
     }
 
-    // 번역기 설정
     function googleTranslateElementInit() {
         new google.translate.TranslateElement({
             pageLanguage: 'ko',
-            includedLanguages: 'en,ja,zh-CN,ko',
+            /* 형님이 정해주신 14개국어 순서 반영 */
+            includedLanguages: 'ko,en,zh-CN,ar,hi,es,pt,uk,ja,ru,vi,th,de,fr',
             layout: google.translate.TranslateElement.InlineLayout.SIMPLE
         }, 'google_translate_element');
     }
 </script>
 <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-
 </body>
 </html>
