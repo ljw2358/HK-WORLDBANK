@@ -7,45 +7,46 @@
     <script src="https://sdk.minepi.com/pi-sdk.js"></script>
     <style>
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { margin: 0; padding: 0; background: #000; color: #fff; font-family: sans-serif; display: flex; justify-content: center; overflow-x: hidden; scroll-behavior: smooth; }
-        .goog-te-banner-frame.skiptranslate { display: none !important; }
-        .goog-te-gadget-simple { background-color: #1a1a1a !important; border: 1px solid #ffc107 !important; padding: 8px 15px !important; border-radius: 20px !important; color: #fff !important; }
-        .wrapper { width: 100%; max-width: 450px; min-height: 100vh; padding: 20px; display: flex; flex-direction: column; align-items: center; }
-        #google_translate_element { align-self: flex-end; margin-bottom: 15px; }
+        body { margin: 0; padding: 0; background: #000; color: #fff; font-family: sans-serif; display: flex; justify-content: center; min-height: 100vh; }
+        .wrapper { width: 100%; max-width: 450px; padding: 20px; display: flex; flex-direction: column; align-items: center; }
         .brand { width: 100%; color: #ffc107; font-size: 1.6rem; font-weight: 900; margin-bottom: 20px; text-align: left; }
         
-        .card { width: 100%; background: linear-gradient(145deg, #1a1a1a, #000); border-radius: 20px; padding: 25px 20px; text-align: center; border: 1px solid #333; margin-bottom: 20px; }
-        .balance { font-size: 2.5rem; font-weight: 800; margin: 5px 0; color: #fff; }
+        /* 자산 카드 */
+        .card { width: 100%; background: linear-gradient(145deg, #1a1a1a, #000); border-radius: 20px; padding: 25px; text-align: center; border: 1px solid #333; margin-bottom: 20px; }
+        .balance { font-size: 2.5rem; font-weight: 800; margin: 10px 0; color: #fff; }
         
+        /* 버튼 그리드 */
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; margin-bottom: 20px; }
         .btn { background: #222; padding: 18px 5px; border-radius: 12px; text-align: center; font-weight: bold; font-size: 0.9rem; cursor: pointer; border: 1px solid #333; color: #fff; display: flex; align-items: center; justify-content: center; }
+        
+        /* 영상 팝업(모달) 스타일 */
+        #video_modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 9999; justify-content: center; align-items: center; flex-direction: column; }
+        .modal-content { width: 90%; max-width: 400px; position: relative; }
+        .video-wrapper { position: relative; width: 100%; padding-bottom: 56.25%; height: 0; background: #000; border-radius: 10px; overflow: hidden; border: 1px solid #ffc107; }
+        .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+        .tiktok-wrapper { padding-bottom: 177% !important; } /* 틱톡 세로 비율 */
+        .close-btn { margin-top: 20px; color: #fff; background: #333; padding: 10px 30px; border-radius: 50px; cursor: pointer; font-weight: bold; border: 1px solid #ffc107; }
+
         .btn-yellow { background: #ffc107 !important; color: #000 !important; border: none; }
         .btn-green { background: #00e676 !important; color: #000 !important; border: none; }
-
-        /* 하단 비디오 구동 섹션 */
-        #video_section { width: 100%; display: none; margin-top: 30px; padding-top: 20px; border-top: 2px solid #333; text-align: center; }
-        .video-container { position: relative; width: 100%; padding-bottom: 56.25%; height: 0; background: #111; border-radius: 15px; overflow: hidden; border: 1px solid #ffc107; }
-        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
-        .tiktok-mode { padding-bottom: 177% !important; } /* 틱톡 전용 세로 비율 */
     </style>
 </head>
 <body>
 
 <div class="wrapper">
-    <div id="google_translate_element"></div>
     <div class="brand">HK WORLD BANK</div>
 
     <div class="card">
-        <div style="color:#ffc107; font-size:0.8rem;">메인자산통합원장</div>
+        <div style="color:#ffc107; font-size:0.8rem; font-weight:bold;">메인자산통합원장</div>
         <div class="balance">00.0247 <span style="font-size:1.2rem; color:#888;">Pi</span></div>
-        <div style="color:#00e676; font-size:0.75rem; border:1px solid #00e676; border-radius:50px; padding:4px 8px; display:inline-block;">Value: $ 125,663,600 (GCV)</div>
+        <div style="color:#00e676; font-size:0.75rem; border:1px solid #00e676; border-radius:50px; padding:4px 10px; display:inline-block;">GCV Value: $ 125,663,600</div>
     </div>
 
     <div class="grid">
-        <div class="btn" onclick="payStep10()">🛒 결제 (TEST)</div>
+        <div class="btn" onclick="alert('결제 준비 중')">🛒 결제 (TEST)</div>
         <div class="btn">💰 예치 (31.4%)</div>
-        <div class="btn" onclick="runYT()" style="background:#cc0000 !important;">▶ 유튜브 구동</div>
-        <div class="btn" onclick="runTT()" style="background:#111 !important; border:1px solid #ff4081 !important;">♪ 틱톡 구동</div>
+        <div class="btn" onclick="openVideo('yt')" style="background:#cc0000 !important;">▶ 유튜브 구동</div>
+        <div class="btn" onclick="openVideo('tt')" style="background:#111 !important; border:1px solid #ff4081 !important;">♪ 틱톡 구동</div>
     </div>
 
     <div style="width:100%; margin-bottom:15px;">
@@ -54,69 +55,48 @@
 
     <div class="grid">
         <div class="btn btn-yellow">SWAP</div>
-        <div class="btn btn-green" onclick="confirmLP()">유동성풀 공급</div>
-    </div>
-
-    <div id="video_section">
-        <h3 id="video_title" style="color:#ffc107; margin-bottom:15px; font-size:1rem;">MEDIA PLAYER</h3>
-        <div id="video_box" class="video-container">
-            <iframe id="video_frame" src="" allowfullscreen></iframe>
-        </div>
-        <div onclick="closeVideo()" style="margin-top:15px; color:#888; font-size:0.8rem; cursor:pointer;">[닫기 X]</div>
+        <div class="btn btn-green">유동성풀 공급</div>
     </div>
 </div>
 
-<script>
-    // 유튜브 구동 (Hyekong2025 채널)
-    function runYT() {
-        const sec = document.getElementById('video_section');
-        const box = document.getElementById('video_box');
-        const frame = document.getElementById('video_frame');
-        
-        document.getElementById('video_title').innerText = "HK YOUTUBE LIVE";
-        box.className = "video-container"; // 가로 모드
-        frame.src = "https://www.youtube.com/embed?listType=user_uploads&list=Hyekong2025";
-        sec.style.display = 'block';
-        window.scrollTo(0, document.body.scrollHeight); // 제일 밑으로 이동
-    }
+<div id="video_modal">
+    <div id="modal_body" class="modal-content">
+        <div id="video_box" class="video-wrapper">
+            <iframe id="video_frame" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        </div>
+    </div>
+    <div class="close-btn" onclick="closeVideo()">닫기 (CLOSE)</div>
+</div>
 
-    // 틱톡 구동 (hyekong2025 프로필)
-    function runTT() {
-        const sec = document.getElementById('video_section');
+<script>
+    function openVideo(type) {
+        const modal = document.getElementById('video_modal');
         const box = document.getElementById('video_box');
         const frame = document.getElementById('video_frame');
-        
-        document.getElementById('video_title').innerText = "HK TIKTOK SHORTS";
-        box.className = "video-container tiktok-mode"; // 세로 모드
-        frame.src = "https://www.tiktok.com/embed/@hyekong2025";
-        sec.style.display = 'block';
-        window.scrollTo(0, document.body.scrollHeight); // 제일 밑으로 이동
+
+        if(type === 'yt') {
+            box.className = "video-wrapper";
+            // 유튜브 채널 최신 영상 목록 주소
+            frame.src = "https://www.youtube.com/embed?listType=user_uploads&list=HKWorldBank";
+        } else {
+            box.className = "video-wrapper tiktok-wrapper";
+            // 틱톡 프로필 임베드 주소
+            frame.src = "https://www.tiktok.com/embed/@hkworldbank";
+        }
+        modal.style.display = 'flex';
     }
 
     function closeVideo() {
-        document.getElementById('video_section').style.display = 'none';
-        document.getElementById('video_frame').src = "";
+        const modal = document.getElementById('video_modal');
+        const frame = document.getElementById('video_frame');
+        frame.src = ""; // 영상 정지
+        modal.style.display = 'none';
     }
 
+    // Pi SDK 초기화
     const Pi = window.Pi;
-    Pi.init({ version: "2.0", sandbox: false });
-
-    async function payStep10() {
-        try {
-            await Pi.authenticate(['payments']);
-            alert("인증 성공: 결제 테스트를 시작합니다.");
-        } catch (e) { alert("Pi 브라우저에서 실행해 주세요."); }
-    }
-
-    function confirmLP() {
-        const val = document.getElementById('lp_val').value;
-        alert(val ? val + " Pi 공급 완료" : "수량을 입력하세요");
-    }
-
-    function googleTranslateElementInit() {
-        new google.translate.TranslateElement({pageLanguage: 'ko', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
-    }
+    if(Pi) { Pi.init({ version: "2.0", sandbox: false }); }
 </script>
-<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
 </body>
 </html>
