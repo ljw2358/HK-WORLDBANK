@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -13,18 +13,17 @@
             top: 0px !important;
         }
 
-        /* 1. 구글 표시 및 배너 강제 숨기기 (핵심) */
+        /* 구글 로고 숨기기 및 "Language" 버튼 디자인 */
         .goog-te-banner-frame.skiptranslate, .goog-te-gadget-icon { display: none !important; }
         .goog-te-gadget-simple {
-            background-color: #2a2a2a !important;
-            border: 1px solid #444 !important;
-            padding: 5px 10px !important;
-            border-radius: 8px !important;
-            font-size: 0.8rem !important;
-            color: #fff !important;
+            background-color: #2a2a2a !important; border: 1px solid #444 !important;
+            padding: 6px 12px !important; border-radius: 8px !important;
+            font-size: 0.85rem !important; color: #fff !important;
         }
         .goog-te-gadget-simple span { color: #fff !important; }
-        .goog-te-menu-value img { display: none !important; } /* 구글 로고 화살표 숨김 */
+        .goog-te-menu-value img { display: none !important; }
+        .goog-te-menu-value span:first-child { font-size: 0 !important; }
+        .goog-te-menu-value span:first-child::before { content: "Language"; font-size: 0.85rem; }
         body { position: static !important; }
 
         .wrapper {
@@ -33,10 +32,7 @@
             padding: 20px 15px; position: relative;
         }
 
-        /* 번역기 위치: 구글 로고 없이 텍스트만 보이게 */
-        #google_translate_element {
-            align-self: flex-end; margin-bottom: 10px; z-index: 9999;
-        }
+        #google_translate_element { align-self: flex-end; margin-bottom: 10px; z-index: 9999; }
 
         .brand { width: 100%; color: #ffc107; font-size: 1.4rem; font-weight: bold; margin-bottom: 20px; }
         .card {
@@ -47,26 +43,31 @@
             display: inline-block; border: 1px solid #00e676; color: #00e676;
             padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; margin-top: 10px;
         }
+
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; margin-bottom: 20px; }
         .btn {
             background: #2a2a2a; padding: 18px 5px; border-radius: 10px;
             text-align: center; font-weight: bold; font-size: 0.85rem; cursor: pointer; border: none; color: #fff;
+            text-decoration: none; display: flex; align-items: center; justify-content: center;
         }
+
         .input-box { width: 100%; margin-bottom: 15px; }
         .num-field {
             width: 100%; padding: 15px; background: #222; border: 1px solid #444;
             border-radius: 10px; color: #fff; font-size: 1.2rem; text-align: center; outline: none;
         }
+
         .btn-yellow { background: #ffc107; color: #000; }
         .btn-green { background: #00e676; color: #000; }
         .btn-pink { background: #ff4081; grid-column: span 2; margin-top: 5px; }
+        
+        .policy-section { width: 100%; margin-top: 30px; border-top: 1px solid #333; padding-top: 20px; font-size: 0.75rem; color: #888; text-align: left; }
     </style>
 </head>
 <body>
 
 <div class="wrapper">
     <div id="google_translate_element"></div>
-
     <div class="brand">HK WORLD BANK</div>
 
     <div class="card">
@@ -76,23 +77,29 @@
     </div>
 
     <div class="grid">
-        <div class="btn" onclick="payStep10()">🛒 Pay (10회 테스트)</div>
-        <div class="btn">💰 Staking (예치)</div>
-        <div class="btn">🌍 UBI (기본소득)</div>
-        <div class="btn">🔄 Swap (스왑)</div>
+        <div class="btn" onclick="payStep10()">🛒 결제 (10회 테스트)</div>
+        <div class="btn">💰 Staking</div>
+        <div class="btn">🌍 UBI</div>
+        <div class="btn">🔄 Swap</div>
     </div>
 
     <div class="input-box">
-        <label style="color:#00e676; font-size:0.85rem; font-weight:bold; margin-bottom:8px; display:block;">Add Liquidity (LP 공급 수량)</label>
+        <label style="color:#00e676; font-size:0.85rem; font-weight:bold; margin-bottom:8px; display:block;">Add Liquidity (Amount)</label>
         <input type="number" id="lp_val" class="num-field" placeholder="0.00">
     </div>
 
     <div class="grid">
         <div class="btn btn-yellow">SWAP</div>
-        <div class="btn btn-green" onclick="confirmLP()">Add LP (공급 확정)</div>
-        <div class="btn" style="background:#cc0000;">▶ YOUTUBE</div>
-        <div class="btn" style="background:#000; border:1px solid #444;">♪ TIKTOK</div>
-        <div class="btn btn-pink">🎧 Global Support Center (고객지원센터)</div>
+        <div class="btn btn-green" onclick="confirmLP()">Add LP</div>
+        <a href="https://www.youtube.com/@HKWorldBank" target="_blank" class="btn" style="background:#cc0000;">▶ YOUTUBE</a>
+        <a href="https://www.tiktok.com/@hkworldbank" target="_blank" class="btn" style="background:#000; border:1px solid #444;">♪ TIKTOK</a>
+        <div class="btn btn-pink">🎧 Global Support Center</div>
+    </div>
+
+    <div class="policy-section">
+        <b style="color:#ffc107;">Terms & Privacy Policy</b>
+        <p>1. By using HK WorldBank, you agree to our policies.<br>
+        2. Your data is protected by HK Quantum Shield.</p>
     </div>
 </div>
 
@@ -104,27 +111,26 @@
         try {
             await Pi.authenticate(['payments']);
             for(let i=1; i<=10; i++) {
-                await Pi.createPayment({ amount: 0.0001, memo: "TEST #"+i }, {
+                await Pi.createPayment({ amount: 0.0001, memo: "HKWB TEST #"+i }, {
                     onReadyForServerApproval: (id) => {}, onReadyForServerCompletion: (id, tx) => {},
-                    onCancel: (id) => {}, onError: (e) => {}
+                    onCancel: () => {}, onError: () => {}
                 });
                 await new Promise(r => setTimeout(r, 1000));
             }
-        } catch (e) { alert("인증 실패"); }
+        } catch (e) { alert("Auth Failed"); }
     }
 
     function confirmLP() {
         const amt = document.getElementById('lp_val').value;
-        if(!amt) return alert("수량을 넣어주세요");
-        alert(amt + " Pi 공급 처리");
+        if(!amt) return alert("Enter amount");
+        alert(amt + " Pi Added to LP");
     }
 
     function googleTranslateElementInit() {
         new google.translate.TranslateElement({
             pageLanguage: 'ko',
             includedLanguages: 'ko,en,zh-CN,ar,hi,es,pt,uk,ja,ru,vi,th,de,fr,it,tr,id,pl,nl,bn',
-            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-            autoDisplay: false
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE
         }, 'google_translate_element');
     }
 </script>
