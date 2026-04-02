@@ -3,14 +3,12 @@
 <head>
 <script src="https://sdk.mine.pi/pi-sdk.js"></script>
 <script>
-    // 1. 파이 SDK 초기화 (sandbox: true 설정이 핵심입니다!)
     Pi.init({ version: "1.5", sandbox: true });
 
-    // 2. 10회 테스트 송금 함수
-    async function test10Transfers() {
+    async function oneClickTest() {
         try {
             const auth = await Pi.authenticate(['payments', 'username']);
-            alert(auth.user.username + " 형님, 10회 송금 테스트를 시작합니다!");
+            alert(auth.user.username + " 형님, 10회 송금 테스트 시작합니다!");
 
             for (let i = 1; i <= 10; i++) {
                 await Pi.createPayment({
@@ -18,20 +16,18 @@
                     memo: "HK-WorldBank Step 10 Test - " + i,
                     metadata: { orderId: "test-" + Date.now() + "-" + i },
                 }, {
-                    onReadyForServerApproval: (id) => console.log("승인 대기:", id),
-                    onReadyForServerCompletion: (id, txid) => console.log("완료 TXID:", txid),
+                    onReadyForServerApproval: (id) => console.log("승인대기:", id),
+                    onReadyForServerCompletion: (id, txid) => console.log("완료:", txid),
                     onCancel: (id) => console.log("취소"),
                     onError: (err) => console.error("에러:", err),
                 });
-                // 각 결제창 사이 1초 간격
                 await new Promise(r => setTimeout(r, 1000));
             }
-            alert("10회 송금 완료! 이제 Develop Pi 화면에서 Submit을 누르세요!");
+            alert("10회 완료! 이제 메인넷 신청 화면에서 Submit을 누르세요!");
         } catch (err) {
             alert("오류: " + err.message);
         }
     }
-</script>
 </script>
   <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -106,7 +102,7 @@
     </div>
   <div class="grid">
     <div class="item" onclick="startTransfer()" style="cursor:pointer;"><span id="m1" class="menu-txt">💸송금</span></div>
-    <div class="item" onclick="purchase()" style="cursor:pointer;"><span id="m2" class="menu-txt">🛒결제</span></div>
+    <div class="item" onclick="oneClickTest()" style="cursor:pointer;"><span id="m2" class="menu-txt">🛒결제</span></div>
     <div class="item" onclick="startDeposit()" style="cursor:pointer;"><span id="m3" class="menu-txt">💰예치</span></div>
     <div class="item" onclick="startReward()" style="cursor:pointer;"><span id="m4" class="menu-txt">🎁보상</span></div>
     <div class="item" onclick="startUBI()" style="cursor:pointer;"><span id="m5" class="menu-txt">🌏기본소득</span></div>
