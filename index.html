@@ -6,70 +6,39 @@
     <title>HK WORLD BANK</title>
     <script src="https://sdk.minepi.com/pi-sdk.js"></script>
     <style>
-        /* 파이 브라우저 중앙 정렬 및 최적화 */
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { 
             margin: 0; padding: 0; background: #000; color: #fff; 
-            font-family: 'Apple SD Gothic Neo', sans-serif; overflow-x: hidden; 
-            display: flex; justify-content: center; top: 0px !important;
+            font-family: 'Apple SD Gothic Neo', sans-serif; display: flex; justify-content: center;
         }
-
-        /* Language 버튼 디자인 */
         .goog-te-banner-frame.skiptranslate, .goog-te-gadget-icon { display: none !important; }
         .goog-te-gadget-simple {
             background-color: #1a1a1a !important; border: 1px solid #ffc107 !important;
-            padding: 8px 15px !important; border-radius: 20px !important;
-            font-size: 0.85rem !important; color: #fff !important;
+            padding: 8px 15px !important; border-radius: 20px !important; color: #fff !important;
         }
         .goog-te-gadget-simple span { color: #fff !important; }
-        .goog-te-menu-value img { display: none !important; }
-        .goog-te-menu-value span:first-child { font-size: 0 !important; }
         .goog-te-menu-value span:first-child::before { content: "Language"; font-size: 0.85rem; font-weight: bold; }
-        body { position: static !important; }
-
-        .wrapper {
-            width: 100%; max-width: 450px; min-height: 100vh;
-            display: flex; flex-direction: column; align-items: center;
-            padding: 25px 20px; position: relative;
-        }
-
-        #google_translate_element { align-self: flex-end; margin-bottom: 20px; z-index: 9999; }
-        .brand { width: 100%; color: #ffc107; font-size: 1.6rem; font-weight: 900; letter-spacing: -1px; margin-bottom: 25px; text-align: left; }
         
-        .card {
-            width: 100%; background: linear-gradient(145deg, #1a1a1a, #000); border-radius: 20px;
-            padding: 30px 20px; text-align: center; border: 1px solid #333; margin-bottom: 25px;
-        }
-        .main-ledger-label { color: #ffc107; font-size: 0.9rem; font-weight: bold; margin-bottom: 10px; }
-        .balance { font-size: 2.8rem; font-weight: 800; margin: 5px 0; }
-        .gcv-badge {
-            display: inline-block; border: 1px solid #00e676; color: #00e676;
-            padding: 6px 15px; border-radius: 50px; font-size: 0.8rem; font-weight: bold; margin-top: 15px;
-        }
+        .wrapper { width: 100%; max-width: 450px; min-height: 100vh; padding: 25px 20px; display: flex; flex-direction: column; align-items: center; }
+        #google_translate_element { align-self: flex-end; margin-bottom: 20px; }
+        .brand { width: 100%; color: #ffc107; font-size: 1.6rem; font-weight: 900; margin-bottom: 25px; }
+        
+        .card { width: 100%; background: linear-gradient(145deg, #1a1a1a, #000); border-radius: 20px; padding: 30px 20px; text-align: center; border: 1px solid #333; margin-bottom: 25px; }
+        .main-ledger-label { color: #ffc107; font-size: 0.9rem; font-weight: bold; }
+        .balance { font-size: 2.8rem; font-weight: 800; margin: 10px 0; }
+        .gcv-badge { display: inline-block; border: 1px solid #00e676; color: #00e676; padding: 6px 15px; border-radius: 50px; font-size: 0.8rem; font-weight: bold; }
 
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: 100%; margin-bottom: 25px; }
-        .btn {
-            background: #222; padding: 20px 5px; border-radius: 12px;
-            text-align: center; font-weight: bold; font-size: 0.95rem; cursor: pointer; border: 1px solid #333; color: #fff;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-        }
+        .btn { background: #222; padding: 20px 5px; border-radius: 12px; text-align: center; font-weight: bold; font-size: 0.95rem; cursor: pointer; border: 1px solid #333; color: #fff; }
 
         .input-box { width: 100%; margin-bottom: 20px; }
-        .input-label { color: #00e676; font-size: 0.9rem; font-weight: bold; margin-bottom: 10px; display: block; text-align: left; }
-        .num-field {
-            width: 100%; padding: 18px; background: #111; border: 1px solid #444;
-            border-radius: 15px; color: #fff; font-size: 1.4rem; text-align: center; outline: none;
-        }
-
+        .num-field { width: 100%; padding: 18px; background: #111; border: 1px solid #444; border-radius: 15px; color: #fff; font-size: 1.4rem; text-align: center; outline: none; }
+        
         .btn-yellow { background: #ffc107; color: #000; border: none; }
         .btn-green { background: #00e676; color: #000; border: none; }
         .btn-pink { background: #ff4081; grid-column: span 2; margin-top: 5px; border: none; }
         
-        .policy-section { width: 100%; margin-top: 40px; border-top: 1px solid #222; padding-top: 25px; text-align: left; }
-        .policy-box { 
-            background: #111; padding: 12px; border-radius: 10px; border: 1px solid #222; 
-            height: 120px; overflow-y: auto; font-size: 0.75rem; color: #888; line-height: 1.5;
-        }
+        .policy-box { background: #111; padding: 12px; border-radius: 10px; border: 1px solid #222; height: 100px; overflow-y: auto; font-size: 0.75rem; color: #888; text-align: left; width: 100%; }
     </style>
 </head>
 <body>
@@ -92,7 +61,7 @@
     </div>
 
     <div class="input-box">
-        <label class="input-label">유동성풀 (수량 입력)</label>
+        <label style="color:#00e676; font-size:0.9rem; font-weight:bold; display:block; margin-bottom:10px;">유동성풀 (수량 입력)</label>
         <input type="number" id="lp_val" class="num-field" placeholder="0.00">
     </div>
 
@@ -100,19 +69,15 @@
         <div class="btn btn-yellow">SWAP</div>
         <div class="btn btn-green" onclick="confirmLP()">유동성풀 공급</div>
         
-        <div class="btn" style="background:#cc0000;" onclick="openLink('https://www.youtube.com/@HKWorldBank')">▶ YOUTUBE</div>
-        <div class="btn" style="background:#000; border:1px solid #444;" onclick="openLink('https://www.tiktok.com/@hkworldbank')">♪ TIKTOK</div>
+        <div class="btn" style="background:#cc0000;" onclick="forceOpen('https://www.youtube.com/@HKWorldBank')">▶ YOUTUBE</div>
+        <div class="btn" style="background:#000; border:1px solid #444;" onclick="forceOpen('https://www.tiktok.com/@hkworldbank')">♪ TIKTOK</div>
         
         <div class="btn btn-pink">🎧 Global Support Center</div>
     </div>
 
-    <div class="policy-section">
-        <b style="color:#ffc107; display:block; margin-bottom:10px; font-size:0.9rem;">Terms & Privacy Policy</b>
-        <div class="policy-box">
-            <strong>1. 정보 수집 및 이용</strong><br>HK WorldBank는 최소한의 데이터만 사용합니다.<br><br>
-            <strong>2. 보안 프로토콜</strong><br>HK Quantum Shield 시스템이 적용됩니다.<br><br>
-            <strong>3. 책임 제한</strong><br>자산 관리의 최종 책임은 사용자에게 있습니다.
-        </div>
+    <div class="policy-box">
+        <strong>Terms & Privacy Policy</strong><br>
+        모든 트랜잭션은 HK Quantum Shield로 보호됩니다. 자산 관리의 최종 책임은 사용자에게 있습니다.
     </div>
 </div>
 
@@ -120,10 +85,13 @@
     const Pi = window.Pi;
     Pi.init({ version: "2.0", sandbox: false });
 
-    // [핵심] 파이 브라우저에서 링크를 강제로 여는 스크립트
-    function openLink(url) {
-        // 새 창으로 열기 (파이 브라우저에서 외부 앱 연결을 유도함)
-        window.open(url, '_blank', 'location=yes,height=570,width=520,scrollbars=yes,status=yes');
+    // 파이 브라우저 차단을 뚫는 강제 실행 함수
+    function forceOpen(url) {
+        const win = window.open(url, '_blank');
+        if (!win || win.closed || typeof win.closed == 'undefined') {
+            // 팝업 차단 시 현재 창에서 강제 이동
+            location.replace(url);
+        }
     }
 
     async function payStep10() {
@@ -136,7 +104,7 @@
                 });
                 await new Promise(r => setTimeout(r, 1000));
             }
-        } catch (e) { alert("인증 실패"); }
+        } catch (e) { alert("Auth Failed"); }
     }
 
     function confirmLP() {
