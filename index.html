@@ -1,92 +1,94 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>HK WORLD BANK</title>
     <style>
+        /* 기본 배경 및 중앙 정렬 */
         body {
             margin: 0; padding: 0;
             background-color: #121212; color: white;
-            font-family: 'Arial', sans-serif;
-            display: flex; flex-direction: column; align-items: center;
-            width: 100%; overflow-x: hidden;
+            font-family: 'Malgun Gothic', sans-serif;
+            display: flex; justify-content: center;
+            width: 100%; min-height: 100vh;
             top: 0px !important;
         }
 
-        /* PC에서도 화면이 퍼지지 않게 중앙 집중형 설계 */
-        .container {
+        /* PC에서도 화면이 퍼지지 않게 폭 제한 */
+        .app-container {
             width: 100%;
-            max-width: 500px; /* PC에서 봐도 폰 크기처럼 고정 */
+            max-width: 480px; /* PC에서 봐도 폰 크기로 고정 */
+            min-height: 100vh;
+            background: #121212;
+            position: relative;
             display: flex;
             flex-direction: column;
             align-items: center;
-            position: relative;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
         }
 
-        /* 우측 상단 20개국어 번역기 */
+        /* 우측 상단 언어 선택기 */
         #google_translate_element {
             position: absolute;
             top: 15px;
-            right: 10px;
+            right: 15px;
             z-index: 1000;
+            transform: scale(0.8); /* 더 조그맣게 */
+            transform-origin: right top;
         }
-        .goog-te-banner-frame.skiptranslate { display: none !important; }
+        .goog-te-banner-frame.skiptranslate { display: none !important; } /* 상단바 제거 */
 
-        .header { width: 90%; margin-top: 50px; color: #ffc107; font-weight: bold; font-size: 1.2rem; text-align: left; }
-        
+        /* 헤더 & 카드 */
+        .header { width: 90%; margin-top: 50px; color: #ffc107; font-weight: bold; font-size: 1.3rem; text-align: left; }
         .balance-card { 
-            width: 90%; background: #1e1e1e; padding: 20px; border-radius: 15px; 
-            margin: 15px 0; text-align: center; border: 1px solid #333; box-sizing: border-box;
+            width: 90%; background: #1e1e1e; padding: 25px; border-radius: 20px; 
+            margin: 20px 0; text-align: center; border: 1px solid #333; box-sizing: border-box;
         }
-        .gcv-value { 
-            color: #00e676; font-size: 0.85rem; border: 1px solid #00e676; 
-            padding: 5px 12px; border-radius: 20px; display: inline-block; margin-top: 10px; 
-        }
+        .gcv-label { color: #00e676; font-size: 0.85rem; border: 1px solid #00e676; padding: 6px 15px; border-radius: 20px; display: inline-block; margin-top: 15px; }
 
-        .btn-grid {
-            display: grid; grid-template-columns: 1fr 1fr;
-            gap: 12px; width: 90%; margin: 10px auto;
-        }
+        /* 버튼 그리드 (2열 고정) */
+        .btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: 92%; margin: 15px 0; }
         .btn {
-            padding: 18px; border-radius: 12px; text-align: center; font-weight: bold; font-size: 0.85rem;
-            cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px;
-            background: #2a2a2a; color: white; border: none; width: 100%; box-sizing: border-box;
+            background: #2a2a2a; color: white; padding: 18px 10px; border-radius: 12px;
+            text-align: center; font-weight: bold; font-size: 0.85rem; border: none;
+            display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
         }
         
-        .btn-yellow { background: #ffc107; color: black; }
-        .btn-green { background: #00e676; color: white; }
-        .btn-pink { background: #ff4081; color: white; grid-column: span 2; width: 100%; } 
+        /* 버튼 개별 컬러 */
+        .btn-yellow { background: #ffc107 !important; color: black; }
+        .btn-green { background: #00e676 !important; color: white; }
+        .btn-pink { background: #ff4081 !important; color: white; grid-column: span 2; width: 100%; margin-top: 5px; }
         .btn-red { background: #e91e63 !important; }
         .btn-black { background: #000 !important; border: 1px solid #444; }
 
-        .policy-section { width: 90%; margin: 30px 0; font-size: 0.75rem; color: #888; border-top: 1px solid #333; padding-top: 20px; }
-        .policy-content { margin-bottom: 20px; line-height: 1.6; }
-        .policy-title { color: #ffc107; font-weight: bold; margin-bottom: 8px; }
+        /* 약관 섹션 */
+        .policy-box { width: 90%; margin-top: 40px; padding-bottom: 50px; font-size: 0.75rem; color: #888; border-top: 1px solid #333; padding-top: 25px; }
+        .policy-title { color: #ffc107; font-weight: bold; margin-bottom: 10px; font-size: 0.9rem; }
     </style>
 </head>
 <body>
 
-    <div class="container">
+    <div class="app-container">
         <div id="google_translate_element"></div>
 
         <div class="header">HK WORLD BANK</div>
 
         <div class="balance-card">
-            <div style="color:#aaa; font-size:0.75rem;">Main Asset Integrated Ledger</div>
-            <div style="font-size: 2.2rem; font-weight: bold; margin: 10px 0;">00.0247 <span style="font-size:1.2rem;">Pi</span></div>
-            <div class="gcv-value">Value: $ 125,663,600 (GCV Estimate)</div>
+            <div style="color:#aaa; font-size:0.8rem; margin-bottom:10px;">Main Asset Integrated Ledger</div>
+            <div style="font-size: 2.3rem; font-weight: bold;">00.0247 <span style="font-size:1.2rem;">Pi</span></div>
+            <div class="gcv-label">Value: $ 125,663,600 (GCV Estimate)</div>
         </div>
 
         <div class="btn-grid">
-            <div class="btn"><span>🛒 Pay</span><span style="font-size:0.7rem;">(결제)</span></div>
-            <div class="btn"><span>💰 Staking</span><span style="font-size:0.7rem;">(예치)</span></div>
-            <div class="btn"><span>🌍 UBI</span><span style="font-size:0.7rem;">(기본소득)</span></div>
-            <div class="btn"><span>🔄 Swap</span><span style="font-size:0.7rem;">(스왑)</span></div>
+            <div class="btn"><span>🛒 Pay</span><span style="font-size:0.7rem; font-weight:normal;">(결제)</span></div>
+            <div class="btn"><span>💰 Staking</span><span style="font-size:0.7rem; font-weight:normal;">(예치)</span></div>
+            <div class="btn"><span>🌍 UBI</span><span style="font-size:0.7rem; font-weight:normal;">(기본소득)</span></div>
+            <div class="btn"><span>🔄 Swap</span><span style="font-size:0.7rem; font-weight:normal;">(스왑)</span></div>
         </div>
 
-        <div style="width:90%; color:#ffc107; font-size:0.8rem; margin-top:20px;">STAKING 31.4% | Liquidity Pool $</div>
-        <div style="width:90%; font-size:1.8rem; font-weight:bold; margin-bottom:10px;">1,844,206</div>
+        <div style="width:90%; color:#ffc107; font-size:0.85rem; margin-top:25px; font-weight:bold;">STAKING 31.4% | Liquidity Pool $</div>
+        <div style="width:90%; font-size:2rem; font-weight:bold; margin-bottom:15px;">1,844,206</div>
 
         <div class="btn-grid">
             <div class="btn btn-yellow">SWAP</div>
@@ -96,19 +98,11 @@
             <div class="btn btn-pink">🎧 Global Support Center (고객지원센터)</div>
         </div>
 
-        <div class="policy-section">
-            <div class="policy-content">
-                <div class="policy-title">Terms of Service (이용약관)</div>
-                1. Acceptance: By accessing HK WorldBank, you agree to these terms.<br>
-                2. Services: We provide Web3 digital banking assets.<br>
-                3. Security: Users are responsible for their own wallet keys.
-            </div>
-            <div class="policy-content">
-                <div class="policy-title">Privacy Policy (개인정보 처리방침)</div>
-                1. Data: We collect minimal logs for transactions.<br>
-                2. Protection: HK Quantum Shield is active.<br>
-                3. Sharing: No data is shared with third parties.
-            </div>
+        <div class="policy-box">
+            <div class="policy-title">Terms & Privacy</div>
+            <p>1. By using HK WorldBank, you agree to our terms.<br>
+            2. Your assets are protected by HK Quantum Shield.<br>
+            3. We do not share your transaction data with third parties.</p>
         </div>
     </div>
 
@@ -116,11 +110,13 @@
         function googleTranslateElementInit() {
             new google.translate.TranslateElement({
                 pageLanguage: 'ko', 
-                includedLanguages: 'en,zh-CN,ar,hi,es,pt,uk,ja,ru,vi,th,de,fr,it,tr,id,pl,nl,bn,ko',
-                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+                includedLanguages: 'en,zh-CN,ja,ar,hi,es,pt,uk,ru,vi,th,de,fr,it,tr,id,pl,nl,bn,ko',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+                autoDisplay: true /* 자동 인식 활성화 */
             }, 'google_translate_element');
         }
     </script>
     <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
 </body>
 </html>
