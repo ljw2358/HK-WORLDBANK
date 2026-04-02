@@ -10,18 +10,34 @@
         body { 
             margin: 0; padding: 0; background: #000; color: #fff; 
             font-family: sans-serif; overflow-x: hidden; display: flex; justify-content: center;
+            top: 0px !important;
         }
+
+        /* 1. 구글 표시 및 배너 강제 숨기기 (핵심) */
+        .goog-te-banner-frame.skiptranslate, .goog-te-gadget-icon { display: none !important; }
+        .goog-te-gadget-simple {
+            background-color: #2a2a2a !important;
+            border: 1px solid #444 !important;
+            padding: 5px 10px !important;
+            border-radius: 8px !important;
+            font-size: 0.8rem !important;
+            color: #fff !important;
+        }
+        .goog-te-gadget-simple span { color: #fff !important; }
+        .goog-te-menu-value img { display: none !important; } /* 구글 로고 화살표 숨김 */
+        body { position: static !important; }
+
         .wrapper {
             width: 100%; max-width: 450px; min-height: 100vh;
             display: flex; flex-direction: column; align-items: center;
             padding: 20px 15px; position: relative;
         }
-        /* 언어 선택창: 우측 상단 조그맣게 */
+
+        /* 번역기 위치: 구글 로고 없이 텍스트만 보이게 */
         #google_translate_element {
             align-self: flex-end; margin-bottom: 10px; z-index: 9999;
-            transform: scale(0.85); transform-origin: right;
         }
-        .goog-te-banner-frame.skiptranslate { display: none !important; }
+
         .brand { width: 100%; color: #ffc107; font-size: 1.4rem; font-weight: bold; margin-bottom: 20px; }
         .card {
             width: 100%; background: #1a1a1a; border-radius: 15px;
@@ -34,10 +50,9 @@
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; margin-bottom: 20px; }
         .btn {
             background: #2a2a2a; padding: 18px 5px; border-radius: 10px;
-            text-align: center; font-weight: bold; font-size: 0.9rem; cursor: pointer; border: none; color: #fff;
+            text-align: center; font-weight: bold; font-size: 0.85rem; cursor: pointer; border: none; color: #fff;
         }
         .input-box { width: 100%; margin-bottom: 15px; }
-        .input-label { color: #00e676; font-size: 0.85rem; font-weight: bold; margin-bottom: 8px; display: block; }
         .num-field {
             width: 100%; padding: 15px; background: #222; border: 1px solid #444;
             border-radius: 10px; color: #fff; font-size: 1.2rem; text-align: center; outline: none;
@@ -51,6 +66,7 @@
 
 <div class="wrapper">
     <div id="google_translate_element"></div>
+
     <div class="brand">HK WORLD BANK</div>
 
     <div class="card">
@@ -67,7 +83,7 @@
     </div>
 
     <div class="input-box">
-        <label class="input-label">Add Liquidity (LP 공급 수량 입력)</label>
+        <label style="color:#00e676; font-size:0.85rem; font-weight:bold; margin-bottom:8px; display:block;">Add Liquidity (LP 공급 수량)</label>
         <input type="number" id="lp_val" class="num-field" placeholder="0.00">
     </div>
 
@@ -88,13 +104,8 @@
         try {
             await Pi.authenticate(['payments']);
             for(let i=1; i<=10; i++) {
-                await Pi.createPayment({
-                    amount: 0.0001,
-                    memo: "HK WORLD BANK TEST #" + i,
-                    metadata: { step: i }
-                }, {
-                    onReadyForServerApproval: (id) => console.log("승인대기:"+id),
-                    onReadyForServerCompletion: (id, txid) => console.log("완료:"+txid),
+                await Pi.createPayment({ amount: 0.0001, memo: "TEST #"+i }, {
+                    onReadyForServerApproval: (id) => {}, onReadyForServerCompletion: (id, tx) => {},
                     onCancel: (id) => {}, onError: (e) => {}
                 });
                 await new Promise(r => setTimeout(r, 1000));
@@ -105,15 +116,15 @@
     function confirmLP() {
         const amt = document.getElementById('lp_val').value;
         if(!amt) return alert("수량을 넣어주세요");
-        alert(amt + " Pi 공급 완료");
+        alert(amt + " Pi 공급 처리");
     }
 
     function googleTranslateElementInit() {
         new google.translate.TranslateElement({
             pageLanguage: 'ko',
-            /* 형님이 정해주신 14개국어 순서 반영 */
-            includedLanguages: 'ko,en,zh-CN,ar,hi,es,pt,uk,ja,ru,vi,th,de,fr',
-            layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+            includedLanguages: 'ko,en,zh-CN,ar,hi,es,pt,uk,ja,ru,vi,th,de,fr,it,tr,id,pl,nl,bn',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
         }, 'google_translate_element');
     }
 </script>
