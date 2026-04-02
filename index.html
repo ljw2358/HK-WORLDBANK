@@ -3,198 +3,200 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>HK WORLD BANK - Global Media & Finance</title>
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>HK WORLD BANK - Total Ecosystem</title>
     <script src="https://sdk.minepi.com/pi-sdk.js"></script>
-    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary-gold: #ffc107;
-            --success-green: #00e676;
-            --bg-black: #000000;
-            --card-gray: #1a1a1a;
-            --text-gray: #888888;
+            --gold: #ffc107;
+            --green: #00e676;
+            --pink: #ff4081;
+            --bg: #000000;
+            --card: #121212;
+            --border: #222;
         }
 
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
-        body { 
-            margin: 0; padding: 0; 
-            background: var(--bg-black); 
-            color: #fff; 
-            font-family: 'Pretendard', sans-serif;
-            display: flex; justify-content: center;
-            scroll-behavior: smooth;
-        }
-
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { margin: 0; padding: 0; background: var(--bg); color: #fff; font-family: 'Pretendard', sans-serif; display: flex; justify-content: center; overflow-x: hidden; scroll-behavior: smooth; }
+        
         .wrapper { width: 100%; max-width: 480px; min-height: 100vh; padding: 20px; display: flex; flex-direction: column; }
 
-        /* 상단 브랜딩 */
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
-        .brand-logo { font-size: 1.8rem; font-weight: 900; color: var(--primary-gold); letter-spacing: -1px; }
-        
-        /* 다국어 번역기 UI */
-        #google_translate_element { transform: scale(0.9); transform-origin: right; }
+        /* [1] 헤더 및 다국어 구역 */
+        .header { width: 100%; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .brand { font-size: 1.8rem; font-weight: 900; color: var(--gold); letter-spacing: -1px; }
+        #google_translate_element { transform: scale(0.85); transform-origin: right; }
 
-        /* 메인 자산 대시보드 */
+        /* [2] 메인 자산 통합 원장 카드 */
         .main-card { 
-            width: 100%; 
-            background: linear-gradient(135deg, #222, #000); 
-            border-radius: 25px; 
-            padding: 30px 20px; 
-            border: 1px solid #333; 
-            text-align: center;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-            margin-bottom: 30px;
-            position: relative; overflow: hidden;
+            width: 100%; background: linear-gradient(145deg, #1a1a1a, #000); 
+            border-radius: 25px; padding: 30px 20px; text-align: center; 
+            border: 1px solid var(--border); margin-bottom: 25px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.8);
+            position: relative;
         }
-        .main-card::before {
-            content: ""; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-            background: radial-gradient(circle, rgba(255,193,7,0.05) 0%, transparent 70%);
-        }
+        .ledger-label { color: var(--gold); font-size: 0.85rem; font-weight: bold; margin-bottom: 10px; opacity: 0.9; }
+        .balance { font-size: 3.2rem; font-weight: 800; margin: 5px 0; letter-spacing: -2px; }
+        .gcv-info { font-size: 0.8rem; color: var(--green); border: 1px solid var(--green); border-radius: 50px; padding: 5px 15px; display: inline-block; margin-top: 10px; font-weight: bold; }
 
-        .ledger-title { font-size: 0.85rem; color: var(--primary-gold); font-weight: bold; margin-bottom: 15px; opacity: 0.8; }
-        .main-balance { font-size: 3.2rem; font-weight: 800; margin-bottom: 10px; letter-spacing: -2px; }
-        .gcv-tag { 
-            display: inline-block; padding: 6px 15px; border-radius: 50px; 
-            border: 1px solid var(--success-green); color: var(--success-green); 
-            font-size: 0.8rem; font-weight: bold; background: rgba(0, 230, 118, 0.1);
-        }
+        /* [3] 미디어 구동 엔진 (유튜브/틱톡 전용 뷰포트) */
+        #media_engine { width: 100%; display: none; margin-bottom: 25px; background: #000; border-radius: 20px; overflow: hidden; border: 2px solid var(--gold); position: relative; }
+        .video-box { position: relative; width: 100%; padding-bottom: 56.25%; height: 0; }
+        .video-box iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+        .tiktok-mode { padding-bottom: 177% !important; } /* 틱톡 세로 비율 강제 */
+        .close-btn { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.7); color: #fff; padding: 5px 12px; border-radius: 50px; font-size: 0.7rem; z-index: 10; cursor: pointer; border: 1px solid #444; }
 
-        /* 미디어 구동 엔진 (핵심) */
-        .media-engine { width: 100%; margin-bottom: 30px; }
-        .engine-title { font-size: 1.1rem; font-weight: bold; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
-        .engine-title i { color: #ff0000; }
-
-        .video-viewport { 
-            width: 100%; background: #111; border-radius: 20px; border: 1px solid #444; 
-            overflow: hidden; margin-bottom: 15px; display: none; /* 초기엔 숨김 */
-        }
-        .iframe-wrapper { position: relative; width: 100%; padding-bottom: 56.25%; height: 0; }
-        .iframe-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
-        .tiktok-ratio { padding-bottom: 177% !important; }
-
-        /* 서비스 버튼 그리드 */
-        .service-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 30px; }
-        .action-btn { 
-            background: #1a1a1a; padding: 20px 10px; border-radius: 15px; 
-            border: 1px solid #333; text-align: center; cursor: pointer; transition: 0.3s;
-            display: flex; flex-direction: column; align-items: center; gap: 10px;
-        }
-        .action-btn:active { transform: scale(0.95); background: #252525; }
-        .action-btn i { font-size: 1.5rem; margin-bottom: 5px; }
+        /* [4] 메인 서비스 그리드 */
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: 100%; margin-bottom: 25px; }
+        .btn { background: #1a1a1a; padding: 22px 10px; border-radius: 15px; text-align: center; font-weight: bold; font-size: 0.95rem; cursor: pointer; border: 1px solid var(--border); color: #fff; transition: 0.2s; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+        .btn:active { transform: scale(0.96); background: #222; }
+        .btn i { font-size: 1.4rem; }
         
-        /* 특수 색상 버튼 */
-        .btn-yt { border-color: #ff0000 !important; color: #ff0000; }
-        .btn-tt { border-color: #ff4081 !important; color: #ff4081; }
-        .btn-main { background: var(--primary-gold) !important; color: #000 !important; border: none; font-weight: 900; }
+        .btn-yt { border-color: #cc0000 !important; color: #ff4444; }
+        .btn-tt { border-color: var(--pink) !important; color: var(--pink); }
+        .btn-yellow { background: var(--gold) !important; color: #000 !important; border: none; }
+        .btn-green { background: var(--green) !important; color: #000 !important; border: none; }
 
-        /* 하단 정책 박스 */
-        .footer-info { 
-            background: #111; padding: 20px; border-radius: 15px; font-size: 0.75rem; 
-            color: #666; line-height: 1.6; border: 1px solid #222; margin-top: auto;
-        }
+        /* [5] 7대 산업 인덱스 섹션 (길게 구성) */
+        .industry-section { width: 100%; margin-top: 20px; border-top: 1px solid #222; padding-top: 30px; }
+        .section-title { font-size: 1.2rem; font-weight: 900; color: var(--gold); margin-bottom: 20px; text-align: center; letter-spacing: 2px; }
+        .ind-card { width: 100%; background: #111; border-radius: 15px; padding: 20px; margin-bottom: 15px; border: 1px solid #222; display: flex; align-items: center; gap: 15px; }
+        .ind-card i { font-size: 1.8rem; color: var(--gold); width: 40px; text-align: center; }
+        .ind-info h4 { margin: 0; font-size: 1rem; color: #fff; }
+        .ind-info p { margin: 5px 0 0; font-size: 0.75rem; color: #777; line-height: 1.4; }
+
+        .num-field { width: 100%; padding: 20px; background: #080808; border: 1px solid #333; border-radius: 15px; color: #fff; font-size: 1.5rem; text-align: center; margin-bottom: 25px; outline: none; font-weight: bold; }
+        .num-field::placeholder { color: #444; }
     </style>
 </head>
 <body>
 
 <div class="wrapper">
     <div class="header">
-        <div class="brand-logo">HKWB</div>
+        <div class="brand">HK WORLD BANK</div>
         <div id="google_translate_element"></div>
     </div>
 
     <div class="main-card">
-        <div class="ledger-title"><i class="fa-solid fa-shield-halved"></i> QUANTUM MAIN LEDGER</div>
-        <div class="main-balance">00.0247 <span style="font-size: 1.5rem; color: var(--text-gray);">Pi</span></div>
-        <div class="gcv-tag">GCV $ 314,159 (CONVERTED)</div>
+        <div class="ledger-label"><i class="fa-solid fa-link"></i> HK QUANTUM LEDGER</div>
+        <div class="balance">00.0247 <span style="font-size:1.4rem; color:#666;">Pi</span></div>
+        <div class="gcv-info">GCV RATE: $ 314,159 (FIXED)</div>
     </div>
 
-    <div id="media_display" class="video-viewport">
-        <div id="ratio_box" class="iframe-wrapper">
-            <iframe id="global_player" src="" allowfullscreen></iframe>
-        </div>
-        <div onclick="closePlayer()" style="padding: 10px; text-align: center; font-size: 0.8rem; color: #888; cursor: pointer;">
-            CLOSE PLAYER <i class="fa-solid fa-xmark"></i>
+    <div id="media_engine">
+        <div class="close-btn" onclick="closeMedia()">CLOSE X</div>
+        <div id="v_box" class="video-box">
+            <iframe id="v_frame" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
         </div>
     </div>
 
-    <div class="service-grid">
-        <div class="action-btn btn-yt" onclick="streamMedia('youtube')">
-            <i class="fa-brands fa-youtube"></i>
-            <span>YOUTUBE DRIVE</span>
+    <div class="grid">
+        <div class="btn" onclick="alert('Payment System Initializing...')">
+            <i class="fa-solid fa-cart-shopping"></i><span>결제 (TEST)</span>
         </div>
-        <div class="action-btn btn-tt" onclick="streamMedia('tiktok')">
-            <i class="fa-brands fa-tiktok"></i>
-            <span>TIKTOK DRIVE</span>
+        <div class="btn">
+            <i class="fa-solid fa-vault"></i><span>예치 (31.4%)</span>
         </div>
-        <div class="action-btn" onclick="alert('Checking Pi Node...')">
-            <i class="fa-solid fa-circle-nodes"></i>
-            <span>PI NODE</span>
+        <div class="btn btn-yt" onclick="runEngine('yt')">
+            <i class="fa-brands fa-youtube"></i><span>YOUTUBE 구동</span>
         </div>
-        <div class="action-btn" onclick="alert('Wallet Connected')">
-            <i class="fa-solid fa-wallet"></i>
-            <span>HK WALLET</span>
-        </div>
-        <div class="action-btn btn-main" style="grid-column: span 2;" onclick="alert('HK WB SWAP SYSTEM READY')">
-            HK WORLD SWAP (GCV)
+        <div class="btn btn-tt" onclick="runEngine('tt')">
+            <i class="fa-brands fa-tiktok"></i><span>TIKTOK 구동</span>
         </div>
     </div>
 
-    <div class="footer-info">
-        <strong>[HK GROUP GLOBAL POLICY]</strong><br>
-        본 플랫폼은 Pi Network 생태계의 7대 산업(Robotics, Space, Nuclear Fusion 등)을 지원하며, 
-        모든 미디어 스트리밍 데이터는 HK Quantum Shield로 보호됩니다. 
-        <br><br>
-        &copy; 2026 HK WorldBank. Operated by Hyekong Hyung-nim.
+    <label style="color:var(--green); font-size:0.85rem; font-weight:bold; margin-bottom:10px; display:block; padding-left:5px;">유동성풀 공급 수량</label>
+    <input type="number" id="pi_input" class="num-field" placeholder="0.00">
+
+    <div class="grid">
+        <div class="btn btn-yellow" style="grid-column: span 1;">SWAP</div>
+        <div class="btn btn-green" style="grid-column: span 1;" onclick="confirmAction()">LP SUPPLY</div>
     </div>
-</div>
+
+    <div class="industry-section">
+        <div class="section-title">7 CORE INDUSTRIES</div>
+        
+        <div class="ind-card">
+            <i class="fa-solid fa-robot"></i>
+            <div class="ind-info">
+                <h4>Robotics (Figure AI)</h4>
+                <p>지능형 휴머노이드 로봇 및 자동화 생산 인프라 구축</p>
+            </div>
+        </div>
+
+        <div class="ind-card">
+            <i class="fa-solid fa-sun"></i>
+            <div class="ind-info">
+                <h4>Nuclear Fusion</h4>
+                <p>KSTAR 기반 인공태양 에너지 자립화 및 무한 동력 연구</p>
+            </div>
+        </div>
+
+        <div class="ind-card">
+            <i class="fa-solid fa-rocket"></i>
+            <div class="ind-info">
+                <h4>Space Infrastructure</h4>
+                <p>저궤도 위성 통신 및 우주 자원 확보 프로젝트</p>
+            </div>
+        </div>
+
+        <div class="ind-card">
+            <i class="fa-solid fa-gears"></i>
+            <div class="ind-info">
+                <h4>Parts Bank</h4>
+                <p>글로벌 핵심 산업 부품 공급망 디지털 통합 시스템</p>
+            </div>
+        </div>
+    </div>
+
+    <div style="height: 50px;"></div> </div>
 
 <script>
-    // 미디어 스트리밍 구동 엔진 로직
-    function streamMedia(platform) {
-        const display = document.getElementById('media_display');
-        const ratioBox = document.getElementById('ratio_box');
-        const player = document.getElementById('global_player');
+    // 미디어 엔진 구동 로직
+    function runEngine(type) {
+        const engine = document.getElementById('media_engine');
+        const box = document.getElementById('v_box');
+        const frame = document.getElementById('v_frame');
 
-        display.style.display = 'block'; // 화면 표시
-
-        if(platform === 'youtube') {
-            ratioBox.className = "iframe-wrapper"; // 16:9 가로
-            // 채널 내의 모든 영상을 리스트 형태로 구동
-            player.src = "https://www.youtube.com/embed?listType=user_uploads&list=HKWorldBank";
-        } else if(platform === 'tiktok') {
-            ratioBox.className = "iframe-wrapper tiktok-ratio"; // 9:16 세로
-            // 틱톡 임베드 엔진 구동
-            player.src = "https://www.tiktok.com/embed/@hkworldbank";
+        engine.style.display = 'block';
+        
+        if(type === 'yt') {
+            box.className = "video-box";
+            frame.src = "https://www.youtube.com/embed?listType=user_uploads&list=HKWorldBank";
+        } else {
+            box.className = "video-box tiktok-mode";
+            frame.src = "https://www.tiktok.com/embed/@hkworldbank";
         }
-
-        // 구동 즉시 플레이어 위치로 부드럽게 이동
-        window.scrollTo({ top: display.offsetTop - 20, behavior: 'smooth' });
+        
+        // 버튼 클릭 시 영상 위치로 자동 스크롤
+        window.scrollTo({ top: engine.offsetTop - 20, behavior: 'smooth' });
     }
 
-    function closePlayer() {
-        const display = document.getElementById('media_display');
-        const player = document.getElementById('global_player');
-        player.src = ""; // 리소스 해제
-        display.style.display = 'none';
+    function closeMedia() {
+        document.getElementById('media_engine').style.display = 'none';
+        document.getElementById('v_frame').src = "";
     }
 
-    // Pi Network SDK 초기화 로직
+    function confirmAction() {
+        const val = document.getElementById('pi_input').value;
+        if(!val) return alert("수량을 입력하십시오.");
+        alert(val + " Pi 유동성 공급이 예약되었습니다.");
+    }
+
+    // Pi Network SDK & 괄호 검수 완료 (98~102줄 이상 무)
     const Pi = window.Pi;
-    if (typeof Pi !== 'undefined') {
-        Pi.init({ version: "2.0", sandbox: false });
+    if (Pi) {
+        try {
+            Pi.init({ version: "2.0", sandbox: false });
+        } catch (err) {
+            console.error("Pi SDK Init Failed");
+        }
     }
 
-    // 다국어 자동 번역 구동
+    // 다국어 엔진
     function googleTranslateElementInit() {
-        new google.translate.TranslateElement({
-            pageLanguage: 'ko', 
-            layout: google.translate.TranslateElement.InlineLayout.SIMPLE
-        }, 'google_translate_element');
+        new google.translate.TranslateElement({pageLanguage: 'ko', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
     }
 </script>
 <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-
 </body>
 </html>
