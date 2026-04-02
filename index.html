@@ -6,7 +6,7 @@
     <title>HK WORLD BANK</title>
     <script src="https://sdk.minepi.com/pi-sdk.js"></script>
     <style>
-        /* 기본 레이아웃 및 중앙 정렬 */
+        /* [핵심] 중앙 정렬 및 파이 브라우저 최적화 */
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { 
             margin: 0; padding: 0; background: #000; color: #fff; 
@@ -14,7 +14,7 @@
             display: flex; justify-content: center; top: 0px !important;
         }
 
-        /* 구글 로고 숨기기 및 Language 버튼 이쁘게 */
+        /* 구글 로고 숨기기 및 Language 버튼 디자인 */
         .goog-te-banner-frame.skiptranslate, .goog-te-gadget-icon { display: none !important; }
         .goog-te-gadget-simple {
             background-color: #1a1a1a !important; border: 1px solid #ffc107 !important;
@@ -35,30 +35,26 @@
 
         #google_translate_element { align-self: flex-end; margin-bottom: 20px; z-index: 9999; }
 
-        /* 브랜드 및 카드 디자인 */
+        /* 디자인 요소 */
         .brand { width: 100%; color: #ffc107; font-size: 1.6rem; font-weight: 900; letter-spacing: -1px; margin-bottom: 25px; text-align: left; }
-        
         .card {
             width: 100%; background: linear-gradient(145deg, #1a1a1a, #000); border-radius: 20px;
             padding: 30px 20px; text-align: center; border: 1px solid #333; margin-bottom: 25px;
             box-shadow: 0 10px 20px rgba(0,0,0,0.5);
         }
-        .main-ledger-label { color: #ffc107; font-size: 0.9rem; font-weight: bold; margin-bottom: 10px; opacity: 0.9; }
+        .main-ledger-label { color: #ffc107; font-size: 0.9rem; font-weight: bold; margin-bottom: 10px; }
         .balance { font-size: 2.8rem; font-weight: 800; margin: 5px 0; letter-spacing: -1px; }
         .gcv-badge {
             display: inline-block; background: rgba(0, 230, 118, 0.1); border: 1px solid #00e676; color: #00e676;
             padding: 6px 15px; border-radius: 50px; font-size: 0.8rem; font-weight: bold; margin-top: 15px;
         }
 
-        /* 그리드 버튼 */
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: 100%; margin-bottom: 25px; }
         .btn {
             background: #222; padding: 20px 5px; border-radius: 12px;
             text-align: center; font-weight: bold; font-size: 0.95rem; cursor: pointer; border: 1px solid #333; color: #fff;
             text-decoration: none; display: flex; flex-direction: column; align-items: center; justify-content: center;
-            transition: all 0.2s;
         }
-        .btn:active { transform: scale(0.98); background: #333; }
 
         /* 입력창 및 유동성풀 */
         .input-box { width: 100%; margin-bottom: 20px; }
@@ -68,12 +64,11 @@
             border-radius: 15px; color: #fff; font-size: 1.4rem; text-align: center; outline: none; font-weight: bold;
         }
 
-        /* 강조 색상 */
         .btn-yellow { background: #ffc107; color: #000; border: none; }
         .btn-green { background: #00e676; color: #000; border: none; }
         .btn-pink { background: #ff4081; grid-column: span 2; margin-top: 5px; border: none; }
         
-        .policy-section { width: 100%; margin-top: 40px; border-top: 1px solid #222; padding-top: 25px; font-size: 0.8rem; color: #666; line-height: 1.6; }
+        .policy-section { width: 100%; margin-top: 40px; border-top: 1px solid #222; padding-top: 25px; font-size: 0.8rem; color: #666; }
     </style>
 </head>
 <body>
@@ -109,9 +104,8 @@
     </div>
 
     <div class="policy-section">
-        <b style="color:#ffc107; display:block; margin-bottom:10px; font-size:0.9rem;">Terms & Privacy Policy</b>
-        1. HK WorldBank 이용 시 모든 디지털 자산 정책에 동의하는 것으로 간주됩니다.<br>
-        2. 귀하의 자산은 HK Quantum Shield 보안 시스템에 의해 안전하게 보호됩니다.
+        <b style="color:#ffc107; display:block; margin-bottom:10px;">Terms & Privacy Policy</b>
+        HK WorldBank protects your digital assets with HK Quantum Shield.
     </div>
 </div>
 
@@ -123,27 +117,29 @@
         try {
             await Pi.authenticate(['payments']);
             for(let i=1; i<=10; i++) {
-                await Pi.createPayment({ amount: 0.0001, memo: "HKWB 결제 테스트 #"+i }, {
+                await Pi.createPayment({ amount: 0.0001, memo: "HKWB TEST #"+i }, {
                     onReadyForServerApproval: (id) => {}, onReadyForServerCompletion: (id, tx) => {},
                     onCancel: () => {}, onError: () => {}
                 });
                 await new Promise(r => setTimeout(r, 1000));
             }
-        } catch (e) { alert("인증 실패"); }
+        } catch (e) { alert("Auth Failed"); }
     }
 
     function confirmLP() {
         const amt = document.getElementById('lp_val').value;
-        if(!amt) return alert("수량을 입력해주세요.");
-        alert(amt + " Pi 유동성풀 공급 완료");
+        if(!amt) return alert("Enter amount");
+        alert(amt + " Pi Added to LP");
     }
 
     function googleTranslateElementInit() {
         new google.translate.TranslateElement({
             pageLanguage: 'ko',
-            /* 형님 요청 20개국 정밀 순서 고정 */
+            /* 형님 요청 순서 고정 (20개국) */
             includedLanguages: 'ko,en,ar,hi,es,pt,uk,ja,ru,vi,th,de,fr,it,tr,id,pl,nl,bn,zh-CN',
-            layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            /* 외국어 자동 감지 활성화 */
+            autoDisplay: true 
         }, 'google_translate_element');
     }
 </script>
