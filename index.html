@@ -7,188 +7,101 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body { background-color: #000; color: #fff; font-family: 'Inter', sans-serif; overflow-x: hidden; }
-        .gcv-tag { color: #00ff00; border: 1px solid #00ff00; border-radius: 20px; padding: 2px 12px; font-size: 0.8rem; animation: pulse 2s infinite; }
-        .gradient-text { background: linear-gradient(to right, #f1c40f, #ff9f43, #ff6b6b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 800; }
-        .btn-card { background-color: #1a1a1a; border-radius: 12px; border: 1px solid #333; transition: all 0.3s ease; }
-        .btn-card:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(241, 196, 15, 0.2); border-color: #f1c40f; }
-        .staking-info { border-left: 4px solid #f1c40f; padding-left: 10px; background: rgba(241, 196, 15, 0.05); border-radius: 0 8px 8px 0; }
-        
-        /* Language Selector custom style */
-        .lang-item { display: flex; items-center; gap: 8px; font-size: 11px; }
-        .flag-icon { width: 16px; height: 11px; }
-
-        /* Embedded Player styles */
-        #video-player-container { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-style: 999; justify-content: center; items-center; }
-        #player-iframe { width: 90%; height: 50%; border: none; border-radius: 12px; }
-        .close-player { position: absolute; top: 20px; right: 20px; color: white; font-size: 30px; cursor: pointer; }
-
-        /* Keyframes */
-        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        body { background-color: #000; color: #fff; font-family: 'Inter', sans-serif; }
+        .gcv-tag { color: #00ff00; border: 1px solid #00ff00; border-radius: 20px; padding: 2px 12px; font-size: 0.8rem; }
+        .btn-card { background-color: #1a1a1a; border-radius: 12px; border: 1px solid #333; }
+        .staking-info { border-left: 4px solid #f1c40f; padding-left: 10px; }
+        .lang-item { display: flex; align-items: center; gap: 8px; font-size: 11px; color: white; padding: 8px; transition: 0.2s; }
+        .lang-item:hover { background-color: #333; }
+        .flag-icon { width: 18px; height: 12px; border-radius: 1px; }
     </style>
 </head>
 <body class="max-w-md mx-auto pb-10">
 
-    <header class="p-4 flex justify-between items-center bg-black/50 backdrop-blur-sm sticky top-0 z-50">
+    <header class="p-4 flex justify-between items-center sticky top-0 bg-black z-50">
         <h1 class="text-xl font-black text-yellow-500 tracking-tighter">HK WORLD BANK</h1>
         <div class="relative">
-            <button id="lang-btn" class="flex items-center gap-1.5 text-xs bg-[#1a1a1a] border border-[#333] px-2 py-1 rounded">
-                <img src="https://flagcdn.com/w20/us.png" alt="English" class="flag-icon">
-                EN
-                <i class="fa-solid fa-chevron-down text-[10px] text-gray-500"></i>
+            <button onclick="document.getElementById('lang-list').classList.toggle('hidden')" class="flex items-center gap-1 text-[10px] bg-[#1a1a1a] border border-[#333] px-2 py-1 rounded">
+                <img src="https://flagcdn.com/w20/kr.png" class="flag-icon"> KR <i class="fa-solid fa-caret-down"></i>
             </button>
-            
-            <div id="lang-dropdown" class="absolute right-0 mt-2 w-40 bg-[#1a1a1a] border border-[#333] rounded shadow-xl hidden z-50 max-h-60 overflow-y-auto">
-                <div class="px-3 py-1 text-[10px] text-gray-500">Select Language</div>
-                <a href="#" class="lang-item p-2 hover:bg-[#333]"><img src="https://flagcdn.com/w20/us.png" class="flag-icon"> English</a>
-                <a href="#" class="lang-item p-2 hover:bg-[#333]"><img src="https://flagcdn.com/w20/kr.png" class="flag-icon"> 한국어</a>
-                <a href="#" class="lang-item p-2 hover:bg-[#333]"><img src="https://flagcdn.com/w20/cn.png" class="flag-icon"> 中文</a>
-                <a href="#" class="lang-item p-2 hover:bg-[#333]"><img src="https://flagcdn.com/w20/sa.png" class="flag-icon"> العربية</a>
-                <a href="#" class="lang-item p-2 hover:bg-[#333]"><img src="https://flagcdn.com/w20/in.png" class="flag-icon"> हिन्दी</a>
-                <a href="#" class="lang-item p-2 hover:bg-[#333]"><img src="https://flagcdn.com/w20/es.png" class="flag-icon"> Español</a>
-                <a href="#" class="lang-item p-2 hover:bg-[#333]"><img src="https://flagcdn.com/w20/br.png" class="flag-icon"> Português</a>
-                <a href="#" class="lang-item p-2 hover:bg-[#333]"><img src="https://flagcdn.com/w20/ua.png" class="flag-icon"> Українська</a>
-                <a href="#" class="lang-item p-2 hover:bg-[#333]"><img src="https://flagcdn.com/w20/jp.png" class="flag-icon"> 日本語</a>
-                <a href="#" class="lang-item p-2 hover:bg-[#333]"><img src="https://flagcdn.com/w20/ru.png" class="flag-icon"> Русский</a>
-                <a href="#" class="lang-item p-2 hover:bg-[#333]"><img src="https://flagcdn.com/w20/vn.png" class="flag-icon"> Tiếng Việt</a>
-                <a href="#" class="lang-item p-2 hover:bg-[#333]"><img src="https://flagcdn.com/w20/th.png" class="flag-icon"> ไทย</a>
-                <a href="#" class="lang-item p-2 hover:bg-[#333]"><img src="https://flagcdn.com/w20/de.png" class="flag-icon"> Deutsch</a>
-                <a href="#" class="lang-item p-2 hover:bg-[#333]"><img src="https://flagcdn.com/w20/fr.png" class="flag-icon"> Français</a>
-                <a href="#" class="lang-item p-2 hover:bg-[#333]"><img src="https://flagcdn.com/w20/it.png" class="flag-icon"> Italiano</a>
+            <div id="lang-list" class="absolute right-0 mt-2 w-32 bg-[#1a1a1a] border border-[#333] hidden overflow-y-auto max-h-64 shadow-2xl">
+                <a href="#" class="lang-item"><img src="https://flagcdn.com/w20/kr.png" class="flag-icon"> 한국어</a>
+                <a href="#" class="lang-item"><img src="https://flagcdn.com/w20/us.png" class="flag-icon"> English</a>
+                <a href="#" class="lang-item"><img src="https://flagcdn.com/w20/cn.png" class="flag-icon"> 中文</a>
+                <a href="#" class="lang-item"><img src="https://flagcdn.com/w20/sa.png" class="flag-icon"> العربية</a>
+                <a href="#" class="lang-item"><img src="https://flagcdn.com/w20/in.png" class="flag-icon"> हिन्दी</a>
+                <a href="#" class="lang-item"><img src="https://flagcdn.com/w20/es.png" class="flag-icon"> Español</a>
+                <a href="#" class="lang-item"><img src="https://flagcdn.com/w20/br.png" class="flag-icon"> Português</a>
+                <a href="#" class="lang-item"><img src="https://flagcdn.com/w20/ua.png" class="flag-icon"> Українська</a>
+                <a href="#" class="lang-item"><img src="https://flagcdn.com/w20/jp.png" class="flag-icon"> 日本語</a>
+                <a href="#" class="lang-item"><img src="https://flagcdn.com/w20/ru.png" class="flag-icon"> Русский</a>
+                <a href="#" class="lang-item"><img src="https://flagcdn.com/w20/vn.png" class="flag-icon"> Tiếng Việt</a>
+                <a href="#" class="lang-item"><img src="https://flagcdn.com/w20/th.png" class="flag-icon"> ไทย</a>
+                <a href="#" class="lang-item"><img src="https://flagcdn.com/w20/de.png" class="flag-icon"> Deutsch</a>
+                <a href="#" class="lang-item"><img src="https://flagcdn.com/w20/fr.png" class="flag-icon"> Français</a>
+                <a href="#" class="lang-item"><img src="https://flagcdn.com/w20/it.png" class="flag-icon"> Italiano</a>
                 </div>
         </div>
     </header>
 
     <section class="px-6 py-6 text-center">
-        <p class="text-gray-400 text-sm mb-1 opacity-80">메인 자산 통합 원장</p>
-        <h2 class="text-6xl font-black mb-3 text-white tracking-tight">400.0212 <span class="text-3xl text-yellow-500 font-bold">Pi</span></h2>
-        <div class="gcv-tag font-bold tracking-tight bg-green-950/20 px-4 py-1.5 rounded-full">
-            <i class="fa-solid fa-gem text-green-400 mr-1.5"></i>
-            <span class="gradient-text">GCV 가치 평가: $ 125,663,600</span>
-        </div>
+        <p class="text-white text-sm mb-1 opacity-70">메인 자산 통합 원장</p>
+        <h2 class="text-5xl font-black mb-3">400.0212 <span class="text-3xl text-yellow-500">Pi</span></h2>
+        <div class="inline-block gcv-tag font-bold">가치 평가: $ 125,663,600 (GCV)</div>
     </section>
 
-    <section class="grid grid-cols-3 gap-3 px-4 mt-6">
-        <button class="btn-card p-4 flex flex-col items-center">
-            <i class="fa-solid fa-rocket text-red-500 mb-2.5 text-xl"></i>
-            <span class="text-xs font-medium">송금</span>
-        </button>
-        <button class="btn-card p-4 flex flex-col items-center">
-            <i class="fa-solid fa-cart-shopping text-gray-400 mb-2.5 text-xl"></i>
-            <span class="text-xs font-medium">결제</span>
-        </button>
-        <button class="btn-card p-4 flex flex-col items-center border border-yellow-500/50 bg-yellow-950/10">
-            <i class="fa-solid fa-piggy-bank text-yellow-500 mb-2.5 text-xl"></i>
-            <span class="text-xs font-bold text-yellow-500">예치 (31.4%)</span>
-        </button>
-        <button class="btn-card p-4 flex flex-col items-center">
-            <i class="fa-solid fa-gift text-red-400 mb-2.5 text-xl"></i>
-            <span class="text-xs font-medium">보상</span>
-        </button>
-        <button class="btn-card p-4 flex flex-col items-center">
-            <i class="fa-solid fa-scale-balanced text-blue-400 mb-2.5 text-xl"></i>
-            <span class="text-xs font-medium text-nowrap">기본소득</span>
-        </button>
-        <button class="btn-card p-4 flex flex-col items-center">
-            <i class="fa-solid fa-rotate text-cyan-400 mb-2.5 text-xl"></i>
-            <span class="text-xs font-medium">스왑</span>
-        </button>
+    <section class="grid grid-cols-3 gap-3 px-4 mt-4">
+        <button class="btn-card p-4 flex flex-col items-center"><i class="fa-solid fa-rocket text-red-500 mb-2"></i><span class="text-xs">송금</span></button>
+        <button class="btn-card p-4 flex flex-col items-center"><i class="fa-solid fa-cart-shopping text-gray-400 mb-2"></i><span class="text-xs">결제</span></button>
+        <button class="btn-card p-4 flex flex-col items-center border-yellow-600"><i class="fa-solid fa-piggy-bank text-yellow-500 mb-2"></i><span class="text-xs font-bold text-yellow-500 text-nowrap">예치(31.4%)</span></button>
+        <button class="btn-card p-4 flex flex-col items-center"><i class="fa-solid fa-gift text-red-400 mb-2"></i><span class="text-xs">보상</span></button>
+        <button class="btn-card p-4 flex flex-col items-center"><i class="fa-solid fa-scale-balanced text-blue-400 mb-2"></i><span class="text-xs">기본소득</span></button>
+        <button class="btn-card p-4 flex flex-col items-center"><i class="fa-solid fa-rotate text-cyan-400 mb-2"></i><span class="text-xs">스왑</span></button>
     </section>
 
     <section class="mt-8 px-6">
-        <div class="staking-info mb-4 py-2">
-            <p class="text-yellow-500 text-xs font-black uppercase tracking-widest flex items-center gap-1.5">
-                <i class="fa-solid fa-chart-line"></i>
-                Staking 31.4% | 유동성 풀 $
-            </p>
-            <h3 class="text-3xl font-bold tracking-tight text-white mt-1">88,401,819,601</h3>
+        <div class="staking-info mb-4">
+            <p class="text-yellow-500 text-[10px] font-bold tracking-widest uppercase">STAKING 31.4% | 유동성 풀 $</p>
+            <h3 class="text-3xl font-bold">88,401,819,601</h3>
         </div>
-        
-        <div class="flex gap-2.5 mb-4">
-            <button class="flex-1 bg-white text-black font-extrabold py-3 rounded-lg text-sm hover:bg-gray-200">Pi 수량</button>
-            <button class="flex-1 bg-yellow-500 text-black font-extrabold py-3 rounded-lg text-sm hover:bg-yellow-400">SWAP</button>
-            <button class="flex-1 bg-green-500 text-white font-extrabold py-3 rounded-lg text-sm text-nowrap px-1 hover:bg-green-400">LP 공급</button>
+        <div class="flex gap-2">
+            <button class="flex-1 bg-white text-black font-bold py-3 rounded-lg text-xs">Pi 수량</button>
+            <button class="flex-1 bg-yellow-500 text-black font-bold py-3 rounded-lg text-xs">SWAP</button>
+            <button class="flex-1 bg-green-500 text-white font-bold py-3 rounded-lg text-xs">LP 공급</button>
         </div>
     </section>
 
-    <section class="px-4 flex gap-3 mt-6">
-        <button onclick="playVideo('youtube')" class="flex-1 bg-red-600 py-3.5 rounded-lg flex justify-center items-center gap-2.5 font-bold uppercase italic tracking-tighter shadow-lg hover:bg-red-500">
-            <i class="fa-brands fa-youtube text-lg"></i> YOUTUBE 
-        </button>
-        <button onclick="playVideo('tiktok')" class="flex-1 bg-black border border-gray-700 py-3.5 rounded-lg flex justify-center items-center gap-2.5 font-bold uppercase tracking-tighter hover:border-gray-500">
-            <i class="fa-brands fa-tiktok text-lg"></i> TIKTOK
+    <section class="px-4 mt-4">
+        <button class="w-full bg-red-600 py-4 rounded-xl font-bold flex justify-center items-center gap-2">
+            <i class="fa-solid fa-headset"></i> 글로벌 고객지원센터
         </button>
     </section>
 
-    <footer class="mt-12 px-6 text-center text-[10px] text-gray-600 border-t border-gray-900 pt-8">
-        <p class="mb-2">© 2026 HK GROUP GLOBAL MANAGEMENT GROUP</p>
-        <p class="mb-5 font-bold text-gray-400">CHAIRMAN LEE JAE-WAN [HK-FIGURE]</p>
-        
-        <div class="border border-cyan-900/50 bg-cyan-950/10 rounded-xl p-4 text-left mb-6">
-            <div class="flex items-center gap-3 text-cyan-400 mb-2">
+    <section class="px-4 flex gap-2 mt-4">
+        <a href="https://www.youtube.com" target="_blank" class="flex-1 bg-red-700 py-3 rounded-lg flex justify-center items-center gap-2 font-bold italic text-sm">
+            <i class="fa-brands fa-youtube"></i> YOUTUBE
+        </a>
+        <a href="https://www.tiktok.com" target="_blank" class="flex-1 bg-[#25f4ee]/10 border border-[#25f4ee]/30 py-3 rounded-lg flex justify-center items-center gap-2 font-bold text-sm text-white">
+            <i class="fa-brands fa-tiktok"></i> TIKTOK
+        </a>
+    </section>
+
+    <footer class="mt-10 px-6 text-center border-t border-gray-900 pt-8 pb-10">
+        <div class="bg-gray-900/50 rounded-lg p-4 mb-6 text-left border border-gray-800">
+            <div class="flex items-center gap-3 text-cyan-400 mb-3">
                 <i class="fa-solid fa-shield-halved text-xl"></i>
-                <div>
-                    <p class="font-bold text-sm">QUANTUM SHIELD ACTIVE</p>
-                    <p class="text-xs text-cyan-700">Level 5 Security Grid</p>
-                </div>
+                <span class="text-xs font-bold tracking-widest uppercase">HK Quantum Shield & Privacy</span>
             </div>
-            <div class="flex items-center gap-3 text-green-400">
-                <i class="fa-solid fa-robot text-xl"></i>
-                <div>
-                    <p class="font-bold text-sm">HK-ROBOT OPERATIONAL</p>
-                    <p class="text-xs text-green-700">AI Monitoring & Protection</p>
-                </div>
+            <div class="space-y-2 text-[10px] text-gray-500 leading-relaxed">
+                <p><i class="fa-solid fa-check text-green-500 mr-1"></i> **개인정보보호**: 모든 사용자 데이터는 256비트 양자 암호화로 보호됩니다.</p>
+                <p><i class="fa-solid fa-check text-green-500 mr-1"></i> **Form of Private**: 탈중앙화 개인 금융 보안 프로토콜(PoP)이 활성화되었습니다.</p>
+                <p><i class="fa-solid fa-robot text-green-500 mr-1"></i> **HK-ROBOT**: 실시간 AI 위협 탐지 및 자산 보호 시스템 가동 중.</p>
             </div>
         </div>
-        
-        <p class="opacity-50">本 플랫폼은 개인정보보호법 및 퀀텀 암호화 보안 체계를 준수하며, HK-ROBOT에 의해 실시간 관리됩니다.</p>
+        <p class="text-[9px] text-gray-600 uppercase tracking-widest">
+            Privacy Policy | Terms of Service | Form of Private Assets
+        </p>
     </footer>
 
-    <div id="video-player-container">
-        <span class="close-player" onclick="closePlayer()">&times;</span>
-        <iframe id="player-iframe" src="" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
-    </div>
-
-    <script>
-        // Language Selector Toggle
-        const langBtn = document.getElementById('lang-btn');
-        const langDropdown = document.getElementById('lang-dropdown');
-        langBtn.addEventListener('click', () => {
-            langDropdown.classList.toggle('hidden');
-        });
-
-        // Close dropdown when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!langBtn.contains(e.target) && !langDropdown.contains(e.target)) {
-                langDropdown.classList.add('hidden');
-            }
-        });
-
-        // Video Player Logic
-        function playVideo(platform) {
-            const container = document.getElementById('video-player-container');
-            const iframe = document.getElementById('player-iframe');
-            
-            let embedUrl = '';
-            if (platform === 'youtube') {
-                // 예시 유튜브 영상 ID (여기에 형님의 채널 영상 ID를 넣으세요)
-                embedUrl = 'https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1'; 
-            } else if (platform === 'tiktok') {
-                // 예시 틱톡 임베드 주소 (여기에 형님의 틱톡 채널 임베드 코드를 넣으세요)
-                embedUrl = 'https://www.tiktok.com/embed/v/7281488926978411783';
-            }
-            
-            iframe.src = embedUrl;
-            container.style.display = 'flex';
-        }
-
-        function closePlayer() {
-            const container = document.getElementById('video-player-container');
-            const iframe = document.getElementById('player-iframe');
-            
-            iframe.src = ''; // Stop video
-            container.style.display = 'none';
-        }
-    </script>
 </body>
 </html>
