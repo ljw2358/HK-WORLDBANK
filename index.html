@@ -3,140 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>HK WORLD BANK GLOBAL</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
-        body { background: #000; color: #fff; font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
-        .container-global { max-width: 480px; margin: 0 auto; min-height: 100vh; position: relative; padding-bottom: 50px; }
-        
-        /* 자산 숫자 그라데이션 및 자동 크기 조절 */
-        .asset-text {
-            background: linear-gradient(180deg, #FFFFFF 0%, #FFD700 100%);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            font-size: clamp(3rem, 15vw, 5rem); font-weight: 900; line-height: 1;
-        }
-
-        /* 20개국어 드롭다운 스크롤박스 */
-        #lang-box {
-            display: none; position: absolute; right: 15px; top: 60px;
-            width: 180px; max-height: 300px; overflow-y: auto;
-            background: #111; border: 1px solid #333; border-radius: 12px; z-index: 1000;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-        .lang-item { padding: 12px 15px; border-bottom: 1px solid #222; cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 13px; }
-        .lang-item:hover { background: #222; }
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;900&display=swap');
+        body { background: #000; color: #fff; font-family: 'Noto Sans KR', sans-serif; overflow-x: hidden; }
+        /* 화면 깨짐 방지: 폰트 크기 자동 조절 */
+        .asset-val { font-size: clamp(3rem, 16vw, 6rem); font-weight: 900; background: linear-gradient(180deg, #FFF 20%, #FFD700 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1.1; }
+        /* 20개국어 스크롤박스 */
+        #lang-menu { display: none; position: absolute; right: 0; top: 55px; width: 180px; max-height: 350px; overflow-y: auto; background: #111; border: 1px solid #333; border-radius: 15px; z-index: 9999; box-shadow: 0 10px 30px rgba(0,0,0,1); }
+        .l-item { padding: 12px 15px; border-bottom: 1px solid #222; cursor: pointer; font-size: 14px; display: flex; align-items: center; gap: 10px; }
+        .l-item:hover { background: #1a1a1a; }
     </style>
 </head>
-<body>
+<body class="max-w-md mx-auto p-6 min-h-screen relative">
 
-<div class="container-global">
-    <header class="p-5 flex justify-between items-center border-b border-zinc-900">
-        <h1 class="text-xl font-black text-yellow-500 tracking-tighter italic">HK WORLD BANK</h1>
+    <div class="flex justify-between items-center relative mb-12">
+        <h1 class="text-xl font-black text-yellow-500 italic tracking-tighter">HK WORLD BANK</h1>
         <div class="relative">
-            <button onclick="toggleLang()" class="bg-zinc-900 border border-zinc-700 px-3 py-1.5 rounded-full flex items-center gap-2 text-[11px] font-bold">
-                <img id="flag-main" src="https://flagcdn.com/w20/kr.png" class="w-4 h-3 object-cover">
-                <span id="lang-name">KOREA</span>
-                <i class="fa-solid fa-chevron-down text-zinc-500"></i>
+            <button onclick="document.getElementById('lang-menu').style.display='block'" class="bg-zinc-900 border border-zinc-700 px-4 py-2 rounded-full text-[11px] font-bold flex items-center gap-2">
+                <img id="cur-f" src="https://flagcdn.com/w20/kr.png" class="w-4 h-3"> <span id="cur-n">KOREA</span> <i class="fa-solid fa-caret-down text-zinc-600"></i>
             </button>
-            <div id="lang-box">
-                <div class="lang-item" onclick="setLang('KR', 'kr', 'KOREA')"><img src="https://flagcdn.com/w20/kr.png" class="w-4"> 한국어</div>
-                <div class="lang-item" onclick="setLang('US', 'us', 'USA')"><img src="https://flagcdn.com/w20/us.png" class="w-4"> English</div>
-                <div class="lang-item" onclick="setLang('CN', 'cn', 'CHINA')"><img src="https://flagcdn.com/w20/cn.png" class="w-4"> 中文</div>
-                <div class="lang-item" onclick="setLang('JP', 'jp', 'JAPAN')"><img src="https://flagcdn.com/w20/jp.png" class="w-4"> 日本語</div>
-                <div class="lang-item" onclick="setLang('SA', 'sa', 'ARABIC')"><img src="https://flagcdn.com/w20/sa.png" class="w-4"> العربية</div>
-                <div class="lang-item" onclick="setLang('RU', 'ru', 'RUSSIA')"><img src="https://flagcdn.com/w20/ru.png" class="w-4"> Русский</div>
-                <div class="lang-item" onclick="setLang('DE', 'de', 'GERMANY')"><img src="https://flagcdn.com/w20/de.png" class="w-4"> Deutsch</div>
-                <div class="lang-item" onclick="setLang('FR', 'fr', 'FRANCE')"><img src="https://flagcdn.com/w20/fr.png" class="w-4"> Français</div>
-                <div class="lang-item" onclick="setLang('ES', 'es', 'SPAIN')"><img src="https://flagcdn.com/w20/es.png" class="w-4"> Español</div>
-                <div class="lang-item" onclick="setLang('BR', 'br', 'BRAZIL')"><img src="https://flagcdn.com/w20/br.png" class="w-4"> Português</div>
-                </div>
-        </div>
-    </header>
-
-    <main class="mt-8 px-6 text-center">
-        <p id="lbl-ledger" class="text-xs font-bold text-zinc-500 uppercase tracking-widest mb-4">MAIN ASSET INTEGRATED LEDGER</p>
-        <div class="asset-text italic">400.0212</div>
-        <p class="text-4xl font-black text-yellow-600 mt-2 italic">Pi</p>
-        
-        <div class="mt-8 py-4 px-2 border-2 border-green-500/50 bg-green-500/5 rounded-full inline-block min-w-[280px]">
-            <span id="lbl-gcv" class="text-green-400 font-black text-lg italic italic">가치 평가: $ 125,663,600 (GCV)</span>
-        </div>
-    </main>
-
-    <div class="grid grid-cols-3 gap-3 px-6 mt-10">
-        <div class="bg-zinc-900/50 border border-zinc-800 p-5 rounded-2xl flex flex-col items-center">
-            <i class="fa-solid fa-paper-plane text-red-500 text-xl mb-2"></i>
-            <span id="m-1" class="text-[10px] font-bold">송금</span>
-        </div>
-        <div class="bg-zinc-900/50 border border-zinc-800 p-5 rounded-2xl flex flex-col items-center">
-            <i class="fa-solid fa-cart-shopping text-zinc-400 text-xl mb-2"></i>
-            <span id="m-2" class="text-[10px] font-bold">결제</span>
-        </div>
-        <div class="bg-zinc-900/80 border border-yellow-600 ring-1 ring-yellow-500/20 p-5 rounded-2xl flex flex-col items-center">
-            <i class="fa-solid fa-vault text-yellow-500 text-xl mb-2"></i>
-            <span id="m-3" class="text-[10px] font-black text-yellow-500">예치(31.4%)</span>
+            <div id="lang-menu">
+                <div class="l-item" onclick="setL('KR','kr','KOREA')"><img src="https://flagcdn.com/w20/kr.png" class="w-4"> 한국어</div>
+                <div class="l-item" onclick="setL('US','us','USA')"><img src="https://flagcdn.com/w20/us.png" class="w-4"> English</div>
+                <div class="l-item" onclick="setL('CN','cn','CHINA')"><img src="https://flagcdn.com/w20/cn.png" class="w-4"> 中文</div>
+                <div class="l-item" onclick="setL('VN','vn','VIETNAM')"><img src="https://flagcdn.com/w20/vn.png" class="w-4"> Tiếng Việt</div>
+                <div class="l-item" onclick="setL('SA','sa','ARABIA')"><img src="https://flagcdn.com/w20/sa.png" class="w-4"> العربية</div>
+                <div class="l-item" onclick="setL('RU','ru','RUSSIA')"><img src="https://flagcdn.com/w20/ru.png" class="w-4"> Русский</div>
+                <div class="l-item" onclick="setL('JP','jp','JAPAN')"><img src="https://flagcdn.com/w20/jp.png" class="w-4"> 日本語</div>
+                <div class="l-item" onclick="setL('DE','de','GERMANY')"><img src="https://flagcdn.com/w20/de.png" class="w-4"> Deutsch</div>
+                <div class="l-item" onclick="setL('FR','fr','FRANCE')"><img src="https://flagcdn.com/w20/fr.png" class="w-4"> Français</div>
+                <div class="l-item" onclick="setL('BR','br','BRAZIL')"><img src="https://flagcdn.com/w20/br.png" class="w-4"> Português</div>
+            </div>
         </div>
     </div>
 
-    <div class="px-6 mt-12 space-y-4">
-        <button id="btn-cs" class="w-full bg-red-600 py-5 rounded-2xl font-black text-xl shadow-lg">
-            <i class="fa-solid fa-headset mr-2"></i> 고객지원센터
-        </button>
+    <div class="text-center mb-10">
+        <p id="t-l" class="text-zinc-500 text-[10px] font-black tracking-widest uppercase mb-4">MAIN ASSET INTEGRATED LEDGER</p>
+        <div class="asset-val italic">400.0212</div>
+        <p class="text-4xl font-black text-yellow-500 italic mt-2">Pi</p>
+        <div class="mt-8 border-2 border-green-500 bg-green-500/5 rounded-full py-3 px-8 inline-block">
+            <span id="t-g" class="text-green-400 font-black text-lg italic">가치 평가: $ 125,663,600 (GCV)</span>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-3 gap-3 mb-12">
+        <div class="bg-zinc-900 p-5 rounded-2xl border border-zinc-800 text-center shadow-lg"><i class="fa-solid fa-paper-plane text-red-500 text-xl mb-2"></i><p id="b1" class="text-[10px] font-bold">송금</p></div>
+        <div class="bg-zinc-900 p-5 rounded-2xl border border-zinc-800 text-center opacity-40"><i class="fa-solid fa-cart-shopping text-zinc-500 text-xl mb-2"></i><p id="b2" class="text-[10px] font-bold">결제</p></div>
+        <div class="bg-zinc-900 p-5 rounded-2xl border border-yellow-600 text-center ring-2 ring-yellow-500/10"><i class="fa-solid fa-vault text-yellow-500 text-xl mb-2"></i><p id="b3" class="text-[10px] font-black text-yellow-500 italic">예치(31.4%)</p></div>
+    </div>
+
+    <div class="space-y-4">
+        <button id="b-cs" class="w-full bg-red-600 py-5 rounded-2xl font-black text-xl shadow-2xl">글로벌 고객지원센터</button>
         <div class="flex gap-4">
-            <a href="https://www.youtube.com/@Hyekong2025" target="_blank" class="flex-1 bg-[#FF0000] py-4 rounded-2xl flex justify-center items-center gap-2 font-black text-xs">
-                <i class="fa-brands fa-youtube text-lg"></i> YOUTUBE
-            </a>
-            <a href="https://www.tiktok.com/@hyekong2025" target="_blank" class="flex-1 bg-[#000] border border-zinc-700 py-4 rounded-2xl flex justify-center items-center gap-2 font-black text-xs text-white">
-                <i class="fa-brands fa-tiktok text-lg"></i> TIKTOK
-            </a>
+            <a href="https://www.youtube.com/@Hyekong2025" target="_blank" class="flex-1 bg-red-600 py-4 rounded-2xl text-center font-black text-xs">YOUTUBE</a>
+            <a href="https://www.tiktok.com/@hyekong2025" target="_blank" class="flex-1 bg-zinc-900 border border-zinc-800 py-4 rounded-2xl text-center font-black text-xs">TIKTOK</a>
         </div>
     </div>
 
-    <footer class="mt-16 px-8 text-center pb-10">
-        <div class="bg-zinc-950 p-6 rounded-3xl border border-zinc-900 text-[9px] text-zinc-600 text-left space-y-2">
-            <p class="text-cyan-500 font-black text-center mb-2 tracking-widest uppercase">HK_QUANTUM_SECURITY_ACTIVE</p>
-            <p id="s-1">● Quantum Encryption: All personal data secured</p>
-            <p id="s-2">● Decentralized Protocol: HK-WorldBank System</p>
-            <p id="s-3">● Real-time AI Shield: Powered by HK-ROBOT</p>
-        </div>
-        <p class="text-[8px] text-zinc-800 mt-10 uppercase">CHAIRMAN JAE-WAN LEE | HK HOLDINGS GLOBAL</p>
-    </footer>
-</div>
+    <script>
+        function setL(c, f, n) {
+            document.getElementById('cur-f').src = `https://flagcdn.com/w20/${f}.png`;
+            document.getElementById('cur-n').innerText = n;
+            document.getElementById('lang-menu').style.display = 'none';
+            
+            // 20개국 대응 딕셔너리
+            const dict = {
+                'KR': {l:'메인 자산 통합 원장', g:'가치 평가: $ 125,663,600 (GCV)', b1:'송금', b2:'결제', b3:'예치(31.4%)', cs:'글로벌 고객지원센터'},
+                'US': {l:'MAIN ASSET INTEGRATED LEDGER', g:'VALUATION: $ 125,663,600 (GCV)', b1:'SEND', b2:'PAY', b3:'STAKE(31.4%)', cs:'SUPPORT CENTER'},
+                'CN': {l:'主资产综合账本', g:'估值: $ 125,663,600 (GCV)', b1:'转账', b2:'支付', b3:'质押', cs:'客服中心'},
+                'SA': {l:'دفتر الأصول الرئيسي', g:'التقييم: $ 125,663,600 (GCV)', b1:'إرسال', b2:'دفع', b3:'رهان', cs:'مركز الدعم'},
+                'RU': {l:'ГЛАВНЫЙ КНИГА АКТИВОВ', g:'ОЦЕНКА: $ 125,663,600 (GCV)', b1:'ОТПРАВИТЬ', b2:'ОПЛАТИТЬ', b3:'СТЕЙКИНГ', cs:'ПОДДЕРЖКА'}
+            };
 
-<script>
-    function toggleLang() {
-        const b = document.getElementById('lang-box');
-        b.style.display = (b.style.display === 'block') ? 'none' : 'block';
-    }
+            const s = dict[c] || dict['US'];
+            document.getElementById('t-l').innerText = s.l;
+            document.getElementById('t-g').innerText = s.g;
+            document.getElementById('b1').innerText = s.b1;
+            document.getElementById('b2').innerText = s.b2;
+            document.getElementById('b3').innerText = s.b3;
+            document.getElementById('b-cs').innerText = s.cs;
+        }
 
-    // 20개국어 대응 로직 (샘플)
-    function setLang(code, flag, name) {
-        document.getElementById('flag-main').src = `https://flagcdn.com/w20/${flag}.png`;
-        document.getElementById('lang-name').innerText = name;
-        document.getElementById('lang-box').style.display = 'none';
-
-        const dict = {
-            'KR': { l:'메인 자산 통합 원장', g:'가치 평가: $ 125,663,600 (GCV)', m1:'송금', m2:'결제', m3:'예치(31.4%)', cs:'고객지원센터' },
-            'US': { l:'MAIN ASSET INTEGRATED LEDGER', g:'VALUATION: $ 125,663,600 (GCV)', m1:'SEND', m2:'PAY', m3:'STAKE(31.4%)', cs:'SUPPORT CENTER' },
-            'CN': { l:'主资产综合账本', g:'估值: $ 125,663,600 (GCV)', m1:'转账', m2:'支付', m3:'质押(31.4%)', cs:'客服中心' },
-            'SA': { l:'دفتر الأصول الرئيسي', g:'التقييم: $ 125,663,600 (GCV)', m1:'إرسال', m2:'دفع', m3:'رهان', cs:'مركز الدعم' },
-            'RU': { l:'ГЛАВНЫЙ КНИГА АКТИВОВ', g:'ОЦЕНКА: $ 125,663,600 (GCV)', m1:'ОТПРАВИТЬ', m2:'ОПЛАТИТЬ', m3:'СТЕЙКИНГ', cs:'ПОДДЕРЖКА' }
-        };
-
-        const s = dict[code] || dict['US'];
-        document.getElementById('lbl-ledger').innerText = s.l;
-        document.getElementById('lbl-gcv').innerText = s.g;
-        document.getElementById('m-1').innerText = s.m1;
-        document.getElementById('m-2').innerText = s.m2;
-        document.getElementById('m-3').innerText = s.m3;
-        document.getElementById('btn-cs').innerHTML = `<i class="fa-solid fa-headset mr-2"></i> ${s.cs}`;
-    }
-
-    window.onclick = function(e) {
-        if (!e.target.closest('.relative')) document.getElementById('lang-box').style.display='none';
-    }
-</script>
+        window.onclick = function(e) { 
+            if(!e.target.closest('.relative')) document.getElementById('lang-menu').style.display='none'; 
+        }
+    </script>
 </body>
 </html>
