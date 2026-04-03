@@ -3,182 +3,103 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
-    <title>HK WORLD BANK - Main Ledger</title>
+    <title>HK-WorldBank Ledger Final</title>
     <style>
-        :root {
-            --gold: #D4AF37;
-            --black: #0a0a0a;
-            --red-btn: linear-gradient(45deg, #cc0000, #ff4d4d);
-            --dark-gray: #1a1a1a;
-        }
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
-        body {
-            background-color: var(--black);
-            color: white;
-            font-family: 'Noto Sans KR', 'Noto Sans SC', sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-        /* 화면 자동 맞춤 컨테이너 */
-        .app-container {
-            width: 100%;
-            max-width: 450px; /* 모바일/태블릿 최적화 크기 */
-            padding: 20px;
-            text-align: center;
-            position: relative;
-        }
-        /* 상단 언어 선택 (20개국어) */
-        .lang-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        .hk-logo { color: var(--gold); font-weight: bold; font-size: 1.2rem; text-align: left; line-height: 1.2; }
-        .lang-select {
-            background: #222;
-            color: #fff;
-            border: 1px solid var(--gold);
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-        }
-        /* 자산 표시 섹션 */
-        .asset-title { color: #888; font-size: 0.9rem; margin-top: 30px; }
-        .asset-value { font-size: 3rem; color: var(--gold); font-weight: bold; margin: 10px 0; font-style: italic; }
-        .pi-label { font-size: 1.5rem; color: var(--gold); margin-bottom: 15px; }
-        .gcv-box {
-            border: 1px solid #00ff00;
-            color: #00ff00;
-            padding: 8px 15px;
-            border-radius: 20px;
-            display: inline-block;
-            font-size: 0.9rem;
-            margin-bottom: 30px;
-        }
-        /* 그리드 메뉴 */
-        .menu-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1-fr);
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-        .menu-item {
-            background: var(--dark-gray);
-            padding: 15px 5px;
-            border-radius: 10px;
-            font-size: 0.8rem;
-            border: 1px solid #333;
-        }
-        .menu-item.active { border: 1px solid var(--gold); color: var(--gold); }
+        :root { --gold: #FFD700; --black: #000; --red: #FF0000; --cyan: #00f2ea; --gray: #1a1a1a; }
+        body { background: var(--black); color: white; font-family: 'Arial', sans-serif; margin: 0; padding: 0; text-align: center; }
+        .container { width: 100%; max-width: 450px; margin: 0 auto; padding: 20px; box-sizing: border-box; }
+        
+        /* 상단 브랜딩 */
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .brand { text-align: left; color: var(--gold); font-weight: bold; font-size: 1.3rem; }
+        .lang-select { background: #222; color: #fff; border: 1px solid var(--gold); padding: 5px 10px; border-radius: 20px; font-size: 0.8rem; }
 
-        /* 핵심 버튼들 */
-        .long-btn {
-            width: 100%;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 10px;
-            font-weight: bold;
-            text-decoration: none;
-            display: block;
-            text-transform: none; /* 대소문자 강제변환 방지 */
-        }
-        .btn-red { background: var(--red-btn); color: white; }
-        .btn-youtube { background: #FF0000; color: white; margin-top: 10px; }
-        .btn-tiktok { background: #000; color: white; border: 1px solid #00f2ea; }
+        /* 자산 정보 */
+        .asset-label { color: #888; font-size: 0.9rem; margin-top: 20px; }
+        .asset-val { font-size: 3.5rem; color: var(--gold); font-weight: bold; margin: 5px 0; font-style: italic; }
+        .pi-unit { color: var(--gold); font-size: 1.5rem; margin-bottom: 15px; }
+        .gcv-badge { border: 1px solid #00FF00; color: #00FF00; padding: 8px 20px; border-radius: 25px; font-size: 0.95rem; margin-bottom: 30px; display: inline-block; }
 
-        /* 보안 텍스트 */
-        .security-info {
-            background: rgba(0,255,255,0.05);
-            border: 1px dashed #008080;
-            padding: 15px;
-            border-radius: 10px;
-            margin-top: 30px;
-            text-align: left;
-            font-size: 0.75rem;
-            color: #00cccc;
-        }
+        /* 형님 지시 6대 핵심 메뉴 (수량 스왑 / LP 공급 전면 배치) */
+        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 30px; }
+        .menu-item { background: var(--gray); border: 1px solid #333; padding: 20px 5px; border-radius: 12px; font-weight: bold; font-size: 1rem; color: #fff; }
+        .active { border: 1px solid var(--gold); color: var(--gold); }
+
+        /* 하단 버튼 및 소셜 (YouTube / tiktok 고수) */
+        .full-btn { width: 100%; padding: 18px; border-radius: 12px; font-weight: bold; margin-bottom: 12px; border: none; font-size: 1.1rem; display: block; text-decoration: none; text-align: center; }
+        .btn-red { background: var(--red); color: white; }
+        .social-row { display: flex; gap: 10px; }
+        .yt { background: var(--red); color: white; flex: 1; text-transform: none; }
+        .tt { background: var(--black); color: white; border: 1px solid var(--cyan); flex: 1; text-transform: none; }
+
+        /* 보안 퀀텀 쉴드 */
+        .secure-box { background: rgba(0,242,234,0.03); border: 1px dashed #005555; padding: 15px; border-radius: 10px; text-align: left; font-size: 0.8rem; color: var(--cyan); line-height: 1.7; margin-top: 20px; }
     </style>
 </head>
 <body>
 
-<div class="app-container">
-    <div class="lang-header">
-        <div class="hk-logo">HK WORLD BANK<br><span style="font-size: 0.6rem; color: #888;">GLOBAL INDUSTRIAL LEADER</span></div>
-        <select class="lang-select" onchange="changeLang(this.value)">
-            <option value="ko">🇰🇷 KR</option>
-            <option value="en">🇺🇸 EN</option>
-            <option value="zh">🇨🇳 CN</option>
-            <option value="ar">🇸🇦 AR</option>
-            <option value="es">🇪🇸 ES</option>
-            <option value="pt">BR PT</option>
-            <option value="uk">🇺🇦 UKR</option>
-            <option value="ru">🇷🇺 RU</option>
-            <option value="ja">🇯🇵 JP</option>
-            <option value="fr">🇫🇷 FR</option>
-            <option value="de">🇩🇪 DE</option>
-            <option value="hi">🇮🇳 HI</option>
-            <option value="vi">🇻🇳 VN</option>
-            <option value="id">🇮🇩 ID</option>
-            <option value="th">🇹🇭 TH</option>
-            <option value="tr">🇹🇷 TR</option>
-            <option value="it">🇮🇹 IT</option>
-            <option value="pl">🇵🇱 PL</option>
-            <option value="nl">🇳🇱 NL</option>
-            <option value="fa">🇮🇷 FA</option>
+<div class="container">
+    <div class="header">
+        <div class="brand">HK WORLD BANK<br><span style="font-size: 0.6rem; color: #888;">GLOBAL INDUSTRIAL LEADER</span></div>
+        <select class="lang-select" onchange="applyLang(this.value)">
+            <option value="ko">🇰🇷 한국어</option>
+            <option value="en">🇺🇸 English</option>
+            <option value="zh">🇨🇳 中文</option>
+            <option value="vi">🇻🇳 Tiếng Việt</option>
         </select>
     </div>
 
-    <p id="txt-title" class="asset-title">주자산 종합 원장</p>
-    <div class="asset-value">400.0212</div>
-    <div class="pi-label">Pi</div>
-
-    <div class="gcv-box">估盤: $ 125,663,600 (GCV)</div>
+    <div id="txt-title" class="asset-label">주자산 종합 원장</div>
+    <div class="asset-val">400.0212</div>
+    <div class="pi-unit">Pi</div>
+    <div class="gcv-badge">估盤: $ 125,663,600 (GCV)</div>
 
     <div class="menu-grid">
-        <div class="menu-item" id="m1">이체</div>
-        <div class="menu-item" id="m2">결제</div>
+        <div class="menu-item" id="m1">수량 스왑</div>
+        <div class="menu-item" id="m2">LP 공급</div>
         <div class="menu-item active" id="m3">예치(31.4%)</div>
-        <div class="menu-item" id="m4">보상</div>
-        <div class="menu-item" id="m5">기본소득</div>
+        <div class="menu-item" id="m4">자산 이전</div>
+        <div class="menu-item" id="m5">기본 소득</div>
         <div class="menu-item" id="m6">스테이킹</div>
     </div>
 
-    <a href="#" class="long-btn btn-red" id="txt-support">고객센터</a>
-    
-    <div style="display: flex; gap: 10px;">
-        <a href="#" class="long-btn btn-youtube" style="flex: 1;">YouTube</a>
-        <a href="#" class="long-btn btn-tiktok" style="flex: 1;">tiktok</a>
+    <a href="#" class="full-btn btn-red" id="txt-support">고객센터</a>
+
+    <div class="social-row">
+        <a href="#" class="full-btn yt">YouTube</a>
+        <a href="#" class="full-btn tt">tiktok</a>
     </div>
 
-    <div class="security-info">
-        <strong id="sec-title">HK_QUANTUM_SHIELD_ACTIVE</strong><br><br>
-        ● <span id="sec-1">개인정보보호법 준수: 양자 암호화 보안 적용</span><br>
-        ● <span id="sec-2">Form of Private: 자산 보호 프로토콜 가동</span><br>
-        ● <span id="sec-3">HK-ROBOT: AI 실시간 위험 탐지 중</span>
+    <div class="secure-box">
+        <strong id="sec-title">HK_QUANTUM_SHIELD_ACTIVE</strong><br>
+        ● <span id="s1">개인정보보호법 준수: 양자 암호화 보안 적용</span><br>
+        ● <span id="s2">자원 보호 프로토콜: Form of Private 가동 중</span><br>
+        ● <span id="s3">AI 실시간 감시: HK-ROBOT 위험 탐지 중</span>
     </div>
 </div>
 
 <script>
-    const langData = {
-        'ko': { title: "주자산 종합 원장", support: "고객센터", secTitle: "보안 활성화 중", m1:"이체", m2:"결제", m3:"예치(31.4%)" },
-        'en': { title: "Main Asset Ledger", support: "Support Center", secTitle: "Security Active", m1:"Transfer", m2:"Payment", m3:"Staking(31.4%)" },
-        'zh': { title: "主资产综合账本", support: "客服中心", secTitle: "安全激活中", m1:"转账", m2:"支付", m3:"质押(31.4%)" }
-        // 형님, 나머지 언어들도 이 포맷으로 다 채워넣을 수 있습니다.
+    const dictionary = {
+        ko: { title: "주자산 종합 원장", m1: "수량 스왑", m2: "LP 공급", m3: "예치(31.4%)", m4: "자산 이전", m5: "기본 소득", m6: "스테이킹", support: "고객센터", sec: "보안 활성화 중", s1: "개인정보보호법 준수: 양자 암호화 보안 적용", s2: "자원 보호 프로토콜: Form of Private 가동 중", s3: "AI 실시간 감시: HK-ROBOT 위험 탐지 중" },
+        en: { title: "Main Asset Ledger", m1: "Quantity Swap", m2: "LP Supply", m3: "Staking(31.4%)", m4: "Asset Transfer", m5: "Basic Income", m6: "Stake Assets", support: "Support Center", sec: "Security Active", s1: "Privacy Law: Quantum Encryption Applied", s2: "Asset Protection: Form of Private Active", s3: "AI Surveillance: HK-ROBOT Monitoring" },
+        zh: { title: "主资产综合账本", m1: "数量交换", m2: "流动性供应", m3: "质押(31.4%)", m4: "资产转移", m5: "基本收入", m6: "质押收益", support: "客服中心", sec: "安全激活中", s1: "隐私法：应用量子加密", s2: "资产保护：私有形式激活", s3: "AI监控：HK-ROBOT 正在监测" },
+        vi: { title: "Sổ cái tài sản chính", m1: "Hoán đổi", m2: "Cung cấp LP", m3: "Gửi tiết kiệm(31.4%)", m4: "Chuyển tài sản", m5: "Thu nhập cơ bản", m6: "Đặt cọc", support: "Trung tâm hỗ trợ", sec: "Bảo mật hoạt động", s1: "Bảo mật lượng tử", s2: "Giao thức bảo vệ riêng tư", s3: "AI giám sát rủi ro" }
     };
 
-    function changeLang(lang) {
-        const d = langData[lang] || langData['en'];
-        document.getElementById('txt-title').innerText = d.title;
-        document.getElementById('txt-support').innerText = d.support;
-        document.getElementById('sec-title').innerText = d.secTitle;
-        document.getElementById('m1').innerText = d.m1;
-        document.getElementById('m2').innerText = d.m2;
-        document.getElementById('m3').innerText = d.m3;
-        // ... 필요한 부분 계속 추가
+    function applyLang(lang) {
+        const l = dictionary[lang];
+        document.getElementById('txt-title').innerText = l.title;
+        document.getElementById('m1').innerText = l.m1;
+        document.getElementById('m2').innerText = l.m2;
+        document.getElementById('m3').innerText = l.m3;
+        document.getElementById('m4').innerText = l.m4;
+        document.getElementById('m5').innerText = l.m5;
+        document.getElementById('m6').innerText = l.m6;
+        document.getElementById('txt-support').innerText = l.support;
+        document.getElementById('sec-title').innerText = l.sec;
+        document.getElementById('s1').innerText = l.s1;
+        document.getElementById('s2').innerText = l.s2;
+        document.getElementById('s3').innerText = l.s3;
     }
 </script>
 
