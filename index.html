@@ -11,17 +11,15 @@
             --hk-gold: #FFD700;
             --hk-dark: #000000;
             --hk-green: #00FF00;
+            --hk-red: #FF3B30;
             --hk-blue: #007AFF;
             --hk-orange: #FF9500;
-            --hk-red: #FF3B30;
             --hk-purple: #AF52DE;
         }
         body {
             margin: 0; background-color: var(--hk-dark); color: white;
-            font-family: 'Pretendard', sans-serif; -webkit-font-smoothing: antialiased;
+            font-family: 'Pretendard', -apple-system, sans-serif;
         }
-
-        /* 언어 선택 (15개국 대응) */
         .top-bar {
             display: flex; justify-content: space-between; align-items: center;
             padding: 15px 20px; background: #111;
@@ -29,23 +27,19 @@
         .brand { font-size: 20px; font-weight: 900; color: var(--hk-gold); }
         .lang-select {
             background: #222; color: white; border: 1px solid #444;
-            padding: 5px; border-radius: 5px; font-size: 12px;
+            padding: 6px; border-radius: 6px; font-size: 12px;
         }
-
-        /* 메인 카드 */
         .asset-card {
             margin: 15px; padding: 30px 15px; background: #0a0a0a;
             border-radius: 25px; text-align: center; border: 1px solid #222;
         }
-        .ledger-title { color: #888; font-size: 13px; margin-bottom: 10px; }
+        .ledger-title { color: #888; font-size: 14px; margin-bottom: 12px; }
         .amount { font-size: 42px; font-weight: 800; margin: 10px 0; }
-        .pi { color: var(--hk-gold); font-size: 24px; }
+        .pi-text { color: var(--hk-gold); font-size: 24px; margin-left: 5px; }
         .gcv-box {
             display: inline-block; padding: 8px 20px; border-radius: 30px;
             border: 1px solid var(--hk-green); color: var(--hk-green); font-weight: bold; font-size: 14px;
         }
-
-        /* 아이콘 컬러 그리드 */
         .menu-grid {
             display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; padding: 15px;
         }
@@ -55,65 +49,60 @@
         }
         .menu-item i { font-size: 24px; margin-bottom: 10px; display: block; }
         .menu-item span { font-size: 13px; font-weight: 500; }
-
-        /* 아이콘 컬러 설정 */
         .fa-paper-plane { color: var(--hk-blue); }
         .fa-shopping-cart { color: var(--hk-orange); }
         .fa-piggy-bank { color: var(--hk-gold); }
         .fa-gift { color: var(--hk-red); }
         .fa-balance-scale { color: var(--hk-purple); }
         .fa-sync { color: var(--hk-green); }
-
-        /* 스테이킹 정보 */
         .staking-info { padding: 20px; }
         .staking-header { color: var(--hk-gold); font-size: 12px; font-weight: bold; margin-bottom: 5px; }
         .staking-val { font-size: 32px; font-weight: 800; }
-
-        /* 하단 버튼 */
-        .btn-group { display: flex; gap: 8px; padding: 0 15px 20px; }
-        .btn-group button { flex: 1; padding: 12px; border-radius: 10px; border: none; font-weight: bold; font-size: 13px; }
-        
+        .btn-row { display: flex; gap: 8px; padding: 0 15px 15px; }
+        .btn-row button { flex: 1; padding: 12px; border-radius: 10px; border: none; font-weight: bold; font-size: 13px; }
         .cs-btn {
             background: var(--hk-red); color: white; width: calc(100% - 30px);
             margin: 0 15px 15px; padding: 15px; border-radius: 12px; border: none; font-weight: bold;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
         }
-        
-        .social-row { display: flex; gap: 10px; padding: 0 15px 30px; }
-        .social-row a { flex: 1; padding: 15px; border-radius: 12px; text-decoration: none; color: white; font-weight: bold; text-align: center; }
+        .social-btns { display: flex; gap: 10px; padding: 0 15px 20px; }
+        .social-btns a { flex: 1; padding: 15px; border-radius: 12px; text-decoration: none; color: white; font-weight: bold; text-align: center; }
         .yt { background: #FF0000; } .tk { background: #000; border: 1px solid #333; }
-
-        /* 정책 정보 */
-        .policy-links { text-align: center; padding: 20px; border-top: 1px solid #222; }
-        .policy-links a { color: #666; font-size: 12px; text-decoration: none; margin: 0 10px; }
+        .bottom-highlight {
+            background: #111; padding: 20px; text-align: center; border-top: 1px solid #333;
+        }
+        .apy-text { font-size: 18px; font-weight: bold; color: var(--hk-gold); }
+        .policy-area { text-align: center; padding: 20px; font-size: 11px; color: #555; }
+        .policy-area a { color: #666; text-decoration: none; margin: 0 10px; }
     </style>
 </head>
 <body>
 
     <div class="top-bar">
         <div class="brand">HK WORLD BANK</div>
-        <select class="lang-select" id="langBox" onchange="updateLang()">
+        <select class="lang-select" id="langSelect" onchange="translate()">
             <option value="ko">한국어 🇰🇷</option>
             <option value="en">English 🇺🇸</option>
             <option value="zh">中文 🇨🇳</option>
             <option value="ja">日本語 🇯🇵</option>
             <option value="vi">Tiếng Việt 🇻🇳</option>
-            <option value="id">Bahasa 🇮🇩</option>
+            <option value="id">Bahasa ID 🇮🇩</option>
+            <option value="th">ไทย 🇹🇭</option>
             <option value="hi">हिन्दी 🇮🇳</option>
             <option value="es">Español 🇪🇸</option>
             <option value="fr">Français 🇫🇷</option>
-            <option value="de">Deutsch DE</option>
-            <option value="ru">Русский RU</option>
-            <option value="pt">Português PT</option>
-            <option value="tr">Türkçe TR</option>
+            <option value="de">Deutsch 🇩🇪</option>
+            <option value="ru">Русский 🇷🇺</option>
+            <option value="pt">Português 🇵🇹</option>
+            <option value="tr">Türkçe 🇹🇷</option>
             <option value="ar">العربية 🇸🇦</option>
-            <option value="th">ไทย 🇹🇭</option>
         </select>
     </div>
 
     <div class="asset-card">
-        <div class="ledger-title" id="t-ledger">메인 자산 통합 원장</div>
-        <div class="amount">400.0212 <span class="pi">Pi</span></div>
-        <div class="gcv-box" id="t-gcv">가치 평가: $ 125,663,600 (GCV)</div>
+        <div class="ledger-title" id="txt-ledger">메인 자산 통합 원장</div>
+        <div class="amount">400.0212 <span class="pi-text">Pi</span></div>
+        <div class="gcv-box" id="txt-gcv">가치 평가: $ 125,663,600 (GCV)</div>
     </div>
 
     <div class="menu-grid">
@@ -130,7 +119,7 @@
         <div class="staking-val">88,401,819,601</div>
     </div>
 
-    <div class="btn-group">
+    <div class="btn-row">
         <button style="background:white; color:black;">PI 수량</button>
         <button style="background:var(--hk-gold); color:black;">SWAP</button>
         <button style="background:#00c853; color:white;">LP 공급</button>
@@ -138,33 +127,47 @@
 
     <button class="cs-btn"><i class="fas fa-headset"></i> <span data-k="cs">글로벌 고객지원센터</span></button>
 
-    <div class="social-row">
+    <div class="social-btns">
         <a href="#" class="yt"><i class="fab fa-youtube"></i> YOUTUBE</a>
         <a href="#" class="tk"><i class="fab fa-tiktok"></i> TIKTOK</a>
     </div>
 
-    <div class="policy-links">
-        <a href="#" id="t-privacy">개인정보처리방침</a> | 
-        <a href="#" id="t-terms">이용약관</a> | 
-        <a href="#" id="t-secure">보안정책</a>
-        <p style="font-size:10px; color:#444; margin-top:15px;">&copy; 2026 HK GROUP. All Rights Reserved.</p>
+    <div class="bottom-highlight">
+        <div class="apy-text" id="txt-bottom-apy">예치 (APY 31.4%)</div>
+    </div>
+
+    <div class="policy-area">
+        <a href="#" id="txt-priv">개인정보처리방침</a> | <a href="#" id="txt-term">이용약관</a>
+        <p style="margin-top:15px;">&copy; 2026 HK GROUP. All Rights Reserved.</p>
     </div>
 
     <script>
-        const dict = {
-            ko: { ledger: "메인 자산 통합 원장", gcv: "가치 평가: $ 125,663,600 (GCV)", send: "송금", pay: "결제", save: "예치", gift: "보상", ubi: "기본소득", swap: "스왑", lp: "유동성 풀 $", cs: "글로벌 고객지원센터", priv: "개인정보처리방침", term: "이용약관", sec: "보안정책" },
-            en: { ledger: "Main Integrated Ledger", gcv: "Evaluation: $ 125,663,600 (GCV)", send: "Send", pay: "Pay", save: "Deposit", gift: "Reward", ubi: "UBI", swap: "Swap", lp: "Liquidity Pool $", cs: "Global Support Center", priv: "Privacy Policy", term: "Terms", sec: "Security" },
-            // 나머지 13개국 언어는 이와 같은 방식으로 확장 가능합니다.
+        const i18n = {
+            ko: { ledger: "메인 자산 통합 원장", gcv: "가치 평가: $ 125,663,600 (GCV)", send: "송금", pay: "결제", save: "예치", gift: "보상", ubi: "기본소득", swap: "스왑", lp: "유동성 풀 $", cs: "글로벌 고객지원센터", apy: "예치 (APY 31.4%)", priv: "개인정보처리방침", term: "이용약관" },
+            en: { ledger: "Main Integrated Ledger", gcv: "Evaluation: $ 125,663,600 (GCV)", send: "Transfer", pay: "Payment", save: "Deposit", gift: "Reward", ubi: "UBI", swap: "Swap", lp: "Liquidity Pool $", cs: "Customer Support", apy: "Deposit (APY 31.4%)", priv: "Privacy Policy", term: "Terms" },
+            zh: { ledger: "主资产整合账本", gcv: "价值评估: $ 125,663,600 (GCV)", send: "转账", pay: "支付", save: "存款", gift: "奖励", ubi: "基本收入", swap: "闪兑", lp: "流动性池 $", cs: "全球客服中心", apy: "存款 (APY 31.4%)", priv: "隐私政策", term: "使用条款" },
+            ja: { ledger: "メイン資産統合台帳", gcv: "評価額: $ 125,663,600 (GCV)", send: "送金", pay: "決済", save: "預金", gift: "報酬", ubi: "基本所得", swap: "交換", lp: "流動性プール $", cs: "カスタマーサポート", apy: "預金 (APY 31.4%)", priv: "プライバシー", term: "利用規約" },
+            vi: { ledger: "Sổ cái tài sản chính", gcv: "Định giá: $ 125,663,600 (GCV)", send: "Chuyển tiền", pay: "Thanh toán", save: "Gửi tiết kiệm", gift: "Phần thưởng", ubi: "Thu nhập cơ bản", swap: "Hoán đổi", lp: "Bể thanh khoản $", cs: "Trung tâm hỗ trợ", apy: "Gửi tiết kiệm (APY 31.4%)", priv: "Bảo mật", term: "Điều khoản" },
+            id: { ledger: "Buku Besar Terpadu", gcv: "Evaluasi: $ 125,663,600 (GCV)", send: "Kirim", pay: "Bayar", save: "Setoran", gift: "Hadiah", ubi: "UBI", swap: "Tukar", lp: "Pool Likuiditas $", cs: "Layanan Pelanggan", apy: "Setoran (APY 31.4%)", priv: "Privasi", term: "Ketentuan" },
+            th: { ledger: "บัญชีแยกประเภทหลัก", gcv: "การประเมินมูลค่า: $ 125,663,600", send: "โอนเงิน", pay: "ชำระเงิน", save: "ฝากเงิน", gift: "รางวัล", ubi: "รายได้พื้นฐาน", swap: "แลกเปลี่ยน", lp: "พูลสภาพคล่อง $", cs: "ศูนย์สนับสนุน", apy: "ฝากเงิน (APY 31.4%)", priv: "ความเป็นส่วนตัว", term: "ข้อกำหนด" },
+            hi: { ledger: "मुख्य एकीकृत लेजर", gcv: "मूल्यांकन: $ 125,663,600", send: "स्थानांतरण", pay: "भुगतान", save: "जमा", gift: "पुरस्कार", ubi: "मूल आय", swap: "स्वैप", lp: "तरलता पूल $", cs: "ग्राहक सहायता", apy: "जमा (APY 31.4%)", priv: "गोपनीयता", term: "शर्तें" },
+            es: { ledger: "Libro Mayor Integrado", gcv: "Evaluación: $ 125,663,600", send: "Enviar", pay: "Pagar", save: "Depósito", gift: "Recompensa", ubi: "Renta Básica", swap: "Canje", lp: "Pool de Liquidez $", cs: "Soporte al Cliente", apy: "Depósito (APY 31.4%)", priv: "Privacidad", term: "Términos" },
+            fr: { ledger: "Grand Livre Intégré", gcv: "Évaluation: $ 125,663,600", send: "Envoyer", pay: "Payer", save: "Dépôt", gift: "Récompense", ubi: "Revenu de base", swap: "Échange", lp: "Pool de liquidité $", cs: "Support client", apy: "Dépôt (APY 31.4%)", priv: "Confidentialité", term: "Conditions" },
+            de: { ledger: "Integriertes Hauptbuch", gcv: "Bewertung: $ 125,663,600", send: "Senden", pay: "Zahlen", save: "Einzahlung", gift: "Belohnung", ubi: "Grundeinkommen", swap: "Tausch", lp: "Liquiditätspool $", cs: "Kundendienst", apy: "Einzahlung (APY 31.4%)", priv: "Datenschutz", term: "AGB" },
+            ru: { ledger: "Главный реестр", gcv: "Оценка: $ 125,663,600", send: "Перевод", pay: "Оплата", save: "Депозит", gift: "Награда", ubi: "Базовый доход", swap: "Обмен", lp: "Пул ликвидности $", cs: "Поддержка", apy: "Депозит (APY 31.4%)", priv: "Конфиденциальность", term: "Условия" },
+            pt: { ledger: "Livro Razão Integrado", gcv: "Avaliação: $ 125,663,600", send: "Enviar", pay: "Pagar", save: "Depósito", gift: "Recompensa", ubi: "Renda Básica", swap: "Troca", lp: "Pool de Liquidez $", cs: "Suporte", apy: "Depósito (APY 31.4%)", priv: "Privacidade", term: "Termos" },
+            tr: { ledger: "Entegre Defter", gcv: "Değerleme: $ 125,663,600", send: "Gönder", pay: "Öde", save: "Mevduat", gift: "Ödül", ubi: "Temel Gelir", swap: "Takas", lp: "Likit Havuzu $", cs: "Müşteri Desteği", apy: "Mevduat (APY 31.4%)", priv: "Gizlilik", term: "Koşullar" },
+            ar: { ledger: "دفتر الأستاذ المتكامل", gcv: "التقييم: $ 125,663,600", send: "إرسال", pay: "دفع", save: "إيداع", gift: "مكافأة", ubi: "الدخل الأساسي", swap: "تبادل", lp: "مجمع السيولة $", cs: "دعم العملاء", apy: "إيداع (APY 31.4%)", priv: "الخصوصية", term: "الشروط" }
         };
 
-        function updateLang() {
-            const l = document.getElementById('langBox').value;
-            const t = dict[l] || dict['en'];
-            document.getElementById('t-ledger').innerText = t.ledger;
-            document.getElementById('t-gcv').innerText = t.gcv;
-            document.getElementById('t-privacy').innerText = t.priv;
-            document.getElementById('t-terms').innerText = t.term;
-            document.getElementById('t-secure').innerText = t.sec;
+        function translate() {
+            const l = document.getElementById('langSelect').value;
+            const t = i18n[l];
+            document.getElementById('txt-ledger').innerText = t.ledger;
+            document.getElementById('txt-gcv').innerText = t.gcv;
+            document.getElementById('txt-bottom-apy').innerText = t.apy;
+            document.getElementById('txt-priv').innerText = t.priv;
+            document.getElementById('txt-term').innerText = t.term;
             document.querySelectorAll('[data-k]').forEach(el => {
                 el.innerText = t[el.getAttribute('data-k')];
             });
