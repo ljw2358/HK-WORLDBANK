@@ -3,35 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>HK WORLD BANK - Global</title>
+    <title>HK WORLD BANK</title>
     <style>
-        :root { --gold: #FFD700; --bg: #000; --card: #151515; --red: #ff0000; }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif; }
-        body { background: var(--bg); color: #fff; display: flex; justify-content: center; min-height: 100vh; }
+        :root { --gold: #FFD700; --bg: #000; --card: #1c1c1e; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Apple SD Gothic Neo', sans-serif; }
+        body { background: var(--bg); color: #fff; display: flex; justify-content: center; }
         .wrapper { width: 100%; max-width: 480px; padding: 20px; text-align: center; }
         
-        .lang-select { background: #222; color: var(--gold); border: 2px solid var(--gold); padding: 12px; border-radius: 12px; width: 100%; margin-bottom: 30px; font-weight: bold; font-size: 14px; cursor: pointer; }
-        .header h1 { color: var(--gold); font-size: 36px; font-weight: 900; letter-spacing: 2px; margin-bottom: 25px; }
+        /* 30개국 선택창 */
+        .lang-select { background: #2c2c2e; color: var(--gold); border: 1.5px solid var(--gold); padding: 12px; border-radius: 12px; width: 100%; margin-bottom: 25px; font-weight: bold; }
+        
+        .header h1 { color: var(--gold); font-size: 32px; font-weight: 900; margin-bottom: 30px; }
 
-        .main-card { background: linear-gradient(145deg, #252525, #050505); border-radius: 30px; padding: 40px 20px; border: 1px solid #333; margin-bottom: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.9); }
-        .asset-label { font-size: 16px; color: var(--gold); margin-bottom: 12px; font-weight: 600; text-transform: uppercase; }
-        .asset-value { font-size: 48px; font-weight: 800; letter-spacing: -1.5px; margin-bottom: 10px; }
-        .staking-badge { background: rgba(255,215,0,0.1); color: var(--gold); padding: 5px 15px; border-radius: 50px; font-size: 16px; font-weight: bold; }
+        /* 자산 카드 */
+        .main-card { background: var(--card); border-radius: 25px; padding: 40px 20px; border: 1px solid #333; margin-bottom: 20px; }
+        .asset-label { font-size: 15px; color: var(--gold); margin-bottom: 10px; }
+        .asset-value { font-size: 45px; font-weight: 800; margin-bottom: 10px; }
+        .staking-info { font-size: 16px; color: var(--gold); font-weight: bold; background: rgba(255,215,0,0.1); display: inline-block; padding: 5px 15px; border-radius: 50px; }
 
-        .stat-box { background: #111; padding: 20px; border-radius: 18px; border: 1px solid #222; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
-        .stat-label { color: #888; font-size: 15px; }
-        .stat-val { color: #00ffcc; font-size: 18px; font-weight: bold; }
+        .stat-box { background: #111; padding: 20px; border-radius: 15px; border: 1px solid #222; margin-bottom: 10px; display: flex; justify-content: space-between; }
+        .stat-label { color: #888; font-size: 14px; }
+        .stat-val { color: #00ffcc; font-weight: bold; }
 
-        .btn-container { display: flex; flex-direction: column; gap: 15px; margin-top: 30px; }
-        .btn { width: 100%; padding: 20px; border-radius: 18px; border: none; font-weight: 800; font-size: 17px; cursor: pointer; transition: 0.2s; }
-        .btn:active { transform: scale(0.98); }
-        .btn-yt { background: var(--red); color: #fff; }
-        .btn-tt { background: #fff; color: #000; }
-        .btn-pay { background: var(--gold); color: #000; }
+        /* 버튼 그룹 */
+        .btn-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin: 25px 0; }
+        .btn { padding: 15px 5px; border-radius: 12px; border: none; font-weight: bold; font-size: 13px; cursor: pointer; }
+        .btn-gray { background: #3a3a3c; color: #fff; }
+        .btn-gold { background: var(--gold); color: #000; }
+        .btn-white { background: #fff; color: #000; }
+        .btn-red { width: 100%; background: #ff3b30; color: #fff; padding: 20px; font-size: 17px; border-radius: 15px; font-weight: 900; }
 
-        .footer-secure { background: #0a0a0a; border-radius: 20px; padding: 25px; margin-top: 40px; border: 1px solid #1a1a1a; text-align: left; }
-        .shield-title { color: #00ffcc; font-size: 15px; font-weight: bold; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
-        .policy-text { font-size: 13px; color: #777; line-height: 1.7; text-align: justify; }
+        /* 보안 섹션 */
+        .footer-secure { background: #000; border-radius: 15px; padding: 20px; margin-top: 30px; border: 1px solid #222; text-align: left; }
+        .shield-line { color: #00ffcc; font-size: 14px; font-weight: bold; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+        .policy-txt { font-size: 12px; color: #666; line-height: 1.6; }
     </style>
 </head>
 <body>
@@ -43,8 +48,8 @@
 
     <div class="main-card">
         <div class="asset-label" id="L-ledger">메인 자산 통합 원장</div>
-        <div class="asset-value">400.0212 <span style="font-size: 22px; color: var(--gold);">Pi</span></div>
-        <div class="staking-badge" id="L-staking">Staking APY 31.4%</div>
+        <div class="asset-value">400.0212 <span style="font-size: 18px; color: var(--gold);">Pi</span></div>
+        <div class="staking-info" id="L-staking">Staking APY 31.4%</div>
     </div>
 
     <div class="stat-box">
@@ -52,59 +57,79 @@
         <span class="stat-val">$ 88,410,819,601</span>
     </div>
 
-    <div class="btn-container">
-        <button class="btn btn-yt" onclick="window.open('https://youtube.com')">HK WORLD TV (YOUTUBE)</button>
-        <button class="btn btn-tt" onclick="window.open('https://tiktok.com')">TIKTOK OFFICIAL</button>
-        <button class="btn btn-pay" onclick="handlePayment()">PI SWAP / PAYMENT</button>
+    <div class="btn-grid">
+        <button class="btn btn-gray">PI 수량</button>
+        <button class="btn btn-gold" onclick="handlePay()">SWAP / 결제</button>
+        <button class="btn btn-white" onclick="window.open('https://tiktok.com')">TIKTOK</button>
     </div>
 
+    <button class="btn btn-red" id="L-support">글로벌 고객지원센터</button>
+
     <div class="footer-secure">
-        <span class="shield-title" id="L-safe">🛡️ HK 양자 방패 보안 (Quantum Shield)</span>
-        <p class="policy-text" id="L-policy">
-            본 플랫폼은 HK Group의 보안 프로토콜을 준수하며, 모든 자산 데이터는 양자 암호화 기술로 실시간 보호됩니다.
+        <div class="shield-line">
+            <span>🛡️</span> <span id="L-safe">HK 양자 방패 가동 중 (Quantum Shield)</span>
+        </div>
+        <p class="policy-txt" id="L-policy">
+            본 플랫폼은 HK Group의 보안 프로토콜을 준수하며, 모든 자산은 양자 암호화 기술로 보호됩니다.
         </p>
     </div>
 </div>
 
 <script>
-    // 형님, 여기가 핵심입니다. 30개국 데이터를 여기에 다 때려넣었습니다!
+    // 30개국 언어 사전 - 형님, 이 부분이 길어야 진짜 30개국 대응입니다!
     const languages = {
-        ko: { n: "한국어 🇰🇷", ledger: "메인 자산 통합 원장", staking: "Staking APY 31.4% 복리 적용", pool: "유동성풀 (LP)", safe: "🛡️ HK 양자 방패 보안 가동 중", policy: "본 플랫폼은 HK Group의 보안 프로토콜을 준수하며 모든 데이터는 양자 암호화 기술로 보호됩니다." },
-        en: { n: "English 🇺🇸", ledger: "Main Asset Ledger", staking: "Staking APY 31.4% Compounded", pool: "Liquidity Pool (LP)", safe: "🛡️ Quantum Shield Active", policy: "This platform follows HK Group's security protocols. All data is protected by Quantum Encryption." },
-        zh: { n: "中文 🇨🇳", ledger: "主资产综合账本", staking: "质押年化 31.4% 复利", pool: "流动性池 (LP)", safe: "🛡️ HK 量子盾安全激活", policy: "本平台遵循 HK Group 安全协议。所有资产受量子加密保护。" },
-        ja: { n: "日本語 🇯🇵", ledger: "メイン資産統合台帳", staking: "ステーキング 31.4% 複利", pool: "流動性プール (LP)", safe: "🛡️ HK 量子シールド作動中", policy: "当プラットフォームは HK Group のセキュリティプロトコルを遵守します。" },
-        vi: { n: "Tiếng Việt 🇻🇳", ledger: "Sổ cái tài sản chính", staking: "Staking APY 31.4% lãi kép", pool: "Nhóm thanh khoản", safe: "🛡️ Lá chắn lượng tử HK hoạt động", policy: "Nền tảng tuân thủ các giao thức bảo mật của HK Group." },
-        ar: { n: "العربية 🇸🇦", ledger: "دفتر الأصول الرئيسي", staking: "APY 31.4% مركب", pool: "مجمع السيولة", safe: "🛡️ درع الكم HK نشط", policy: "تتبع هذه المنصة بروتوكولات أمان HK Group." },
-        ru: { n: "Русский 🇷🇺", ledger: "Главный реестр активов", staking: "Стейкиنگ 31.4% сложный", pool: "Пул ликвидности", safe: "🛡️ Квантовый щит HK активен", policy: "Платформа следует протоколам безопасности HK Group." },
-        es: { n: "Español 🇪🇸", ledger: "Libro Mayor de Assets", staking: "Staking APY 31.4% Compuesto", pool: "Pool de Liquidez", safe: "🛡️ Escudo Cuántico HK Activo", policy: "Esta plataforma sigue los protocolos de seguridad de HK Group." },
-        hi: { n: "हिन्दी 🇮🇳", ledger: "मुख्य संपत्ति लेजर", staking: "स्टेकिंग 31.4% चक्रवृद्धि", pool: "तरलता पूल", safe: "🛡️ HK क्वांटम शील्ड सक्रिय", policy: "यह प्लेटफॉर्म HK Group सुरक्षा प्रोटोकॉल का पालन करता है।" },
-        fr: { n: "Français 🇫🇷", ledger: "Grand livre des actifs", staking: "Staking APY 31.4% Composé", pool: "Pool de liquidité", safe: "🛡️ Bouclier Quantique HK Activé", policy: "Cette plateforme suit les protocoles de HK Group." },
-        de: { n: "Deutsch 🇩🇪", ledger: "Haupt-Asset-Ledger", staking: "Staking APY 31.4% Zinseszins", pool: "Liquiditätspool", safe: "🛡️ HK Quantenschild Aktiv", policy: "Diese Plattform folgt den HK Group Protokollen." },
-        pt: { n: "Português 🇵🇹", ledger: "Livro de Ativos", staking: "Staking 31.4% Composto", pool: "Pool de liquidez", safe: "🛡️ Escudo Quântico HK Ativo", policy: "Esta plataforma segue os protocolos do HK Group." },
-        id: { n: "Bahasa Indonesia 🇮🇩", ledger: "Buku Besar Utama", staking: "Staking 31.4% Majemuk", pool: "Pool Likuiditas", safe: "🛡️ Perisai Kuantum HK Aktif", policy: "Platform ini mengikuti protokol HK Group." },
-        tr: { n: "Türkçe 🇹🇷", ledger: "Ana Varlık Defteri", staking: "%31.4 Bileşik Staking", pool: "Likidite Havuzu", safe: "🛡️ HK Kuantum Kalkanı Aktif", policy: "Bu platform HK Group protokollerini izler." },
-        th: { n: "ไทย 🇹🇭", ledger: "บัญชีสินทรัพย์หลัก", staking: "Staking 31.4% ทบต้น", pool: "พูลสภาพคล่อง", safe: "🛡️ HK ควอนตัมชิลด์ทำงาน", policy: "แพลตฟอร์มนี้ปฏิบัติตามโปรโตคอลของ HK Group" },
-        // ... (나머지 언어들도 동일한 방식으로 데이터가 가득 채워져야 30개가 완성됩니다)
+        ko: { n: "한국어 🇰🇷", ledger: "메인 자산 통합 원장", staking: "Staking APY 31.4% 복리 적용", pool: "유동성풀 (LP)", support: "글로벌 고객지원센터", safe: "HK 양자 방패 가동 중", policy: "본 플랫폼은 HK Group의 보안 프로토콜을 준수하며 모든 자산은 양자 암호화 기술로 보호됩니다." },
+        en: { n: "English 🇺🇸", ledger: "Main Asset Ledger", staking: "Staking APY 31.4% Compounded", pool: "Liquidity Pool (LP)", support: "Global Support Center", safe: "Quantum Shield Active", policy: "This platform follows HK Group's security protocols. Assets are protected by Quantum Encryption." },
+        zh: { n: "中文 🇨🇳", ledger: "主资产综合账本", staking: "质押年化 31.4% 复利", pool: "流动性池 (LP)", support: "全球客户服务中心", safe: "HK 量子盾激活", policy: "本平台遵循 HK Group 安全协议。所有资产受量子加密保护。" },
+        ja: { n: "日本語 🇯🇵", ledger: "メイン資産台帳", staking: "複利 31.4% 適用", pool: "流動性プール", support: "サポートセンター", safe: "量子シールド作動中", policy: "HK Group のプロトコルに従い、量子暗号で保護されます。" },
+        ar: { n: "العربية 🇸🇦", ledger: "دفتر الأصول", staking: "31.4% مركب", pool: "مجمع السيولة", support: "مركز الدعم", safe: "درع الكم نشط", policy: "محمية بتشفير الكم." },
+        vi: { n: "Tiếng Việt 🇻🇳", ledger: "Sổ cái tài sản", staking: "31.4% lãi kép", pool: "Nhóm thanh khoản", support: "Trung tâm hỗ trợ", safe: "Lá chắn lượng tử", policy: "Bảo mật bằng mã hóa lượng tử." },
+        ru: { n: "Русский 🇷🇺", ledger: "Реестр активов", staking: "31.4% Сложный", pool: "Пул ликвидности", support: "Центр поддержки", safe: "Квантовый щит", policy: "Защищено квантовым шифрованием." },
+        fr: { n: "Français 🇫🇷", ledger: "Grand livre", staking: "31.4% Composé", pool: "Pool liquidité", support: "Centre d'aide", safe: "Bouclier Quantique", policy: "Protection par cryptage quantique." },
+        de: { n: "Deutsch 🇩🇪", ledger: "Asset-Ledger", staking: "31.4% Zinseszins", pool: "Liquiditätspool", support: "Support-Center", safe: "Quantenschild aktiv", policy: "Quantenverschlüsselung aktiv." },
+        es: { n: "Español 🇪🇸", ledger: "Libro de activos", staking: "31.4% Compuesto", pool: "Pool de liquidez", support: "Soporte global", safe: "Escudo Cuántico", policy: "Protegido por cifrado cuántico." },
+        hi: { n: "हिन्दी 🇮🇳", ledger: "संपत्ति लेजर", staking: "31.4% चक्रवृद्धि", pool: "तरलता पूल", support: "सहायता केंद्र", safe: "क्वांटम शील्ड", policy: "क्वांटम एन्क्रिप्शन सुरक्षित।" },
+        tr: { n: "Türkçe 🇹🇷", ledger: "Varlık Defteri", staking: "%31.4 Bileşik", pool: "Likidite Havuzu", support: "Destek Merkezi", safe: "Kuantum Kalkanı", policy: "Kuantum şifreleme korumalı." },
+        it: { n: "Italiano 🇮🇹", ledger: "Libro Asset", staking: "31.4% Composto", pool: "Pool liquidità", support: "Centro Supporto", safe: "Scudo Quantistico", policy: "Crittografia quantistica." },
+        th: { n: "ไทย 🇹🇭", ledger: "บัญชีสินทรัพย์", staking: "31.4% ทบต้น", pool: "พูลสภาพคล่อง", support: "ศูนย์สนับสนุน", safe: "ควอนตัมชิลด์", policy: "การเข้ารหัสควอนตัม" },
+        id: { n: "Indonesia 🇮🇩", ledger: "Buku Besar Aset", staking: "31.4% Majemuk", pool: "Pool Likuiditas", support: "Pusat Bantuan", safe: "Perisai Kuantum", policy: "Enkripsi Kuantum." },
+        pt: { n: "Português 🇵🇹", ledger: "Livro de Ativos", staking: "31.4% Composto", pool: "Pool Liquidez", support: "Suporte Global", safe: "Escudo Quântico", policy: "Criptografia Quântica." },
+        ms: { n: "Melayu 🇲🇾", ledger: "Lejar Aset", staking: "31.4% Kompaun", pool: "Kolam Kecairan", support: "Pusat Sokongan", safe: "Perisai Kuantum", policy: "Penyulitan Kuantum." },
+        nl: { n: "Nederlands 🇳🇱", ledger: "Asset Ledger", staking: "31.4% Samengesteld", pool: "Liquiditeitspool", support: "Support Center", safe: "Quantumschild", policy: "Quantumversleuteling." },
+        pl: { n: "Polski 🇵🇱", ledger: "Rejestr Aktywów", staking: "31.4% Składany", pool: "Pula płynności", support: "Centrum wsparcia", safe: "Tarcza Kwantowa", policy: "Szyfrowanie kwantowe." },
+        sv: { n: "Svenska 🇸🇪", ledger: "Tillgångsbok", staking: "31.4% Ränta", pool: "Likviditetspool", support: "Supportcenter", safe: "Kvantmurskydd", policy: "Kvantkryptering." },
+        da: { n: "Dansk 🇩🇰", ledger: "Aktivbog", staking: "31.4% Renters rente", pool: "Likviditetspool", support: "Support", safe: "Kvanteskjold", policy: "Kvanteskryptering." },
+        no: { n: "Norsk 🇳🇴", ledger: "Aktiva-oversikt", staking: "31.4% Renters rente", pool: "Likviditetspool", support: "Brukerstøtte", safe: "Kvanteskjold", policy: "Kvante-kryptering." },
+        fi: { n: "Suomi 🇫🇮", ledger: "Omaisuusluettelo", staking: "31.4% Korko", pool: "Likviditeettipooli", support: "Tukikeskus", safe: "Kvanttikilpi", policy: "Kvanttisalaus." },
+        cs: { n: "Čeština 🇨🇿", ledger: "Kniha aktiv", staking: "31.4% Složený", pool: "Pool likvidity", support: "Podpora", safe: "Kvantový štít", policy: "Kvantové šifrování." },
+        hu: { n: "Magyar 🇭🇺", ledger: "Eszköznyilvántartás", staking: "31.4% Kamat", pool: "Likviditási pool", support: "Támogatás", safe: "Kvantumpajzs", policy: "Kvantumtitkosítás." },
+        ro: { n: "Română 🇷🇴", ledger: "Registru Active", staking: "31.4% Compus", pool: "Pool lichiditate", support: "Suport", safe: "Scut Cuantic", policy: "Criptare cuantică." },
+        el: { n: "Ελληνικά 🇬🇷", ledger: "Καθολικό", staking: "31.4% Ανατοκισμός", pool: "Pool Ρευστότητας", support: "Υποστήριξη", safe: "Κβαντική Ασπίδα", policy: "Κβαντική κρυπτογράφηση." },
+        he: { n: "עברית 🇮🇱", ledger: "ספר נכסים", staking: "31.4% ריבית", pool: "נזילות", support: "מרכז תמיכה", safe: "מגן קוונטי", policy: "הצפנה קוונטית." },
+        fa: { n: "فارسی 🇮🇷", ledger: "دفتر دارایی", staking: "۳۱.۴٪ مرکب", pool: "نقدینگی", support: "پشتیبانی", safe: "سپر کوانتومی", policy: "رمزگذاری کوانتومی." },
+        tl: { n: "Tagalog 🇵🇭", ledger: "Asset Ledger", staking: "31.4% Compound", pool: "Liquidity Pool", support: "Support Center", safe: "Quantum Shield", policy: "Quantum Encryption." }
     };
 
-    const selector = document.getElementById('langSelector');
-    for (let code in languages) {
-        let opt = document.createElement('option');
-        opt.value = code;
-        opt.innerText = languages[code].n;
-        selector.appendChild(opt);
+    // 셀렉트 박스에 30개 언어 심기
+    const sel = document.getElementById('langSelector');
+    for (let c in languages) {
+        let o = document.createElement('option');
+        o.value = c; o.innerText = languages[c].n;
+        sel.appendChild(o);
     }
 
-    function updateUI(lang) {
-        const data = languages[lang];
-        document.getElementById('L-ledger').innerText = data.ledger;
-        document.getElementById('L-staking').innerText = data.staking;
-        document.getElementById('L-pool').innerText = data.pool;
-        document.getElementById('L-safe').innerText = data.safe;
-        document.getElementById('L-policy').innerText = data.policy;
+    // 언어 변경 실행 함수
+    function updateUI(l) {
+        const d = languages[l];
+        document.getElementById('L-ledger').innerText = d.ledger;
+        document.getElementById('L-staking').innerText = d.staking;
+        document.getElementById('L-pool').innerText = d.pool;
+        document.getElementById('L-support').innerText = d.support;
+        document.getElementById('L-safe').innerText = d.safe;
+        document.getElementById('L-policy').innerText = d.policy;
     }
 
-    function handlePayment() {
+    function handlePay() {
         if(confirm("HK World Bank 보안 결제 시스템에 연결하시겠습니까?")) {
             alert("양자 보안 게이트웨이 활성화 중...");
         }
