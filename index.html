@@ -3,126 +3,183 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>HK-WorldBank Main Ledger</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
+    <title>HK WORLD BANK - Main Ledger</title>
     <style>
         :root {
-            --primary-gold: #D4AF37;
-            --deep-black: #0a0a0a;
-            --accent-blue: #007bff;
+            --gold: #D4AF37;
+            --black: #0a0a0a;
+            --red-btn: linear-gradient(45deg, #cc0000, #ff4d4d);
+            --dark-gray: #1a1a1a;
         }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
         body {
-            margin: 0;
-            padding: 0;
-            background-color: var(--deep-black);
+            background-color: var(--black);
             color: white;
-            font-family: 'Arial', sans-serif;
+            font-family: 'Noto Sans KR', 'Noto Sans SC', sans-serif;
             display: flex;
-            flex-direction: column;
+            justify-content: center;
             align-items: center;
-            overflow-x: hidden;
+            min-height: 100vh;
         }
         /* 화면 자동 맞춤 컨테이너 */
-        .container {
+        .app-container {
             width: 100%;
-            max-width: 600px; /* 모바일 최적화 */
+            max-width: 450px; /* 모바일/태블릿 최적화 크기 */
             padding: 20px;
-            box-sizing: border-box;
             text-align: center;
+            position: relative;
         }
-        h1 { color: var(--primary-gold); font-size: 1.8rem; margin-bottom: 30px; }
-        
-        /* 언어 선택 드롭다운 (20개국어) */
+        /* 상단 언어 선택 (20개국어) */
+        .lang-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .hk-logo { color: var(--gold); font-weight: bold; font-size: 1.2rem; text-align: left; line-height: 1.2; }
         .lang-select {
             background: #222;
             color: #fff;
-            border: 1px solid var(--primary-gold);
-            padding: 10px;
-            width: 80%;
+            border: 1px solid var(--gold);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+        /* 자산 표시 섹션 */
+        .asset-title { color: #888; font-size: 0.9rem; margin-top: 30px; }
+        .asset-value { font-size: 3rem; color: var(--gold); font-weight: bold; margin: 10px 0; font-style: italic; }
+        .pi-label { font-size: 1.5rem; color: var(--gold); margin-bottom: 15px; }
+        .gcv-box {
+            border: 1px solid #00ff00;
+            color: #00ff00;
+            padding: 8px 15px;
+            border-radius: 20px;
+            display: inline-block;
+            font-size: 0.9rem;
+            margin-bottom: 30px;
+        }
+        /* 그리드 메뉴 */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1-fr);
+            gap: 10px;
             margin-bottom: 20px;
-            border-radius: 5px;
         }
-
-        /* 예치 정보 섹션 */
-        .staking-box {
-            background: linear-gradient(145deg, #1a1a1a, #000);
-            border: 2px solid var(--primary-gold);
-            padding: 25px;
-            border-radius: 15px;
-            margin: 20px 0;
+        .menu-item {
+            background: var(--dark-gray);
+            padding: 15px 5px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            border: 1px solid #333;
         }
-        .apy { font-size: 2.5rem; color: var(--primary-gold); font-weight: bold; }
+        .menu-item.active { border: 1px solid var(--gold); color: var(--gold); }
 
-        /* 소셜 미디어 버튼 (대소문자 및 컬러 적용) */
-        .social-links { display: flex; flex-direction: column; gap: 15px; margin-top: 30px; }
-        .btn {
-            text-decoration: none;
+        /* 핵심 버튼들 */
+        .long-btn {
+            width: 100%;
             padding: 15px;
             border-radius: 10px;
+            margin-bottom: 10px;
             font-weight: bold;
-            font-size: 1.1rem;
-            transition: 0.3s;
+            text-decoration: none;
+            display: block;
+            text-transform: none; /* 대소문자 강제변환 방지 */
         }
-        /* 유튜브: H 대문자 */
-        .btn-youtube { background-color: #FF0000; color: white; }
-        /* 틱톡: h 소문자 */
-        .btn-tiktok { background-color: #000000; color: white; border: 1px solid #00f2ea; }
+        .btn-red { background: var(--red-btn); color: white; }
+        .btn-youtube { background: #FF0000; color: white; margin-top: 10px; }
+        .btn-tiktok { background: #000; color: white; border: 1px solid #00f2ea; }
 
-        /* 하단 푸터 */
-        footer { margin-top: 50px; font-size: 0.8rem; color: #666; }
+        /* 보안 텍스트 */
+        .security-info {
+            background: rgba(0,255,255,0.05);
+            border: 1px dashed #008080;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 30px;
+            text-align: left;
+            font-size: 0.75rem;
+            color: #00cccc;
+        }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>Main Asset Integrated Ledger</h1>
-
-    <select class="lang-select" id="languageSelector">
-        <option value="ko">한국어 (Korean)</option>
-        <option value="en">English</option>
-        <option value="zh">中文 (Chinese)</option>
-        <option value="ar">العربية (Arabic)</option>
-        <option value="es">Español (Spanish)</option>
-        <option value="pt">Português (Portuguese)</option>
-        <option value="uk">Українська (Ukrainian)</option>
-        <option value="ru">Русский (Russian)</option>
-        <option value="ja">日本語 (Japanese)</option>
-        <option value="fr">Français (French)</option>
-        <option value="de">Deutsch (German)</option>
-        <option value="hi">हिन्दी (Hindi)</option>
-        <option value="vi">Tiếng Việt (Vietnamese)</option>
-        <option value="id">Bahasa Indonesia</option>
-        <option value="th">ไทย (Thai)</option>
-        <option value="tr">Türkçe (Turkish)</option>
-        <option value="it">Italiano (Italian)</option>
-        <option value="pl">Polski (Polish)</option>
-        <option value="nl">Nederlands (Dutch)</option>
-        <option value="fa">فارسی (Persian)</option>
-    </select>
-
-    <div class="staking-box">
-        <p>HK-WorldBank Staking</p>
-        <div class="apy">31.4% APY</div>
-        <p>Annual Percentage Yield</p>
+<div class="app-container">
+    <div class="lang-header">
+        <div class="hk-logo">HK WORLD BANK<br><span style="font-size: 0.6rem; color: #888;">GLOBAL INDUSTRIAL LEADER</span></div>
+        <select class="lang-select" onchange="changeLang(this.value)">
+            <option value="ko">🇰🇷 KR</option>
+            <option value="en">🇺🇸 EN</option>
+            <option value="zh">🇨🇳 CN</option>
+            <option value="ar">🇸🇦 AR</option>
+            <option value="es">🇪🇸 ES</option>
+            <option value="pt">BR PT</option>
+            <option value="uk">🇺🇦 UKR</option>
+            <option value="ru">🇷🇺 RU</option>
+            <option value="ja">🇯🇵 JP</option>
+            <option value="fr">🇫🇷 FR</option>
+            <option value="de">🇩🇪 DE</option>
+            <option value="hi">🇮🇳 HI</option>
+            <option value="vi">🇻🇳 VN</option>
+            <option value="id">🇮🇩 ID</option>
+            <option value="th">🇹🇭 TH</option>
+            <option value="tr">🇹🇷 TR</option>
+            <option value="it">🇮🇹 IT</option>
+            <option value="pl">🇵🇱 PL</option>
+            <option value="nl">🇳🇱 NL</option>
+            <option value="fa">🇮🇷 FA</option>
+        </select>
     </div>
 
-    <div class="social-links">
-        <a href="https://youtube.com/@HK-Group" class="btn btn-youtube">YouTube</a>
-        <a href="https://tiktok.com/@hk-group" class="btn btn-tiktok">tiktok</a>
+    <p id="txt-title" class="asset-title">주자산 종합 원장</p>
+    <div class="asset-value">400.0212</div>
+    <div class="pi-label">Pi</div>
+
+    <div class="gcv-box">估盤: $ 125,663,600 (GCV)</div>
+
+    <div class="menu-grid">
+        <div class="menu-item" id="m1">이체</div>
+        <div class="menu-item" id="m2">결제</div>
+        <div class="menu-item active" id="m3">예치(31.4%)</div>
+        <div class="menu-item" id="m4">보상</div>
+        <div class="menu-item" id="m5">기본소득</div>
+        <div class="menu-item" id="m6">스테이킹</div>
     </div>
 
-    <footer>
-        © 2026 HK Group. All Rights Reserved.<br>
-        Contact: info@hkholdings.ai.kr
-    </footer>
+    <a href="#" class="long-btn btn-red" id="txt-support">고객센터</a>
+    
+    <div style="display: flex; gap: 10px;">
+        <a href="#" class="long-btn btn-youtube" style="flex: 1;">YouTube</a>
+        <a href="#" class="long-btn btn-tiktok" style="flex: 1;">tiktok</a>
+    </div>
+
+    <div class="security-info">
+        <strong id="sec-title">HK_QUANTUM_SHIELD_ACTIVE</strong><br><br>
+        ● <span id="sec-1">개인정보보호법 준수: 양자 암호화 보안 적용</span><br>
+        ● <span id="sec-2">Form of Private: 자산 보호 프로토콜 가동</span><br>
+        ● <span id="sec-3">HK-ROBOT: AI 실시간 위험 탐지 중</span>
+    </div>
 </div>
 
 <script>
-    // 화면 크기 자동 맞춤 및 언어 변환 스크립트 (기초 프레임)
-    document.getElementById('languageSelector').addEventListener('change', function() {
-        const lang = this.value;
-        // 선택된 언어에 따른 텍스트 변경 로직 추가 가능
-        console.log("Language changed to: " + lang);
-    });
+    const langData = {
+        'ko': { title: "주자산 종합 원장", support: "고객센터", secTitle: "보안 활성화 중", m1:"이체", m2:"결제", m3:"예치(31.4%)" },
+        'en': { title: "Main Asset Ledger", support: "Support Center", secTitle: "Security Active", m1:"Transfer", m2:"Payment", m3:"Staking(31.4%)" },
+        'zh': { title: "主资产综合账本", support: "客服中心", secTitle: "安全激活中", m1:"转账", m2:"支付", m3:"质押(31.4%)" }
+        // 형님, 나머지 언어들도 이 포맷으로 다 채워넣을 수 있습니다.
+    };
+
+    function changeLang(lang) {
+        const d = langData[lang] || langData['en'];
+        document.getElementById('txt-title').innerText = d.title;
+        document.getElementById('txt-support').innerText = d.support;
+        document.getElementById('sec-title').innerText = d.secTitle;
+        document.getElementById('m1').innerText = d.m1;
+        document.getElementById('m2').innerText = d.m2;
+        document.getElementById('m3').innerText = d.m3;
+        // ... 필요한 부분 계속 추가
+    }
 </script>
 
 </body>
