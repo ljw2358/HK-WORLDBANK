@@ -2,163 +2,160 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HK WORLD BANK - Global Digital Finance Leader</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>HK WORLD BANK</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --hk-gold: #FFD700;
-            --hk-dark: #000000;
-            --hk-green: #00FF00;
-            --hk-red: #FF0000;
-            --hk-cyan: #00F2FF;
-            --hk-gray: #1a1a1a;
-            --hk-purple: #AF52DE;
+            --hk-gold: #FFD700; --hk-dark: #000000; --hk-green: #00FF00;
+            --hk-red: #FF0000; --hk-cyan: #00F2FF; --hk-purple: #AF52DE;
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { background-color: var(--hk-dark); color: white; font-family: 'Apple SD Gothic Neo', sans-serif; display: flex; justify-content: center; }
-        
-        /* 중앙 집중형 레이아웃 (PC 최적화) */
-        .pc-wrapper {
-            width: 100%; max-width: 1000px; padding: 40px 20px;
+        * { box-sizing: border-box; margin: 0; padding: 0; word-break: keep-all; }
+        body { background-color: var(--hk-dark); color: white; font-family: sans-serif; display: flex; justify-content: center; }
+        .wrapper { width: 100%; max-width: 480px; padding: 15px; } /* Pi Browser 최적화 폭 */
+
+        /* 1. 언어 우측 상단 작게 */
+        .top-nav { display: flex; justify-content: flex-end; margin-bottom: 10px; }
+        .lang-select { 
+            background: #111; color: var(--hk-gold); border: 1px solid var(--hk-gold); 
+            padding: 4px 8px; border-radius: 4px; font-size: 12px; 
         }
 
-        /* 1. 상단 바 (언어 우측 상단 작게) */
-        .top-nav { display: flex; justify-content: flex-end; padding-bottom: 30px; }
-        .lang-control { background: #111; color: var(--hk-gold); border: 1px solid var(--hk-gold); padding: 5px 10px; border-radius: 5px; font-size: 14px; cursor: pointer; }
+        .brand { font-size: 28px; font-weight: 900; color: var(--hk-gold); margin-bottom: 20px; }
 
-        /* 브랜드 로고 */
-        .brand-logo { font-size: 38px; font-weight: 900; color: var(--hk-gold); text-align: left; margin-bottom: 30px; }
-
-        /* 2. 자산 통합 원장 (럭셔리 카드형) */
-        .asset-summary {
-            background: linear-gradient(180deg, #111 0%, #050505 100%);
-            border-radius: 30px; padding: 60px 20px; text-align: center;
-            border: 1px solid #222; box-shadow: 0 10px 30px rgba(0,0,0,0.8);
-            margin-bottom: 25px;
+        /* 2. 자산 카드 */
+        .asset-card {
+            background: linear-gradient(180deg, #151515, #000);
+            border-radius: 20px; padding: 30px 10px; text-align: center;
+            border: 1px solid #222; margin-bottom: 20px;
         }
-        .summary-label { color: var(--hk-gold); font-size: 18px; margin-bottom: 10px; }
-        .balance-txt { font-size: 80px; font-weight: 900; }
-        .pi-symbol { color: var(--hk-gold); font-size: 0.55em; margin-left: 10px; }
-        .gcv-val { display: inline-block; padding: 10px 30px; border-radius: 50px; border: 1px solid var(--hk-green); color: var(--hk-green); font-size: 18px; font-weight: bold; margin-top: 20px; }
-
-        /* 3. 6구 기능 메뉴 (아이콘 색상 적용) */
-        .menu-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 25px; }
-        .grid-item { background: var(--hk-gray); padding: 35px; border-radius: 20px; text-align: center; border: 1px solid #222; cursor: pointer; }
-        .grid-item i { font-size: 32px; margin-bottom: 15px; display: block; }
-        .grid-item span { font-size: 18px; font-weight: bold; color: white; }
-
-        /* 아이콘 색상 세팅 */
-        .fa-rocket { color: #007AFF; }
-        .fa-shopping-cart { color: orange; }
-        .fa-piggy-bank { color: var(--hk-gold); }
-        .fa-gift { color: var(--hk-red); }
-        .fa-balance-scale { color: var(--hk-purple); }
-        .fa-sync-alt { color: var(--hk-cyan); }
-
-        /* 4. 스테이킹 정보 */
-        .staking-box { background: #0a0a0a; border-radius: 15px; padding: 25px; border-left: 5px solid var(--hk-gold); margin-bottom: 25px; }
-        .staking-head { color: var(--hk-gold); font-size: 14px; font-weight: bold; margin-bottom: 8px; }
-        .staking-num { font-size: 42px; font-weight: 900; color: white; }
-
-        /* 5. [핵심 수정] 3대 액션 버튼 (SNS 위에 배치) */
-        .core-actions { display: flex; gap: 10px; margin-bottom: 20px; }
-        .action-btn { flex: 1; padding: 20px; border-radius: 12px; border: none; font-size: 18px; font-weight: 900; cursor: pointer; }
-        .btn-white { background: white; color: black; }
-        .btn-gold { background: var(--hk-gold); color: black; }
-        .btn-green { background: #00c853; color: white; }
-
-        /* 6. 고객센터 & SNS 버튼 */
-        .cs-wide-btn {
-            background: #ff5252; color: white; width: 100%;
-            padding: 20px; border-radius: 15px; border: none; font-size: 18px; font-weight: bold;
-            display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 20px;
+        .asset-label { color: var(--hk-gold); font-size: 14px; margin-bottom: 10px; }
+        .asset-val { font-size: 45px; font-weight: 900; }
+        .gcv-badge { 
+            display: inline-block; padding: 6px 15px; border-radius: 20px; 
+            border: 1px solid var(--hk-green); color: var(--hk-green); font-size: 14px; margin-top: 15px;
         }
 
-        .social-btns { display: flex; gap: 15px; margin-bottom: 40px; }
-        .social-btns a { flex: 1; padding: 20px; border-radius: 12px; text-decoration: none; color: white; font-weight: bold; text-align: center; font-size: 18px; }
-        .btn-ytb { background: #FF0000; }
-        .btn-ttk { background: #000; border: 1px solid #333; }
+        /* 3. 6구 그리드 (아이콘 정렬) */
+        .grid-6 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
+        .grid-box { background: #111; padding: 20px 5px; border-radius: 12px; text-align: center; border: 1px solid #222; }
+        .grid-box i { font-size: 24px; margin-bottom: 8px; display: block; }
+        .grid-box span { font-size: 14px; font-weight: bold; }
 
-        /* 7. 양자 보안 시스템 */
-        .shield-section {
-            border: 1px solid var(--hk-cyan); border-radius: 20px; padding: 30px;
-            background: rgba(0, 242, 255, 0.03); margin-bottom: 40px; text-align: left;
+        /* 4. 스테이킹 바 */
+        .stake-bar { 
+            background: #0a0a0a; border-left: 4px solid var(--hk-gold); 
+            padding: 15px; margin-bottom: 20px; border-radius: 0 10px 10px 0;
         }
-        .shield-header { color: var(--hk-cyan); font-weight: bold; font-size: 20px; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
-        .shield-info { list-style: none; padding: 0; margin: 0; color: #ccc; line-height: 2.2; font-size: 17px; }
+        .stake-val { font-size: 24px; font-weight: 900; }
 
-        /* 8. 최하단 정보 */
-        footer { text-align: center; padding-top: 40px; border-top: 1px solid #222; margin-top: 20px; }
-        .apy-footer-txt { color: var(--hk-gold); font-size: 36px; font-weight: 900; margin-bottom: 30px; }
-        .end-sentence-txt { color: #888; font-size: 16px; font-weight: bold; line-height: 1.6; margin-bottom: 25px; }
-        .p-link { color: #555; text-decoration: none; font-size: 14px; }
-        .p-link:hover { color: var(--hk-gold); }
+        /* 5. 핵심 3버튼 (SNS 위 배치) */
+        .btn-row { display: flex; gap: 8px; margin-bottom: 15px; }
+        .main-btn { flex: 1; padding: 15px 5px; border-radius: 10px; border: none; font-weight: 900; font-size: 14px; cursor: pointer; }
+        .white { background: #fff; color: #000; }
+        .gold { background: var(--hk-gold); color: #000; }
+        .green { background: #00c853; color: #fff; }
+
+        /* 6. 고객센터 및 SNS */
+        .cs-btn { 
+            width: 100%; padding: 15px; background: #ff5252; color: #fff; 
+            border: none; border-radius: 10px; font-weight: bold; margin-bottom: 15px;
+        }
+        .sns-row { display: flex; gap: 10px; margin-bottom: 30px; }
+        .sns-btn { flex: 1; padding: 12px; border-radius: 10px; text-decoration: none; color: #fff; text-align: center; font-weight: bold; font-size: 14px; }
+
+        /* 보안 및 푸터 */
+        .shield { border: 1px solid var(--hk-cyan); padding: 15px; border-radius: 15px; margin-bottom: 30px; font-size: 13px; line-height: 1.8; }
+        footer { text-align: center; border-top: 1px solid #222; padding-top: 30px; }
+        .footer-apy { color: var(--hk-gold); font-size: 28px; font-weight: 900; margin-bottom: 20px; }
+        .policy { color: #555; text-decoration: none; font-size: 12px; display: block; margin-top: 15px; }
     </style>
 </head>
 <body>
 
-<div class="pc-wrapper">
+<div class="wrapper">
     <div class="top-nav">
-        <select class="lang-control">
-            <option>한국어 🇰🇷</option>
-            <option>English 🇺🇸</option>
+        <select class="lang-select" id="langIdx" onchange="changeLang()">
+            <option value="ko">한국어</option><option value="en">English</option>
+            <option value="zh">中文</option><option value="ar">العربية</option>
+            <option value="hi">हिन्दी</option><option value="es">Español</option>
+            <option value="pt">Português</option><option value="uk">Українська</option>
+            <option value="ja">日本語</option><option value="ru">Русский</option>
+            <option value="vi">Tiếng Việt</option><option value="th">ไทย</option>
+            <option value="de">Deutsch</option><option value="fr">Français</option>
+            <option value="it">Italiano</option>
         </select>
     </div>
 
-    <div class="brand-logo">HK WORLD BANK</div>
+    <div class="brand">HK WORLD BANK</div>
 
-    <div class="asset-summary">
-        <div class="summary-label">메인 자산 통합 원장</div>
-        <div class="balance-txt">400.0212 <span class="pi-symbol">Pi</span></div>
-        <div class="gcv-val">가치 평가: $ 125,663,600 (GCV)</div>
+    <div class="asset-card">
+        <div class="asset-label" id="l-ledger">메인 자산 통합 원장</div>
+        <div class="asset-val">400.0212 <span style="color:var(--hk-gold); font-size:0.5em;">Pi</span></div>
+        <div class="gcv-badge" id="l-gcv">가치 평가: $ 125,663,600 (GCV)</div>
     </div>
 
-    <div class="menu-grid">
-        <div class="grid-item"><i class="fas fa-rocket"></i><span>송금</span></div>
-        <div class="grid-item"><i class="fas fa-shopping-cart"></i><span>결제</span></div>
-        <div class="grid-item"><i class="fas fa-piggy-bank"></i><span>예치</span></div>
-        <div class="grid-item"><i class="fas fa-gift"></i><span>보상</span></div>
-        <div class="grid-item"><i class="fas fa-balance-scale"></i><span>기본소득</span></div>
-        <div class="grid-item"><i class="fas fa-sync-alt"></i><span>스왑</span></div>
+    <div class="grid-6">
+        <div class="grid-box"><i class="fas fa-paper-plane" style="color:#007AFF"></i><span data-k="send">송금</span></div>
+        <div class="grid-box"><i class="fas fa-shopping-cart" style="color:orange"></i><span data-k="pay">결제</span></div>
+        <div class="grid-box"><i class="fas fa-piggy-bank" style="color:var(--hk-gold)"></i><span data-k="save">예치</span></div>
+        <div class="grid-box"><i class="fas fa-gift" style="color:var(--hk-red)"></i><span data-k="reward">보상</span></div>
+        <div class="grid-box"><i class="fas fa-balance-scale" style="color:var(--hk-purple)"></i><span data-k="ubi">기본소득</span></div>
+        <div class="grid-box"><i class="fas fa-sync-alt" style="color:var(--hk-cyan)"></i><span data-k="swap2">스왑</span></div>
     </div>
 
-    <div class="staking-box">
-        <div class="staking-head">STAKING 31.4% | 유동성 풀 $</div>
-        <div class="staking-num">88,401,819,601</div>
+    <div class="stake-bar">
+        <div style="color:var(--hk-gold); font-size:12px; font-weight:bold;">STAKING 31.4%</div>
+        <div class="stake-val">88,401,819,601</div>
     </div>
 
-    <div class="core-actions">
-        <button class="action-btn btn-white">PI 수량</button>
-        <button class="action-btn btn-gold">SWAP</button>
-        <button class="action-btn btn-green">LP 공급</button>
+    <div class="btn-row">
+        <button class="main-btn white" id="b-pi">PI 수량</button>
+        <button class="main-btn gold" id="b-swap">SWAP</button>
+        <button class="main-btn green" id="b-lp">LP 공급</button>
     </div>
 
-    <button class="cs-wide-btn"><i class="fas fa-headset"></i> 글로벌 고객지원센터</button>
+    <button class="cs-btn" id="l-cs">글로벌 고객지원센터</button>
 
-    <div class="social-btns">
-        <a href="https://www.youtube.com/@Hyekong2025" target="_blank" class="btn-ytb"><i class="fab fa-youtube"></i> YOUTUBE</a>
-        <a href="https://www.tiktok.com/@hyekong2025" target="_blank" class="btn-ttk"><i class="fab fa-tiktok"></i> TIKTOK</a>
+    <div class="sns-row">
+        <a href="#" class="sns-btn" style="background:#f00;">YOUTUBE</a>
+        <a href="#" class="sns-btn" style="background:#000; border:1px solid #333;">TIKTOK</a>
     </div>
 
-    <div class="shield-section">
-        <div class="shield-header"><i class="fas fa-shield-halved"></i> HK QUANTUM SHIELD ACTIVE</div>
-        <ul class="shield-list">
-            <li>• 개인정보보호법 준수: 양자 암호화 보안 적용</li>
-            <li>• Form of Private: 자산 보호 프로토콜 가동</li>
-            <li>• HK-ROBOT: AI 실시간 위협 탐지 중</li>
-        </ul>
+    <div class="shield">
+        <div style="color:var(--hk-cyan); font-weight:bold; margin-bottom:10px;">HK QUANTUM SHIELD ACTIVE</div>
+        <div id="s1">• 개인정보보호법 준수: 양자 암호화 적용</div>
+        <div id="s2">• Form of Private: 자산 보호 프로토콜</div>
     </div>
 
     <footer>
-        <div class="apy-footer-txt">예치 (APY 31.4%)</div>
-        <div class="end-sentence-txt">
-            "HK WorldBank는 고객님의 자산을<br>양자 암호 기술로 안전하게 보호합니다."
-        </div>
-        <a href="#" class="p-link">개인정보처리방안</a>
-        <p style="font-size:10px; color:#333; margin-top:20px;">&copy; 2026 HK GROUP. All Rights Reserved.</p>
+        <div class="footer-apy" id="l-apy">예치 (APY 31.4%)</div>
+        <div id="l-msg" style="color:#888; font-size:14px; font-weight:bold; line-height:1.6;">"HK WorldBank는 양자 암호 기술로 고객님의 자산을 보호합니다."</div>
+        <a href="#" class="policy" id="l-policy">개인정보처리방안</a>
     </footer>
 </div>
 
+<script>
+    const langData = {
+        ko: { ledger: "메인 자산 통합 원장", gcv: "가치 평가: $ 125,663,600 (GCV)", send: "송금", pay: "결제", save: "예치", reward: "보상", ubi: "기본소득", swap2: "스왑", pi: "PI 수량", swap: "SWAP", lp: "LP 공급", cs: "글로벌 고객지원센터", apy: "예치 (APY 31.4%)", msg: '"HK WorldBank는 양자 암호 기술로 고객님의 자산을 보호합니다."', policy: "개인정보처리방안" },
+        en: { ledger: "Main Asset Ledger", gcv: "Value: $ 125,663,600 (GCV)", send: "Send", pay: "Pay", save: "Save", reward: "Reward", ubi: "UBI", swap2: "Swap", pi: "PI Qty", swap: "SWAP", lp: "LP Supply", cs: "Global CS Center", apy: "Save (APY 31.4%)", msg: '"HK WorldBank protects assets with Quantum Tech."', policy: "Privacy Policy" }
+        /* ... 아랍어, 스페인어 등 15개국어 데이터 추가 가능 공간 ... */
+    };
+
+    function changeLang() {
+        const sel = document.getElementById('langIdx').value;
+        const d = langData[sel] || langData['en'];
+        document.getElementById('l-ledger').innerText = d.ledger;
+        document.getElementById('l-gcv').innerText = d.gcv;
+        document.getElementById('b-pi').innerText = d.pi;
+        document.getElementById('b-swap').innerText = d.swap;
+        document.getElementById('b-lp').innerText = d.lp;
+        document.getElementById('l-cs').innerText = d.cs;
+        document.getElementById('l-apy').innerText = d.apy;
+        document.getElementById('l-msg').innerText = d.msg;
+        document.getElementById('l-policy').innerText = d.policy;
+        document.querySelectorAll('[data-k]').forEach(el => el.innerText = d[el.getAttribute('data-k')]);
+    }
+</script>
 </body>
 </html>
