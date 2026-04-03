@@ -8,204 +8,262 @@
     <style>
         :root {
             --hk-gold: #FFD700;
-            --hk-dark: #000000;
-            --hk-gray: #1a1a1a;
-            --hk-red: #FF0000;
+            --hk-dark-bg: #000000;
+            --hk-card-bg: #0a0a0a;
+            --hk-green: #00ff00;
+            --hk-red: #ff4d4d;
         }
+
         body {
             margin: 0;
             padding: 0;
-            background-color: var(--hk-dark);
+            background-color: var(--hk-dark-bg);
             color: white;
             font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
-            -webkit-user-select: none;
+            overflow-x: hidden;
         }
 
-        /* 언어 선택 상단 바 */
+        /* 상단 네비게이션 */
         .top-nav {
             display: flex;
-            justify-content: flex-end;
-            padding: 10px 15px;
-            background: #111;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
         }
-        .lang-select {
-            background: #222;
+        .brand-logo {
+            color: var(--hk-gold);
+            font-size: 22px;
+            font-weight: 900;
+            letter-spacing: -0.5px;
+        }
+        .lang-selector select {
+            background: #1a1a1a;
             color: white;
-            border: 1px solid #444;
+            border: 1px solid #333;
             padding: 5px 10px;
             border-radius: 5px;
-            font-size: 12px;
-        }
-
-        /* 헤더 섹션 */
-        header {
-            text-align: center;
-            padding: 30px 20px;
-        }
-        .brand-name {
-            font-size: 28px;
-            font-weight: 900;
-            color: var(--hk-gold);
-            letter-spacing: -1px;
-            margin-bottom: 5px;
-        }
-        .sub-text {
             font-size: 13px;
-            color: #888;
-            letter-spacing: 1px;
         }
 
-        /* 메인 자산 카드 (스크린샷 반영) */
-        .asset-card {
-            margin: 0 20px;
-            padding: 25px;
-            background: linear-gradient(145deg, #111, #222);
+        /* 메인 자산 통합 원장 카드 */
+        .asset-main-card {
+            margin: 10px 15px;
+            padding: 30px 15px;
+            background: linear-gradient(145deg, #0f0f0f, #1a1a1a);
             border-radius: 20px;
             text-align: center;
-            border: 1px solid #333;
+            border: 1px solid #222;
         }
-        .asset-title { font-size: 14px; color: #aaa; margin-bottom: 10px; }
-        .asset-value { font-size: 36px; font-weight: bold; color: white; }
-        .asset-unit { color: var(--hk-gold); margin-left: 5px; }
-        .gcv-box {
+        .label-gold {
+            color: #bfa100;
+            font-size: 13px;
+            margin-bottom: 10px;
+            display: block;
+        }
+        .asset-amount {
+            font-size: 40px;
+            font-weight: bold;
+            margin: 5px 0;
+        }
+        .pi-symbol {
+            color: var(--hk-gold);
+            font-size: 22px;
+            margin-left: 5px;
+        }
+        .gcv-badge {
             display: inline-block;
             margin-top: 15px;
-            padding: 5px 15px;
+            padding: 6px 15px;
             background: rgba(0, 255, 0, 0.1);
-            border: 1px solid #00ff00;
+            border: 1px solid var(--hk-green);
             border-radius: 20px;
-            color: #00ff00;
-            font-size: 14px;
+            color: var(--hk-green);
+            font-size: 13px;
+            font-weight: bold;
         }
 
-        /* 버튼 그리드 */
-        .menu-grid {
+        /* 6구 그리드 메뉴 */
+        .action-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 10px;
-            padding: 20px;
-        }
-        .menu-item {
-            background: #1a1a1a;
-            padding: 15px 5px;
-            border-radius: 10px;
-            text-align: center;
-            font-size: 12px;
-            border: 1px solid #222;
-        }
-        .menu-item i { display: block; font-size: 20px; margin-bottom: 8px; color: var(--hk-gold); }
-
-        /* 스테이킹 정보 */
-        .staking-info {
-            margin: 0 20px;
             padding: 15px;
-            border-left: 4px solid var(--hk-gold);
+        }
+        .action-item {
             background: #111;
+            padding: 15px 5px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid #1a1a1a;
         }
-        .staking-info div { font-size: 12px; color: var(--hk-gold); font-weight: bold; }
-        .staking-info h2 { margin: 5px 0; font-size: 24px; }
+        .action-item i {
+            display: block;
+            font-size: 18px;
+            margin-bottom: 8px;
+            color: #888;
+        }
+        .action-item span {
+            font-size: 12px;
+            color: #eee;
+        }
 
-        /* 하단 액션 버튼 */
-        .action-btns {
-            display: flex;
-            gap: 10px;
-            padding: 10px 20px;
+        /* 스테이킹 정보 섹션 */
+        .staking-section {
+            padding: 20px;
+            border-top: 1px solid #222;
         }
-        .btn {
+        .staking-header {
+            color: var(--hk-gold);
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .staking-value {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        /* 중앙 3버튼 */
+        .middle-btns {
+            display: flex;
+            gap: 8px;
+            padding: 0 15px 20px;
+        }
+        .m-btn {
             flex: 1;
             padding: 12px;
             border-radius: 8px;
             border: none;
             font-weight: bold;
-            font-size: 14px;
+            font-size: 13px;
+            cursor: pointer;
         }
-        .btn-white { background: white; color: black; }
-        .btn-gold { background: var(--hk-gold); color: black; }
-        .btn-green { background: #00c853; color: white; }
+        .btn-w { background: white; color: black; }
+        .btn-y { background: var(--hk-gold); color: black; }
+        .btn-g { background: #00c853; color: white; }
 
-        /* 유튜브 & 틱톡 섹션 */
-        .social-section {
-            padding: 20px;
-            display: flex;
-            gap: 10px;
+        /* 하단 주요 링크 버튼 */
+        .footer-links {
+            padding: 0 15px 30px;
         }
-        .social-btn {
-            flex: 1;
+        .cs-center {
+            background: var(--hk-red);
+            width: 100%;
             padding: 15px;
             border-radius: 10px;
+            color: white;
+            border: none;
+            font-weight: bold;
+            margin-bottom: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
+            gap: 10px;
+        }
+        .social-btns {
+            display: flex;
+            gap: 10px;
+        }
+        .social-btns a {
+            flex: 1;
+            padding: 15px;
+            border-radius: 10px;
             text-decoration: none;
             font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
             color: white;
         }
-        .yt-btn { background: var(--hk-red); }
-        .tt-btn { background: #000; border: 1px solid #444; }
-        .social-btn i { margin-right: 8px; font-size: 18px; }
+        .yt { background: #ff0000; }
+        .tk { background: #000; border: 1px solid #444; }
 
-        footer {
-            text-align: center;
-            padding: 30px;
-            font-size: 11px;
-            color: #555;
-        }
     </style>
 </head>
 <body>
 
     <div class="top-nav">
-        <select class="lang-select">
-            <option>KR 🇰🇷</option>
-            <option>EN 🇺🇸</option>
-            <option>JP 🇯🇵</option>
-        </select>
+        <div class="brand-logo">HK WORLD BANK</div>
+        <div class="lang-selector">
+            <select id="langSelect" onchange="translatePage()">
+                <option value="ko">KR 🇰🇷</option>
+                <option value="en">EN 🇺🇸</option>
+            </select>
+        </div>
     </div>
 
-    <header>
-        <div class="brand-name">HK WORLD BANK</div>
-        <div class="sub-text">GLOBAL INDUSTRIAL LEADER</div>
-    </header>
-
-    <div class="asset-card">
-        <div class="asset-title">메인 자산 통합 원장</div>
-        <div class="asset-value">400.0212<span class="asset-unit">Pi</span></div>
-        <div class="gcv-box">가치 평가: $ 125,663,600 (GCV)</div>
+    <div class="asset-main-card">
+        <span class="label-gold" id="label-ledger">메인 자산 통합 원장</span>
+        <div class="asset-amount">400.0212<span class="pi-symbol">Pi</span></div>
+        <div class="gcv-badge" id="label-gcv">가치 평가: $ 125,663,600 (GCV)</div>
     </div>
 
-    <div class="menu-grid">
-        <div class="menu-item"><i class="fas fa-paper-plane"></i>송금</div>
-        <div class="menu-item"><i class="fas fa-shopping-cart"></i>결제</div>
-        <div class="menu-item"><i class="fas fa-coins"></i>예치</div>
-        <div class="menu-item"><i class="fas fa-gift"></i>보상</div>
-        <div class="menu-item"><i class="fas fa-balance-scale"></i>기본소득</div>
-        <div class="menu-item"><i class="fas fa-sync"></i>스왑</div>
+    <div class="action-grid">
+        <div class="action-item"><i class="fas fa-paper-plane"></i><span data-key="send">송금</span></div>
+        <div class="action-item"><i class="fas fa-shopping-cart"></i><span data-key="pay">결제</span></div>
+        <div class="action-item"><i class="fas fa-piggy-bank"></i><span data-key="deposit">예치</span></div>
+        <div class="action-item"><i class="fas fa-gift"></i><span data-key="reward">보상</span></div>
+        <div class="action-item"><i class="fas fa-balance-scale"></i><span data-key="ubi">기본소득</span></div>
+        <div class="action-item"><i class="fas fa-exchange-alt"></i><span data-key="swap">스왑</span></div>
     </div>
 
-    <div class="staking-info">
-        <div>STAKING 31.4% | 유동성 풀 $</div>
-        <h2>88,401,819,601</h2>
+    <div class="staking-section">
+        <div class="staking-header">STAKING 31.4% | <span data-key="lp_pool">유동성 풀 $</span></div>
+        <div class="staking-value">88,401,819,601</div>
     </div>
 
-    <div class="action-btns">
-        <button class="btn btn-white">PI 수량</button>
-        <button class="btn btn-gold">SWAP</button>
-        <button class="btn btn-green">LP 공급</button>
+    <div class="middle-btns">
+        <button class="m-btn btn-w">PI 수량</button>
+        <button class="m-btn btn-y">SWAP</button>
+        <button class="m-btn btn-g">LP 공급</button>
     </div>
 
-    <div class="social-section">
-        <a href="https://www.youtube.com/@유튜브아이디" class="social-btn yt-btn">
-            <i class="fab fa-youtube"></i> YOUTUBE
-        </a>
-        <a href="https://www.tiktok.com/@틱톡아이디" class="social-btn tt-btn">
-            <i class="fab fa-tiktok"></i> TIKTOK
-        </a>
+    <div class="footer-links">
+        <button class="cs-center">
+            <i class="fas fa-headset"></i> <span data-key="cs">글로벌 고객지원센터</span>
+        </button>
+        
+        <div class="social-btns">
+            <a href="https://www.youtube.com" class="yt">
+                <i class="fab fa-youtube"></i> YOUTUBE
+            </a>
+            <a href="https://www.tiktok.com" class="tk">
+                <i class="fab fa-tiktok"></i> TIKTOK
+            </a>
+        </div>
     </div>
 
-    <footer>
-        &copy; 2026 HK GROUP. All Rights Reserved.<br>
-        Powered by HK-WorldBank Ecosystem
-    </footer>
+    <script>
+        const i18n = {
+            ko: {
+                ledger: "메인 자산 통합 원장",
+                gcv: "가치 평가: $ 125,663,600 (GCV)",
+                send: "송금", pay: "결제", deposit: "예치", reward: "보상", ubi: "기본소득", swap: "스왑",
+                lp_pool: "유동성 풀 $", cs: "글로벌 고객지원센터"
+            },
+            en: {
+                ledger: "Main Integrated Asset Ledger",
+                gcv: "Evaluation: $ 125,663,600 (GCV)",
+                send: "Transfer", pay: "Payment", deposit: "Deposit", reward: "Reward", ubi: "UBI", swap: "Swap",
+                lp_pool: "Liquidity Pool $", cs: "Global Support Center"
+            }
+        };
+
+        function translatePage() {
+            const lang = document.getElementById('langSelect').value;
+            const res = i18n[lang];
+
+            document.getElementById('label-ledger').innerText = res.ledger;
+            document.getElementById('label-gcv').innerText = res.gcv;
+
+            document.querySelectorAll('[data-key]').forEach(el => {
+                const key = el.getAttribute('data-key');
+                el.innerText = res[key];
+            });
+        }
+    </script>
 
 </body>
 </html>
