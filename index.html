@@ -1,148 +1,198 @@
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HK WORLD BANK - Global Settlement System</title>
+    <title>HK WORLD BANK - Settlement System</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Noto+Sans+KR:wght@300;500;900&display=swap');
-        
         body {
-            background: radial-gradient(circle at top, #1a1a1a 0%, #000000 100%);
+            background-color: #0b0b0b;
             color: #ffffff;
             font-family: 'Noto Sans KR', sans-serif;
+            display: flex;
+            justify-content: center;
             min-height: 100vh;
+            margin: 0;
+            padding: 20px;
         }
-        .gold-gradient-text {
-            background: linear-gradient(to right, #facc15, #eab308, #fef08a);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-family: 'Orbitron', sans-serif;
+        .app-container {
+            width: 100%;
+            max-width: 480px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
         }
         .glass-card {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 24px;
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 20px;
+            padding: 24px;
         }
-        .gcv-border {
+        .gcv-badge {
             border: 2px solid #22c55e;
-            box-shadow: 0 0 15px rgba(34, 197, 94, 0.3);
+            color: #22c55e;
+            border-radius: 999px;
+            padding: 6px 20px;
+            font-weight: bold;
+            display: inline-block;
         }
-        .payment-input {
-            background: rgba(0, 0, 0, 0.5);
+        .input-box {
+            background: #262626;
             border: 1px solid #444;
-            color: #fff;
             border-radius: 12px;
+            padding: 14px;
+            width: 100%;
+            color: white;
+            outline: none;
+        }
+        .input-box:focus { border-color: #facc15; }
+        .confirm-btn {
+            background: #facc15;
+            color: #000;
+            font-weight: 900;
+            border-radius: 12px;
+            padding: 18px;
+            width: 100%;
+            font-size: 1.1rem;
+            transition: all 0.2s;
+        }
+        .confirm-btn:active { transform: scale(0.98); opacity: 0.9; }
+        
+        /* 결제 완료 팝업 스타일 */
+        #success-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.8);
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
         }
     </style>
 </head>
-<body class="pb-20">
+<body>
 
-    <nav class="p-6 flex justify-between items-center">
-        <div class="flex space-x-3">
-            <span class="text-2xl grayscale hover:grayscale-0 cursor-pointer transition">🇺🇸</span>
-            <span class="text-2xl cursor-pointer">🇰🇷</span>
-            <span class="text-2xl grayscale hover:grayscale-0 cursor-pointer transition">🇯🇵</span>
-            <span class="text-2xl grayscale hover:grayscale-0 cursor-pointer transition">🇨🇳</span>
-            <span class="text-2xl grayscale hover:grayscale-0 cursor-pointer transition">🇻🇳</span>
+    <div class="app-container">
+        <section class="glass-card text-center">
+            <h2 class="text-yellow-500 font-bold text-sm mb-4">메인 자산 통합 원장</h2>
+            <div class="flex justify-center items-baseline gap-2 mb-4">
+                <span id="current-pi" class="text-5xl font-black">400.0212</span>
+                <span class="text-2xl font-bold text-yellow-500">Pi</span>
+            </div>
+            <div class="gcv-badge text-sm">가치 평가: $ 125,663,600 (GCV)</div>
+        </section>
+
+        <div class="grid grid-cols-3 gap-4">
+            <button class="glass-card p-4 flex flex-col items-center gap-2 hover:bg-zinc-800 transition">
+                <i class="fa-solid fa-paper-plane text-blue-400 text-xl"></i>
+                <span class="text-xs font-bold">송금</span>
+            </button>
+            <button class="glass-card p-4 border-yellow-500/50 flex flex-col items-center gap-2 bg-yellow-500/5">
+                <i class="fa-solid fa-qrcode text-yellow-500 text-xl"></i>
+                <span class="text-xs font-bold text-yellow-500">결제</span>
+            </button>
+            <button class="glass-card p-4 flex flex-col items-center gap-2 hover:bg-zinc-800 transition">
+                <i class="fa-solid fa-vault text-yellow-300 text-xl"></i>
+                <span class="text-xs font-bold">예치</span>
+            </button>
         </div>
-        <div class="text-yellow-400 font-bold">HK GROUP 🌐</div>
-    </nav>
 
-    <header class="text-center mb-8">
-        <h1 class="text-4xl font-black gold-gradient-text tracking-widest mb-1">HK WORLD BANK</h1>
-        <p class="text-xs text-gray-500 uppercase tracking-widest">Global Asset Ledger System</p>
-    </header>
+        <section class="glass-card">
+            <div class="flex justify-between items-center mb-6 border-b border-zinc-800 pb-2">
+                <h3 class="text-sm font-black tracking-widest text-white">REAL-TIME SETTLEMENT</h3>
+                <span class="bg-red-600 text-[10px] px-2 py-0.5 rounded-full animate-pulse">LIVE</span>
+            </div>
 
-    <main class="max-w-md mx-auto px-4 space-y-6">
-        
-        <section class="glass-card p-8 text-center relative overflow-hidden">
-            <div class="absolute top-0 right-0 p-4 opacity-10">
-                <i class="fa-solid fa-building-columns text-6xl text-white"></i>
-            </div>
-            <h2 class="text-yellow-500 font-bold mb-4">메인 자산 통합 원장</h2>
-            <div class="flex justify-center items-center space-x-2 mb-6">
-                <span class="text-5xl font-black">400.0212</span>
-                <span class="text-3xl font-bold text-yellow-500">Pi</span>
-            </div>
-            <div class="gcv-border inline-block px-6 py-2 rounded-full">
-                <span class="text-green-400 font-bold">가치 평가: $ 125,663,600 (GCV)</span>
-            </div>
-        </section>
-
-        <section class="grid grid-cols-3 gap-4">
-            <div class="glass-card p-4 text-center cursor-pointer hover:bg-white/5 transition">
-                <i class="fa-solid fa-paper-plane text-2xl text-blue-400 mb-2"></i>
-                <p class="text-xs font-bold">송금</p>
-            </div>
-            <div class="glass-card p-4 text-center border-yellow-500 border cursor-pointer bg-yellow-500/10">
-                <i class="fa-solid fa-qrcode text-2xl text-yellow-500 mb-2"></i>
-                <p class="text-xs font-bold">결제</p>
-            </div>
-            <div class="glass-card p-4 text-center cursor-pointer hover:bg-white/5 transition">
-                <i class="fa-solid fa-vault text-2xl text-yellow-300 mb-2"></i>
-                <p class="text-xs font-bold">예치</p>
-            </div>
-        </section>
-
-        <section class="glass-card p-6 space-y-4">
-            <div class="flex justify-between items-center border-b border-gray-700 pb-2">
-                <h3 class="font-bold text-yellow-500">REAL-TIME SETTLEMENT</h3>
-                <span class="text-[10px] bg-red-600 px-2 py-0.5 rounded text-white animate-pulse">LIVE</span>
-            </div>
-            
-            <div class="space-y-3">
-                <div class="flex flex-col">
-                    <label class="text-[10px] text-gray-400 mb-1">결제 대상 (Wallet Address / Merchant)</label>
-                    <input type="text" value="HK-ROBOTICS-CENTER-01" class="payment-input p-3 text-sm" readonly>
+            <div class="space-y-5">
+                <div>
+                    <label class="text-[11px] text-zinc-500 block mb-2">결제 대상 (Merchant)</label>
+                    <input type="text" value="HK-ROBOTICS-CENTER-01" class="input-box text-sm" readonly>
                 </div>
-                <div class="flex flex-col">
-                    <label class="text-[10px] text-gray-400 mb-1">결제 수량 (Pi)</label>
-                    <input type="number" placeholder="0.0000" class="payment-input p-3 text-xl font-bold text-yellow-400">
+                <div>
+                    <label class="text-[11px] text-zinc-500 block mb-2">결제 수량 (Pi)</label>
+                    <div class="relative">
+                        <input type="number" id="pay-amount" placeholder="0.0000" class="input-box text-2xl font-bold text-yellow-500">
+                        <span class="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-500 font-bold">Pi</span>
+                    </div>
                 </div>
-                <button class="w-full bg-yellow-500 hover:bg-yellow-400 text-black font-black py-4 rounded-xl transition transform active:scale-95">
+                <button onclick="processPayment()" id="btn-pay" class="confirm-btn">
                     CONFIRM PAYMENT (결제 승인)
                 </button>
             </div>
         </section>
 
-        <section class="glass-card p-5 border-l-4 border-yellow-500">
-            <div class="flex justify-between items-end">
+        <section class="glass-card border-l-4 border-yellow-500 py-4">
+            <div class="flex justify-between items-center">
                 <div>
-                    <p class="text-xs text-yellow-500 font-bold mb-1">Staking 31.4% | 유동성풀 $</p>
-                    <p class="text-3xl font-black tracking-tighter">88,410,819,601</p>
+                    <p class="text-[10px] text-yellow-500 font-bold">Staking 31.4% | 유동성풀 $</p>
+                    <p class="text-2xl font-black">88,410,819,601</p>
                 </div>
                 <div class="text-right">
-                    <p class="text-[10px] text-gray-500">ESTIMATED APY</p>
-                    <p class="text-xl font-bold text-yellow-400">31.4%</p>
+                    <p class="text-[9px] text-zinc-500">EST. APY</p>
+                    <p class="text-lg font-bold text-yellow-500">31.4%</p>
                 </div>
             </div>
         </section>
 
-        <footer class="text-center py-10 opacity-50">
-            <p class="text-sm font-bold tracking-[0.3em]">CHAIRMAN LEE JAEWAN (HYEKONG)</p>
-            <p class="text-[10px] mt-2">© 2026 HK GROUP. ALL RIGHTS RESERVED.</p>
-            <div class="mt-4 flex justify-center space-x-4">
-                <i class="fa-brands fa-bitcoin text-xl"></i>
-                <i class="fa-solid fa-microchip text-xl"></i>
-                <i class="fa-solid fa-rocket text-xl"></i>
-            </div>
+        <footer class="text-center py-6 opacity-40">
+            <p class="text-xs font-bold tracking-[0.2em]">CHAIRMAN LEE JAEWAN (HYEKONG)</p>
+            <p class="text-[9px] mt-1">© 2026 HK GROUP. ALL RIGHTS RESERVED.</p>
         </footer>
-
-    </main>
-
-    <div class="fixed bottom-0 left-0 right-0 bg-black/80 backdrop-blur-md border-t border-gray-800 p-4 flex justify-around items-center max-w-md mx-auto">
-        <i class="fa-solid fa-house text-yellow-500 text-xl"></i>
-        <i class="fa-solid fa-chart-line text-gray-500 text-xl"></i>
-        <div class="bg-yellow-500 w-12 h-12 rounded-full flex items-center justify-center -mt-10 border-4 border-black shadow-lg">
-            <i class="fa-solid fa-qrcode text-black text-2xl"></i>
-        </div>
-        <i class="fa-solid fa-wallet text-gray-500 text-xl"></i>
-        <i class="fa-solid fa-gear text-gray-500 text-xl"></i>
     </div>
+
+    <div id="success-modal">
+        <div class="glass-card w-80 text-center p-10 space-y-4 border-yellow-500">
+            <i class="fa-solid fa-circle-check text-6xl text-green-500 mb-2"></i>
+            <h2 class="text-2xl font-black">결제 성공</h2>
+            <p class="text-sm text-zinc-400">HK WORLD BANK를 이용해 주셔서 감사합니다.</p>
+            <button onclick="closeModal()" class="confirm-btn py-3 mt-4">확인</button>
+        </div>
+    </div>
+
+    <script>
+        let currentBalance = 400.0212;
+
+        function processPayment() {
+            const amountInput = document.getElementById('pay-amount');
+            const amount = parseFloat(amountInput.value);
+            const btn = document.getElementById('btn-pay');
+
+            if (isNaN(amount) || amount <= 0) {
+                alert('결제 수량을 정확히 입력해 주십시오, 회장님!');
+                return;
+            }
+
+            if (amount > currentBalance) {
+                alert('잔액이 부족합니다.');
+                return;
+            }
+
+            // 결제 진행 연출
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 승인 중...';
+            btn.disabled = true;
+
+            setTimeout(() => {
+                // 잔액 차감 및 업데이트
+                currentBalance -= amount;
+                document.getElementById('current-pi').innerText = currentBalance.toFixed(4);
+                
+                // 성공 모달 표시
+                document.getElementById('success-modal').style.display = 'flex';
+                
+                // 버튼 초기화
+                btn.innerHTML = 'CONFIRM PAYMENT (결제 승인)';
+                btn.disabled = false;
+                amountInput.value = '';
+            }, 1500);
+        }
+
+        function closeModal() {
+            document.getElementById('success-modal').style.display = 'none';
+        }
+    </script>
 
 </body>
 </html>
