@@ -8,37 +8,36 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root { --hk-gold: #FFD700; --hk-dark: #000; --hk-green: #00FF00; --hk-cyan: #00FFFF; }
-        body { background-color: var(--hk-dark); color: white; font-family: 'Noto Sans KR', sans-serif; margin: 0; padding: 10px; display: flex; justify-content: center; overflow-x: hidden; }
+        body { background-color: var(--hk-dark); color: white; font-family: sans-serif; margin: 0; padding: 10px; display: flex; justify-content: center; }
         .wrapper { width: 100%; max-width: 430px; display: flex; flex-direction: column; align-items: center; }
 
-        /* 15개국 국기 선택 (이모지 고정으로 절대 안사라짐) */
+        /* 15개국 국기 선택 (이모지 고정) */
         .top-nav { width: 100%; display: flex; justify-content: flex-end; margin-bottom: 10px; }
-        .lang-select { background: #1a1a1a; color: var(--hk-gold); border: 2px solid var(--hk-gold); padding: 8px; border-radius: 10px; font-weight: 900; font-size: 14px; cursor: pointer; }
+        .lang-select { background: #1a1a1a; color: var(--hk-gold); border: 2px solid var(--hk-gold); padding: 8px; border-radius: 10px; font-weight: 900; }
 
-        .brand { font-size: 32px; font-weight: 900; color: var(--hk-gold); margin: 15px 0; text-shadow: 0 0 10px rgba(255,215,0,0.5); }
+        .brand { font-size: 32px; font-weight: 900; color: var(--hk-gold); margin: 15px 0; }
 
         /* 자산 정보 */
-        .asset-card { width: 100%; background: #111; border: 1px solid #333; border-radius: 20px; padding: 25px 10px; text-align: center; margin-bottom: 15px; box-shadow: inset 0 0 20px rgba(255,215,0,0.1); }
+        .asset-card { width: 100%; background: #111; border: 1px solid #333; border-radius: 20px; padding: 25px 10px; text-align: center; margin-bottom: 15px; }
         .asset-val { font-size: 42px; font-weight: 900; margin: 10px 0; }
         .gcv-badge { color: var(--hk-green); border: 1px solid var(--hk-green); padding: 6px 18px; border-radius: 50px; font-size: 14px; font-weight: bold; }
 
-        /* 6대 메뉴 (전부 다 들어갔습니다!) */
-        .menu-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; width: 100%; margin-bottom: 12px; }
-        .menu-item { background: linear-gradient(145deg, #1a1a1a, #0d0d0d); padding: 22px 5px; border-radius: 18px; text-align: center; border: 1px solid #333; cursor: pointer; transition: 0.3s; }
-        .menu-item:active { transform: scale(0.95); background: #222; }
-        .menu-item i { font-size: 28px; color: var(--hk-gold); margin-bottom: 12px; display: block; }
+        /* 6대 메뉴 통합 (보상, 기본소득, 스왑 포함) */
+        .menu-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; width: 100%; margin-bottom: 15px; }
+        .menu-item { background: #1a1a1a; padding: 20px 5px; border-radius: 15px; text-align: center; border: 1px solid #333; cursor: pointer; }
+        .menu-item i { font-size: 26px; color: var(--hk-gold); margin-bottom: 10px; display: block; }
         .menu-text { font-size: 14px; font-weight: 900; }
 
-        /* 하단 지표 */
-        .big-num { font-size: 32px; font-weight: 900; margin: 15px 0; letter-spacing: 1px; }
-        .btn-row { width: 100%; display: flex; gap: 8px; margin-bottom: 12px; }
+        /* 지표 및 버튼 */
+        .big-num { font-size: 32px; font-weight: 900; margin: 15px 0; }
+        .btn-row { width: 100%; display: flex; gap: 8px; margin-bottom: 15px; }
         .act-btn { flex: 1; padding: 18px; border-radius: 12px; border: none; font-weight: 900; cursor: pointer; font-size: 15px; }
 
-        /* 유튜브/틱톡 구동 (무조건 작동) */
-        .sns-btn { flex: 1; padding: 16px; border-radius: 12px; text-decoration: none; color: white; font-weight: 900; display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 15px; }
+        /* 유튜브/틱톡 구동 */
+        .sns-btn { flex: 1; padding: 15px; border-radius: 12px; text-decoration: none; color: white; font-weight: 900; display: flex; align-items: center; justify-content: center; gap: 10px; }
 
-        /* 보안 섹션 (사진 내용 그대로) */
-        .security-box { background: #080808; border: 1px solid #222; border-radius: 20px; padding: 22px; width: 100%; text-align: left; margin-top: 15px; }
+        /* 보안 섹션 (사진 내용 복원) */
+        .security-box { background: #080808; border: 1px solid #222; border-radius: 20px; padding: 20px; width: 100%; text-align: left; margin-top: 10px; }
         .sec-title { color: var(--hk-cyan); font-weight: 900; margin-bottom: 12px; font-size: 17px; }
         .sec-list { font-size: 14px; color: #bbb; line-height: 1.8; }
     </style>
@@ -47,15 +46,15 @@
 
 <div class="wrapper">
     <div class="top-nav">
-        <select class="lang-select" id="langSelect" onchange="updateAllLanguages()">
+        <select class="lang-select" id="langSelect" onchange="runLanguageEngine()">
             <option value="ko">한국어 🇰🇷</option>
             <option value="en">English 🇺🇸</option>
             <option value="cn">中文 🇨🇳</option>
             <option value="jp">日本語 🇯🇵</option>
             <option value="vn">Tiếng Việt 🇻🇳</option>
-            <option value="th">ไทย 🇹🇭</option>
             <option value="id">Bahasa 🇮🇩</option>
             <option value="ph">Tagalog 🇵🇭</option>
+            <option value="th">ไทย 🇹🇭</option>
             <option value="my">Melayu 🇲🇾</option>
             <option value="in">हिन्दी 🇮🇳</option>
             <option value="ru">Русский 🇷🇺</option>
@@ -69,7 +68,7 @@
     <div class="brand">HK WORLD BANK</div>
 
     <div class="asset-card">
-        <div id="t-asset" style="color:var(--hk-gold); font-weight:bold; font-size:15px;">TOTAL ASSETS (GCV STANDARD)</div>
+        <div id="t-asset" style="color:var(--hk-gold); font-weight:bold;">TOTAL ASSETS (GCV STANDARD)</div>
         <div class="asset-val">400.0212 <span style="font-size:22px; color:var(--hk-gold);">Pi</span></div>
         <div class="gcv-badge">VALUE: $ 125,663,600</div>
     </div>
@@ -78,9 +77,6 @@
         <div class="menu-item" onclick="startPay('송금')"><i class="fas fa-paper-plane"></i><div class="menu-text" id="m1">송금</div></div>
         <div class="menu-item" onclick="startPay('결제')"><i class="fas fa-shopping-cart"></i><div class="menu-text" id="m2">결제</div></div>
         <div class="menu-item" onclick="startPay('예치')"><i class="fas fa-piggy-bank"></i><div class="menu-text" id="m3">예치</div></div>
-    </div>
-
-    <div class="menu-grid">
         <div class="menu-item" onclick="startPay('보상')"><i class="fas fa-gift"></i><div class="menu-text" id="m4">보상</div></div>
         <div class="menu-item" onclick="startPay('기본소득')"><i class="fas fa-hand-holding-usd"></i><div class="menu-text" id="m5">기본소득</div></div>
         <div class="menu-item" onclick="startPay('스왑')"><i class="fas fa-sync"></i><div class="menu-text" id="m6">스왑</div></div>
@@ -90,7 +86,7 @@
 
     <div class="btn-row">
         <button class="act-btn" style="background:#fff; color:#000;" id="b1">PI 수량</button>
-        <button class="act-btn" style="background:var(--hk-gold); color:#000;" onclick="startPay('SWAP')" id="b2">SWAP</button>
+        <button class="act-btn" style="background:var(--hk-gold); color:#000;" onclick="startPay('SWAP')">SWAP</button>
         <button class="act-btn" style="background:var(--hk-green); color:#000;" id="b3">LP 공급</button>
     </div>
 
@@ -110,33 +106,32 @@
 </div>
 
 <script>
-    // 1. 실전 결제 엔진 (느낌표 제거 10번 전송용)
+    // 1. 실전 결제 엔진
     try { Pi.init({ version: "2.0", sandbox: false }); } catch(e) {}
     async function startPay(memo) {
         try {
             await Pi.createPayment({ amount: 1.0, memo: "HK WB " + memo, metadata: { type: "checklist_10" } }, {
-                onReadyForServerApproval: (id) => { console.log("ID:", id); },
-                onReadyForServerCompletion: (id, txid) => { alert(memo + " 성공! 10번 항목 승인 완료."); },
-                onError: (err) => { alert("파이 지갑을 확인해 주세요."); }
+                onReadyForServerApproval: (id) => { console.log(id); },
+                onReadyForServerCompletion: (id, txid) => { alert(memo + " 완료!"); },
+                onError: (err) => { alert("파이 지갑 연결을 확인하세요."); }
             });
-        } catch (e) { alert("파이 브라우저에서 가동 중입니다!"); }
+        } catch (e) { alert("파이 브라우저에서 실행 중입니다."); }
     }
 
-    // 2. 15개국 언어 엔진 (전체 데이터 매핑)
-    const langLib = {
-        ko: { asset: "TOTAL ASSETS (GCV STANDARD)", m1:"송금", m2:"결제", m3:"예치", m4:"보상", m5:"기본소득", m6:"스왑", b1:"PI 수량", b2:"SWAP", b3:"LP 공급", sec:"HK QUANTUM SHIELD ACTIVE", s1:"◈ 개인정보보호법 준수: 양자 암호화 보안 적용", s2:"◈ Form of Private: 자산 보호 프로토콜 가동 중", s3:"◈ HK-ROBOT: AI 실시간 위협 탐지 및 암호화" },
-        en: { asset: "TOTAL ASSETS (GCV STANDARD)", m1:"Send", m2:"Pay", m3:"Stake", m4:"Reward", m5:"UBI", m6:"Swap", b1:"Pi Qty", b2:"SWAP", b3:"LP Supply", sec:"HK QUANTUM SHIELD ACTIVE", s1:"◈ Privacy Act Compliance: Quantum Security", s2:"◈ Form of Private: Asset Protection Active", s3:"◈ HK-ROBOT: AI Real-time Threat Detection" },
-        cn: { asset: "总资产 (GCV 标准)", m1:"转账", m2:"支付", m3:"存款", m4:"奖励", m5:"基本收入", m6:"交换", b1:"Pi 数量", b2:"兑换", b3:"LP 供应", sec:"HK 量子盾激活", s1:"◈ 遵守隐私法：应用量子加密技术", s2:"◈ 资产保护协议：运行中", s3:"◈ HK-机器人：AI实时威胁检测" }
-        // ... 나머지 국가도 동일 구조로 확장
+    // 2. 언어 전환 엔진 (데이터 매핑 강화)
+    const translations = {
+        ko: { asset: "TOTAL ASSETS (GCV STANDARD)", m1:"송금", m2:"결제", m3:"예치", m4:"보상", m5:"기본소득", m6:"스왑", b1:"PI 수량", b3:"LP 공급", sec:"HK QUANTUM SHIELD ACTIVE", s1:"◈ 개인정보보호법 준수: 양자 암호화 보안 적용", s2:"◈ Form of Private: 자산 보호 프로토콜 가동", s3:"◈ HK-ROBOT: AI 실시간 위협 탐지 중" },
+        en: { asset: "TOTAL ASSETS (GCV STANDARD)", m1:"Send", m2:"Pay", m3:"Stake", m4:"Reward", m5:"UBI", m6:"Swap", b1:"Pi Qty", b3:"LP Supply", sec:"HK QUANTUM SHIELD ACTIVE", s1:"◈ Privacy Act Compliance: Quantum Security", s2:"◈ Form of Private: Asset Protection Active", s3:"◈ HK-ROBOT: AI Real-time Threat Detection" },
+        cn: { asset: "总资产 (GCV 标准)", m1:"转账", m2:"支付", m3:"存款", m4:"奖励", m5:"基本收入", m6:"交换", b1:"Pi 数量", b3:"LP 供应", sec:"HK 量子盾激活", s1:"◈ 遵守隐私法：应用量子加密技术", s2:"◈ 资产保护协议：运行中", s3:"◈ HK-机器人：AI实时威胁检测" }
     };
 
-    function updateAllLanguages() {
-        const sel = document.getElementById('langSelect').value;
-        const d = langLib[sel] || langLib.en;
+    function runLanguageEngine() {
+        const lang = document.getElementById('langSelect').value;
+        const d = translations[lang] || translations.en;
         document.getElementById('t-asset').innerText = d.asset;
         document.getElementById('m1').innerText = d.m1; document.getElementById('m2').innerText = d.m2; document.getElementById('m3').innerText = d.m3;
         document.getElementById('m4').innerText = d.m4; document.getElementById('m5').innerText = d.m5; document.getElementById('m6').innerText = d.m6;
-        document.getElementById('b1').innerText = d.b1; document.getElementById('b2').innerText = d.b2; document.getElementById('b3').innerText = d.b3;
+        document.getElementById('b1').innerText = d.b1; document.getElementById('b3').innerText = d.b3;
         document.getElementById('t-sec').innerText = d.sec;
         document.getElementById('s1').innerText = d.s1; document.getElementById('s2').innerText = d.s2; document.getElementById('s3').innerText = d.s3;
     }
