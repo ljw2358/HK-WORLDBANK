@@ -9,7 +9,7 @@
     <script>
         // 메인넷 설정과 일치하도록 sandbox: false 설정
         try {
-       Pi.init({ version: "2.0", sandbox: false});    
+            Pi.init({ version: "2.0", sandbox: false }); 
         } catch(e) { console.log("SDK Load Skip - Running in Demo mode"); }
     </script>
     <style>
@@ -159,7 +159,7 @@
     async function processPayment() {
         const amt = 5; // 시연용 고정 5 Pi
         const btn = document.getElementById('confirmBtn');
-        btn.disabled = false; btn.innerText = "지갑 연결 중...";
+        btn.disabled = true; btn.innerText = "지갑 연결 중...";
 
         // 1. 실제 파이 SDK 시도
         if (window.Pi && window.Pi.createPayment) {
@@ -182,19 +182,17 @@
 
     // 보안 우회 데모 결제 실행 (성공 화면 보장)
     function executeSafeDemo(amt) {
-    // 실제 결제가 안 되더라도 숫자가 깎이는 모습을 보여줍니다.
-    currentBalance -= amt;
-    document.getElementById('mainBalance').innerText = currentBalance.toFixed(4);
-    
-    // 1. 팝업창(alert)은 형님 요청대로 제거했습니다.
-    // 2. 창이 자동으로 닫히지 않도록 ClosePayModal()과 타이머를 삭제했습니다.
-    
-    let btn = document.getElementById('confirmBtn');
-    if (btn) {
-        btn.disabled = false;
-        btn.innerText = "결제 승인 완료"; 
+        // 실제 결제가 안 되더라도 숫자가 깎이는 모습을 보여줍니다.
+        setTimeout(() => {
+            currentBalance -= amt;
+            document.getElementById('mainBalance').innerText = currentBalance.toFixed(4);
+            alert("보안 우회 통로를 통해 테스트 결제가 안전하게 완료되었습니다!");
+            btn = document.getElementById('confirmBtn');
+            btn.disabled = false; btn.innerText = "결제 승인 (SDK연결)";
+            closePayModal();
+        }, 1500);
     }
-} //
+
     // 형님의 15개국 다국어 데이터 복원
     const i18n = {
         ko: { ledger:"메인 자산 통합 원장", gcv:"가치 평가: $ 125,663,600 (GCV)", send:"송금", pay:"결제", save:"예치", reward:"보상", ubi:"기본소득", swap2:"스왑", pi:"PI 수량", swap:"SWAP", lp:"LP 공급", cs:"글로벌 고객지원센터", apy:"예치 (APY 31.4%)", policy:"개인정보처리방안", stk:"Staking 31.4% | 유동성풀 $", secH:"HK 양자 방패 가동 중", s1:"양자 암호화 보안 적용", s2:"자산 보호 프로토콜 가동", s3:"AI 실시간 위협 탐지 중" },
@@ -225,6 +223,3 @@
         });
     }
     window.onload = applyLang;
-</script>
-</body>
-</html>
