@@ -3,136 +3,123 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HK WORLD BANK</title>
+    <title>HK WORLD BANK - Global</title>
     <style>
-        :root { --gold: #FFD700; --dark: #000; --card: #111; --green: #00FF00; }
-        body { background-color: var(--dark); color: #fff; font-family: 'Malgun Gothic', sans-serif; margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; }
+        :root { --gold: #FFD700; --dark: #000; --card: #151515; --green: #00FF00; }
+        body { background-color: var(--dark); color: #fff; font-family: sans-serif; margin: 0; padding: 0; text-align: center; }
         
-        /* 상단 언어 선택 (깔끔한 디자인) */
-        .top-bar { width: 100%; display: flex; justify-content: flex-end; padding: 15px; box-sizing: border-box; }
-        #langSel { background: #1a1a1a; color: var(--gold); border: 1px solid var(--gold); padding: 5px 10px; border-radius: 5px; cursor: pointer; }
+        /* 언어 선택 (15개국 국기 포함) */
+        .top-nav { display: flex; justify-content: flex-end; padding: 15px; background: #111; }
+        #langSel { background: #222; color: var(--gold); border: 1px solid var(--gold); padding: 8px; border-radius: 8px; }
 
-        /* 헤더 (느낌표 제거) */
-        .header-section { text-align: center; margin-top: 10px; }
-        .brand-title { font-size: 34px; font-weight: 900; color: var(--gold); letter-spacing: 1px; }
-        .brand-sub { font-size: 22px; font-weight: bold; color: #fff; margin-top: -5px; }
-
-        /* 메인 잔액 카드 */
-        .main-card { width: 90%; max-width: 380px; background: var(--card); border-radius: 25px; padding: 30px 20px; margin-top: 25px; border: 1px solid #222; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
-        .ledger-name { color: var(--gold); font-size: 17px; margin-bottom: 15px; }
-        .balance-display { font-size: 46px; font-weight: 800; margin-bottom: 5px; }
-        .unit-pi { font-size: 24px; color: var(--gold); font-weight: bold; margin-bottom: 20px; }
-
-        /* GCV 박스 */
-        .gcv-container { border: 2px solid var(--green); border-radius: 50px; padding: 12px; color: var(--green); font-size: 15px; font-weight: bold; margin: 20px 0; }
-
-        /* 하단 버튼 그리드 */
-        .nav-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 25px; }
-        .nav-item { background: #1a1a1a; padding: 15px 5px; border-radius: 15px; cursor: pointer; border: 1px solid #333; }
-        .nav-icon { font-size: 24px; margin-bottom: 5px; }
-        .nav-label { font-size: 13px; color: #aaa; }
-
-        /* 결제 모달 */
-        #payModal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:100; justify-content:center; align-items:center; }
-        .modal-box { background:#1a1a1a; width:80%; max-width:320px; padding:30px; border-radius:25px; border:2px solid var(--gold); text-align:center; }
-        .pay-btn { background: var(--gold); color: #000; width: 100%; padding: 15px; border-radius: 12px; border: none; font-size: 18px; font-weight: bold; cursor: pointer; margin-top: 20px; }
+        /* 메인 디자인 */
+        .brand { margin-top: 30px; font-size: 38px; font-weight: 900; color: var(--gold); }
+        .sub-brand { font-size: 20px; font-weight: bold; opacity: 0.8; margin-bottom: 30px; }
         
-        /* 스태킹 바 */
-        .footer-bar { margin-top: 30px; font-size: 14px; color: #555; }
-        .green-text { color: var(--green); font-weight: bold; }
+        .main-card { width: 90%; max-width: 400px; background: var(--card); border-radius: 30px; padding: 40px 20px; margin: 0 auto; border: 1px solid #333; box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
+        .ledger-title { color: var(--gold); font-size: 16px; margin-bottom: 20px; }
+        .balance-val { font-size: 54px; font-weight: 800; }
+        .unit { font-size: 26px; color: var(--gold); font-weight: bold; margin-bottom: 20px; }
+
+        .gcv-box { border: 2px solid var(--green); border-radius: 50px; padding: 15px; color: var(--green); font-size: 16px; font-weight: bold; margin: 25px 0; }
+
+        /* 버튼 그리드 */
+        .btn-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+        .btn-item { background: #222; padding: 20px 5px; border-radius: 20px; cursor: pointer; border: 1px solid #333; }
+        .btn-item:active { background: #444; }
+
+        /* 결제 실행창(모달) */
+        #payModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 1000; justify-content: center; align-items: center; }
+        .modal-content { background: #1a1a1a; padding: 40px; border-radius: 30px; border: 2px solid var(--gold); width: 80%; max-width: 350px; }
+        .pay-action-btn { background: var(--gold); color: #000; width: 100%; padding: 20px; border-radius: 15px; font-size: 20px; font-weight: 900; border: none; cursor: pointer; margin-top: 25px; }
     </style>
 </head>
 <body>
 
-    <div class="top-bar">
+    <div class="top-nav">
         <select id="langSel" onchange="applyLang()">
             <option value="ko">🇰🇷 한국어</option>
             <option value="en">🇺🇸 English</option>
             <option value="cn">🇨🇳 中文</option>
             <option value="jp">🇯🇵 日本語</option>
             <option value="vn">🇻🇳 Tiếng Việt</option>
+            <option value="ph">🇵🇭 Tagalog</option>
+            <option value="id">🇮🇩 Indonesia</option>
+            <option value="th">🇹🇭 ไทย</option>
+            <option value="in">🇮🇳 हिन्दी</option>
+            <option value="sa">🇸🇦 العربية</option>
+            <option value="ru">🇷🇺 Русский</option>
+            <option value="de">🇩🇪 Deutsch</option>
+            <option value="fr">🇫🇷 Français</option>
+            <option value="es">🇪🇸 Español</option>
+            <option value="br">🇧🇷 Português</option>
         </select>
     </div>
 
-    <div class="header-section">
-        <div class="brand-title">HK WORLD BANK</div>
-        <div class="brand-sub">BANK</div>
-    </div>
+    <div class="brand">HK WORLD BANK</div>
+    <div class="sub-brand" id="t-sub">BANK</div>
 
     <div class="main-card">
-        <div id="t-ledger" class="ledger-name">메인 자산 통합 원장</div>
-        <div class="balance-display" id="mainBalance">400.0212</div>
-        <div class="unit-pi">Pi</div>
+        <div class="ledger-title" id="t-ledger">메인 자산 통합 원장</div>
+        <div class="balance-val" id="mainBalance">400.0212</div>
+        <div class="unit">Pi</div>
         
-        <div class="gcv-container" id="t-gcv">
-            가치 평가: $ 125,663,600 (GCV)
-        </div>
+        <div class="gcv-box" id="t-gcv">가치 평가: $ 125,663,600 (GCV)</div>
 
-        <div class="nav-grid">
-            <div class="nav-item">
-                <div class="nav-icon">📤</div>
-                <div class="nav-label" id="b-sn">송금</div>
-            </div>
-            <div class="nav-item" onclick="showModal()">
-                <div class="nav-icon">🛒</div>
-                <div class="nav-label" id="b-py">결제</div>
-            </div>
-            <div class="nav-item">
-                <div class="nav-icon">📥</div>
-                <div class="nav-label" id="b-sv">예치</div>
-            </div>
+        <div class="btn-grid">
+            <div class="btn-item">📤<br><span id="b-sn">송금</span></div>
+            <div class="btn-item" onclick="openPay()">🛒<br><span id="b-py">결제</span></div>
+            <div class="btn-item">📥<br><span id="b-sv">예치</span></div>
         </div>
-    </div>
-
-    <div class="footer-bar">
-        Staking <span class="green-text">31.4%</span> | 유동성풀 활성화
     </div>
 
     <div id="payModal">
-        <div class="modal-box">
-            <h2 style="color:var(--gold); margin-top:0;">TEST PI 결제</h2>
-            <div style="font-size:32px; font-weight:bold; margin:20px 0;">5.0000</div>
-            <button id="confirmBtn" class="pay-btn" onclick="startPay()">결제 승인 (SDK연결)</button>
-            <div style="margin-top:15px; color:#666; cursor:pointer;" onclick="closeModal()">취소</div>
+        <div class="modal-content">
+            <h2 style="color:var(--gold); margin:0;">PAYMENT</h2>
+            <div style="font-size:40px; font-weight:bold; margin:30px 0;">5.0000</div>
+            <button id="confirmBtn" class="pay-action-btn" onclick="startPay()">결제 승인 (Confirm)</button>
+            <div style="margin-top:20px; color:#666; cursor:pointer;" onclick="closePay()">취소 (Cancel)</div>
         </div>
     </div>
 
     <script>
         let balance = 400.0212;
 
-        function showModal() { document.getElementById('payModal').style.display = 'flex'; }
-        function closeModal() { document.getElementById('payModal').style.display = 'none'; }
+        function openPay() { document.getElementById('payModal').style.display = 'flex'; }
+        function closePay() { document.getElementById('payModal').style.display = 'none'; }
 
-        // 핵심 결제 가동 로직
+        // 결제 로직: 누르면 무조건 숫자가 깎입니다!
         function startPay() {
             const btn = document.getElementById('confirmBtn');
             btn.disabled = true;
-            btn.innerText = "결제 처리 중...";
+            btn.innerText = "Processing...";
 
             setTimeout(() => {
-                balance -= 5; // 5 파이 차감
+                balance -= 5;
                 document.getElementById('mainBalance').innerText = balance.toFixed(4);
-                btn.innerText = "결제 완료";
+                btn.innerText = "COMPLETED";
                 
                 setTimeout(() => {
-                    closeModal();
+                    closePay();
                     btn.disabled = false;
-                    btn.innerText = "결제 승인 (SDK연결)";
+                    btn.innerText = "결제 승인 (Confirm)";
                 }, 1200);
-            }, 1000);
+            }, 800);
         }
 
+        // 언어 변환 데이터
         const i18n = {
-            ko: { ledger: "메인 자산 통합 원장", gcv: "가치 평가: $ 125,663,600 (GCV)", sn: "송금", py: "결제", sv: "예치" },
-            en: { ledger: "Main Asset Ledger", gcv: "Value: $ 125,663,600 (GCV)", sn: "Send", py: "Pay", sv: "Save" },
-            cn: { ledger: "主资产账本", gcv: "估值: $ 125,663,600 (GCV)", sn: "转账", py: "支付", sv: "储蓄" },
-            jp: { ledger: "メイン資産元帳", gcv: "評価額: $ 125,663,600 (GCV)", sn: "送금", py: "決済", sv: "預金" },
-            vn: { ledger: "Sổ cái tài sản chính", gcv: "Định giá: $ 125,663,600 (GCV)", sn: "Gửi", py: "Thanh toán", sv: "Tiết kiệm" }
+            ko: { sub: "BANK", ledger: "메인 자산 통합 원장", gcv: "가치 평가: $ 125,663,600 (GCV)", sn: "송금", py: "결제", sv: "예치" },
+            en: { sub: "BANK", ledger: "Main Asset Ledger", gcv: "Value: $ 125,663,600 (GCV)", sn: "Send", py: "Pay", sv: "Save" },
+            cn: { sub: "银行", ledger: "主资产账本", gcv: "估值: $ 125,663,600 (GCV)", sn: "转账", py: "支付", sv: "储蓄" },
+            jp: { sub: "銀行", ledger: "メイン資産元帳", gcv: "評価額: $ 125,663,600 (GCV)", sn: "送金", py: "決済", sv: "預金" },
+            vn: { sub: "Ngân hàng", ledger: "Sổ cái tài sản chính", gcv: "Định giá: $ 125,663,600 (GCV)", sn: "Gửi", py: "Thanh toán", sv: "Tiết kiệm" }
         };
 
         function applyLang() {
             const lang = document.getElementById('langSel').value;
-            const d = i18n[lang];
+            const d = i18n[lang] || i18n['en'];
+            document.getElementById('t-sub').innerText = d.sub;
             document.getElementById('t-ledger').innerText = d.ledger;
             document.getElementById('t-gcv').innerText = d.gcv;
             document.getElementById('b-sn').innerText = d.sn;
@@ -142,3 +129,4 @@
     </script>
 </body>
 </html>
+ 
