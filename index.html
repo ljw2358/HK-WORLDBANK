@@ -179,22 +179,28 @@
         document.getElementById('cs_btn').innerText = d.cs;
     }
 // 버튼 연결 함수 (이름이 정확해야 작동합니다)
-function pitest(func) {
-    // 버튼 클릭 시 즉시 반응하는 엔진
-    alert("[HK-Nexus] " + func + " 시스템 가동.\n네트워크 프로토콜 V23 활성화 중...");
-}
 
-// 실시간 데이터 구동 엔진
-var tvl = 88429463458; 
-setInterval(function() {
-    tvl += Math.floor(Math.random() * 100000);
-    var lpElem = document.getElementById('lp-amount');
-    if(lpElem) {
-        lpElem.innerText = "$ " + tvl.toLocaleString();
+// 182번 줄부터 시작
+async function runHKV3Protocol() {
+    console.log("V3 프로토콜 및 DEX 연동 시퀀스 시작...");
+    try {
+        // 1. 테스트넷 지갑 연동 및 송금/결제 초기화
+        const payment = await Pi.createPayment({
+            amount: 3.14, 
+            memo: "HK-WorldBank 테스트 결제 및 유동성 예치",
+            metadata: { type: "staking_deposit", protocol: "V23_Ready" }
+        }, {
+            onReadyForServerApproval: (paymentId) => { console.log("승인 대기 중: " + paymentId); },
+            onReadyForServerCompletion: (paymentId, txid) => { 
+                console.log("결제 완료! TXID: " + txid);
+                alert("테스트 코인 송금 및 예치 성공!");
+            },
+            onCancel: (paymentId) => { console.log("사용자 취소"); },
+            onError: (error, payment) => { console.error("오류 발생", error); }
+        });
+    } catch (err) {
+        console.error("DEX 연동 실패: " + err.message);
+        alert("현재 DEX 연결 확인 중입니다. 잠시 후 다시 시도해주세요.");
     }
-}, 2000);
-
-window.onload = applyTranslation;
-</script>
-</body>
-</html>
+}
+// 200번 줄 끝
