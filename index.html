@@ -7,6 +7,26 @@
     <title>HK WORLD BANK | Protocol V23</title>
   <script src="https://sdk.pi/api/2.0/page.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+ <script>
+  // 1. 파이 엔진 초기화
+  Pi.init({ version: "2.0", sandbox: true }); 
+
+  // 2. 지갑 연결 함수 (로그인)
+  async function connectWallet() {
+    try {
+      const scopes = ['payments', 'username'];
+      const auth = await Pi.authenticate(scopes, (payment) => {
+        console.log("결제 진행 중...", payment);
+      });
+      
+      alert(auth.user.username + " 형님, 지갑 연결 성공!");
+      console.log("접속자 정보:", auth.user);
+    } catch (err) {
+      console.error("지갑 연결 실패:", err);
+      alert("지갑 연결에 실패했습니다. 파이 브라우저인지 확인해주세요!");
+    }
+  }
+</script>
     <style>
         :root { --gold: #f1c40f; --green: #00ff88; --bg: #000; --card: #121212; --border: #222; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Pretendard', sans-serif; }
@@ -83,6 +103,11 @@
     </div>
 
     <div class="btn-grid">
+    <div style="text-align: center; margin: 15px 0;">
+  <button onclick="connectWallet()" style="background-color: #ffc107; color: black; padding: 12px 25px; border-radius: 30px; font-weight: bold; border: 2px solid #000; font-size: 16px; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">
+    🔑 테스트 파이 지갑 연결
+  </button>
+</div>
         <button class="btn-act b-white" id="b1" onclick="piTest('Check Balance')">PI 수량</button>
         <button class="btn-act b-gold" id="b2" onclick="piTest('DEX Swap')">DEX 스왑</button>
         <button class="btn-act b-green" id="b3" onclick="piTest('LP Supply')">LP 공급</button>
