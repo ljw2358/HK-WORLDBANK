@@ -3,141 +3,195 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>HK WORLD BANK | GLOBAL MULTI-LANGUAGE PROTOCOL</title>
-    
-    <script src="https://sdk.pi/api/2.0/page.js"></script>
+    <title>HK WORLD BANK | Protocol V23</title>
+    <script src="https://sdk.minepi.com/pi-sdk.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <style>
-        :root { --gold: #ffc107; --bg: #000; --card: #111111; --accent: #00ff68; }
-        body { background-color: var(--bg); color: #e0e0e0; font-family: 'Apple SD Gothic Neo', sans-serif; margin: 0; padding-bottom: 50px; }
+        :root { --gold: #f1c40f; --green: #00ff88; --bg: #000; --card: #121212; --border: #222; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Pretendard', sans-serif; }
+        body { background: var(--bg); color: #fff; overflow-x: hidden; }
         
-        /* 구글 번역기 숨김 처리 및 커스텀 스타일 */
-        .goog-te-banner-frame { display: none !important; }
-        body { top: 0 !important; }
-        #google_translate_element { padding: 10px; background: #222; text-align: center; border-bottom: 1px solid var(--gold); }
+        /* 상단 네비게이션 */
+        .header-nav { position: fixed; top: 0; width: 100%; background: rgba(0,0,0,0.9); backdrop-filter: blur(15px); z-index: 10000; padding: 12px 20px; display: flex; justify-content: flex-end; border-bottom: 1px solid var(--border); }
+        #langSelect { background: #1a1a1a; color: var(--gold); border: 1px solid var(--gold); padding: 8px 12px; border-radius: 10px; font-size: 13px; font-weight: bold; outline: none; cursor: pointer; }
 
-        .wrapper { padding: 20px; max-width: 500px; margin: 0 auto; }
+        .container { max-width: 480px; margin: 0 auto; padding: 80px 20px 40px; }
+        header { text-align: center; padding: 20px 0; color: var(--gold); }
         
-        /* 웅장한 헤더 */
-        header { text-align: center; padding: 40px 0; margin-bottom: 20px; }
-        .logo { font-size: 32px; font-weight: 900; color: var(--gold); letter-spacing: 5px; text-shadow: 0 0 25px rgba(255,193,7,0.5); }
-        .v-tag { font-size: 10px; color: var(--accent); border: 1px solid var(--accent); padding: 2px 8px; border-radius: 4px; margin-top: 10px; display: inline-block; }
+        /* 자산 대시보드 */
+        .main-card { background: linear-gradient(145deg, #1e1e1e, #000); border-radius: 30px; padding: 30px; border: 1px solid #333; text-align: center; margin-bottom: 25px; box-shadow: 0 15px 40px rgba(0,0,0,0.6); }
+        #ledger { font-size: 12px; color: var(--gold); margin-bottom: 10px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
+        .balance-val { font-size: 46px; font-weight: 800; margin-bottom: 5px; }
+        .gcv-badge { color: var(--green); border: 1px solid var(--green); padding: 6px 18px; border-radius: 25px; font-size: 13px; display: inline-block; margin-bottom: 25px; font-weight: bold; background: rgba(0,255,136,0.05); }
+        
+        /* 이율 섹션 컬러 포인트 */
+        .rates { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
+        .rate-box { background: rgba(255,255,255,0.03); padding: 18px; border-radius: 20px; border: 1px solid var(--border); }
+        .rate-box span { display: block; font-size: 11px; color: var(--green); margin-bottom: 8px; font-weight: bold; }
+        .rate-box strong { font-size: 20px; color: #fff; font-weight: 800; }
 
-        /* 자산 센터 */
-        .main-card { background: linear-gradient(160deg, #222, #000); border: 1px solid #333; border-radius: 40px; padding: 45px 25px; position: relative; box-shadow: 0 25px 50px rgba(0,0,0,1); margin-bottom: 35px; }
-        .balance-label { font-size: 12px; color: #777; letter-spacing: 2px; margin-bottom: 15px; }
-        .balance-amount { font-size: 48px; font-weight: 900; color: var(--gold); margin-bottom: 10px; }
-        .gcv-info { color: var(--accent); font-size: 15px; font-weight: bold; background: rgba(0,255,104,0.05); padding: 10px; border-radius: 15px; border: 1px solid rgba(0,255,104,0.2); }
+        .lp-total { background: rgba(0, 255, 136, 0.05); border: 1px solid rgba(0,255,136,0.3); border-radius: 22px; padding: 22px; text-align: center; }
+        #tvl_label { font-size: 11px; color: #888; font-weight: bold; margin-bottom: 8px; }
+        
+        /* 버튼 그리드 */
+        .btn-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 25px 0; }
+        .btn-act { padding: 18px 0; border-radius: 18px; font-weight: 900; font-size: 13px; border: none; cursor: pointer; transition: 0.2s; }
+        .btn-act:active { transform: scale(0.95); }
+        .b-white { background: #fff; color: #000; }
+        .b-gold { background: var(--gold); color: #000; }
+        .b-green { background: #27ae60; color: #fff; }
 
-        /* 메인 버튼 */
-        .btn-connect { background: linear-gradient(to right, #ffc107, #ff9800); color: #000; border: none; padding: 25px; width: 100%; border-radius: 20px; font-weight: 900; font-size: 20px; cursor: pointer; margin-bottom: 30px; box-shadow: 0 10px 30px rgba(255,193,7,0.4); }
+        /* 하단 메뉴 */
+        .menu-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 30px; }
+        .menu-item { background: var(--card); padding: 22px 5px; border-radius: 22px; text-align: center; border: 1px solid var(--border); cursor: pointer; }
+        .menu-item i { font-size: 28px; display: block; margin-bottom: 12px; color: var(--gold); }
+        .menu-item span { font-size: 12px; font-weight: 800; color: #bbb; }
 
-        /* 9구 그리드 메뉴 */
-        .menu-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 40px; }
-        .menu-item { background: var(--card); border: 1px solid #222; padding: 25px 5px; border-radius: 25px; text-align: center; }
-        .menu-item i { font-size: 24px; color: var(--gold); margin-bottom: 10px; display: block; }
-        .menu-item span { font-size: 12px; font-weight: bold; color: #888; }
+        /* 보안 정보 (언어변환 대상) */
+        .info-box { background: #080808; border-radius: 25px; padding: 25px; margin-bottom: 25px; border: 1px solid #1a1a1a; }
+        .info-box h3 { color: #00d4ff; font-size: 16px; margin-bottom: 15px; }
+        .info-box p { font-size: 13px; color: #777; margin-bottom: 8px; border-left: 2px solid #00d4ff; padding-left: 10px; }
 
-        /* 전략 컨테이너 */
-        .strategy-section { background: #050505; border: 1px solid #1a1a1a; border-radius: 25px; padding: 25px; margin-bottom: 40px; text-align: left; }
-        .strategy-header { color: var(--gold); font-size: 16px; font-weight: 900; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
-        .strategy-list { font-size: 13px; color: #666; line-height: 2; }
-
-        /* 소셜 링크 */
-        .sns-wrap { display: flex; flex-direction: column; gap: 15px; }
-        .sns-btn { display: flex; align-items: center; justify-content: center; gap: 12px; padding: 20px; border-radius: 20px; text-decoration: none; font-weight: 900; font-size: 16px; }
-        .youtube { background: #f00; color: #fff; }
-        .tiktok { background: #000; color: #fff; border: 1px solid #333; }
-
-        /* 푸터 */
-        .footer { text-align: center; padding-top: 50px; border-top: 1px solid #111; }
-        .chairman { font-size: 14px; font-weight: bold; color: var(--gold); margin-bottom: 10px; }
+        .btn-cs { background: linear-gradient(to right, #ff4757, #ff6b81); color: #fff; width: 100%; padding: 20px; border-radius: 20px; font-weight: 900; border: none; font-size: 16px; margin-bottom: 25px; cursor: pointer; }
+        
+        /* 유튜브/틱톡 링크 */
+        .sns { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .sns-link { padding: 18px; border-radius: 18px; color: #fff; text-decoration: none; text-align: center; font-size: 13px; font-weight: 900; display: flex; align-items: center; justify-content: center; gap: 8px; }
     </style>
 </head>
 <body>
 
-    <div id="google_translate_element"></div>
+<nav class="header-nav"><select id="langSelect" onchange="applyTranslation()"></select></nav>
 
-    <div class="wrapper">
-        <header>
-            <div class="logo">HK-WorldBank</div>
-            <div class="v-tag">PROTOCOL V23 QUANTUM</div>
-        </header>
-
-        <div class="main-card">
-            <div class="balance-label">GLOBAL CONSOLIDATED ASSETS</div>
-            <div class="balance-amount">400.0212 <span style="font-size: 20px;">Pi</span></div>
-            <div class="gcv-info">GCV REFERENCE: $ 314,159</div>
+<div class="container">
+    <header><h1>HK WORLD BANK</h1></header>
+    
+    <div class="main-card">
+        <p id="ledger">메인 자산 통합 원장</p>
+        <div class="balance-val">400.0212 <span style="font-size:24px; color:var(--gold);">Pi</span></div>
+        <div class="gcv-badge">Value: $ 125,663,600 (GCV)</div>
+        
+        <div class="rates">
+            <div class="rate-box"><span id="stk_label">스테이킹 이율</span><strong id="stk-val">15.48%</strong></div>
+            <div class="rate-box"><span id="lp_label">유동성 수익</span><strong id="lp-val">23.26%</strong></div>
         </div>
-
-        <button class="btn-connect" onclick="connectWallet()">
-            <i class="fas fa-fingerprint"></i> WALLET CONNECTION
-        </button>
-
-        <div class="menu-grid">
-            <div class="menu-item"><i class="fas fa-vault"></i><span>STAKING</span></div>
-            <div class="menu-item" onclick="testPayment()"><i class="fas fa-shopping-cart"></i><span>PAY TEST</span></div>
-            <div class="menu-item"><i class="fas fa-hand-holding-usd"></i><span>BASIC INCOME</span></div>
-            <div class="menu-item"><i class="fas fa-shield-alt"></i><span>SHIELD</span></div>
-            <div class="menu-item"><i class="fas fa-robot"></i><span>ROBOTICS</span></div>
-            <div class="menu-item"><i class="fas fa-rocket"></i><span>SPACE</span></div>
-            <div class="menu-item"><i class="fas fa-microchip"></i><span>QUANTUM</span></div>
-            <div class="menu-item"><i class="fas fa-dna"></i><span>BIO</span></div>
-            <div class="menu-item"><i class="fas fa-city"></i><span>CLUSTER</span></div>
-        </div>
-
-        <div class="strategy-section">
-            <div class="strategy-header"><i class="fas fa-chess-knight"></i> GLOBAL STRATEGY</div>
-            <div class="strategy-list">
-                • 20~30 Multi-Language Global Support<br>
-                • Robotics & AI Home Service Humanoid<br>
-                • Nuclear Fusion & Space Industry Base<br>
-                • Universal Basic Income (UBI) System<br>
-                • Pi Network Digital Banking Revolution
-            </div>
-        </div>
-
-        <div class="sns-wrap">
-            <a href="https://www.youtube.com/@LJW2358" target="_blank" class="sns-btn youtube">
-                <i class="fab fa-youtube"></i> YOUTUBE CHANNEL
-            </a>
-            <a href="https://www.tiktok.com/@ljw2358" target="_blank" class="sns-btn tiktok">
-                <i class="fab fa-tiktok"></i> TIKTOK CHANNEL
-            </a>
-        </div>
-
-        <div class="footer">
-            <div class="chairman">Founder & Chairman: Lee Jaewan (Hyekong)</div>
-            <p style="font-size: 11px; color: #444;">© 2026 HK Group. All rights reserved.</p>
+        <div class="lp-total">
+            <p id="tvl_label">전체 유동성 LP 공급</p>
+            <h2 id="lp-amount">$ 88,428,554,367</h2>
         </div>
     </div>
 
-    <script type="text/javascript">
-        function googleTranslateElementInit() {
-            new google.translate.TranslateElement({
-                pageLanguage: 'ko',
-                includedLanguages: 'en,ja,zh-CN,vi,id,th,es,fr,de,ru,pt,hi,ar,it,tr,ms,tl,bn,ko',
-                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
-            }, 'google_translate_element');
-        }
-    </script>
-    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <div class="btn-grid">
+        <button class="btn-act b-white" id="b1" onclick="piTest('Check Balance')">PI 수량</button>
+        <button class="btn-act b-gold" id="b2" onclick="piTest('DEX Swap')">DEX 스왑</button>
+        <button class="btn-act b-green" id="b3" onclick="piTest('LP Supply')">LP 공급</button>
+    </div>
 
-    <script>
-        Pi.init({ version: "2.0", sandbox: true });
-        async function connectWallet() {
-            try {
-                const auth = await Pi.authenticate(['payments', 'username'], (p) => {});
-                alert(auth.user.username + " 형님, Welcome!");
-            } catch (err) { alert("Use Pi Browser!"); }
-        }
-        async function testPayment() {
-            try {
-                await Pi.createPayment({ amount: 1, memo: "HK-WB Test", metadata: { type: "test" } }, 
-                { onReadyForServerCompletion: (id, txid) => { alert("Success: " + txid); }, onError: (e) => { alert("Error!"); } });
-            } catch (e) { alert("Connect Wallet!"); }
-        }
-    </script>
+    <div class="menu-grid">
+        <div class="menu-item" onclick="piTest('Transfer')"><i class="fas fa-paper-plane"></i><span id="m1">송금</span></div>
+        <div class="menu-item" onclick="piTest('Payment')"><i class="fas fa-shopping-cart"></i><span id="m2">결제</span></div>
+        <div class="menu-item" onclick="piTest('Vault')"><i class="fas fa-vault"></i><span id="m3">예치</span></div>
+        <div class="menu-item" onclick="piTest('Reward')"><i class="fas fa-award"></i><span id="m4">보상</span></div>
+        <div class="menu-item" onclick="piTest('UBI')"><i class="fas fa-coins"></i><span id="m5">기본소득</span></div>
+        <div class="menu-item" onclick="piTest('Swap')"><i class="fas fa-random"></i><span id="m6">스왑</span></div>
+    </div>
+
+    <div class="info-box">
+        <h3 id="shield_t">🛡️ HK 양자 방패 가동 중</h3>
+        <p id="s1">보안 기술 V23 적용</p>
+        <p id="s2">메인넷 자산 자동 연동</p>
+        <p id="s3">AI 실시간 자산 보호</p>
+    </div>
+
+    <button class="btn-cs" id="cs_btn" onclick="piTest('AI Support')">글로벌 AI 고객지원센터 가동</button>
+   
+    <div class="sns">
+        <a href="https://www.youtube.com/@Hyekong2025" target="_blank" class="sns-link" style="background:#f00;"><i class="fab fa-youtube"></i> YouTube</a>
+        <a href="https://www.tiktok.com/@hyekong2025" target="_blank" class="sns-link" style="background:#000; border:1px solid #333;"><i class="fab fa-tiktok"></i> TikTok</a>
+    </div>
+</div>
+
+<script>
+    // 오빠, 여기가 핵심이야! 30개국 언어 데이터를 통째로 넣었어.
+    const i18n = {
+        ko: { name: "한국어 🇰🇷", ledger: "메인 자산 통합 원장", stk: "스테이킹 이율", lp: "유동성 수익", tvl: "전체 유동성 LP 공급", b1: "PI 수량", b2: "DEX 스왑", b3: "LP 공급", m1: "송금", m2: "결제", m3: "예치", m4: "보상", m5: "기본소득", m6: "스왑", shield: "🛡️ HK 양자 방패 가동 중", s1: "보안 기술 V23 적용", s2: "메인넷 자산 자동 연동", s3: "AI 실시간 자산 보호", cs: "글로벌 AI 고객지원센터 가동" },
+        en: { name: "English 🇺🇸", ledger: "Main Asset Ledger", stk: "Staking APR", lp: "Liquidity Yield", tvl: "Total LP Supply", b1: "PI Amount", b2: "DEX Swap", b3: "LP Supply", m1: "Transfer", m2: "Pay", m3: "Vault", m4: "Reward", m5: "UBI", m6: "Swap", shield: "🛡️ HK Quantum Shield Active", s1: "Security V23 Applied", s2: "Mainnet Auto-Sync", s3: "AI Real-time Protection", cs: "AI Support Center Active" },
+        zh: { name: "中文 🇨🇳", ledger: "主资产账本", stk: "质押利息", lp: "流动性收益", tvl: "流动性供应 (TVL)", b1: "PI 数量", b2: "DEX 交换", b3: "LP 供应", m1: "转账", m2: "支付", m3: "存款", m4: "奖励", m5: "基本收入", m6: "交换", shield: "🛡️ HK 量子盾激活", s1: "采用 V23 安全", s2: "主网自动连动", s3: "AI 实时保护", cs: "全球 AI 客服" },
+        ja: { name: "日本語 🇯🇵", ledger: "メイン資産元帳", stk: "利息 (APR)", lp: "流動性収益", tvl: "流動性供給 (TVL)", b1: "PI 数量", b2: "DEX スワップ", b3: "LP 供給", m1: "送金", m2: "決済", m3: "預金", m4: "報酬", m5: "所得", m6: "스왑", shield: "🛡️ HK 量子シールド", s1: "V23プロトコル", s2: "メインネット連動", s3: "AI 資産保護", cs: "AIサポート" },
+        vi: { name: "Tiếng Việt 🇻🇳", ledger: "Sổ cái tài sản", stk: "Lãi Staking", lp: "Lãi LP", tvl: "Cung cấp LP (TVL)", b1: "Số lượng PI", b2: "DEX Swap", b3: "Cung cấp LP", m1: "Chuyển tiền", m2: "Thanh toán", m3: "Gửi tiền", m4: "Phần thưởng", m5: "Thu nhập", m6: "Swap", shield: "🛡️ HK Quantum Shield", s1: "Bảo mật V23", s2: "Tự động kết nối", s3: "AI bảo vệ", cs: "Hỗ trợ AI" },
+        es: { name: "Español 🇪🇸", ledger: "Libro de Activos", stk: "Interés Staking", lp: "Rendimiento LP", tvl: "Suministro LP", b1: "Cantidad PI", b2: "DEX Swap", b3: "Suministro LP", m1: "Enviar", m2: "Pagar", m3: "Bóveda", m4: "Premio", m5: "UBI", m6: "Swap", shield: "🛡️ Escudo HK Activo", s1: "Seguridad V23", s2: "Sincronización", s3: "Protección IA", cs: "Soporte Global IA" },
+        de: { name: "Deutsch 🇩🇪", ledger: "Hauptbuch", stk: "Staking-APR", lp: "LP-Ertrag", tvl: "LP-Angebot Gesamt", b1: "PI Menge", b2: "DEX Swap", b3: "LP Angebot", m1: "Senden", m2: "Zahlen", m3: "Tresor", m4: "Belohnung", m5: "Grundeinkommen", m6: "Swap", shield: "🛡️ HK Quantenschutz", s1: "Sicherheit V23", s2: "Mainnet-Sync", s3: "KI-Echtzeitschutz", cs: "KI-Support-Center" },
+        fr: { name: "Français 🇫🇷", ledger: "Grand Livre", stk: "APR Staking", lp: "Rendement LP", tvl: "Offre LP Totale", b1: "Montant PI", b2: "DEX Swap", b3: "Offre LP", m1: "Envoyer", m2: "Payer", m3: "Coffre", m4: "Récompense", m5: "RBG", m6: "Swap", shield: "🛡️ Bouclier HK", s1: "Sécurité V23", s2: "Synchro Mainnet", s3: "Protection IA", cs: "Support IA Global" },
+        ru: { name: "Русский 🇷🇺", ledger: "Главная книга", stk: "Стейкинг APR", lp: "LP Доход", tvl: "Общая поставка LP", b1: "Кол-во PI", b2: "DEX Обмен", b3: "LP Поставка", m1: "Перевод", m2: "Оплата", m3: "Сейф", m4: "Награда", m5: "ББД", m6: "Обмен", shield: "🛡️ Квантовый щит", s1: "Защита V23", s2: "Синхронизация", s3: "ИИ-Защита", cs: "ИИ-Поддержка" },
+        id: { name: "Bahasa ID 🇮🇩", ledger: "Buku Besar Aset", stk: "Bunga Staking", lp: "Hasil LP", tvl: "Total Suplai LP", b1: "Jumlah PI", b2: "DEX Swap", b3: "Suplai LP", m1: "Kirim", m2: "Bayar", m3: "Brankas", m4: "Hadiah", m5: "UBI", m6: "Swap", shield: "🛡️ Perisai HK Aktif", s1: "Keamanan V23", s2: "Sinkron Mainnet", s3: "Perlindungan AI", cs: "Pusat Dukungan AI" },
+        tr: { name: "Türkçe 🇹🇷", ledger: "Varlık Defteri", stk: "Staking APR", lp: "LP Getirisi", tvl: "Toplam LP Arzı", b1: "PI Miktarı", b2: "DEX Takas", b3: "LP Arzı", m1: "Gönder", m2: "Öde", m3: "Kasa", m4: "Ödül", m5: "Gelir", m6: "Takas", shield: "🛡️ HK Kalkanı", s1: "Güvenlik V23", s2: "Mainnet Senkron", s3: "AI Koruması", cs: "AI Destek Merkezi" },
+        th: { name: "ไทย 🇹🇭", ledger: "บัญชีสินทรัพย์", stk: "ดอกเบี้ย Staking", lp: "ผลตอบแทน LP", tvl: "การจัดหา LP ทั้งหมด", b1: "จำนวน PI", b2: "ส왑 DEX", b3: "จัดหา LP", m1: "โอนเงิน", m2: "ชำระเงิน", m3: "ฝากเงิน", m4: "รางวัล", m5: "รายได้หลัก", m6: "ส왑", shield: "🛡️ เกราะควอนตัม", s1: "ความปลอดภัย V23", s2: "ซิงค์เมนเน็ต", s3: "AI ปกป้องสินทรัพย์", cs: "ศูนย์สนับสนุน AI" },
+        pt: { name: "Português 🇵🇹", ledger: "Livro de Ativos", stk: "APR Staking", lp: "Rendimento LP", tvl: "Total de LP", b1: "Quantia PI", b2: "DEX Swap", b3: "Suprimento LP", m1: "Enviar", m2: "Pagar", m3: "Cofre", m4: "Recompensa", m5: "Rendimento", m6: "Troca", shield: "🛡️ Escudo HK", s1: "Segurança V23", s2: "Sincronização", s3: "Proteção AI", cs: "Suporte AI Global" },
+        hi: { name: "हिन्दी 🇮🇳", ledger: "मुख्य बही", stk: "स्टेकिंग ब्याज", lp: "तरलता उपज", tvl: "कुल तरलता", b1: "PI मात्रा", b2: "स्वैप", b3: "आपूर्ति", m1: "भेजें", m2: "भुगतान", m3: "तिजोरी", m4: "पुरस्कार", m5: "आय", m6: "स्वैप", shield: "🛡️ क्वांटम शील्ड", s1: "सुरक्षा V23", s2: "मेननेट सिंक", s3: "AI सुरक्षा", cs: "AI सहायता केंद्र" },
+        it: { name: "Italiano 🇮🇹", ledger: "Libro Asset", stk: "Staking APR", lp: "Resa LP", tvl: "Fornitura LP", b1: "Quantità PI", b2: "DEX Swap", b3: "LP Supply", m1: "Invia", m2: "Paga", m3: "Caveau", m4: "Premio", m5: "Reddito", m6: "Swap", shield: "🛡️ Scudo HK", s1: "Sicurezza V23", s2: "Sincronia", s3: "Protezione IA", cs: "Supporto IA Global" },
+        nl: { name: "Nederlands 🇳🇱", ledger: "Grootboek", stk: "Staking Rente", lp: "LP Opbrengst", tvl: "Totaal LP", b1: "PI Aantal", b2: "DEX Swap", b3: "LP Supply", m1: "Sturen", m2: "Betalen", m3: "Kluis", m4: "Beloning", m5: "Inkomen", m6: "Swap", shield: "🛡️ HK Schild", s1: "Beveiliging V23", s2: "Mainnet Sync", s3: "AI Bescherming", cs: "AI Support" },
+        pl: { name: "Polski 🇵🇱", ledger: "Księga Aktywów", stk: "Staking APR", lp: "Zysk LP", tvl: "Suma LP", b1: "Ilość PI", b2: "DEX Swap", b3: "Dostawa LP", m1: "Wyślij", m2: "Zapłać", m3: "Skarbiec", m4: "Nagroda", m5: "Dochód", m6: "Swap", shield: "🛡️ Tarcza HK", s1: "Ochrona V23", s2: "Synchro Mainnet", s3: "Ochrona AI", cs: "Wsparcie AI" },
+        ar: { name: "العربية 🇸🇦", ledger: "دفتر الأصول", stk: "عائد التخزين", lp: "عائد السيولة", tvl: "إجمالي السيولة", b1: "كمية بي", b2: "تبادل", b3: "توريد", m1: "إرسال", m2: "دفع", m3: "خزنة", m4: "مكافأة", m5: "دخل", m6: "تبادل", shield: "🛡️ درع الكم", s1: "أمن V23", s2: "مزامنة", s3: "حماية الذكاء", cs: "مركز الدعم" },
+        ms: { name: "Melayu 🇲🇾", ledger: "Lejar Aset", stk: "Kadar Staking", lp: "Hasil LP", tvl: "Jumlah LP", b1: "Jumlah PI", b2: "Swap", b3: "Bekalan", m1: "Hantar", m2: "Bayar", m3: "Bilik Kebal", m4: "Ganjaran", m5: "Pendapatan", m6: "Swap", shield: "🛡️ Perisai HK", s1: "Keselamatan V23", s2: "Saim Mainnet", s3: "Perlindungan AI", cs: "Pusat AI" },
+        ph: { name: "Tagalog 🇵🇭", ledger: "Ledger ng Asset", stk: "Interest sa Staking", lp: "Yield ng LP", tvl: "Kabuuang LP", b1: "Dami ng PI", b2: "Swap", b3: "Suplay", m1: "Ipadala", m2: "Bayad", m3: "Vault", m4: "Gantimpala", m5: "UBI", m6: "Swap", shield: "🛡️ HK Shield", s1: "Security V23", s2: "Sync", s3: "AI Protection", cs: "AI Center" },
+        sv: { name: "Svenska 🇸🇪", ledger: "Huvudbok", stk: "Staking APR", lp: "LP Avkastning", tvl: "Total LP", b1: "PI Belopp", b2: "Swap", b3: "Supply", m1: "Skicka", m2: "Betala", m3: "Valv", m4: "Belöning", m5: "Inkomst", m6: "Swap", shield: "🛡️ HK Sköld", s1: "Säkerhet V23", s2: "Synk", s3: "AI Skydd", cs: "AI Support" },
+        uk: { name: "Українська 🇺🇦", ledger: "Реєстр активів", stk: "Стейкінг APR", lp: "Прибуток LP", tvl: "Загальний LP", b1: "Кількість PI", b2: "Обмін", b3: "Поставка", m1: "Надіслати", m2: "Оплатити", m3: "Сховище", m4: "Нагорода", m5: "Дохід", m6: "Обмін", shield: "🛡️ Квантовий щит", s1: "Захист V23", s2: "Синхронізація", s3: "ІІ-Захист", cs: "ІТ-підтримка" },
+        fa: { name: "فارسی 🇮🇷", ledger: "دفتر دارایی", stk: "سود استیکینگ", lp: "بازده نقدینگی", tvl: "کل نقدینگی", b1: "مقدار بی", m1: "ارسال", m2: "پرداخت", m3: "گاوصندوق", m4: "پاداش", m5: "درآمد", m6: "تبادل", shield: "🛡️ سپر کوانتومی", s1: "امنیت V23", s2: "همگام سازی", s3: "محافظت هوش", cs: "پشتیبانی هوش" },
+        bn: { name: "বাংলা 🇧🇩", ledger: "অ্যাসেট লেজার", stk: "স্টেকিং সুদ", lp: "এলপি ইল্ড", tvl: "মোট এলপি", b1: "PI পরিমাণ", m1: "পাঠান", m2: "পেমেন্ট", m3: "ভল্ট", m4: "পুরস্কার", m5: "আয়", m6: "সোয়াপ", shield: "🛡️ কোয়ান্টাম শিল্ড", s1: "সুরক্ষা V23", s2: "সিঙ্ক", s3: "এআই সুরক্ষা", cs: "এআই সহায়তা" },
+        ro: { name: "Română 🇷🇴", ledger: "Registru Active", stk: "Dobândă Staking", lp: "Randament LP", tvl: "Total LP", b1: "Sumă PI", m1: "Trimite", m2: "Plătește", m3: "Seif", m4: "Premiu", m5: "Venit", m6: "Swap", shield: "🛡️ Scut HK", s1: "Securitate V23", s2: "Sincronizare", s3: "Protecție AI", cs: "Suport AI" },
+        hu: { name: "Magyar 🇭🇺", ledger: "Főkönyv", stk: "Staking APR", lp: "LP Hozam", tvl: "Összes LP", b1: "PI Mennyiség", m1: "Küldés", m2: "Fizetés", m3: "Széf", m4: "Jutalom", m5: "Jövedelem", m6: "Csere", shield: "🛡️ HK Pajzs", s1: "Biztonság V23", s2: "Szinkron", s3: "AI Védelem", cs: "AI Központ" },
+        cs: { name: "Čeština 🇨🇿", ledger: "Hlavní kniha", stk: "Staking Úrok", lp: "Výnos LP", tvl: "Celkové LP", b1: "Množství PI", m1: "Odeslat", m2: "Platit", m3: "Trezor", m4: "Odměna", m5: "Příjem", m6: "Výměna", shield: "🛡️ Kvantový štít", s1: "Zabezpečení V23", s2: "Synchro", s3: "AI Ochrana", cs: "AI Podpora" },
+        el: { name: "Ελληνικά 🇬🇷", ledger: "Καθολικό", stk: "Επιτόκιο", lp: "Απόδοση LP", tvl: "Συνολικό LP", b1: "Ποσό PI", m1: "Αποστολή", m2: "Πληρωμή", m3: "Θησαυροφυλάκιο", m4: "Αμοιβή", m5: "Εισόδημα", m6: "Αλλαγή", shield: "🛡️ Ασπίδα HK", s1: "Ασφάλεια V23", s2: "Συγχρονισμός", s3: "Προστασία AI", cs: "Υποστήριξη AI" },
+        fi: { name: "Suomi 🇫🇮", ledger: "Pääkirja", stk: "Staking APR", lp: "LP Tuotto", tvl: "LP Yhteensä", b1: "PI Määrä", m1: "Lähetä", m2: "Maksa", m3: "Holvi", m4: "Palkinto", m5: "Tulo", m6: "Vaihto", shield: "🛡️ HK Suoja", s1: "Suojaus V23", s2: "Synkronoitu", s3: "AI Suojaus", cs: "AI Tuki" },
+        da: { name: "Dansk 🇩🇰", ledger: "Hovedbog", stk: "Staking Rente", lp: "LP Udbytte", tvl: "Samlet LP", b1: "PI Beløb", m1: "Send", m2: "Betal", m3: "Boks", m4: "Belønning", m5: "Indkomst", m6: "Byt", shield: "🛡️ HK Skjold", s1: "Sikkerhed V23", s2: "Synkronisering", s3: "AI Beskyttelse", cs: "AI Support" }
+    };
+
+    const select = document.getElementById('langSelect');
+    Object.keys(i18n).forEach(lang => {
+        const opt = document.createElement('option');
+        opt.value = lang;
+        opt.innerText = i18n[lang].name;
+        select.appendChild(opt);
+    });
+
+    function applyTranslation() {
+        const lang = select.value;
+        const d = i18n[lang];
+        if(!d) return;
+
+        document.getElementById('ledger').innerText = d.ledger;
+        document.getElementById('stk_label').innerText = d.stk;
+        document.getElementById('lp_label').innerText = d.lp;
+        document.getElementById('tvl_label').innerText = d.tvl;
+        document.getElementById('b1').innerText = d.b1;
+        document.getElementById('b2').innerText = d.b2;
+        document.getElementById('b3').innerText = d.b3;
+        document.getElementById('m1').innerText = d.m1;
+        document.getElementById('m2').innerText = d.m2;
+        document.getElementById('m3').innerText = d.m3;
+        document.getElementById('m4').innerText = d.m4;
+        document.getElementById('m5').innerText = d.m5;
+        document.getElementById('m6').innerText = d.m6;
+        document.getElementById('shield_t').innerText = d.shield;
+        document.getElementById('s1').innerText = d.s1;
+        document.getElementById('s2').innerText = d.s2;
+        document.getElementById('s3').innerText = d.s3;
+        document.getElementById('cs_btn').innerText = d.cs;
+    }
+
+    function piTest(func) {
+        alert(`[HK WORLD BANK] ${func} feature is initializing on Pi Testnet...`);
+    }
+
+    let tvl = 88428554367;
+    setInterval(() => {
+        tvl += Math.floor(Math.random() * 900000);
+        document.getElementById('lp-amount').innerText = "$ " + tvl.toLocaleString();
+        document.getElementById('stk-val').innerText = (14 + (Math.random() * 4)).toFixed(2) + "%";
+        document.getElementById('lp-val').innerText = (20 + (Math.random() * 12)).toFixed(2) + "%";
+    }, 2000);
+
+    window.onload = applyTranslation;
+</script>
 </body>
 </html>
