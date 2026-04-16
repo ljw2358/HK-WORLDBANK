@@ -82,18 +82,18 @@
     </div>
 
     <div class="btn-grid">
-        <button class="btn-act b-white" id="b1" onclick="piTest('Check Balance')">PI 수량</button>
-        <button class="btn-act b-gold" id="b2" onclick="piTest('DEX Swap')">DEX 스왑</button>
-        <button class="btn-act b-green" id="b3" onclick="piTest('LP Supply')">LP 공급</button>
+        <button class="btn-act b-white" id="b1" onclick="loginWithPi()">PI 수량</button>
+        <button class="btn-act b-gold" id="b2" onclick="loginWithPi()">DEX 스왑</button>
+        <button class="btn-act b-green" id="b3" onclick="loginWithPi()">LP 공급</button>
     </div>
 
     <div class="menu-grid">
-        <div class="menu-item" onclick="piTest('Transfer')"><i class="fas fa-paper-plane"></i><span id="m1">송금</span></div>
-        <div class="menu-item" onclick="piTest('Payment')"><i class="fas fa-shopping-cart"></i><span id="m2">결제</span></div>
-        <div class="menu-item" onclick="piTest('Vault')"><i class="fas fa-vault"></i><span id="m3">예치</span></div>
-        <div class="menu-item" onclick="piTest('Reward')"><i class="fas fa-award"></i><span id="m4">보상</span></div>
-        <div class="menu-item" onclick="piTest('UBI')"><i class="fas fa-coins"></i><span id="m5">기본소득</span></div>
-        <div class="menu-item" onclick="piTest('Swap')"><i class="fas fa-random"></i><span id="m6">스왑</span></div>
+        <div class="menu-item" onclick="loginWithPi()"><i class="fas fa-paper-plane"></i><span id="m1">송금</span></div>
+        <div class="menu-item" onclick="loginWithPi()"><i class="fas fa-shopping-cart"></i><span id="m2">결제</span></div>
+        <div class="menu-item" onclick="loninWithPi()"><i class="fas fa-vault"></i><span id="m3">예치</span></div>
+        <div class="menu-item" onclick="loginWithPi()"><i class="fas fa-award"></i><span id="m4">보상</span></div>
+        <div class="menu-item" onclick="loginWithPi()"><i class="fas fa-coins"></i><span id="m5">기본소득</span></div>
+        <div class="menu-item" onclick="loginWithPi()"><i class="fas fa-random"></i><span id="m6">스왑</span></div>
     </div>
 
     <div class="info-box">
@@ -103,7 +103,7 @@
         <p id="s3">AI 실시간 자산 보호</p>
     </div>
 
-    <button class="btn-cs" id="cs_btn" onclick="piTest('AI Support')">글로벌 AI 고객지원센터 가동</button>
+    <button class="btn-cs" id="cs_btn" onclick="loginWithPi()">글로벌 AI 고객지원센터 가동</button>
    
     <div class="sns">
         <a href="https://www.youtube.com/@Hyekong2025" target="_blank" class="sns-link" style="background:#f00;"><i class="fab fa-youtube"></i> YouTube</a>
@@ -179,10 +179,6 @@
         document.getElementById('cs_btn').innerText = d.cs;
     }
 
-    function piTest(func) {
-        alert(`[HK WORLD BANK] ${func} feature is initializing on Pi Testnet...`);
-    }
-
     let tvl = 88428554367;
     setInterval(() => {
         tvl += Math.floor(Math.random() * 900000);
@@ -190,8 +186,36 @@
         document.getElementById('stk-val').innerText = (14 + (Math.random() * 4)).toFixed(2) + "%";
         document.getElementById('lp-val').innerText = (20 + (Math.random() * 12)).toFixed(2) + "%";
     }, 2000);
+    // --- 1단계: 파이 SDK 초기화 및 로그인 ---
+    
+    // 1. 초기화 (버전 2.0, 테스트 모드)
+    Pi.init({ version: "2.0", sandbox: false });
 
-    window.onload = applyTranslation;
+    // 2. 로그인 함수 정의
+    function loginWithPi() {
+        Pi.authenticate(['payments', 'username', 'wallet_address'], onIncompletePaymentFound)
+            .then(function(auth) {
+                // 로그인 성공 시 알림
+                alert(auth.user.username + " 형님, HK-WorldBank 접속을 환영합니다!");
+            })
+            .catch(function(error) {
+                console.error("로그인 실패:", error);
+            });
+    }
+
+    // 미완료 결제 처리 (필수)
+    function onIncompletePaymentFound(payment) {
+        console.log("미완료 결제 발견:", payment);
+    };
+
+    // 3. 페이지가 로드될 때 로그인 실행
+    // 기존 window.onload 부분을 아래처럼 수정하거나 합치시면 됩니다.
+    window.onload = function() {
+        applyTranslation(); // 기존 번역 기능
+        loginWithPi(); 
+    };
+    // 221번 줄부터 아래를 지우고 이 내용으로 마무리하세요!
+    
 </script>
 </body>
 </html>
