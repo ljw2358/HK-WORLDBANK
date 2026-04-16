@@ -89,7 +89,7 @@
 
     <div class="menu-grid">
         <div class="menu-item" onclick="loginWithPi()"><i class="fas fa-paper-plane"></i><span id="m1">송금</span></div>
-        <div class="menu-item" onclick="loginWithPi()"><i class="fas fa-shopping-cart"></i><span id="m2">결제</span></div>
+        <div class="menu-item" onclick="handlePayment()"><i class="fas fa-shopping-cart"></i><span id="m2">결제</span></div>
         <div class="menu-item" onclick="loninWithPi()"><i class="fas fa-vault"></i><span id="m3">예치</span></div>
         <div class="menu-item" onclick="loginWithPi()"><i class="fas fa-award"></i><span id="m4">보상</span></div>
         <div class="menu-item" onclick="loginWithPi()"><i class="fas fa-coins"></i><span id="m5">기본소득</span></div>
@@ -111,7 +111,26 @@
     </div>
 </div>
 
-<script>
+ <script>
+    Pi.init({ version: "2.0", sandbox: true });
+
+    // 1. 이 함수가 있어야 지갑이 열립니다! (언어 데이터보다 위에 두세요)
+    function handlePayment() {
+        Pi.createPayment({
+            amount: 3.14,
+            memo: "HK-WorldBank 테스트",
+            metadata: { orderId: "1" }
+        }, {
+            onReadyForServerApproval: function(id) { console.log(id); },
+            onReadyForServerCompletion: function(id, tx) { alert("결제 성공!"); },
+            onCancel: function(id) { },
+            onError: function(e) { alert("에러: " + e.message); }
+        });
+    }
+
+    // 2. 이 밑으로는 형님이 원래 가지고 계신 언어(i18n) 데이터를 그대로 두셔도 됩니다.
+    const i18n = { ... } 
+</script>
     // 오빠, 여기가 핵심이야! 30개국 언어 데이터를 통째로 넣었어.
     const i18n = {
         ko: { name: "한국어 🇰🇷", ledger: "메인 자산 통합 원장", stk: "스테이킹 이율", lp: "유동성 수익", tvl: "전체 유동성 LP 공급", b1: "PI 수량", b2: "DEX 스왑", b3: "LP 공급", m1: "송금", m2: "결제", m3: "예치", m4: "보상", m5: "기본소득", m6: "스왑", shield: "🛡️ HK 양자 방패 가동 중", s1: "보안 기술 V23 적용", s2: "메인넷 자산 자동 연동", s3: "AI 실시간 자산 보호", cs: "글로벌 AI 고객지원센터 가동" },
