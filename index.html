@@ -121,7 +121,7 @@
         vi: { name: "Tiếng Việt 🇻🇳", ledger: "Sổ cái tài sản", stk: "Lãi Staking", lp: "Lãi LP", tvl: "Cung cấp LP (TVL)", b1: "Số lượng PI", b2: "DEX Swap", b3: "Cung cấp LP", m1: "Chuyển tiền", m2: "Thanh toán", m3: "Gửi tiền", m4: "Phần thưởng", m5: "Thu nhập", m6: "Swap", shield: "🛡️ HK Quantum Shield", s1: "Bảo mật V23", s2: "Tự động kết nối", s3: "AI bảo vệ", cs: "Hỗ trợ AI" },
         es: { name: "Español 🇪🇸", ledger: "Libro de Activos", stk: "Interés Staking", lp: "Rendimiento LP", tvl: "Suministro LP", b1: "Cantidad PI", b2: "DEX Swap", b3: "Suministro LP", m1: "Enviar", m2: "Pagar", m3: "Bóveda", m4: "Premio", m5: "UBI", m6: "Swap", shield: "🛡️ Escudo HK Activo", s1: "Seguridad V23", s2: "Sincronización", s3: "Protección IA", cs: "Soporte Global IA" },
         de: { name: "Deutsch 🇩🇪", ledger: "Hauptbuch", stk: "Staking-APR", lp: "LP-Ertrag", tvl: "LP-Angebot Gesamt", b1: "PI Menge", b2: "DEX Swap", b3: "LP Angebot", m1: "Senden", m2: "Zahlen", m3: "Tresor", m4: "Belohnung", m5: "Grundeinkommen", m6: "Swap", shield: "🛡️ HK Quantenschutz", s1: "Sicherheit V23", s2: "Mainnet-Sync", s3: "KI-Echtzeitschutz", cs: "KI-Support-Center" },
-    en: { name: "English US", ledger: "Main Asset Ledger", stk: "Staking APR", lp: "Liquidity Yield", b1: "PI Amount", b2: "DEX Swap", b3: "LP Supply", m1: "Transfer", m2: "Pay", m3: "Vault", m4: "Reward", m5: "UBI", m6: "Swap", s1: "HK Quantum Shield Active", s2: "Security V23 Applied", s3: "Mainnet Auto-Sync", btn: "Connect Pi Wallet" },
+       en: { name: "English US", ledger: "Main Asset Ledger", stk: "Staking APR", lp: "Liquidity Yield", b1: "PI Amount", b2: "DEX Swap", b3: "LP Supply", m1: "Transfer", m2: "Pay", m3: "Vault", m4: "Reward", m5: "UBI", m6: "Swap", s1: "HK Quantum Shield Active", s2: "Security V23 Applied", s3: "Mainnet Auto-Sync", btn: "Connect Pi Wallet" },
     fa: { name: "فارسی IR", ledger: "کل نقدینگی", stk: "سود استیکینگ", lp: "بازده نقدینگی", b1: "مقدار PI", b2: "تبادل DEX", b3: "تامین نقدینگی", m1: "ارسال", m2: "پرداخت", m3: "گاوصندوق", m4: "پاداش", m5: "درآمد پایه", m6: "تبادل", s1: "HK محافظ کوانتومی", s2: "V23 보안 적용", s3: "Mainnet 연결", btn: "اتصال به کیف پول پای" },
     bn: { name: "বাংলা BD", ledger: "মোট তারল্য", stk: "স্ট্যাকিং লাভ", lp: "তারল্য রিটার্ন", b1: "PI পরিমাণ", b2: "ডেক্স সোয়াপ", b3: "এলপি সরবরাহ", m1: "পাঠান", m2: "পেমেন্ট", m3: "ভল্ট", m4: "পুরস্কার", m5: "বেসিক ইনকাম", m6: "সোয়াপ", s1: "HK কোয়ান্টাম শিল্ড", s2: "V23 보안 적용", s3: "Mainnet সংযোগ", btn: "পাই ওয়ালেট সংযোগ" },
     ro: { name: "Română RO", ledger: "Lichiditate totală", stk: "Profit staking", lp: "Randament LP", b1: "Cantitate PI", b2: "Schimb DEX", b3: "Furnizare LP", m1: "Trimite", m2: "Plată", m3: "Seif", m4: "Recompense", m5: "Venit de bază", m6: "Swap", s1: "Scut Cuantic HK", s2: "Securitate V23", s3: "Sincronizare Mainnet", btn: "Conectați Pi Wallet" },
@@ -140,34 +140,22 @@ function applyTranslation() {
     const d = i18n[lang];
     if (!d) return;
 
-    // 1. data-i18n 처리 (일반 텍스트)
+    // 1. data-i18n 처리
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
         if (d[key]) el.innerText = d[key];
     });
 
-    // 2. ID 기반 핵심 라벨 강제 업데이트 (상단 카드 메뉴)
-    const mapping = {
-        'ledger': 'ledger',
-        'stk_label': 'stk',
-        'lp_label': 'lp',
-        'tvl_label': 'tvl',
-        'b1': 'b1',
-        'b2': 'b2',
-        'b3': 'b3'
-    };
-
+    // 2. ID 기반 핵심 라벨 보정
+    const mapping = { 'ledger': 'ledger', 'stk_label': 'stk', 'lp_label': 'lp', 'tvl_label': 'tvl', 'b1': 'b1', 'b2': 'b2', 'b3': 'b3' };
     Object.keys(mapping).forEach(id => {
         const el = document.getElementById(id);
-        if (el && d[mapping[id]]) {
-            el.innerText = d[mapping[id]];
-        }
+        if (el && d[mapping[id]]) el.innerText = d[mapping[id]];
     });
 }
 
-// 언어 목록 자동 생성 및 이벤트 연결
 if (select) {
-    select.innerHTML = ''; // 초기화
+    select.innerHTML = ''; // 중복 옵션 방지
     Object.keys(i18n).forEach(l => {
         const opt = document.createElement('option');
         opt.value = l;
@@ -175,6 +163,6 @@ if (select) {
         select.appendChild(opt);
     });
     select.onchange = applyTranslation;
-    applyTranslation(); // 실행
+    applyTranslation();
 }
-     
+</script>
