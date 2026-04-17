@@ -178,8 +178,8 @@
         document.getElementById('s3').innerText = d.s3;
         document.getElementById('cs_btn').innerText = d.cs;
     }
-// --- 여기서부터 파일 끝까지 복사해서 붙여넣으세요 ---
-    // 1. 영어 데이터 성역 밖에서 강제 수혈
+// --- 여기서부터 181번 줄입니다. 파일 끝까지 덮어쓰세요 ---
+    // 1. 영어 데이터 성역 밖에서 강제 주입
     i18n.en = { 
         name: "English US", ledger: "Asset Ledger", stk: "Staking APR", lp: "Liquidity Yield", tvl: "Total Supply", 
         b1: "PI Amount", b2: "DEX Swap", b3: "UMB Node", m1: "Transfer", m2: "Pay", m3: "Vault", 
@@ -191,7 +191,7 @@
         if (!select) return;
         const lang = select.value;
         const d = i18n[lang];
-        if (!d) return;
+        if (!d || typeof d !== 'object') return;
 
         // data-i18n 속성 자동 번역
         document.querySelectorAll('[data-i18n]').forEach(el => {
@@ -199,7 +199,7 @@
             if (d[key]) el.innerText = d[key];
         });
 
-        // undefined 박멸 (화면 ID 직접 매칭)
+        // undefined 박멸 (ID 직접 매칭)
         const mapping = { 
             'ledger': 'ledger', 'stk_label': 'stk', 'lp_label': 'lp', 'tvl_label': 'tvl', 
             'b1': 'b1', 'b2': 'b2', 'b3': 'b3', 'm1': 'm1', 'm2': 'm2', 'm3': 'm3', 
@@ -212,7 +212,7 @@
         });
     }
 
-    // 초기화 및 언어 선택 박스 연결
+    // 초기화 및 언어 선택 박스 재연결
     const selectEl = document.getElementById('langSelect');
     if (selectEl) {
         selectEl.innerHTML = ''; 
@@ -223,7 +223,7 @@
             selectEl.appendChild(opt);
         });
         selectEl.onchange = applyTranslation;
-        applyTranslation(); // 실행
+        setTimeout(applyTranslation, 100); // 0.1초 뒤 강제 실행으로 싱크 맞춤
     }
 </script>
 </body>
