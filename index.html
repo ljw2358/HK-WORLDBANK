@@ -178,7 +178,24 @@
         document.getElementById('s3').innerText = d.s3;
         document.getElementById('cs_btn').innerText = d.cs;
     }
-// --- 181번 줄 시작: 형님의 고객센터 성역 보존 및 30개국어 강제 주입 ---
+// 테스트 파이 지갑 연동 함수
+async function connectPiWallet() {
+    try {
+        if (window.Pi) {
+            const scopes = ['payments', 'username'];
+            await window.Pi.authenticate(scopes, (onPayment) => {
+                console.log("결제 진행 중:", onPayment);
+            });
+            console.log("혜공 형님, 테스트 파이 연동 완료!");
+        }
+    } catch (e) {
+        console.log("샌드박스 대기 중...");
+    }
+}
+
+// 페이지 로드 즉시 엔진 가동
+connectPiWallet();
+    // --- 181번 줄 시작: 형님의 고객센터 성역 보존 및 30개국어 강제 주입 ---
 
     // [데이터 보호 구역] 30개국 고객지원센터 명칭 ('가동' 제외)
     const finalCSMap = {
