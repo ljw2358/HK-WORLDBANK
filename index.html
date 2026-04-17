@@ -178,19 +178,7 @@
         document.getElementById('s3').innerText = d.s3;
         document.getElementById('cs_btn').innerText = d.cs;
     }
-// --- 181번 줄 시작: 성역 116~180은 절대 보존 ---
-
-    // 1. 고객센터(btn) 및 미변환 버튼(b2, lp) 30개국 언어 강제 주입
-    const extraLang = {
-        en: { b2: "DEX Swap", lp: "LP Supply", btn: "Global AI Support Center" },
-        zh: { b2: "DEX 交换", lp: "LP 供应", btn: "全球 AI 客户지원센터" },
-        ja: { b2: "DEX スワップ", lp: "LP 供給", btn: "グローバル AI カスタマーセンター" },
-        ko: { b2: "DEX 스왑", lp: "LP 공급", btn: "글로벌 AI 고객지원센터 가동" },
-        fa: { b2: "تبادل DEX", lp: "تامین LP", btn: "مرکز پشتیبانی جهانی AI" },
-        da: { b2: "DEX Swap", lp: "LP Forsyning", btn: "Globalt AI Supportcenter" },
-        vi: { b2: "Hoán đổi DEX", lp: "Cung cấp LP", btn: "Trung tâm hỗ trợ AI toàn cầu" },
-        // ... (나머지 국가들도 i18n 데이터와 연동되도록 설계됨)
-    };
+// --- 181번 줄 시작: 형님의 성공을 위한 마지막 퍼즐 ---
 
     function applyTranslation() {
         const select = document.getElementById('langSelect');
@@ -199,49 +187,55 @@
         const d = i18n[lang];
         if (!d) return;
 
-        // [핵심] DEX 스왑, LP 공급, 양자방패, 고객센터까지 싹 다 잡는 매핑
+        // [정밀 타격] 모든 요소 ID와 번역 데이터 매칭
         const mapping = { 
-            'ledger': 'ledger', 'stk_label': 'stk', 'lp_label': 'lp', 'tvl_label': 'tvl', 
-            'b1': 'b1', 'b2': 'b2', 'b3': 'b3', 'm1': 'm1', 'm2': 'm2', 'm3': 'm3', 
-            'm4': 'm4', 'm5': 'm5', 'm6': 'm6',
-            'shield_t': 's1', 's1': 's1', 's2': 's2', 's3': 's3',
-            'cs_btn': 'btn'
+            'ledger': d.ledger, 'stk_label': d.stk, 'lp_label': d.lp, 'tvl_label': d.tvl, 
+            'b1': d.b1, 'b2': d.b2, 'b3': d.b3, 'm1': d.m1, 'm2': d.m2, 'm3': d.m3, 
+            'm4': d.m4, 'm5': d.m5, 'm6': d.m6,
+            'shield_t': d.s1, 's1': d.s1, 's2': d.s2, 's3': d.s3
         };
 
-        // 텍스트 변환 실행
+        // 1. 전체 텍스트 변환 실행 (오타 수정본)
         Object.keys(mapping).forEach(id => {
             const el = document.getElementById(id);
-            if (el) {
-                // extraLang에 데이터가 있으면 쓰고, 없으면 기본 i18n에서 가져옴
-                let text = (extraLang[lang] && extraLang[lang][mapping[id]]) ? extraLang[lang][mapping[id]] : d[mapping[id]];
-                if (text) el.innerText = text;
+            if (el && mapping[id]) {
+                el.innerText = mapping[id]; 
             }
         });
 
-        // 'DEX 스왑'과 'LP 공급' 버튼이 ID가 없을 경우를 대비한 클래스/태그 추적
-        document.querySelectorAll('button, div').forEach(el => {
-            if (el.innerText.includes("DEX") || el.innerText.includes("LP")) {
-                if (lang === 'en') {
-                    if (el.innerText.includes("스왑")) el.innerText = "DEX Swap";
-                    if (el.innerText.includes("공급")) el.innerText = "LP Supply";
-                }
+        // 2. [오늘의 핵심] LP 공급 버튼(lp_label) 및 DEX 스왑(b2) 2중 잠금
+        // 사진상 변환이 안 되던 부분들을 강제로 다시 한번 꽂아넣습니다.
+        const lpBtn = document.getElementById('lp_label');
+        if (lpBtn) lpBtn.innerText = d.lp;
+
+        const b2Btn = document.getElementById('b2');
+        if (b2Btn) b2Btn.innerText = d.b2;
+
+        // 3. 지원센터 중국어 및 30개국 대응
+        const csBtn = document.getElementById('cs_btn');
+        if (csBtn) {
+            if (lang === 'zh') {
+                csBtn.innerText = "全球 AI 客户支持中心";
+            } else if (lang === 'ko') {
+                csBtn.innerText = "글로벌 AI 고객지원센터 가동";
+            } else {
+                csBtn.innerText = d.btn || "Global AI Support Center";
             }
-        });
+        }
     }
 
-    // 초기화 및 언어 선택 박스 연결
+    // 초기화 및 언어 박스 생성
     const selectEl = document.getElementById('langSelect');
     if (selectEl) {
         selectEl.innerHTML = ''; 
         Object.keys(i18n).forEach(l => {
             const opt = document.createElement('option');
             opt.value = l;
-            // i18n 데이터에 국가명이 있으면 쓰고 없으면 코드로 표시
             opt.innerText = i18n[l].name || l.toUpperCase();
             selectEl.appendChild(opt);
         });
         selectEl.onchange = applyTranslation;
-        setTimeout(applyTranslation, 100); // 0.1초 뒤 강제 반영
+        setTimeout(applyTranslation, 50); // 로딩 즉시 반영
     }
 </script>
 </body>
