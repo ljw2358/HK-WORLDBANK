@@ -4,14 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HK WORLD BANK - UBI Global Hub</title>
+  <script src="https://sdk.piworker.org/pi-sdk.js"></script>
+<script>
+  const Pi = window.Pi;
+  Pi.init({ version: "1.5", sandbox: true });
+</script>
+ 
     <style>
         :root {
             --bg: #000000; --card: #121212; --gold: #FFD700;
             --neon-st: #00FFCC; --neon-lp: #FF00FF; --neon-green: #39FF14; --neon-blue: #00BFFF;
         }
+   <button onclick="loginWithPi()" style="padding: 10px 20px; background-color: #673ab7; color: white; border: none; border-radius: 5px; cursor: pointer;">
+  Pi Network 로그인
+</button>
         body { margin: 0; padding: 0; background: var(--bg); color: white; font-family: 'Segoe UI', sans-serif; display: flex; flex-direction: column; align-items: center; }
         .container { width: 100%; max-width: 480px; padding: 15px; box-sizing: border-box; }
-        
+  
         /* 언어 바 개선: 화면 가림 방지 */
         .lang-bar { text-align: right; margin-bottom: 20px; position: sticky; top: 10px; z-index: 2000; }
         #langSelect { background: #111; color: var(--gold); border: 2px solid var(--gold); padding: 8px; border-radius: 8px; font-weight: bold; cursor: pointer; width: 140px; }
@@ -86,7 +95,11 @@
         <button class="m-btn" id="b2" style="background:var(--gold);" onclick="runEngine('SWAP', 5.5)">DEX 스왑</button>
         <button class="m-btn" id="b3" style="background:#28a745; color:white;" onclick="runEngine('LP', 10.2)">LP 공급</button>
     </div>
-
+<div style="text-align: center; margin: 20px auto; width: 90%;">
+  <button onclick="loginWithPi()" style="width: 100%; padding: 18px; background: linear-gradient(45deg, #673ab7, #9c27b0); color: white; border: none; border-radius: 15px; cursor: pointer; font-weight: bold; font-size: 20px; box-shadow: 0 0 15px rgba(156, 39, 176, 0.6);">
+    HKWB 로그인 (Pi Network)
+  </button>
+</div>
     <div class="icon-grid">
         <div class="icon-card" onclick="runEngine('SEND', 1.0)">🚀<span class="icon-txt" id="m1">송금</span></div>
         <div class="icon-card" onclick="runEngine('PAY', 2.0)">🛒<span class="icon-txt" id="m2">결제</span></div>
@@ -172,6 +185,48 @@
 
     function toggleFaq() { const f = document.getElementById('faqBox'); f.style.display = f.style.display === 'block' ? 'none' : 'block'; }
     window.onload = updateAllLanguage;
+// Pi SDK 초기화 (이게 있어야 버튼이 작동합니다!)
+const Pi = window.Pi;
+Pi.init({ version: "1.5", sandbox: true });
+    // Pi SDK 초기화 및 로그인 함수
+async function loginWithPi() {
+    try {
+        const scopes = ['username', 'payments'];
+        
+        // 파이 브라우저와 연동하여 인증 진행
+        const user = await Pi.authenticate(scopes, (payment) => {
+            console.log("미완료 결제 확인:", payment);
+        });
+
+        // 성공하면 화면에 인사말 띄우기
+        alert(user.user.username + "님, HKWB 방문을 환영합니다!");
+        
+        // 버튼 글자를 유저 이름으로 바꾸기 (선택사항)
+        document.querySelector('button').innerText = user.user.username + "님 접속 중";
+        
+    } catch (err) {
+        console.error("로그인 실패:", err);
+        alert("Pi 로그인에 실패했습니다. Pi Browser로 접속했는지 확인해 주세요!");
+    }
+}
+
 </script>
-</body>
+async function loginWithPi() {
+  try {
+    const scopes = ['username', 'payments'];
+    
+    // 이 함수가 실행되면 파이 브라우저에서 승인 창이 뜹니다!
+    const user = await Pi.authenticate(scopes, (payment) => {
+      console.log("미완료 결제 발견:", payment);
+    });
+
+    alert(user.user.username + " 형님, 환영합니다!");
+    console.log("로그인 성공:", user);
+    
+  } catch (err) {
+    console.error("로그인 실패:", err);
+    alert("로그인 중 오류가 발생했습니다.");
+  }
+}
+
 </html>
