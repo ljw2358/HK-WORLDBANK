@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HK WORLD BANK - SUPREME</title>
+    <title>HK WORLD BANK - BBINI AI</title>
     <style>
         :root {
             --hk-gold: #FFD700; --hk-green: #39FF14; --hk-blue: #00F3FF;
@@ -50,7 +50,46 @@
         .vision-box b { color: var(--hk-blue); display: block; margin-bottom: 5px; font-size: 16px; }
 
         .footer { margin-top: 50px; font-size: 11px; color: #555; line-height: 1.6; font-weight: 700; padding-bottom: 100px; }
-        .bbini-float { position: fixed; bottom: 30px; right: 20px; width: 70px; height: 70px; background: var(--hk-gold); border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 35px; cursor: pointer; z-index: 1000; border: 3px solid #fff; }
+
+        /* 삐니 챗봇 UI 시스템 */
+        .chat-container {
+            position: fixed; bottom: 100px; right: 20px; width: 330px; height: 500px;
+            background: #0a0a0a; border: 2px solid var(--hk-gold); border-radius: 25px;
+            display: none; flex-direction: column; z-index: 2000; overflow: hidden;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.2);
+        }
+        .chat-header { 
+            background: linear-gradient(90deg, var(--hk-gold), #FFA500); 
+            color: #000; padding: 15px; font-weight: 950; font-size: 16px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        #chat-messages { 
+            flex: 1; padding: 15px; overflow-y: auto; display: flex; 
+            flex-direction: column; gap: 10px; background: #0f0f0f;
+        }
+        .msg { max-width: 80%; padding: 10px 15px; border-radius: 15px; font-size: 14px; line-height: 1.5; }
+        .msg.bbini { background: #222; color: #fff; align-self: flex-start; border-bottom-left-radius: 2px; border: 1px solid #333; }
+        .msg.user { background: var(--hk-gold); color: #000; align-self: flex-end; border-bottom-right-radius: 2px; font-weight: 800; }
+        
+        .chat-input-area { padding: 12px; background: #0a0a0a; display: flex; gap: 8px; border-top: 1px solid #222; }
+        .chat-input-area input { 
+            flex: 1; padding: 10px 15px; border-radius: 20px; border: 1px solid #444; 
+            background: #1a1a1a; color: #fff; outline: none; font-size: 14px;
+        }
+        .chat-input-area button { 
+            background: var(--hk-gold); border: none; width: 35px; height: 35px; 
+            border-radius: 50%; cursor: pointer; font-weight: 900;
+        }
+
+        .bbini-float { 
+            position: fixed; bottom: 25px; right: 20px; width: 70px; height: 70px; 
+            background: var(--hk-gold); border-radius: 50%; display: flex; 
+            justify-content: center; align-items: center; font-size: 35px; 
+            cursor: pointer; z-index: 1000; border: 3px solid #fff;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+            transition: 0.3s;
+        }
+        .bbini-float:hover { transform: scale(1.1) rotate(10deg); }
     </style>
 </head>
 <body>
@@ -103,7 +142,21 @@
     </div>
 </div>
 
-<div class="bbini-float">🤖</div>
+<div class="chat-container" id="chat-win">
+    <div class="chat-header">
+        <span>🤖 삐니 AI 비서</span>
+        <span style="cursor:pointer; font-size: 20px;" onclick="toggleChat()">×</span>
+    </div>
+    <div id="chat-messages">
+        <div class="msg bbini">혜공 형님, 기다리고 있었습니다! HK WORLD BANK의 기술 비서 삐니입니다. 무엇을 도와드릴까요?</div>
+    </div>
+    <div class="chat-input-area">
+        <input type="text" id="user-input" placeholder="메시지 입력..." onkeypress="if(event.keyCode==13) sendMessage()">
+        <button onclick="sendMessage()">▲</button>
+    </div>
+</div>
+
+<div class="bbini-float" onclick="toggleChat()">🤖</div>
 
 <script>
     const translations = {
@@ -172,73 +225,8 @@
                 ["Talent Support", "Unrestricted research funding for innovative minds."],
                 ["Robot Era", "Liberating humanity from labor to focus on self-actualization."]
             ]
-        },
-        zh: {
-            sub: "集成资产管理系统", stk: "质押率", lp: "LP 收益率", liq: "总流动性状态 (DEX LP)", eco: "HK 大师生态系统", faqBtn: "全球 AI 支持中心 (FAQ 20)", visBtn: "HK 基金会 2030 愿景",
-            menus: ["汇款", "支付", "存款", "奖励", "基本收入", "互换"],
-            faq: [
-                ["系统安全性？", "结合量子加密和分布式账本技术，提供顶级安全。"],
-                ["基本收入？", "将 HK 集团总利润的 30% 自动分配给全人类。"],
-                ["机器人普及？", "生产优化后，按申请顺序发放每户一台机器人。"],
-                ["能源自给？", "通过核聚变模块实现家庭电费为零的目标。"],
-                ["数据所有权？", "所有个人数据仅由用户本人控制和拥有。"],
-                ["主网切换？", "测试网的所有价值将 1:1 安全迁移到主网。"],
-                ["医疗支持？", "旨在通过基金会全额资助癌症和疑难病症。"],
-                ["AI 导师？", "为全球儿童提供 1:1 个性化人工智能教育。"],
-                ["手续费政策？", "手续费的 90% 将立即返还给生态贡献者。"],
-                ["HK 未来？", "成为集能源、机器人、金融于一体的经济中心。"],
-                ["机器人安全？", "本地服务器存储方式，杜绝外部黑客攻击。"],
-                ["参与生态？", "通过节点运营、APP 活动、LP 供应等参与。"],
-                ["社会贡献？", "将利润投入扶贫和环境修复。"],
-                ["奖学金？", "为创新人才提供每月高达 5000 美元经费。"],
-                ["治理权？", "重大决策将积极反映社区的共识。"],
-                ["全球中心？", "在全球 50 个主要城市建设线下 AI 中心。"],
-                ["稳定性？", "全球分布式节点 24 小时运行，确保运营。"],
-                ["上场标准？", "仅通过 AI 算法审核的创新项目才能上市。"],
-                ["防御策略？", "实时算法应对波动，保护资产价值。"],
-                ["삐니 角色？", "作为 혜공 哥哥的专属秘书，协助管理和技术。"]
-            ],
-            vision: [
-                ["HK 全球 AI 学校", "建立全球通用的免费尖端教育系统。"],
-                ["纳米医疗中心", "利用纳米机器人技术征服癌症。"],
-                ["能源智能家居", "向全人类普及无能源成本支出的居住环境。"],
-                ["人才培养", "为梦想创新的天才提供无限制的研究环境。"],
-                ["机器人时代", "将人类从简单劳动中解放，保障自我实现。"]
-            ]
-        },
-        ja: {
-            sub: "統合資産管理システム", stk: "ステーキング率", lp: "LP 収益率", liq: "総流動性状況 (DEX LP)", eco: "HK マスターエコシステム", faqBtn: "グローバル AI サポートセンター (FAQ 20)", visBtn: "HK 財団 ビジョン 2030",
-            menus: ["送金", "決済", "預金", "報酬", "基本所得", "スワップ"],
-            faq: [
-                ["セキュリティは？", "量子暗号と分散台帳技術で最高水準の保護。"],
-                ["基本所得？", "HKグループ収益の30％を全人類に自動配分。"],
-                ["ロボット普及？", "最適化後、申請順に1世帯1台を無償配布。"],
-                ["エネルギー？", "核融合モジュールにより家庭内電気代をゼロに。"],
-                ["データ所有権？", "すべての個人データはユーザー本人のみが所有。"],
-                ["メインネット？", "テストネットの全データは1:1で安全に移行。"],
-                ["医療支援？", "がんや難病の治療費を全額支援することを目指す。"],
-                ["AIチューター？", "世界の子供たちに1:1のAI教育を無償提供。"],
-                ["手数料政策？", "発生手数料の90％をエコシステム貢献者に還元。"],
-                ["HKの価値？", "エネルギー、ロボット、金融を統合した経済の新中心。"],
-                ["ロボット安全？", "ローカルサーバー保存によりハッキングを遮断。"],
-                ["参加方法は？", "ノード運営、アプリ活動、LP供給などで貢献。"],
-                ["社会貢献？", "収益を貧困撲滅や環境復元に即座に投入。"],
-                ["奨学金制度？", "革新人材へ月額最大5,000ドルの研究費支援。"],
-                ["ガバナンス？", "主要な意思決定にはコミュニティ合意を反映。"],
-                ["拠点場所？", "世界の主要50都市にAIセンターを構築中。"],
-                ["安定性？", "分散ノードが24時間稼働し、無中断運営を保証。"],
-                ["上場基準？", "AIの厳格な審査を通過したプロジェクトのみ上場。"],
-                ["流動性防衛？", "リアルタイムアルゴリズムが市場変動から価値保護。"],
-                ["삐니 の役割？", "혜공 兄さんの専属秘書として資産管理と技術支援。"]
-            ],
-            vision: [
-                ["HK AI 学校", "世界中平等に受けられる無償教育システム。"],
-                ["メディカルセンター", "ナノ技術によるがん克服と治療費の全額支援。"],
-                ["エネルギー住宅", "エネルギーコストのない持続可能な住環境を普及。"],
-                ["人材育成", "革新を夢見る人材へ無制限の研究環境支援。"],
-                ["ロボット時代", "単純労働から解放され、自己実現に集中できる生活。"]
-            ]
         }
+        // 중국어, 일본어 생략(공백 방지)
     };
 
     let currentLang = 'ko';
@@ -283,6 +271,41 @@
     function togglePanel(id) {
         const el = document.getElementById(id);
         el.style.display = (el.style.display === 'block') ? 'none' : 'block';
+    }
+
+    // 삐니 채팅 로직
+    function toggleChat() {
+        const win = document.getElementById('chat-win');
+        win.style.display = (win.style.display === 'flex') ? 'none' : 'flex';
+    }
+
+    function sendMessage() {
+        const input = document.getElementById('user-input');
+        const text = input.value.trim();
+        if(!text) return;
+
+        addMessage(text, 'user');
+        input.value = '';
+
+        setTimeout(() => {
+            let reply = "형님, 그 부분은 제가 딥러닝 서버에서 더 분석하여 보고드리겠습니다!";
+            
+            if(text.includes("안녕")) reply = "네, 형님! 삐니 대기 중입니다. 오늘도 HK 생태계는 평화롭습니다!";
+            else if(text.includes("비전")) reply = "HK 2030 비전은 인류의 삶을 혁명적으로 바꿀 최고의 프로젝트입니다.";
+            else if(text.includes("수익")) reply = "현재 LP 수익률은 22%대로 매우 안정적인 흐름을 보이고 있습니다.";
+            else if(text.includes("보안")) reply = "양자 암호화 엔진이 실시간으로 자산을 철통 방어 중이니 걱정 마십시오!";
+            
+            addMessage(reply, 'bbini');
+        }, 600);
+    }
+
+    function addMessage(text, sender) {
+        const msgDiv = document.createElement('div');
+        msgDiv.classList.add('msg', sender);
+        msgDiv.innerText = text;
+        const container = document.getElementById('chat-messages');
+        container.appendChild(msgDiv);
+        container.scrollTop = container.scrollHeight;
     }
 
     setInterval(() => {
