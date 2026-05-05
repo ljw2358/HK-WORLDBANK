@@ -547,4 +547,93 @@
     init();
 </script>
 </body>
+<style>
+    .hk-modal {
+        display: none; position: fixed; z-index: 3000; left: 0; top: 0;
+        width: 100%; height: 100%; background: rgba(0,0,0,0.9);
+        justify-content: center; align-items: center;
+    }
+    .modal-content {
+        background: #121212; border: 2px solid var(--hk-gold);
+        width: 90%; max-width: 400px; border-radius: 30px; padding: 30px;
+        text-align: center; box-shadow: 0 0 30px var(--hk-gold);
+    }
+    .modal-title { color: var(--hk-gold); font-size: 24px; font-weight: 900; margin-bottom: 20px; }
+    .modal-body { color: #fff; font-size: 16px; margin-bottom: 25px; line-height: 1.6; }
+    .demo-status { color: var(--hk-green); font-weight: 800; font-size: 14px; margin-top: 10px; }
+    .close-modal {
+        background: var(--hk-gold); color: #000; border: none;
+        padding: 12px 30px; border-radius: 50px; font-weight: 900; cursor: pointer;
+    }
+    /* 시연용 입력폼 스타일 */
+    .demo-input {
+        width: 80%; padding: 12px; margin-bottom: 15px; border-radius: 10px;
+        border: 1px solid #333; background: #000; color: var(--hk-blue); font-weight: 800; text-align: center;
+    }
+</style>
+
+<div id="hkDemoModal" class="hk-modal">
+    <div class="modal-content">
+        <div id="demoTitle" class="modal-title">기능 시연</div>
+        <div id="demoBody" class="modal-body">
+            </div>
+        <button class="close-modal" onclick="closeDemo()">닫기</button>
+    </div>
+</div>
+
+<script>
+    // 1. 기존 메뉴 박스에 시연 함수 연결 (원본 수정 없이 이벤트 리스너로 추가)
+    document.addEventListener('DOMContentLoaded', () => {
+        const menuItems = [
+            { id: 'm1', name: '송금', icon: '🚀', msg: '보낼 주소와 수량을 입력하세요.' },
+            { id: 'm2', name: '결재', icon: '🛒', msg: '상점 QR을 스캔하거나 가맹점 ID를 입력하세요.' },
+            { id: 'm3', name: '예치', icon: '🏦', msg: '최대 연 20% 미만 확정 수익 플랜입니다.' },
+            { id: 'm4', name: '보상', icon: '🎁', msg: '생태계 기여에 따른 실시간 보상 내역입니다.' },
+            { id: 'm5', name: '기본소득', icon: '💳', msg: 'HK 사회 재단에서 전 인류에게 지급하는 기본소득입니다.' },
+            { id: 'm6', name: '스왑', icon: '🔄', msg: 'PI와 HK-Asset 간의 즉시 교환을 시작합니다.' }
+        ];
+
+        menuItems.forEach((item, index) => {
+            const box = document.getElementById(item.id).parentElement;
+            box.style.cursor = 'pointer';
+            box.onclick = () => openDemo(item.name, item.icon, item.msg);
+        });
+
+        // 상단 3가지 핵심 지표에도 시연 연결
+        document.getElementById('det-pi').parentElement.onclick = () => openDemo('PI 수량 상세', '📊', '현재 메인넷으로 이전 가능한 총 수량입니다.');
+        document.getElementById('det-swap').parentElement.onclick = () => openDemo('DEX 스왑 현황', '💱', '전 세계 실시간 스왑 유동성 규모입니다.');
+        document.getElementById('det-lp').parentElement.onclick = () => openDemo('LP 스테이킹', '📈', '유동성 공급에 따른 실시간 보상률입니다.');
+    });
+
+    function openDemo(title, icon, msg) {
+        const modal = document.getElementById('hkDemoModal');
+        const dTitle = document.getElementById('demoTitle');
+        const dBody = document.getElementById('demoBody');
+
+        dTitle.innerHTML = `${icon} ${title}`;
+        
+        let content = `<p>${msg}</p>`;
+        if(title === '송금' || title === '결재') {
+            content += `<input type="text" class="demo-input" placeholder="수량 입력">`;
+        } else if(title === '스왑') {
+            content += `<p style="font-size:12px; color:var(--hk-pink)">1 PI ≈ $ 314,159 (예시)</p>`;
+        }
+
+        content += `<div class="demo-status">● v23 프로토콜 동기화 대기 중...</div>`;
+        dBody.innerHTML = content;
+        modal.style.display = 'flex';
+    }
+
+    function closeDemo() {
+        document.getElementById('hkDemoModal').style.display = 'none';
+    }
+
+    // Pi SDK v23 대응 초기화 (시연용)
+    window.onload = function() {
+        if (window.Pi) {
+            Pi.init({ version: "2.0", sandbox: true });
+            console.log("HK-WorldBank: Pi SDK v23 Ready.");
+        }
+    }
+</script>
 </html> 
