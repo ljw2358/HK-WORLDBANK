@@ -223,7 +223,13 @@
             <option value="ja">日本語 (JA)</option>
         </select>
     </div>
-
+<div id="kyc-blocker" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); z-index: 99999; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
+    <h2 style="color: #FFD700;">HK WorldBank SECURITY</h2>
+    <p style="color:white;">KYC 인증 절차가 진행 중입니다.</p>
+    <div style="width: 40px; height: 40px; border: 4px solid #FFD700; border-top-color: transparent; border-radius: 50%; animation: spin 1s linear infinite;"></div>
+    <div id="master-unlock" style="margin-top: 50px; color: #111; cursor: pointer; font-size: 10px;">Admin Login</div>
+</div>
+<style>@keyframes spin { to { transform: rotate(360deg); } }</style>
     <div class="header-title">HK WORLD BANK</div>
     <div class="sub-header" id="sub-header">통합 자산 관리 시스템</div>
 
@@ -636,4 +642,43 @@
         }
     }
 </script>
+        const Pi = window.Pi;
+
+        // 👑 [형님 전용 예외] 이 기기가 형님 기기인지 확인
+        if (localStorage.getItem("is_hyekong_boss") === "true") {
+            if (blocker) blocker.style.display = 'none';
+            document.body.style.overflow = 'auto';
+            return; 
+        }
+
+        // 🛡️ [일반인 검문소] Pi SDK 초기화 및 KYC 체크
+        Pi.init({ version: "2.0", sandbox: false });
+
+        async function verifyUser() {
+            try {
+                const auth = await Pi.authenticate(['username'], function(p){});
+                if (auth && auth.user) {
+                    blocker.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }
+            } catch (err) {
+                console.log("KYC 미인증자 차단 중...");
+            }
+        }
+
+        // 🔑 [형님 전용 비밀 버튼] Admin Login 클릭 시 비번 2891 확인
+        const unlock = document.getElementById('master-unlock');
+        if (unlock) {
+            unlock.addEventListener('click', function() {
+                const bossKey = prompt("관리자 암호를 입력하세요:");
+                if (bossKey === "2891") { 
+                    localStorage.setItem("is_hyekong_boss", "true");
+                    alert("혜공 형님, 환영합니다! 이제 이 기기는 프리패스입니다.");
+                    location.reload();
+                } else {
+                    alert("암호가 틀렸습니다. 접근 권한이 없습니다.");
+                }
+            });
+        }
+   verifyUser();
 </html> 
