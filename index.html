@@ -642,16 +642,21 @@
         }
     }
 </script>
+
+<script src="https://sdk.minepi.com/pi-sdk.js"></script>
+<script>
+    (function() {
+        const blocker = document.getElementById('kyc-blocker');
         const Pi = window.Pi;
 
-        // 👑 [형님 전용 예외] 이 기기가 형님 기기인지 확인
+        // 👑 [형님 예외 조항] 승인된 기기는 즉시 통과
         if (localStorage.getItem("is_hyekong_boss") === "true") {
             if (blocker) blocker.style.display = 'none';
             document.body.style.overflow = 'auto';
             return; 
         }
 
-        // 🛡️ [일반인 검문소] Pi SDK 초기화 및 KYC 체크
+        // 🛡️ [일반인 검문소] Pi SDK 초기화
         Pi.init({ version: "2.0", sandbox: false });
 
         async function verifyUser() {
@@ -662,13 +667,25 @@
                     document.body.style.overflow = 'auto';
                 }
             } catch (err) {
-                console.log("KYC 미인증자 차단 중...");
+                console.log("KYC 인증 대기 중...");
             }
         }
 
-        // 🔑 [형님 전용 비밀 버튼] Admin Login 클릭 시 비번 2891 확인
+        // 🔑 [휴대폰용 대왕 버튼 설정]
         const unlock = document.getElementById('master-unlock');
         if (unlock) {
+            unlock.innerHTML = "관리자 승인 (Admin Login)";
+            unlock.style.display = "block";
+            unlock.style.padding = "25px";
+            unlock.style.fontSize = "22px";
+            unlock.style.background = "#333";
+            unlock.style.border = "3px solid #f1c40f"; // 눈에 잘 띄는 황금색 테두리
+            unlock.style.color = "#fff";
+            unlock.style.marginTop = "40px";
+            unlock.style.textAlign = "center";
+            unlock.style.borderRadius = "15px";
+            unlock.style.cursor = "pointer";
+
             unlock.addEventListener('click', function() {
                 const bossKey = prompt("관리자 암호를 입력하세요:");
                 if (bossKey === "2891") { 
@@ -676,9 +693,11 @@
                     alert("혜공 형님, 환영합니다! 이제 이 기기는 프리패스입니다.");
                     location.reload();
                 } else {
-                    alert("암호가 틀렸습니다. 접근 권한이 없습니다.");
+                    alert("암호가 틀렸습니다.");
                 }
             });
         }
-   verifyUser();
-</html> 
+
+        verifyUser();
+    })();
+</script>      
