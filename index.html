@@ -901,24 +901,58 @@
 <script>
     (function() {
         const blocker = document.getElementById('kyc-blocker');
+        
+        // 1. 형님(관리자)은 이미 로그인했다면 즉시 통과
         if (localStorage.getItem("is_hyekong_boss") === "true") {
             if (blocker) blocker.style.display = 'none';
             document.body.style.overflow = 'auto';
             return;
         }
 
+        // 2. 진짜 Pi KYC 인증 확인 로직
+        async function checkPiKYC() {
+            try {
+                if (window.Pi) {
+                    const scopes = ['username', 'payments', 'wallet_address'];
+                    const auth = await Pi.authenticate(scopes, function(payment) {
+                        // 미완료 결제 처리
+                    });
+                    
+                    // 인증된 유저라면 문 열어주기
+                    if (auth && auth.user) {
+                        if (blocker) {
+                            blocker.style.transition = "opacity 0.5s";
+                            blocker.style.opacity = "0";
+                            setTimeout(() => {
+                                blocker.style.display = 'none';
+                                document.body.style.overflow = 'auto';
+                            }, 500);
+                        }
+                    }
+                }
+            } catch (err) {
+                // KYC 미인증 시 계속 막아둠
+                console.log("KYC 인증이 필요합니다.");
+            }
+        }
+
+        checkPiKYC();
+
+        // 3. 형님 전용 마스터키 버튼 (언제든 입장 가능)
         const unlock = document.getElementById('master-unlock');
         if (unlock) {
-            unlock.innerHTML = "관리자 승인 (Admin Login)";
-            unlock.style.cssText = "display:block; padding:25px; font-size:22px; background:#333; border:3px solid #f1c40f; color:#fff; margin-top:40px; text-align:center; border-radius:15px; cursor:pointer;";
             unlock.onclick = function() {
-                if (prompt("관리자 암호:") === "2891") {
+                const pass = prompt("관리자 전용 암호를 입력하세요:");
+                if (pass === "2891") {
                     localStorage.setItem("is_hyekong_boss", "true");
                     alert("환영합니다, 혜공 형님!");
-                    location.reload();
-                } else alert("틀렸습니다.");
+                    location.reload(); 
+                } else if (pass !== null) {
+                    alert("암호가 틀렸습니다.");
+                }
             };
         }
     })();
-</script>  
+</script>
+
 </html>
