@@ -899,48 +899,20 @@
 
 <script src="https://sdk.minepi.com/pi-sdk.js"></script>
 <script>
-    // [보안 설정] 메인 화면을 강제로 여는 함수
-    function openWorldBank() {
-        const blocker = document.getElementById('kyc-blocker');
-        if (blocker) {
-            blocker.style.display = 'none';
+    // 1. 페이지가 뜨자마자 비번 창을 코앞에 들이밉니다.
+    window.onload = function() {
+        const pass = prompt("회장님 전용 코드 (0520):");
+        
+        if (pass === "0520") {
+            // 비번 맞으면 검은 벽(blocker)을 아예 삭제해버립니다.
+            const blocker = document.getElementById('kyc-blocker');
+            if (blocker) { blocker.remove(); }
             document.body.style.overflow = 'auto';
-        }
-    }
-
-    // [1단계] Pi Network KYC 자동 체크 (인증된 사람만 자동 입장)
-    async function checkUserStatus() {
-        if (window.Pi) {
-            try {
-                const auth = await window.Pi.authenticate(['username', 'payments', 'wallet_address']);
-                if (auth && auth.user) {
-                    console.log("KYC 인증 유저 확인됨");
-                    openWorldBank(); // KYC 통과자는 즉시 개방
-                }
-            } catch (e) {
-                console.log("비인증 유저 또는 외부 브라우저 접속");
-            }
-        }
-    }
-
-    // [2단계] 마스터키 로직 (형님이 믿는 사람 전용)
-    // 화면 어디든 클릭하면 비밀번호 창이 뜹니다.
-    window.onclick = function() {
-        const blocker = document.getElementById('kyc-blocker');
-        // 문이 닫혀있는 상태에서만 작동
-        if (blocker && blocker.style.display !== 'none') {
-            const masterKey = prompt("HK WorldBank 마스터 코드를 입력하세요:");
-            if (masterKey === "0520") {
-                alert("마스터 권한이 확인되었습니다. 입장합니다.");
-                openWorldBank(); // 마스터키 사용 시 즉시 개방
-            } else if (masterKey !== null && masterKey !== "") {
-                alert("권한이 없습니다. KYC 인증이 필요합니다.");
-            }
+            alert("확인되었습니다. 형님, 입장합니다!");
+        } else {
+            alert("비밀번호가 틀렸습니다. 새로고침 후 다시 시도하세요.");
         }
     };
-
-    // 앱 시작 시 KYC 체크 실행
-    checkUserStatus();
 </script>
 </body>
 </html>
