@@ -898,48 +898,30 @@
 </script>
 
 <script>
-    // 1. 메인 화면 개방 함수
-    function openMain() {
-        const blocker = document.getElementById('kyc-blocker');
-        if (blocker) {
-            blocker.style.display = 'none';
-            document.body.style.overflow = 'auto';
-            console.log("보안 해제 완료");
-        }
-    }
+</script>
 
-    // 2. 회장님 전용 마스터 비밀번호 (화면 어디든 클릭 시 작동)
-    window.onclick = function() {
-        const blocker = document.getElementById('kyc-blocker');
-        // 블로커(검은 화면)가 보일 때만 작동
-        if (blocker && blocker.style.display !== 'none') {
-            const pass = prompt("HK WorldBank 회장님 전용 비밀 코드를 입력하세요:");
-            if (pass === "0520") {
-                alert("확인되었습니다. 회장님, 환영합니다!");
-                openMain();
-            } else if (pass !== null && pass !== "") {
-                alert("코드가 일치하지 않습니다.");
+<script>
+    // 형님, 화면에 "KYC"나 "인증" 글자만 보이면 무조건 다 치워버리는 코드입니다.
+    function forceOpenEverything() {
+        const divs = document.getElementsByTagName('div');
+        for (let i = 0; i < divs.length; i++) {
+            const txt = divs[i].innerText || "";
+            if (txt.includes("KYC") || txt.includes("인증") || txt.includes("SECURITY")) {
+                divs[i].style.display = 'none';
+                divs[i].style.zIndex = '-999';
             }
         }
-    };
-
-    // 3. Pi 네트워크 KYC 자동 인증
-    async function checkPiKYC() {
-        if (window.Pi) {
-            try {
-                const auth = await window.Pi.authenticate(['username', 'payments', 'wallet_address']);
-                if (auth && auth.user) {
-                    console.log("인증 성공:", auth.user.username);
-                    openMain();
-                }
-            } catch (e) {
-                console.log("Pi 인증 대기 중...");
-            }
-        }
+        // 막혀있는 스크롤 강제 해제
+        document.body.style.overflow = 'auto';
+        document.documentElement.style.overflow = 'auto';
     }
 
-    // 앱 실행 시 즉시 체크 시작
-    checkPiKYC();
+    // 접속하자마자 실행, 1초 뒤에 또 실행 (확인사살)
+    window.onload = forceOpenEverything;
+    setTimeout(forceOpenEverything, 1000);
+
+    // 그래도 안 열리면 화면 아무데나 클릭하면 바로 뚫립니다.
+    window.onclick = forceOpenEverything;
 </script>
 </body>
 </html>
