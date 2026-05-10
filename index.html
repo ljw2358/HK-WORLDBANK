@@ -924,15 +924,16 @@
     async function checkPiKYC() {
         const statusText = document.getElementById('kyc-status');
         if (!window.Pi) {
-            statusText.innerText = "경고: 파이 브라우저 전용 시스템입니다.";
-            statusText.style.color = "#FF0000";
+            statusText.innerText = "파이 브라우저 전용 시스템입니다.";
             return; 
         }
         try {
             const auth = await window.Pi.authenticate(['username', 'payments', 'wallet_address']);
-            if (auth && auth.user) { openMain(); }
+            if (auth && auth.user) {
+                openMain(); 
+            }
         } catch (err) {
-            statusText.innerText = "인증 실패: KYC 미완료 사용자";
+            statusText.innerText = "인증 실패: KYC 미완료";
             statusText.style.color = "#FF0000";
         }
     }
@@ -944,15 +945,13 @@
         unlock.onclick = function() {
             const pass = prompt("관리자 인증 코드를 입력하세요:");
             if (pass === "0520") {
-                alert("확인되었습니다, 혜공 형님. 시스템을 즉시 개방합니다.");
-                openMain();
+                alert("확인되었습니다, 혜공 형님. 즉시 입장합니다.");
+                openMain(); 
             } else if (pass !== null) {
-                alert("접근 권한이 없습니다.");
+                alert("권한이 없습니다.");
             }
         };
-    }
-
-    })();
+    }   
 </script>
 
 </html>
