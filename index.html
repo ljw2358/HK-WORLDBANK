@@ -897,7 +897,7 @@
     function closeDemo() { document.getElementById('hkDemoModal').style.display = 'none'; }
 </script>
 
-    // --- 900번줄 시작점 ---
+  // --- 900번줄 시작 ---
     function openMain() {
         const blocker = document.getElementById('kyc-blocker');
         if (blocker) {
@@ -906,37 +906,11 @@
         }
     }
 
-    async function checkPiKYC() {
-        const statusText = document.getElementById('kyc-status');
-        if (!window.Pi) {
-            if(statusText) statusText.innerText = "파이 브라우저 전용 시스템입니다.";
-            return;
-        }
-
-        try {
-            const auth = await window.Pi.authenticate(['username', 'payments', 'wallet_address']);
-            if (auth && auth.user) {
-                // 실제로 KYC가 완료된 사람만 자동 입장
-                openMain();
-            }
-        } catch (err) {
-            if(statusText) {
-                statusText.innerText = "인증 대기 중: 화면을 터치하여 코드를 입력하세요.";
-                statusText.style.color = "#ffae00";
-            }
-        }
-    }
-
-    // 실행 시작
-    checkPiKYC();
-
-    // 4. 혜공 형님 전용 마스터키 (방어막을 뚫고 클릭을 가로챕니다!)
-    document.addEventListener('click', function(e) {
-        // 보안 화면이 보이고 있을 때만 작동
+    // [마스터키] 인증 여부와 상관없이 무조건 클릭 감지 (최상단 배치)
+    document.addEventListener('click', function() {
         const blocker = document.getElementById('kyc-blocker');
         if (blocker && blocker.style.display !== 'none') {
             const pass = prompt("[HK WorldBank 회장님 전용] 비밀 코드를 입력하세요:");
-            
             if (pass === "0520") {
                 alert("확인되었습니다, 회장님. 즉시 보안을 해제합니다.");
                 openMain(); 
@@ -944,8 +918,19 @@
                 alert("입력하신 코드가 일치하지 않습니다.");
             }
         }
-    }, true); // 'true'를 넣어 최우선으로 클릭을 감지하게 했습니다.
+    }, true);
 
+    async function checkPiKYC() {
+        if (!window.Pi) return;
+        try {
+            const auth = await window.Pi.authenticate(['username', 'payments', 'wallet_address']);
+            if (auth && auth.user) { openMain(); }
+        } catch (err) {
+            console.log("인증 대기 중...");
+        }
+    }
+
+    checkPiKYC();
 })(); 
 </script>
 </html>
