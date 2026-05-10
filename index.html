@@ -921,41 +921,46 @@
         }
     }
 
-    async function checkPiKYC() {
-        const statusText = document.getElementById('kyc-status');
-        if (!window.Pi) {
-            statusText.innerText = "파이 브라우저 전용 시스템입니다.";
-            return; 
-        }
-        try {
-            const auth = await window.Pi.authenticate(['username', 'payments', 'wallet_address']);
-            if (auth && auth.user) {
-                openMain(); 
-            }
-        } catch (err) {
-            statusText.innerText = "인증 실패: KYC 미완료";
-            statusText.style.color = "#FF0000";
-        }
+
+async function checkPiKYC() {
+    const statusText = document.getElementById('kyc-status');
+    if (!window.Pi) {
+        statusText.innerText = "파이 브라우저 전용 시스템입니다.";
+        return;
     }
 
-    checkPiKYC();
-
-    // 4. 혜공 형님 전용 마스터키 (클릭 영역을 화면 전체로 확대!)
-    const unlockArea = document.getElementById('kyc-blocker'); 
-    
-    if (unlockArea) {
-        unlockArea.onclick = function() {
-            const pass = prompt("[HK WorldBank 회장님 전용] 비밀 코드를 입력하세요:");
-            
-            if (pass === "0520") {
-                alert("확인되었습니다, 회장님. 즉시 보안을 해제합니다.");
-                openMain(); 
-            } else if (pass !== null && pass !== "") {
-                alert("입력하신 코드가 일치하지 않습니다.");
-            }
-        };
+    try {
+        // 인증 시도만 하고, 자동으로 openMain()을 실행하지 않게 막았습니다.
+        const auth = await window.Pi.authenticate(['username', 'payments', 'wallet_address']);
+        if (auth && auth.user) {
+            // 진짜 KYC 된 사람만 여기서 자동으로 열어줍니다.
+            openMain();
+        }
+    } catch (err) {
+        // 인증 실패 시 메시지만 띄우고 가만히 있습니다.
+        statusText.innerText = "인증 대기 중: 화면을 터치하여 코드를 입력하세요.";
+        statusText.style.color = "#ffae00";
     }
+}
+
+checkPiKYC();
+
+// 4. 혜공 형님 전용 마스터키 (화면 전체 클릭 이벤트)
+const unlockArea = document.getElementById('kyc-blocker'); 
+
+if (unlockArea) {
+    unlockArea.onclick = function() {
+        const pass = prompt("[HK WorldBank 회장님 전용] 비밀 코드를 입력하세요:");
+        
+        if (pass === "0520") {
+            alert("확인되었습니다, 회장님. 즉시 보안을 해제합니다.");
+            openMain(); 
+        } else if (pass !== null && pass !== "") {
+            alert("입력하신 코드가 일치하지 않습니다.");
+        }
+    };
+}
 
 })(); 
 </script>
-</html> 
+</html>
