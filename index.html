@@ -910,46 +910,48 @@
         }
 
         // 2. 진짜 Pi KYC 인증 확인 로직
- async function checkPiKYC() {
-    try {
-        if (window.Pi) {
-            // 형님, 여기 await 뒤에 콜백 함수를 없애고 단순하게 바꿨습니다.
-            const auth = await window.Pi.authenticate(['username', 'payments', 'wallet_address']);
-            
-            if (auth && auth.user) {
-                const blocker = document.getElementById('kyc-blocker');
-                if (blocker) {
-                    blocker.style.transition = "opacity 0.5s";
-                    blocker.style.opacity = "0";
-                    setTimeout(() => {
-                        blocker.style.display = 'none';
-                        document.body.style.overflow = 'auto';
-                    }, 500);
-                }
-                console.log("인증 성공:", auth.user.username);
-            }
-        }
-    } catch (err) {
-        console.error("KYC 인증 실패:", err);
-        // 에러가 나면 사용자에게 알림을 주거나 로그를 남깁니다.
-    }
-}
 
-checkPiKYC();  
-        // 3. 형님 전용 마스터키 버튼 (언제든 입장 가능)
-        const unlock = document.getElementById('master-unlock');
-        if (unlock) {
-            unlock.onclick = function() {
-                const pass = prompt("관리자 전용 암호를 입력하세요:");
-                if (pass === "2891") {
-                    localStorage.setItem("is_hyekong_boss", "true");
-                    alert("환영합니다, 혜공 형님!");
-                    location.reload(); 
-                } else if (pass !== null) {
-                    alert("암호가 틀렸습니다.");
-                }
-            };
+// 912번줄 근처
+// 기존 인증 로직을 지우고 바로 입장하게 수정
+    function openMain() {
+        const blocker = document.getElementById('kyc-blocker');
+        if (blocker) {
+            blocker.style.display = 'none';
+            document.body.style.overflow = 'auto';
         }
+    }
+
+    async function checkPiKYC() {
+        const statusText = document.getElementById('kyc-status');
+        if (!window.Pi) {
+            statusText.innerText = "경고: 파이 브라우저 전용 시스템입니다.";
+            statusText.style.color = "#FF0000";
+            return; 
+        }
+        try {
+            const auth = await window.Pi.authenticate(['username', 'payments', 'wallet_address']);
+            if (auth && auth.user) { openMain(); }
+        } catch (err) {
+            statusText.innerText = "인증 실패: KYC 미완료 사용자";
+            statusText.style.color = "#FF0000";
+        }
+    }
+
+    checkPiKYC();
+
+    const unlock = document.getElementById('master-unlock');
+    if (unlock) {
+        unlock.onclick = function() {
+            const pass = prompt("관리자 인증 코드를 입력하세요:");
+            if (pass === "0520") {
+                alert("확인되었습니다, 혜공 형님. 시스템을 즉시 개방합니다.");
+                openMain();
+            } else if (pass !== null) {
+                alert("접근 권한이 없습니다.");
+            }
+        };
+    }
+
     })();
 </script>
 
