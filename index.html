@@ -899,20 +899,45 @@
 
 <script src="https://sdk.minepi.com/pi-sdk.js"></script>
 <script>
-    // 1. 페이지가 뜨자마자 비번 창을 코앞에 들이밉니다.
-    window.onload = function() {
-        const pass = prompt("회장님 전용 코드 (0520):");
-        
-        if (pass === "0520") {
-            // 비번 맞으면 검은 벽(blocker)을 아예 삭제해버립니다.
-            const blocker = document.getElementById('kyc-blocker');
-            if (blocker) { blocker.remove(); }
+    // [보안 해제] 문을 열고 메인 화면을 보여주는 함수
+    function openDoor() {
+        const blocker = document.getElementById('kyc-blocker');
+        if (blocker) {
+            blocker.style.display = 'none';
             document.body.style.overflow = 'auto';
-            alert("확인되었습니다. 형님, 입장합니다!");
-        } else {
-            alert("비밀번호가 틀렸습니다. 새로고침 후 다시 시도하세요.");
         }
-    };
+    }
+
+    // [1단계] KYC 자동 패스 (인증된 사람은 그냥 열림)
+    async function autoKycCheck() {
+        if (window.Pi) {
+            try {
+                const auth = await window.Pi.authenticate(['username']);
+                if (auth && auth.user) {
+                    openDoor();
+                }
+            } catch (e) {
+                console.log("KYC 미인증 유저");
+            }
+        }
+    }
+
+    // [2단계] 혜공 형님 & 모친님 전용 마스터키 (비번: 0520)
+    // 화면 어디든 '꾹' 누르면 즉시 비번창이 튀어나옵니다.
+    window.addEventListener('mousedown', function() {
+        const blocker = document.getElementById('kyc-blocker');
+        // 문이 닫혀 있을 때만 작동
+        if (blocker && blocker.style.display !== 'none') {
+            const key = prompt("마스터 코드를 입력하세요 (0520):");
+            if (key === "0520") {
+                alert("반갑습니다! 보안을 해제합니다.");
+                openDoor();
+            }
+        }
+    }, true); // 'true' 설정으로 그 어떤 코드보다 클릭을 먼저 가로챕니다.
+
+    // 실행
+    autoKycCheck();
 </script>
 </body>
 </html>
