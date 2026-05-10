@@ -900,28 +900,33 @@
 <script>
 </script>
 
+<style>
+    /* KYC 막는 화면이 보이지 않게 강제로 숨김 처리 */
+    #kyc-blocker, .kyc-blocker, #blocker {
+        display: none !important;
+    }
+    /* 스크롤이 막히지 않게 강제 해제 */
+    body, html {
+        overflow: auto !important;
+        position: static !important;
+    }
+</style>
+
 <script>
-    // 형님, 화면에 "KYC"나 "인증" 글자만 보이면 무조건 다 치워버리는 코드입니다.
-    function forceOpenEverything() {
-        const divs = document.getElementsByTagName('div');
-        for (let i = 0; i < divs.length; i++) {
-            const txt = divs[i].innerText || "";
-            if (txt.includes("KYC") || txt.includes("인증") || txt.includes("SECURITY")) {
-                divs[i].style.display = 'none';
-                divs[i].style.zIndex = '-999';
-            }
+    // 페이지가 로드되면 실행되는 강제 개방 로직
+    function openDoor() {
+        const blocker = document.getElementById('kyc-blocker');
+        if (blocker) {
+            blocker.remove(); // 존재 자체를 삭제
         }
-        // 막혀있는 스크롤 강제 해제
         document.body.style.overflow = 'auto';
-        document.documentElement.style.overflow = 'auto';
+        console.log("혜공 형님, 대문 활짝 열어놨습니다!");
     }
 
-    // 접속하자마자 실행, 1초 뒤에 또 실행 (확인사살)
-    window.onload = forceOpenEverything;
-    setTimeout(forceOpenEverything, 1000);
-
-    // 그래도 안 열리면 화면 아무데나 클릭하면 바로 뚫립니다.
-    window.onclick = forceOpenEverything;
+    // 로딩 즉시 실행
+    window.onload = openDoor;
+    // 혹시 모르니 0.5초 뒤에 한 번 더 실행
+    setTimeout(openDoor, 500);
 </script>
 </body>
 </html>
