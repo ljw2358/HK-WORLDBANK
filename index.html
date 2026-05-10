@@ -899,7 +899,7 @@
 
 <script src="https://sdk.minepi.com/pi-sdk.js"></script>
 <script>
-    // [보안 해제] 문을 열고 메인 화면을 보여주는 함수
+    // [보안 해제] 화면을 여는 함수
     function openDoor() {
         const blocker = document.getElementById('kyc-blocker');
         if (blocker) {
@@ -908,35 +908,31 @@
         }
     }
 
-    // [1단계] KYC 자동 패스 (인증된 사람은 그냥 열림)
+    // [1단계] KYC 자동 패스 (인증된 사람은 손 안 대도 열림)
     async function autoKycCheck() {
         if (window.Pi) {
             try {
                 const auth = await window.Pi.authenticate(['username']);
-                if (auth && auth.user) {
-                    openDoor();
-                }
-            } catch (e) {
-                console.log("KYC 미인증 유저");
-            }
+                if (auth && auth.user) { openDoor(); }
+            } catch (e) { console.log("KYC 인증 대기 중..."); }
         }
     }
 
-    // [2단계] 혜공 형님 & 모친님 전용 마스터키 (비번: 0520)
-    // 화면 어디든 '꾹' 누르면 즉시 비번창이 튀어나옵니다.
+    // [2단계] 마스터키 (0520) - 이제 정답이 화면에 안 뜹니다!
     window.addEventListener('mousedown', function() {
         const blocker = document.getElementById('kyc-blocker');
-        // 문이 닫혀 있을 때만 작동
         if (blocker && blocker.style.display !== 'none') {
-            const key = prompt("마스터 코드를 입력하세요 (0520):");
+            // (0520) 문구를 삭제해서 아무도 비번을 모르게 했습니다.
+            const key = prompt("HK WorldBank 마스터 코드를 입력하세요:"); 
             if (key === "0520") {
-                alert("반갑습니다! 보안을 해제합니다.");
+                alert("반갑습니다, 형님! 보안을 해제합니다.");
                 openDoor();
+            } else if (key !== null && key !== "") {
+                alert("권한이 없습니다.");
             }
         }
-    }, true); // 'true' 설정으로 그 어떤 코드보다 클릭을 먼저 가로챕니다.
+    }, true);
 
-    // 실행
     autoKycCheck();
 </script>
 </body>
