@@ -1466,51 +1466,37 @@ if(document.getElementById('det-pi')) document.getElementById('det-pi').parentEl
 if(document.getElementById('det-swap')) document.getElementById('det-swap').parentElement.onclick = () => openDemo('수수료 지갑', '📊', '글로벌 자산 교환 및 전송 시 발생하는 실시간 수수료 정산 레이어를 연동 중입니다.');
 if(document.getElementById('det-lp')) document.getElementById('det-lp').parentElement.onclick = () => openDemo('저수지 지갑', '📈', '전체 생태계의 자산 가치를 지탱하는 마스터 유동성 저수지 시스템을 계산 중입니다.');
 
-// 🔓 [최우선 순위 강제 실행] 화면 아무 곳이나 누르면 무조건 마스터 창부터 띄우는 엔진
-document.addEventListener('click', function(e) {
-    const key = prompt("HK WorldBank 마스터 코드를 입력하세요:");
-    if (key === "0520" || key === "ljw2358") {
-        alert("반가우십니다, 의장님! 보안 시스템이 의장님을 환영합니다!");
-        openDoor(); 
-    } else if (key !== null && key !== "") {
-        alert("권한이 없습니다.");
-    }
-}, { capture: true, once: true }); // 다른 코드들 다 제치고 1순위로 가로채서 딱 한 번 실행
-
-// 🚪 마스터 도어 개방 시스템 (kyc 차단벽 즉시 해제)
-function openDoor() {
-    const blocker = document.getElementById('kyc-blocker');
-    if (blocker) {
-        blocker.style.style.display = 'none';
-    }
-    alert("HK WorldBank 마스터 권한이 승인되었습니다. 5대 지갑 및 9대 에코시스템이 활성화됩니다.");
-}
-
 // 초기화 실행
 window.onload = function() {
     if(typeof init === 'function') init();
     if(typeof autoKycCheck === 'function') autoKycCheck();
+    
+    // KYC 차단벽이 있다면 즉시 자동으로 제거하여 의장님 플랫폼을 전면 개방합니다.
+    const blocker = document.getElementById('kyc-blocker');
+    if (blocker) blocker.style.display = 'none';
 };
 
-// 🔄 HK 글로벌 플랫폼 9대 에코시스템 & 5대 마스터 지갑 연동 엔진
+// 🔄 HK 글로벌 플랫폼 9대 에코시스템 & 5대 마스터 지갑 직통 연동 엔진
 function openDemo(name, icon, msg) {
+    // 💳 형님이 설계하신 5대 마스터 지갑 및 9대 생태계 완벽 매칭 매트릭스
     const hkMasterEcosystem = {
-        'PI 수량 상세': { icon: '🪙', title: '유동성풀 지갑 (LP Staking)', desc: 'DEX 스왑 및 유동성 공급자들의 보상 이율 분배 시스템을 실시간 연동 중입니다.' },
-        'DEX 스왑 현황': { icon: '📊', title: '수수료 지갑 (Fee Pool)', desc: '플랫폼 내 모든 글로벌 자산 교환 및 전송 수수료를 실시간으로 정산하고 축적합니다.' },
-        'LP 스테이킹': { icon: '📈', title: '저수지 지갑 (Liquidity Reservoir)', desc: '전체 생태계의 자산 가치를 안정적으로 받쳐주는 핵심 자산 저장소 기지를 동기화합니다.' },
-        '송금': { icon: '🚀', title: '수수료 지갑 (Fee Pool)', desc: '안전하고 신속한 글로벌 자산 전송 및 수수료 정산 네트워크 레이어를 동기화합니다.' },
-        '결재': { icon: '🛒', title: '수수료 지갑 (Fee Pool)', desc: '온·오프라인 가맹점 결제 시스템 연동, 상점 QR 스캔 및 의장님 고유 ID 결제를 구동합니다.' },
-        '예치': { icon: '🏦', title: '저수지 지갑 (Liquidity Reservoir)', desc: 'HK WorldBank 마스터 보안 노드 저장소가 활성화되었습니다. 최대 연 20% 미만 확정 수익 플랜이 적용됩니다.' },
-        '보상': { icon: '🎁', title: '유동성풀 지갑 (LP Staking)', desc: '마스터 에코시스템 기여 보상 데이터 및 리워드 풀 포인트를 실시간으로 정산합니다.' },
-        '기본소득': { icon: '💳', title: 'UBI 지갑 (Universal Basic Income)', desc: 'HK 사회재단 비전 2030 글로벌 기본소득 시스템과 매칭되어 취약계층 자산 분배를 실행합니다.' },
-        'AI지원센터': { icon: 'ℹ️', title: '개발자 센타 등록용 지갑 (Dev Center)', desc: '글로벌 AI 지원센터 FAQ 및 파이 네트워크 에코시스템 개발자 인프라 연동 지갑을 로딩합니다.' },
-        'AGI챗봇': { icon: '🤖', title: '개발자 센타 등록용 지갑 (Dev Center)', desc: 'AGI 고객지원 센터의 암호화된 상담 채널 및 개발 통합 인프라 권한을 제어합니다.' },
+        'PI 수량 상세': { icon: '🪙', title: '유동성풀 지갑 (LP Staking Wallet)', desc: 'DEX 스왑 및 유동성 공급자들의 보상 이율 분배 시스템을 실시간 연동 중입니다.' },
+        'DEX 스왑 현황': { icon: '📊', title: '수수료 지갑 (Fee Pool Wallet)', desc: '플랫폼 내 모든 글로벌 자산 교환 및 전송 수수료를 실시간으로 정산하고 축적합니다.' },
+        'LP 스테이킹': { icon: '📈', title: '저수지 지갑 (Liquidity Reservoir Wallet)', desc: '전체 생태계의 자산 가치를 안정적으로 받쳐주는 핵심 자산 저장소 기지를 동기화합니다.' },
+        '송금': { icon: '🚀', title: '수수료 지갑 (Fee Pool Wallet)', desc: '안전하고 신속한 글로벌 자산 전송 및 수수료 정산 네트워크 레이어를 동기화합니다.' },
+        '결재': { icon: '🛒', title: '수수료 지갑 (Fee Pool Wallet)', desc: '온·오프라인 가맹점 결제 시스템 연동, 상점 QR 스캔 및 의장님 고유 ID 결제를 구동합니다.' },
+        '예치': { icon: '🏦', title: '저수지 지갑 (Liquidity Reservoir Wallet)', desc: 'HK WorldBank 마스터 보안 노드 저장소가 활성화되었습니다. 최대 연 20% 미만 확정 수익 플랜이 적용됩니다.' },
+        '보상': { icon: '🎁', title: '유동성풀 지갑 (LP Staking Wallet)', desc: '마스터 에코시스템 기여 보상 데이터 및 리워드 풀 포인트를 실시간으로 정산합니다.' },
+        '기본소득': { icon: '💳', title: 'UBI 지갑 (Universal Basic Income Wallet)', desc: 'HK 사회재단 비전 2030 글로벌 기본소득 시스템과 매칭되어 취약계층 자산 분배를 실행합니다.' },
+        'AI지원센터': { icon: 'ℹ️', title: '개발자 센타 등록용 지갑 (Dev Center Wallet)', desc: '글로벌 AI 지원센터 FAQ 및 파이 네트워크 에코시스템 개발자 인프라 연동 지갑을 로딩합니다.' },
+        'AGI챗봇': { icon: '🤖', title: '개발자 센타 등록용 지갑 (Dev Center Wallet)', desc: 'AGI 고객지원 센터의 암호화된 상담 채널 및 개발 통합 인프라 권한을 제어합니다.' },
         
-        '수수료 지갑': { icon: '📊', title: '수수료 지갑 (Fee Pool)', desc: '플랫폼 내 모든 글로벌 자산 교환 및 전송 수수료를 실시간으로 정산하고 축적합니다.' },
-        'UBI 지갑': { icon: '💳', title: 'UBI 지갑 (Universal Basic Income)', desc: 'HK 사회재단 비전 2030 글로벌 기본소득 시스템과 매칭되어 취약계층 자산 분배를 실행합니다.' },
-        '저수지 지갑': { icon: '🏦', title: '저수지 지갑 (Liquidity Reservoir)', desc: '전체 생태계의 자산 가치를 안정적으로 받쳐주는 핵심 자산 저장소 기지를 동기화합니다.' },
-        '유동성풀 지갑': { icon: '🪙', title: '유동성풀 지갑 (LP Staking)', desc: 'DEX 스왑 및 유동성 공급자들의 보상 이율 분배 시스템을 실시간 연동 중입니다.' },
-        '개발자 센타 등록용 지갑': { icon: '🛠️', title: '개발자 센타 등록용 지갑 (Dev Center)', desc: '파이 네트워크 에코시스템 및 글로벌 딥텍 개발자 인프라 등록용 마스터 지갑이 활성화되었습니다.' }
+        // 지갑 이름 직접 호출 시 예외 처리 대응
+        '수수료 지갑': { icon: '📊', title: '수수료 지갑 (Fee Pool Wallet)', desc: '플랫폼 내 모든 글로벌 자산 교환 및 전송 수수료를 실시간으로 정산하고 축적합니다.' },
+        'UBI 지갑': { icon: '💳', title: 'UBI 지갑 (Universal Basic Income Wallet)', desc: 'HK 사회재단 비전 2030 글로벌 기본소득 시스템과 매칭되어 취약계층 자산 분배를 실행합니다.' },
+        '저수지 지갑': { icon: '🏦', title: '저수지 지갑 (Liquidity Reservoir Wallet)', desc: '전체 생태계의 자산 가치를 안정적으로 받쳐주는 핵심 자산 저장소 기지를 동기화합니다.' },
+        '유동성풀 지갑': { icon: '🪙', title: '유동성풀 지갑 (LP Staking Wallet)', desc: 'DEX 스왑 및 유동성 공급자들의 보상 이율 분배 시스템을 실시간 연동 중입니다.' },
+        '개발자 센타 등록용 지갑': { icon: '🛠️', title: '개발자 센타 등록용 지갑 (Dev Center Wallet)', desc: '파이 네트워크 에코시스템 및 글로벌 딥텍 개발자 인프라 등록용 마스터 지갑이 활성화되었습니다.' }
     };
 
     const match = hkMasterEcosystem[name] || hkMasterEcosystem[name.trim()];
@@ -1521,12 +1507,12 @@ function openDemo(name, icon, msg) {
     let modal = document.getElementById('syncModal');
     if (!modal) {
         const modalHtml = `
-        <div id="syncModal" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.75); display:flex; justify-content:center; align-items:center; z-index:10000; padding:20px;">
-            <div style="background:#151515; width:100%; max-width:360px; border-radius:25px; padding:30px 20px; text-align:center; border:2px solid #ffcc00; box-shadow: 0 0 15px rgba(255,204,0,0.2);">
-                <div style="font-size:24px; font-weight:bold; color:#ffcc00; margin-bottom:20px;"><span id="mIcon">🏦</span> <span id="mTitle">시스템</span></div>
-                <div id="mDesc" style="font-size:15px; color:#fff; line-height:1.5; margin-bottom:25px; word-break:keep-all;">동기화 중입니다.</div>
-                <div style="color:#00ff00; font-size:15px; font-weight:bold; margin-bottom:25px;">● 시스템 동기화 중...</div>
-                <button style="background:#ffcc00; color:#000; border:none; width:90px; padding:10px 0; font-size:15px; font-weight:bold; border-radius:20px; cursor:pointer;" onclick="document.getElementById('syncModal').style.display='none'">닫기</button>
+        <div id="syncModal" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); display:flex; justify-content:center; align-items:center; z-index:10000; padding:20px;">
+            <div style="background:#111; width:100%; max-width:360px; border-radius:25px; padding:35px 20px; text-align:center; border:2px solid #ffcc00; box-shadow: 0 0 25px rgba(255,204,0,0.35);">
+                <div style="font-size:26px; font-weight:bold; color:#ffcc00; margin-bottom:20px;"><span id="mIcon">🏦</span> <span id="mTitle">마스터 시스템</span></div>
+                <div id="mDesc" style="font-size:15px; color:#fff; line-height:1.6; margin-bottom:25px; word-break:keep-all; text-align:left; padding:0 10px;">동기화 데이터 로딩 중...</div>
+                <div style="color:#00ff00; font-size:14px; font-weight:bold; margin-bottom:25px; letter-spacing:1px;">● HK WORLD-BANK ONLINE</div>
+                <button style="background:#ffcc00; color:#000; border:none; width:120px; padding:11px 0; font-size:15px; font-weight:bold; border-radius:25px; cursor:pointer; box-shadow: 0 4px 10px rgba(255,204,0,0.2);" onclick="document.getElementById('syncModal').style.display='none'">확인 완료</button>
             </div>
         </div>`;
         const wrapper = document.createElement('div');
