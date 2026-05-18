@@ -1466,27 +1466,24 @@ if(document.getElementById('det-pi')) document.getElementById('det-pi').parentEl
 if(document.getElementById('det-swap')) document.getElementById('det-swap').parentElement.onclick = () => openDemo('수수료 지갑', '📊', '글로벌 자산 교환 및 전송 시 발생하는 실시간 수수료 정산 레이어를 연동 중입니다.');
 if(document.getElementById('det-lp')) document.getElementById('det-lp').parentElement.onclick = () => openDemo('저수지 지갑', '📈', '전체 생태계의 자산 가치를 지탱하는 마스터 유동성 저수지 시스템을 계산 중입니다.');
 
-// 마스터 잠금해제 클릭 이벤트 처리
-window.addEventListener('mousedown', function(e) {
-    const blocker = document.getElementById('kyc-blocker');
-    if (blocker && blocker.style.display !== 'none') {
-        const key = prompt("HK WorldBank 마스터 코드를 입력하세요:");
-        if (key === "0520" || key === "ljw2358") {
-            alert("반가우십니다, 의장님! 보안 시스템이 의장님을 환영합니다!");
-            openDoor(); 
-        } else if (key !== null && key !== "") {
-            alert("권한이 없습니다.");
-        }
+// 🔓 [최우선 순위] 마스터 잠금해제 엔진 (위쪽 코드들의 방해를 무력화)
+document.addEventListener('click', function(e) {
+    const key = prompt("HK WorldBank 마스터 코드를 입력하세요:");
+    if (key === "0520" || key === "ljw2358") {
+        alert("반가우십니다, 의장님! 보안 시스템이 의장님을 환영합니다!");
+        openDoor(); 
+    } else if (key !== null && key !== "") {
+        alert("권한이 없습니다.");
     }
-}, true);
+}, { capture: true, once: true }); // 딱 한 번 최우선 순위로 실행 후 해제
 
-// 🚪 마스터 도어 개방 시스템 (kyc 차단벽 제거 및 시스템 활성화)
+// 🚪 마스터 도어 개방 시스템 (kyc 차단벽 즉시 제거)
 function openDoor() {
     const blocker = document.getElementById('kyc-blocker');
     if (blocker) {
         blocker.style.display = 'none';
-        alert("HK WorldBank 마스터 권한이 승인되었습니다. 5대 지갑 및 9대 에코시스템이 활성화됩니다.");
     }
+    alert("HK WorldBank 마스터 권한이 승인되었습니다. 5대 지갑 및 9대 에코시스템이 활성화됩니다.");
 }
 
 // 초기화 실행
