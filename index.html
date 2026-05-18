@@ -1458,23 +1458,24 @@ function openDemo(title, icon, msg) {
     dTitle.innerHTML = `${icon} ${title}`;
     let content = `<p>${msg}</p>`;
     
-    if (title === '송금' || title === '결제' || title === '예치' || title === 'LP 스테이킹' || title === 'DEX 스왑') {
+    // 9개 에코 메뉴(송금, 결제, 예치, LP 스테이킹, DEX 스왑 등) 입력 및 실시간 연동창 활성화
+    if (title === '송금' || title === '결제' || title === '예치' || title === 'LP 스테이킹' || title === 'DEX 스왑' || title === 'PI 수량 상세' || title === 'DEX 스왑 현황') {
         content += `
             <div style="margin: 15px 0;">
                 <input type="number" id="hkDemoAmount" class="demo-input" placeholder="수량 입력 (Pi)" style="width:80%; padding:10px; border-radius:5px; border:1px solid #cca10e; background:#111; color:#fff; text-align:center;">
             </div>
-            <div id="hkDemoStatus" class="demo-status" style="margin-bottom:15px; color:#00ff88; font-weight:bold;">● 시스템 실시간 동기화 완료 (V23)</div>
-            <button onclick="executeHkAction('${title}')" style="width:80%; padding:10px; background:#cca10e; border:none; border-radius:5px; color:#000; font-weight:bold; cursor:pointer;">실제 데이터 연동 처리</button>
+            <div id="hkDemoStatus" class="demo-status" style="margin-bottom:15px; color:#00ff88; font-weight:bold;">● HK 블록체인 시스템 실시간 동기화 완료 (V23)</div>
+            <button onclick="window.executeHkAction('${title}')" style="width:80%; padding:10px; background:#cca10e; border:none; border-radius:5px; color:#000; font-weight:bold; cursor:pointer;">실제 데이터 연동 처리</button>
         `;
     } else {
-        content += `<div class="demo-status">● 시스템 동기화 중...</div>`;
+        content += `<div class="demo-status" style="margin-top:15px; color:#cca10e;">● HK 글로벌 메인넷 프로토콜 동기화 중...</div>`;
     }
     
     dBody.innerHTML = content;
     modal.style.display = 'flex';
 }
 
-// HK WorldBank V23 실시간 금융 처리 연동 함수
+// HK WorldBank V23 실시간 금융 처리 연동 함수 (대소문자 완전 통일 버전)
 window.executeHkAction = function(type) {
     const amt = document.getElementById('hkDemoAmount').value;
     if(!amt || amt <= 0) {
@@ -1482,34 +1483,25 @@ window.executeHkAction = function(type) {
         return;
     }
     
-    document.getElementById('hkDemoStatus').innerHTML = "⏳ 블록체인 노드 원장 기록 중...";
+    document.getElementById('hkDemoStatus').innerHTML = "⏳ 글로벌 블록체인 노드 원장 기록 중...";
     
     setTimeout(() => {
         document.getElementById('hkDemoStatus').innerHTML = "✅ V23 블록체인 원장 동기화 성공!";
         alert(`🏦 [HK WorldBank V23 프로토콜 명세]\n\n'${type}' 처리가 성공적으로 완료되었습니다!\n신청 수량: ${amt} Pi\n\n해당 내역은 HK 유동성 풀 및 저수지 지갑 원장에 실시간 반영되었습니다.`);
-        closeDemo();
         
-        // 메인 화면 잔액 실시간 업데이트 효과
+        // 모달창 닫기
+        document.getElementById('hkDemoModal').style.display = 'none';
+        
+        // 메인 화면 잔액 실시간 업데이트
         const piDisplay = document.getElementById('det-pi');
         if(piDisplay) {
             let currentPi = parseFloat(piDisplay.innerText) || 400.0665;
-            if(type === '예치' || type === '송금' || type === '결제') {
-                piDisplay.innerText = (currentPi - parseFloat(amt)).toFixed(4);
-            }
+            piDisplay.innerText = (currentPi - parseFloat(amt)).toFixed(4);
         }
     }, 1500);
 };
 
 function closeDemo() { document.getElementById('hkDemoModal').style.display = 'none'; }
-<script src="https://sdk.minepi.com/pi-sdk.js"></script>
-<script>
-    function openDoor() {
-        const blocker = document.getElementById('kyc-blocker');
-        if (blocker) {
-            blocker.style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
-    }
     async function autoKycCheck() {
         // 의장님 전용 계정(@ljw2358) 자동 통과 로직
         if (window.Pi) {
