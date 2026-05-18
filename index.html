@@ -1378,81 +1378,114 @@
             area.scrollTop = area.scrollHeight;
         }, 700);
     }
-// ===================================================
-// HK WorldBank 마스터 코어 스크립트 (오류 수정 최종본)
-// ===================================================
 
-// 초기화 및 KYC 차단벽 강제 즉시 제거
-window.onload = function() {
-    if(typeof init === 'function') init();
-    if(typeof autoKycCheck === 'function') autoKycCheck();
-    
-    // 플랫폼 전면 개방 (방해 레이어 무조건 삭제)
-    const blocker = document.getElementById('kyc-blocker');
-    if (blocker) {
-        blocker.style.display = 'none';
-    }
-};
-
-// 🚀 [초강력 글로벌 터치/클릭 통합 가로채기 엔진]
-(function() {
-    // 💳 9대 에코시스템 명칭과 5대 마스터 지갑 완벽 매칭 매트릭스
-    const hkMasterEcosystem = {
-        'PI 수량 상세': { icon: '🪙', title: '유동성풀 지갑 (LP Staking Wallet)', desc: 'DEX 스왑 및 유동성 공급자들의 보상 이율 분배 시스템을 실시간 연동 중입니다.' },
-        'DEX 스왑 현황': { icon: '📊', title: '수수료 지갑 (Fee Pool Wallet)', desc: '플랫폼 내 모든 글로벌 자산 교환 및 전송 수수료를 실시간으로 정산하고 축적합니다.' },
-        'LP 스테이킹': { icon: '📈', title: '저수지 지갑 (Liquidity Reservoir Wallet)', desc: '전체 생태계의 자산 가치를 안정적으로 받쳐주는 핵심 자산 저장소 기지를 동기화합니다.' },
-        '송금': { icon: '🚀', title: '수수료 지갑 (Fee Pool Wallet)', desc: '안전하고 신속한 글로벌 자산 전송 및 수수료 정산 네트워크 레이어를 동기화합니다.' },
-        '결재': { icon: '🛒', title: '수수료 지갑 (Fee Pool Wallet)', desc: '온·오프라인 가맹점 결제 시스템 연동, 상점 QR 스캔 및 의장님 고유 ID 결제를 구동합니다.' },
-        '예치': { icon: '🏦', title: '저수지 지갑 (Liquidity Reservoir Wallet)', desc: 'HK WorldBank 마스터 보안 노드 저장소가 활성화되었습니다. 최대 연 20% 미만 확정 수익 플랜이 적용됩니다.' },
-        '보상': { icon: '🎁', title: '유동성풀 지갑 (LP Staking Wallet)', desc: '마스터 에코시스템 기여 보상 데이터 및 리워드 풀 포인트를 실시간으로 정산합니다.' },
-        '기본소득': { icon: '💳', title: 'UBI 지갑 (Universal Basic Income Wallet)', desc: 'HK 사회재단 비전 2030 글로벌 기본소득 시스템과 매칭되어 취약계층 자산 분배를 실행합니다.' },
-        'AI지원센터': { icon: 'ℹ️', title: '개발자 센타 등록용 지갑 (Dev Center Wallet)', desc: '글로벌 AI 지원센터 FAQ 및 파이 네트워크 에코시스템 개발자 인프라 연동 지갑을 로딩합니다.' },
-        'AGI챗봇': { icon: '🤖', title: '개발자 센타 등록용 지갑 (Dev Center Wallet)', desc: 'AGI 고객지원 센터의 암호화된 상담 채널 및 개발 통합 인프라 권한을 제어합니다.' }
-    };
-
-    function processAction(e) {
-        let target = e.target;
-        while (target && target !== document.body) {
-            let text = target.innerText ? target.innerText.trim() : '';
-            if (hkMasterEcosystem[text]) {
-                e.preventDefault();
-                e.stopPropagation();
-                openDemo(text, hkMasterEcosystem[text].icon, hkMasterEcosystem[text].desc);
-                return false;
-            }
-            target = target.parentElement;
+    function openDoor() {
+        const blocker = document.getElementById('kyc-blocker');
+        if (blocker) {
+            blocker.style.display = 'none';
+            document.body.style.overflow = 'auto';
         }
     }
 
-    // 최우선 권한으로 모바일 터치 및 마우스 클릭을 가로챕니다.
-    document.addEventListener('click', processAction, true);
-    document.addEventListener('touchstart', processAction, true);
-})();
+    async function autoKycCheck() {
+        if (window.Pi) {
+            try {
+                const auth = await window.Pi.authenticate(['username']);
+                if (auth && auth.user) {
+                    if (auth.user.username === 'ljw2358') {
+                        console.log("Welcome, Chairman Hyekong!");
+                        openDoor();
+                        return;
+                    }
+                    openDoor();
+                }
+            } catch (e) { console.log("KYC 인증 대기 중..."); }
+        }
+    }
 
-// 🔄 글로벌 동기화 마스터 팝업 모달 시스템
-function openDemo(name, icon, msg) {
-    let modal = document.getElementById('syncModal');
-    if (!modal) {
-        const modalHtml = `
-        <div id="syncModal" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); display:flex; justify-content:center; align-items:center; z-index:10000; padding:20px;">
-            <div style="background:#111; width:100%; max-width:360px; border-radius:25px; padding:35px 20px; text-align:center; border:2px solid #ffcc00; box-shadow: 0 0 25px rgba(255,204,0,0.35);">
-                <div style="font-size:24px; font-weight:bold; color:#ffcc00; margin-bottom:20px;"><span id="mIcon">🏦</span> <span id="mTitle">마스터 시스템</span></div>
-                <div id="mDesc" style="font-size:15px; color:#fff; line-height:1.6; margin-bottom:25px; word-break:keep-all; text-align:left; padding:0 10px;">동기화 데이터 로딩 중...</div>
-                <div style="color:#00ff00; font-size:14px; font-weight:bold; margin-bottom:25px; letter-spacing:1px;">● HK WORLD-BANK ONLINE</div>
-                <button style="background:#ffcc00; color:#000; border:none; width:120px; padding:11px 0; font-size:15px; font-weight:bold; border-radius:25px; cursor:pointer;" onclick="document.getElementById('syncModal').style.display='none'">확인 완료</button>
-            </div>
-        </div>`;
-        const wrapper = document.createElement('div');
-        wrapper.innerHTML = modalHtml;
-        document.body.appendChild(wrapper.firstElementChild);
-        modal = document.getElementById('syncModal');
+    function openDemo(title, icon, msg) {
+        const modal = document.getElementById('hkDemoModal');
+        const dTitle = document.getElementById('demoTitle');
+        const dBody = document.getElementById('demoBody');
+        dTitle.innerHTML = `${icon} ${title}`;
+        let content = `<p>${msg}</p>`;
+        if(title === '송금' || title === '결재') content += `<input type="text" class="demo-input" placeholder="수량 입력">`;
+        content += `<div class="demo-status">● 시스템 동기화 중...</div>`;
+        dBody.innerHTML = content;
+        modal.style.display = 'flex';
     }
     
-    document.getElementById('mIcon').innerText = icon;
-    document.getElementById('mTitle').innerText = name;
-    document.getElementById('mDesc').innerText = msg;
-    modal.style.display = 'flex';
-}
+    function closeDemo() { document.getElementById('hkDemoModal').style.display = 'none'; }
+
+    function init() {
+        updateUI();
+        let pi = 400.0610;
+        let liq = 88438688147;
+       
+        setInterval(() => {
+            pi += Math.random() * 0.0012;
+            document.getElementById('pi-display').innerText = pi.toFixed(4);
+           
+            liq += Math.floor(Math.random() * 45000);
+            document.getElementById('liq-display').innerText = "$ " + liq.toLocaleString();
+           
+            const stkVar = (15.71 + (Math.random() * 0.01)).toFixed(2);
+            const lpVar = (31.41 + (Math.random() * 0.01)).toFixed(2);
+            document.getElementById('stk-val').innerText = stkVar + "%";
+            document.getElementById('lp-val').innerText = lpVar + "%";
+           
+            document.getElementById('det-pi').innerText = (1240552 + Math.floor(Math.random() * 600)).toLocaleString();
+            document.getElementById('det-swap').innerText = "$ " + (314159 + Math.floor(Math.random() * 80)).toLocaleString();
+           
+            const detLpVar = (31.41 + (Math.random() * 0.01)).toFixed(2);
+            document.getElementById('det-lp').innerText = detLpVar + "%";
+           
+        }, 1200);
+
+        // 메뉴 상자 이벤트 리스너 설정
+        const menuItems = [
+            { id: 'm1', name: '송금', icon: '🚀', msg: '보낼 주소와 수량을 입력하세요.' },
+            { id: 'm2', name: '결재', icon: '🛒', msg: '상점 QR을 스캔하거나 가맹점 ID를 입력하세요.' },
+            { id: 'm3', name: '예치', icon: '🏦', msg: '최대 연 20% 미만 확정 수익 플랜입니다.' },
+            { id: 'm4', name: '보상', icon: '🎁', msg: '생태계 기여에 따른 실시간 보상 내역입니다.' },
+            { id: 'm5', name: '기본소득', icon: '💳', msg: 'HK 사회 재단에서 지급하는 기본소득입니다.' },
+            { id: 'm6', name: '스왑', icon: '🔄', msg: 'PI와 HK-Asset 간의 즉시 교환을 시작합니다.' }
+        ];
+
+        menuItems.forEach((item) => {
+            const el = document.getElementById(item.id);
+            if(el) {
+                const box = el.parentElement;
+                box.style.cursor = 'pointer';
+                box.onclick = () => openDemo(item.name, item.icon, item.msg);
+            }
+        });
+
+        // 하단 디테일 항목 클릭 이벤트 연결
+        document.getElementById('det-pi').parentElement.onclick = () => openDemo('PI 수량 상세', '📊', '현재 메인넷 이전 가능 수량입니다.');
+        document.getElementById('det-swap').parentElement.onclick = () => openDemo('DEX 스왑 현황', '💱', '전 세계 실시간 유동성 규모입니다.');
+        document.getElementById('det-lp').parentElement.onclick = () => openDemo('LP 스테이킹', '📈', '유동성 공급 보상률입니다.');
+        
+        // 마스터 잠금해제 클릭 이벤트 처리
+        window.addEventListener('mousedown', function(e) {
+            const blocker = document.getElementById('kyc-blocker');
+            // 클릭한 대상이 인풋창 내부나 승인 확인창이 아닐 때만 프롬프트가 실행되게 보호
+            if (blocker && blocker.style.display !== 'none') {
+                const key = prompt("HK WorldBank 마스터 코드를 입력하세요:");
+                if (key === "0520" || key === "ljw2358") {
+                    alert("반갑습니다, 의장님! 보안 시스템이 의장님을 환영합니다.");
+                    openDoor();
+                } else if (key !== null && key !== "") {
+                    alert("권한이 없습니다.");
+                }
+            }
+        }, true);
+
+        autoKycCheck();
+    }
+
+    window.onload = init;
 </script>
 </body>
+
 </html>
