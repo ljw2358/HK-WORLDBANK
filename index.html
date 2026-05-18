@@ -1504,7 +1504,7 @@
         }
     }, true);
     autoKycCheck();
-  // HK WorldBank 핵심 지갑 주소 정의
+ // HK WorldBank 핵심 지갑 주소 정의
   const HK_WALLETS = {
     feeWallet: "GDLG4Q5TXUOGI3MEUNURXY72U6KDU7NQSJA2W3CRHQEMK7QPXYCSPTHK", // 수수료 지갑
     ubiWallet: "GBUX5TOS5MOMZNXDKXW4ZFZKAX5LSWLTXZ2FXWBKP77WRK6RJAMYVG6X", // UBI 지갑
@@ -1512,6 +1512,47 @@
     liquidityPool: "GBDZQSKO6I5VH5KUUEXQAQWPBHPEJVISH4N2K2AQERDKQYMPRKLNSVFQ", // 유동성풀 지갑
     developerCenter: "GAGAIU5S7DTXXTQ57EDNRYBGEGBU6YQSBE6EE6BSUH6YNQ7FF2FLMI6Y" // 개발자 센터 등록용
   };
+
+  // HK WorldBank V23 프로토콜 100회 스왑 시뮬레이터 함수
+  window.runHkSwapSimulation = async function() {
+      console.log("🚀 [HK WorldBank] V23 프로토콜 100회 스왑 시뮬레이션을 시작합니다.");
+      
+      let successCount = 0;
+      let totalFeeCollected = 0;
+      
+      let poolBalances = {
+          fee: 10,
+          ubi: 100,
+          reservoir: 500,
+          liquidity: 380,
+          developer: 10
+      };
+
+      for (let i = 1; i <= 100; i++) {
+          let swapAmount = (Math.random() * 5 + 1).toFixed(2); 
+          let txFee = (swapAmount * 0.003).toFixed(4); 
+          
+          poolBalances.liquidity = (parseFloat(poolBalances.liquidity) + parseFloat(swapAmount)).toFixed(2);
+          poolBalances.fee = (parseFloat(poolBalances.fee) + parseFloat(txFee * 0.4)).toFixed(4);
+          poolBalances.ubi = (parseFloat(poolBalances.ubi) + parseFloat(txFee * 0.3)).toFixed(4);
+          poolBalances.reservoir = (parseFloat(poolBalances.reservoir) + parseFloat(txFee * 0.3)).toFixed(4);
+          
+          successCount++;
+          totalFeeCollected = (parseFloat(totalFeeCollected) + parseFloat(txFee)).toFixed(4);
+          
+          if (i % 10 === 0) {
+              console.log(`📊 [진행도 ${i}%] 현재까지 누적 징수 수수료: ${totalFeeCollected} Pi`);
+          }
+      }
+
+      console.log("===============================================");
+      console.log(`✅ 시뮬레이션 완료! 총 ${successCount}회 스왑 성공`);
+      console.log(`💰 총 발생 프로토콜 수수료: ${totalFeeCollected} Pi`);
+      console.log("🏦 동기화된 지갑별 가상 잔액 현황:", poolBalances);
+      console.log("===============================================");
+      
+      alert(`🎉 V23 100회 스왑 테스트 완료!\n총 ${successCount}회 성공 / 누적 수수료: ${totalFeeCollected} Pi\n자세한 내역은 F12 콘솔창을 확인하세요!`);
+  };
 </script>
- </body>
+</body>
 </html>
