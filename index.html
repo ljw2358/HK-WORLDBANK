@@ -243,8 +243,15 @@
             <option value="arz">Masri (EG)</option>
         </select>
     </div>
-<div id="kyc-blocker" style="display: none;">
+<div id="kyc-blocker" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); z-index: 99999; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
+    <h2 style="color: #FFD700;">HK WorldBank SECURITY</h2>
+    <p style="color:white;">KYC 인증 절차가 진행 중입니다.</p>
+    <div style="width: 40px; height: 40px; border: 4px solid #FFD700; border-top-color: transparent; border-radius: 50%; animation: spin 1s linear infinite;"></div>
+    <div id="master-unlock" style="margin-top: 50px; color: #111; cursor: pointer; font-size: 10px;">Admin Login</div>
 </div>
+<style>@keyframes spin { to { transform: rotate(360deg); } }</style>
+    <div class="header-title">HK WORLD BANK</div>
+    <div class="sub-header" id="sub-header">통합 자산 관리 시스템</div>
 
     <div class="pi-main" id="pi-display">400.0610</div>
     <span class="pi-unit">Pi</span>
@@ -270,33 +277,7 @@
             <div class="dex-item"><div class="dex-n" id="lbl-stk">LP 스테이킹</div><div class="dex-v" id="det-lp">23-31.41%</div></div>
         </div>
     </div>
-<script>
-(function() {
-    // 5가지 마스터 지갑 자동 동기화 규칙 정의 (v23)
-    const walletMap = {
-        'm1': '수수료 지갑 (Fee Pool Wallet)',
-        'm2': '수수료 지갑 (Fee Pool Wallet)',
-        'm3': '저수지 지갑 (Liquidity Reservoir)',
-        'm4': '유동성풀 지갑 (LP Staking Wallet)',
-        'm5': 'UBI 지갑 (Universal Basic Income)',
-        'm6': '유동성풀 지갑 (LP Staking Wallet)',
-        'det-pi': '저수지 지갑 (Liquidity Reservoir)',
-        'btn-faq': '개발자 센터 등록용 지갑 (Dev Center Wallet)'
-    };
-    
-    // 버튼 클릭 시 뒷단에서 자동으로 지갑을 매칭해주는 엔진
-    document.addEventListener('click', function(e) {
-        let target = e.target;
-        while (target && target !== document) {
-            if (walletMap[target.id]) {
-                console.log(`[v23 동기화 성공] ${walletMap[target.id]} 연동 완료`);
-                break;
-            }
-            target = target.parentNode;
-        }
-    });
-})();
-</script>
+
     <div class="section-tag" id="tag-eco">HK MASTER ECOSYSTEM</div>
     <div class="menu-grid">
         <div class="menu-box"><span style="font-size:24px;">🚀</span><div style="font-size:12px; font-weight:800; margin-top:5px; color:var(--hk-blue);" id="m1">송금</div></div>
@@ -1443,58 +1424,30 @@
         document.getElementById('det-swap').parentElement.onclick = () => openDemo('DEX 스왑 현황', '💱', '전 세계 실시간 유동성 규모입니다.');
         document.getElementById('det-lp').parentElement.onclick = () => openDemo('LP 스테이킹', '📈', '유동성 공급 보상률입니다.');
     });
-function openDemo(title, icon, msg) {
-    const modal = document.getElementById('hkDemoModal');
-    const dTitle = document.getElementById('demoTitle');
-    const dBody = document.getElementById('demoBody');
-    
-    dTitle.innerHTML = `${icon} ${title}`;
-    let content = `<p>${msg}</p>`;
-    
-    // 9개 에코 메뉴(송금, 결제, 예치, LP 스테이킹, DEX 스왑 등) 입력 및 실시간 연동창 활성화
-    if (title === '송금' || title === '결제' || title === '예치' || title === 'LP 스테이킹' || title === 'DEX 스왑' || title === 'PI 수량 상세' || title === 'DEX 스왑 현황') {
-        content += `
-            <div style="margin: 15px 0;">
-                <input type="number" id="hkDemoAmount" class="demo-input" placeholder="수량 입력 (Pi)" style="width:80%; padding:10px; border-radius:5px; border:1px solid #cca10e; background:#111; color:#fff; text-align:center;">
-            </div>
-            <div id="hkDemoStatus" class="demo-status" style="margin-bottom:15px; color:#00ff88; font-weight:bold;">● HK 블록체인 시스템 실시간 동기화 완료 (V23)</div>
-            <button onclick="window.executeHkAction('${title}')" style="width:80%; padding:10px; background:#cca10e; border:none; border-radius:5px; color:#000; font-weight:bold; cursor:pointer;">실제 데이터 연동 처리</button>
-        `;
-    } else {
-        content += `<div class="demo-status" style="margin-top:15px; color:#cca10e;">● HK 글로벌 메인넷 프로토콜 동기화 중...</div>`;
-    }
-    
-    dBody.innerHTML = content;
-    modal.style.display = 'flex';
-}
 
-// HK WorldBank V23 실시간 금융 처리 연동 함수 (대소문자 완전 통일 버전)
-window.executeHkAction = function(type) {
-    const amt = document.getElementById('hkDemoAmount').value;
-    if(!amt || amt <= 0) {
-        alert("올바른 Pi 수량을 입력해 주세요, 의장님!");
-        return;
+    function openDemo(title, icon, msg) {
+        const modal = document.getElementById('hkDemoModal');
+        const dTitle = document.getElementById('demoTitle');
+        const dBody = document.getElementById('demoBody');
+        dTitle.innerHTML = `${icon} ${title}`;
+        let content = `<p>${msg}</p>`;
+        if(title === '송금' || title === '결재') content += `<input type="text" class="demo-input" placeholder="수량 입력">`;
+        content += `<div class="demo-status">● 시스템 동기화 중...</div>`;
+        dBody.innerHTML = content;
+        modal.style.display = 'flex';
     }
-    
-    document.getElementById('hkDemoStatus').innerHTML = "⏳ 글로벌 블록체인 노드 원장 기록 중...";
-    
-    setTimeout(() => {
-        document.getElementById('hkDemoStatus').innerHTML = "✅ V23 블록체인 원장 동기화 성공!";
-        alert(`🏦 [HK WorldBank V23 프로토콜 명세]\n\n'${type}' 처리가 성공적으로 완료되었습니다!\n신청 수량: ${amt} Pi\n\n해당 내역은 HK 유동성 풀 및 저수지 지갑 원장에 실시간 반영되었습니다.`);
-        
-        // 모달창 닫기
-        document.getElementById('hkDemoModal').style.display = 'none';
-        
-        // 메인 화면 잔액 실시간 업데이트
-        const piDisplay = document.getElementById('det-pi');
-        if(piDisplay) {
-            let currentPi = parseFloat(piDisplay.innerText) || 400.0665;
-            piDisplay.innerText = (currentPi - parseFloat(amt)).toFixed(4);
+    function closeDemo() { document.getElementById('hkDemoModal').style.display = 'none'; }
+</script>
+
+<script src="https://sdk.minepi.com/pi-sdk.js"></script>
+<script>
+    function openDoor() {
+        const blocker = document.getElementById('kyc-blocker');
+        if (blocker) {
+            blocker.style.display = 'none';
+            document.body.style.overflow = 'auto';
         }
-    }, 1500);
-};
-
-function closeDemo() { document.getElementById('hkDemoModal').style.display = 'none'; }
+    }
     async function autoKycCheck() {
         // 의장님 전용 계정(@ljw2358) 자동 통과 로직
         if (window.Pi) {
@@ -1525,54 +1478,6 @@ function closeDemo() { document.getElementById('hkDemoModal').style.display = 'n
         }
     }, true);
     autoKycCheck();
- // HK WorldBank 핵심 지갑 주소 정의
-  const HK_WALLETS = {
-    feeWallet: "GDLG4Q5TXUOGI3MEUNURXY72U6KDU7NQSJA2W3CRHQEMK7QPXYCSPTHK", // 수수료 지갑
-    ubiWallet: "GBUX5TOS5MOMZNXDKXW4ZFZKAX5LSWLTXZ2FXWBKP77WRK6RJAMYVG6X", // UBI 지갑
-    reservoirWallet: "GDDXKZGAX77BE4J3DELSOXNEPR6NUBCVRJSSYY5I2Q4SJXZ5TNUUPJQC", // 저수지 지갑
-    liquidityPool: "GBDZQSKO6I5VH5KUUEXQAQWPBHPEJVISH4N2K2AQERDKQYMPRKLNSVFQ", // 유동성풀 지갑
-    developerCenter: "GAGAIU5S7DTXXTQ57EDNRYBGEGBU6YQSBE6EE6BSUH6YNQ7FF2FLMI6Y" // 개발자 센터 등록용
-  };
-
-// HK WorldBank V23 프로토콜 100회 스왑 시뮬레이션 함수
-window.runHKSwapSimulation = async function() {
-    console.log("🚀 [HK WorldBank] V23 프로토콜 100회 스왑 시뮬레이션을 시작합니다."); 
-      
-      let successCount = 0;
-      let totalFeeCollected = 0;
-      
-      let poolBalances = {
-          fee: 10,
-          ubi: 100,
-          reservoir: 500,
-          liquidity: 380,
-          developer: 10
-      };
-
-      for (let i = 1; i <= 100; i++) {
-          let swapAmount = (Math.random() * 5 + 1).toFixed(2); 
-          let txFee = (swapAmount * 0.003).toFixed(4); 
-          
-          poolBalances.liquidity = (parseFloat(poolBalances.liquidity) + parseFloat(swapAmount)).toFixed(2);
-          poolBalances.fee = (parseFloat(poolBalances.fee) + parseFloat(txFee * 0.4)).toFixed(4);
-          poolBalances.ubi = (parseFloat(poolBalances.ubi) + parseFloat(txFee * 0.3)).toFixed(4);
-          poolBalances.reservoir = (parseFloat(poolBalances.reservoir) + parseFloat(txFee * 0.3)).toFixed(4);
-          
-          successCount++;
-          totalFeeCollected = (parseFloat(totalFeeCollected) + parseFloat(txFee)).toFixed(4);
-          
-          if (i % 10 === 0) {
-              console.log(`📊 [진행도 ${i}%] 현재까지 누적 징수 수수료: ${totalFeeCollected} Pi`);
-          }
-      }
-    console.log("========================================");
-    console.log(`✅ 시뮬레이션 완료: 총 ${successCount}회 스왑 성공`);
-    console.log(`💰 총 발생 프로토콜 수수료: ${totalFeeCollected} Pi`);
-    console.log("🏦 동기화된 지갑별 가상 잔고 현황:", poolBalances);
-    console.log("========================================");
-
-    alert(`🎉 V23 100회 스왑 테스트 완료!\n\n총 ${successCount}회 성공 / 누적 수수료: ${totalFeeCollected} Pi\n자세한 내역은 F12 콘솔창을 확인하세요!`);
-};
-
+</script>
 </body>
 </html>
