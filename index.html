@@ -1461,45 +1461,60 @@
             }
         });
 
-    // 하단 디테일 항목 클릭 이벤트 연결
+ // 하단 디테일 항목 클릭 이벤트 연결
 if(document.getElementById('det-pi')) document.getElementById('det-pi').parentElement.onclick = () => openDemo('유동성풀 지갑', '🪙', '파이 네트워크 메인넷 및 글로벌 주요 유동성 풀의 실시간 자산 검증 및 동기화 중입니다.');
 if(document.getElementById('det-swap')) document.getElementById('det-swap').parentElement.onclick = () => openDemo('수수료 지갑', '📊', '글로벌 자산 교환 및 전송 시 발생하는 실시간 수수료 정산 레이어를 연동 중입니다.');
 if(document.getElementById('det-lp')) document.getElementById('det-lp').parentElement.onclick = () => openDemo('저수지 지갑', '📈', '전체 생태계의 자산 가치를 지탱하는 마스터 유동성 저수지 시스템을 계산 중입니다.');
 
-// 초기화 및 9대 에코시스템 버튼 자동 바인딩 엔진 (100회 시뮬레이션 핵심 보완책)
+// 🚀 [모바일 터치 & PC 클릭 완전 통합 가로채기 엔진]
+(function() {
+    // 💳 9대 에코시스템 명칭과 5대 마스터 지갑 완벽 매칭 매트릭스
+    const hkMasterEcosystem = {
+        'PI 수량 상세': { icon: '🪙', title: '유동성풀 지갑 (LP Staking Wallet)', desc: 'DEX 스왑 및 유동성 공급자들의 보상 이율 분배 시스템을 실시간 연동 중입니다.' },
+        'DEX 스왑 현황': { icon: '📊', title: '수수료 지갑 (Fee Pool Wallet)', desc: '플랫폼 내 모든 글로벌 자산 교환 및 전송 수수료를 실시간으로 정산하고 축적합니다.' },
+        'LP 스테이킹': { icon: '📈', title: '저수지 지갑 (Liquidity Reservoir Wallet)', desc: '전체 생태계의 자산 가치를 안정적으로 받쳐주는 핵심 자산 저장소 기지를 동기화합니다.' },
+        '송금': { icon: '🚀', title: '수수료 지갑 (Fee Pool Wallet)', desc: '안전하고 신속한 글로벌 자산 전송 및 수수료 정산 네트워크 레이어를 동기화합니다.' },
+        '결재': { icon: '🛒', title: '수수료 지갑 (Fee Pool Wallet)', desc: '온·오프라인 가맹점 결제 시스템 연동, 상점 QR 스캔 및 의장님 고유 ID 결제를 구동합니다.' },
+        '예치': { icon: '🏦', title: '저수지 지갑 (Liquidity Reservoir Wallet)', desc: 'HK WorldBank 마스터 보안 노드 저장소가 활성화되었습니다. 최대 연 20% 미만 확정 수익 플랜이 적용됩니다.' },
+        '보상': { icon: '🎁', title: '유동성풀 지갑 (LP Staking Wallet)', desc: '마스터 에코시스템 기여 보상 데이터 및 리워드 풀 포인트를 실시간으로 정산합니다.' },
+        '기본소득': { icon: '💳', title: 'UBI 지갑 (Universal Basic Income Wallet)', desc: 'HK 사회재단 비전 2030 글로벌 기본소득 시스템과 매칭되어 취약계층 자산 분배를 실행합니다.' },
+        'AI지원센터': { icon: 'ℹ️', title: '개발자 센타 등록용 지갑 (Dev Center Wallet)', desc: '글로벌 AI 지원센터 FAQ 및 파이 네트워크 에코시스템 개발자 인프라 연동 지갑을 로딩합니다.' },
+        'AGI챗봇': { icon: '🤖', title: '개발자 센타 등록용 지갑 (Dev Center Wallet)', desc: 'AGI 고객지원 센터의 암호화된 상담 채널 및 개발 통합 인프라 권한을 제어합니다.' }
+    };
+
+    // 핸들러 함수 하나로 통합
+    function handleGlobalClick(e) {
+        let target = e.target;
+        while (target && target !== document.body) {
+            let txt = target.innerText ? target.innerText.trim() : '';
+            
+            // 9대 메뉴 글자가 매칭되는지 확인
+            if (hkMasterEcosystem[txt]) {
+                e.preventDefault();
+                e.stopPropagation();
+                openDemo(txt, hkMasterEcosystem[txt].icon, hkMasterEcosystem[txt].desc);
+                return false;
+            }
+            target = target.parentElement;
+        }
+    }
+
+    // 모바일 터치와 PC 마우스 클릭 둘 다 1순위 최우선 권한으로 가로채기 등록
+    document.addEventListener('click', handleGlobalClick, { capture: true, passive: false });
+    document.addEventListener('touchstart', handleGlobalClick, { capture: true, passive: false });
+})();
+
+// 초기화 및 KYC 레이어 무조건 즉시 파괴
 window.onload = function() {
     if(typeof init === 'function') init();
     if(typeof autoKycCheck === 'function') autoKycCheck();
     
-    // 1. 구형 가림막(KYC) 레이어가 남아있다면 자동으로 안전하게 제거
     const blocker = document.getElementById('kyc-blocker');
     if (blocker) blocker.style.display = 'none';
-
-    // 2. 상단 9대 에코시스템 버튼들과 openDemo 함수를 강제로 연결 (클릭 씹힘 방지)
-    const menuNames = ['송금', '결재', '예치', '보상', '기본소득', 'AI지원센터', 'AGI챗봇'];
-    menuNames.forEach(name => {
-        // 화면 전체에서 메뉴 이름이 적힌 태그를 찾아 클릭 이벤트를 주입합니다.
-        const elements = document.querySelectorAll('*');
-        elements.forEach(el => {
-            if (el.children.length === 0 && el.innerText && el.innerText.trim() === name) {
-                let clickable = el;
-                // 클릭 가능한 부모 박스(div 나 a 태그)까지 올라가서 이벤트를 꽂습니다.
-                for (let i = 0; i < 3; i++) {
-                    if (clickable.parentElement) clickable = clickable.parentElement;
-                }
-                clickable.onclick = function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    openDemo(name, '⚙️', 'HK WorldBank 글로벌 핵심 인프라를 동기화 중입니다.');
-                };
-            }
-        });
-    });
 };
 
-// 🔄 HK 글로벌 플랫폼 9대 에코시스템 & 5대 마스터 지갑 연동 팝업 엔진
+// 🔄 글로벌 동기화 마스터 팝업 렌더링 시스템
 function openDemo(name, icon, msg) {
-    // 💳 9대 생태계 메뉴 명칭과 5대 마스터 지갑 완벽 매칭 매트릭스
     const hkMasterEcosystem = {
         'PI 수량 상세': { icon: '🪙', title: '유동성풀 지갑 (LP Staking Wallet)', desc: 'DEX 스왑 및 유동성 공급자들의 보상 이율 분배 시스템을 실시간 연동 중입니다.' },
         'DEX 스왑 현황': { icon: '📊', title: '수수료 지갑 (Fee Pool Wallet)', desc: '플랫폼 내 모든 글로벌 자산 교환 및 전송 수수료를 실시간으로 정산하고 축적합니다.' },
