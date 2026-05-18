@@ -1461,7 +1461,7 @@
             }
         });
 
-   // 하단 디테일 항목 클릭 이벤트 연결
+// 하단 디테일 항목 클릭 이벤트 연결
 if(document.getElementById('det-pi')) document.getElementById('det-pi').parentElement.onclick = () => openDemo('유동성풀 지갑', '🪙', '파이 네트워크 메인넷 및 글로벌 주요 유동성 풀의 실시간 자산 검증 및 동기화 중입니다.');
 if(document.getElementById('det-swap')) document.getElementById('det-swap').parentElement.onclick = () => openDemo('수수료 지갑', '📊', '글로벌 자산 교환 및 전송 시 발생하는 실시간 수수료 정산 레이어를 연동 중입니다.');
 if(document.getElementById('det-lp')) document.getElementById('det-lp').parentElement.onclick = () => openDemo('저수지 지갑', '📈', '전체 생태계의 자산 가치를 지탱하는 마스터 유동성 저수지 시스템을 계산 중입니다.');
@@ -1473,12 +1473,21 @@ window.addEventListener('mousedown', function(e) {
         const key = prompt("HK WorldBank 마스터 코드를 입력하세요:");
         if (key === "0520" || key === "ljw2358") {
             alert("반가우십니다, 의장님! 보안 시스템이 의장님을 환영합니다!");
-            openDoor();
+            openDoor(); 
         } else if (key !== null && key !== "") {
             alert("권한이 없습니다.");
         }
     }
 }, true);
+
+// 🚪 마스터 도어 개방 시스템 (kyc 차단벽 제거 및 시스템 활성화)
+function openDoor() {
+    const blocker = document.getElementById('kyc-blocker');
+    if (blocker) {
+        blocker.style.display = 'none';
+        alert("HK WorldBank 마스터 권한이 승인되었습니다. 5대 지갑 및 9대 에코시스템이 활성화됩니다.");
+    }
+}
 
 // 초기화 실행
 window.onload = function() {
@@ -1488,7 +1497,6 @@ window.onload = function() {
 
 // 🔄 HK 글로벌 플랫폼 9대 에코시스템 & 5대 마스터 지갑 연동 엔진
 function openDemo(name, icon, msg) {
-    // 💳 5대 핵심 지갑 및 9대 에코시스템 매칭 마스터 데이터
     const hkMasterEcosystem = {
         'PI 수량 상세': { icon: '🪙', title: '유동성풀 지갑 (LP Staking)', desc: 'DEX 스왑 및 유동성 공급자들의 보상 이율 분배 시스템을 실시간 연동 중입니다.' },
         'DEX 스왑 현황': { icon: '📊', title: '수수료 지갑 (Fee Pool)', desc: '플랫폼 내 모든 글로벌 자산 교환 및 전송 수수료를 실시간으로 정산하고 축적합니다.' },
@@ -1501,7 +1509,6 @@ function openDemo(name, icon, msg) {
         'AI지원센터': { icon: 'ℹ️', title: '개발자 센타 등록용 지갑 (Dev Center)', desc: '글로벌 AI 지원센터 FAQ 및 파이 네트워크 에코시스템 개발자 인프라 연동 지갑을 로딩합니다.' },
         'AGI챗봇': { icon: '🤖', title: '개발자 센타 등록용 지갑 (Dev Center)', desc: 'AGI 고객지원 센터의 암호화된 상담 채널 및 개발 통합 인프라 권한을 제어합니다.' },
         
-        // 지갑 이름 직접 호출 대응용 데이터
         '수수료 지갑': { icon: '📊', title: '수수료 지갑 (Fee Pool)', desc: '플랫폼 내 모든 글로벌 자산 교환 및 전송 수수료를 실시간으로 정산하고 축적합니다.' },
         'UBI 지갑': { icon: '💳', title: 'UBI 지갑 (Universal Basic Income)', desc: 'HK 사회재단 비전 2030 글로벌 기본소득 시스템과 매칭되어 취약계층 자산 분배를 실행합니다.' },
         '저수지 지갑': { icon: '🏦', title: '저수지 지갑 (Liquidity Reservoir)', desc: '전체 생태계의 자산 가치를 안정적으로 받쳐주는 핵심 자산 저장소 기지를 동기화합니다.' },
@@ -1509,7 +1516,7 @@ function openDemo(name, icon, msg) {
         '개발자 센타 등록용 지갑': { icon: '🛠️', title: '개발자 센타 등록용 지갑 (Dev Center)', desc: '파이 네트워크 에코시스템 및 글로벌 딥텍 개발자 인프라 등록용 마스터 지갑이 활성화되었습니다.' }
     };
 
-      const match = hkMasterEcosystem[name] || hkMasterEcosystem[name.trim()];
+    const match = hkMasterEcosystem[name] || hkMasterEcosystem[name.trim()];
     let displayTitle = match ? match.title : name;
     let displayDesc = match ? match.desc : msg;
     let displayIcon = match ? match.icon : icon;
