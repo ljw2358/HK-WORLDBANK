@@ -1461,14 +1461,13 @@
             }
         });
 
- // 하단 디테일 항목 클릭 이벤트 연결
+// 하단 디테일 항목 클릭 이벤트 연결
 if(document.getElementById('det-pi')) document.getElementById('det-pi').parentElement.onclick = () => openDemo('유동성풀 지갑', '🪙', '파이 네트워크 메인넷 및 글로벌 주요 유동성 풀의 실시간 자산 검증 및 동기화 중입니다.');
 if(document.getElementById('det-swap')) document.getElementById('det-swap').parentElement.onclick = () => openDemo('수수료 지갑', '📊', '글로벌 자산 교환 및 전송 시 발생하는 실시간 수수료 정산 레이어를 연동 중입니다.');
 if(document.getElementById('det-lp')) document.getElementById('det-lp').parentElement.onclick = () => openDemo('저수지 지갑', '📈', '전체 생태계의 자산 가치를 지탱하는 마스터 유동성 저수지 시스템을 계산 중입니다.');
 
-// 🚀 [모바일 터치 & PC 클릭 완전 통합 가로채기 엔진]
+// 🚀 [초강력 강제 터치 가로채기 엔진 - 모바일/PC 통합]
 (function() {
-    // 💳 9대 에코시스템 명칭과 5대 마스터 지갑 완벽 매칭 매트릭스
     const hkMasterEcosystem = {
         'PI 수량 상세': { icon: '🪙', title: '유동성풀 지갑 (LP Staking Wallet)', desc: 'DEX 스왑 및 유동성 공급자들의 보상 이율 분배 시스템을 실시간 연동 중입니다.' },
         'DEX 스왑 현황': { icon: '📊', title: '수수료 지갑 (Fee Pool Wallet)', desc: '플랫폼 내 모든 글로벌 자산 교환 및 전송 수수료를 실시간으로 정산하고 축적합니다.' },
@@ -1482,38 +1481,34 @@ if(document.getElementById('det-lp')) document.getElementById('det-lp').parentEl
         'AGI챗봇': { icon: '🤖', title: '개발자 센타 등록용 지갑 (Dev Center Wallet)', desc: 'AGI 고객지원 센터의 암호화된 상담 채널 및 개발 통합 인프라 권한을 제어합니다.' }
     };
 
-    // 핸들러 함수 하나로 통합
-    function handleGlobalClick(e) {
+    function processAction(e) {
         let target = e.target;
         while (target && target !== document.body) {
-            let txt = target.innerText ? target.innerText.trim() : '';
-            
-            // 9대 메뉴 글자가 매칭되는지 확인
-            if (hkMasterEcosystem[txt]) {
+            let text = target.innerText ? target.innerText.trim() : '';
+            if (hkMasterEcosystem[text]) {
                 e.preventDefault();
                 e.stopPropagation();
-                openDemo(txt, hkMasterEcosystem[txt].icon, hkMasterEcosystem[txt].desc);
+                openDemo(text, hkMasterEcosystem[text].icon, hkMasterEcosystem[text].desc);
                 return false;
             }
             target = target.parentElement;
         }
     }
 
-    // 모바일 터치와 PC 마우스 클릭 둘 다 1순위 최우선 권한으로 가로채기 등록
-    document.addEventListener('click', handleGlobalClick, { capture: true, passive: false });
-    document.addEventListener('touchstart', handleGlobalClick, { capture: true, passive: false });
+    // 최우선 순위(True)로 이벤트를 낚아채서 어떤 방해 공작도 다 뚫어버립니다.
+    document.addEventListener('click', processAction, true);
+    document.addEventListener('touchstart', processAction, true);
 })();
 
-// 초기화 및 KYC 레이어 무조건 즉시 파괴
+// 초기화 및 방해 요소 자동 삭제
 window.onload = function() {
     if(typeof init === 'function') init();
     if(typeof autoKycCheck === 'function') autoKycCheck();
-    
     const blocker = document.getElementById('kyc-blocker');
     if (blocker) blocker.style.display = 'none';
 };
 
-// 🔄 글로벌 동기화 마스터 팝업 렌더링 시스템
+// 🔄 글로벌 동기화 마스터 팝업 시스템 (디자인 및 명칭 최적화 정렬)
 function openDemo(name, icon, msg) {
     const hkMasterEcosystem = {
         'PI 수량 상세': { icon: '🪙', title: '유동성풀 지갑 (LP Staking Wallet)', desc: 'DEX 스왑 및 유동성 공급자들의 보상 이율 분배 시스템을 실시간 연동 중입니다.' },
