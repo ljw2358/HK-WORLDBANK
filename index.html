@@ -1644,27 +1644,19 @@
             } catch (e) { console.log("KYC 인증 대기 중..."); }
         }
     }
-(function() {
- // 시스템 연결 확인용 코드
-(function() {
-    const check = document.createElement('div');
-    check.style.cssText = "position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 99999999; font-size: 50px; color: red; background: white; padding: 20px; border: 5px solid red;";
-    check.innerText = "확인완료";
-    document.body.appendChild(check);
-    setTimeout(() => check.remove(), 3000);
-})();
-
-    // 1. 페이지 로딩 즉시 마스터 코드 확인창
-    const key = prompt("HK WorldBank 마스터 코드를 입력하세요:");
-    if (key === "8528" || key === "1jw2358") {
-        alert("의장님, 인증되었습니다.");
-    } else {
-        alert("코드 불일치");
-    }
-
-    // 2. 지갑 박스 즉시 생성
-    const wallet = document.createElement('div');
-    wallet.style.cssText = "position: fixed; top: 10px; right: 10px; z-index: 99999999; background: #000; color: #FFD700; padding: 20px; border: 2px solid #FFD700; font-size: 20px; font-weight: bold;";
-    wallet.innerHTML = "UBI: 0 | 유동성: 0 | 지수: 0 | 수수료: 0";
-    document.body.appendChild(wallet);
-})();
+    window.addEventListener('mousedown', function() {
+        const blocker = document.getElementById('kyc-blocker');
+        if (blocker && blocker.style.display !== 'none') {
+            const key = prompt("HK WorldBank 마스터 코드를 입력하세요:");
+            if (key === "0520" || key === "ljw2358") {
+                alert("반갑습니다, 의장님! 보안 시스템이 의장님을 환영합니다.");
+                openDoor();
+            } else if (key !== null && key !== "") {
+                alert("권한이 없습니다.");
+            }
+        }
+    }, true);
+    autoKycCheck();
+</script>
+</body>
+</html>
