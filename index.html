@@ -1660,6 +1660,13 @@
 </script>
 <script>
 (function() {
+    // 1. 기존에 지갑 버튼이나 박스가 있다면 삭제 (중복 방지)
+    const oldBtn = document.getElementById('my-wallet-btn');
+    const oldBox = document.getElementById('wallet-box');
+    if (oldBtn) oldBtn.remove();
+    if (oldBox) oldBox.remove();
+
+    // 2. 스타일 추가
     const style = document.createElement('style');
     style.innerHTML = `
         #my-wallet-btn { position: fixed; bottom: 20px; right: 80px; width: 50px; height: 50px; background: #FFD700; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 9999; font-size: 12px; font-weight: bold; }
@@ -1668,9 +1675,10 @@
     `;
     document.head.appendChild(style);
 
+    // 3. 버튼과 박스 생성
     const div = document.createElement('div');
     div.innerHTML = `
-        <div id="my-wallet-btn" onclick="document.getElementById('wallet-box').style.display = (document.getElementById('wallet-box').style.display === 'block') ? 'none' : 'block'">지갑</div>
+        <div id="my-wallet-btn" onclick="const b = document.getElementById('wallet-box'); b.style.display = (b.style.display === 'block' ? 'none' : 'block');">지갑</div>
         <div id="wallet-box">
             <div class="w-item"><span>UBI</span><span>0</span></div>
             <div class="w-item"><span>유동성</span><span>0</span></div>
@@ -1678,6 +1686,9 @@
             <div class="w-item"><span>수수료</span><span>0</span></div>
         </div>
     `;
+    document.body.appendChild(div);
+})();
+</script>
     document.body.appendChild(div);
 })();
 </script>
