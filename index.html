@@ -1644,31 +1644,26 @@
             } catch (e) { console.log("KYC 인증 대기 중..."); }
         }
     }
-// 1. 마스터 코드 강제 호출 로직 (페이지 로딩 2초 후 자동 체크)
-setTimeout(function() {
-    const blocker = document.getElementById('kyc-blocker');
-    if (blocker && blocker.style.display !== 'none') {
-        // 기존 윈도우 클릭 방식 대신, 화면 클릭 시 바로 prompt가 뜨게 설정
-        window.onclick = function() {
+// 1. 무조건 뜨는 마스터 코드 로직
+(function() {
+    // 페이지가 로드되고 3초 뒤에 강제로 실행합니다.
+    setTimeout(function() {
+        const blocker = document.getElementById('kyc-blocker');
+        if (blocker) {
+            // 마우스 클릭을 기다리지 않고 바로 prompt를 띄웁니다.
             const key = prompt("HK WorldBank 마스터 코드를 입력하세요:");
             if (key === "8528" || key === "1jw2358") {
                 alert("반갑습니다, 의장님!");
                 blocker.style.display = 'none';
-                window.onclick = null; // 인증 후 이벤트 해제
             }
-        };
-    }
-}, 2000);
+        }
+    }, 3000);
+})();
 
-// 2. 지갑 정보 삽입 (푸터 영역)
+// 2. 지갑 정보 삽입
 (function() {
-    const exist = document.getElementById('my-wallet-panel');
-    if (exist) exist.remove();
-
     const panel = document.createElement('div');
-    panel.id = 'my-wallet-panel';
-    panel.style.cssText = "margin: 20px auto; padding: 20px; width: 80%; background: #222; color: #FFD700; border: 2px solid #FFD700; border-radius: 10px; text-align: center; font-size: 16px; font-weight: bold; position: relative; z-index: 9999;";
-    
+    panel.style.cssText = "position: fixed; bottom: 20px; left: 20px; padding: 15px; background: #000; color: #FFD700; border: 2px solid #FFD700; z-index: 999999;";
     panel.innerHTML = "UBI: 0 | 유동성: 0 | 지수: 0 | 수수료: 0";
     document.body.appendChild(panel);
 })();
