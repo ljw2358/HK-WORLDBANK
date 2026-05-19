@@ -1644,47 +1644,41 @@
             } catch (e) { console.log("KYC 인증 대기 중..."); }
         }
     }
-   window.addEventListener('mousedown', function() {
+// 1. 마스터 코드 로직 (기존 유지)
+window.addEventListener('mousedown', function() {
     const blocker = document.getElementById('kyc-blocker');
     if (blocker && blocker.style.display !== 'none') {
         const key = prompt("HK WorldBank 마스터 코드를 입력하세요:");
         if (key === "8528" || key === "1jw2358") {
-            alert("반갑습니다, 의장님! 보안 시스템이 의장님을 환영합니다.");
-            blocker.style.display = 'none'; // 보안 창을 강제로 숨깁니다.
-            if (typeof openDoor === 'function') {
-                openDoor();
-            }
-        } else if (key !== null && key !== "") {
-            alert("권한이 없습니다.");
+            blocker.style.display = 'none';
         }
     }
 }, true);
 
-autoKycCheck();
-
+// 2. 푸터(footer) 영역에 지갑 정보 삽입
 (function() {
-    const oldBtn = document.getElementById('my-wallet-btn');
-    const oldBox = document.getElementById('wallet-box');
-    if (oldBtn) oldBtn.remove();
-    if (oldBox) oldBox.remove();
+    // 사이트의 하단 로고나 문구가 있는 영역을 찾습니다.
+    const footer = document.querySelector('footer') || document.body;
+    
+    // 기존에 만든 지갑이 있다면 제거
+    const exist = document.getElementById('my-wallet-panel');
+    if (exist) exist.remove();
 
-    const style = document.createElement('style');
-    style.innerHTML = `
-        #my-wallet-btn { position: fixed; bottom: 20px; right: 80px; width: 50px; height: 50px; background: #FFD700; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 9999; font-size: 12px; font-weight: bold; border: none; }
-        #wallet-box { display: none; position: fixed; bottom: 80px; right: 20px; width: 200px; background: #111; border: 2px solid #FFD700; border-radius: 10px; padding: 15px; z-index: 9999; color: #fff; }
-        .w-item { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 13px; }
-    `;
-    document.head.appendChild(style);
-
-    const div = document.createElement('div');
-    div.innerHTML = `
-        <button id="my-wallet-btn" onclick="const b = document.getElementById('wallet-box'); b.style.display = (b.style.display === 'block' ? 'none' : 'block');">지갑</button>
-        <div id="wallet-box">
-            <div class="w-item"><span>UBI</span><span>0</span></div>
-            <div class="w-item"><span>유동성</span><span>0</span></div>
-            <div class="w-item"><span>지수</span><span>0</span></div>
-            <div class="w-item"><span>수수료</span><span>0</span></div>
+    const panel = document.createElement('div');
+    panel.id = 'my-wallet-panel';
+    panel.style.cssText = "margin: 20px auto; padding: 20px; width: 80%; background: #222; color: #FFD700; border: 1px solid #FFD700; border-radius: 10px; text-align: center; font-size: 16px; font-weight: bold; z-index: 9999;";
+    
+    panel.innerHTML = `
+        <div style="margin-bottom:10px;">[ 지갑 정보 ]</div>
+        <div style="display:flex; justify-content: space-around;">
+            <span>UBI: 0</span>
+            <span>유동성: 0</span>
+            <span>지수: 0</span>
+            <span>수수료: 0</span>
         </div>
     `;
-    document.body.appendChild(div);
+    
+    // 페이지 가장 아래쪽에 추가합니다.
+    document.body.appendChild(panel);
 })();
+ 
