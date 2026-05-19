@@ -207,9 +207,40 @@
             margin-left: 8px; border-radius: 25px; font-weight: 900;
             font-size: 13px; cursor: pointer;
         }
+
+        /* 모달 시스템 스타일 */
+        .hk-modal {
+            display: none; position: fixed; z-index: 3000; left: 0; top: 0;
+            width: 100%; height: 100%; background: rgba(0,0,0,0.9);
+            justify-content: center; align-items: center;
+        }
+        .modal-content {
+            background: #121212; border: 2px solid var(--hk-gold);
+            width: 90%; max-width: 400px; border-radius: 30px; padding: 30px;
+            text-align: center; box-shadow: 0 0 30px var(--hk-gold);
+        }
+        .modal-title { color: var(--hk-gold); font-size: 24px; font-weight: 900; margin-bottom: 20px; }
+        .modal-body { color: #fff; font-size: 16px; margin-bottom: 25px; line-height: 1.6; }
+        .demo-status { color: var(--hk-green); font-weight: 800; font-size: 14px; margin-top: 10px; }
+        .close-modal {
+            background: var(--hk-gold); color: #000; border: none;
+            padding: 12px 30px; border-radius: 50px; font-weight: 900; cursor: pointer;
+        }
+        .demo-input {
+            width: 80%; padding: 12px; margin-bottom: 15px; border-radius: 10px;
+            border: 1px solid #333; background: #000; color: var(--hk-blue); font-weight: 800; text-align: center;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
+
+<div id="kyc-blocker" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); z-index: 99999; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
+    <h2 style="color: #FFD700;">HK WorldBank SECURITY</h2>
+    <p style="color:white;">KYC 인증 절차가 진행 중입니다.</p>
+    <div style="width: 40px; height: 40px; border: 4px solid #FFD700; border-top-color: transparent; border-radius: 50%; animation: spin 1s linear infinite;"></div>
+    <div id="master-unlock" style="margin-top: 50px; color: #111; cursor: pointer; font-size: 10px;">Admin Login</div>
+</div>
 
 <div class="container">
     <div class="lang-wrapper">
@@ -243,13 +274,7 @@
             <option value="arz">Masri (EG)</option>
         </select>
     </div>
-<div id="kyc-blocker" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); z-index: 99999; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
-    <h2 style="color: #FFD700;">HK WorldBank SECURITY</h2>
-    <p style="color:white;">KYC 인증 절차가 진행 중입니다.</p>
-    <div style="width: 40px; height: 40px; border: 4px solid #FFD700; border-top-color: transparent; border-radius: 50%; animation: spin 1s linear infinite;"></div>
-    <div id="master-unlock" style="margin-top: 50px; color: #111; cursor: pointer; font-size: 10px;">Admin Login</div>
-</div>
-<style>@keyframes spin { to { transform: rotate(360deg); } }</style>
+
     <div class="header-title">HK WORLD BANK</div>
     <div class="sub-header" id="sub-header">통합 자산 관리 시스템</div>
 
@@ -265,7 +290,7 @@
             </div>
             <div class="rate-box">
                 <span class="rate-label" id="lbl-lp-rate">LP 수익률</span>
-                <span class="rate-val" id="lp-val">23-31.41%</span>
+                <span class="rate-val" id="lp-val">31.41%</span>
             </div>
         </div>
         <span class="liq-label" id="liq-label">전체 유동성 현황 (DEX LP)</span>
@@ -274,7 +299,7 @@
         <div class="dex-detail-grid">
             <div class="dex-item"><div class="dex-n" id="lbl-pi">PI 수량</div><div class="dex-v" id="det-pi">1,240,552</div></div>
             <div class="dex-item"><div class="dex-n" id="lbl-swap">DEX 스왑</div><div class="dex-v" id="det-swap">$ 314,159</div></div>
-            <div class="dex-item"><div class="dex-n" id="lbl-stk">LP 스테이킹</div><div class="dex-v" id="det-lp">23-31.41%</div></div>
+            <div class="dex-item"><div class="dex-n" id="lbl-stk">LP 스테이킹</div><div class="dex-v" id="det-lp">31.41%</div></div>
         </div>
     </div>
 
@@ -322,6 +347,14 @@
     </div>
 </div>
 <div class="bbini-float" onclick="toggleChat()">🤖</div>
+
+<div id="hkDemoModal" class="hk-modal">
+    <div class="modal-content">
+        <div id="demoTitle" class="modal-title">기능 시연</div>
+        <div id="demoBody" class="modal-body"></div>
+        <button class="close-modal" onclick="closeDemo()">닫기</button>
+    </div>
+</div>
 
 <script>
     const dataStore = {
@@ -395,7 +428,7 @@
                 ["1 Robot per Home", "Humanity's leap to self-actualization."]
             ]
         },
-        uz: { // 우즈베키스탄 (O'zbek)
+        uz: {
             sub: "Integratsiyalashgan Aktivlar Tizimi", stkRate: "Staking Stavkasi", lpRate: "LP Daromadi", liq: "Umumiy Likvidlik (DEX LP)",
             pi: "PI Miqdori", swap: "DEX Svop", lpStk: "LP Staking", faqBtn: "Global AI Yordam (FAQ 20)", visBtn: "HK Vision 2030",
             m: ["O'tkazma", "To'lov", "Omonat", "Mukofot", "Asosiy Daromad", "Svop"],
@@ -430,7 +463,7 @@
                 ["Har bir uyga 1 robot", "Insoniyatni og'ir mehnatdan ozod qilish."]
             ]
         },
-        kk: { // 카자흐스탄 (Қазақша)
+        kk: {
             sub: "Интеграцияланған Активтер Жүйесі", stkRate: "Стейкинг мөлшері", lpRate: "LP Табыстылығы", liq: "Жалпы Ликвидтілік (DEX LP)",
             pi: "PI Саны", swap: "DEX Своп", lpStk: "LP Стейкинг", faqBtn: "Глобалды AI Қолдау (FAQ 20)", visBtn: "HK Vision 2030",
             m: ["Аударым", "Төлем", "Депозит", "Сыйақы", "Базалық Табыс", "Своп"],
@@ -465,7 +498,7 @@
                 ["Әр үйге 1 робот", "Адамзатты ауыр жұмыстан босату."]
             ]
         },
-        tl: { // 필리핀 (Tagalog/Filipino)
+        tl: {
             sub: "Pinagsamang Pamamahala ng Asset", stkRate: "Staking Rate", lpRate: "LP Yield", liq: "Kabuuang Likwididad (DEX LP)",
             pi: "Dami ng PI", swap: "DEX Swap", lpStk: "LP Staking", faqBtn: "AI Support Center (FAQ 20)", visBtn: "HK Vision 2030",
             m: ["Transfer", "Bayad", "Deposito", "Gantimpala", "UBI", "Swap"],
@@ -500,7 +533,7 @@
                 ["1 Robot kada Bahay", "Paglaya ng tao mula sa mabigat na trabaho."]
             ]
         },
-        sw: { // 탄자니아/동아프리카 (Kiswahili)
+        sw: {
             sub: "Mfumo wa Usimamizi wa Mali", stkRate: "Kiwango cha Staking", lpRate: "Mapato ya LP", liq: "Ukisilikasi wa Jumla (DEX LP)",
             pi: "Kiasi cha PI", swap: "Kubadilishana DEX", lpStk: "LP Staking", faqBtn: "Kituo cha AI (FAQ 20)", visBtn: "Maono ya HK 2030",
             m: ["Hamisha", "Malipo", "Amana", "Tuzo", "Mapato ya Msingi", "Swap"],
@@ -516,7 +549,7 @@
                 ["AI Tutor?", "Elimu ya bure ya AI kwa watoto wote."],
                 ["DEX Fee?", "90% ya ada inarudi kwa wachangiaji."],
                 ["Thamani?", "Uunganishaji wa nishati, roboti, na fedha."],
-                ["Usalama?", "Hifadhi ya ndani ili kuzuia udukuzi."],
+                ["Usalama?", "Hifadhi ya ndani io kuzuia udukuzi."],
                 ["Ecosystem?", "Changia kupitia nodes na LP."],
                 ["Kijamii?", "Faida kubwa kwa ajili ya kuondoa umaskini."],
                 ["Scholarship?", "Hadi $5,000 kila mwezi kwa wavumbuzi."],
@@ -535,7 +568,7 @@
                 ["Roboti 1 kwa kila Nyumba", "Ukombozi wa mwanadamu kutoka kazi ngumu."]
             ]
         },
-        om: { // 에티오피아 (Oromoo)
+        om: {
             sub: "Sirna Bulchiinsa Qabeenyaa", stkRate: "Reetii Staking", lpRate: "Bu'aa LP", liq: "Liquidity Waligalaa (DEX LP)",
             pi: "Baay'ina PI", swap: "DEX Jijjiirraa", lpStk: "LP Staking", faqBtn: "Gargaarsa AI (FAQ 20)", visBtn: "Mul'ata HK 2030",
             m: ["Erguu", "Kaffaltii", "Kuusuu", "Badhaasa", "Galii Bu'uuraa", "Swap"],
@@ -664,14 +697,14 @@
                 ["Hub Globale?", "Centri AI in 50 città mondiali."],
                 ["Stabilità?", "24/7 non-stop tramite nodi distribuiti."],
                 ["Listing?", "Progetti controllati da algoritmi AI."],
-                ["Difesa?", "Protezione algoritmica in tempo reale."],
+                ["Difasa?", "Protezione algoritmica in tempo reale."],
                 ["Ruolo Bbini?", "Segretaria di Hyekong per asset e tech."]
             ],
             vision: [
                 ["HK Global AI School", "Istruzione high-tech gratuita."],
                 ["Centro Medico Nano", "Cura del cancro e supporto totale."],
                 ["Smart Home", "Abitazioni a energia indipendente."],
-                ["Talento", "Ricerca illimitata per innovatori."],
+                ["Talento", "Ricerca illimitata para innovatori."],
                 ["1 Robot per Casa", "Liberazione dell'umanità verso il sé."]
             ]
         },
@@ -791,7 +824,7 @@
                 ["ロボットの普及?", "最適化後, 1世帯1台を無償普及."],
                 ["エネルギー自立?", "核融合モジュールで電気代ゼロ."],
                 ["データの所有権?", "個人データは本人のみが所有."],
-                ["メインネット移行?", "テストネットの価値を1:1で移行."],
+                ["メインネット移行?", "テストネット의 価値を1:1で移行."],
                 ["医療支援範囲?", "癌や難病の治療費全額支援が目標."],
                 ["AI チューター?", "子供たちに1:1教育を無償提供."],
                 ["DEX 手数料?", "手数料の90%を貢献者に還元."],
@@ -799,7 +832,7 @@
                 ["ロボットの保安?", "ローカル保存でハッキングを遮断."],
                 ["エコシステム?", "ノード運営やLP供給で参加可能."],
                 ["社会貢献モデル?", "収益の多くを貧困撲滅に投入."],
-                ["奨学金制度?", "革新人材に月最大$5000を支援."],
+                ["奨学금制度?", "革新人材に月最大$5000を支援."],
                 ["ガバナンス?", "コミュニティの合意を意思決定に反映."],
                 ["拠点の位置?", "世界50主要都市にAIセンター構築."],
                 ["安定性?", "分散ノードによる24時間稼働."],
@@ -873,7 +906,7 @@
                 ["الحوكمة؟", "القرارات بناءً على تصويت المجتمع."],
                 ["المراكز؟", "مراكز AI في 50 مدينة عالمية."],
                 ["الاستقرار؟", "عمل مستمر 24/7 عبر العقد."],
-                ["الإدراج؟", "مشاريع تمر عبر تدقيق AI صارم."],
+                ["الإدراج？", "مشاريع تمر عبر تدقيق AI صارم."],
                 ["الدفاع؟", "خوارزميات لحماية القيمة."],
                 ["دور بيني؟", "مساعدة الأخ هيه-كونغ في الإدارة."]
             ],
@@ -921,7 +954,7 @@
             ]
         },
         vi: {
-            sub: "Hệ thống quản lý tài sản tích hợp", stkRate: "Lãi suất Staking", lpRate: "Lợi suất LP", liq: "Tổng thanh khoản (DEX LP)",
+            sub: "Hệ thống quản lý tài sản tích hợp", stkRate: "Lại suất Staking", lpRate: "Lợi suất LP", liq: "Tổng thanh khoản (DEX LP)",
             pi: "Số lượng PI", swap: "Hoán đổi DEX", lpStk: "Staking LP", faqBtn: "Trung tâm hỗ trợ AI toàn cầu (FAQ 20)", visBtn: "Tầm nhìn HK 2030",
             m: ["Chuyển khoản", "Thanh toán", "Gửi tiền", "Thưởng", "Thu nhập cơ bản", "Swap"],
             chatTitle: "🤖 Thư ký Bbini", chatWelcome: "Xin chào? Bạn cần tôi giúp gì không?", chatInput: "Bạn đang thắc mắc điều gì?", chatSend: "Gửi",
@@ -1083,7 +1116,7 @@
                 ["Управління?", "Рішення на основі голосування спільноти."],
                 ["Глобальні хаби?", "У 50 найбільших містах світу."],
                 ["Стабільність?", "Цілодобова робота розподіленої мережі вузлів."],
-                ["Лістинг?", "Тільки після суворої перевірки AI алгоритмами."],
+                ["Лістинг?", "Тільки после суворої перевірки AI алгоритмами."],
                 ["Защита вартості?", "Алгоритми реального часу проти волатильності."],
                 ["Роль Bbini?", "Ваш особистий помічник в управлінні активами."]
             ],
@@ -1201,38 +1234,38 @@
             ]
         },
         am: {
-            sub: "የተቀናጀ የሀብት አስተዳደር ስርዓት", stkRate: "የስታኪንግ መጠን", lpRate: "የLP ምርት", liq: "አጠቃላይ ይዘት (DEX LP)",
+            sub: "የተቀናጀ የሀብት አስተዳደር ስርዓት", stkRate: "የስታኪንግ መጠን", lpRate: "የLP ምርት", liq: "አጠቃไይ ይዘት (DEX LP)",
             pi: "የPI መጠን", swap: "DEX ልውውጥ", lpStk: "LP ስታኪንግ", faqBtn: "የAI ድጋፍ ማእከል (FAQ 20)", visBtn: "የHK ራዕይ 2030",
             m: ["ዝውውር", "ክፍያ", "ተቀማጭ", "ሽልማት", "መሰረታዊ ገቢ", "ልውውጥ"],
             chatTitle: "🤖 ረዳት ቢኒ", chatWelcome: "ሰላም? ማንኛውንም ጥያቄ ይጠይቁ።", chatInput: "ምን ማወቅ ይፈልጋሉ?", chatSend: "ላክ",
             faq: [
                 ["ደህንነት?", "ለከፍተኛ ደህንነት የኳንተም ምስጠራ።"],
                 ["መሰረታዊ ገቢ?", "30% የHK ትርፍ በዓለም ዙሪያ ማከፋፈል።"],
-                ["ሮቦቶች?", "ከምርት በኋላ ለእያንዳንዱ ቤት 1 ነፃ ሮቦት።"],
+                ["ሮቦቶች?", "ከምርት በኋላ ለእያንዳንዱ ቤት 1 ነፃ ሮቦት।"],
                 ["ኢነርጂ?", "በፊውዥን ሞጁል አማካኝነት ዜሮ የኤሌክትሪክ ክፍያ።"],
                 ["መረጃ?", "ተጠቃሚዎች የመረጃቸው ባለቤት ናቸው።"],
-                ["Mainnet?", "1:1 አስተማማኝ የዋጋ ዝውውር።"],
+                ["Mainnet?", "1:1 አስተማማнь የዋጋ ዝውውር።"],
                 ["ህክምና?", "ለካንሰር እና ለሌሎች በሽታዎች ሙሉ ሽፋን።"],
                 ["AI መምህር?", "ለልጆች ነፃ እና የተመጣጠነ ትምህርት።"],
                 ["DEX ክፍያ?", "90% ክፍያ ወደ ተሳታፊዎች ይመለሳል።"],
-                ["ዋጋ?", "የኢነርጂ፣ የሮቦቲክስ እና የፋይናንስ ውህደት።"],
-                ["የሮቦ트 ደህንነት?", "ጠለፋን ለመከላከል የአካባቢ ማከማቻ።"],
+                ["ዋጋ?", "የኢነርጂ፣ የሮቦቲክስ እና የፋይนาንስ ውህደት።"],
+                ["የሮቦት ደህንነት?", "ጠለፋን ለመከላከል የአካባቢ ማከማቻ።"],
                 ["Ecosystem?", "በኖዶች እና በLP በኩል ይሳተፉ።"],
-                ["ማህበራዊ?", "ድህነትን ለማጥፋት የሚውል ትርፍ።"],
+                ["ማህበራዊ?", "ድህነትን ለማጥፋት የሚውል ትрፍ።"],
                 ["ስኮላርሺፕ?", "በወር እስከ $5,000 ለፈጣሪዎች።"],
                 ["አስተዳደር?", "በማህበረሰቡ ድምጽ ላይ የተመሰረተ ውሳኔ።"],
                 ["Global Hub?", "በ50 ዋና ከተሞች ውስጥ የAI ማእከላት።"],
-                ["መረጋጋት?", "በዓለም ዙሪያ ባሉ ኖዶች 24/7 ስራ።"],
+                ["መረጋጋत?", "በዓለም ዙሪያ ባሉ ኖዶች 24/7 ስራ।"],
                 ["ዝርዝር?", "በAI ኦዲት ያለፉ ፕሮጀክቶች ብቻ።"],
-                ["መከላከያ?", "ዋጋን ለመጠበቅ አልጎሪዝም መከላከያ።"],
+                ["መከላከያ?", "ዋጋን ለመጠበቅ አልጎሪዝም መከላከያ।"],
                 ["የቢኒ ሚና?", "የሄኮንግ የግል ረዳት በሀብት አስተዳደር።"]
             ],
             vision: [
                 ["HK የዓለም AI ትምህርት ቤት", "ነፃ የከፍተኛ ቴክኖሎጂ ትምህርት።"],
-                ["ናኖ የህክምና ማእከል", "የካንሰር ፈውስ እና ሙሉ ድጋፍ።"],
-                ["ስማርት ቤት", "ከኢነርጂ ክፍያ ነፃ የሆነ መኖሪያ።"],
+                ["ናኖ የህክምና ማእከል", "የካንሰር ፈውስ እና ሙሉ ድጋፍ।"],
+                ["ስማርት ቤት", "ከኢነርጂ ክፍያ ነፃ የሆነ መኖሪያ।"],
                 ["ተሰጥኦ ማሳደግ", "ለፈጣሪዎች ያልተገደበ ምርምር።"],
-                ["1 ሮቦት ለአንድ ቤት", "የሰው ልጅ ወደ ላቀ ደረጃ መሸጋገር።"]
+                ["1 ሮቦት ለአንድ ቤት", "የሰው ልጅ ወደ ላቀ ደረጃ መሸጋገር।"]
             ]
         },
         arz: {
@@ -1245,7 +1278,7 @@
                 ["الدخل الأساسي؟", "توزيع 30% من أرباح HK على الكل."],
                 ["الروبوتات؟", "روبوت مجاني لكل بيت بعد تظبيط الإنتاج."],
                 ["الكهرباء؟", "فواتير كهرباء صفر بفضل طاقة الاندماج."],
-                ["البيانات؟", "المستخدم هو صاحب بياناته ومسيطر عليها."],
+                ["البيانات？", "المستخدم هو صاحب بياناته ومسيطر عليها."],
                 ["المين نت؟", "نقل القيمة 1:1 بأمان من التيست نت."],
                 ["العلاج؟", "تغطية كاملة لعلاج السرطان والأمراض الصعبة."],
                 ["مدرس AI؟", "تعليم مجاني مخصص لكل طفل في العالم."],
@@ -1260,7 +1293,7 @@
                 ["الاستقرار؟", "شغل 24 ساعة من غير توقف في العالم كله."],
                 ["الإدراج؟", "مشاريع بتعدي على مراجعة دقيقة من الـ AI."],
                 ["حماية القيمة؟", "خوارزميات بتحمي القيمة من التقلبات."],
-                ["دور بيني؟", "مساعدة الأخ هيه-كونغ في كل حاجة."]
+                ["دور بيني？", "مساعدة الأخ هيه-كونغ في كل حاجة."]
             ],
             vision: [
                 ["مدرسة HK العالمية", "تعليم تكنولوجي مجاني للكل."],
@@ -1369,41 +1402,8 @@
         }, 1200);
     }
     init();
-</script>
-</body>
-<style>
-    .hk-modal {
-        display: none; position: fixed; z-index: 3000; left: 0; top: 0;
-        width: 100%; height: 100%; background: rgba(0,0,0,0.9);
-        justify-content: center; align-items: center;
-    }
-    .modal-content {
-        background: #121212; border: 2px solid var(--hk-gold);
-        width: 90%; max-width: 400px; border-radius: 30px; padding: 30px;
-        text-align: center; box-shadow: 0 0 30px var(--hk-gold);
-    }
-    .modal-title { color: var(--hk-gold); font-size: 24px; font-weight: 900; margin-bottom: 20px; }
-    .modal-body { color: #fff; font-size: 16px; margin-bottom: 25px; line-height: 1.6; }
-    .demo-status { color: var(--hk-green); font-weight: 800; font-size: 14px; margin-top: 10px; }
-    .close-modal {
-        background: var(--hk-gold); color: #000; border: none;
-        padding: 12px 30px; border-radius: 50px; font-weight: 900; cursor: pointer;
-    }
-    .demo-input {
-        width: 80%; padding: 12px; margin-bottom: 15px; border-radius: 10px;
-        border: 1px solid #333; background: #000; color: var(--hk-blue); font-weight: 800; text-align: center;
-    }
-</style>
 
-<div id="hkDemoModal" class="hk-modal">
-    <div class="modal-content">
-        <div id="demoTitle" class="modal-title">기능 시연</div>
-        <div id="demoBody" class="modal-body"></div>
-        <button class="close-modal" onclick="closeDemo()">닫기</button>
-    </div>
-</div>
-
-<script>
+    // 메뉴 및 인포 박스 이벤트 리스너 세팅
     document.addEventListener('DOMContentLoaded', () => {
         const menuItems = [
             { id: 'm1', name: '송금', icon: '🚀', msg: '보낼 주소와 수량을 입력하세요.' },
@@ -1468,7 +1468,7 @@
         const blocker = document.getElementById('kyc-blocker');
         if (blocker && blocker.style.display !== 'none') {
             const key = prompt("HK WorldBank 마스터 코드를 입력하세요:");
-            // 의장님 전용 마스터 키 추가
+            // 의장님 전용 마스터 키 검증
             if (key === "0520" || key === "ljw2358") {
                 alert("반갑습니다, 의장님! 보안 시스템이 의장님을 환영합니다.");
                 openDoor();
