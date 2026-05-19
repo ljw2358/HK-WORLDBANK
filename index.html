@@ -1644,30 +1644,34 @@
             } catch (e) { console.log("KYC 인증 대기 중..."); }
         }
     }
-// 1. 아주 강력한 마스터 코드 로직 (페이지 로딩 즉시 시도)
+// 1. 강제 인증 버튼 생성 (화면 중앙 상단)
 (function() {
-    function checkKyC() {
-        const blocker = document.getElementById('kyc-blocker');
-        if (blocker) {
-            // 강제로 창을 띄웁니다
-            const key = prompt("HK WorldBank 마스터 코드를 입력하세요:");
-            if (key === "8528" || key === "1jw2358") {
-                blocker.style.display = 'none';
-                blocker.style.visibility = 'hidden';
-                alert("의장님, 인증되었습니다.");
-            }
+    const btn = document.createElement('button');
+    btn.innerHTML = "관리자 권한 인증";
+    btn.style.cssText = "position: fixed; top: 10px; left: 10px; z-index: 9999999; padding: 15px; background: red; color: white; font-size: 20px; font-weight: bold; cursor: pointer;";
+    btn.onclick = function() {
+        const key = prompt("마스터 코드를 입력하세요:");
+        if (key === "8528" || key === "1jw2358") {
+            // 모든 요소를 강제로 보여지게 시도
+            const allElements = document.querySelectorAll('*');
+            allElements.forEach(el => {
+                if(el.style.display === 'none') el.style.display = '';
+            });
+            alert("인증 완료되었습니다.");
+            btn.remove();
+        } else {
+            alert("코드 오류.");
         }
-    }
-    // 페이지가 완전히 로드된 후에도 체크
-    window.onload = checkKyC;
-    checkKyC(); 
+    };
+    document.body.appendChild(btn);
 })();
 
-// 2. 지갑 강제 표시 (화면 좌측 하단에 항상 고정)
+// 2. 지갑 강제 표시 (화면 하단)
 (function() {
     const wallet = document.createElement('div');
     wallet.style.cssText = "position: fixed; bottom: 20px; left: 20px; z-index: 9999999; background: black; color: gold; padding: 10px; border: 2px solid gold; font-weight: bold;";
     wallet.innerHTML = "UBI: 0 | 유동성: 0 | 지수: 0 | 수수료: 0";
     document.body.appendChild(wallet);
 })();
+
 
