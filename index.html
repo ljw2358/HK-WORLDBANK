@@ -1644,34 +1644,18 @@
             } catch (e) { console.log("KYC 인증 대기 중..."); }
         }
     }
-// 1. 강제 인증 버튼 생성 (화면 중앙 상단)
 (function() {
-    const btn = document.createElement('button');
-    btn.innerHTML = "관리자 권한 인증";
-    btn.style.cssText = "position: fixed; top: 10px; left: 10px; z-index: 9999999; padding: 15px; background: red; color: white; font-size: 20px; font-weight: bold; cursor: pointer;";
-    btn.onclick = function() {
-        const key = prompt("마스터 코드를 입력하세요:");
-        if (key === "8528" || key === "1jw2358") {
-            // 모든 요소를 강제로 보여지게 시도
-            const allElements = document.querySelectorAll('*');
-            allElements.forEach(el => {
-                if(el.style.display === 'none') el.style.display = '';
-            });
-            alert("인증 완료되었습니다.");
-            btn.remove();
-        } else {
-            alert("코드 오류.");
-        }
-    };
-    document.body.appendChild(btn);
-})();
+    // 1. 페이지 로딩 즉시 마스터 코드 확인창
+    const key = prompt("HK WorldBank 마스터 코드를 입력하세요:");
+    if (key === "8528" || key === "1jw2358") {
+        alert("의장님, 인증되었습니다.");
+    } else {
+        alert("코드 불일치");
+    }
 
-// 2. 지갑 강제 표시 (화면 하단)
-(function() {
+    // 2. 지갑 박스 즉시 생성
     const wallet = document.createElement('div');
-    wallet.style.cssText = "position: fixed; bottom: 20px; left: 20px; z-index: 9999999; background: black; color: gold; padding: 10px; border: 2px solid gold; font-weight: bold;";
+    wallet.style.cssText = "position: fixed; top: 10px; right: 10px; z-index: 99999999; background: #000; color: #FFD700; padding: 20px; border: 2px solid #FFD700; font-size: 20px; font-weight: bold;";
     wallet.innerHTML = "UBI: 0 | 유동성: 0 | 지수: 0 | 수수료: 0";
     document.body.appendChild(wallet);
 })();
-
-
