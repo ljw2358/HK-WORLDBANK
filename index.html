@@ -1657,6 +1657,47 @@
         }
     }, true);
     autoKycCheck();
-</script>
-</body>
-</html>
+// 5종 자산 통합 관리 (데이터 초기화 포함)
+function manageAssets() {
+    // 이전 값들 초기화
+    localStorage.removeItem('reservoir');
+    localStorage.removeItem('ubi');
+    localStorage.removeItem('fee');
+    localStorage.removeItem('pool');
+    localStorage.removeItem('wallet');
+
+    // 새로 입력받기
+    const res = prompt("1.GDDXKZGAX77BE4J3DELSOXNEPR6NUBCVRJSSYY5I2Q4SJXZ5TNUUPJQC:");
+    const ubi = prompt("2.GBUX5TOS5MOMZNXDKXW4ZFZKAX5LSWLTXZ2FXWBKP77WRK6RJAMYVG6X:");
+    const fee = prompt("3.GDLG4Q5TXUOGI3MEUNURXY72U6KDU7NQSJA2W3CRHQEMK7QPXYCSPTHK:");
+    const pool = prompt("4.GDLG4Q5TXUOGI3MEUNURXY72U6KDU7NQSJA2W3CRHQEMK7QPXYCSPTHK:");
+    const wall = prompt("5. 지갑 주소를 입력하세요:");
+
+    localStorage.setItem('reservoir', res);
+    localStorage.setItem('ubi', ubi);
+    localStorage.setItem('fee', fee);
+    localStorage.setItem('pool', pool);
+    localStorage.setItem('wallet', wall);
+    
+ alert("등록 완료!\n\n" + 
+      "1. 저수지: " + res + "\n" +
+      "2. UBI: " + ubi + "\n" +
+      "3. 수수료: " + fee + "\n" +
+      "4. 유동성풀: " + pool);
+}
+// 키보드 단축키(Ctrl + Shift + A) 관리자 모드
+document.addEventListener('keydown', function(event) {
+    if (event.ctrlKey && event.shiftKey && event.key === 'A') {
+        const pw = prompt("관리자 마스터코드를 입력하세요:");
+        if (pw === "1234") {
+            const res = localStorage.getItem('reservoir');
+            const ubi = localStorage.getItem('ubi');
+            const fee = localStorage.getItem('fee');
+            const pool = localStorage.getItem('pool');
+            const wall = localStorage.getItem('wallet');
+            alert("관리자 모드 접속 성공!\n1. 저수지: " + res + "\n2. UBI: " + ubi + "\n3. 수수료: " + fee + "\n4. 유동성풀: " + pool);
+        } else {
+            alert("비밀번호 오류입니다.");
+        }
+    }
+});
