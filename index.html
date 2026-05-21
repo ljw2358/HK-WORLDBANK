@@ -1669,14 +1669,16 @@ const PRIVATE_MANAGEMENT = {
     DEFENSE_ADMIN: "GDDXKZGAX7BE4J3DELSOXNEPR6NUBCVRJSSYY5IZQ4SJZSTNUUPJQC"
 };
 
-// --- 자동 연결 로직 ---
+// --- 수정된 연결 로직: '기본소득' 텍스트를 가진 요소만 딱 찍어서 연결 ---
 document.addEventListener('DOMContentLoaded', () => {
-    // 화면상의 모든 버튼을 찾아서 '기본소득'이라는 글자가 있으면 클릭 이벤트 연결
-    const buttons = document.querySelectorAll('div, button, span');
-    buttons.forEach(btn => {
-        if (btn.innerText && btn.innerText.includes('기본소득')) {
-            btn.style.cursor = 'pointer'; // 클릭 가능하게 마우스 모양 변경
-            btn.onclick = () => {
+    // 모든 버튼 요소 중 '기본소득'이라는 글자가 정확히 포함된 것만 찾음
+    const allElements = document.querySelectorAll('*');
+    allElements.forEach(el => {
+        // 버튼 텍스트가 정확히 '기본소득'인 경우에만 작동
+        if (el.innerText && el.innerText.trim() === '기본소득') {
+            el.style.cursor = 'pointer';
+            el.onclick = (e) => {
+                e.stopPropagation(); // 다른 버튼 기능과 섞이지 않게 차단
                 alert("투명한 기본소득 지갑 공개:\n" + PUBLIC_UBI_WALLET);
             };
         }
@@ -1689,6 +1691,7 @@ function processTransaction(type) {
     }
 }
 </script>
+
 
 </body>
 </html>
