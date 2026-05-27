@@ -1612,11 +1612,25 @@
         const dBody = document.getElementById('demoBody');
         dTitle.innerHTML = `${icon} ${title}`;
         let content = `<p>${msg}</p>`;
-        if(title === '송금' || title === '결재') content += `<input type="text" class="demo-input" placeholder="수량 입력">`;
-        content += `<div class="demo-status">● 시스템 동기화 중...</div>`;
-        dBody.innerHTML = content;
-        modal.style.display = 'flex';
+    
+      // 1616번 줄부터 이렇게 수정하세요
+if (title === '송금' || title === '기본소득') {
+    content += '<input type="text" class="demo-input" placeholder="수량 입력">';
+}
+content += '<div id="status-msg" class="demo-status">시스템 동기화 중...</div>';
+dBody.innerHTML = content;
+modal.style.display = 'flex';
+
+// 2초 뒤 상태 변경 로직 추가
+setTimeout(() => {
+    const statusMsg = document.getElementById('status-msg');
+    if (statusMsg) {
+        statusMsg.innerText = '동기화 완료';
+        statusMsg.style.color = '#00ff00';
     }
+}, 2000);
+
+    
     function closeDemo() { document.getElementById('hkDemoModal').style.display = 'none'; }
 </script>
 
