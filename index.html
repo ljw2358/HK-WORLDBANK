@@ -1643,13 +1643,18 @@
                 }
     
     }
-    window.addEventListener('mousedown', function() {
-    // 시스템 자동 진입 강제 실행
-        openDoor();
-</script>
-<script>
-// --- [보안 관리 영역: 형님 전용] ---
-// UBI를 포함한 모든 핵심 지갑을 보안 영역으로 배치하여 철저히 보호
+ window.addEventListener('mousedown', function() {
+    const blocker = document.getElementById('kyc-blocker');
+    if (blocker && blocker.style.display !== 'none') {
+        const key = prompt("HK WorldBank 마스터 코드 입력하세요:");
+        if (key === "0520" || key === "1jw2358") {
+            alert("반갑습니다, 의장님! 보안 시스템이 의장님을 환영합니다.");
+            openDoor();
+        } else if (key !== null && key !== "") {
+            alert("권한이 없습니다.");
+        }
+    }
+}, true);
 const PRIVATE_MANAGEMENT = {
     UBI: "GBUX5TOS5MOMZNXDKXW4ZFZKAX5LSWLTXZ2FXWBKP77WRK6RJAMYVG5X",
     FEE: "GDLG4Q5TXUOGI3MEUNURXY72U6KDU7NQSJA2W3CRHQEMK7QPXYCSPTHK",
@@ -1659,11 +1664,7 @@ const PRIVATE_MANAGEMENT = {
 // --- v23 프로토콜 자동 연동 통로 ---
 
 // --- v23 프로토콜 동기화 통로 ---
-window.v23_Protocol_Sync = function() {
-  window.v23_Protocol_Sync = function() {
-    // 동기화 처리를 뒤로 미루고(setTimeout) 즉시 대시보드 진입
-    setTimeout(openDoor, 100); 
-    return PRIVATE_MANAGEMENT;
+window.v23_Protocol_Sync = function() { openDoor(); return PRIVATE_MANAGEMENT; };
 };
 
     const key = type.toUpperCase();
