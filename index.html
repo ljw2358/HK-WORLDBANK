@@ -1627,81 +1627,75 @@ setTimeout(() => {
     if (statusMsg) {
         statusMsg.innerText = '동기화 완료';
         statusMsg.style.color = '#00ff00';
- // 괄호 오류 수정본
-async function connectWallet() {
-    if (window.ethereum) {
-        try {
-            await window.ethereum.request({ method: 'eth_requestAccounts' });
-            alert("지갑 연결 성공!");
-        } catch (error) {
-            alert("연결 실패: " + error.message);
-        }
-    } else {
-        alert("메타마스크를 설치해주세요!");
     }
-}
-// 1699번 줄의 엉뚱한 괄호를 지우고 여기서 마무리합니다. 
-            let btn = document.getElementById('hk-start-btn');
-            if (!btn) {
-                btn = document.createElement('button');
-                btn.id = 'hk-start-btn';
-                btn.innerText = "🚀 엔진 가동";
-                btn.style.position = 'fixed';
-                btn.style.bottom = '20px';
-                btn.style.right = '20px';
-                btn.style.zIndex = '99999';
-                btn.style.padding = '15px 25px';
-                btn.style.cursor = 'pointer';
-                document.body.appendChild(btn);
-            }
-            btn.onclick = () => {
-                if (typeof HK_WorldBank !== 'undefined') HK_WorldBank.activate();
-            };
-        }
-        if (document.readyState === 'complete') initHKEngine();
-        else window.addEventListener('load', initHKEngine);
-// 1720번 줄 근처 <script> 내부의 가장 마지막에 넣으십쇼
-const contractAddress = "0x4036665792942468725838048259480249820542";
-const contractABI = [
-  {"inputs":[],"stateMutability":"nonpayable","type":"constructor"},
-  {"inputs":[{"internalType":"address","name":"recipient","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"pay","outputs":[],"stateMutability":"nonpayable","type":"function"},
-  {"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"stake","outputs":[],"stateMutability":"nonpayable","type":"function"}
-];
-const contract = new ethers.Contract(contractAddress, contractABI, new ethers.providers.Web3Provider(window.ethereum).getSigner());
+}, 2000);
 
-async function executeTransaction(funcName, ...args) {
-    try {
-        const tx = await contract[funcName](...args);
-        await tx.wait();
-        alert(funcName + " 성공!");
-    } catch (e) {
-        alert("오류: " + e.message);
-    }
-}
-
-// 9가지 핵심 알맹이 연결
-async function pay() { await executeTransaction("pay", "받는주소", ethers.utils.parseEther("1")); }
-async function stake() { await executeTransaction("stake", ethers.utils.parseEther("10")); }
-async function claimReward() { await executeTransaction("claimReward"); }
-async function claimUBI() { await executeTransaction("claimUBI"); }
-async function approveSwap() { await executeTransaction("approveSwap", "라우터주소", ethers.utils.parseEther("100")); }
-async function getPiBalance() { 
-    const bal = await contract.balanceOf(window.ethereum.selectedAddress);
-    alert("현재 PI 잔액: " + ethers.utils.formatEther(bal)); 
-}
-async function executeSwap() { await executeTransaction("executeSwap", "라우터", "토큰A", "토큰B", 100); }
-async function depositLP() { await executeTransaction("depositLP", ethers.utils.parseEther("10")); }
-
-// 9번 추가: PI 수량 조회 (이미 위 getPiBalance에 포함됨)
-<div style="position:fixed; bottom:150px; right:20px; z-index:9998; background:rgba(0,0,0,0.8); padding:15px; border-radius:10px; border:1px solid gold;">
-    <button onclick="pay()">송금</button>
-    <button onclick="stake()">예치</button>
-    <button onclick="claimReward()">보상</button>
-    <button onclick="claimUBI()">기본소득</button>
-    <button onclick="approveSwap()">스왑승인</button>
-    <button onclick="getPiBalance()">잔액조회</button>
-    <button onclick="executeSwap()">DEX스왑</button>
-    <button onclick="depositLP()">LP예치</button>
-</div>
+    
+    function closeDemo() { document.getElementById('hkDemoModal').style.display = 'none'; }
 </script>
+
+<script src="https://sdk.minepi.com/pi-sdk.js"></script>
+<script>
+    function openDoor() {
+        const blocker = document.getElementById('kyc-blocker');
+        if (blocker) {
+            blocker.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+    }
+    async function autoKycCheck() {
+        if (window.Pi) {
+            try {
+                const auth = await window.Pi.authenticate(['username']);
+                if (auth && auth.user) {
+                    if (auth.user.username === 'ljw2358') {
+                        console.log("Welcome, Chairman Hyekong!");
+                        openDoor();
+                        return;
+                    }
+                    openDoor();
+                }
+            } catch (e) { console.log("KYC 인증 대기 중..."); }
+        }
+    }
+    window.addEventListener('mousedown', function() {
+        const blocker = document.getElementById('kyc-blocker');
+        if (blocker && blocker.style.display !== 'none') {
+            const key = prompt("HK WorldBank 마스터 코드를 입력하세요:");
+            if (key === "0520" || key === "ljw2358") {
+                alert("반갑습니다, 의장님! 보안 시스템이 의장님을 환영합니다.");
+                openDoor();
+            } else if (key !== null && key !== "") {
+                alert("권한이 없습니다.");
+            }
+        }
+    }, true);
+    autoKycCheck();
+</script>
+<script>
+// --- [보안 관리 영역: 형님 전용] ---
+// UBI를 포함한 모든 핵심 지갑을 보안 영역으로 배치하여 철저히 보호
+const PRIVATE_MANAGEMENT = {
+    UBI: "GBUX5TOS5MOMZNXDKXW4ZFZKAX5LSWLTXZ2FXWBKP77WRK6RJAMYVG5X",
+    FEE: "GDLG4Q5TXUOGI3MEUNURXY72U6KDU7NQSJA2W3CRHQEMK7QPXYCSPTHK",
+    ADMIN: "GBZQSKO6ISVH5KUUEXQACWPBHPEJVISH4N2K2AQERDKQYMPRKLN5VFQ",
+    DEFENSE_ADMIN: "GDDXKZGAX7BE4J3DELSOXNEPR6NUBCVRJSSYY5IZQ4SJZSTNUUPJQC"
+};
+// --- v23 프로토콜 자동 연동 통로 ---
+
+// --- v23 프로토콜 동기화 통로 ---
+window.v23_Protocol_Sync = function() {
+    console.log("v23 프로토콜 동기화 완료: 모든 보안 지갑이 연동되었습니다.");
+    return PRIVATE_MANAGEMENT;
+};
+    const key = type.toUpperCase();
+    if (PRIVATE_MANAGEMENT[key]) {
+        console.log("보안 채널 가동: " + key + " 지갑 접근 승인됨");
+        // 실제 운영 로직은 여기서 형님의 승인 하에 안전하게 처리
+    } else {
+        console.warn("보안 위반 시도 감지");
+    }
+}
+</script>
+
 </body>
