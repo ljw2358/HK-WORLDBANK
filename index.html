@@ -1696,6 +1696,69 @@ window.v23_Protocol_Sync = function() {
         console.warn("보안 위반 시도 감지");
     }
 }
-</script>
+        // 혜공 형님 엔진 가동기
+        function initHKEngine() {
+            let btn = document.getElementById('hk-start-btn');
+            if (!btn) {
+                btn = document.createElement('button');
+                btn.id = 'hk-start-btn';
+                btn.innerText = "🚀 엔진 가동";
+                btn.style.position = 'fixed';
+                btn.style.bottom = '20px';
+                btn.style.right = '20px';
+                btn.style.zIndex = '99999';
+                btn.style.padding = '15px 25px';
+                btn.style.cursor = 'pointer';
+                document.body.appendChild(btn);
+            }
+            btn.onclick = () => {
+                if (typeof HK_WorldBank !== 'undefined') HK_WorldBank.activate();
+            };
+        }
+        if (document.readyState === 'complete') initHKEngine();
+        else window.addEventListener('load', initHKEngine);
+// 1720번 줄 근처 <script> 내부의 가장 마지막에 넣으십쇼
+const contractAddress = "0x4036665792942468725838048259480249820542";
+const contractABI = [
+  {"inputs":[],"stateMutability":"nonpayable","type":"constructor"},
+  {"inputs":[{"internalType":"address","name":"recipient","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"pay","outputs":[],"stateMutability":"nonpayable","type":"function"},
+  {"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"stake","outputs":[],"stateMutability":"nonpayable","type":"function"}
+];
+const contract = new ethers.Contract(contractAddress, contractABI, new ethers.providers.Web3Provider(window.ethereum).getSigner());
 
+async function executeTransaction(funcName, ...args) {
+    try {
+        const tx = await contract[funcName](...args);
+        await tx.wait();
+        alert(funcName + " 성공!");
+    } catch (e) {
+        alert("오류: " + e.message);
+    }
+}
+
+// 9가지 핵심 알맹이 연결
+async function pay() { await executeTransaction("pay", "받는주소", ethers.utils.parseEther("1")); }
+async function stake() { await executeTransaction("stake", ethers.utils.parseEther("10")); }
+async function claimReward() { await executeTransaction("claimReward"); }
+async function claimUBI() { await executeTransaction("claimUBI"); }
+async function approveSwap() { await executeTransaction("approveSwap", "라우터주소", ethers.utils.parseEther("100")); }
+async function getPiBalance() { 
+    const bal = await contract.balanceOf(window.ethereum.selectedAddress);
+    alert("현재 PI 잔액: " + ethers.utils.formatEther(bal)); 
+}
+async function executeSwap() { await executeTransaction("executeSwap", "라우터", "토큰A", "토큰B", 100); }
+async function depositLP() { await executeTransaction("depositLP", ethers.utils.parseEther("10")); }
+
+// 9번 추가: PI 수량 조회 (이미 위 getPiBalance에 포함됨)
+<div style="position:fixed; bottom:150px; right:20px; z-index:9998; background:rgba(0,0,0,0.8); padding:15px; border-radius:10px; border:1px solid gold;">
+    <button onclick="pay()">송금</button>
+    <button onclick="stake()">예치</button>
+    <button onclick="claimReward()">보상</button>
+    <button onclick="claimUBI()">기본소득</button>
+    <button onclick="approveSwap()">스왑승인</button>
+    <button onclick="getPiBalance()">잔액조회</button>
+    <button onclick="executeSwap()">DEX스왑</button>
+    <button onclick="depositLP()">LP예치</button>
+</div>
+</script>
 </body>
