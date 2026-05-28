@@ -1725,22 +1725,14 @@ const contractABI = [
   {"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"stake","outputs":[],"stateMutability":"nonpayable","type":"function"}
 ];
 const contract = new ethers.Contract(contractAddress, contractABI, new ethers.providers.Web3Provider(window.ethereum).getSigner());
-   
-// 1721번 줄 근처에 아래 내용을 그대로 붙여넣으십시오
-const contractAddress = "0x4036665792942468725838048259480249820542"; // 형님의 시스템 엔진 주소
-const contractABI = [
-  {"inputs":[],"stateMutability":"nonpayable","type":"constructor"},
-  {"inputs":[{"internalType":"address","name":"recipient","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"pay","outputs":[],"stateMutability":"nonpayable","type":"function"},
-  {"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"stake","outputs":[],"stateMutability":"nonpayable","type":"function"}
-];
 
-    async function executeTransaction(funcName, ...args) {
+async function executeTransaction(funcName, ...args) {
     try {
         const tx = await contract[funcName](...args);
         await tx.wait();
         alert(funcName + " 성공!");
     } catch (e) {
-        alert("실패: " + e.message);
+        alert("오류: " + e.message);
     }
 }
 
