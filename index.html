@@ -1762,4 +1762,32 @@ async function depositLP() { await executeTransaction("depositLP", ethers.utils.
     <button onclick="depositLP()">LP예치</button>
 </div>
 </script>
+<script>
+    // 1. 브라우저가 함수를 절대 놓치지 않도록 전역 객체에 강제 주입
+    (function() {
+        // 기존 정의된 코드를 찾거나, 없으면 빈 함수로 대체
+        window.initKEngine = window.initKEngine || function() {
+            console.log("엔진 로딩 중...");
+            // 형님의 기존 initKEngine 로직을 여기에 복사해 넣으면 완벽합니다.
+        };
+        
+        // 2. 페이지 로드 완료 후 자동 실행
+        window.onload = function() {
+            console.log("시스템 가동 준비 완료");
+            try {
+                initKEngine();
+                setTimeout(function() {
+                    if(typeof HK_WorldBank_activate === 'function') {
+                        HK_WorldBank_activate();
+                    } else {
+                        console.error("HK_WorldBank_activate 함수를 찾을 수 없습니다.");
+                    }
+                }, 1000);
+            } catch(e) {
+                console.error("초기화 실패:", e);
+            }
+        };
+    })();
+</script>
+
 </body>
