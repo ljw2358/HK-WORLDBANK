@@ -1737,20 +1737,7 @@ async function executeTransaction(funcName, ...args) {
 }
 
 // 9가지 핵심 알맹이 연결
-
-<script>
-// 알맹이 점검 코드
-function checkEngine() {
-    if (typeof window.ethereum === 'undefined') {
-        alert("알맹이 없음: 브라우저에 메타마스크 지갑이 설치되지 않았습니다.");
-    } else if (!window.ethereum.selectedAddress) {
-        alert("알맹이 연결 필요: 지갑을 먼저 연결하세요.");
-    } else {
-        alert("알맹이 정상 작동 중: 지갑이 연결되어 있습니다.");
-    }
-}
-</script>
-    async function pay() { await executeTransaction("pay", "받는주소", ethers.utils.parseEther("1")); }
+async function pay() { await executeTransaction("pay", "받는주소", ethers.utils.parseEther("1")); }
 async function stake() { await executeTransaction("stake", ethers.utils.parseEther("10")); }
 async function claimReward() { await executeTransaction("claimReward"); }
 async function claimUBI() { await executeTransaction("claimUBI"); }
@@ -1763,15 +1750,16 @@ async function executeSwap() { await executeTransaction("executeSwap", "라우�
 async function depositLP() { await executeTransaction("depositLP", ethers.utils.parseEther("10")); }
 
 // 9번 추가: PI 수량 조회 (이미 위 getPiBalance에 포함됨)
-<div style="position:fixed; bottom:20px; right:20px; z-index:9999999; background:white; padding:15px; border:2px solid red; border-radius:10px;">
-    <button onclick="if(window.ethereum && window.ethereum.selectedAddress){ pay(); } else { alert('지갑을 연결하세요!'); }">송금</button>
-    <button onclick="if(window.ethereum && window.ethereum.selectedAddress){ stake(); } else { alert('지갑을 연결하세요!'); }">예치</button>
-    <button onclick="if(window.ethereum && window.ethereum.selectedAddress){ claimReward(); } else { alert('지갑을 연결하세요!'); }">보상</button>
-    <button onclick="if(window.ethereum && window.ethereum.selectedAddress){ claimUBI(); } else { alert('지갑을 연결하세요!'); }">기본소득</button>
-    <button onclick="if(window.ethereum && window.ethereum.selectedAddress){ approveSwap(); } else { alert('지갑을 연결하세요!'); }">스왑승인</button>
-    <button onclick="if(window.ethereum && window.ethereum.selectedAddress){ getPiBalance(); } else { alert('지갑을 연결하세요!'); }">잔액조회</button>
-    <button onclick="if(window.ethereum && window.ethereum.selectedAddress){ executeSwap(); } else { alert('지갑을 연결하세요!'); }">DEX스왑</button>
-    <button onclick="if(window.ethereum && window.ethereum.selectedAddress){ depositLP(); } else { alert('지갑을 연결하세요!'); }">LP예치</button>
+<div style="position:fixed; bottom:150px; right:20px; z-index:9998; background:rgba(0,0,0,0.8); padding:15px; border-radius:10px; border:1px solid gold;">
+    <button onclick="pay()">송금</button>
+    <button onclick="stake()">예치</button>
+    <button onclick="claimReward()">보상</button>
+    <button onclick="claimUBI()">기본소득</button>
+    <button onclick="approveSwap()">스왑승인</button>
+    <button onclick="getPiBalance()">잔액조회</button>
+    <button onclick="executeSwap()">DEX스왑</button>
+    <button onclick="depositLP()">LP예치</button>
 </div>
-</div>
+</script>
 </body>
+
