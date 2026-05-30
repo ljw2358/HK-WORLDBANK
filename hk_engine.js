@@ -1,14 +1,34 @@
-// hk_engine.js
+// hk_engine.js - 비침투적 자동 연결 엔진
 window.HK_WorldBank_activate = function() {
-    console.log("HK-WorldBank 엔진 가동");
+    console.log("엔진이 가동되었습니다.");
 };
 
-function sendMoney() { alert("송금 모듈 가동"); }
-function payment() { alert("결재 모듈 가동"); }
-function deposit() { alert("예치 모듈 가동"); }
-function stake() { alert("스테이킹 모듈 가동"); }
-function claimReward() { alert("보상 모듈 가동"); }
-function claimUBI() { alert("기본소득 모듈 가동"); }
-function approveSwap() { alert("스왑승인 모듈 가동"); }
-function getPiBalance() { alert("잔액조회 모듈 가동"); }
-function executeSwap() { alert("DEX 스왑 시스템 가동"); }
+// 버튼 클릭 시 이벤트 강제 연결 함수
+function setupButtons() {
+    const actions = {
+        "송금": sendMoney,
+        "결재": payment,
+        "예치": deposit,
+        "스테이킹": stake,
+        "보상": claimReward,
+        "기본소득": claimUBI,
+        "스왑승인": approveSwap,
+        "잔액조회": getPiBalance,
+        "DEX스왑": executeSwap
+    };
+
+    // 페이지 내의 모든 버튼을 찾아 클릭 이벤트 자동 부여
+    const buttons = document.querySelectorAll('button');
+    buttons.forEach(btn => {
+        const text = btn.innerText;
+        if (actions[text]) {
+            btn.onclick = actions[text];
+            console.log(text + " 버튼 연결 성공!");
+        }
+    });
+}
+
+// 페이지가 다 로드되면 1초 뒤에 버튼 연결 실행
+window.addEventListener('load', () => {
+    setTimeout(setupButtons, 1000);
+});
