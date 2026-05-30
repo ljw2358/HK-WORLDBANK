@@ -1,1 +1,1 @@
-window.pay = function() { alert("송금 성공"); };
+window.pay = function() { alert("송금 성공!"); };
