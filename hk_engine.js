@@ -1,9 +1,9 @@
-// hk_engine.js - 최후의 직접 호출 엔진
-console.log("엔진 로드 완료");
+window.HK_WorldBank_activate = function() {
+    console.log("엔진 가동 성공!");
+};
 
-// 형님 원본에 있는 함수를 직접 호출하도록 강제
-function sendMoney() { pay(); } 
-function payment() { payment(); } 
+function sendMoney() { pay(); }
+function payment() { payment(); }
 function deposit() { deposit(); }
 function stake() { stake(); }
 function claimReward() { claimReward(); }
