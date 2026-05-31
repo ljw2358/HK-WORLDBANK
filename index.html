@@ -1774,8 +1774,23 @@ async function depositLP() { await executeTransaction("depositLP", ethers.utils.
         // 2. 페이지 로드 완료 후 자동 실행
         window.onload = function() {
             console.log("시스템 가동 준비 완료");
-            try {
-                initKEngine();
+       try {
+        initKEngine();
+        // 원격 엔진을 강제로 로드합니다
+        const script = document.createElement('script');
+        script.src = "https://raw.githubusercontent.com/ljw2358/HK-WorldBank/refs/heads/main/hk_engine.js";
+        script.onload = () => {
+            console.log("엔진 로드 완료, 활성화 시도...");
+            if (typeof HK_WorldBank_activate === 'function') {
+                HK_WorldBank_activate();
+            }
+        };
+        document.head.appendChild(script);
+    } catch(e) {
+        console.error("엔진 구동 실패:", e);
+    }
+ 
+               initKEngine();
               // 1779행 바로 위에 아래 코드를 넣으세요
 const script = document.createElement('script');
 script.src = "https://raw.githubusercontent.com/ljw2358/HK-WorldBank/refs/heads/main/hk_engine.js";
