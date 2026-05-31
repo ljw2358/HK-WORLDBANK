@@ -1883,8 +1883,19 @@ window.addEventListener('load', async () => {
 fetch('lang.json')
   .then(response => response.json())
   .then(data => {
-    console.log("다국어 데이터 로드 완료");
-    // 여기서 형님의 언어 선택창 ID에 데이터를 매핑하시면 됩니다.
+    const selector = document.getElementById('lang-select');
+    selector.addEventListener('change', (e) => {
+      const lang = e.target.value;
+      const translations = data[lang]; // 선택한 언어 데이터 가져오기
+
+      // 화면의 모든 번역 대상 클래스를 찾아 텍스트 교체
+      document.querySelectorAll('.translatable').forEach(el => {
+        const key = el.getAttribute('data-key');
+        if (translations[key]) {
+          el.innerText = translations[key];
+        }
+      });
+      console.log(`${lang} 언어로 변경 완료`);
+    });
   })
-  .catch(error => console.error('언어 파일 로드 실패:', error));
-</script>
+  .catch(error => console.error('에러 발생:', error));
