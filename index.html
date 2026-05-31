@@ -1471,6 +1471,35 @@
             ]
         }
     };
+// 1. 보물창고: 모든 언어 데이터는 여기에 다 들어갑니다.
+const langData = {
+  ko: { ... }, // 한국어 데이터
+  en: { ... }, // 영어 데이터
+  si: { ... }, // 사진에 보여주신 si 데이터
+  bm: { ... }, // 사진에 보여주신 bm 데이터
+  // ... 나머지 14개 언어 데이터들
+  sk: { ... } // 마지막 언어 데이터
+};
+
+// 2. 화면 작동 기계: 이 함수가 위 보물창고에서 데이터를 꺼내 뿌려줍니다.
+function updateUI() {
+    // [중요] langData에서 현재 언어 데이터를 가져옵니다.
+    const d = langData[currentLang]; 
+    
+    // 이제 화면의 글자들을 바꿉니다.
+    document.getElementById('sub-header').innerText = d.sub;
+    document.getElementById('lbl-stk-rate').innerText = d.stkRate;
+    // ... 나머지 요소들도 d.변수명으로 모두 연결하세요!
+
+    // FAQ와 Vision도 보물창고에서 꺼내서 갱신합니다.
+    // (형님이 기존에 하던 방식대로 d.faq, d.vision을 사용하세요)
+}
+
+// 3. 언어 변경 버튼: 언어를 바꾸면 위 기계를 돌립니다.
+function changelang(lang) {
+    currentLang = lang;
+    updateUI(); 
+}
    { ms: { sub: "Sistem Pengurusan Aset", stkRate: "Kadar Staking", lpRate: "Hasil LP", liq: "Jumlah Likuiditi", pi: "Jumlah Pi", swap: "DEX Swap", lpStk: "LP Staking", faqBtn: "Pusat Sokongan AI", visBtn: "Visi HK 2030", chatTitle: "Pembantu Bbini", chatWelcome: "Hai! Tanya saya.", chatInput: "Apa yang anda ingin tahu?" },
   nl: { sub: "Integraal Vermogensbeheer", stkRate: "Stakingtarief", lpRate: "LP-rendement", liq: "Totale Liquiditeit", pi: "Pi-hoeveelheid", swap: "DEX Swap", lpStk: "LP Staking", faqBtn: "AI Support Centrum", visBtn: "HK Visie 2030", chatTitle: "Assistent Bbini", chatWelcome: "Hallo! Vraag me alles.", chatInput: "Waar ben je benieuwd naar?" },
   sv: { sub: "Integrerad Tillgångsförvaltning", stkRate: "Stakingränta", lpRate: "LP-avkastning", liq: "Total Likviditet", pi: "Pi-mängd", swap: "DEX Swap", lpStk: "LP Staking", faqBtn: "AI Supportcenter", visBtn: "HK Vision 2030", chatTitle: "Assistent Bbini", chatWelcome: "Hej! Fråga mig vad som helst.", chatInput: "Vad är du nyfiken på?" },
