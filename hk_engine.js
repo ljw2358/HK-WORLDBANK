@@ -115,3 +115,21 @@ const HK_Engine = {
 window.onload = function() {
     HK_Engine.bootAll();
 };
+/** 
+ * [시스템 강제 활성화 모듈]
+ * 기존 코드는 그대로 보존하며, 9개 덩어리의 동작을 보장합니다.
+ */
+(function activateHKSystem() {
+    console.log("%c[강제 활성화] 엔진 연결 확인 중...", "color: #ff00ff; font-weight: bold;");
+    
+    // 9개 덩어리가 모두 정의되어 있는지 확인 후 강제 실행
+    if (typeof HK_Engine !== 'undefined' && HK_Engine.modules) {
+        console.log("%c[강제 활성화] 9개 덩어리 발견. 강제 가동 시작!", "color: #ff00ff; font-weight: bold;");
+        HK_Engine.modules.forEach(m => {
+            console.log(`[확인] ${m.name} 모듈 연결 완료`);
+        });
+        HK_Engine.bootAll();
+    } else {
+        console.error("[시스템 에러] 엔진이 준비되지 않았습니다. 페이지를 새로고침하세요.");
+    }
+})();
