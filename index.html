@@ -1809,23 +1809,19 @@ async function depositLP() { await executeTransaction("depositLP", ethers.utils.
  
                initKEngine();
               // 1779행 바로 위에 아래 코드를 넣으세요
+// 1812행부터 아래 코드로 교체
 const script = document.createElement('script');
 script.src = "https://raw.githubusercontent.com/ljw2358/HK-WorldBank/refs/heads/main/hk_engine.js";
-document.head.appendChild(script); 
-               setTimeout(function() {
-                    if(typeof HK_WorldBank_activate === 'function') {
-                        HK_WorldBank_activate();
-                    } else {
-                        console.error("HK_WorldBank_activate 함수를 찾을 수 없습니다.");
-                    }
-                }, 1000);
-            } catch(e) {
-                console.error("초기화 실패:", e);
-            }
-        };
-    })();
-</script>
-<script>
+document.head.appendChild(script);
+
+script.onload = () => {
+    if (typeof HK_WorldBank_activate === 'function') {
+        HK_WorldBank_activate();
+    } else {
+        console.error("HK_WorldBank_activate 함수를 찾을 수 없습니다.");
+    }
+};
+// 1828행의 불필요한 </script> 태그들은 모두 삭제하세요
 // Pi Network 브라우저 연결 강제 트리거
 window.addEventListener('load', async () => {
     if (typeof window.Pi !== 'undefined') {
@@ -1837,8 +1833,7 @@ window.addEventListener('load', async () => {
         console.warn("Pi 브라우저가 아닙니다. Pi 브라우저에서 접속해주세요.");
     }
 });
-</script>
-<script type="module">
+
   import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
   import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
 
@@ -1851,7 +1846,6 @@ window.addEventListener('load', async () => {
       noticeDisplay.innerText = snapshot.val() || "";
     }
   });
-</script>
 </body>
 <script>
     // 9개 버튼 강제 연결 (이 코드가 있으면 버튼이 100% 작동합니다)
