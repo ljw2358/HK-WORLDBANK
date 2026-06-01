@@ -2,55 +2,60 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HK WORLD BANK</title>
+    <script type="module">
+   import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"; 
+        // Firebase 설정
+        const firebaseConfig = {
+            databaseURL: "https://hkwb-f46f0-default-rtdb.firebaseio.com/"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        // notice 데이터 실시간 연동
+        const noticeRef = ref(db, 'notice');
+        onValue(noticeRef, (snapshot) => {
+            const data = snapshot.val();
+            document.getElementById('notice-text').innerText = data || "공지사항 없음";
+        });
+    </script>
     <style>
-        body { background-color: #1a1a1a; color: white; font-family: sans-serif; text-align: center; }
-        #notice-display { font-size: 20px; color: #00ffcc; margin: 20px; }
-        button { padding: 15px 30px; margin: 10px; font-size: 16px; cursor: pointer; }
+        body { background-color: #000; color: #fff; font-family: 'Arial', sans-serif; text-align: center; margin: 0; padding: 20px; }
+        .dashboard { border: 2px solid #333; padding: 20px; border-radius: 15px; margin-bottom: 20px; background: #111; }
+        .h1-title { color: #ffeb3b; font-size: 1.8em; margin-bottom: 5px; }
+        .balance { font-size: 2em; color: #00f2ff; margin: 15px 0; font-weight: bold; }
+        .notice-board { color: #fff; background: #222; padding: 10px; border-radius: 5px; margin-top: 10px; border-left: 5px solid #00f2ff; }
+        .grid-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 20px; }
+        .grid-item { background: #1a1a1a; padding: 20px; border-radius: 10px; cursor: pointer; border: 1px solid #333; }
+        .grid-item:hover { background: #333; }
+        .btn-full { display: block; width: 100%; padding: 15px; margin: 15px 0; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 1em; }
+        .btn-ai { background: #7b1fa2; color: #fff; }
+        .btn-yt { background: #d32f2f; color: #fff; }
     </style>
 </head>
 <body>
-    <h1>HK WORLD BANK</h1>
-    <div id="notice-display">로딩 중...</div>
-    
-    <div>
-        <button>송금</button><button>결제</button><button>예치</button><br>
-        <button>보상</button><button>기본소득</button><button>스왑</button><br>
-        <button>관련조회</button><button>DEX스왑</button><button>LP예치</button>
+
+    <div class="dashboard">
+        <h1 class="h1-title">HK WORLD BANK</h1>
+        <p>통합 자산 관리 시스템</p>
+        <div class="balance">400.0673 Pi</div>
+        <div class="notice-board" id="notice-text">불러오는 중...</div>
     </div>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+    <div class="grid-container">
+        <div class="grid-item">송금</div>
+        <div class="grid-item">결제</div>
+        <div class="grid-item">예치</div>
+        <div class="grid-item">보상</div>
+        <div class="grid-item">기본소득</div>
+        <div class="grid-item">스왑</div>
+    </div>
 
-        const app = initializeApp({ databaseURL: "https://hkwb-f46f0-default-rtdb.firebaseio.com" });
-        const db = getDatabase(app);
+    <button class="btn-full btn-ai">글로벌 AI 지원센터 (FAQ 20)</button>
+    <button class="btn-full btn-yt">YouTube 바로가기</button>
 
-        // 공지사항 연동
-        onValue(ref(db, 'notice'), (snapshot) => {
-            const noticeDisplay = document.getElementById('notice-display');
-            if (noticeDisplay) noticeDisplay.innerText = snapshot.val() || "공지사항 없음";
-        });
-
-        // 9개 버튼 기능 연결
-        window.onload = function() {
-            const mapping = {
-                "송금": () => alert("송금 기능"),
-                "결제": () => alert("결제 기능"),
-                "예치": () => alert("예치 기능"),
-                "보상": () => alert("보상 기능"),
-                "기본소득": () => alert("기본소득 기능"),
-                "스왑": () => alert("스왑 기능"),
-                "관련조회": () => alert("관련조회 기능"),
-                "DEX스왑": () => alert("DEX스왑 기능"),
-                "LP예치": () => alert("LP예치 기능")
-            };
-
-            document.querySelectorAll('button').forEach(btn => {
-                const name = btn.innerText.trim();
-                if (mapping[name]) btn.onclick = mapping[name];
-            });
-        };
-    </script>
 </body>
 </html>
