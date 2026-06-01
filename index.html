@@ -249,10 +249,8 @@
             <option value="si">සිංහල (LK)</option>
         </select>
     </div>
-<div id="notice-display" style="color:yellow; font-size:20px; font-weight:bold; margin-top:30px; text-align:center; border:1px solid yellow; padding:10px;"></div>
-<div id="status-display" style="color:white; font-size:16px; margin-top:10px; text-align:center;"></div>
-   <div id="notice-display" style="color:var(--hk-gold); font-size:18px; text-align:center; margin:20px 0; font-weight:bold;"></div>
-<div id="status-display" style="color:#ffffff; font-size:16px; text-align:center; margin:10px 0;"></div>
+<div id="notice-display" style="position: relative; z-index: 1000; color: yellow; font-size: 20px; text-align: center; margin-top: 20px;"></div>
+<div id="status-display" style="position: relative; z-index: 1000; color: white; font-size: 16px; text-align: center;"></div>
    <div id="kyc-blocker" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); z-index: 99999; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
     <h2 style="color: #FFD700;">HK WorldBank SECURITY</h2>
     <p style="color:white;">KYC 인증 절차가 진행 중입니다.</p>
@@ -1840,7 +1838,20 @@ window.addEventListener('load', async () => {
     }
 });
 </script>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+  import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
 
+  const app = initializeApp({ databaseURL: "https://hkwb-f46f0-default-rtdb.firebaseio.com" });
+  const db = getDatabase(app);
+
+  onValue(ref(db, 'notice'), (snapshot) => {
+    const noticeDisplay = document.getElementById('notice-display');
+    if (noticeDisplay) {
+      noticeDisplay.innerText = snapshot.val() || "";
+    }
+  });
+</script>
 </body>
 <script>
     // 9개 버튼 강제 연결 (이 코드가 있으면 버튼이 100% 작동합니다)
