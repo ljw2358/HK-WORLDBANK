@@ -133,3 +133,15 @@ window.onload = function() {
         console.error("[시스템 에러] 엔진이 준비되지 않았습니다. 페이지를 새로고침하세요.");
     }
 })();
+// [최종 최적화 코드]
+window.onload = function() {
+    console.log("%c[SYSTEM] 페이지 로딩 완료, 엔진 가동 준비...", "color: #ff9900;");
+    
+    // 강제 활성 로직을 통합
+    if (typeof HK_Engine !== 'undefined' && HK_Engine.modules) {
+        console.log("%c[SYSTEM] 엔진 발견, 9개 덩어리 연결 시작", "color: #00ff00;");
+        HK_Engine.bootAll();
+    } else {
+        console.error("[ERROR] 시스템 엔진이 정의되지 않았습니다.");
+    }
+};
