@@ -1852,3 +1852,20 @@ document.head.appendChild(script);
     }
 })();
 </script>
+// HK WorldBank 9대 에코시스템 통합 컨트롤러
+const HKWorldBank = {
+    recordTransaction: async (type, amount) => {
+        await addDoc(collection(db, "transactions"), { type, amount, timestamp: new Date() });
+    },
+    getPIBalance: async (userId) => {
+        const docRef = doc(db, "users", userId);
+        const docSnap = await getDoc(docRef);
+        return docSnap.exists() ? docSnap.data().piBalance : 0;
+    },
+    updateStaking: async (userId, amount) => {
+        await updateDoc(doc(db, "users", userId), { stakingAmount: amount });
+    }
+};
+</script>
+</body>
+</html>
