@@ -1818,53 +1818,31 @@ document.head.appendChild(script);
                     }
                 }, 1000);
             } catch(e) {
-<script>
-// [최종 통합 엔진] 외부 영향 없이 독자적으로 구동
-(function() {
-    console.log("[시스템] 혜공 형님 전용 엔진 가동 중");
-
-    const init = () => {
-        const engineMap = {
-            "송금": () => alert("송금 기능 로드 완료"),
-            "결제": () => alert("결제 기능 로드 완료"),
-            "예치": () => alert("예치 기능 로드 완료"),
-            "보상": () => alert("보상 기능 로드 완료"),
-            "기본소득": () => alert("기본소득 기능 로드 완료"),
-            "스왑": () => alert("스왑 기능 로드 완료"),
-            "잔액조회": () => alert("잔액조회 기능 로드 완료"),
-            "DEX스왑": () => alert("DEX스왑 기능 로드 완료"),
-            "LP예치": () => alert("LP예치 기능 로드 완료")
-        };
-
-        document.querySelectorAll('button').forEach(btn => {
-            const title = btn.innerText.trim();
-            if (engineMap[title]) {
-                btn.onclick = engineMap[title];
-            }
-        });
-        console.log("[시스템] 모든 기능 연결 완료");
+    const engineMap = {
+        "송금": () => alert("송금 기능 로드 완료"),
+        "결제": () => alert("결제 기능 로드 완료"),
+        "예치": () => alert("예치 기능 로드 완료"),
+        "보상": () => alert("보상 기능 로드 완료"),
+        "기본소득": () => alert("기본소득 기능 로드 완료"),
+        "스왑": () => alert("스왑 기능 로드 완료"),
+        "잔액조회": () => alert("잔액조회 기능 로드 완료"),
+        "DEX스왑": () => alert("DEX스왑 기능 로드 완료"),
+        "LP예치": () => alert("LP예치 기능 로드 완료")
     };
 
-    if (document.readyState === 'complete') {
-        init();
-    } else {
-        window.addEventListener('load', init);
-    }
-})();
-// HK WorldBank 9대 에코시스템 통합 컨트롤러
-const HKWorldBank = {
-    recordTransaction: async (type, amount) => {
-        await addDoc(collection(db, "transactions"), { type, amount, timestamp: new Date() });
-    },
-    getPIBalance: async (userId) => {
-        const docRef = doc(db, "users", userId);
-        const docSnap = await getDoc(docRef);
-        return docSnap.exists() ? docSnap.data().piBalance : 0;
-    },
-    updateStaking: async (userId, amount) => {
-        await updateDoc(doc(db, "users", userId), { stakingAmount: amount });
-    }
-};
+    document.querySelectorAll('button').forEach(btn => {
+        const title = btn.innerText.trim();
+        if (engineMap[title]) {
+            btn.onclick = engineMap[title];
+        }
+    });
+
+    // HK WorldBank 통합 컨트롤러
+    const HKWorldBank = {
+        recordTransaction: async (type, amount) => {
+            console.log("트랜잭션 기록");
+        }
+    };
 </script>
 </body>
 </html>
