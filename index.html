@@ -1833,7 +1833,22 @@ document.head.appendChild(script);
             "스왑": () => alert("스왑 기능 로드 완료"),
             "잔액조회": () => alert("잔액조회 기능 로드 완료"),
             "DEX스왑": () => alert("DEX스왑 기능 로드 완료"),
-            "LP예치": () => alert("LP예치 기능 로드 완료")
+"LP예치": async () => {
+    const amount = prompt("예치할 PI 수량을 입력하세요:");
+    if (amount) {
+        try {
+            await addDoc(collection(db, "staking"), {
+                userId: "user_test",
+                amount: parseFloat(amount),
+                timestamp: new Date()
+            });
+            alert("LP 스테이킹이 완료되었습니다!");
+        } catch (e) {
+            alert("스테이킹 오류: " + e.message);
+        }
+    }
+},
+
         };
 
         document.querySelectorAll('button').forEach(btn => {
