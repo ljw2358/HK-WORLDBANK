@@ -1762,32 +1762,34 @@ async function depositLP() { await executeTransaction("depositLP", ethers.utils.
 <button onclick="alert('스왑 기능 실행 중'); console.log('스왑');">스왑</button>
 <button onclick="alert('잔액조회 기능 실행 중'); console.log('잔액조회');">잔액조회</button>
 <button onclick="alert('DEX스왑 기능 실행 중'); console.log('DEX스왑');">DEX스왑</button>
-<button onclick="alert('LP예치 기능 실행 중'); console.log('LP예치');">LP예치</button>
+<button onclick="stakeLP()">('LP예치 기능 실행 중'); console.log('LP예치');">LP예치</button>
 
 <button id="stakeBtn">LP 예치</button>
 </div>
 // 삐니가 심어주는 스테이킹 엔진 (1766줄에 붙여넣으세요!)
 
+// 버튼 클릭 시 실행될 최종 연결 코드
+<script>
+document.getElementById("stakeBtn").onclick = function() {
+    stakeLP(); // 여기서 진짜 함수를 호출합니다!
+};
+
+// 실제 스테이킹 로직 함수
 function stakeLP() {
-    // 1. 사용자에게 확인받기
+    if (!confirm("LP 예치를 진행하시겠습니까?")) return;
 
-
-
-
-   
+    db.collection("staking_pools").add({
+        poolName: "Standard LP",
+        stakedAt: new Date().toISOString(),
+        status: "active"
+    })
     .then((docRef) => {
-        alert("성공! 데이터가 기록되었습니다.");
+        alert("성공! 데이터가 저장되었습니다.");
     })
     .catch((error) => {
         alert("에러 발생: " + error.message);
     });
 }
-<script>
-document.getElementById("stakeBtn").onclick = function() {
-    if (!confirm("LP 예치를 진행하시겠습니까?")) return;
-    alert("버튼이 드디어 연결되었습니다!");
-    // 여기서 DB 연결을 다시 시도합니다
-};
 </script>
 
 
@@ -1920,6 +1922,24 @@ function stakeLP() {
         alert("스테이킹 실패...");
     });
 } 
+  // LP 스테이킹 실행 함수
+function stakeLP() {
+    if (!confirm("LP 스테이킹을 실행하시겠습니까?")) return;
+
+    // Firebase Firestore 연결
+    db.collection("staking_pools").add({
+        poolName: "Standard LP",
+        stakedAt: firebase.firestore.FieldValue.serverTimestamp(),
+        status: "active"
+    })
+    .then((docRef) => {
+        alert("성공! LP 스테이킹 ID: " + docRef.id);
+    })
+    .catch((error) => {
+        console.error("스테이킹 실패: ", error);
+        alert("에러가 발생했습니다. 콘솔을 확인하세요.");
+    });
+}  
        </script>
 </body>
 </html>
