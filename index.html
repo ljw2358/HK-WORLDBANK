@@ -1864,7 +1864,10 @@ const db = firebase.firestore();
 
  <!-- HK WorldBank 핵심 기능 메뉴 -->
 <div style="margin: 20px; padding: 10px; border: 1px solid #ccc;">
-  <button onclick="alert('송금 실행')">송금</button>
+<button onclick="alert('송금 실행')">송금</button>
+
+<button onclick="updateEcosystem('송금', 500)">송금</button>
+
   <button onclick="alert('결재 실행')">결재</button>
   <button onclick="alert('예치/보상 확인')">예치/보상</button>
   <button onclick="alert('기본소득 지급')">기본소득</button>
@@ -1873,6 +1876,17 @@ const db = firebase.firestore();
   <button onclick="alert('DEX 스왑 진행')">DEX 스왑</button>
   <button onclick="alert('LP 스테이킹')">LP 스테이킹</button>
 </div>
+// 버튼 클릭 시 Firebase로 데이터를 쏘는 함수
+function updateEcosystem(field, value) {
+    db.collection("HK-WorldBank").doc("Ecosystem").set({
+        [field]: value
+    }, { merge: true }) // merge: true를 써야 기존 덩어리들이 안 날아갑니다!
+    .then(() => {
+        console.log(field + " 값 저장 성공!");
+        alert(field + " 덩어리 업데이트 완료!");
+    })
+    .catch((error) => console.error("업데이트 실패: ", error));
+}
  
        </script>
 </body>
