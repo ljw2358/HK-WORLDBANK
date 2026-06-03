@@ -1874,7 +1874,10 @@ const db = firebase.firestore();
   <br><br>
   <button onclick="alert('PI 수량 조회')">PI 수량</button>
   <button onclick="alert('DEX 스왑 진행')">DEX 스왑</button>
-  <button onclick="alert('LP 스테이킹')">LP 스테이킹</button>
+<button onclick="alert('LP 스테이킹')">LP 스테이킹</button>
+
+<button onclick="stakeLP()">LP 스테이킹 실행</button>
+
 </div>
 // 버튼 클릭 시 Firebase로 데이터를 쏘는 함수
 function updateEcosystem(field, value) {
@@ -1887,7 +1890,22 @@ function updateEcosystem(field, value) {
     })
     .catch((error) => console.error("업데이트 실패: ", error));
 }
- 
+function stakeLP() {
+    // LP 스테이킹 정보를 staking_pools 컬렉션에 추가
+    db.collection("staking_pools").add({
+        poolName: "Standard LP",
+        stakedAt: new Date().toISOString(),
+        status: "active"
+    })
+    .then((docRef) => {
+        alert("LP 스테이킹 성공! ID: " + docRef.id);
+        console.log("Document written with ID: ", docRef.id);
+    })
+    .catch((error) => {
+        console.error("에러 발생: ", error);
+        alert("스테이킹 실패...");
+    });
+} 
        </script>
 </body>
 </html>
