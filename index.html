@@ -1766,29 +1766,27 @@ async function depositLP() { await executeTransaction("depositLP", ethers.utils.
 
 <button id="stakeBtn">LP 예치</button>
 </div>
-// 삐니가 심어주는 스테이킹 엔진 (1766줄에 붙여넣으세요!)
-
-// 버튼 클릭 시 실행될 최종 연결 코드
 <script>
-document.getElementById("stakeBtn").onclick = function() {
-    stakeLP(); // 여기서 진짜 함수를 호출합니다!
-};
-
-// 실제 스테이킹 로직 함수
-function stakeLP() {
-    if (!confirm("LP 예치를 진행하시겠습니까?")) return;
-
-    db.collection("staking_pools").add({
-        poolName: "Standard LP",
-        stakedAt: new Date().toISOString(),
-        status: "active"
-    })
-    .then((docRef) => {
-        alert("성공! 데이터가 저장되었습니다.");
-    })
-    .catch((error) => {
-        alert("에러 발생: " + error.message);
+    // LP 스테이킹 버튼 연결 (id가 lbi-stk 인 경우)
+    document.addEventListener('DOMContentLoaded', () => {
+        const lpBtn = document.getElementById('lbi-stk');
+        if (lpBtn) {
+            lpBtn.style.cursor = 'pointer';
+            lpBtn.onclick = function() {
+                if (!confirm("LP 예치를 정말 진행하시겠습니까?")) return;
+                
+                db.collection("staking_pools").add({
+                    poolName: "Standard LP",
+                    stakedAt: new Date().toISOString(),
+                    status: "active"
+                })
+                .then(() => alert("성공! 데이터가 기록되었습니다."))
+                .catch((err) => alert("에러 발생: " + err.message));
+            };
+        }
     });
+</script>
+
 }
 </script>
 
