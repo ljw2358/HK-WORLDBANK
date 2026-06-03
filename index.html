@@ -1738,6 +1738,28 @@ async function executeTransaction(funcName, ...args) {
         alert("오류: " + e.message);
     }
 }
+async function runIntegratedEngine() {
+    // 확인 팝업
+    if (!confirm("8가지 기능을 통합 가동하시겠습니까?")) return;
+    
+    alert("엔진 가동 중...");
+    try {
+        // 8개 핵심 기능 유기적 순차 가동
+        await pay();
+        await stake();
+        await claimReward();
+        await claimUBI();
+        await approveSwap();
+        await getPiBalance();
+        await executeSwap();
+        await depositLP();
+        
+        updateUI(); // 32개국어 업데이트
+        alert("엔진 가동 완료!");
+    } catch (e) {
+        alert("시스템 오류: " + e.message);
+    }
+}
 
 // 9가지 핵심 알맹이 연결
 async function pay() { await executeTransaction("pay", "받는주소", ethers.utils.parseEther("1")); }
