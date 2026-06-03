@@ -1765,30 +1765,32 @@ async function depositLP() { await executeTransaction("depositLP", ethers.utils.
 <button onclick="stakeLP()">('LP예치 기능 실행 중'); console.log('LP예치');">LP예치</button>
 
 <button id="stakeBtn">LP 예치</button>
-</div>
-<script>
-    // LP 스테이킹 버튼 연결 (id가 lbi-stk 인 경우)
-    document.addEventListener('DOMContentLoaded', () => {
-        const lpBtn = document.getElementById('lbi-stk');
-        if (lpBtn) {
-            lpBtn.style.cursor = 'pointer';
-            lpBtn.onclick = function() {
-                if (!confirm("LP 예치를 정말 진행하시겠습니까?")) return;
-                
-                db.collection("staking_pools").add({
-                    poolName: "Standard LP",
-                    stakedAt: new Date().toISOString(),
-                    status: "active"
-                })
-                .then(() => alert("성공! 데이터가 기록되었습니다."))
-                .catch((err) => alert("에러 발생: " + err.message));
-            };
-        }
-    });
-</script>
+// 1. LP 스테이킹 버튼 연결 (id를 'lbi-stk'로 정확히 지정)
+document.addEventListener('DOMContentLoaded', () => {
+    const lpBtn = document.getElementById('lbi-stk');
+    if (lpBtn) {
+        lpBtn.style.cursor = 'pointer'; // 클릭 가능하게 변경
+        lpBtn.style.border = '2px solid red'; // 버튼에 빨간 테두리 생성 (연결 확인용)
+        lpBtn.onclick = function() {
+            stakeLP(); // 여기서 스테이킹 엔진을 호출합니다!
+        };
+    }
+});
 
+// 2. 스테이킹 핵심 엔진
+function stakeLP() {
+    if (!confirm("LP 예치를 정말 진행하시겠습니까?")) return;
+    
+    // DB 연결 및 데이터 저장
+    db.collection("staking_pools").add({
+        poolName: "Standard LP",
+        stakedAt: new Date().toISOString(),
+        status: "active"
+    })
+    .then(() => alert("성공! 데이터가 기록되었습니다."))
+    .catch((err) => alert("에러 발생: " + err.message));
 }
-</script>
+
 
 
 
