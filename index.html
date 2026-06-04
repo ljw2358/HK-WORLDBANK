@@ -1912,25 +1912,8 @@ function updateEcosystem(field, value) {
     .catch((error) => console.error("업데이트 실패: ", error));
 }
 // 1918번부터 1959번까지 싹 지우고 이것만 넣으세요
-function stakeLP() {
-    if (!confirm("9가지 생태계를 LP 스테이킹으로 통합하시겠습니까?")) return;
-
-    db.collection("HK_Ecosystem").doc("master_node").set({
-        ecosystems: ["송금", "결제", "예치", "보상", "기본소득", "스왑", "PI수량", "DEX스왑", "LP스테이킹"],
-        last_updated: firebase.firestore.FieldValue.serverTimestamp(),
-        status: "active"
-    })
-    .then(() => {
-        alert("성공! 9가지 생태계가 통합되었습니다.");
-    })
-    .catch((error) => {
-        console.error("통합 오류: ", error);
-        alert("통합 오류 발생. 콘솔을 확인하세요.");
-    });
-}
-// 이 6줄을 싹 지우세요!
+<script>
 window.stakeLP = function() {
-
     if (typeof db === 'undefined') {
         alert("DB가 연결되지 않았습니다.");
         return;
@@ -1944,4 +1927,5 @@ window.stakeLP = function() {
     .then(() => alert("성공! 9가지 생태계 통합 완료."))
     .catch((err) => alert("에러 발생: " + err.message));
 };
-console.log("stakeLP 최종 등록 완료");
+console.log("stakeLP 함수가 전역으로 등록되었습니다.");
+</script>
