@@ -1892,17 +1892,13 @@ const db = firebase.firestore();
 <button onclick="alert('송금 실행')">송금</button>
 
 <button onclick="updateEcosystem('송금', 500)">송금</button>
-
-  <button onclick="alert('결재 실행')">결재</button>
-  <button onclick="alert('예치/보상 확인')">예치/보상</button>
-  <button onclick="alert('기본소득 지급')">기본소득</button>
-  <br><br>
-  <button onclick="alert('PI 수량 조회')">PI 수량</button>
-  <button onclick="alert('DEX 스왑 진행')">DEX 스왑</button>
-<button onclick="alert('LP 스테이킹')">LP 스테이킹</button>
-
+<button onclick="updateEcosystem('결제', 'active')">결제</button>
+<button onclick="updateEcosystem('예치보상', 'active')">예치/보상</button>
+<button onclick="updateEcosystem('기본소득', 'active')">기본소득</button>
+<br>
+<button onclick="updateEcosystem('PI수량', 0)">PI 수량</button>
+<button onclick="updateEcosystem('DEX스왑', 'active')">DEX 스왑</button>
 <button onclick="stakeLP()">LP 스테이킹 실행</button>
-
 </div>
 // 버튼 클릭 시 Firebase로 데이터를 쏘는 함수
 function updateEcosystem(field, value) {
@@ -1915,24 +1911,7 @@ function updateEcosystem(field, value) {
     })
     .catch((error) => console.error("업데이트 실패: ", error));
 }
-function stakeLP() {
-    // LP 스테이킹 정보를 staking_pools 컬렉션에 추가
-    db.collection("staking_pools").add({
-        poolName: "Standard LP",
-        stakedAt: new Date().toISOString(),
-        status: "active"
-    })
-    .then((docRef) => {
-        alert("LP 스테이킹 성공! ID: " + docRef.id);
-        console.log("Document written with ID: ", docRef.id);
-    })
-    .catch((error) => {
-        console.error("에러 발생: ", error);
-        alert("스테이킹 실패...");
-    });
-} 
-  // LP 스테이킹 실행 함수
-// 1938번부터 1974번까지 이 코드로 덮어쓰세요
+// 1918번부터 1959번까지 싹 지우고 이것만 넣으세요
 function stakeLP() {
     if (!confirm("9가지 생태계를 LP 스테이킹으로 통합하시겠습니까?")) return;
 
@@ -1942,7 +1921,7 @@ function stakeLP() {
         status: "active"
     })
     .then(() => {
-        alert("성공! 9가지 생태계가 LP 스테이킹과 하나로 통합되었습니다.");
+        alert("성공! 9가지 생태계가 통합되었습니다.");
     })
     .catch((error) => {
         console.error("통합 오류: ", error);
@@ -1956,11 +1935,3 @@ document.addEventListener('click', function(e) {
         stakeLP();
     }
 });
-
-    if (!confirm("LP 예치를 정말 진행하시겠습니까?")) return;
-    alert("엔진 가동 중...");
-    // 여기에 데이터베이스 로직 추가
-}
-</script>
-</body>
-</html>
