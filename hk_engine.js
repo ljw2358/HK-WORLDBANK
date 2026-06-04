@@ -307,3 +307,6 @@ const HK_Engine = {
         console.log("[SYSTEM] HK_Engine 엔진 데이터 연동 완료 및 시스템 가동");
     }
 };
+// 예시: 리스너 추가 전 제거
+emitter.removeListener('eventName', handler);
+emitter.on('eventName', handler);
