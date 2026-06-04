@@ -1932,15 +1932,23 @@ function stakeLP() {
     });
 } 
   // LP 스테이킹 실행 함수
+// 1935번 줄부터 1944번 줄까지 이 내용으로 교체
 function stakeLP() {
-    if (!confirm("LP 스테이킹을 실행하시겠습니까?")) return;
+    if (!confirm("LP 스테이킹으로 9가지 생태계를 통합하시겠습니까?")) return;
 
-    // Firebase Firestore 연결
-    db.collection("staking_pools").add({
-        poolName: "Standard LP",
-        stakedAt: firebase.firestore.FieldValue.serverTimestamp(),
+    db.collection("HK_Ecosystem").doc("master_node").set({
+        ecosystems: ["송금", "결제", "예치", "보상", "기본소득", "스왑", "PI수량", "DEX스왑", "LP스테이킹"],
+        last_updated: firebase.firestore.FieldValue.serverTimestamp(),
         status: "active"
     })
+    .then(() => {
+        alert("성공! 9가지 생태계가 LP 스테이킹으로 통합되었습니다.");
+    })
+    .catch((error) => {
+        console.error("통합 실패: ", error);
+        alert("통합 실패, 다시 시도하세요.");
+    });
+}
     .then((docRef) => {
         alert("성공! LP 스테이킹 ID: " + docRef.id);
     })
