@@ -287,3 +287,23 @@ const HK_Engine = {
 
 // 모듈 구동 테스트
 console.log("HK-Engine 가동 준비 완료.");
+// hk_engine.js 수정본
+const HK_Engine = {
+    assets: {
+        getPiBalance: () => console.log("현재 Pi 잔액:", HKI_Data.assets.piBalance),
+        checkDeposit: () => console.log("총 예치금:", HKI_Data.assets.totalDeposit),
+        calculateReward: () => console.log("정산된 보상:", HKI_Data.assets.rewardPoints)
+    },
+    transactions: {
+        transfer: (amount) => console.log("송금 실행:", amount),
+        payment: (target) => console.log("결제 처리:", target),
+        dexSwap: (pair) => console.log("DEX 스왑:", pair)
+    },
+    ecosystem: {
+        basicIncome: () => console.log("UBI 분배율:", HKI_Data.ecosystem.ubiRate),
+        lpStaking: () => console.log("LP 스테이킹 APY:", HKI_Data.ecosystem.stakingAPY)
+    },
+    bootAll: function() {
+        console.log("[SYSTEM] HK_Engine 엔진 데이터 연동 완료 및 시스템 가동");
+    }
+};
