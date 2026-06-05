@@ -75,3 +75,30 @@ HK_Engine.bootAll = (function(originalBoot) {
         HK_Engine.startRewardSystem();
     };
 })(HK_Engine.bootAll);
+// 9개 에코시스템 통합 보상 및 증식 엔진
+(function() {
+    console.log("혜공 형님의 9개 에코시스템 보상 엔진 초기화 중...");
+
+    // 1번: 로그인 보상 (최초 1회 100 PI 지급)
+    if (!localStorage.getItem('userBalance')) {
+        localStorage.setItem('userBalance', '100');
+        console.log("로그인 보상 100 PI 지급 완료.");
+    }
+
+    // 3번: LP 스테이킹 실시간 증식 (1초마다 0.01 PI씩 증가)
+    setInterval(() => {
+        let currentBalance = parseFloat(localStorage.getItem('userBalance')) || 0;
+        let newBalance = (currentBalance + 0.01).toFixed(2);
+        localStorage.setItem('userBalance', newBalance.toString());
+        
+        // 화면에 수동으로라도 표시되도록 콘솔 로그 출력 (UI 연동 전 확인용)
+        console.log("현재 스테이킹 자산: " + newBalance + " PI");
+        
+        // UI 연동 시도
+        if (typeof HK_UI !== 'undefined' && typeof HK_UI.updateBalance === 'function') {
+            HK_UI.updateBalance(newBalance);
+        }
+    }, 1000);
+
+    console.log("9개 에코시스템 보상 엔진 가동 완료.");
+})();
