@@ -40,3 +40,23 @@ window.HK_Engine = {
         });
     }
 };
+// hk_ui.js - AGI 답변을 화면에 출력하는 로직
+import AGICore from './agi_core.js'; 
+
+const UI = {
+    // 사용자가 질문 버튼을 눌렀을 때 호출되는 함수
+    handleUserQuery: (userInput) => {
+        // 1. AGI 두뇌에게 질문
+        const response = AGICore.generateResponse(userInput, 'ko'); // 현재는 기본 한국어
+
+        // 2. 답변을 화면에 출력 (HTML 요소 업데이트)
+        const outputArea = document.getElementById('statusArea'); // 형님이 정하신 출력 영역
+        if (outputArea) {
+            outputArea.innerHTML = `<p><strong>Bbini:</strong> ${response}</p>`;
+        }
+        
+        console.log("AGI 답변 완료:", response);
+    }
+};
+
+export default UI;
