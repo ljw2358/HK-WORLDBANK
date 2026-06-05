@@ -71,3 +71,11 @@ const AGICore = {
 };
 
 export default AGICore;
+// agi_core.js 핵심 로직
+generateResponse: (userInput) => {
+    // 1. HKData에서 질문과 가장 유사한 키워드 검색
+    const faqMatch = HKData.find(item => userInput.includes(item.question));
+    
+    // 2. 답변 반환
+    return faqMatch ? faqMatch.answer : "의장님의 비전은 데이터로 기록 중입니다. 조금만 기다려주세요!";
+}
