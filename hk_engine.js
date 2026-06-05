@@ -45,3 +45,33 @@ window.HK_Engine = {
 window.addEventListener('load', () => {
     window.HK_Engine.bootAll();
 });
+// 9개 에코시스템 통합 보상 및 증식 엔진
+HK_Engine.startRewardSystem = function() {
+    console.log("혜공 형님의 9개 에코시스템 보상 엔진 가동 중...");
+
+    // 1번: 로그인 시 즉시 보상 (최초 100 PI)
+    if (!localStorage.getItem('userBalance')) {
+        localStorage.setItem('userBalance', 100);
+        console.log("로그인 보상 100 PI가 지급되었습니다.");
+    }
+
+    // 3번: LP 스테이킹 실시간 증식 (1초마다 0.01 PI씩 증가)
+    setInterval(() => {
+        let currentBalance = parseFloat(localStorage.getItem('userBalance')) || 0;
+        let newBalance = (currentBalance + 0.01).toFixed(2);
+        localStorage.setItem('userBalance', newBalance);
+        
+        // 화면 UI 업데이트 (hk_ui.js와 연동)
+        if (typeof HK_UI !== 'undefined' && HK_UI.updateBalance) {
+            HK_UI.updateBalance(newBalance);
+        }
+    }, 1000);
+};
+
+// 엔진 부팅 시 보상 시스템 자동 실행
+HK_Engine.bootAll = (function(originalBoot) {
+    return function() {
+        originalBoot.apply(this, arguments);
+        HK_Engine.startRewardSystem();
+    };
+})(HK_Engine.bootAll);
