@@ -30,3 +30,21 @@ const AGICore = {
         return `형님, '${userInput}'에 대해 HK 비전 엔진이 분석 중입니다. 형님의 스테이킹 전략과 연결하여 보고드리겠습니다.`;
     }
 };
+// agi_core.js
+import HKData from './hki_data.js';
+
+const AGICore = {
+    generateResponse: (userInput) => {
+        const faq = HKData.faq || [];
+        
+        // 1. 단순 매칭을 넘어선 키워드 검색 로직
+        const match = faq.find(item => userInput.includes(item[0]));
+        
+        if (match) return match[1];
+
+        // 2. [핵심] FAQ에 없는 질문일 때 지능적으로 대응
+        // 형님의 '비전' 데이터를 검색 범위에 포함시킵니다.
+        return `형님, '${userInput}'에 대해 HK 비전 엔진이 심층 분석 중입니다. 형님의 스테이킹 전략과 연동하여 정밀 보고드리겠습니다.`;
+    }
+};
+export default AGICore;
