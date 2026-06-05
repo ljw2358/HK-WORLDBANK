@@ -2021,37 +2021,6 @@ document.addEventListener("DOMContentLoaded", function() {
     // 혹시 모를 화면 깨짐을 방지하기 위해 브라우저 콘솔에서만 작동 확인을 합니다.
 });
 </script>
-<!-- 지갑 연결 버튼 (6대 메뉴 근처에 배치용) -->
-<button onclick="connectHKWBWallet()" style="background-color: #00ff00; color: #000; padding: 10px 20px; border-radius: 10px; font-weight: bold; cursor: pointer; display: block; margin: 20px auto;">
-    🚀 내 지갑 연결하기 (Connect Wallet)
-</button>
-
-<script>
-// 지갑 연결 후 사용자 자산 불러오기 엔진
-async function connectHKWBWallet() {
-    if (window.ethereum) {
-        try {
-            const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-            const userAddress = accounts[0];
-            
-            alert("지갑 연결 성공! \n주소: " + userAddress);
-            fetchUserBalance(userAddress); 
-            
-        } catch (error) {
-            alert("연결이 취소되었거나 지갑을 찾을 수 없습니다.");
-        }
-    } else {
-        alert("파이 브라우저나 Web3 지갑을 설치해주세요!");
-    }
-}
-
-function fetchUserBalance(address) {
-    console.log(address + "의 자산 데이터를 서버에서 불러오는 중...");
-}
-</script>
-<!-- ==========================================
-     HKWB 웹3 지갑 연동 최종 안정화 버전 (2024번 줄 시작점)
-     ========================================== -->
 <script>
 async function connectHKWBWallet() {
     if (typeof window.ethereum !== 'undefined' || typeof window.pi !== 'undefined') {
@@ -2061,7 +2030,9 @@ async function connectHKWBWallet() {
             const userAddress = accounts[0];
             
             alert("HKWB 글로벌 금융 플랫폼 연동 성공!\n지갑 주소: " + userAddress);
-            fetchUserBalance(userAddress);
+            if (typeof fetchUserBalance === 'function') {
+                fetchUserBalance(userAddress);
+            }
         } catch (error) {
             console.error("지갑 연결 취소:", error);
         }
@@ -2069,20 +2040,13 @@ async function connectHKWBWallet() {
         alert("파이 브라우저 또는 Web3 지갑 앱을 통해 접속해 주세요.");
     }
 }
-
-function fetchUserBalance(address) {
-    console.log(address + " 계정의 메인넷 블록체인 잔액 조회 대기 중...");
-}
 </script>
 
-<!-- 우측 기둥 현상 절대 없는 완벽 정렬 하단 버튼 -->
-<div style="text-align: center; padding: 40px 0; width: 100%; clear: both; float: none; display: block;">
-    <button onclick="connectHKWBWallet()" style="background-color: #00ff00; color: #000; padding: 15px 35px; border: none; border-radius: 8px; font-weight: bold; font-size: 18px; cursor: pointer; box-shadow: 0 0 15px rgba(0,255,0,0.6);">
+<div style="display: block; clear: both; float: none; width: 100%; text-align: center; margin: 40px auto; padding: 20px 0; position: relative; z-index: 999;">
+    <button onclick="connectHKWBWallet()" style="display: inline-block; background-color: #00ff00; color: #000; padding: 15px 35px; border: none; border-radius: 8px; font-weight: bold; font-size: 18px; cursor: pointer; box-shadow: 0 0 15px rgba(0,255,0,0.6); position: relative !important; width: auto !important; height: auto !important;">
         🚀 내 지갑 연결하기 (Connect Wallet)
     </button>
 </div>
 
 </body>
 </html>
-
-
