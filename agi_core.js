@@ -46,3 +46,28 @@ const AGICore = {
         return "GENERAL_QUERY";
     }
 };
+import HKData from './hki_data.js';
+
+const AGICore = {
+    generateResponse: (userInput, lang = 'ko') => {
+        const langData = HKData[lang];
+        if (!langData || !langData.faq) return "비전 데이터를 학습 중입니다.";
+
+        // 질문 키워드와 FAQ 매칭
+        const faqs = langData.faq;
+        for (let pair of faqs) {
+            // 질문에 키워드가 포함되어 있으면 해당 답변을 반환
+            if (userInput.includes(pair[0].replace('?', ''))) {
+                return pair[1];
+            }
+        }
+        
+        return "의장님의 비전은 시스템의 핵심입니다. 더 자세히 학습하겠습니다.";
+    },
+
+    analyzeIntent: (userInput) => {
+        return "GENERAL_QUERY";
+    }
+};
+
+export default AGICore;
