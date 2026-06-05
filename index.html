@@ -1934,6 +1934,38 @@ console.log("stakeLP 함수가 전역으로 등록되었습니다.");
             HK_UI.init();
         });
     </script>
+<!-- HK WorldBank 보상 & 증식 엔진 (독립 구동 로직) -->
+<script>
+    // 1. 로그인 보상 엔진 (1번)
+    function onLogin() {
+        let balance = parseFloat(localStorage.getItem('userBalance')) || 0;
+        let loginBonus = 100; // 100원/PI 단위 보상
+        balance += loginBonus;
+        localStorage.setItem('userBalance', balance);
+        alert("혜공 형님, 접속을 환영합니다! 즉시 보상 " + loginBonus + "가 적립되었습니다.");
+        updateUI();
+    }
+
+    // 3. 스테이킹 증식 엔진 (3번)
+    function startStaking() {
+        setInterval(() => {
+            let balance = parseFloat(localStorage.getItem('userBalance')) || 0;
+            let growth = 0.01; // 실시간 증식률
+            balance += growth;
+            localStorage.setItem('userBalance', balance.toFixed(2));
+            updateUI();
+        }, 1000); // 1초마다 눈앞에서 숫자가 불어남
+    }
+
+    function updateUI() {
+        document.getElementById('displayBalance').innerText = localStorage.getItem('userBalance');
+    }
+</script>
+
+<div id="statusArea">
+    <h3>현재 자산: <span id="displayBalance">0</span></h3>
+    <button onclick="onLogin()">로그인하여 보상받기</button>
+</div>
 </body>
 
 </html>
