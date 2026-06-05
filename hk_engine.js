@@ -5,6 +5,14 @@ window.HK_Engine = {
         getPiBalance: () => console.log("잔액 조회 모듈 가동") 
     },
     trade: { 
+    transfer: () => console.log("송금 모듈 가동") 
+},
+// 여기서부터 이메일 내용을 추가합니다
+loan: { 
+    getLoanStatus: () => console.log("대출 모듈 가동") 
+},
+// 나머지 모듈들도 이런 식으로 계속 아래에 붙여넣으면 됩니다
+    trade: { 
         transfer: () => console.log("송금 모듈 가동") 
     },
     // 나머지 7개 모듈은 여기에 추가하시면 됩니다.
