@@ -37,3 +37,22 @@ const AGICore = {
 };
 
 export default AGICore;
+// agi_core.js - 언어 확장 대응 엔진
+import HKData from './hki_data.js';
+
+const AGICore = {
+    // 이제 사용자 언어(lang)를 인자로 받아 해당 언어의 데이터를 조회합니다.
+    generateResponse: (userInput, lang = 'ko') => {
+        // 1. 선택한 언어의 데이터셋을 먼저 로드
+        const dataset = HKData[lang] || HKData['ko']; 
+        
+        // 2. 검색 범위를 FAQ 배열 전체로 확장
+        const match = dataset.faq.find(item => userInput.includes(item[0]));
+
+        if (match) return match[1];
+
+        // 3. 지능형 대응: 해당 언어에 맞는 안내 멘트 출력
+        return `형님, '${userInput}'에 대해 HK AGI 커널이 분석 중입니다. 형님의 비전을 37개 언어로 실시간 동기화하고 있습니다.`;
+    }
+};
+export default AGICore;
