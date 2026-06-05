@@ -1,3 +1,15 @@
+// hk_engine.js: 전역 엔진 객체 할당
+window.HK_Engine = {
+    // 9개 모듈 정의
+    assets: { getPiBalance: () => alert("Pi 잔액 조회 성공") },
+    // ... 나머지 모듈들 ...
+    
+    bootAll: function() {
+        console.log("HK-WorldBank 통합 엔진 가동 완료");
+        // 여기에 기존 버튼 매핑 로직을 작성하세요
+    }
+};
+
 // hk_engine.js - 9개 덩어리 통합 컨트롤러
 window.HK_WorldBank_activate = function() {
     console.log("HK-WorldBank 통합 엔진 가동");
