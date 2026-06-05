@@ -20,3 +20,29 @@ const AGICore = {
 };
 
 export default AGICore;
+// agi_core.js - HK WorldBank의 지능형 엔진
+import HKData from './hki_data.js'; // 데이터 파일 연결
+
+const AGICore = {
+    // 1. 사용자 질문과 가장 관련 깊은 데이터를 FAQ에서 검색
+    generateResponse: (userInput, lang = 'ko') => {
+        const faqs = HKData[lang]?.faq || [];
+        
+        // 간단한 키워드 매칭 로직 (향후 LLM/벡터 검색으로 고도화)
+        const match = faqs.find(item => userInput.includes(item[0]));
+        
+        if (match) {
+            return match[1]; // 관련 FAQ 답변 반환
+        }
+        
+        return "죄송합니다, HK WorldBank 비전에서 더 학습이 필요한 부분입니다.";
+    },
+
+    // 2. 의도 분석: 질문 유형에 따라 비전(vision) 데이터 활용
+    analyzeIntent: (userInput) => {
+        if (userInput.includes("비전") || userInput.includes("vision")) {
+            return "VISION_QUERY";
+        }
+        return "GENERAL_QUERY";
+    }
+};
