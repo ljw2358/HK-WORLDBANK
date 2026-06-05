@@ -120,3 +120,25 @@ const AGICore = {
 };
 
 export default AGICore;
+// agi_core.js
+import HKData from './hki_data.js'; // 여기에 형님의 비전 데이터가 있다고 가정
+
+const AGICore = {
+    // 사용자의 질문을 받아 데이터베이스를 검색하는 핵심 함수
+    generateResponse: (userInput) => {
+        console.log("분석 중인 질문:", userInput);
+        
+        // 1. 데이터 베이스에서 질문과 관련 있는 내용을 매칭
+        // (현재는 키워드 기반이지만, 나중에 임베딩 벡터로 확장 가능)
+        const relevantData = HKData.find(item => userInput.includes(item.keyword));
+        
+        if (relevantData) {
+            return relevantData.response; // 매칭 성공 시 데이터 반환
+        }
+        
+        // 2. 답변이 없을 때의 지능적 우회 전략
+        return "혜공 형님, 해당 비전 데이터는 HK AGI 커널이 정밀 분석 중입니다. 형님의 다음 지시를 기다리겠습니다.";
+    }
+};
+
+export default AGICore;
