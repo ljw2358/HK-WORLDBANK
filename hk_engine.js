@@ -1,37 +1,4 @@
-// hk_engine.js: HK-WorldBank 통합 엔진
-window.HK_Engine = {
-    // 9개 기능 모듈을 담을 곳
-    assets: { getPiBalance: () => console.log("잔액 조회 모듈") },
-    trade: { transfer: () => console.log("송금 모듈") },
-    // 3~9번 모듈을 여기에 계속 추가하세요
-
-    // 엔진 초기화 및 버튼 매핑
-    bootAll: function() {
-        console.log("HK-WorldBank 통합 엔진 가동 완료");
-        
-        // 버튼 ID와 연결할 모듈 정보를 매핑
-        const buttonMap = {
-            'transferBtn': { module: 'trade', action: 'transfer' },
-            'assetsBtn': { module: 'assets', action: 'getPiBalance' }
-        };
-        
-        // HTML에 버튼이 존재할 때만 클릭 이벤트 연결
-        Object.keys(buttonMap).forEach(id => {
-            const btn = document.getElementById(id);
-            if (btn) {
-                btn.onclick = () => {
-                    const { module, action } = buttonMap[id];
-                    this[module][action]();
-                };
-            }
-        });
-    }
-};
-            }
-        });
-    }
-};
-// hk_engine.js: HK-WorldBank 통합 엔진
+// hk_engine.js: HK-WorldBank 최종 통합 엔진
 window.HK_Engine = {
     // 9개 기능 모듈 정의
     modules: {
@@ -73,3 +40,8 @@ window.HK_Engine = {
         });
     }
 };
+
+// 페이지 로드 시 엔진 가동
+window.addEventListener('load', () => {
+    window.HK_Engine.bootAll();
+});
