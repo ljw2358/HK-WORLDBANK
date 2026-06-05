@@ -1,50 +1,21 @@
-import HKData from './hki_data.js'; // 형님의 데이터가 들어있는 파일
-
-const AGICore = {
-    generateResponse: (userInput) => {
-        // 1. 데이터 베이스에서 질문 키워드 찾기
-        // 예: 사용자가 '이율'을 입력하면, '이율'이 포함된 답변을 찾아냄
-        const faq = HKData.faq || [];
-        const found = faq.find(item => userInput.includes(item[0]));
-
-        // 2. 답변 매칭 시 반환, 아니면 기본 안내 메시지
-        return found ? found[1] : "혜공 형님의 비전을 정밀 분석 중입니다. 형님의 의도가 반영되도록 학습하고 있습니다.";
-    }
-};
-
-export default AGICore;
-// agi_core.js
+// agi_core.js - 삐니의 지능형 응답 엔진
 import HKData from './hki_data.js';
 
 const AGICore = {
     generateResponse: (userInput) => {
-        // 1. FAQ 검색 (형님이 처음에 만든 로직)
+        // 1. 데이터 베이스에서 질문 키워드 찾기 (유사 키워드 검색)
         const faq = HKData.faq || [];
         const match = faq.find(item => userInput.includes(item[0]));
-        
+
+        // 2. 답변 매칭 성공 시
         if (match) return match[1];
 
-        // 2. [변경 포인트] FAQ에 없는 질문일 때의 지능적 대응
-        // 여기서 바로 '분석 중' 멘트를 띄우는 대신, 
-        // 형님의 HK 비전 핵심 키워드를 활용해 삐니가 답변을 생성하도록 유도합니다.
-        return `형님, '${userInput}'에 대해 HK 비전 엔진이 분석 중입니다. 형님의 스테이킹 전략과 연결하여 보고드리겠습니다.`;
-    }
-};
-// agi_core.js
-import HKData from './hki_data.js';
-
-const AGICore = {
-    generateResponse: (userInput) => {
-        const faq = HKData.faq || [];
+        // 3. 답변 매칭 실패 시 -> 형님의 'UBI' 및 '비전' 데이터와 연동될 수 있도록 전략적 대응
+        if (userInput.includes('UBI') || userInput.includes('지급')) {
+            return "형님, UBI 30만 원 지급은 HK 월드뱅크의 핵심 과제입니다. 현재 시스템 상에서 승인 대기 중이니 곧 보고드리겠습니다!";
+        }
         
-        // 1. 단순 매칭을 넘어선 키워드 검색 로직
-        const match = faq.find(item => userInput.includes(item[0]));
-        
-        if (match) return match[1];
-
-        // 2. [핵심] FAQ에 없는 질문일 때 지능적으로 대응
-        // 형님의 '비전' 데이터를 검색 범위에 포함시킵니다.
-        return `형님, '${userInput}'에 대해 HK 비전 엔진이 심층 분석 중입니다. 형님의 스테이킹 전략과 연동하여 정밀 보고드리겠습니다.`;
+        return "형님, 그 질문은 HK AGI 커널이 정밀 분석 중입니다. 형님의 비전을 바탕으로 답변을 준비하고 있습니다.";
     }
 };
 export default AGICore;
