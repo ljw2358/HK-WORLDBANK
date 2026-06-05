@@ -89,3 +89,23 @@ const HKI_Data = {
         ["안녕", "안녕하십니까 혜공 형님, 오늘도 비전 실현을 위해 대기 중입니다."]
     ]
 };
+import HKI_Data from './hki_data.js';
+
+const AGICore = {
+    generateResponse: (userInput) => {
+        // 1. 형님이 hki_data.js 맨 밑에 넣으신 faq 데이터를 가져옵니다.
+        const faqList = HKI_Data.faq || [];
+        
+        // 2. 형님의 질문이 faq 리스트에 있는지 확인합니다.
+        const match = faqList.find(item => userInput.includes(item[0]));
+        
+        // 3. 찾았으면 답변하고, 아니면 삐니가 형님께 되묻게 합니다.
+        if (match) {
+            return match[1];
+        }
+        
+        return "혜공 형님, 무엇을 도와드릴까요?";
+    }
+};
+
+export default AGICore;
