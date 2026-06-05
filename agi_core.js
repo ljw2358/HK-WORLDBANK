@@ -23,3 +23,18 @@ const AGICore = {
 };
 
 export default AGICore;
+import HKData from './hki_data.js';
+
+const AGICore = {
+    generateResponse: (userInput) => {
+        // 1. 데이터 파일(HKData)에 faq 구조가 있는지 확인
+        if (!HKData || !HKData.faq) return "시스템이 비전 데이터를 로딩 중입니다.";
+
+        // 2. 입력된 키워드와 질문 매칭
+        const found = HKData.faq.find(item => userInput.includes(item[0]));
+        
+        // 3. 매칭되면 답변을, 없으면 안내 멘트를 반환
+        return found ? found[1] : "혜공 형님의 비전을 정밀 분석 중입니다.";
+    }
+};
+export default AGICore;
