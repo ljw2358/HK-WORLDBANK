@@ -79,3 +79,22 @@ generateResponse: (userInput) => {
     // 2. 답변 반환
     return faqMatch ? faqMatch.answer : "의장님의 비전은 데이터로 기록 중입니다. 조금만 기다려주세요!";
 }
+// agi_core.js - 두뇌와 데이터의 연결
+import HKData from './hki_data.js'; // 형님의 비전 데이터 불러오기
+
+const AGICore = {
+    generateResponse: (userInput) => {
+        // 1. 질문을 분석하여 FAQ에서 가장 유사한 답변 검색
+        // 예: 사용자가 '이율'을 물어보면 '이율' 키워드가 포함된 답변을 찾아냄
+        const faqs = HKData.faq || []; 
+        const match = faqs.find(item => userInput.includes(item[0]));
+
+        if (match) {
+            return match[1]; // 검색 성공 시 실제 답변 반환
+        }
+        
+        return "혜공 형님의 HK 비전 커널이 실시간 분석 중입니다. 형님의 의도가 시스템에 완벽히 반영되도록 학습하고 있습니다.";
+    }
+};
+
+export default AGICore;
