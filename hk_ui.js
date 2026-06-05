@@ -74,3 +74,8 @@ const HK_UI = {
 window.onload = function() {
     HK_UI.init();
 };
+(1836번 줄) const script = document.createElement('script');
+...
+(중략)
+...
+(1946번 줄) });
