@@ -1,51 +1,42 @@
- // 2. 모듈 실행 함수: 버튼 클릭 시 호출
-    // 사용법 예: onclick="HK_UI.run('assets', 'getPiBalance')"
-    run: function(moduleType, actionName) {
-        console.log(`[UI] 명령 실행: ${moduleType} -> ${actionName}`);
-        
-        // 엔진 모듈이 존재하는지 확인 후 실행
-        if (HK_Engine[moduleType] && typeof HK_Engine[moduleType][actionName] === 'function') {
-            HK_Engine[moduleType][actionName]();
-            alert(`${actionName} 실행됨`); // 간단한 시각적 피드백
-        } else {
-            console.error("해당 모듈 또는 기능을 찾을 수 없습니다.");
-        }
-    }
-};
-
-// 페이지 로드 시 엔진 자동 가동
-window.onload = function() {
-    HK_UI.init();
-};
-// hk_ui.js - 9개 모듈 제어 가교(Bridge)
-const HK_UI = {
-    // 1. 초기화: 엔진 가동 및 리스너 등록
-    init: function() {
-        console.log("[UI] 시스템 버튼 매핑 완료");
-        HK_Engine.bootAll();
+// hk_engine.js: HK-WorldBank 통합 엔진
+window.HK_Engine = {
+    // 9개 기능 모듈 정의
+    modules: {
+        assets: { getPiBalance: () => alert("Pi 잔액 조회 성공") },
+        trade: { transfer: () => alert("송금 성공") },
+        payment: { pay: () => alert("결제 성공") },
+        deposit: { add: () => alert("입금 성공") },
+        withdraw: { get: () => alert("출금 성공") },
+        loan: { apply: () => alert("대출 신청") },
+        exchange: { swap: () => alert("환전 성공") },
+        invest: { run: () => alert("투자 시작") },
+        history: { view: () => alert("기록 조회") }
     },
 
-    // 2. 모듈 실행 함수: 버튼 클릭 시 호출
-    // 사용법 예: onclick="HK_UI.run('assets', 'getPiBalance')"
-    run: function(moduleType, actionName) {
-        console.log(`[UI] 명령 실행: ${moduleType} -> ${actionName}`);
+    // 엔진 가동: 버튼 ID와 모듈 기능을 매핑
+    bootAll: function() {
+        console.log("HK-WorldBank 통합 엔진 가동 완료");
         
-        // 엔진 모듈이 존재하는지 확인 후 실행
-        if (HK_Engine[moduleType] && typeof HK_Engine[moduleType][actionName] === 'function') {
-            HK_Engine[moduleType][actionName]();
-            alert(`${actionName} 실행됨`); // 간단한 시각적 피드백
-        } else {
-            console.error("해당 모듈 또는 기능을 찾을 수 없습니다.");
-        }
+        const buttonMap = {
+            'assetsBtn': { m: 'assets', a: 'getPiBalance' },
+            'transferBtn': { m: 'trade', a: 'transfer' },
+            'paymentBtn': { m: 'payment', a: 'pay' },
+            'depositBtn': { m: 'deposit', a: 'add' },
+            'withdrawBtn': { m: 'withdraw', a: 'get' },
+            'loanBtn': { m: 'loan', a: 'apply' },
+            'exchangeBtn': { m: 'exchange', a: 'swap' },
+            'investBtn': { m: 'invest', a: 'run' },
+            'historyBtn': { m: 'history', a: 'view' }
+        };
+
+        Object.keys(buttonMap).forEach(id => {
+            const btn = document.getElementById(id);
+            if (btn) {
+                btn.onclick = () => {
+                    const map = buttonMap[id];
+                    this.modules[map.m][map.a]();
+                };
+            }
+        });
     }
 };
-
-// 페이지 로드 시 엔진 자동 가동
-window.onload = function() {
-    HK_UI.init();
-};
-(1836번 줄) const script = document.createElement('script');
-...
-(중략)
-...
-(1946번 줄) });
