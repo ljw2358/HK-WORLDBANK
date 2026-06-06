@@ -1940,23 +1940,28 @@ console.log("stakeLP 함수가 전역으로 등록되었습니다.");
 </div>
 
 <script>
-document.getElementById('wallet-connect-btn').addEventListener('click', async () => {
-    // 1. SDK 존재 여부 확인 (Pi 브라우저 환경 판단)
+// [지갑 연동 고도화 로직]
+async function handleWalletConnect() {
+    const statusText = document.getElementById('wallet-status-text');
+    
+    // 1. PC 환경 (관리자/가상 모드)
     if (typeof Pi === 'undefined') {
-        alert("알림: 현재 Pi 브라우저 환경이 아닙니다. 이 기능을 사용하려면 Pi 앱 내 브라우저에서 접속하십시오.");
-        return;
-    }
-// [수정된 인증 로직] PC 환경에서도 대시보드 로드 유지
-try {
-    if (typeof Pi !== 'undefined') {
+        const walletAddress = prompt("지갑 주소를 입력하거나 시스템 연동 키를 입력하세요.");
+        if (walletAddress) {
+            statusText.innerText = "연동 성공: " + walletAddress.substring(0, 10) + "...";
+            // 여기서 HK 서버 데이터베이스와 동기화 함수 호출
+            await HK_Engine.syncDatabase(walletAddress); 
+        }
+    } 
+    // 2. 모바일 환경 (정상 인증)
+    else {
         const auth = await Pi.authenticate(['payments', 'username']);
-        document.getElementById('wallet-status-text').innerText = "연결됨: " + auth.user.username;
-        document.getElementById('wallet-connect-btn').style.display = 'none';
-    } else {
-        console.log("PC 환경 감지: 인증 모드 스킵, 대시보드 유지");
+        statusText.innerText = "연결됨: " + auth.user.username;
     }
-} catch (err) {
-    console.error("인증 시도 중단 (PC 환경):", err);
+    
+    document.getElementById('wallet-connect-btn').style.display = 'none';
+}
+
 }
   
 });
