@@ -1934,26 +1934,28 @@ console.log("stakeLP 함수가 전역으로 등록되었습니다.");
             HK_UI.init();
         });
     </script>
-<div id="wallet-container" style="width: 100%; text-align: center; margin: 20px 0; padding: 15px; background: #111; border-top: 1px solid #333; border-bottom: 1px solid #333;">
+<div id="wallet-container" style="width: 100%; text-align: center; padding: 15px; background: #000; border: 1px solid #00ff00;">
     <span id="wallet-status-text" style="color: #00ff00; font-weight: bold; margin-right: 15px;">상태: 연결 대기 중</span>
     <button id="wallet-connect-btn" style="padding: 8px 20px; background: #00ff00; color: #000; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">지갑 연결</button>
 </div>
 
 <script>
-(function() {
-    const btn = document.getElementById('wallet-connect-btn');
-    const status = document.getElementById('wallet-status-text');
-    
-    if (btn) {
-        btn.onclick = async () => {
-            try {
-                const auth = await Pi.authenticate(['payments', 'username'], (payment) => console.log(payment));
-                status.innerText = "연결됨: " + auth.user.username;
-                btn.style.display = 'none';
-            } catch (err) {
-                alert("연결 실패: Pi 브라우저를 확인하세요.");
-            }
-        };
+document.getElementById('wallet-connect-btn').addEventListener('click', async () => {
+    // 1. SDK 존재 여부 확인 (Pi 브라우저 환경 판단)
+    if (typeof Pi === 'undefined') {
+        alert("알림: 현재 Pi 브라우저 환경이 아닙니다. 이 기능을 사용하려면 Pi 앱 내 브라우저에서 접속하십시오.");
+        return;
     }
-})();
+
+    try {
+        const auth = await Pi.authenticate(['payments', 'username'], (payment) => {
+            console.log("결제 감지됨:", payment);
+        });
+        document.getElementById('wallet-status-text').innerText = "연결됨: " + auth.user.username;
+        document.getElementById('wallet-connect-btn').style.display = 'none';
+    } catch (err) {
+        console.error("SDK 인증 오류:", err);
+        alert("지갑 연결 중 오류가 발생했습니다. Pi 앱 설정과 네트워크를 확인하십시오.");
+    }
+});
 </script>
