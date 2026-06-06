@@ -1946,16 +1946,18 @@ document.getElementById('wallet-connect-btn').addEventListener('click', async ()
         alert("알림: 현재 Pi 브라우저 환경이 아닙니다. 이 기능을 사용하려면 Pi 앱 내 브라우저에서 접속하십시오.");
         return;
     }
-
-    try {
-        const auth = await Pi.authenticate(['payments', 'username'], (payment) => {
-            console.log("결제 감지됨:", payment);
-        });
+// [수정된 인증 로직] PC 환경에서도 대시보드 로드 유지
+try {
+    if (typeof Pi !== 'undefined') {
+        const auth = await Pi.authenticate(['payments', 'username']);
         document.getElementById('wallet-status-text').innerText = "연결됨: " + auth.user.username;
         document.getElementById('wallet-connect-btn').style.display = 'none';
-    } catch (err) {
-        console.error("SDK 인증 오류:", err);
-        alert("지갑 연결 중 오류가 발생했습니다. Pi 앱 설정과 네트워크를 확인하십시오.");
+    } else {
+        console.log("PC 환경 감지: 인증 모드 스킵, 대시보드 유지");
     }
+} catch (err) {
+    console.error("인증 시도 중단 (PC 환경):", err);
+}
+  
 });
 </script>
