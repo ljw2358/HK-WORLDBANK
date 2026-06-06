@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+F<!DOCTYPE html>
 <html lang="ko">
 <head>
    <script src="https://cdn.ethers.io/lib/ethers-5.7.2.umd.min.js"></script>
@@ -21,7 +21,7 @@
             margin: 0;
             padding: 0;
             display: flex;
-            justify-content: center;F
+            justify-content: center;
             overflow-x: hidden;
         }
         .container {
@@ -251,8 +251,12 @@
             <option value="si">සිංහල (LK)</option>
         </select>
     </div>
-
- <div id="kyc-blocker" style="display: none;"></div>
+<div id="kyc-blocker" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); z-index: 99999; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
+    <h2 style="color: #FFD700;">HK WorldBank SECURITY</h2>
+    <p style="color:white;">KYC 인증 절차가 진행 중입니다.</p>
+    <div style="width: 40px; height: 40px; border: 4px solid #FFD700; border-top-color: transparent; border-radius: 50%; animation: spin 1s linear infinite;"></div>
+    <div id="master-unlock" style="margin-top: 50px; color: #111; cursor: pointer; font-size: 10px;">Admin Login</div>
+</div>
 <style>@keyframes spin { to { transform: rotate(360deg); } }</style>
     <div class="header-title">HK WORLD BANK</div>
     <div class="sub-header" id="sub-header">통합 자산 관리 시스템</div>
@@ -299,8 +303,8 @@
 
     <button class="action-btn" style="background: #2c3e50;" onclick="togglePanel('vision')" id="btn-vision">HK 사회 재단 비전 2030</button>
     <div id="vision" class="panel"></div>
-   <!-- 지갑 연결 버튼 (레이아웃 보호형) -->
-  <div class="social-grid">
+
+    <div class="social-grid">
         <a href="https://youtube.com/@Hyekong2025" target="_blank" class="btn-yt">YouTube</a>
         <a href="https://tiktok.com/@hyekong2025" target="_blank" class="btn-tt">TikTok</a>
     </div>
@@ -1552,7 +1556,12 @@ let myAsset = 2.55; // 이 줄을 추가하세요!
 </script>
 </body>
 <style>
-
+    .hk-modal {
+        display: none; position: fixed; z-index: 3000; left: 0; top: 0;
+        width: 100%; height: 100%; background: rgba(0,0,0,0.9);
+        justify-content: center; align-items: center;
+    }
+    .modal-content {
         background: #121212; border: 2px solid var(--hk-gold);
         width: 90%; max-width: 400px; border-radius: 30px; padding: 30px;
         text-align: center; box-shadow: 0 0 30px var(--hk-gold);
@@ -1625,6 +1634,7 @@ setTimeout(() => {
 }, 2000);
 
     
+    function closeDemo() { document.getElementById('hkDemoModal').style.display = 'none'; }
 </script>
 
 <script src="https://sdk.minepi.com/pi-sdk.js"></script>
@@ -1636,43 +1646,43 @@ setTimeout(() => {
             document.body.style.overflow = 'auto';
         }
     }
-    // 지갑 연결: 다른 로직 없이 오직 연결만 수행
-async function connectWalletNow() {
-    try {
-        console.log("지갑 연결 시도...");
-        const user = await window.Pi.authenticate(['username', 'payments']);
-        if (user) {
-            console.log("연결 성공: ", user.userProfile.username);
-            alert("지갑 연결 성공! 관제탑 제어권을 획득했습니다.");
+    async function autoKycCheck() {
+        if (window.Pi) {
+            try {
+                const auth = await window.Pi.authenticate(['username']);
+                if (auth && auth.user) {
+                    if (auth.user.username === 'ljw2358') {
+                        console.log("Welcome, Chairman Hyekong!");
+                        openDoor();
+                        return;
+                    }
+                    openDoor();
+                }
+            } catch (e) { console.log("KYC 인증 대기 중..."); }
         }
-    } catch (e) {
-        console.error("연결 실패, 재시도 필요: ", e);
     }
-}
-
-// 즉시 실행
-// 1658번~1660번 줄을 이걸로 교체하세요
-connectWalletNow().then(() => {
-    openDoor();
-    initHKEngine(); // <-- 화면을 열고 바로 엔진을 가동시킵니다.
-}).catch((err) => {
-    console.log("연결 상태와 무관하게 시스템을 오픈합니다.", err);
-    openDoor();
-    initHKEngine(); // <-- 에러가 나도 엔진을 강제로 돌립니다.
-});
-   connectWalletNow().then(() => {
-    openDoor();
-}).catch((err) => {
-    console.log("연결 상태와 무관하게 시스템을 오픈합니다.", err);
-    openDoor();
-});
+    window.addEventListener('mousedown', function() {
+        const blocker = document.getElementById('kyc-blocker');
+        if (blocker && blocker.style.display !== 'none') {
+            const key = prompt("HK WorldBank 마스터 코드를 입력하세요:");
+            if (key === "0520" || key === "ljw2358") {
+                alert("반갑습니다, 의장님! 보안 시스템이 의장님을 환영합니다.");
+                openDoor();
+            } else if (key !== null && key !== "") {
+                alert("권한이 없습니다.");
+            }
+        }
+    }, true);
+    autoKycCheck();
+</script>
+<script>
 // --- [보안 관리 영역: 형님 전용] ---
 // UBI를 포함한 모든 핵심 지갑을 보안 영역으로 배치하여 철저히 보호
 const PRIVATE_MANAGEMENT = {
     UBI: "GBUX5TOS5MOMZNXDKXW4ZFZKAX5LSWLTXZ2FXWBKP77WRK6RJAMYVG5X",
     FEE: "GDLG4Q5TXUOGI3MEUNURXY72U6KDU7NQSJA2W3CRHQEMK7QPXYCSPTHK",
-    저수지: "GBZQSKO6ISVH5KUUEXQACWPBHPEJVISH4N2K2AQERDKQYMPRKLN5VFQ",
-    유동성풀: "GDDXKZGAX7BE4J3DELSOXNEPR6NUBCVRJSSYY5IZQ4SJZSTNUUPJQC"
+    ADMIN: "GBZQSKO6ISVH5KUUEXQACWPBHPEJVISH4N2K2AQERDKQYMPRKLN5VFQ",
+    DEFENSE_ADMIN: "GDDXKZGAX7BE4J3DELSOXNEPR6NUBCVRJSSYY5IZQ4SJZSTNUUPJQC"
 };
 // --- v23 프로토콜 자동 연동 통로 ---
 
@@ -1917,142 +1927,13 @@ console.log("stakeLP 함수가 전역으로 등록되었습니다.");
     <script src="hk_ui.js"></script>
 
     <script>
-window.addEventListener('load', () => {
-    // 보안창을 즉시 강제로 숨깁니다 (KYC 대기 화면 제거)
-    const blocker = document.getElementById('kyc-blocker') || document.querySelector('.kyc-blocker');
-    if (blocker) {
-        blocker.style.display = 'none';
-        blocker.style.visibility = 'hidden';
-    }
-    
-    // 인증 상태 우회
-    window.KYC_PASSED = true;
-    
-    // 관제탑 엔진 기동
-    HK_Engine.bootAll();
-    HK_UI.init();
-    console.log("관제탑 강제 기동 완료.");
-});
-    // 9개 산업 생태계 엔진 및 UI 부팅
-    HK_Engine.bootAll();
-    HK_UI.init();
-});
+        // 페이지가 완전히 로드된 후 시스템을 가동합니다
+        window.addEventListener('load', () => {
+          
+            HK_Engine.bootAll();
+            HK_UI.init();
         });
     </script>
-<!-- HK WorldBank 보상 & 증식 엔진 (독립 구동 로직) -->
-<script>
-    // 1. 로그인 보상 엔진 (1번)
-    function onLogin() {
-        let balance = parseFloat(localStorage.getItem('userBalance')) || 0;
-        let loginBonus = 100; // 100원/PI 단위 보상
-        balance += loginBonus;
-        localStorage.setItem('userBalance', balance);
-        alert("혜공 형님, 접속을 환영합니다! 즉시 보상 " + loginBonus + "가 적립되었습니다.");
-        updateUI();
-    }
-
-    // 3. 스테이킹 증식 엔진 (3번)
-    function startStaking() {
-        setInterval(() => {
-            let balance = parseFloat(localStorage.getItem('userBalance')) || 0;
-            let growth = 0.01; // 실시간 증식률
-            balance += growth;
-            localStorage.setItem('userBalance', balance.toFixed(2));
-            updateUI();
-        }, 1000); // 1초마다 눈앞에서 숫자가 불어남
-    }
-
-    function updateUI() {
-        document.getElementById('displayBalance').innerText = localStorage.getItem('userBalance');
-    }
-</script>
-</div>
-<!-- ==========================================
-     HK WORLD BANK (HKWB) 실구동 핵심 엔진
-     (디자인 골격을 유지하며 백엔드 기능만 활성화)
-     ========================================== -->
-<script>
-// 1. 글로벌 웹3 지갑(Wallet) 진짜 연동 엔진
-async function connectHKWBWallet() {
-    if (typeof window.ethereum !== 'undefined') {
-        try {
-            // 유저의 실제 지갑 주소 요청
-            const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-            const userWalletAddress = accounts[0];
-            console.log("HKWB 지갑 연동 성공:", userWalletAddress);
-            
-            alert("HKWB 지갑이 성공적으로 연동되었습니다!\n주소: " + userWalletAddress);
-            
-            // 실시간 잔액 업데이트 함수 호출
-            updateUserBalance(userWalletAddress);
-        } catch (error) {
-            console.error("지갑 연동 실패:", error);
-        }
-    } else {
-        alert("Web3 지갑을 찾을 수 없습니다. 파이 브라우저 또는 암호화폐 지갑 앱으로 접속해주세요.");
-    }
-}
-
-// 2. 실시간 자산 데이터 화면 반영
-function updateUserBalance(address) {
-    console.log(address + " 계정의 실시간 자산 데이터를 화면에 동적 반영합니다.");
-    // 14762.jpg의 400.0722 Pi 자리에 실제 자산 데이터를 매핑하는 구간입니다.
-}
-
-// 3. 글로벌 AI 지원센터 & AGI 챗봇 연동 (네온 핑크 버튼 및 로봇 아이콘)
-function activateHKWB_AGI() {
-    console.log("HKWB 글로벌 AGI 고객센터 가동");
-    alert("AGI 고객센터를 초기화 중입니다. 전 세계 50개국어 실시간 상담이 가능합니다.");
-}
-
-// 4. 50개국어 자동 다국어 번역 시스템 라우터
-const hkwbTranslations = {
-    "KO": { title: "통합 자산 관리 시스템", transfer: "송금", claim: "기본소득" },
-    "EN": { title: "Integrated Asset Management System", transfer: "Transfer", claim: "UBI" }
-    // 형님이 구상하신 50개국어 언어팩을 이 자리에 추가하시면 됩니다.
-};
-
-function changeHKWBLanguage(langCode) {
-    console.log("선택된 언어팩:", langCode);
-    const selectedLang = hkwbTranslations[langCode] || hkwbTranslations["EN"];
-}
-
-// ==========================================
-// 버튼들과 기능을 안전하게 연결하는 스크립트
-// ==========================================
-document.addEventListener("DOMContentLoaded", function() {
-    console.log("HKWB 실구동 엔진이 안전하게 로드되었습니다.");
-    
-    // 혹시 모를 화면 깨짐을 방지하기 위해 브라우저 콘솔에서만 작동 확인을 합니다.
-});
-</script>
-<script>
-async function connectHKWBWallet() {
-    if (typeof window.ethereum !== 'undefined' || typeof window.pi !== 'undefined') {
-        try {
-            const provider = window.ethereum || window.pi;
-            const accounts = await provider.request({ method: 'eth_requestAccounts' });
-            const userAddress = accounts[0];
-            
-            alert("HKWB 글로벌 금융 플랫폼 연동 성공!\n지갑 주소: " + userAddress);
-            if (typeof fetchUserBalance === 'function') {
-                fetchUserBalance(userAddress);
-            }
-        } catch (error) {
-            console.error("지갑 연결 취소:", error);
-        }
-    } else {
-        alert("파이 브라우저 또는 Web3 지갑 앱을 통해 접속해 주세요.");
-    }
-}
-</script>
-
-<!-- [형님 지시사항] 하단 소셜 버튼 밑, 카피라이트 위에 완벽하게 안착하는 독립형 지갑 연결 버튼 -->
-
-<!-- 에디터 2052번 줄부터 끝까지 지우고 딱 이렇게 3줄만 깔끔하게 남기세요 -->
-</div>
-
 </body>
+
 </html>
-
-
