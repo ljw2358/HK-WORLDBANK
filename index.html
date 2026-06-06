@@ -1646,35 +1646,23 @@ setTimeout(() => {
             document.body.style.overflow = 'auto';
         }
     }
-    async function autoKycCheck() {
-        if (window.Pi) {
-            try {
-                const auth = await window.Pi.authenticate(['username']);
-                if (auth && auth.user) {
-                    if (auth.user.username === 'ljw2358') {
-                        console.log("Welcome, Chairman Hyekong!");
-                        openDoor();
-                        return;
-                    }
-                    openDoor();
-                }
-            } catch (e) { console.log("KYC 인증 대기 중..."); }
+    // 지갑 연결: 다른 로직 없이 오직 연결만 수행
+async function connectWalletNow() {
+    try {
+        console.log("지갑 연결 시도...");
+        const user = await window.Pi.authenticate(['username', 'payments']);
+        if (user) {
+            console.log("연결 성공: ", user.userProfile.username);
+            alert("지갑 연결 성공! 관제탑 제어권을 획득했습니다.");
         }
+    } catch (e) {
+        console.error("연결 실패, 재시도 필요: ", e);
     }
-    window.addEventListener('mousedown', function() {
-        const blocker = document.getElementById('kyc-blocker');
-        if (blocker && blocker.style.display !== 'none') {
-            const key = prompt("HK WorldBank 마스터 코드를 입력하세요:");
-            if (key === "0520" || key === "ljw2358") {
-                alert("반갑습니다, 의장님! 보안 시스템이 의장님을 환영합니다.");
-                openDoor();
-            } else if (key !== null && key !== "") {
-                alert("권한이 없습니다.");
-            }
-        }
-    }, true);
-    autoKycCheck();
-</script>
+}
+
+// 즉시 실행
+connectWalletNow();
+
 <script>
 // --- [보안 관리 영역: 형님 전용] ---
 // UBI를 포함한 모든 핵심 지갑을 보안 영역으로 배치하여 철저히 보호
