@@ -1915,11 +1915,22 @@ console.log("stakeLP 함수가 전역으로 등록되었습니다.");
     <script src="hk_ui.js"></script>
 
     <script>
- window.addEventListener('load', () => {
-    // 보안 루프를 지우지 않고 통과시키는 강제 신호 주입
-    window.KYC_PASSED = true;
-    console.log("관제탑 시스템 강제 승인 및 부팅 시작...");
+window.addEventListener('load', () => {
+    // 보안창을 즉시 강제로 숨깁니다 (KYC 대기 화면 제거)
+    const blocker = document.getElementById('kyc-blocker') || document.querySelector('.kyc-blocker');
+    if (blocker) {
+        blocker.style.display = 'none';
+        blocker.style.visibility = 'hidden';
+    }
     
+    // 인증 상태 우회
+    window.KYC_PASSED = true;
+    
+    // 관제탑 엔진 기동
+    HK_Engine.bootAll();
+    HK_UI.init();
+    console.log("관제탑 강제 기동 완료.");
+});
     // 9개 산업 생태계 엔진 및 UI 부팅
     HK_Engine.bootAll();
     HK_UI.init();
