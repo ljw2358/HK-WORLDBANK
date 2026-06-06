@@ -1940,37 +1940,13 @@ console.log("stakeLP 함수가 전역으로 등록되었습니다.");
 </div>
 
 <script>
-// [지갑 연동 고도화 로직]
-document.getElementById('wallet-connect-btn').onclick = function() {
-    alert("PC에서는 지갑 연결을 지원하지 않습니다. 모바일 Pi 브라우저를 이용해주세요.");
-};
-    const statusText = document.getElementById('wallet-status-text');
-    
-    // 1. PC 환경 (관리자/가상 모드)
-    if (typeof Pi === 'undefined') {
-        const walletAddress = prompt("지갑 주소 또는 시스템 키를 입력하세요.");
-        if (walletAddress) {
-            statusText.innerText = "연동 성공: " + walletAddress.substring(0, 10) + "...";
-            document.getElementById('wallet-connect-btn').style.display = 'none';
-        }
-    } 
-    // 2. 모바일 환경 (정상 인증)
-    else {
-        try {
-            const auth = await Pi.authenticate(['payments', 'username']);
-            statusText.innerText = "연결됨: " + auth.user.username;
-            document.getElementById('wallet-connect-btn').style.display = 'none';
-        } catch (err) {
-            console.error("인증 실패:", err);
-            alert("지갑 연결 중 오류가 발생했습니다.");
-        }
-    }
-});
-    
-    document.getElementById('wallet-connect-btn').style.display = 'none';
-}
 
-}
+<script>
+// 지갑 연결 기능을 아예 잠그고 시스템 안정화
+document.getElementById('wallet-connect-btn').style.display = 'none';
+console.log("시스템 안정화 완료: 지갑 연동 모듈 잠금");
+</script>
+
   
 });
 </script>
