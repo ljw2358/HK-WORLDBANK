@@ -47,17 +47,32 @@ window.addEventListener('load', () => {
 });
 // 9개 에코시스템 통합 보상 및 증식 엔진
 // [통합 엔진] 최적화된 보상 시스템
+// 50번 줄부터 시작하는 기존 로직을 지우고 아래를 붙여넣으세요.
 HK_Engine.startRewardSystem = async () => {
-    setInterval(async () => {
+    console.log("3번 엔진 가동: 보안 모드 적용");
+    
+    // 재귀적 루프 방식을 사용하여 인터벌 오류 방지
+    const runSystem = async () => {
         try {
-            const currentBalance = parseFloat(localStorage.getItem('userBalance')) || 0;
+            const rawBalance = localStorage.getItem('userBalance');
+            const currentBalance = parseFloat(rawBalance) || 0;
             const newBalance = (currentBalance + 0.01).toFixed(4);
-            await localStorage.setItem('userBalance', newBalance);
-            if (typeof HK_UI !== 'undefined') HK_UI.updateBalance(newBalance);
+            
+            localStorage.setItem('userBalance', newBalance);
+            
+            if (typeof HK_UI !== 'undefined') {
+                HK_UI.updateBalance(newBalance);
+            }
+            // 다음 실행을 1초 뒤로 예약 (안정적인 호출)
+            setTimeout(runSystem, 1000);
         } catch (err) {
-            console.error("동기화 오류:", err);
+            console.error("시스템 간섭 감지, 3번 엔진 재시작...", err);
+            setTimeout(runSystem, 2000); // 오류 발생 시 2초 후 재시도
         }
-    }, 1000);
+    };
+    
+    runSystem();
+};
 };
 
 // 엔진 부팅 및 초기화
