@@ -17,17 +17,19 @@ window.HK_Engine = {
     bootAll: function() {
         console.log("HK-WorldBank 통합 엔진 가동 완료");
         
-        const buttonMap = {
-            'assetsBtn': { m: 'assets', a: 'getPiBalance' },
-            'transferBtn': { m: 'trade', a: 'transfer' },
-            'paymentBtn': { m: 'payment', a: 'pay' },
-            'depositBtn': { m: 'deposit', a: 'add' },
-            'withdrawBtn': { m: 'withdraw', a: 'get' },
-            'loanBtn': { m: 'loan', a: 'apply' },
-            'exchangeBtn': { m: 'exchange', a: 'swap' },
-            'investBtn': { m: 'invest', a: 'run' },
-            'historyBtn': { m: 'history', a: 'view' }
-        };
+      // hk_engine.js 파일의 buttonMap 수정
+const buttonMap = {
+    'assetsBtn': { m: 'assets', a: 'getPiBalance' }, // PI 수량 (상단 1)
+    'dexSwapBtn': { m: 'exchange', a: 'swap' }, // DEX 스왑 (상단 2)
+    'lpStakingBtn': { m: 'invest', a: 'run' }, // LP 스테이킹 (상단 3)
+    'transferBtn': { m: 'assets', a: 'transfer' }, // 송금
+    'paymentBtn': { m: 'payment', a: 'pay' }, // 결재
+    'depositBtn': { m: 'deposit', a: 'add' }, // 예치
+    'rewardBtn': { m: 'assets', a: 'get' }, // 보상 (임시 매핑)
+    'incomeBtn': { m: 'assets', a: 'get' }, // 기본소득 (임시 매핑)
+    'swapBtn': { m: 'exchange', a: 'swap' } // 스왑
+};
+ 
 
         Object.keys(buttonMap).forEach(id => {
             const btn = document.getElementById(id);
