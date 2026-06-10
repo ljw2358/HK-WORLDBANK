@@ -17,18 +17,7 @@ window.HK_Engine = {
     bootAll: function() {
         console.log("HK-WorldBank 통합 엔진 가동 완료");
         
-      // hk_engine.js 파일의 buttonMap 수정
-const buttonMap = {
-    'assetsBtn': { m: 'assets', a: 'getPiBalance' }, // PI 수량 (상단 1)
-    'dexSwapBtn': { m: 'exchange', a: 'swap' }, // DEX 스왑 (상단 2)
-    'lpStakingBtn': { m: 'invest', a: 'run' }, // LP 스테이킹 (상단 3)
-    'transferBtn': { m: 'assets', a: 'transfer' }, // 송금
-    'paymentBtn': { m: 'payment', a: 'pay' }, // 결재
-    'depositBtn': { m: 'deposit', a: 'add' }, // 예치
-    'rewardBtn': { m: 'assets', a: 'get' }, // 보상 (임시 매핑)
-    'incomeBtn': { m: 'assets', a: 'get' }, // 기본소득 (임시 매핑)
-    'swapBtn': { m: 'exchange', a: 'swap' } // 스왑
-};
+
  
 
         Object.keys(buttonMap).forEach(id => {
@@ -44,8 +33,19 @@ const buttonMap = {
 };
 
 // 페이지 로드 시 엔진 가동
-window.addEventListener('load', () => {
-    window.HK_Engine.bootAll();
+// hk_engine.js 파일의 buttonMap 수정
+const buttonMap = {
+    'assetsBtn': { m: 'assets', a: 'getPiBalance' }, // PI 수량 (상단 1)
+    'dexSwapBtn': { m: 'exchange', a: 'swap' }, // DEX 스왑 (상단 2)
+    'lpStakingBtn': { m: 'invest', a: 'run' }, // LP 스테이킹 (상단 3)
+    'transferBtn': { m: 'assets', a: 'transfer' }, // 송금
+    'paymentBtn': { m: 'payment', a: 'pay' }, // 결재
+    'depositBtn': { m: 'deposit', a: 'add' }, // 예치
+    'rewardBtn': { m: 'assets', a: 'get' }, // 보상 (임시 매핑)
+    'incomeBtn': { m: 'assets', a: 'get' }, // 기본소득 (임시 매핑)
+    'swapBtn': { m: 'exchange', a: 'swap' } // 스왑
+};
+
 });
 // 9개 에코시스템 통합 보상 및 증식 엔진
 // [통합 엔진] 최적화된 보상 시스템
