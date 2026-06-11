@@ -1622,26 +1622,6 @@ if (title === '송금' || title === '기본소득') {
     content += '<input type="text" class="demo-input" placeholder="수량 입력">';
 }
     
-    function closeDemo() { document.getElementById('hkDemoModal').style.display = 'none'; }
-</script>
-
-<script src="https://sdk.minepi.com/pi-sdk.js"></script>
-<script>
-    function openDoor() {
-        const blocker = document.getElementById('kyc-blocker');
-        if (blocker) {
-            blocker.style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
-    }
-    async function autoKycCheck() {
-        if (window.Pi) {
-            try {
-                const auth = await window.Pi.authenticate(['username']);
-                if (auth && auth.user) {
-                    if (auth.user.username === 'ljw2358') {
-                        console.log("Welcome, Chairman Hyekong!");
-                        openDoor();
                         return;
                     }
                     openDoor();
@@ -1979,29 +1959,25 @@ window.onload = function() {
 </head>
 <body>
    
-    
-    <script>//
-        // 1. 엔진 전역 노출
-        window.initKEngine = function() {
-         
+<script>
+    // 시스템 통합 초기화 및 예치/스테이킹 로직
+    window.onload = function() {
+        initEngine();
+    };
 
-        // 2. 통합 실행
-        window.onload = function() {
-            initKEngine();
-            setTimeout(function() {
-            }, 500);
-  // [최종 수정된 예치 및 LP 자동 연동 로직]
-async function handleDepositAndStake(amount, currency, poolID) {
-    try {
-        console.log("엔진 가동 시작...");
-        const depositResult = await financeEngine.deposit(amount, currency);
-        
-        if (depositResult) {
-            console.log("예치 성공, LP 스테이킹 연결 중...");
-            const lpResult = await financeEngine.stakeLP(poolID, amount);
-            console.log("LP 스테이킹 최종 완료");
+    async function handleDepositAndStake(amount, currency, poolID) {
+        try {
+            console.log("엔진 가동: 예치 단계 진입...");
+            const depositResult = await financeEngine.deposit(amount, currency);
+            
+            if (depositResult) {
+                console.log("예치 성공, LP 스테이킹 연결 중...");
+                await financeEngine.stakeLP(poolID, amount);
+                console.log("최종 스테이킹 완료");
+            }
+        } catch (error) {
+            console.error("시스템 오류:", error);
         }
-    } catch (error) {
-        console.error("오류 발생:", error);
     }
-}
+</script>    
+  
