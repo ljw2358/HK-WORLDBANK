@@ -2006,19 +2006,11 @@ window.onload = function() {
             initKEngine();
             setTimeout(function() {
             }, 500);
-        };
-    </script>
-</body>
-</html>
-// [수정된 예치 및 LP 자동 연동 로직]
-// 기존의 예치 함수를 아래와 같이 통합하여, 예치 직후 LP 스테이킹까지 고정되도록 합니다.
+    // [수정된 예치 및 LP 자동 연동 로직]
 async function handleDepositAndStake(amount, currency, poolID) {
     try {
         console.log("예치 엔진 가동...");
-        // 1. 예치 엔진 실행
         const depositResult = await financeEngine.deposit(amount, currency);
-        
-        // 2. 예치 완료 확인 후, 즉시 LP 스테이킹 연결 (고정)
         if (depositResult) {
             console.log("예치 성공, LP 스테이킹으로 자동 전환합니다.");
             const lpResult = await financeEngine.stakeLP(poolID, amount);
@@ -2027,7 +2019,10 @@ async function handleDepositAndStake(amount, currency, poolID) {
         }
     } catch (error) {
         console.error("연결 오류 발생:", error);
-        alert("연결 중 문제가 발생했습니다. 다시 확인해주세요.");
+        alert("연결 중 문제가 발생했습니다.");
     }
 }
 
+        };
+    </script>
+</body>
