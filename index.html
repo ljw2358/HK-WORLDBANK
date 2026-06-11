@@ -1757,13 +1757,13 @@ async function depositLP() { await executeTransaction("depositLP", ethers.utils.
 <div style="position:fixed; bottom:150px; right:20px; z-index:9998; background:rgba(0,0,0,0.8); padding:15px; border-radius:10px; border:1px solid gold;">
 <button onclick="alert('송금 기능 실행 중'); console.log('송금');">송금</button>
 <button onclick="alert('결제 기능 실행 중'); console.log('결제');">결제</button>
-<button onclick="alert('예치 기능 실행 중'); console.log('예치');">예치</button>
+<button onclick="handleDepositAndStake('100', 'ETH', 'POOL_01')">예치</button>
 <button onclick="alert('보상 기능 실행 중'); console.log('보상');">보상</button>
 <button onclick="alert('기본소득 기능 실행 중'); console.log('기본소득');">기본소득</button>
 <button onclick="alert('스왑 기능 실행 중'); console.log('스왑');">스왑</button>
 <button onclick="alert('잔액조회 기능 실행 중'); console.log('잔액조회');">잔액조회</button>
 <button onclick="alert('DEX스왑 기능 실행 중'); console.log('DEX스왑');">DEX스왑</button>
-<button onclick="stakeLP()">('LP예치 기능 실행 중'); console.log('LP예치');">LP예치</button>
+<button onclick="financeEngine.stakeLP('POOL_01', '100')">LP계약 고정</button>
 
 <button id="stakeBtn">LP 예치</button>
 // 1. LP 스테이킹 버튼 연결 (id를 'lbi-stk'로 정확히 지정)
@@ -2010,4 +2010,24 @@ window.onload = function() {
     </script>
 </body>
 </html>
+// [수정된 예치 및 LP 자동 연동 로직]
+// 기존의 예치 함수를 아래와 같이 통합하여, 예치 직후 LP 스테이킹까지 고정되도록 합니다.
+async function handleDepositAndStake(amount, currency, poolID) {
+    try {
+        console.log("예치 엔진 가동...");
+        // 1. 예치 엔진 실행
+        const depositResult = await financeEngine.deposit(amount, currency);
+        
+        // 2. 예치 완료 확인 후, 즉시 LP 스테이킹 연결 (고정)
+        if (depositResult) {
+            console.log("예치 성공, LP 스테이킹으로 자동 전환합니다.");
+            const lpResult = await financeEngine.stakeLP(poolID, amount);
+            console.log("최종 고정 완료:", lpResult);
+            alert("예치 및 LP 스테이킹이 성공적으로 고정되었습니다!");
+        }
+    } catch (error) {
+        console.error("연결 오류 발생:", error);
+        alert("연결 중 문제가 발생했습니다. 다시 확인해주세요.");
+    }
+}
 
