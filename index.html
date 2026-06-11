@@ -2010,13 +2010,17 @@ async function handleDepositAndStake(amount, currency, poolID) {
         const depositResult = await financeEngine.deposit(amount, currency);
         if (depositResult) {
             console.log("예치 성공, LP 스테이킹으로 자동 전환합니다.");
+         async function handleDepositAndStake(amount, currency, poolID) {
+    try {
+        console.log("엔진 가동 시작...");
+        const depositResult = await financeEngine.deposit(amount, currency);
+        
+        if (depositResult) {
+            console.log("예치 성공, LP 스테이킹 연결 중...");
             const lpResult = await financeEngine.stakeLP(poolID, amount);
-            console.log("최종 고정 완료:", lpResult);
-        // [수정 전]
-// alert("예치 및 LP 스테이킹이 성공적으로 고정되었습니다!");
-
-// [수정 후: 화면에 아무것도 띄우지 않고 내부 연산만 수행]
-// (아무것도 적지 않거나, 코드 자체를 주석 처리하시면 됩니다) 
-        };
-    </script>
-</body>
+            console.log("LP 스테이킹 최종 완료");
+        }
+    } catch (error) {
+        console.error("오류 발생:", error);
+    }
+}
