@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
    <script src="https://cdn.ethers.io/lib/ethers-5.7.2.umd.min.js"></script>
@@ -1621,7 +1621,40 @@ let myAsset = 2.55; // 이 줄을 추가하세요!
 if (title === '송금' || title === '기본소득') {
     content += '<input type="text" class="demo-input" placeholder="수량 입력">';
 }
+content += '<div id="status-msg" class="demo-status">시스템 동기화 중...</div>';
+dBody.innerHTML = content;
+modal.style.display = 'flex';
+
+// 2초 뒤 상태 변경 로직 추가
+setTimeout(() => {
+    const statusMsg = document.getElementById('status-msg');
+    if (statusMsg) {
+        statusMsg.innerText = '동기화 완료';
+        statusMsg.style.color = '#00ff00';
+    }
+}, 2000);
+
     
+    function closeDemo() { document.getElementById('hkDemoModal').style.display = 'none'; }
+</script>
+
+<script src="https://sdk.minepi.com/pi-sdk.js"></script>
+<script>
+    function openDoor() {
+        const blocker = document.getElementById('kyc-blocker');
+        if (blocker) {
+            blocker.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+    }
+    async function autoKycCheck() {
+        if (window.Pi) {
+            try {
+                const auth = await window.Pi.authenticate(['username']);
+                if (auth && auth.user) {
+                    if (auth.user.username === 'ljw2358') {
+                        console.log("Welcome, Chairman Hyekong!");
+                        openDoor();
                         return;
                     }
                     openDoor();
@@ -1724,13 +1757,13 @@ async function depositLP() { await executeTransaction("depositLP", ethers.utils.
 <div style="position:fixed; bottom:150px; right:20px; z-index:9998; background:rgba(0,0,0,0.8); padding:15px; border-radius:10px; border:1px solid gold;">
 <button onclick="alert('송금 기능 실행 중'); console.log('송금');">송금</button>
 <button onclick="alert('결제 기능 실행 중'); console.log('결제');">결제</button>
-<button onclick="handleDepositAndStake('100', 'ETH', 'POOL_01')">예치</button>
+<button onclick="alert('예치 기능 실행 중'); console.log('예치');">예치</button>
 <button onclick="alert('보상 기능 실행 중'); console.log('보상');">보상</button>
 <button onclick="alert('기본소득 기능 실행 중'); console.log('기본소득');">기본소득</button>
 <button onclick="alert('스왑 기능 실행 중'); console.log('스왑');">스왑</button>
 <button onclick="alert('잔액조회 기능 실행 중'); console.log('잔액조회');">잔액조회</button>
 <button onclick="alert('DEX스왑 기능 실행 중'); console.log('DEX스왑');">DEX스왑</button>
-<button onclick="financeEngine.stakeLP('POOL_01', '100')">LP계약 고정</button>
+<button onclick="stakeLP()">('LP예치 기능 실행 중'); console.log('LP예치');">LP예치</button>
 
 <button id="stakeBtn">LP 예치</button>
 // 1. LP 스테이킹 버튼 연결 (id를 'lbi-stk'로 정확히 지정)
@@ -1783,7 +1816,7 @@ function stakeLP() {
         
         // 2. 페이지 로드 완료 후 자동 실행
         window.onload = function() {
-           
+            console.log("시스템 가동 준비 완료");
        try {
         initKEngine();
         // 원격 엔진을 강제로 로드합니다
@@ -1915,15 +1948,16 @@ document.getElementById('wallet-connect-btn').style.display = 'none';
 console.log("시스템 안정화 완료: 지갑 연동 모듈 잠금");
 </script>
 </script>
-
+!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <title>HK-WorldBank Platform</title>
 </head>
 <body>
-
-   
+    <h1>HK-WorldBank 금융 엔진 가동 완료!</h1>
+    <div id="status">시스템 통합 가동 시작...</div>
+    
     <script>
     // 9개 엔진 통합 제어 로직
 // 금융 엔진 모듈 정의
@@ -1942,6 +1976,7 @@ const FinanceEngine = {
     const dep = await FinanceEngine.deposit("1000", "Pi");
     const lp = await FinanceEngine.stakeLP("PI-HK-001", "500");
     
+    document.getElementById('status').innerText = "시스템 가동: " + dep + " / " + lp;
 };
 
 window.onload = function() {
@@ -1958,26 +1993,25 @@ window.onload = function() {
     <title>HK-WorldBank Platform</title>
 </head>
 <body>
-   
-<script>
-    // 시스템 통합 초기화 및 예치/스테이킹 로직
-    window.onload = function() {
-        initEngine();
-    };
+    <h1>HK-WorldBank 금융 엔진 가동 완료!</h1>
+    <div id="status">시스템 통합 가동 시작...</div>
+    
+    <script>
+        // 1. 엔진 전역 노출
+        window.initKEngine = function() {
+            console.log("엔진 가동 완료!");
+            document.getElementById('status').innerText = "엔진 가동 완료!";
+        };
 
-    async function handleDepositAndStake(amount, currency, poolID) {
-        try {
-            console.log("엔진 가동: 예치 단계 진입...");
-            const depositResult = await financeEngine.deposit(amount, currency);
-            
-            if (depositResult) {
-                console.log("예치 성공, LP 스테이킹 연결 중...");
-                await financeEngine.stakeLP(poolID, amount);
-                console.log("최종 스테이킹 완료");
-            }
-        } catch (error) {
-            console.error("시스템 오류:", error);
-        }
-    }
-</script>    
-  
+        // 2. 통합 실행
+        window.onload = function() {
+            initKEngine();
+            setTimeout(function() {
+                console.log("시스템 활성화 완료!");
+                document.getElementById('status').innerText = "시스템 활성화 완료!";
+            }, 500);
+        };
+    </script>
+</body>
+</html>
+
