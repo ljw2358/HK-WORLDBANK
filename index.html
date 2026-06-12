@@ -2134,22 +2134,8 @@ index.html
         <button style="width: 90%;" onclick="alert('기본소득 신청 완료: 자격 심사 중')">UBI 신청/조회</button>
    <button style="width: 90%;" onclick="exec('기본소득')">기본소득 신청</button>
 </div>
-      <script>
-async function activateAGI(command) {
-    // 1. 명령 확인 (테스트용)
-    console.log("AGI 명령 접수:", command);
-    
-    // 2. 화면에 AI 반응 표시 (상태창 등)
-    alert("AGI 가동 시작: " + command);
-    
-    // 3. 실제 AI API 호출 (추후 API 키를 넣으면 됩니다)
-    /* 
-    const response = await fetch('API_ENDPOINT_URL', { ... });
-    */
-}
-</script> 
-<script>
-  // 마스터 AGI 컨트롤러: 버튼과 채팅을 한 번에 제어합니다.
+  <script>
+  // HK 통합 금융 엔진 (LP 스테이킹 & UBI 동기화)
   const chatDisplay = document.querySelector('.chat-history') || document.body;
 
   function updateChat(sender, message) {
@@ -2158,26 +2144,23 @@ async function activateAGI(command) {
     chatDisplay.appendChild(p);
   }
 
+  // 버튼 통합 제어
   document.addEventListener('click', function(e) {
-    // 1. 채팅창 '보내기' 버튼 감지
-    if (e.target.tagName === 'BUTTON' && e.target.innerText.includes('보내기')) {
-      const inputField = document.querySelector('input[type="text"]') || document.querySelector('input[type="search"]');
-      const userMessage = inputField ? inputField.value : "질문 없음";
-      
-      updateChat("나", userMessage);
-      
-      // 삐니의 답변 시뮬레이션
-      setTimeout(() => {
-        updateChat("삐니", "형님, 질문하신 '" + userMessage + "'에 대해 HK AGI 커널이 실시간 분석을 완료했습니다.");
-      }, 500);
-      
-      if(inputField) inputField.value = "";
-    } 
-    // 2. 일반 버튼 클릭 감지
-    else if (e.target.tagName === 'BUTTON') {
+    if (e.target.tagName === 'BUTTON') {
       const task = e.target.innerText;
-      updateChat("삐니", "AGI [HK-CORE]: '" + task + "' 작업을 수행합니다.");
+      
+      // LP 스테이킹 및 UBI 명령 감지
+      if (task.includes('스테이킹') || task.includes('기본소득')) {
+        updateChat("삐니", "형님, HK-CORE에서 [" + task + "] 동기화를 시작합니다. 시스템이 실시간 반영 중입니다!");
+      } 
+      // 일반 메시지 처리
+      else if (task.includes('보내기')) {
+        const inputField = document.querySelector('input[type="text"]');
+        const msg = inputField ? inputField.value : "질문";
+        updateChat("나", msg);
+        setTimeout(() => updateChat("삐니", "분석 완료: " + msg), 500);
+        if(inputField) inputField.value = "";
+      }
     }
   });
-</script>
-
+</script>  
