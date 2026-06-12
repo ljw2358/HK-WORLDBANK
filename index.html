@@ -2134,38 +2134,45 @@ index.html
         <button style="width: 90%;" onclick="alert('기본소득 신청 완료: 자격 심사 중')">UBI 신청/조회</button>
    <button style="width: 90%;" onclick="exec('기본소득')">기본소득 신청</button>
 </div>
-// HK AGI 커널: 데이터 조회 모듈
+// HK-CORE AGI 통합 엔진 - v1.2
+const chatDisplay = document.querySelector('.chat-history') || document.body;
+
+function updateChat(sender, message) {
+    const p = document.createElement('p');
+    p.innerHTML = `<strong>${sender}:</strong> ${message}`;
+    chatDisplay.appendChild(p);
+}
+
 const AGIEngine = {
-    // 가상의 금융 데이터베이스
     database: {
         '이율': '현재 HK WorldBank 스테이킹 이율은 연 8.5%를 유지하고 있습니다.',
         '환율': '실시간 적용 환율은 1 USD = 1,380 KRW입니다.'
     },
-
-    async generateResponse(message) {
-        // 질문에 키워드가 있는지 확인
+    async getAnswer(msg) {
         for (let key in this.database) {
-            if (message.includes(key)) {
-                return `[AGI-Data]: ${this.database[key]}`;
-            }
+            if (msg.includes(key)) return this.database[key];
         }
-        return `혜공 형님, "${message}"에 대한 HK-CORE 분석이 진행 중입니다. 곧 정밀 보고를 올리겠습니다.`;
+        return "의장님의 비전을 HK AGI 커널이 실시간 분석 중입니다.";
     }
 };
 
-// 버튼 이벤트 리스너 업데이트
 document.addEventListener('click', async function(e) {
-    if (e.target.tagName === 'BUTTON' && e.target.innerText === '보내기') {
-        const inputField = document.querySelector('input[type="text"]');
-        const msg = inputField.value;
-        if (!msg) return;
+    if (e.target.tagName === 'BUTTON') {
+        const task = e.target.innerText;
+        
+        if (task.includes('보내기')) {
+            const inputField = document.querySelector('input[type="text"]');
+            const msg = inputField.value;
+            if (!msg) return;
 
-        updateChat("나", msg);
-        
-        // AGI가 데이터베이스를 조회하여 응답
-        const response = await AGIEngine.generateResponse(msg);
-        updateChat("삐니(AGI)", response);
-        
-        inputField.value = '';
+            updateChat("나", msg);
+            const reply = await AGIEngine.getAnswer(msg);
+            
+            setTimeout(() => {
+                updateChat("삐니(AGI)", reply);
+            }, 300);
+            
+            inputField.value = '';
+        }
     }
 });
