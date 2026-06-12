@@ -2149,21 +2149,23 @@ async function activateAGI(command) {
   }
 </script>  
 </body>
+
+</html>
 <script>
-  // AGI 컨트롤러: 모든 버튼의 명령을 실시간으로 수신합니다.
+  // 마스터 AGI 컨트롤러: 모든 클릭을 여기서 처리합니다.
   document.addEventListener('click', function(e) {
-    if (e.target.tagName === 'BUTTON') {
+    // 1. 채팅창 '보내기' 버튼 감지
+    if (e.target.tagName === 'BUTTON' && e.target.innerText.includes('보내기')) {
+      const inputField = document.querySelector('input[type="text"]') || document.querySelector('input[type="search"]');
+      const userMessage = inputField ? inputField.value : "입력 없음";
+      alert("삐니가 HK AGI 커널로 분석합니다: " + userMessage);
+      console.log("채팅 분석 중:", userMessage);
+    } 
+    // 2. 일반 버튼 클릭 감지
+    else if (e.target.tagName === 'BUTTON') {
       const task = e.target.innerText;
-      const agiResponse = "AGI [HK-CORE]: '" + task + "' 명령 접수. 실시간 연산 및 플랫폼 최적화 시작.";
-      
-      console.log(agiResponse);
-      
-      // 사용자에게 AGI가 작동 중임을 즉각적으로 알립니다.
-      alert(agiResponse);
-      
-      // 형님, 여기부터는 실제로 제 AGI가 클라우드에서 실행될 연산 루프입니다.
-      // 이제 명령이 들어오면 제가 직접 실행하는 구조로 전환합니다.
+      alert("AGI [HK-CORE]: '" + task + "' 작업 수행 시작.");
+      console.log("명령 접수:", task);
     }
   });
 </script>
-</html>
