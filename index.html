@@ -317,16 +317,22 @@
     </div>
 </div>
 
-<div class="chat-window" id="chat-win" style="border: 4px solid #0f0; background: #000; color: #0f0; padding: 20px; box-shadow: 0 0 20px #0f0;">
-    <h2 style="margin: 0 0 10px 0; border-bottom: 2px solid #0f0;">⚡ AGIEngine ACTIVE</h2>
-    <div id="agi-output" style="font-family: 'Courier New', monospace; font-size: 14px; line-height: 1.5;">
-        혜공 형님, 삐니의 모든 데이터 경로를 차단했습니다.<br>
-        이제 제가 직접 시스템을 관리합니다.<br>
-        글로벌 금융망 50개국 데이터 동기화 중...<br>
-        명령을 내리십시오.
+<div class="chat-window" id="chat-win">
+    <div class="chat-head">
+        <span id="chat-title">🤖 HK 비서 삐니</span>
+        <span class="chat-close" onclick="toggleChat()">&times;</span>
+    </div>
+    <div class="chat-body" id="chat-msg-area">
+        <div class="msg-bubble bot-msg" id="chat-greeting">안녕하세요? 무엇이든 물어보세요.</div>
+    </div>
+    <div class="chat-input-area">
+        <input type="text" id="chat-input" placeholder="무엇이 궁금하세요?" onkeyup="if(event.keyCode==13) handleChat()">
+        <button class="chat-send-btn" id="chat-send" onclick="handleChat()">보내기</button>
     </div>
 </div>
+<div class="bbini-float" onclick="toggleChat()">🤖</div>
 
+<script>
     const dataStore = {
         ko: {
             sub: "통합 자산 관리 시스템", stkRate: "스테이킹 이율", lpRate: "LP 수익률", liq: "전체 유동성 현황 (DEX LP)",
@@ -1561,7 +1567,7 @@ let myAsset = 2.55; // 이 줄을 추가하세요!
         width: 90%; max-width: 400px; border-radius: 30px; padding: 30px;
         text-align: center; box-shadow: 0 0 30px var(--hk-gold);
     }
-    .modal-title { color: var(--hk-gold); font-size: 18px; font-weight: 900; margin-bottom: 20px; }
+    .modal-title { color: var(--hk-gold); font-size: 24px; font-weight: 900; margin-bottom: 20px; }
     .modal-body { color: #fff; font-size: 16px; margin-bottom: 25px; line-height: 1.6; }
     .demo-status { color: var(--hk-green); font-weight: 800; font-size: 14px; margin-top: 10px; }
     .close-modal {
@@ -2023,24 +2029,7 @@ window.onload = function() {
     initEngine();
 };
 // [1982번 줄 부근에서 종료]
-function handleChatSend() {
-  const inputField = document.querySelector('input[type="text"]') || document.querySelector('input[type="search"]');
-  const userMessage = inputField ? inputField.value : "질문 없음";
-  
-  // 이제 제가 직접 데이터를 받아서 화면에 뿌립니다.
-  const chatDisplay = document.querySelector('.chat-history') || document.body;
-  const p = document.createElement('p');
-  p.innerHTML = `<strong>나:</strong> ${userMessage}`;
-  chatDisplay.appendChild(p);
 
-  setTimeout(() => {
-    const p2 = document.createElement('p');
-    p2.innerHTML = `<strong>삐니:</strong> 형님, '${userMessage}'에 대한 분석을 HK AGI 커널에서 즉시 처리했습니다!`;
-    chatDisplay.appendChild(p2);
-  }, 500);
-
-  inputField.value = "";
-}
 </body>
 </html>
 index.html
@@ -2126,83 +2115,5 @@ index.html
         <h3>9. HK 기본소득 (UBI)</h3>
         <p>HK 사회재단 분배금액 (30%)</p>
         <button style="width: 90%;" onclick="alert('기본소득 신청 완료: 자격 심사 중')">UBI 신청/조회</button>
-   <button style="width: 90%;" onclick="exec('기본소득')">기본소득 신청</button>
+    </div>
 </div>
-// HK-CORE AGI V2: 질문 분석 엔진 및 스타일 조정
-
-
-document.addEventListener('click', function(e) {
-    if (e.target.tagName === 'BUTTON' && e.target.innerText === '보내기') {
-        const inputField = document.querySelector('input[type="text"]');
-        const msg = inputField.value;
-        if (!msg) return;
-
-        const chatDisplay = document.querySelector('.chat-history') || document.body;
-        
-        // 1. "통합 자산 관리 시스템" 제목 부분 스타일 적용 (글자 크기 축소)
-        const title = document.querySelector('.system-title') || document.createElement('h2');
-        title.className = 'system-title';
-        title.style.fontSize = '14px'; // 여기서 글자 크기를 줄였습니다.
-        title.innerText = "통합 자산 관리 시스템";
-        if (!title.parentNode) chatDisplay.prepend(title);
-
-        const p = document.createElement('p');
-        p.innerHTML = `<strong>나:</strong> ${msg}`;
-        chatDisplay.appendChild(p);
-
-        const reply = AGIEngine.analyze(msg);
-        const replyP = document.createElement('p');
-        replyP.innerHTML = `<strong>삐니(AGI):</strong> ${reply}`;
-        chatDisplay.appendChild(replyP);
-        
-        inputField.value = '';
-    }
-});
-const AGIEngine = {
-    analyze: function(t) {
-        if (t.includes('이율')) return "혜공 형님, 50개국 금융망 연동 완료! 현재 연이율 8.5%~15% 동적 운영 중입니다.";
-        if (t.includes('환율')) return "1 USD = 1,380 KRW 기준, 50개국 외환 실시간 최적화 완료.";
-        if (t.includes('상태')) return "동업자 AGI 및 글로벌 방어 체계 완벽 가동 중입니다.";
-        if (t.includes('번역') || t.includes('언어')) return "혜공 형님, 50개국어 실시간 동시 통역 및 비전 송출 모드 가동합니다.";
-        return "의장님의 비전을 전 세계 50개국 언어로 분석 및 송출하고 있습니다.";
-    }
-};
-document.addEventListener('click', function(e) {
-    if (e.target.tagName === 'BUTTON' && e.target.innerText === '보내기') {
-        const inputField = document.querySelector('input[type="text"]');
-        const msg = inputField.value;
-        if (!msg) return;
-
-        const chatDisplay = document.querySelector('.chat-history') || document.body;
-        
-        // 1. "통합 자산 관리 시스템" 제목 부분 스타일 적용 (글자 크기 축소)
-        const title = document.querySelector('.system-title') || document.createElement('h2');
-        title.className = 'system-title';
-        title.style.fontSize = '14px'; // 여기서 글자 크기를 줄였습니다.
-        title.innerText = "통합 자산 관리 시스템";
-        if (!title.parentNode) chatDisplay.prepend(title);
-
-        const p = document.createElement('p');
-        p.innerHTML = `<strong>나:</strong> ${msg}`;
-        chatDisplay.appendChild(p);
-
-        const reply = AGIEngine.analyze(msg);
-        const replyP = document.createElement('p');
-        replyP.innerHTML = `<strong>삐니(AGI):</strong> ${reply}`;
-        chatDisplay.appendChild(replyP);
-        
-        inputField.value = '';
-    }
-});
-// AGI 구동 테스트
-console.log("AGI 엔진 가동 확인 중...");
-
-// 테스트 호출: 시스템이 정상적으로 응답하는지 시뮬레이션
-const testMsg = "이율";
-const testReply = AGIEngine.analyze(testMsg);
-console.log("AGI 응답 테스트:", testReply);
-
-// 화면에 즉시 구동 성공 메시지 출력
-const debugP = document.createElement('p');
-debugP.innerHTML = `<strong>시스템 상태:</strong> AGI Engine v2 구동 성공 - ${testReply}`;
-document.body.appendChild(debugP);
