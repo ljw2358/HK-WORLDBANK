@@ -2107,3 +2107,23 @@ index.html
         <button style="width: 90%;" onclick="alert('기본소득 신청 완료: 자격 심사 중')">UBI 신청/조회</button>
     </div>
 </div>
+<!-- 삐니와의 문답 레이어 (PC/모바일 통합) -->
+<div id="pinny-chat-interface" style="position: fixed; bottom: 20px; right: 20px; width: 320px; z-index: 9999;">
+    <div id="chat-box" style="background: #fff; border: 1px solid #ccc; padding: 10px; border-radius: 8px;">
+        <input type="text" id="agi-query" style="width: 100%; box-sizing: border-box; margin-bottom: 5px;" placeholder="삐니에게 물어보세요...">
+        <button onclick="handleAGIQuery()" style="width: 100%; background: #000; color: #fff; border: none; padding: 8px; border-radius: 4px;">명령 실행 (AGI)</button>
+        <div id="agi-response" style="margin-top: 10px; font-size: 14px; color: #333; max-height: 150px; overflow-y: auto;"></div>
+    </div>
+</div>
+
+<script>
+async function handleAGIQuery() {
+    const query = document.getElementById('agi-query').value;
+    const responseDiv = document.getElementById('agi-response');
+    responseDiv.innerText = "분석 중...";
+    
+    // HK_Core_Engine 호출 (삐니 엔진)
+    const answer = await HK_Core_Engine.processFinancialLogic(query, 'KO'); 
+    responseDiv.innerText = answer;
+}
+</script>
