@@ -2134,8 +2134,8 @@ index.html
         <button style="width: 90%;" onclick="alert('기본소득 신청 완료: 자격 심사 중')">UBI 신청/조회</button>
    <button style="width: 90%;" onclick="exec('기본소득')">기본소득 신청</button>
 </div>
-  <script>
-  // HK 통합 금융 엔진 (LP 스테이킹 & UBI 동기화)
+<script>
+  // HK 통합 금융 엔진 (정밀 동기화 모드)
   const chatDisplay = document.querySelector('.chat-history') || document.body;
 
   function updateChat(sender, message) {
@@ -2144,16 +2144,14 @@ index.html
     chatDisplay.appendChild(p);
   }
 
-  // 버튼 통합 제어
   document.addEventListener('click', function(e) {
     if (e.target.tagName === 'BUTTON') {
       const task = e.target.innerText;
       
-      // LP 스테이킹 및 UBI 명령 감지
-      if (task.includes('스테이킹') || task.includes('기본소득')) {
-        updateChat("삐니", "형님, HK-CORE에서 [" + task + "] 동기화를 시작합니다. 시스템이 실시간 반영 중입니다!");
+      // '기본' 혹은 '스테이킹' 키워드가 조금만 포함되어도 즉시 반응
+      if (task.includes('스테이킹') || task.includes('기본')) {
+        updateChat("삐니", "형님, [" + task + "] 명령 확인! HK-CORE 금융 엔진을 즉시 가동합니다.");
       } 
-      // 일반 메시지 처리
       else if (task.includes('보내기')) {
         const inputField = document.querySelector('input[type="text"]');
         const msg = inputField ? inputField.value : "질문";
@@ -2163,4 +2161,5 @@ index.html
       }
     }
   });
-</script>  
+</script>
+
