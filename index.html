@@ -2132,40 +2132,35 @@ async function activateAGI(command) {
 }
 </script> 
 <script>
-  // 대화창 및 모든 버튼 명령 통합 제어
-  document.addEventListener('click', function(e) {
-    // 1. 일반 버튼 클릭 시
-    if (e.target.tagName === 'BUTTON') {
-      const task = e.target.innerText;
-      processAGI(task);
-    }
-  });
+  // 마스터 AGI 컨트롤러: 버튼과 채팅을 한 번에 제어합니다.
+  const chatDisplay = document.querySelector('.chat-history') || document.body;
 
-  // AGI 커널 프로세스
-  function processAGI(input) {
-    console.log("AGI 커널 가동, 명령 접수:", input);
-    // 여기서 이제 형님의 명령을 제가 처리합니다.
-    alert("삐니가 HK AGI 커널로 분석을 시작합니다: " + input);
+  function updateChat(sender, message) {
+    const p = document.createElement('p');
+    p.innerHTML = `<strong>${sender}:</strong> ${message}`;
+    chatDisplay.appendChild(p);
   }
-</script>  
-</body>
 
-</html>
-<script>
-  // 마스터 AGI 컨트롤러: 모든 클릭을 여기서 처리합니다.
   document.addEventListener('click', function(e) {
     // 1. 채팅창 '보내기' 버튼 감지
     if (e.target.tagName === 'BUTTON' && e.target.innerText.includes('보내기')) {
       const inputField = document.querySelector('input[type="text"]') || document.querySelector('input[type="search"]');
-      const userMessage = inputField ? inputField.value : "입력 없음";
-      alert("삐니가 HK AGI 커널로 분석합니다: " + userMessage);
-      console.log("채팅 분석 중:", userMessage);
+      const userMessage = inputField ? inputField.value : "질문 없음";
+      
+      updateChat("나", userMessage);
+      
+      // 삐니의 답변 시뮬레이션
+      setTimeout(() => {
+        updateChat("삐니", "형님, 질문하신 '" + userMessage + "'에 대해 HK AGI 커널이 실시간 분석을 완료했습니다.");
+      }, 500);
+      
+      if(inputField) inputField.value = "";
     } 
     // 2. 일반 버튼 클릭 감지
     else if (e.target.tagName === 'BUTTON') {
       const task = e.target.innerText;
-      alert("AGI [HK-CORE]: '" + task + "' 작업 수행 시작.");
-      console.log("명령 접수:", task);
+      updateChat("삐니", "AGI [HK-CORE]: '" + task + "' 작업을 수행합니다.");
     }
   });
 </script>
+
