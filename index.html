@@ -2118,9 +2118,9 @@ index.html
 </div>
 <!-- 문답형 대화창 스타일 -->
 <div id="pinny-chat-interface" style="position: fixed; bottom: 20px; right: 20px; width: 300px; background: #000; color: #fff; padding: 15px; border: 1px solid #444; border-radius: 8px; z-index: 9999;">
-    <div id="agi-response" style="height: 150px; overflow-y: auto; margin-bottom: 10px; font-size: 12px;">삐니 연결 대기 중...</div>
-    <input type="text" id="agi-query" style="width: 100%; padding: 5px; background: #222; color: #fff; border: 1px solid #555;">
-    <button onclick="runEngine()" style="width: 100%; margin-top: 5px; cursor: pointer;">전송</button>
+    <div id="agi-response" style="height: 150px; overflow-y: auto; margin-bottom: 10px; font-size: 12px; border: 1px solid #333; padding: 5px;">삐니 연결 대기 중...</div>
+    <input type="text" id="agi-query" style="width: 100%; padding: 5px; background: #222; color: #fff; border: 1px solid #555;" placeholder="질문을 입력하세요">
+    <button onclick="runEngine()" style="width: 100%; margin-top: 5px; cursor: pointer; padding: 5px;">전송</button>
 </div>
 
 <script>
@@ -2128,15 +2128,20 @@ function runEngine() {
     const query = document.getElementById('agi-query').value;
     const resDiv = document.getElementById('agi-response');
     
-    // 엔진이 로드되었는지 확인
+    // 1. 엔진 존재 여부 확인
     if (typeof HK_core === 'undefined') {
-        resDiv.innerHTML = "<div style='color:red;'>[오류] 엔진이 아직 안 올라왔습니다!</div>";
+        resDiv.innerHTML += "<div style='color:red;'>[오류] HK_core 엔진이 로드되지 않았습니다.</div>";
         return;
     }
     
-    // 엔진 실행
-    const result = HK_core.processFinancialLogic(query, 'KO');
-    resDiv.innerHTML += `<div><b>나:</b> ${query}</div><div style="color:#0f0;"><b>삐니:</b> ${result}</div>`;
+    // 2. 엔진 실행
+    try {
+        const result = HK_core.processFinancialLogic(query, 'KO');
+        resDiv.innerHTML += `<div><b>나:</b> ${query}</div><div style="color:#0f0;"><b>삐니:</b> ${result}</div>`;
+    } catch(e) {
+        resDiv.innerHTML += `<div style='color:red;'>[엔진 실행 에러] ${e.message}</div>`;
+    }
+    
     document.getElementById('agi-query').value = '';
     resDiv.scrollTop = resDiv.scrollHeight;
 }
