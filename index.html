@@ -2138,21 +2138,23 @@ index.html
             
             return "혜공 형님, " + query + "에 대해 분석 중입니다. 더 자세한 정보가 필요하신가요?";
         }
-    };async function handleAGIQuery() {
-        const input = document.getElementById('agi-query');
-        const container = document.getElementById('agi-response');
-        if (!input.value) return;
+  async function handleAGIQuery() {
+    const input = document.getElementById('agi-query');
+    const container = document.getElementById('agi-response');
+    if (!input.value) return;
 
-        // 1. 형님의 질문 추가
-      console.log("전송 버튼 눌림 확인")
-       container.innerHTML += `<div style="text-align: right; margin: 10px 0;"><span style="background:#000; color:#fff; padding:5px 10px; border-radius:10px;">${input.value}</span></div>`;
-        const query = input.value;
-        input.value = "";
+    // 형님의 금융 엔진(HK_core)으로 신호를 보냅니다.
+    const answer = HK_core.processFinancialLogic(input.value, 'KO');
 
-        // 2. 삐니(HK_core) 답변 추가
-        const answer = HK_core.processFinancialLogic(query, 'KO');
-        container.innerHTML += `<div style="text-align: left; margin: 10px 0;"><span style="background:#eee; padding:5px 10px; border-radius:10px;">${answer}</span></div>`;
-        
+    // 화면에 대화 내용을 띄웁니다.
+    container.innerHTML += `<div style="margin-bottom:5px;"><b>형님:</b> ${input.value}</div>`;
+    container.innerHTML += `<div style="margin-bottom:10px; color:#555;"><b>삐니:</b> ${answer}</div>`;
+    
+    // 자동 스크롤 및 입력창 초기화
+    container.scrollTop = container.scrollHeight;
+    input.value = '';
+}
+
         // 3. 자동 스크롤
         container.scrollTop = container.scrollHeight;
     }
