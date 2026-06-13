@@ -2115,32 +2115,25 @@ index.html
     </div>
 </div>
 <!-- 문답형 대화창 스타일 -->
-<div id="pinny-chat-interface" style="position: fixed; bottom: 15px; right: 15px; width: 320px; max-width: 90vw; background: #1a1a1a; border: 1px solid #444; border-radius: 12px; padding: 15px; z-index: 9999; box-shadow: 0 4px 15px rgba(0,0,0,0.5); font-family: sans-serif;">
-    <div id="agi-response" style="height: 180px; overflow-y: auto; color: #00ff00; font-size: 13px; margin-bottom: 15px; border-bottom: 1px solid #333; padding-bottom: 5px;">
-        삐니가 준비되었습니다. 형님, 말씀하십시오.
-    </div>
-    <div style="display: flex; gap: 8px;">
-        <input type="text" id="agi-query" style="flex: 1; background: #333; border: 1px solid #555; color: white; padding: 8px; border-radius: 6px; outline: none;">
-        <button id="send-btn" style="background: #007bff; color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer;">전송</button>
-    </div>
+<div id="pinny-chat-interface" style="position:fixed; bottom:0; width:100%; background:black; color:white; padding:10px; z-index:9999;">
+    <input type="text" id="test-input" placeholder="엔진 테스트 입력">
+    <button onclick="testEngine()">엔진 테스트</button>
+    <div id="test-output"></div>
 </div>
 
 <script>
-    document.getElementById('send-btn').addEventListener('click', function() {
-        const input = document.getElementById('agi-query');
-        const display = document.getElementById('agi-response');
-        if(!input.value.trim()) return;
+function testEngine() {
+    const val = document.getElementById('test-input').value;
+    const output = document.getElementById('test-output');
+    try {
+        console.log("엔진 점검 시작:", typeof HK_core);
+        if (typeof HK_core === 'undefined') throw new Error("HK_core가 아예 정의되지 않음");
         
-        display.innerHTML += `<div style="margin-bottom:8px;"><b>형님:</b> ${input.value}</div>`;
-        
-        try {
-            const answer = HK_core.processFinancialLogic(input.value, 'KO');
-            display.innerHTML += `<div style="margin-bottom:8px; color:#00ff00;"><b>삐니:</b> ${answer}</div>`;
-        } catch(e) {
-            display.innerHTML += `<div style="color:red; font-size:11px;">[엔진 오류] ${e.message}</div>`;
-        }
-        
-        input.value = '';
-        display.scrollTop = display.scrollHeight;
-    });
+        const res = HK_core.processFinancialLogic(val, 'KO');
+        output.innerText = "결과: " + res;
+    } catch(err) {
+        output.innerHTML = "<span style='color:red;'>시궁창 원인: " + err.message + "</span>";
+        console.error(err);
+    }
+}
 </script>
