@@ -1,18 +1,14 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-   <head>
+   <script src="https://cdn.ethers.io/lib/ethers-5.7.2.umd.min.js"></script>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HK WORLD BANK - SUPREME 17</title>
     <style>
-        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
-        /* 기존 스타일 그대로 유지 */
-    </style>
-</head>
-<body>
-
-    @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+     @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
        :root {
             --hk-gold: #FFD700; --hk-green: #39FF14; --hk-blue: #00F3FF;
             --hk-pink: #FF00FF; --hk-bg: #000000; --hk-card: #121212;
@@ -320,6 +316,21 @@
         © HYEKONG. ALL RIGHTS RESERVED.
     </div>
 </div>
+
+<div class="chat-window" id="chat-win">
+    <div class="chat-head">
+        <span id="chat-title">🤖 HK 비서 삐니</span>
+        <span class="chat-close" onclick="toggleChat()">&times;</span>
+    </div>
+    <div class="chat-body" id="chat-msg-area">
+        <div class="msg-bubble bot-msg" id="chat-greeting">안녕하세요? 무엇이든 물어보세요.</div>
+    </div>
+    <div class="chat-input-area">
+        <input type="text" id="chat-input" placeholder="무엇이 궁금하세요?" onkeyup="if(event.keyCode==13) handleChat()">
+        <button class="chat-send-btn" id="chat-send" onclick="handleChat()">보내기</button>
+    </div>
+</div>
+<div class="bbini-float" onclick="toggleChat()">🤖</div>
 
 <script>
     const dataStore = {
@@ -1544,16 +1555,6 @@ let myAsset = 2.55; // 이 줄을 추가하세요!
     }
     init();
 </script>
-<div id="pinny-chat-interface" style="position: fixed; bottom: 80px; right: 20px; width: 300px; background: #fff; border: 2px solid #FFD700; border-radius: 10px; z-index: 10000; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
-    <div id="agi-response" style="height: 200px; overflow-y: auto; padding: 10px; font-size: 13px; color: #333;">
-        혜공 형님, 삐니가 금융 엔진을 준비했습니다. 무엇을 도와드릴까요?
-    </div>
-    <div style="display: flex; padding: 5px;">
-        <input type="text" id="agi-query" style="flex: 1; border: 1px solid #ccc; padding: 5px;" placeholder="명령...">
-        <button onclick="handleAGIQuery()" style="background: #FFD700; border: none; padding: 5px 10px; cursor: pointer;">전송</button>
-    </div>
-</div>
-
 </body>
 <style>
     .hk-modal {
@@ -2116,33 +2117,3 @@ index.html
         <button style="width: 90%;" onclick="alert('기본소득 신청 완료: 자격 심사 중')">UBI 신청/조회</button>
     </div>
 </div>
-<!-- 문답형 대화창 스타일 -->
-<div id="pinny-chat-interface" style="position: fixed; bottom: 20px; right: 20px; width: 300px; background: #000; color: #fff; padding: 15px; border: 1px solid #444; border-radius: 8px; z-index: 9999;">
-    <div id="agi-response" style="height: 150px; overflow-y: auto; margin-bottom: 10px; font-size: 12px; border: 1px solid #333; padding: 5px;">삐니 연결 대기 중...</div>
-    <input type="text" id="agi-query" style="width: 100%; padding: 5px; background: #222; color: #fff; border: 1px solid #555;" placeholder="질문을 입력하세요">
-    <button onclick="runEngine()" style="width: 100%; margin-top: 5px; cursor: pointer; padding: 5px;">전송</button>
-</div>
-
-<script>
-function runEngine() {
-    const query = document.getElementById('agi-query').value;
-    const resDiv = document.getElementById('agi-response');
-    
-    // 1. 엔진 존재 여부 확인
-    if (typeof HK_core === 'undefined') {
-        resDiv.innerHTML += "<div style='color:red;'>[오류] HK_core 엔진이 로드되지 않았습니다.</div>";
-        return;
-    }
-    
-    // 2. 엔진 실행
-    try {
-        const result = HK_core.processFinancialLogic(query, 'KO');
-        resDiv.innerHTML += `<div><b>나:</b> ${query}</div><div style="color:#0f0;"><b>삐니:</b> ${result}</div>`;
-    } catch(e) {
-        resDiv.innerHTML += `<div style='color:red;'>[엔진 실행 에러] ${e.message}</div>`;
-    }
-    
-    document.getElementById('agi-query').value = '';
-    resDiv.scrollTop = resDiv.scrollHeight;
-}
-</script>
