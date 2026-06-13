@@ -2115,48 +2115,33 @@ index.html
     </div>
 </div>
 <!-- 문답형 대화창 스타일 -->
-<div id="pinny-chat-interface" style="position: fixed; bottom: 10px; right: 10px; width: 90%; max-width: 300px; background: #fff; border: 1px solid #333; padding: 10px; z-index: 9999; border-radius: 8px;">
-    <div id="agi-response" style="height: 150px; overflow-y: auto; font-size: 14px; margin-bottom: 10px; border-bottom: 1px solid #eee;"></div>
-    <div style="display: flex;">
-        <input type="text" id="agi-query" style="flex: 1; padding: 5px; font-size: 14px;">
-        <button onclick="handleAGIQuery()" style="padding: 5px 10px; background: #FFD700; border: none; cursor: pointer;">전송</button>
+<div id="pinny-chat-interface" style="position: fixed; bottom: 10px; right: 10px; width: 90%; max-width: 300px; background: #fff; border: 2px solid #000; padding: 15px; z-index: 9999; border-radius: 10px;">
+    <div id="agi-response" style="height: 150px; overflow-y: auto; margin-bottom: 10px; font-size: 13px; color: #333;"></div>
+    <div style="display: flex; gap: 5px;">
+        <input type="text" id="agi-query" style="flex: 1; padding: 8px; border: 1px solid #ccc;">
+        <button onclick="executeAGI()" style="padding: 8px 12px; cursor: pointer; background: #000; color: #fff; border: none;">전송</button>
     </div>
 </div>
-    // 혜공 형님을 위한 HK_core 금융 엔진 정의
- 
 
-    // 기존에 있던 handleAGIQuery 함수는 그대로 두시면 됩니다.
-  
-          const HK_core = {
-        processFinancialLogic: function(query, lang) {
-            // 여기에 질문 키워드에 따른 답변을 추가하세요
-            if (query.includes('환율')) return "현재 1 USD = 1,380 KRW 기준 실시간 분석 중입니다.";
-            if (query.includes('인수')) return "Figure AI 인수를 위한 전략적 분석을 수행합니다.";
-            if (query.includes('시스템')) return "HK 그룹 글로벌 금융 시스템이 정상 작동 중입니다.";
-            
-            return "혜공 형님, " + query + "에 대해 분석 중입니다. 더 자세한 정보가 필요하신가요?";
-        }
-  async function handleAGIQuery() {
+<script>
+function executeAGI() {
     const input = document.getElementById('agi-query');
-  async function handleAGIQuery() {
-    const input = document.getElementById('agi-query');
-    const container = document.getElementById('agi-response');
-    if (!input.value) return;
-
-    // 형님의 금융 엔진과 대화
-    const answer = HK_core.processFinancialLogic(input.value, 'KO');
-
-    // 채팅창에 띄우기
-    container.innerHTML += `<div style="margin-bottom:5px;"><b>형님:</b> ${input.value}</div>`;
-    container.innerHTML += `<div style="margin-bottom:10px; color:#555;"><b>삐니:</b> ${answer}</div>`;
+    const display = document.getElementById('agi-response');
+    const query = input.value;
     
-    // 창 아래로 내리기 & 입력창 비우기
-    container.scrollTop = container.scrollHeight;
-    input.value = '';
-}
+    if (!query) return;
 
-        // 3. 자동 스크롤
-        container.scrollTop = container.scrollHeight;
-    }
+    // 엔진 호출
+    const answer = HK_core.processFinancialLogic(query, 'KO');
+
+    // 결과 출력
+    display.innerHTML += `<div style="margin-bottom:5px;"><b>형님:</b> ${query}</div>`;
+    display.innerHTML += `<div style="margin-bottom:10px; color:blue;"><b>삐니:</b> ${answer}</div>`;
+    
+    input.value = '';
+    display.scrollTop = display.scrollHeight;
+}
+</script>
+
 </script>
 
