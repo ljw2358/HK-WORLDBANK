@@ -37,3 +37,5 @@ const HK_Core_Engine = {
 
 // 시스템 초기화
 export default HK_Core_Engine;
+// 이 줄을 맨 아래에 추가하십시오
+window.HK_core = HK_Core_Engine;
