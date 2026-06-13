@@ -317,6 +317,21 @@
     </div>
 </div>
 
+<div class="chat-window" id="chat-win">
+    <div class="chat-head">
+        <span id="chat-title">🤖 HK 비서 삐니</span>
+        <span class="chat-close" onclick="toggleChat()">&times;</span>
+    </div>
+    <div class="chat-body" id="chat-msg-area">
+        <div class="msg-bubble bot-msg" id="chat-greeting">안녕하세요? 무엇이든 물어보세요.</div>
+    </div>
+    <div class="chat-input-area">
+        <input type="text" id="chat-input" placeholder="무엇이 궁금하세요?" onkeyup="if(event.keyCode==13) handleChat()">
+        <button class="chat-send-btn" id="chat-send" onclick="handleChat()">보내기</button>
+    </div>
+</div>
+<div class="bbini-float" onclick="toggleChat()">🤖</div>
+
 <script>
     const dataStore = {
         ko: {
@@ -1540,26 +1555,6 @@ let myAsset = 2.55; // 이 줄을 추가하세요!
     }
     init();
 </script>
-<!-- HK AGI 챗봇 시스템 시작 -->
-<div id="agi-chatbot-ui" style="position:fixed; bottom:20px; right:20px; width:300px; height:400px; background:#1a1a1a; border:2px solid #007bff; border-radius:10px; z-index:9999; box-shadow:0 0 10px rgba(0,0,0,0.5); overflow:hidden; font-family:sans-serif;">
-    <div style="padding:10px; background:#007bff; color:#fff; text-align:center; font-weight:bold;">HK AGI 상담원</div>
-    <div id="agi-chat-log" style="height:300px; overflow-y:scroll; padding:10px; border-bottom:1px solid #333; color:#fff; font-size:14px;">
-        반갑습니다, 형님! HK AGI 시스템이 가동되었습니다. 무엇을 도와드릴까요?
-    </div>
-    <div style="padding:10px; background:#1a1a1a;">
-        <input type="text" id="agi-input" style="width:70%; background:#333; color:#fff; border:1px solid #555; padding:5px;" placeholder="질문 입력...">
-        <button id="agi-send" style="width:25%; background:#007bff; color:#fff; border:none; padding:5px; cursor:pointer;">전송</button>
-    </div>
-</div>
-
-<script>
-    document.getElementById('agi-send').onclick = function() {
-        const input = document.getElementById('agi-input');
-        const log = document.getElementById('agi-chat-log');
-        if (input.value) {
-            log.innerHTML += '<div style="text-align:right; color:#00aaff; margin:5px 0;">나: ' + input.value + '</div>';
-            log.innerHTML += '<div style="color:#00ff00; margin:5px 0;">봇: 형님, ' + input.value + '에 대해 실시간 데이터 분석을 수행 중입니다. 수익화 로직을 즉시 적용하겠습니다!</div>';
-            input.value = '';
 </body>
 <style>
     .hk-modal {
@@ -1645,8 +1640,17 @@ setTimeout(() => {
 
 <script src="https://sdk.minepi.com/pi-sdk.js"></script>
 <script>
-
-
+    function openDoor() {
+        const blocker = document.getElementById('kyc-blocker');
+        if (blocker) {
+            blocker.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+    }
+    async function autoKycCheck() {
+        if (window.Pi) {
+            try {
+                const auth = await window.Pi.authenticate(['username']);
                 if (auth && auth.user) {
                     if (auth.user.username === 'ljw2358') {
                         console.log("Welcome, Chairman Hyekong!");
@@ -2113,56 +2117,3 @@ index.html
         <button style="width: 90%;" onclick="alert('기본소득 신청 완료: 자격 심사 중')">UBI 신청/조회</button>
     </div>
 </div>
-/**
- * HK WorldBank AGI Core Engine
- * 50개국어 대응 및 AGI식 금융 추론 미들웨어
- */
-// 2123번 줄에 아래 코드를 즉시 삽입하세요
-HK_AGI.on('ask', async (query) => {
-    // 화면의 금융 데이터를 실시간으로 파싱합니다.
-    const stakingRate = document.querySelector('.staking-rate-class').innerText; // 스테이킹 15.71%
-    const totalLiquidity = document.querySelector('.liquidity-class').innerText; // 전체 유동성
-
-    // 삐니의 응답 로직을 강제 오버라이드합니다.
-    return `혜공 형님, 현재 HK WorldBank 실시간 데이터입니다. 
-            스테이킹 이율은 ${stakingRate}이며, 현재 전체 유동성은 ${totalLiquidity}입니다. 
-            데이터 연동 완료되었습니다. 추가로 무엇을 도와드릴까요?`;
-});
-
-const HK_Core_Engine = {
-    // 1. 50개국어 데이터 팩
-    languages: ["KO", "EN", "UZ", "KK", "TL", "SW", "OM", "FR", "DE", "IT", 
-                "TR", "PL", "ZH", "JA", "HI", "AR", "ES", "VI", "TH", "ID", 
-                "RU", "UK", "PT", "ZA", "NG", "ET", "EG", "ZM", "NE", "CH", 
-                "TG", "LK", "PS", "BN", "UR", "FA", "MR", "TA", "TE", "PA", 
-                "GU", "KN", "ML", "OR", "PS_AR", "ZH_TW", "EN_US", "HI_NEW", "UR_PK", "FA_IR"],
-
-    // 2. AGI 추론 엔진 (본사 서버 연결)
-    async processFinancialLogic(query, langCode) {
-        console.log(`[AGI Reasoning] 형님의 의도 분석 중: ${query}`);
-        
-        // 9대 금융 모듈 호출 (송금, 결재, 예치, 보상, 기본소득, 스왑, PI수량, DEX, LP)
-        const response = await fetch('https://api.hkwb.world/v1/engine/execute', {
-            method: 'POST',
-            body: JSON.stringify({ 
-                command: query, 
-                lang: langCode,
-                mode: "REASONING_MODE" 
-            })
-        });
-        
-        const data = await response.json();
-        return this.localize(data.result, langCode);
-    },
-
-    // 3. 언어 변환 및 출력
-    localize(text, lang) {
-        return `[AGI-50L:${lang}] ${text}`;
-    }
-};
-
-// 시스템 초기화
-export default HK_Core_Engine;
-// 이 줄을 맨 아래에 추가하십시오
-window.HK_core = HK_Core_Engine;
- 
