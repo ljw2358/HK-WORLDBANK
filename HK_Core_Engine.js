@@ -42,8 +42,11 @@ window.HK_core = HK_Core_Engine;
 /** * [배당 엔진 모듈 - 혜공 대통령님 설계]
  * 로봇 수익을 하층민에게 자동으로 배당하는 곳간 시스템
  */
+/** * [최종 통합 배당 엔진 - 혜공 대통령님 설계]
+ * 로봇 수익을 하층민에게 자동으로 배당하는 곳간 시스템
+ */
 class DividendEngine {
-    constructor(baseRate = 0.05) {
+    constructor(baseRate = 0.1) { // 기본 배당률 10%로 상향
         this.baseRate = baseRate;
     }
     
@@ -51,7 +54,7 @@ class DividendEngine {
         return totalRevenue * this.baseRate;
     }
 
-    // 형님의 대통령 정책: 로봇 생산성 수익 배당 로직
+    // 대통령 정책: 로봇 생산성 수익 배당 로직
     executeDistribution(totalRevenue, recipients) {
         const pool = this.calculate(totalRevenue);
         const amountPerPerson = pool / recipients.length;
@@ -60,16 +63,10 @@ class DividendEngine {
     }
 }
 
-// AGI가 시스템 시작 시 배당 엔진을 초기화하도록 설정
+// 시스템 초기화
 window.DividendEngine = new DividendEngine(0.1); 
-console.log("AGI 코어: 배당 엔진이 곳간에 성공적으로 연결되었습니다.");
-/** * [배당 엔진 모듈 - 혜공 대통령님 설계]
- * 로봇 수익을 하층민에게 자동으로 배당하는 곳간 시스템
- */
-class DividendEngine {
-    constructor(baseRate = 0.05) {
-        this.baseRate = baseRate;
-    }
+console.log("AGI 코어: 배당 엔진이 곳간에 성공적으로 단일화되어 연결되었습니다.");
+
     
     calculate(totalRevenue) {
         return totalRevenue * this.baseRate;
