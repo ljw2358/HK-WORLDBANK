@@ -84,3 +84,26 @@ console.log("AGI 코어: 배당 엔진이 곳간에 성공적으로 단일화되
 // AGI가 시스템 시작 시 배당 엔진을 초기화하도록 설정
 window.DividendEngine = new DividendEngine(0.1); 
 console.log("AGI 코어: 배당 엔진이 곳간에 성공적으로 연결되었습니다.");
+/** * [수익 수집 모듈 - 로봇 생산 데이터 연동]
+ * Figure AI 로봇의 시간당 수익을 집계하는 곳간 수집기
+ */
+class RevenueCollector {
+    constructor() {
+        this.totalRevenue = 0;
+    }
+
+    // 로봇 작업 완료 시 수익 자동 기록
+    recordRevenue(robotId, amount) {
+        this.totalRevenue += amount;
+        console.log(`[곳간 데이터] 로봇 ${robotId}가 ${amount} Pi를 벌었습니다. 총수익: ${this.totalRevenue} Pi`);
+    }
+
+    // 배당 엔진으로 수익 데이터 전송
+    getRevenueForDividend() {
+        return this.totalRevenue;
+    }
+}
+
+// 수익 수집기 활성화
+window.RevenueCollector = new RevenueCollector();
+console.log("AGI 코어: 수익 수집 모듈이 정상 가동되었습니다.");
