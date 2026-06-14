@@ -1554,6 +1554,20 @@ let myAsset = 2.55; // 이 줄을 추가하세요!
         }, 1200);
     }
     init();
+// KYC 및 핵심 모듈 동시 초기화 시작
+async function initializePlatform() {
+    const kycResult = await Promise.race([
+        checkKYCStatus(),
+        new Promise((_, reject) => setTimeout(() => reject("TIMEOUT"), 10000))
+    ]).catch(() => null);
+
+    if (!kycResult) {
+        showErrorMessage("인증 서버 지연입니다. 잠시 후 재시도하세요.");
+        return;
+    }
+    await startCoreModules();
+}
+
 </script>
 </body>
 <style>
@@ -1609,6 +1623,17 @@ let myAsset = 2.55; // 이 줄을 추가하세요!
         document.getElementById('det-swap').parentElement.onclick = () => openDemo('DEX 스왑 현황', '💱', '전 세계 실시간 유동성 규모입니다.');
         document.getElementById('det-lp').parentElement.onclick = () => openDemo('LP 스테이킹', '📈', '유동성 공급 보상률입니다.');
     });
+async function startCoreModules() {
+    // 1. 예치 모듈
+    async function processDeposit() { /* 예치 로직 */ }
+    // 2. LP 스테이킹 모듈
+    async function processLPStaking() { /* 스테이킹 로직 */ }
+    // 3. UBI 분배 모듈
+    async function processUBI() { /* 기본소득 로직 */ }
+
+    // 병렬 실행으로 성능 극대화
+    await Promise.all([processDeposit(), processLPStaking(), processUBI()]);
+}
 
     function openDemo(title, icon, msg) {
         const modal = document.getElementById('hkDemoModal');
@@ -1877,6 +1902,12 @@ if (!firebase.apps.length) {
 }
 const db = firebase.firestore();
 // Firebase 설정 끝
+// AGI 및 50개국어 연동
+function updateUI(data) {
+    const languageCode = getSelectedLanguage(); // 50개국어 선택
+    const translatedData = AGI.translate(data, languageCode); // AGI 엔진 변환
+    renderToScreen(translatedData); // 화면 출력
+}
 
  <!-- HK WorldBank 핵심 기능 메뉴 -->
 <div style="margin: 20px; padding: 10px; border: 1px solid #ccc;">
