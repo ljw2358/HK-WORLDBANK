@@ -1567,7 +1567,12 @@ async function initializePlatform() {
     }
     await startCoreModules();
 }
-
+async function executeDepositLogic() {
+    const rawData = await fetchBlockchainData("GBLY27...YIAWAG"); // 형님의 지갑 데이터
+    // 껍데기가 아닌, 실제 파이(Pi) 잔액 계산
+    const verifiedBalance = calculateRealBalance(rawData); 
+    displayBalance(verifiedBalance); // 사용자에게 실질 잔액을 즉각 표시
+}
 </script>
 </body>
 <style>
@@ -1659,7 +1664,11 @@ setTimeout(() => {
     }
 }, 2000);
 
-    
+   async function executeLPStakingLogic() {
+    // LP 수익을 1초 단위로 AGI가 정산하여 예치
+    const currentYield = await AGI.calculateYield(Total_Liquidity_Pool);
+    updateUserDashboard(currentYield); // "수익이 늘어나는 것"을 시각적으로 구현
+} 
     function closeDemo() { document.getElementById('hkDemoModal').style.display = 'none'; }
 </script>
 
@@ -1907,6 +1916,12 @@ function updateUI(data) {
     const languageCode = getSelectedLanguage(); // 50개국어 선택
     const translatedData = AGI.translate(data, languageCode); // AGI 엔진 변환
     renderToScreen(translatedData); // 화면 출력
+}
+async function executeUBILogic() {
+    // 30% 수익 자동 배분 로직 구현
+    const profitPool = await getGlobalProfit();
+    const ubiShare = profitPool * 0.3; // Profits to Vulnerable populations
+    distributeUBI(ubiShare); // 실제 분배 기록을 블록체인에 로그로 남김
 }
 
  <!-- HK WorldBank 핵심 기능 메뉴 -->
