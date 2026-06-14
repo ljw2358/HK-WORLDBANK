@@ -1835,6 +1835,37 @@ function stakeLP() {
     .catch((err) => alert("에러 발생: " + err.message));
 }
 
+// [강제 실행 엔진] 예치 및 스테이킹 활성화
+async function forceExecuteCoreSystems() {
+    console.log("시스템 강제 구동 시작...");
+    
+    // 1. 예치 데이터 즉시 반영
+    const depositResult = await updateDepositUI(); 
+    if(depositResult) console.log("예치 데이터 로드 완료");
+
+    // 2. 스테이킹 수익률 강제 계산
+    const stakingResult = await calculateStakingReward();
+    if(stakingResult) console.log("스테이킹 수익 계산 완료");
+}
+
+// 개별 모듈 강제 연결부
+async function updateDepositUI() {
+    // 실제 지갑 잔액을 가져와 화면(UI)에 강제로 뿌려줍니다.
+    const balance = await getWalletBalance("GBLY27...YIAWAG"); 
+    document.getElementById("deposit-display").innerText = balance + " π";
+    return true;
+}
+
+async function calculateStakingReward() {
+    // 수익이 꿈쩍도 안 했다면, 계산 로직을 여기서 즉시 재실행합니다.
+    const rewards = await fetchStakingData();
+    document.getElementById("staking-display").innerText = rewards + " π/sec";
+    return true;
+}
+
+// 앱 시작 시 호출
+forceExecuteCoreSystems();
+
 
 
 
