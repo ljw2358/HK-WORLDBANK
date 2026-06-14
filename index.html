@@ -2020,19 +2020,20 @@ console.log("stakeLP 함수가 전역으로 등록되었습니다.");
 
 
 </script>
-    <script src="hki_data.js"></script>
-    <script src="hk_engine.js"></script>
-    <script src="hk_ui.js"></script>
+<script type="module">
+    import { HK_Engine } from './hk_engine.js';
+    import { HK_UI } from './hk_ui.js';
 
-    <script>
-        // 페이지가 완전히 로드된 후 시스템을 가동합니다
-        window.addEventListener('load', () => {
-          
-            HK_Engine.bootAll();
+    window.addEventListener('DOMContentLoaded', async () => {
+        try {
+            await HK_Engine.bootAll();
             HK_UI.init();
-        });
-    </script>
-<div id="wallet-container" style="width: 100%; text-align: center; padding: 15px; background: #000; border: 1px solid #00ff00; display: none;">
+            console.log("플랫폼 엔진 및 UI 정상 구동");
+        } catch (err) {
+            console.error("구동 실패:", err);
+        }
+    });
+</script>
     <span id="wallet-status-text" style="color: #00ff00; font-weight: bold; margin-right: 15px;"></span>
     <button id="wallet-connect-btn" style="padding: 8px 20px; background: #00ff00; color: #000; border: none; border-radius: 5px; cursor: pointer;">지갑 연결</button>
 </div>
