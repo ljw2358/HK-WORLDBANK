@@ -1,12 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <div id="wallet-container" style="display: flex; justify-content: center; align-items: center; width: 100%; padding: 20px; background: #000; position: relative;">
-    <span id="wallet-status-text" style="color: #00ff00; font-weight: bold; margin-right: 15px;">지갑 연결 상태</span>
-    <button id="wallet-connect-btn" style="padding: 10px 20px; background: #00ff00; color: #000; border: none; border-radius: 5px; cursor: pointer;">
-        지갑 연결
-    </button>
-</div> 
    <script src="https://cdn.ethers.io/lib/ethers-5.7.2.umd.min.js"></script>
     <meta charset="UTF-8">
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
@@ -171,19 +165,13 @@
             border-left: 4px solid var(--hk-blue);
         }
         .vision-box b { color: var(--hk-blue); display: block; font-size: 16px; margin-bottom: 5px; }
-<!-- HK 사회재단 스타일 지갑 연결 모듈 -->
-<div style="display: flex; flex-direction: column; align-items: flex-start; gap: 8px; margin-top: 20px;">
-  <span style="color: #00FF00; font-weight: bold; font-size: 14px;">[HK 사회재단 인증]</span>
-  <button style="background-color: #00FF00; color: #000; border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s;">
-    재단 지갑 연결하기
-  </button>
-</div>
+
         .social-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
         .btn-yt { background: var(--yt-red); color: #fff; padding: 20px; border-radius: 20px; text-decoration: none; font-weight: 900; }
         .btn-tt { background: var(--tt-black); color: #fff; padding: 20px; border-radius: 20px; text-decoration: none; font-weight: 900; border: 1px solid #333; }
 
         .footer { margin-top: 40px; font-size: 11px; color: #555; line-height: 1.6; font-weight: 700; padding-bottom: 100px; }
-
+       
         .bbini-float {
             position: fixed; bottom: 30px; right: 20px; width: 70px; height: 70px;
             background: var(--hk-gold); border-radius: 50%; display: flex;
@@ -1566,45 +1554,6 @@ let myAsset = 2.55; // 이 줄을 추가하세요!
         }, 1200);
     }
     init();
-// KYC 및 핵심 모듈 동시 초기화 시작
-async function initializePlatform() {
-    const kycResult = await Promise.race([
-        checkKYCStatus(),
-        new Promise((_, reject) => setTimeout(() => reject("TIMEOUT"), 10000))
-    ]).catch(() => null);
-
-    if (!kycResult) {
-        showErrorMessage("인증 서버 지연입니다. 잠시 후 재시도하세요.");
-        return;
-    }
-    await startCoreModules();
-}
-async function executeDepositLogic() {
-    const rawData = await fetchBlockchainData("GBLY27...YIAWAG"); // 형님의 지갑 데이터
-    // 껍데기가 아닌, 실제 파이(Pi) 잔액 계산
-    const verifiedBalance = calculateRealBalance(rawData); 
-    displayBalance(verifiedBalance); // 사용자에게 실질 잔액을 즉각 표시
-}
-// [최후의 강제 출력 테스트]
-async function testForceOutput() {
-    console.log("테스트 시작");
-    
-    // 1. 강제 예치 데이터 표시
-    const depositEl = document.getElementById("deposit-display");
-    if (depositEl) {
-        depositEl.innerText = "123.456 π"; // 숫자가 뜨는지 확인
-        depositEl.style.color = "red"; // 눈에 띄게 빨간색으로
-    }
-
-    // 2. 강제 스테이킹 표시
-    const stakingEl = document.getElementById("staking-display");
-    if (stakingEl) {
-        stakingEl.innerText = "789.012 π"; // 숫자가 뜨는지 확인
-        stakingEl.style.color = "blue"; // 눈에 띄게 파란색으로
-    }
-}
-// 바로 실행
-testForceOutput();
 </script>
 </body>
 <style>
@@ -1660,17 +1609,6 @@ testForceOutput();
         document.getElementById('det-swap').parentElement.onclick = () => openDemo('DEX 스왑 현황', '💱', '전 세계 실시간 유동성 규모입니다.');
         document.getElementById('det-lp').parentElement.onclick = () => openDemo('LP 스테이킹', '📈', '유동성 공급 보상률입니다.');
     });
-async function startCoreModules() {
-    // 1. 예치 모듈
-    async function processDeposit() { /* 예치 로직 */ }
-    // 2. LP 스테이킹 모듈
-    async function processLPStaking() { /* 스테이킹 로직 */ }
-    // 3. UBI 분배 모듈
-    async function processUBI() { /* 기본소득 로직 */ }
-
-    // 병렬 실행으로 성능 극대화
-    await Promise.all([processDeposit(), processLPStaking(), processUBI()]);
-}
 
     function openDemo(title, icon, msg) {
         const modal = document.getElementById('hkDemoModal');
@@ -1696,11 +1634,7 @@ setTimeout(() => {
     }
 }, 2000);
 
-   async function executeLPStakingLogic() {
-    // LP 수익을 1초 단위로 AGI가 정산하여 예치
-    const currentYield = await AGI.calculateYield(Total_Liquidity_Pool);
-    updateUserDashboard(currentYield); // "수익이 늘어나는 것"을 시각적으로 구현
-} 
+    
     function closeDemo() { document.getElementById('hkDemoModal').style.display = 'none'; }
 </script>
 
@@ -1867,37 +1801,6 @@ function stakeLP() {
     .catch((err) => alert("에러 발생: " + err.message));
 }
 
-// [강제 실행 엔진] 예치 및 스테이킹 활성화
-async function forceExecuteCoreSystems() {
-    console.log("시스템 강제 구동 시작...");
-    
-    // 1. 예치 데이터 즉시 반영
-    const depositResult = await updateDepositUI(); 
-    if(depositResult) console.log("예치 데이터 로드 완료");
-
-    // 2. 스테이킹 수익률 강제 계산
-    const stakingResult = await calculateStakingReward();
-    if(stakingResult) console.log("스테이킹 수익 계산 완료");
-}
-
-// 개별 모듈 강제 연결부
-async function updateDepositUI() {
-    // 실제 지갑 잔액을 가져와 화면(UI)에 강제로 뿌려줍니다.
-    const balance = await getWalletBalance("GBLY27...YIAWAG"); 
-    document.getElementById("deposit-display").innerText = balance + " π";
-    return true;
-}
-
-async function calculateStakingReward() {
-    // 수익이 꿈쩍도 안 했다면, 계산 로직을 여기서 즉시 재실행합니다.
-    const rewards = await fetchStakingData();
-    document.getElementById("staking-display").innerText = rewards + " π/sec";
-    return true;
-}
-
-// 앱 시작 시 호출
-forceExecuteCoreSystems();
-
 
 
 
@@ -1974,18 +1877,6 @@ if (!firebase.apps.length) {
 }
 const db = firebase.firestore();
 // Firebase 설정 끝
-// AGI 및 50개국어 연동
-function updateUI(data) {
-    const languageCode = getSelectedLanguage(); // 50개국어 선택
-    const translatedData = AGI.translate(data, languageCode); // AGI 엔진 변환
-    renderToScreen(translatedData); // 화면 출력
-}
-async function executeUBILogic() {
-    // 30% 수익 자동 배분 로직 구현
-    const profitPool = await getGlobalProfit();
-    const ubiShare = profitPool * 0.3; // Profits to Vulnerable populations
-    distributeUBI(ubiShare); // 실제 분배 기록을 블록체인에 로그로 남김
-}
 
  <!-- HK WorldBank 핵심 기능 메뉴 -->
 <div style="margin: 20px; padding: 10px; border: 1px solid #ccc;">
@@ -2032,27 +1923,23 @@ console.log("stakeLP 함수가 전역으로 등록되었습니다.");
 
 
 </script>
-<script type="module">
-    import { HK_Engine } from './hk_engine.js';
-    import { HK_UI } from './hk_ui.js';
+    <script src="hki_data.js"></script>
+    <script src="hk_engine.js"></script>
+    <script src="hk_ui.js"></script>
 
-    window.addEventListener('DOMContentLoaded', async () => {
-        try {
-            await HK_Engine.bootAll();
+    <script>
+        // 페이지가 완전히 로드된 후 시스템을 가동합니다
+        window.addEventListener('load', () => {
+          
+            HK_Engine.bootAll();
             HK_UI.init();
-            console.log("플랫폼 엔진 및 UI 정상 구동");
-        } catch (err) {
-            console.error("구동 실패:", err);
-        }
-    });
-<div id="wallet-container" style="display: flex; justify-content: center; align-items: center; width: 100%; padding: 20px; background: #000; position: relative;">
-    <span id="wallet-status-text" style="color: #00ff00; font-weight: bold; margin-right: 15px;">지갑 연결 상태</span>
-    <button id="wallet-connect-btn" style="padding: 10px 20px; color: #000; border: none; border-radius: 5px; cursor: pointer;">
-        지갑 연결
-    </button>
+        });
+    </script>
+<div id="wallet-container" style="width: 100%; text-align: center; padding: 15px; background: #000; border: 1px solid #00ff00; display: none;">
+    <span id="wallet-status-text" style="color: #00ff00; font-weight: bold; margin-right: 15px;"></span>
+    <button id="wallet-connect-btn" style="padding: 8px 20px; background: #00ff00; color: #000; border: none; border-radius: 5px; cursor: pointer;">지갑 연결</button>
 </div>
-</script>
-  
+
 <script>
 
 <script>
