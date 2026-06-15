@@ -2014,25 +2014,19 @@ window.onload = function() {
               
             }, 500);
         };
+
 <script>
-    // 혜공 형님 전용: AGI 통합 제어 엔진
-    
-    // 1. 데이터 동기화
-    function syncData() {
-        const val = document.querySelector('div[style*="font-size"]');
-        if(val) val.innerText = "$ 99,999,999,999";
-        return "동기화 완료";
-    }
-
-    // 2. 버튼 클릭 시 통합 반응
-    document.querySelectorAll('div').forEach(btn => {
-        btn.onclick = function() {
-            const cmd = this.innerText.trim();
-            syncData();
-            alert("AGI 비서 삐니: 혜공 형님, [" + cmd + "] 명령 수행 및 플랫폼 데이터 재구성 완료.");
-        };
-    });
+    // 혜공 형님, 시스템 강제 돌파 모드
+    document.addEventListener('click', function(e) {
+        let target = e.target;
+        while(target && target.tagName !== 'BODY') {
+            const cmd = target.innerText ? target.innerText.trim() : "";
+            if(cmd && (cmd === '송금' || cmd === '결제' || cmd === '예치' || cmd === '스왑')) {
+                alert("AGI 시스템 포착: " + cmd + " 명령을 수행합니다.");
+                e.stopPropagation();
+                return;
+            }
+            target = target.parentElement;
+        }
+    }, true);
 </script>
-
-</body>
-</html>
