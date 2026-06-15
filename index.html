@@ -2014,19 +2014,21 @@ window.onload = function() {
               
             }, 500);
         };
+
 <script>
-    // 혜공 형님, 버튼 클릭 강제 우회 엔진
-    (function() {
-        const buttons = document.querySelectorAll('div');
-        buttons.forEach(btn => {
-            // 모든 기존 이벤트를 무시하고 클릭을 가로챕니다.
-            btn.addEventListener('click', function(e) {
-                const cmd = this.innerText.trim();
-                if(cmd.length > 0 && cmd.length < 10) {
-                    alert('혜공 형님, [ ' + cmd + ' ] 명령이 AGI 엔진에 정상 접수되었습니다.');
-                    e.stopImmediatePropagation();
-                }
-            }, true); 
-        });
-    })();
+    // 혜공 형님, 레이어 완전 돌파 엔진
+    document.body.addEventListener('click', function(e) {
+        // 클릭한 위치의 요소를 재귀적으로 탐색하여 버튼 텍스트를 찾습니다.
+        let target = e.target;
+        while(target) {
+            const text = target.innerText ? target.innerText.trim() : "";
+            // 버튼 명칭이 확인되면 즉시 실행
+            if(['송금', '결제', '예치', '보상', '기본소득', '스왑'].includes(text)) {
+                alert('혜공 형님, [ ' + text + ' ] 명령을 시스템 레이어를 뚫고 강제로 접수했습니다.');
+                e.stopImmediatePropagation();
+                return;
+            }
+            target = target.parentElement;
+        }
+    }, true);
 </script>
