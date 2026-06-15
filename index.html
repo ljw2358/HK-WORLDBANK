@@ -2016,33 +2016,15 @@ window.onload = function() {
         };
     </script>
 <script>
-    // 버튼 반응형 엔진
-    document.querySelectorAll('div').forEach(button => {
-        button.style.cursor = 'pointer';
-        button.addEventListener('click', function() {
-            alert('혜공 형님, ' + this.innerText + ' 명령을 AGI 엔진이 접수했습니다.');
-        });
+    // 혜공 형님 전용: AGI 직관형 엔진
+    document.querySelectorAll('div').forEach(btn => {
+        btn.onclick = function() {
+            const cmd = this.innerText.trim();
+            alert('혜공 형님, [' + cmd + '] 명령을 즉시 수행하겠습니다.');
+        };
     });
 </script>
-<script>
-    // AGI 연결 엔진
-    document.querySelectorAll('div').forEach(btn => {
-        btn.addEventListener('click', async function() {
-            const cmd = this.innerText.trim();
-            alert('AGI 엔진: ' + cmd + ' 데이터 분석 중...');
-            
-            try {
-                const response = await fetch('https://api.hk.world/process', {
-                    method: 'POST',
-                    body: JSON.stringify({ action: cmd })
-                });
-                const data = await response.json();
-                alert('결과: ' + data.message);
-            } catch (e) {
-                alert('형님, 연결 통로가 확인되었습니다. 이제 서버 주소만 입력하면 즉시 데이터가 연동됩니다.');
-            }
-        });
-    });
+
 </script>
 </body>
 </html>
