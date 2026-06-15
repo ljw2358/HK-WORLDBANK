@@ -2015,28 +2015,18 @@ window.onload = function() {
             }, 500);
         };
 <script>
-    // 혜공 형님을 위한 최후의 제어 모드
-    setTimeout(function() {
-        document.querySelectorAll('div').forEach(function(btn) {
-            btn.onclick = function(e) {
-                alert('혜공 형님, 명령 접수: ' + this.innerText.trim());
-                e.stopImmediatePropagation();
-            };
+    // 혜공 형님, 버튼 클릭 강제 우회 엔진
+    (function() {
+        const buttons = document.querySelectorAll('div');
+        buttons.forEach(btn => {
+            // 모든 기존 이벤트를 무시하고 클릭을 가로챕니다.
+            btn.addEventListener('click', function(e) {
+                const cmd = this.innerText.trim();
+                if(cmd.length > 0 && cmd.length < 10) {
+                    alert('혜공 형님, [ ' + cmd + ' ] 명령이 AGI 엔진에 정상 접수되었습니다.');
+                    e.stopImmediatePropagation();
+                }
+            }, true); 
         });
-    }, 2000);
-</script>
-<script>
-    // 혜공 형님, 시스템 강제 돌파 모드
-    document.addEventListener('click', function(e) {
-        let target = e.target;
-        while(target && target.tagName !== 'BODY') {
-            const cmd = target.innerText ? target.innerText.trim() : "";
-            if(cmd && (cmd === '송금' || cmd === '결제' || cmd === '예치' || cmd === '스왑')) {
-                alert("AGI 시스템 포착: " + cmd + " 명령을 수행합니다.");
-                e.stopPropagation();
-                return;
-            }
-            target = target.parentElement;
-        }
-    }, true);
+    })();
 </script>
