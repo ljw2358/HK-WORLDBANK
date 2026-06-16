@@ -29,7 +29,33 @@
             <p>수익의 30%를 글로벌 사회를 위해 환원합니다.</p>
         </div>
     </div>
-      <!-- 산업 데이터 대시보드 섹션 -->
+  <!-- 개인 자산 현황 카드 -->
+<div class="card">
+    <h3>💎 내 자산 및 프로필</h3>
+    <div style="margin-top: 15px; padding: 15px; background: #000; border-radius: 10px; border: 1px solid var(--hk-gold);">
+        <p style="font-size: 0.9em; margin-bottom: 5px;">현재 연결된 계정</p>
+        <div id="userAccount" style="font-size: 1.1em; color: var(--hk-gold); word-break: break-all;">지갑을 연결해주세요.</div>
+    </div>
+    <div style="display: flex; justify-content: space-between; margin-top: 20px;">
+        <p>HK 포인트</p>
+        <p style="color: var(--hk-gold); font-weight: bold;">1,250,000 P</p>
+    </div>
+</div>
+
+<script>
+    // 기존 connectWallet 함수를 조금 수정해서 자산 카드에도 주소를 띄워줍니다.
+    async function connectWallet() {
+        if (window.ethereum) {
+            const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+            const addr = accounts[0];
+            document.getElementById('walletAddress').innerText = "연결 완료: " + addr.substring(0, 10) + "...";
+            document.getElementById('userAccount').innerText = addr;
+            document.getElementById('connectButton').innerText = "연결됨";
+        } else { alert("메타마스크를 설치해주세요!"); }
+    }
+</script>
+
+    <!-- 산업 데이터 대시보드 섹션 -->
     <div class="card">
         <h3>🚀 실시간 산업 현황</h3>
         <div style="display: flex; justify-content: space-around; margin-top: 20px;">
