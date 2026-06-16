@@ -1955,6 +1955,28 @@ document.getElementById('wallet-connect-btn').style.display = 'none';
 console.log("시스템 안정화 완료: 지갑 연동 모듈 잠금");
 </script>
 </script>
+// 1950번 줄 근처 함수들 아래에 이 코드를 추가하세요
+<script>
+    function execute(type) {
+        alert(type + " 엔진이 가동되었습니다.");
+        if(typeof db !== 'undefined') {
+            db.collection("HK_Ecosystem").doc("master_node").set({
+                lastAction: type, status: "active"
+            }, { merge: true });
+        }
+    }
+
+    async function connectWallet() {
+        if (window.ethereum) {
+            try {
+                const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                alert("지갑 연결 성공: " + accounts[0]);
+            } catch (e) { alert("연결 실패"); }
+        } else {
+            alert("메타마스크를 설치해주세요.");
+        }
+    }
+</script>
 
 <html lang="ko">
 <head>
