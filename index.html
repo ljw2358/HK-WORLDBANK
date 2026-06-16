@@ -1,60 +1,80 @@
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <style>
-        :root { --hk-gold: #FFD700; --hk-bg: #050505; --hk-card: #1a1a1a; }
-        body { background-color: var(--hk-bg); color: #fff; font-family: sans-serif; padding: 20px; }
-        .wrapper { display: flex; gap: 20px; justify-content: center; max-width: 1000px; margin: 0 auto; flex-wrap: wrap; }
-        .column { flex: 1; min-width: 450px; max-width: 480px; }
-        .card { background: var(--hk-card); padding: 25px; border-radius: 20px; border: 1px solid #333; margin-bottom: 20px; min-height: 120px; }
-        h1 { text-align: center; color: var(--hk-gold); font-size: 60px; margin: 40px 0; }
-        
-        /* AGI 챗봇창 스타일 */
-        #chatModal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 400px; background: #1a1a1a; padding: 25px; border-radius: 20px; border: 2px solid var(--hk-gold); z-index: 1000; }
-    </style>
+<style>
+    :root { --hk-gold: #FFD700; --hk-bg: #050505; --hk-card: #1a1a1a; }
+    body { background-color: var(--hk-bg); color: #fff; font-family: sans-serif; padding: 20px; }
+   
+    /* 전체 레이아웃을 2열로 고정하고 중앙 정렬 */
+    .wrapper { display: flex; gap: 20px; justify-content: center; max-width: 1000px; margin: 0 auto; flex-wrap: wrap; }
+   
+    /* 각 열의 너비를 동일하게 고정 */
+    .column { flex: 1; min-width: 450px; max-width: 480px; }
+   
+    /* 카드의 높이와 너비를 통일 */
+    .card { background: var(--hk-card); padding: 25px; border-radius: 20px; border: 1px solid #333; margin-bottom: 20px; min-height: 150px; }
+   
+    h1 { text-align: center; color: var(--hk-gold); margin-bottom: 30px; }
+</style>
+<!-- 구글 번역 연동 스크립트 -->
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<script type="text/javascript">
+    function googleTranslateElementInit() {
+        new google.translate.TranslateElement({
+            pageLanguage: 'ko',
+            includedLanguages: 'ko,en,zh-CN,ja,es,fr,de,ru,ar,pt,it,vi,th,id,hi,tr,de,fr,it,pl,nl',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+        }, 'google_translate_element');
+    }
+</script>
 </head>
 <body>
-    <h1>HK WorldBank</h1>
-    
+    <h1 style="text-align: center; color: var(--hk-gold);">HK Worldbank</h1>
     <div class="wrapper">
+   <div id="google_translate_element" style="text-align: center; margin-bottom: 20px;"></div>
         <div class="column">
             <div class="card">
-                <h3>YouTube</h3>
-                <a href="https://www.youtube.com/@Hyekong2025" target="_blank" style="color: var(--hk-gold);">@Hyekong2025</a>
+                <h2>지갑 연결 상태</h2>
+                <button id="connectButton" onclick="connectWallet()" style="background: var(--hk-gold); border: none; padding: 10px 20px; border-radius: 20px; cursor: pointer;">지갑 연결</button>
+                <p id="walletAddress" style="margin-top: 10px; color: var(--hk-gold);"></p>
             </div>
             <div class="card">
-                <h3>TikTok</h3>
-                <a href="https://www.tiktok.com/@Hyekong2025" target="_blank" style="color: var(--hk-gold);">@Hyekong2025</a>
+                <h3>HK 사회 재단</h3>
+                <p>수익의 30%를 글로벌 사회를 위해 환원합니다.</p>
             </div>
+       <!-- 홍보 시스템 카드 -->
+<div class="card">
+    <h3>🌐 형님의 채널 (Hyekong2025)</h3>
+    <div style="display: flex; gap: 20px; justify-content: center; margin-top: 15px;">
+        <a href="https://www.youtube.com/@Hyekong2025" target="_blank" style="color: var(--hk-gold); text-decoration: none; font-size: 20px;">YouTube</a>
+        <a href="https://www.tiktok.com/@Hyekong2025" target="_blank" style="color: var(--hk-gold); text-decoration: none; font-size: 20px;">TikTok</a>
+    </div>
+</div>
+
         </div>
         <div class="column">
             <div class="card">
-                <h3>💎 Asset & Profile</h3>
+                <h3>💎 내 자산 및 프로필</h3>
                 <p id="userAccount">지갑을 연결해주세요.</p>
+                <p>보유 HK 포인트: 1,250,000 P</p>
             </div>
             <div class="card">
-                <h3>🚀 Industry Status</h3>
-                <p>로봇 자동화: 68% | 우주 탐사: 35% | 핵융합 개발: 42%</p>
+                <h3>🚀 실시간 산업 현황</h3>
+                <p>로봇 자동화: 98% | 우주 탐사: 72% | 핵융합 개발: 85%</p>
             </div>
         </div>
     </div>
-
-    <!-- AGI 챗봇 아이콘 -->
-    <div style="position: fixed; bottom: 30px; right: 30px; font-size: 50px; cursor: pointer;" onclick="toggleChat()">🤖</div>
-    
-    <!-- AGI 질문 입력창 -->
-    <div id="chatModal">
-        <h3 style="color: var(--hk-gold);">AGI 비서 삐니</h3>
-        <input type="text" id="userInput" placeholder="질문을 입력하세요..." style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 5px; border: none;">
-        <button onclick="alert('삐니가 처리 중입니다!')" style="background: var(--hk-gold); border: none; padding: 10px; width: 100%; border-radius: 10px; cursor: pointer; font-weight: bold;">질문하기</button>
-        <button onclick="toggleChat()" style="background: #444; color: #fff; border: none; padding: 10px; width: 100%; border-radius: 10px; cursor: pointer; margin-top: 5px;">닫기</button>
-    </div>
-
+    <!-- AGI 챗봇 -->
+    <div style="position: fixed; bottom: 30px; right: 30px; font-size: 40px; cursor: pointer;" onclick="alert('혜공 형님의 AGI 비서 삐니입니다!')">🤖</div>
+   
+    <script src="https://cdn.ethers.io/lib/ethers-5.7.2.umd.min.js"></script>
     <script>
-        function toggleChat() {
-            const m = document.getElementById('chatModal');
-            m.style.display = (m.style.display === 'block') ? 'none' : 'block';
+        async function connectWallet() {
+            const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+            document.getElementById('walletAddress').innerText = "연결 완료: " + accounts[0].substring(0, 10) + "...";
+            document.getElementById('userAccount').innerText = "계정: " + accounts[0];
         }
     </script>
 </body>
