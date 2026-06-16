@@ -2,72 +2,84 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>홍콩 세계은행</title>
-    <style>
-        :root { --hk-gold: #FFD700; --hk-bg: #050505; --hk-card: #1a1a1a; }
-        body { background-color: var(--hk-bg); color: #fff; font-family: sans-serif; padding: 20px; }
-        .wrapper { display: flex; gap: 20px; justify-content: center; max-width: 1000px; margin: 0 auto; flex-wrap: wrap; }
-        .column { flex: 1; min-width: 450px; max-width: 480px; }
-        .card { background: var(--hk-card); padding: 25px; border-radius: 20px; border: 1px solid #333; margin-bottom: 20px; min-height: 150px; }
-        h1 { text-align: center; color: var(--hk-gold); margin-bottom: 30px; }
-        #chatModal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 400px; background: #1a1a1a; padding: 25px; border-radius: 20px; border: 2px solid var(--hk-gold); z-index: 1000; }
-    </style>
-    <!-- 50개국어 번역 스크립트 -->
-    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-    <script type="text/javascript">
-        function googleTranslateElementInit() {
-            new google.translate.TranslateElement({pageLanguage: 'ko', includedLanguages: 'ko,en,zh-CN,zh-TW,ja,es,fr,de,ru,ar,pt,it,vi,th,id,hi,tr,pl,nl,sv,fi,no,da,cs,hu,ro,el,he,fa,uk,ms,bn,mr,ta,te,gu,kn,ml,pa,ur,af,sw,zu,xh,am,yo,ig,ha,km,lo'}, 'google_translate_element');
-        }
-    </script>
+<style>
+    :root { --hk-gold: #FFD700; --hk-bg: #050505; --hk-card: #1a1a1a; }
+    body { background-color: var(--hk-bg); color: #fff; font-family: sans-serif; padding: 20px; }
+   
+    /* 전체 레이아웃을 2열로 고정하고 중앙 정렬 */
+    .wrapper { display: flex; gap: 20px; justify-content: center; max-width: 1000px; margin: 0 auto; flex-wrap: wrap; }
+   
+    /* 각 열의 너비를 동일하게 고정 */
+    .column { flex: 1; min-width: 450px; max-width: 480px; }
+   
+    /* 카드의 높이와 너비를 통일 */
+    .card { background: var(--hk-card); padding: 25px; border-radius: 20px; border: 1px solid #333; margin-bottom: 20px; min-height: 150px; }
+   
+    h1 { text-align: center; color: var(--hk-gold); margin-bottom: 30px; }
+
+    /* AGI 상담창 스타일 */
+    #chatModal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 400px; background: #1a1a1a; padding: 25px; border-radius: 20px; border: 2px solid var(--hk-gold); z-index: 1000; box-shadow: 0 0 20px rgba(255, 215, 0, 0.3); }
+</style>
 </head>
 <body>
-    <h1>홍콩 세계은행</h1>
-    <div id="google_translate_element" style="text-align: center; margin-bottom: 20px;"></div>
-    
+    <h1 style="text-align: center; color: var(--hk-gold);">HK Worldbank</h1>
     <div class="wrapper">
         <div class="column">
             <div class="card">
-                <h2>지갑 연결</h2>
-                <button onclick="connectWallet()" style="background: var(--hk-gold); border: none; padding: 10px 20px; border-radius: 20px; cursor: pointer;">연결</button>
-                <p id="walletAddress" style="margin-top: 10px;"></p>
+                <h2>지갑 연결 상태</h2>
+                <button id="connectButton" onclick="connectWallet()" style="background: var(--hk-gold); border: none; padding: 10px 20px; border-radius: 20px; cursor: pointer; font-weight: bold;">지갑 연결</button>
+                <p id="walletAddress" style="margin-top: 10px; color: var(--hk-gold);"></p>
             </div>
             <div class="card">
-                <h3>Social Media</h3>
-                <p>YouTube: @Hyekong2025</p>
-                <p>TikTok: @Hyekong2025</p>
+                <h3>HK 사회 재단</h3>
+                <p>수익의 30%를 글로벌 사회를 위해 환원합니다.</p>
+            </div>
+            <div class="card">
+                <h3>🌐 형님의 채널 (Hyekong2025)</h3>
+                <div style="display: flex; gap: 20px; justify-content: center; margin-top: 15px;">
+                    <a href="https://www.youtube.com/@Hyekong2025" target="_blank" style="color: var(--hk-gold); text-decoration: none; font-size: 20px;">YouTube</a>
+                    <a href="https://www.tiktok.com/@Hyekong2025" target="_blank" style="color: var(--hk-gold); text-decoration: none; font-size: 20px;">TikTok</a>
+                </div>
             </div>
         </div>
         <div class="column">
             <div class="card">
-                <h3>💎 Asset & Profile</h3>
+                <h3>💎 내 자산 및 프로필</h3>
                 <p id="userAccount">지갑을 연결해주세요.</p>
+                <p>보유 HK 포인트: 1,250,000 P</p>
             </div>
             <div class="card">
-                <h3>🚀 Industry Status</h3>
+                <h3>🚀 실시간 산업 현황</h3>
                 <p>로봇 자동화: 98% | 우주 탐사: 72% | 핵융합 개발: 85%</p>
             </div>
         </div>
     </div>
 
-    <!-- AGI 챗봇 -->
-    <div style="position: fixed; bottom: 30px; right: 30px; font-size: 50px; cursor: pointer;" onclick="toggleChat()">🤖</div>
+    <!-- AGI 챗봇 아이콘 및 상담창 -->
+    <div style="position: fixed; bottom: 30px; right: 30px; font-size: 40px; cursor: pointer;" onclick="toggleChat()">🤖</div>
+   
     <div id="chatModal">
-        <h3 style="color: var(--hk-gold);">HK AGI 비서 삐니</h3>
-        <p>홍콩 세계은행에 오신 것을 환영합니다. 무엇을 도와드릴까요?</p>
-        <button onclick="toggleChat()" style="background: var(--hk-gold); border: none; padding: 10px; width: 100%; border-radius: 10px; cursor: pointer;">닫기</button>
+        <h3 style="color: var(--hk-gold); margin-top: 0;">HK AGI 비서 삐니</h3>
+        <p style="line-height: 1.6; font-size: 0.95em;">
+            안녕하십니까! 혜공 형님의 철학을 기반으로 운영되는 HK 월드뱅크 AGI 비서입니다.<br><br>
+            • <b>우리의 목표:</b> 로봇, 핵융합, 우주 산업을 통한 국가급 플랫폼 구축.<br>
+            • <b>우리의 가치:</b> 발생 수익의 30%를 전 세계 어려운 이웃에게 환원하는 Universal Basic Income 실현.<br><br>
+            형님의 비전에 대해 더 궁금한 점이 있으신가요?
+        </p>
+        <button onclick="toggleChat()" style="background: var(--hk-gold); color: #000; border: none; padding: 10px 20px; border-radius: 10px; font-weight: bold; cursor: pointer; width: 100%;">확인했습니다</button>
     </div>
-
+   
+    <script src="https://cdn.ethers.io/lib/ethers-5.7.2.umd.min.js"></script>
     <script>
         function toggleChat() {
-            const m = document.getElementById('chatModal');
-            m.style.display = (m.style.display === 'block') ? 'none' : 'block';
+            const modal = document.getElementById('chatModal');
+            modal.style.display = (modal.style.display === 'block') ? 'none' : 'block';
         }
         async function connectWallet() {
             const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-            document.getElementById('walletAddress').innerText = "연결 완료";
+            document.getElementById('walletAddress').innerText = "연결 완료: " + accounts[0].substring(0, 10) + "...";
             document.getElementById('userAccount').innerText = "계정: " + accounts[0];
         }
     </script>
 </body>
 </html>
-
