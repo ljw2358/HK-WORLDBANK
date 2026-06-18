@@ -2256,37 +2256,34 @@ console.log("[HK SYSTEM] 2283라인 마스터 코어 엔진 탑재 완료.");
 <script>
     (function() {
         // 화면 전체를 덮는 묵직한 보안 팝업창 생성
-        const modalHtml = `
-            <div id="masterAuthModal" style="position:fixed; inset:0; z-index:99999; display:flex; align-items:center; justify-content:center; background:rgba(15,23,42,0.95); backdrop-filter:blur(12px); font-family:sans-serif;">
-                <div style="width:100%; max-width:400px; background:#1e293b; border:1px solid #334155; border-radius:16px; padding:32px; text-align:center; color:#f8fafc; box-shadow:0 25px 50px -12px rgba(0,0,0,0.5);">
-                    <div style="font-size:32px; margin-bottom:16px;">🔑</div>
-                    <h2 style="font-size:20px; font-weight:900; letter-spacing:1px; margin:0 0 4px 0;">HK SYSTEM SECURITY</h2>
-                    <p style="font-size:12px; color:#94a3b8; margin:0 0 24px 0;">관제 센터 가동을 위해 마스터 코드를 입력하십시오.</p>
-                    <input type="password" id="popupMasterCode" placeholder="Master Code 입력" 
-                           style="width:100%; border-radius:12px; bg:#0f172a; background:#0f172a; border:1px solid #475569; padding:14px; text-align:center; font-size:20px; font-weight:bold; color:#fff; letter-spacing:4px; box-sizing:border-box;">
-                    <button onclick="verifyPopupCode()" style="margin-top:16px; width:100%; border-radius:12px; background:linear-gradient(to right, #2563eb, #4f46e5); border:none; padding:14px; font-size:16px; font-weight:bold; color:#white; color:#fff; cursor:pointer; box-shadow:0 10px 15px -3px rgba(37,99,235,0.3);">보안 인증 실행</button>
-                    <p id="popupErrMsg" style="color:#f87171; font-size:14px; margin-top:12px; display:none; font-weight:bold;">⚠️ 코드가 일치하지 않습니다.</p>
-                </div>
+   // 기존 HTML 바디 맨 위에 팝업창 강제 주입용 마스터 스크립트
+(function() {
+    const modalHtml = `
+        <div id="masterAuthModal" style="position:fixed; inset:0; z-index:99999; display:flex; align-items:center; justify-content:center; background:rgba(15,23,42,0.95); backdrop-filter:blur(12px); font-family:sans-serif;">
+            <div style="width:100%; max-width:400px; background:#1e293b; border:1px solid #334155; border-radius:16px; padding:32px; text-align:center; color:#f8fafc; box-shadow:0 25px 50px -12px rgba(0,0,0,0.5);">
+                <div style="font-size:32px; margin-bottom:16px;">🔑</div>
+                <h2 style="font-size:20px; font-weight:900; letter-spacing:1px; margin:0 0 4px 0; color:#fff;">HK SYSTEM SECURITY</h2>
+                <p style="font-size:12px; color:#94a3b8; margin:0 0 24px 0;">관제 센터 가동을 위해 마스터 코드를 입력하십시오.</p>
+                <input type="password" id="popupMasterCode" placeholder="Master Code 입력" 
+                       style="width:100%; border-radius:12px; background:#0f172a; border:1px solid #475569; padding:14px; text-align:center; font-size:20px; font-weight:bold; color:#fff; letter-spacing:4px; box-sizing:border-box;">
+                <button onclick="verifyPopupCode()" style="margin-top:16px; width:100%; border-radius:12px; background:linear-gradient(to right, #2563eb, #4f46e5); border:none; padding:14px; font-size:16px; font-weight:bold; color:#fff; cursor:pointer; box-shadow:0 10px 15px -3px rgba(37,99,235,0.3);">보안 인증 실행</button>
+                <p id="popupErrMsg" style="color:#f87171; font-size:14px; margin-top:12px; display:none; font-weight:bold;">⚠️ 코드가 일치하지 않습니다.</p>
             </div>
-        `;
-        
-        // 기존 HTML 바디 맨 위에 팝업창 강제 주입
-        document.body.insertAdjacentHTML('afterbegin', modalHtml);
-        
-        // 검증 기능 연결
-        window.verifyPopupCode = function() {
-            const input = document.getElementById('popupMasterCode').value;
-            const errMsg = document.getElementById('popupErrMsg');
-            if(input === "0520") { // 형님의 마스터 코드 대조
-                document.getElementById('masterAuthModal').remove();
-                console.log("[HK SYSTEM] 0520 권한 승인 완료.");
-            } else {
-                errMsg.style.display = 'block';
-                document.getElementById('popupMasterCode').value = "";
-                document.getElementById('popupMasterCode').focus();
-            }
-        };
-    })();
-</script>
-
- 
+        </div>
+    `;
+    
+    document.body.insertAdjacentHTML('afterbegin', modalHtml);
+    
+    window.verifyPopupCode = function() {
+        const input = document.getElementById('popupMasterCode').value;
+        const errMsg = document.getElementById('popupErrMsg');
+        if(input === "0520") {
+            document.getElementById('masterAuthModal').remove();
+            console.log("[HK SYSTEM] 0520 권한 승인 완료.");
+        } else {
+            errMsg.style.display = 'block';
+            document.getElementById('popupMasterCode').value = "";
+            document.getElementById('popupMasterCode').focus();
+        }
+    };
+})();  
