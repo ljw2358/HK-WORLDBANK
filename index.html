@@ -2066,19 +2066,35 @@ const FinanceEngine = {
         return `LP 스테이킹 성공: 풀 ID ${poolID}`;
     }
 };
-    window.initEngine = async function() {
-    console.log("금융 엔진 시스템 부팅 시작...");
-    
-    // 1. 금융 엔진 (예치 및 LP 스테이킹)
-    const dep = await FinanceEngine.deposit("1000", "Pi");
-    const lp = await FinanceEngine.stakeLP("PI-HK-001", "500");
-    
-    document.getElementById('status').innerText = "시스템 가동: " + dep + " / " + lp;
+ window.initEngine = async function() {
+    console.log("🚀 금융 엔진 시스템 부팅 시작...");
+
+    try {
+        // FinanceEngine이 작동 가능할 때만 안전하게 실행
+        if (typeof FinanceEngine !== 'undefined') {
+            const dep = await FinanceEngine.deposit("1000", "Pi");
+            const lp = await FinanceEngine.stakeLP("PI-HK-001", "500");
+            
+            // 화면에 존재하는 'hk-modal-status'에 안전하게 매칭
+            const statusTarget = document.getElementById('hk-modal-status');
+            if (statusTarget) {
+                statusTarget.innerText = "시스템 가동: " + dep + " / " + lp;
+            }
+        } else {
+            console.warn("⚠️ FinanceEngine을 찾을 수 없습니다. 예치 모듈을 확인하세요.");
+            const statusTarget = document.getElementById('hk-modal-status');
+            if (statusTarget) {
+                statusTarget.innerText = "SYSTEM NODE CONNECTED (엔진 대기 중)";
+            }
+        }
+    } catch (err) {
+        console.error("🚨 엔진 초기화 중 에러 발생:", err);
+    }
 };
 
 window.onload = function() {
     initEngine();
-};
+}; 
     </script>
 </body>
 </html>
