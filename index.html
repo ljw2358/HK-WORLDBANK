@@ -280,33 +280,67 @@
     <span class="pi-unit">Pi</span>
     <div class="gcv-pill" id="gcv-display">Value: $ 125,663,600 (GCV)</div>
 
-        <div class="hk-wallet-module" style="background: rgba(26, 26, 26, 0.95); border: 2px solid var(--hk-gold, #FFD700); border-radius: 25px; padding: 25px; margin-bottom: 30px; box-shadow: 0 0 20px rgba(255, 215, 0, 0.15); color: #fff;">
+          <!-- ==========================================
+         HK WorldBank 지갑 연동 및 9대 구동 모듈 (이식 완결판)
+         ========================================== -->
+    <div class="hk-wallet-module" style="background: rgba(26, 26, 26, 0.95); border: 2px solid var(--hk-gold, #FFD700); border-radius: 25px; padding: 25px; margin-bottom: 30px; box-shadow: 0 0 20px rgba(255, 215, 0, 0.15); color: #fff;">
         <div style="text-align: center; margin-bottom: 20px;">
             <h3 style="color: var(--hk-gold, #FFD700); margin: 0 0 5px 0; font-size: 20px; font-weight: 800;">HK WorldBank Smart Node</h3>
             <p style="margin: 0; font-size: 13px; color: #ccc;">글로벌 자산 예치 및 트랜잭션 엔진</p>
         </div>
 
+        <!-- 덩어리 1: 지갑 연결 -->
         <div style="margin-bottom: 18px;">
             <button id="hk-btn-connect" onclick="hkConnectWallet()" style="width: 100%; background: linear-gradient(135deg, #ff9900, #e68a00); color: #fff; padding: 12px; border: none; border-radius: 12px; cursor: pointer; font-size: 15px; font-weight: bold; box-shadow: 0 4px 15px rgba(255,153,0,0.3);">
                 🔗 Pi Wallet 지갑 연결하기
             </button>
-            <div id="hk-wallet-spec" style="display: none; margin-top: 10px; padding: 10px; background: rgba(0,0,0,0.4); border: 1px solid #444; border-radius: 10px;">
-                <span style="color: #28a745; font-size: 12px; font-weight: bold; display: block; margin-bottom: 4px;">✓ 보안 노드 연결 완료</span>
-                <input type="text" id="hk-wallet-address" style="width: 100%; padding: 8px; background: #222; border: 1px solid #555; border-radius: 6px; font-size: 12px; color: #fff; font-family: monospace; box-sizing: border-box;" readonly>
+            
+            <!-- 지갑 연동 성공 시 나타날 박스 (글자색 화이트 및 네온 그린 강조) -->
+            <div id="hk-wallet-spec" style="display: none; margin-top: 10px; padding: 12px; background: rgba(0,0,0,0.6); border: 1px solid var(--hk-gold, #FFD700); border-radius: 10px;">
+                <span style="color: #00FFCC; font-size: 13px; font-weight: bold; display: block; margin-bottom: 6px;">✓ 보안 노드 연결 완료 (지갑 주소)</span>
+                <input type="text" id="hk-wallet-address" style="width: 100%; padding: 10px; background: #111; border: 1px solid #444; border-radius: 6px; font-size: 14px; color: #ffffff; font-weight: bold; font-family: monospace; box-sizing: border-box; text-align: center;" readonly>
             </div>
         </div>
         
+        <!-- 덩어리 2 & 3: 수량 및 기간 설정 -->
         <div style="margin-bottom: 15px;">
             <label style="font-size: 13px; color: var(--hk-gold, #FFD700); display:block; margin-bottom:5px;">예치 수량 설정 (Amount)</label>
-            <input type="number" id="hk-stake-amount" placeholder="0.00 Pi" style="width: 100%; padding: 10px; background: #222; border: 1px solid #555; border-radius: 8px; color:#fff; font-size:14px; box-sizing: border-box;">
+            <input type="number" id="hk-stake-amount" placeholder="0.00 Pi" style="width: 100%; padding: 10px; background: #222; border: 1px solid #555; border-radius: 8px; color:#fff; font-size:14px; box-sizing: border-box; text-align: center;">
         </div>
         
         <div style="margin-bottom: 20px;">
             <label style="font-size: 13px; color: var(--hk-gold, #FFD700); display:block; margin-bottom:5px;">예치 기간 선택 (Lock-up)</label>
-            <select id="hk-stake-duration" style="width: 100%; padding: 10px; background: #222; border: 1px solid #555; border-radius: 8px; color:#fff; font-size:14px; box-sizing: border-box;">
+            <select id="hk-stake-duration" style="width: 100%; padding: 10px; background: #222; border: 1px solid #555; border-radius: 8px; color:#fff; font-size:14px; box-sizing: border-box; text-align-last: center;">
                 <option value="30">30일 잠금 (연 12%)</option>
                 <option value="90">90일 잠금 (연 18%)</option>
                 <option value="365">365일 잠금 (연 32%)</option>
+            </select>
+        </div>
+
+        <!-- 덩어리 4 & 5: 예치 승인 버튼 -->
+        <button id="hk-btn-approve" onclick="hkRequestApproval()" style="width: 100%; background: #0056b3; color: #fff; padding: 13px; border: none; border-radius: 12px; font-size: 15px; font-weight: bold; cursor: pointer; margin-bottom: 15px; box-shadow: 0 4px 12px rgba(0,86,179,0.3);">
+            정기 예치 승인 및 트랜잭션 요청
+        </button>
+
+        <!-- [추가 핵심 메뉴] LP 스테이킹 및 DEX 스왑 바로가기 핫링크 -->
+        <div style="display: flex; gap: 10px; margin-top: 10px; border-top: 1px solid #333; padding-top: 15px;">
+            <button onclick="openHkModal('HK 유동성 DEX 스왑 풀', 'swap')" style="flex: 1; background: #222; color: var(--hk-gold, #FFD700); border: 1px solid var(--hk-gold, #FFD700); padding: 10px; border-radius: 8px; font-size: 13px; font-weight: bold; cursor: pointer;">
+                🔄 DEX 스왑 구동
+            </button>
+            <button onclick="openHkModal('에코시스템 기여 보상 센터', 'reward')" style="flex: 1; background: #222; color: #00FFCC; border: 1px solid #00FFCC; padding: 10px; border-radius: 8px; font-size: 13px; font-weight: bold; cursor: pointer;">
+                📈 LP 스테이킹 정산
+            </button>
+        </div>
+
+        <!-- 덩어리 6~9: PIN 팝업 암호창 -->
+        <div id="hk-pin-modal" style="display: none; margin-top: 20px; padding: 15px; border: 1px solid var(--hk-gold, #FFD700); border-radius: 12px; background: #111; text-align: center;">
+            <h4 style="color: #fff; margin: 0 0 10px 0; font-size: 15px;">🔒 6자리 암호번호(PIN) 입력</h4>
+            <input type="password" id="hk-pin-code" maxlength="6" placeholder="••••••" style="font-size: 24px; text-align: center; width: 150px; letter-spacing: 6px; padding: 5px; background:#222; border:1px solid #555; color:#fff; border-radius: 6px; margin-bottom: 12px; font-family: monospace;">
+            <br>
+            <button onclick="hkVerifyAndSubmit()" style="background: #28a745; color: #fff; padding: 8px 20px; border: none; border-radius: 6px; font-size: 14px; font-weight: bold; cursor: pointer;">최종 서명 완료</button>
+        </div>
+    </div>
+
             </select>
         </div>
 
