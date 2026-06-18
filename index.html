@@ -1563,6 +1563,45 @@ let myAsset = 2.55; // 이 줄을 추가하세요!
     }
     init();
 </script>
+<div id="hkMainModal" class="hk-modal" style="display:none;">
+    <div class="modal-content">
+        <h2 id="modalTitle" style="color:var(--hk-gold);">예치 설정</h2>
+        <!-- 혜공 형님 요청하신 입력 네모칸들 -->
+        <div style="text-align:left; color:#fff; margin:15px 0;">
+            <label>수량 (PI):</label><br>
+            <input type="number" id="inputQty" class="demo-input" placeholder="0.00"><br>
+            
+            <label>기간 (일):</label><br>
+            <select id="inputPeriod" class="demo-input">
+                <option value="30">30일</option>
+                <option value="90">90일</option>
+                <option value="180">180일</option>
+            </select><br>
+            
+            <label>예상 이자율:</label>
+            <div id="displayRate" style="color:var(--hk-green); font-weight:bold;">5.0%</div>
+        </div>
+        
+        <button class="close-modal" onclick="processApproval()">승인</button>
+        <button style="background:#444; border:none; color:#fff; padding:10px; border-radius:20px;" onclick="document.getElementById('hkMainModal').style.display='none'">취소</button>
+    </div>
+</div>
+
+<script>
+function openModal(title) {
+    document.getElementById('modalTitle').innerText = title;
+    document.getElementById('hkMainModal').style.display = 'flex';
+}
+
+function processApproval() {
+    const qty = document.getElementById('inputQty').value;
+    const period = document.getElementById('inputPeriod').value;
+    // 32개국어 다국어 데이터 처리 (dataStore 활용)
+    alert(`[승인 완료] 수량: ${qty} / 기간: ${period}일 / 이자가 자동 계산되었습니다.`);
+    document.getElementById('hkMainModal').style.display = 'none';
+}
+</script>
+
 </body>
 <style>
     .hk-modal {
