@@ -1663,14 +1663,28 @@ function openDemo(title, icon, msg) {
     
     // 네모 박스 구성 (형님 요청 사항 반영)
     dTitle.innerHTML = `${icon} ${title}`;
-    dBody.innerHTML = `
-        <p>${msg}</p>
-        <input type="number" class="demo-input" placeholder="수량 입력 (PI)">
-        <select class="demo-input"><option>90일</option><option>180일</option></select>
-        <div style="color:gold; margin:10px;">예상 이자율: 20%</div>
-        <button class="close-modal" onclick="alert('승인되었습니다!')">승인</button>
-    `;
-    
+         // 네모 박스 구성 (수량, 기간, 이자율, 승인란 통합)
+        dTitle.innerHTML = `${icon} ${title}`;
+        dBody.innerHTML = `
+            <p>${msg}</p>
+            <div style="text-align: left; padding: 10px;">
+                <label>수량 (PI):</label>
+                <input type="number" class="demo-input" placeholder="수량을 입력하세요" style="width:100%; margin-bottom:10px;">
+                <label>기간 (일):</label>
+                <select class="demo-input" style="width:100%; margin-bottom:10px;">
+                    <option>30일</option><option>90일</option><option>180일</option>
+                </select>
+                <div style="color:var(--hk-gold); font-weight:bold; margin-bottom:10px;">예상 이자율: 20%</div>
+                <button class="close-modal" onclick="alert('승인되었습니다!'); closeDemo();" style="width:100%;">승인</button>
+            </div>
+        `;
+        modal.style.display = 'flex';
+    }
+
+    function closeDemo() {
+        document.getElementById('hkDemoModal').style.display = 'none';
+    }
+
     modal.style.display = 'flex'; // 화면에 표시
 }
 
