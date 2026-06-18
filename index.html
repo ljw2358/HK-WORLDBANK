@@ -294,15 +294,72 @@
 
     <div class="section-tag" id="tag-eco">HK MASTER ECOSYSTEM</div>
     <div class="menu-grid">
-        <div class="menu-box"><span style="font-size:24px;">🚀</span><div style="font-size:12px; font-weight:800; margin-top:5px; color:var(--hk-blue);" id="m1">송금</div></div>
-        <div class="menu-box"><span style="font-size:24px;">🛒</span><div style="font-size:12px; font-weight:800; margin-top:5px; color:var(--hk-green);" id="m2">결재</div></div>
-        <div class="menu-box"><span style="font-size:24px;">🏦</span><div style="font-size:12px; font-weight:800; margin-top:5px; color:var(--hk-gold);" id="m3">예치</div></div>
-    </div>
-    <div class="menu-grid">
-        <div class="menu-box"><span style="font-size:24px;">🎁</span><div style="font-size:12px; font-weight:800; margin-top:5px; color:var(--hk-pink);" id="m4">보상</div></div>
-        <div class="menu-box"><span style="font-size:24px;">💳</span><div style="font-size:12px; font-weight:800; margin-top:5px; color:#ddd;" id="m5">기본소득</div></div>
-        <div class="menu-box"><span style="font-size:24px;">🔄</span><div style="font-size:12px; font-weight:800; margin-top:5px; color:var(--hk-blue);" id="m6">스왑</div></div>
-    </div>
+<div class="menu-grid">
+    <button class="menu-box" onclick="showModule(1)">PI 수량</button>
+    <button class="menu-box" onclick="showModule(2)">송금</button>
+    <button class="menu-box" onclick="showModule(3)">결제</button>
+    <button class="menu-box" onclick="showModule(4)">보상</button>
+    <button class="menu-box" onclick="showModule(5)">기본소득</button>
+    <button class="menu-box" onclick="showModule(6)">스왑</button>
+    <button class="menu-box" onclick="showModule(7)">예치</button>
+    <button class="menu-box" onclick="showModule(8)">DEX 스왑</button>
+    <button class="menu-box" onclick="showModule(9)">LP 스테이킹</button>
+</div>
+
+<script>
+       // --- [여기에 붙여넣으세요] ---
+class HKWorldBankSystem {
+    constructor(user_name, secret_phrase) {
+        this.user_name = user_name;
+        this.__secret_phrase = secret_phrase;
+        this.lang = "KOR";
+    }
+
+    _verify_security(amount) {
+        if (amount >= 1000) {
+            console.log("--- [최고 보안] 1,000 PI 이상: 전체 비밀구절 입력 ---");
+            return true;
+        } else if (amount >= 500) {
+            console.log("--- [중간 보안] 500 PI 이상: 1차 비밀구절 확인 ---");
+            return true;
+        } else {
+            console.log("--- [간편 보안] 500 PI 미만: 생체/PIN 인증 ---");
+            return true;
+        }
+    }
+
+    show_balance() { return "1. PI 수량 조회: 현재 잔액 실시간 동기화 완료"; }
+    transfer(amount) { if (this._verify_security(amount)) return `2. 송금: ${amount} PI 전송 성공`; }
+    payment(amount) { if (this._verify_security(amount)) return `3. 결제: ${amount} PI 결제 승인 완료`; }
+    reward() { return "4. 보상: 활동 기여도 기반 자동 지급 완료"; }
+    basic_income() { return "5. 기본소득: 글로벌 UBI 30% 배분 완료"; }
+    swap(amount) { if (this._verify_security(amount)) return `6. 스왑: ${amount} PI 교환 성공`; }
+    deposit_detail(amount, period, apy) { if (this._verify_security(amount)) return `7. 예치: ${amount} PI / ${period}개월 / 연이율 ${apy}% 계약 체결`; }
+    dex_swap_detail(amount, slippage) { if (this._verify_security(amount)) return `8. DEX: ${amount} PI / 슬리피지 ${slippage}% 적용`; }
+    lp_staking_detail(amount) { if (this._verify_security(amount)) return `9. LP 스테이킹: ${amount} PI 유동성 공급 / 수익 배분 활성화`; }
+}
+   // 인스턴스 생성 (혜공 형님 설정)
+    const hkBank = new HKWorldBankSystem("혜공형님", "MY_SECRET_PHRASE");
+
+    function showModule(id) {
+        let result = "";
+        switch(id) {
+            case 1: result = hkBank.show_balance(); break;
+            case 2: result = hkBank.transfer(600); break;
+            case 3: result = hkBank.payment(200); break;
+            case 4: result = hkBank.reward(); break;
+            case 5: result = hkBank.basic_income(); break;
+            case 6: result = hkBank.swap(700); break;
+            case 7: result = hkBank.deposit_detail(1200, 12, 10); break;
+            case 8: result = hkBank.dex_swap_detail(1100, 0.5); break;
+            case 9: result = hkBank.lp_staking_detail(2000); break;
+        }
+        alert(result); // 거래 결과를 화면에 띄웁니다!
+    }
+</script>
+
+// ----------------------------
+   
 
     <button class="action-btn" style="background: var(--hk-pink);" onclick="togglePanel('faq')" id="btn-faq">글로벌 AI 지원센터 (FAQ 20)</button>
     <div id="faq" class="panel"></div>
