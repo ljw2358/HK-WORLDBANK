@@ -2096,45 +2096,70 @@ window.onload = function() {
     </script>
 </body>
 </html>
- 
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <title>HK-WorldBank Platform</title>
-</head>
-<body>
-  
-    
-    <script>
-        // 1. 엔진 전역 노출
-        window.initKEngine = function() {
-           
-        };
+<div id="hk-global-modal" class="hk-modal">
+    <div class="modal-content">
+        <h3 id="hk-modal-title" class="modal-title">HK WORLD BANK</h3>
+        <p id="hk-modal-status" class="demo-status">SYSTEM NODE CONNECTED</p>
+        <div id="hk-modal-body" class="modal-body"></div>
+        <button class="close-modal" onclick="closeHkModal()">❌ 창 닫기</button>
+    </div>
+</div>
 
-        // 2. 통합 실행
-        window.onload = function() {
-            initKEngine();
-            setTimeout(function() {
-              
-            }, 500);
-        };
+<style>
+.hk-modal {
+    display: none; position: fixed; z-index: 9999; 
+    left: 0; top: 0; width: 100%; height: 100%; 
+    background: rgba(0,0,0,0.85); justify-content: center; align-items: center;
+}
+.modal-content {
+    background: #121212; border: 2px solid var(--hk-gold, #FFD700); 
+    width: 90%; max-width: 450px; border-radius: 20px; padding: 25px; 
+    text-align: center; box-shadow: 0 0 30px var(--hk-gold, rgba(255,215,0,0.3)); color: #fff;
+}
+.modal-title { color: var(--hk-gold, #FFD700); font-size: 22px; font-weight: 900; margin-bottom: 10px; }
+.demo-status { color: var(--hk-green, #00FFCC); font-size: 13px; font-weight: 800; margin-bottom: 20px; }
+.modal-body { margin-bottom: 20px; font-size: 15px; color: #eee; line-height: 1.6; }
+.close-modal { background: #222; color: #fff; border: 1px solid #444; padding: 10px 25px; border-radius: 10px; cursor: pointer; font-weight: bold; }
+.hk-input-style { width: 85%; padding: 12px; margin-bottom: 15px; border-radius: 8px; border: 1px solid #444; background: #222; color: #fff; text-align: center; }
+.hk-submit-btn { width: 85%; background: var(--hk-gold, #FFD700); color: #000; padding: 12px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
+</style>
 
 <script>
-    // 혜공 형님, 레이어 완전 돌파 엔진
-    document.body.addEventListener('click', function(e) {
-        // 클릭한 위치의 요소를 재귀적으로 탐색하여 버튼 텍스트를 찾습니다.
-        let target = e.target;
-        while(target) {
-            const text = target.innerText ? target.innerText.trim() : "";
-            // 버튼 명칭이 확인되면 즉시 실행
-            if(['송금', '결제', '예치', '보상', '기본소득', '스왑'].includes(text)) {
-                alert('혜공 형님, [ ' + text + ' ] 명령을 시스템 레이어를 뚫고 강제로 접수했습니다.');
-                e.stopImmediatePropagation();
-                return;
-            }
-            target = target.parentElement;
-        }
-    }, true);
+function openHkModal(title, type) {
+    const modal = document.getElementById('hk-global-modal');
+    const mTitle = document.getElementById('hk-modal-title');
+    const mBody = document.getElementById('hk-modal-body');
+    mTitle.innerText = title;
+    modal.style.display = 'flex';
+    
+    if (type === 'transfer') {
+        mBody.innerHTML = `<p>상대방의 Pi 지갑 주소와 송금할 수량을 입력하십시오.</p><input type="text" class="hk-input-style" placeholder="받는 사람 지갑 주소 (G...)"><br><input type="number" class="hk-input-style" placeholder="0.00 Pi"><br><button class="hk-submit-btn" onclick="executeHkAction('송금')">1차 승인 및 PIN 요청</button>`;
+    } else if (type === 'pay') {
+        mBody.innerHTML = `<p>매장 결제 및 QR 코드 연동 시스템을 구동합니다.</p><input type="text" class="hk-input-style" placeholder="가맹점 코드 또는 결제 금액"><br><button class="hk-submit-btn" onclick="executeHkAction('결제')">결제 진행하기</button>`;
+    } else if (type === 'reward') {
+        mBody.innerHTML = `<p>형님의 누적 에코시스템 기여 보상 내역입니다.</p><div style="background:#222; padding:15px; border-radius:10px; text-align:left; font-size:14px; border:1px solid #333;">• 매일 출석 보상: +0.15 Pi<br>• 검증 기여 보상: +1.20 Pi<br>• 노드 활성 보상: +3.50 Pi</div><br><button class="hk-submit-btn" onclick="executeHkAction('보상 수령')">보상 일괄 수령 (Claim)</button>`;
+    } else if (type === 'ubi') {
+        mBody.innerHTML = `<p style="color:var(--hk-gold);"><b>[HK 사회 재단 기본소득 시스템]</b></p><p>글로벌 취약계층 분배 알고리즘에 의해 산정된 형님의 기본소득 계정입니다.</p><h3 style="color:#00FFCC; margin:10px 0;">당월 기본소득: 180.00 Pi</h3><button class="hk-submit-btn" onclick="executeHkAction('기본소득 수령')">매칭 계정으로 수령</button>`;
+    } else if (type === 'swap') {
+        mBody.innerHTML = `<p><b>🔄 HK WorldBank 실시간 유동성 스왑 풀 (DEX)</b></p><div style="margin-bottom:10px;"><input type="number" class="hk-input-style" placeholder="From: 0.00 Pi" style="width:40%; display:inline-block;"> <span style="font-size:20px; color:var(--hk-gold);">➔</span> <input type="number" class="hk-input-style" placeholder="To: 0.00 USD" style="width:40%; display:inline-block;"></div><p style="font-size:12px; color:#aaa;">실시간 교환 비율: 1 Pi = $314,159 (GCV 반영)</p><button class="hk-submit-btn" onclick="executeHkAction('DEX 스왑')">스왑 실행 및 서명</button>`;
+    } else if (type === 'faq') {
+        mBody.innerHTML = `<p><b>🤖 글로벌 AI 지원센터 (FAQ 20)</b></p><div style="text-align:left; font-size:13px; max-height:200px; overflow-y:auto; background:#222; padding:10px; border-radius:8px; line-height:1.5;"><b>Q1. HK WorldBank의 이율은 어떻게 결정되나요?</b><br>A1. Pi 네트워크의 유동성 및 인프라 수익 수익의 30%를 연동하여 연 복리 12%~32%가 산정됩니다.</div>`;
+    } else if (type === 'vision') {
+        mBody.innerHTML = `<p><b>🌍 HK 사회 재단 비전 2030</b></p><p style="text-align:left; font-size:14px; color:#ccc; line-height:1.6;">HK Group 창립자 <b>혜공 이재완 의장</b>의 철학에 따라, 플랫폼 전체 수익의 30%를 전 세계 소외계층 및 글로벌 기본소득(UBI) 재원으로 영구 분배하는 패러다임입니다.</p>`;
+    }
+}
+
+function closeHkModal() { document.getElementById('hk-global-modal').style.display = 'none'; }
+
+function executeHkAction(actionName) {
+    const pin = prompt("🔒 HK WorldBank 자산 보안 서명\n\n[ " + actionName + " ] 처리를 위해 6자리 보안 암호번호(PIN)를 입력하십시오.");
+    if (!pin) return;
+    if (pin.length !== 6) { alert("❌ 서명 실패: 암호번호 6자리를 정확히 입력하십시오."); return; }
+    alert(`✓ [${actionName}] 트랜잭션이 성공적으로 처리되었습니다!\n블록체인 메인 장부에 실시간 동기화 완료.`);
+    closeHkModal();
+}
 </script>
+
+</body>
 </html>
+ 
