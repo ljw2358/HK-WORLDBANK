@@ -2054,35 +2054,55 @@ function checkSecurity() {
 </head>
 <body>
    
+ <script>
+    // // 9개 엔진 통합 제어 로직
+    // // 금융 엔진 모든 정의
+    const FinanceEngine = {
+        deposit: async (amount, currency) => {
+            return `예치 완료: ${amount} ${currency}`;
+        },
+        stakeLP: async (poolID, lpAmount) => {
+            return `LP 스테이킹 성공: 풀 ID ${poolID}`;
+        }
+    };
+
+    // // hk_data.js 데이터베이스 정의
+    const HK_Data = {
+        assets: { piBalance: 1000.00, totalDeposit: 50000.00, rewardPoints: 250.5 },
+        transactions: { lastTransfer: "2026-06-05", dexLiquidity: 1000000, status: "active" },
+        ecosystem: { ubiRate: 0.05, stakingAPY: 12.5, nodeCount: 9 },
+        faq: [
+            ["누구야", "저는 HK 비서 피니입니다."],
+            ["UBI", "6월 30일 전 UBI 개시 전 기금을 전 시스템에 가동 중입니다."],
+            ["이율", "현재 스테이킹 이율은 12.5%입니다."]
+        ]
+    };
+    window.HK_Data = HK_Data;
+    console.log("📊 [성공] hk_data.js 데이터베이스 로드 완료!");
+
+    // 금융 엔진 시스템 부팅 함수 정의
+    window.initEngine = async function() {
+        console.log("🚀 금융 엔진 시스템 부팅 시작...");
+        try {
+            const dep = await FinanceEngine.deposit("1000", "Pi");
+            const lp = await FinanceEngine.stakeLP("PI-HK-001", "500");
+            
+            // 모달창 상태 텍스트 안전 매칭
+            const statusTarget = document.getElementById('hk-modal-status');
+            if (statusTarget) {
+                statusTarget.innerText = "시스템 가동: " + dep + " / " + lp;
+            }
+        } catch (err) {
+            console.error("🚨 엔진 초기화 중 에러 발생:", err);
+        }
+    };
+
+    // 페이지 로드 시 엔진 자동 실행
+    window.onload = function() {
+        initEngine();
+    };
+</script>   
     
-    <script>
-    // 9개 엔진 통합 제어 로직
-// 금융 엔진 모듈 정의
-const FinanceEngine = {
-    deposit: async (amount, currency) => {
-        return `예치 완료: ${amount} ${currency}`;
-    },
-    stakeLP: async (poolID, lpAmount) => {
-        return `LP 스테이킹 성공: 풀 ID ${poolID}`;
-    }
-};
-// hk_data.js
-const HK_Data = {
-    assets: { piBalance: 1000.00, totalDeposit: 50000.00, rewardPoints: 250.5 },
-    transactions: { lastTransfer: "2026-06-05", dexLiquidity: 1000000, status: "active" },
-    ecosystem: { ubiRate: 0.05, stakingAPY: 12.5, nodeCount: 9 },
-    faq: [
-        ["누구야", "저는 HK 비서 피니입니다."],
-        ["UBI", "6월 30일 전 UBI 개시 전 기금을 전 시스템에 가동 중입니다."],
-        ["이율", "현재 스테이킹 이율은 12.5%입니다."]
-    ]
-};
-window.HK_Data = HK_Data;
-console.log("📊 [성공] hk_data.js 데이터베이스 로드 완료!");
- {
-    initEngine();
-}; 
-    </script>
 </body>
 </html>
 <div id="hk-global-modal" class="hk-modal">
