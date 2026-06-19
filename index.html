@@ -55,7 +55,7 @@
             <div class="border-l-4 border-amber-500 pl-4 flex justify-between items-end">
                 <div>
                     <h2 class="text-xl font-bold tracking-tight md:text-2xl">글로벌 특수 목적 지갑 현황</h2>
-                    <p class="text-slate-400 text-xs mt-1">HK 세계은행 생태계를 지탱하는 핵심 지갑 주소 투명 공개</p>
+                    <p class="text-slate-400 text-xs mt-1">각 지갑의 실시간 수량 및 자산 금액 동적 표기 정책 반영</p>
                 </div>
                 <button onclick="verifyChairman()" class="text-xs text-slate-500 hover:text-amber-400 transition-all font-mono">
                     <i class="fa-solid fa-lock-open mr-1"></i> Chairman 전용인증
@@ -63,42 +63,82 @@
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="glassmorphism p-5 rounded-2xl border border-slate-800 relative overflow-hidden">
+                <div class="glassmorphism p-5 rounded-2xl border border-slate-800 relative overflow-hidden flex flex-col justify-between min-h-[200px]">
                     <div class="absolute top-0 right-0 bg-emerald-500/10 text-emerald-400 text-[10px] font-bold uppercase px-3 py-1 rounded-bl-xl font-orbitron">Public</div>
-                    <span class="text-xs text-amber-500 font-bold block mb-1">■ HK 사회재단 UBI 지갑</span>
-                    <div class="bg-slate-950/60 p-3 rounded-xl font-mono text-[11px] text-slate-300 break-all select-all border border-slate-900">
-                        GBUX5TOS5MOMZNXDKXW4ZFZKAX5LSWLTXZ2FXWBKP77WRK6RJAMYVG6X
+                    <div>
+                        <span class="text-xs text-amber-500 font-bold block mb-1">■ HK 사회재단 UBI 지갑</span>
+                        <div class="bg-slate-950/60 p-2.5 rounded-xl font-mono text-[10px] text-slate-400 break-all border border-slate-900 mb-3 select-all">
+                            GBUX5TOS5MOMZNXDKXW4ZFZKAX5LSWLTXZ2FXWBKP77WRK6RJAMYVG6X
+                        </div>
                     </div>
-                    <p class="text-slate-400 text-[10px] mt-2"><i class="fa-solid fa-circle-info mr-1"></i>전 세계 취약계층 보편적 기본소득 재원 공급용</p>
+                    <div class="grid grid-cols-2 gap-2 border-t border-slate-800/80 pt-3">
+                        <div class="bg-slate-900/60 p-2 rounded-lg text-center">
+                            <span class="text-[9px] text-slate-500 block">실시간 수량</span>
+                            <span id="ubi-qty" class="text-xs font-bold font-orbitron text-amber-400">0.00 Pi</span>
+                        </div>
+                        <div class="bg-slate-900/60 p-2 rounded-lg text-center">
+                            <span class="text-[9px] text-slate-500 block">자산 총액</span>
+                            <span id="ubi-val" class="text-xs font-bold font-orbitron text-emerald-400">$0.00</span>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="glassmorphism p-5 rounded-2xl border border-slate-800 relative overflow-hidden">
+                <div class="glassmorphism p-5 rounded-2xl border border-slate-800 relative overflow-hidden flex flex-col justify-between min-h-[200px]">
                     <div class="absolute top-0 right-0 bg-emerald-500/10 text-emerald-400 text-[10px] font-bold uppercase px-3 py-1 rounded-bl-xl font-orbitron">Public</div>
-                    <span class="text-xs text-amber-500 font-bold block mb-1">■ 글로벌 실시간 유동성풀 지갑</span>
-                    <div class="bg-slate-950/60 p-3 rounded-xl font-mono text-[11px] text-slate-300 break-all select-all border border-slate-900">
-                        GDDXKZGAX77BE4J3DELSOXNEPR6NUBCVRJSSYY5I2Q4SJXZ5TNUUPJQC
+                    <div>
+                        <span class="text-xs text-amber-500 font-bold block mb-2">■ 글로벌 실시간 유동성풀 지갑</span>
+                        <p class="text-slate-400 text-[11px] leading-relaxed"><i class="fa-solid fa-circle-info mr-1 text-amber-500"></i>외환 환전 및 뱅킹 스와프 유동성 자동 조절 풀 자산</p>
                     </div>
-                    <p class="text-slate-400 text-[10px] mt-2"><i class="fa-solid fa-circle-info mr-1"></i>외환 환전 및 뱅킹 스와프 유동성 공급용</p>
+                    <div class="grid grid-cols-2 gap-2 border-t border-slate-800/80 pt-3">
+                        <div class="bg-slate-900/60 p-2 rounded-lg text-center">
+                            <span class="text-[9px] text-slate-500 block">풀 가용 수량</span>
+                            <span id="pool-qty" class="text-xs font-bold font-orbitron text-amber-400">0.00 Pi</span>
+                        </div>
+                        <div class="bg-slate-900/60 p-2 rounded-lg text-center">
+                            <span class="text-[9px] text-slate-500 block">풀 자산 가치</span>
+                            <span id="pool-val" class="text-xs font-bold font-orbitron text-emerald-400">$0.00</span>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="glassmorphism p-5 rounded-2xl border border-slate-800 relative overflow-hidden">
+                <div class="glassmorphism p-5 rounded-2xl border border-slate-800 relative overflow-hidden flex flex-col justify-between min-h-[200px]">
                     <div class="absolute top-0 right-0 bg-emerald-500/10 text-emerald-400 text-[10px] font-bold uppercase px-3 py-1 rounded-bl-xl font-orbitron">Public</div>
-                    <span class="text-xs text-amber-500 font-bold block mb-1">■ 리저브 통화 저수지 지갑</span>
-                    <div class="bg-slate-950/60 p-3 rounded-xl font-mono text-[11px] text-slate-300 break-all select-all border border-slate-900">
-                        GBDZQSKO6I5VH5KUUEXQAQWPBHPEJVISH4N2K2AQERDKQYMPRKLNSVFQ
+                    <div>
+                        <span class="text-xs text-amber-500 font-bold block mb-2">■ 리저브 통화 저수지 지갑</span>
+                        <p class="text-slate-400 text-[11px] leading-relaxed"><i class="fa-solid fa-building-shield mr-1 text-amber-500"></i>급격한 시장 유동성 왜곡 방지 및 비축 자산 풀</p>
                     </div>
-                    <p class="text-slate-400 text-[10px] mt-2"><i class="fa-solid fa-circle-info mr-1"></i>급격한 뱅크런 방지 및 시스템 안정 자산 비축용</p>
+                    <div class="grid grid-cols-2 gap-2 border-t border-slate-800/80 pt-3">
+                        <div class="bg-slate-900/60 p-2 rounded-lg text-center">
+                            <span class="text-[9px] text-slate-500 block">비축 통화 수량</span>
+                            <span id="res-qty" class="text-xs font-bold font-orbitron text-amber-400">0.00 Pi</span>
+                        </div>
+                        <div class="bg-slate-900/60 p-2 rounded-lg text-center">
+                            <span class="text-[9px] text-slate-500 block">비축 자산 가치</span>
+                            <span id="res-val" class="text-xs font-bold font-orbitron text-emerald-400">$0.00</span>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <div id="chairman-fee-wallet" class="hidden transition-all duration-500 mt-4">
-                <div class="bg-amber-950/20 border-2 border-dashed border-amber-500/40 p-6 rounded-2xl relative">
+                <div class="bg-amber-950/20 border-2 border-dashed border-amber-500/40 p-6 rounded-2xl relative flex flex-col md:flex-row justify-between items-center gap-6">
                     <div class="absolute top-0 right-0 bg-amber-500 text-slate-950 text-[10px] font-black uppercase px-3 py-1 rounded-bl-xl font-orbitron">Chairman & CEO Only</div>
-                    <span class="text-sm font-bold text-amber-400 block mb-2"><i class="fa-solid fa-shield-halved mr-1"></i> ■ 최고경영자 전용 수수료 수익 지갑</span>
-                    <div class="bg-slate-950 p-4 rounded-xl font-mono text-sm text-amber-200 break-all select-all border border-amber-500/30 shadow-inner">
-                        GDLG4Q5TXUOGI3MEUNURXY72U6KDU7NQSJA2W3CRHQEMK7QPXYCSPTHK
+                    <div class="w-full md:w-3/5">
+                        <span class="text-sm font-bold text-amber-400 block mb-2"><i class="fa-solid fa-shield-halved mr-1"></i> ■ 최고경영자 전용 수수료 수익 지갑</span>
+                        <div class="bg-slate-950 p-3 rounded-xl font-mono text-xs text-amber-200 break-all border border-amber-500/30 shadow-inner select-all">
+                            GDLG4Q5TXUOGI3MEUNURXY72U6KDU7NQSJA2W3CRHQEMK7QPXYCSPTHK
+                        </div>
                     </div>
-                    <p class="text-amber-400/80 text-[11px] mt-2"><i class="fa-solid fa-eye-slash mr-1"></i>이 지갑은 비공개 보안 주소이며 오직 최고 권한자 의장님 화면에만 활성화됩니다.</p>
+                    <div class="w-full md:w-2/5 grid grid-cols-2 gap-3 bg-slate-950/80 p-3 rounded-xl border border-amber-500/20">
+                        <div class="text-center">
+                            <span class="text-[10px] text-amber-500/60 block">수수료 수익 수량</span>
+                            <span id="fee-qty" class="text-sm font-bold font-orbitron text-amber-400">0.00 Pi</span>
+                        </div>
+                        <div class="text-center">
+                            <span class="text-[10px] text-amber-500/60 block">익일 정산 금액</span>
+                            <span id="fee-val" class="text-sm font-bold font-orbitron text-emerald-400">$0.00</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -538,7 +578,7 @@
     <script>
         let currentBalance = 0.00;
 
-        // 1. 지갑 연결 시 동적 값 매핑 처리
+        // 지갑 연결 실행 시 특수 지갑 3대장도 고유 수량과 금액을 동적으로 세팅하도록 설계 변경
         function connectWallet() {
             const randomAddress = "GD" + Array.from({length: 5}, () => Math.random().toString(36)[2].toUpperCase()).join('') + "..." + Array.from({length: 4}, () => Math.random().toString(36)[2].toUpperCase()).join('');
             currentBalance = parseFloat((Math.random() * 8000 + 1500).toFixed(2));
@@ -546,6 +586,25 @@
             document.getElementById('btn-connect').classList.add('hidden');
             document.getElementById('wallet-info').classList.remove('hidden');
             
+            // [NEW] 특수 목적 공개 지갑 데이터 실시간 로드 모사
+            const ubiPi = 1250000000.55;
+            const poolPi = 85000000.00;
+            const resPi = 350000000.22;
+
+            document.getElementById('ubi-qty').innerText = ubiPi.toLocaleString() + " Pi";
+            document.getElementById('ubi-val').innerText = (ubiPi * 314.159).toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+
+            document.getElementById('pool-qty').innerText = poolPi.toLocaleString() + " Pi";
+            document.getElementById('pool-val').innerText = (poolPi * 314.159).toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+
+            document.getElementById('res-qty').innerText = resPi.toLocaleString() + " Pi";
+            document.getElementById('res-val').innerText = (resPi * 314.159).toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+
+            // [NEW] 체어맨 비밀 지갑 데이터 준비
+            const feePi = 415900.00;
+            document.getElementById('fee-qty').innerText = feePi.toLocaleString() + " Pi";
+            document.getElementById('fee-val').innerText = (feePi * 314.159).toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+
             updateDisplay(randomAddress);
         }
 
@@ -556,33 +615,23 @@
             document.querySelector('.wallet-pi-bal').innerText = currentBalance.toLocaleString(undefined, {minimumFractionDigits: 2}) + " Pi";
         }
 
-        // 2. 예치 실시간 계산 (수량 입력 즉시 산정)
         function calcDeposit() {
             const amt = parseFloat(document.getElementById('input-dep-amt').value) || 0;
             const period = parseInt(document.getElementById('input-dep-period').value);
-            let rate = 0.06;
-            if(period === 24) rate = 0.08;
-            if(period === 36) rate = 0.12;
-            
-            const interest = amt * rate * (period / 12);
-            document.getElementById('res-dep-interest').innerText = interest.toFixed(2) + " Pi";
+            let rate = 0.06; if(period === 24) rate = 0.08; if(period === 36) rate = 0.12;
+            document.getElementById('res-dep-interest').innerText = (amt * rate * (period / 12)).toFixed(2) + " Pi";
         }
 
-        // 3. 대출 실시간 계산
         function calcLoan() {
             const amt = parseFloat(document.getElementById('input-loan-amt').value) || 0;
-            const monthRepay = (amt * 1.04) / 12; // 연 4% 가정 12개월 분할 상환
-            document.getElementById('res-loan-month').innerText = monthRepay.toFixed(2) + " Pi";
+            document.getElementById('res-loan-month').innerText = ((amt * 1.04) / 12).toFixed(2) + " Pi";
         }
 
-        // 4. 송금 수수료 실시간 산정
         function calcRemit() {
             const amt = parseFloat(document.getElementById('input-remit-amt').value) || 0;
-            const fee = amt > 0 ? 0.01 : 0.00; // 고정 가스비 0.01 Pi 세팅
-            document.getElementById('res-remit-fee').innerText = fee.toFixed(4) + " Pi";
+            document.getElementById('res-remit-fee').innerText = (amt > 0 ? 0.01 : 0.00).toFixed(4) + " Pi";
         }
 
-        // 5. 스와프 실시간 교환비 대조
         function calcSwap() {
             const amt = parseFloat(document.getElementById('input-swap-amt').value) || 0;
             const target = document.getElementById('input-swap-target').value;
@@ -593,19 +642,13 @@
             }
         }
 
-        // 6. 보상 분배 기부금 자동 연산
         function calcReward() {
             const amt = parseFloat(document.getElementById('input-rew-amt').value) || 0;
             document.getElementById('res-rew-donation').innerText = (amt * 0.30).toFixed(2) + " Pi";
         }
 
-        // 7. 9대 금융 기능 통합 워크플로우 실 처리 구동부
         function runWorkflow(type) {
-            if (currentBalance === 0) {
-                alert("먼저 최상단의 [지갑 연결]을 완료해 주십시오.");
-                return;
-            }
-
+            if (currentBalance === 0) { alert("먼저 최상단의 [지갑 연결]을 완료해 주십시오."); return; }
             let amtId = '', pwdId = '', actionName = '';
             
             if(type === 'deposit') { amtId = 'input-dep-amt'; pwdId = 'pwd-dep'; actionName = '안전 자산 예치'; }
@@ -621,48 +664,32 @@
             const amt = parseFloat(document.getElementById(amtId).value) || 0;
             const pwd = document.getElementById(pwdId).value;
 
-            if(amt <= 0) {
-                alert("처리하고자 하는 정확한 수량 및 금액을 입력해 주세요.");
-                return;
-            }
-            if(pwd.length !== 6) {
-                alert("보안 승인을 위해 6자리 마스터 비밀번호를 정확히 기입해 주십시오.");
-                return;
-            }
+            if(amt <= 0) { alert("처리하고자 하는 정확한 수량 및 금액을 입력해 주세요."); return; }
+            if(pwd.length !== 6) { alert("보안 승인을 위해 6자리 마스터 비밀번호를 정확히 기입해 주십시오."); return; }
 
-            // 실시간 잔고 변경 구동부 반영 (예치, 송금, 스테이킹, 기부, 투자 시 차감 처리 / 대출, 보상 시 가산 처리)
             if(['deposit', 'remit', 'stake', 'donate', 'invest'].includes(type)) {
                 if(currentBalance < amt) { alert("지갑의 잔여 Pi 수량이 부족합니다."); return; }
                 currentBalance -= amt;
-            } else if(['loan', 'reward'].includes(type)) {
-                currentBalance += amt;
-            }
+            } else if(['loan', 'reward'].includes(type)) { currentBalance += amt; }
 
-            alert(`[보안 인증 완료]\n${actionName} 업무 프로세스가 최종 승인되었습니다.\n트랜잭션이 블록체인 원장에 즉시 기록되었으며 대시보드 자산이 즉각 갱신됩니다.`);
-            
-            // 입력 폼 초기화 및 상단 대시보드 리렌더링
-            document.getElementById(amtId).value = '';
-            document.getElementById(pwdId).value = '';
+            alert(`[보안 인증 완료]\n${actionName} 업무 프로세스가 최종 승인되었습니다.\n트랜잭션이 블록체인 원장에 즉시 기록되었습니다.`);
+            document.getElementById(amtId).value = ''; document.getElementById(pwdId).value = '';
             updateDisplay(null);
         }
 
-        // Chairman 권한자 전용 제어 스크립트
         function verifyChairman() {
             const accessKey = prompt("의장님 전용 마스터 키 또는 보안 암호를 입력해 주십시오:");
             if(accessKey === "0982" || accessKey === "hyekong") {
                 const feeSection = document.getElementById('chairman-fee-wallet');
                 feeSection.classList.remove('hidden');
-                alert("의장님(Chairman) 인증에 성공하였습니다. 최고경영자 전용 수수료 수익 지갑이 활성화되었습니다.");
+                alert("의장님(Chairman) 인증에 성공하였습니다. 최고경영자 전용 수수료 수익 지갑의 수량 및 금액 자산 데이터가 개방되었습니다.");
                 feeSection.scrollIntoView({ behavior: 'smooth' });
-            } else {
-                alert("권한이 없습니다. 접근 권한 오류가 전송됩니다.");
-            }
+            } else { alert("권한이 없습니다. 접근 권한 오류가 전송됩니다."); }
         }
 
-        // FAQ 20개 동적 생성 로직
         const faqs = [
             { q: "HK WORLD BANK는 기존 은행과 어떤 차이점이 있나요?", a: "AGI 가상 비서 시스템과 분산 원장 기술을 통합하여 국경과 서류가 없는 즉각적 처리를 완수합니다." },
-            { q: "내 지갑 계정의 보안 비밀번호 6자리를 분실하면 어떻게 되나요?", a: "본인 인증 프로토콜과 다중 서명 생체 데이터를 결합하여 안전한 복구 동선을 지원합니다." },
+            { q: "내 지갑 계정의 보안 비밀번호 6자리를 분실하면 어떻게 되나요?", a: "본인 인증 프로토콜 and 다중 서명 생체 데이터를 결합하여 안전한 복구 동선을 지원합니다." },
             { q: "사회 기부 30% 정책은 어떻게 강제되고 투명하게 운영되나요?", a: "재단 스마트 계약 메인 블록에 변조 불가능한 코드로 아키텍처가 고정되어 매 정산시 완전 자동 분배됩니다." },
             { q: "Pi 자산 외에 다른 가상자산도 완벽히 지원되나요?", a: "4가지 멀티 지갑 인터페이스를 통해 대형 메이저 자산 및 실물 연동 토큰(RWA)까지 완벽하게 연계됩니다." },
             { q: "실시간 예치 시 예상 이자는 어떻게 결정되나요?", a: "유동성 풀의 실시간 수요 공급 지표에 따라 AGI 코어가 가장 이상적이고 안전한 최적 비율을 도출합니다." },
@@ -679,12 +706,11 @@
             { q: "AI 상담 시스템이 처리할 수 있는 다국어 범위는 어느 정도인가요?", a: "AGI 기반 언어 팩 엔진을 적용하여 전 세계 50개 이상의 메이저 및 마이너 언어를 완벽하게 동시 통역 지원합니다." },
             { q: "대출금 상환 연체 시 어떤 패널티가 발생하나요?", a: "담보로 위임된 디지털 자산의 일부가 스마트 계약 조건에 의거하여 자동으로 청산 프로세스에 진입하게 됩니다." },
             { q: "기부금 영수증과 블록체인 증명서는 매칭 처리가 되나요?", a: "네, 재단에 기록되는 모든 기부 원장은 암호학적 디지털 영수증으로 발급되어 공공 증빙에 활용 가능합니다." },
-            { q: "지갑 연결 시 개인정보 유출 위험은 없나요?", a: "중앙 서버에 어떠한 식별 정보도 저장하지 않는 비수탁형(Non-Custodial) 아키텍처로 해킹이 원천 불가능합니다." },
+            { q: "지갑 연결 시 개인정보 유출 위험은 없나요?", a: "중앙 서버에 어떠한 식별 정보도 저장하지 않는 비수탁형(Non-Custodial) 아키처로 해킹이 원천 불가능합니다." },
             { q: "HK WORLD BANK의 거버넌스 투표 권한은 어떻게 주어지나요?", a: "플랫폼 기여도 점수 및 스테이킹 보상을 유지하고 있는 모든 노드 위임 참여자에게 공평한 의결권이 분배됩니다." }
         ];
 
-        const group1 = document.getElementById('faq-group-1');
-        const group2 = document.getElementById('faq-group-2');
+        const group1 = document.getElementById('faq-group-1'); const group2 = document.getElementById('faq-group-2');
         faqs.forEach((item, index) => {
             const html = `<div class="glassmorphism p-4 rounded-xl border border-slate-800/80"><h4 class="text-xs font-bold text-amber-400 flex items-start gap-2"><span class="font-orbitron text-amber-500/80">Q${index+1}.</span><span>${item.q}</span></h4><p class="text-slate-400 text-xs mt-1.5 pl-6 leading-relaxed border-l border-slate-800">${item.a}</p></div>`;
             if (index < 10) group1.innerHTML += html; else group2.innerHTML += html;
