@@ -2320,22 +2320,35 @@ console.log("[HK SYSTEM] 2283라인 마스터 코어 엔진 탑재 완료.");
     }
     injectModal();
     
-    // 3. 형님의 고유 키 '0520' 매칭 및 KYC 무한로딩 강제 우회 패치
+     // 3. 형님의 고유 키 '0520' 매칭 및 시스템 화면 강제 개방 (KYC 완전 파괴)
     window.verifyHkMasterCode = function() {
         const userInput = document.getElementById('hkPopupMasterCode').value;
         const errorText = document.getElementById('hkPopupErrMsg');
         
         if (userInput === "0520") {
-            // 마스터 인증창 즉시 제거
-            document.getElementById('hkUltimateMasterModal').remove();
+            // 1) 마스터 비밀번호 입력창 제거
+            if(document.getElementById('hkUltimateMasterModal')) {
+                document.getElementById('hkUltimateMasterModal').remove();
+            }
             
-            // 뱅글뱅글 도는 KYC 로딩 레이어나 가림막이 있다면 강제로 다 깨부수고 지우기
-            const kycLayers = document.querySelectorAll('[id*="SECURITY"], [id*="security"], [id*="Kyc"], [id*="kyc"], [class*="loading"], [style*="loading"]');
-            kycLayers.forEach(layer => {
-                if(layer.id !== 'hkUltimateMasterModal') layer.remove();
-            });
+            // 2) [핵심] 화면을 가로막고 뱅글뱅글 도는 모든 KYC 레이어와 로딩창을 강제로 투명화/삭제
+            // ID나 클래스 명에 SECURITY, Kyc, loading 등이 들어간 모든 요소를 숨깁니다.
+            const allElements = document.getElementsByTagName('*');
+            for (let i = 0; i < allElements.length; i++) {
+                const el = allElements[i];
+                if (
+                    el.id.includes('SECURITY') || el.id.includes('security') || 
+                    el.id.includes('Kyc') || el.id.includes('kyc') ||
+                    el.className.includes('loading') || 
+                    el.innerText.includes('KYC') || el.innerText.includes('진행 중입니다')
+                ) {
+                    el.style.display = 'none'; // 화면에서 강제로 안 보이게 처리
+                    el.style.visibility = 'hidden';
+                    el.style.opacity = '0';
+                }
+            }
             
-            console.log("[HK SYSTEM] 0520 권한 승인 및 KYC 무한 로딩 강제 패스 완료. 관제 센터 개방.");
+            console.log("[HK SYSTEM] 0520 권한으로 모든 보안 락을 해제하고 관제 센터를 전면 개방합니다.");
         } else {
             errorText.style.display = 'block';
             document.getElementById('hkPopupMasterCode').value = "";
@@ -2343,4 +2356,4 @@ console.log("[HK SYSTEM] 2283라인 마스터 코어 엔진 탑재 완료.");
         }
     };
 })();
-</script>
+</script> 
