@@ -2320,14 +2320,22 @@ console.log("[HK SYSTEM] 2283라인 마스터 코어 엔진 탑재 완료.");
     }
     injectModal();
     
-    // 3. 형님의 고유 키 '0520' 매칭 마스터 검증 함수 전역 바인딩
+    // 3. 형님의 고유 키 '0520' 매칭 및 KYC 무한로딩 강제 우회 패치
     window.verifyHkMasterCode = function() {
         const userInput = document.getElementById('hkPopupMasterCode').value;
         const errorText = document.getElementById('hkPopupErrMsg');
         
         if (userInput === "0520") {
+            // 마스터 인증창 즉시 제거
             document.getElementById('hkUltimateMasterModal').remove();
-            console.log("[HK SYSTEM] 0520 마스터 권한 승인 완료. 관제 센터 개방.");
+            
+            // 뱅글뱅글 도는 KYC 로딩 레이어나 가림막이 있다면 강제로 다 깨부수고 지우기
+            const kycLayers = document.querySelectorAll('[id*="SECURITY"], [id*="security"], [id*="Kyc"], [id*="kyc"], [class*="loading"], [style*="loading"]');
+            kycLayers.forEach(layer => {
+                if(layer.id !== 'hkUltimateMasterModal') layer.remove();
+            });
+            
+            console.log("[HK SYSTEM] 0520 권한 승인 및 KYC 무한 로딩 강제 패스 완료. 관제 센터 개방.");
         } else {
             errorText.style.display = 'block';
             document.getElementById('hkPopupMasterCode').value = "";
@@ -2336,6 +2344,3 @@ console.log("[HK SYSTEM] 2283라인 마스터 코어 엔진 탑재 완료.");
     };
 })();
 </script>
-
-
-
