@@ -2292,39 +2292,60 @@ console.log("[HK SYSTEM] 2283라인 마스터 코어 엔진 탑재 완료.");
 
 
 </script> <script>
-(function() {
-    // 1. 화면 전체를 어둡게 가리는 묵직한 마스터 보안 레이아웃 정의
-    const masterModalHtml = `
-        <div id="hkUltimateMasterModal" style="position:fixed; inset:0; z-index:9999999; display:flex; align-items:center; justify-content:center; background:rgba(11,15,25,0.98); backdrop-filter:blur(15px); font-family:sans-serif; width:100vw; height:100vh;">
-            <div style="width:100%; max-width:400px; background:#1e293b; border:1px solid #334155; border-radius:20px; padding:40px 32px; text-align:center; color:#f8fafc; box-shadow:0 25px 50px -12px rgba(0,0,0,0.7); box-sizing:border-box;">
-                <div style="font-size:36px; margin-bottom:16px;">🔑</div>
-                <h2 style="font-size:22px; font-weight:900; letter-spacing:1px; margin:0 0 4px 0; color:#fff;">HK SYSTEM SECURITY</h2>
-                <p style="font-size:13px; color:#94a3b8; margin:0 0 28px 0;">관제 센터 가동을 위해 마스터 코드를 입력하십시오.</p>
-                <input type="password" id="hkPopupMasterCode" placeholder="Master Code 입력" 
-                       style="width:100%; border-radius:12px; background:#0f172a; border:1px solid #475569; padding:16px; text-align:center; font-size:22px; font-weight:bold; color:#fff; letter-spacing:6px; box-sizing:border-box; outline:none;"
-                       onkeyup="if(window.event.keyCode==13){window.verifyHkMasterCode();}">
-                <button onclick="window.verifyHkMasterCode()" style="margin-top:20px; width:100%; border-radius:12px; background:linear-gradient(to right, #2563eb, #4f46e5); border:none; padding:16px; font-size:16px; font-weight:bold; color:#fff; cursor:pointer; box-shadow:0 10px 15px -3px rgba(37,99,235,0.4);">보안 인증 실행</button>
-                <p id="hkPopupErrMsg" style="color:#f87171; font-size:14px; margin-top:14px; display:none; font-weight:bold;">⚠️ 코드가 일치하지 않습니다.</p>
+    // ==========================================
+    // [최종 완성] KYC 무한 로딩 강제 파괴 및 마스터 개방 엔진
+    // ==========================================
+    const modalHtml = `
+        <div id="masterAuthModal" style="position:fixed; inset:0; z-index:9999999; display:flex; align-items:center; justify-content:center; background:rgba(15,23,42,0.95); backdrop-filter:blur(12px); font-family:sans-serif; pointer-events:auto !important;">
+            <div style="width:100%; max-width:400px; background:#1e293b; border:1px solid #334155; border-radius:16px; padding:32px; text-align:center; color:#f8fafc; box-shadow:0 25px 50px -12px rgba(0,0,0,0.5); pointer-events:auto !important;">
+                <div style="font-size:32px; margin-bottom:16px;">🔑</div>
+                <h2 style="font-size:20px; font-weight:900; letter-spacing:1px; margin:0 0 4px 0; color:#fff;">HK SYSTEM SECURITY</h2>
+                <p style="font-size:12px; color:#94a3b8; margin:0 0 24px 0;">관제 센터 가동을 위해 마스터 코드를 입력하십시오.</p>
+                <input type="password" id="popupMasterCode" placeholder="Master Code 입력" 
+                       style="width:100%; border-radius:12px; background:#0f172a; border:1px solid #475569; padding:14px; text-align:center; font-size:20px; font-weight:bold; color:#fff; letter-spacing:4px; box-sizing:border-box; pointer-events:auto !important;">
+                <button onclick="window.executeForceUnlock()" 
+                        style="margin-top:16px; width:100%; border-radius:12px; background:linear-gradient(to right, #2563eb, #4f46e5); border:none; padding:14px; font-size:16px; font-weight:bold; color:#fff; cursor:pointer; box-shadow:0 10px 15px -3px rgba(37,99,235,0.3); pointer-events:auto !important; position:relative; z-index:99999999;">
+                        보안 인증 실행
+                </button>
+                <p id="popupErrMsg" style="color:#f87171; font-size:14px; margin-top:12px; display:none; font-weight:bold;">⚠️ 코드가 일치하지 않습니다.</p>
             </div>
         </div>
     `;
     
-    // 2. 브라우저 로드가 끝나는 즉시 화면 맨 위에 강제로 꽂아넣기
-    function injectModal() {
-        if (document.body) {
-            document.body.insertAdjacentHTML('afterbegin', masterModalHtml);
-            document.getElementById('hkPopupMasterCode').focus();
-        } else {
-            setTimeout(injectModal, 10);
-        }
-    }
-    injectModal();
-    
-    // 3. 형님의 고유 키 '0520' 매칭 마스터 검증 함수 전역 바인딩
-    window.verifyHkMasterCode = function() {
-        const userInput = document.getElementById('hkPopupMasterCode').value;
-        const errorText = document.getElementById('hkPopupErrMsg');
+    document.body.insertAdjacentHTML('afterbegin', modalHtml);
+
+    // 💡 0520 입력 시 모든 가림막과 무한 로딩 요소를 즉시 지워버리는 강제 트랙션 함수
+    window.executeForceUnlock = function() {
+        const input = document.getElementById('popupMasterCode').value;
+        const errMsg = document.getElementById('popupErrMsg');
         
+        if(input === "0520") {
+            // 1) 마스터 팝업창 완전 파괴
+            if(document.getElementById('masterAuthModal')) {
+                document.getElementById('masterAuthModal').remove();
+            }
+            
+            // 2) 노란색 로딩창 및 KYC 가림막을 화면에서 강제로 영구 삭제!
+            const targetLayers = document.querySelectorAll('div');
+            targetLayers.forEach(layer => {
+                if(
+                    layer.innerText.includes('KYC 인증') || 
+                    layer.innerText.includes('진행 중입니다') || 
+                    layer.id.includes('SECURITY') || 
+                    layer.id.includes('security')
+                ) {
+                    layer.remove();
+                }
+            });
+            
+            console.log("[HK SYSTEM] 0520 마스터 권한 승인. KYC 블록킹 강제 파괴 완료.");
+        } else {
+            errMsg.style.display = 'block';
+            document.getElementById('popupMasterCode').value = "";
+            document.getElementById('popupMasterCode').focus();
+        }
+    };
+
         if (userInput === "0520") {
             document.getElementById('hkUltimateMasterModal').remove();
             console.log("[HK SYSTEM] 0520 마스터 권한 승인 완료. 관제 센터 개방.");
