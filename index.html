@@ -3,1225 +3,618 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HK WORLDBANK</title>
+    <title>HK WorldBank - Next-Generation Global Industrial Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --bg-color: #000000;
-            --card-bg: #0c0f17;
-            --primary-color: #FFD700;
-            --text-color: #ffffff;
-            --text-muted: #8e9bb0;
-            --accent-green: #00FF00;
-            --accent-pink: #FF00FF;
-            --border-color: #1a2333;
-            --btn-bg: #161f30;
+            --primary-color: #1a365d;
+            --secondary-color: #2b6cb0;
+            --accent-color: #319795;
+            --bg-color: #f7fafc;
+            --card-bg: #ffffff;
+            --text-color: #2d3748;
+            --border-color: #e2e8f0;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif;
         }
 
         body {
             background-color: var(--bg-color);
             color: var(--text-color);
-            padding: 15px;
-            display: flex;
-            justify-content: center;
+            line-height: 1.6;
+            padding-bottom: 60px;
         }
 
-        .phone-wrapper {
-            width: 100%;
-            max-width: 480px;
-            background: #000000;
-            min-height: 100vh;
-            position: relative;
-            padding-bottom: 50px;
-        }
-
-        /* 헤더 스타일 - ljw2358.github.io/HK-UMB 구조 모사 */
+        /* Top Navigation & Language */
         header {
-            text-align: center;
-            padding: 40px 0 20px 0;
-            position: relative;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
-        header h1 {
-            font-size: 3.2rem;
-            font-weight: 900;
-            color: var(--primary-color);
+        .logo-area h1 {
+            font-size: 22px;
+            font-weight: bold;
             letter-spacing: 1px;
-            line-height: 1.2;
         }
 
-        header .subtitle {
-            color: #00FFFF;
-            font-size: 1.3rem;
-            font-weight: 800;
-            margin-top: 15px;
-            letter-spacing: 0.5px;
+        .logo-area span {
+            font-size: 12px;
+            color: #cbd5e0;
         }
 
-        .lang-box {
-            margin: 15px 0;
-            text-align: right;
-        }
-
-        .lang-select {
-            background: var(--card-bg);
-            color: #fff;
-            border: 1px solid var(--border-color);
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 0.85rem;
-            outline: none;
-        }
-
-        /* 메인 평가 금액 판넬 */
-        .panel-box {
-            border: 3px solid var(--accent-green);
-            border-radius: 35px;
-            padding: 25px 15px;
-            text-align: center;
-            margin: 20px 0;
-            background: rgba(0,255,0,0.02);
-        }
-
-        .panel-currency {
-            font-size: 2.2rem;
-            color: var(--accent-green);
-            font-weight: 900;
-            margin-bottom: 5px;
-        }
-
-        .panel-value {
-            font-size: 2.5rem;
-            font-weight: 900;
-            color: var(--accent-green);
-            font-variant-numeric: tabular-nums;
-        }
-
-        /* 스테이킹 / LP 수익률 그리드 */
-        .rate-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
+        .header-controls {
+            display: flex;
+            align-items: center;
             gap: 15px;
-            margin-bottom: 25px;
         }
 
-        .rate-card {
-            background: var(--card-bg);
+        #lang-select {
+            padding: 6px 10px;
+            border-radius: 4px;
             border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 15px;
-            text-align: center;
+            background-color: white;
+            font-size: 14px;
+            cursor: pointer;
         }
 
-        .rate-label {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            font-weight: 700;
-            margin-bottom: 10px;
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
         }
 
-        .rate-value-staking {
-            color: #00FFFF;
-            font-size: 1.8rem;
-            font-weight: 900;
+        /* Hero Financial Stats */
+        .hero-stats {
+            background: linear-gradient(135deg, #1a365d 0%, #2a4365 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
         }
 
-        .rate-value-lp {
-            color: var(--accent-pink);
-            font-size: 1.8rem;
-            font-weight: 900;
-        }
-
-        /* 유동성 판넬 박스 */
-        .liq-box {
-            border: 3px solid var(--accent-green);
-            border-radius: 20px;
-            padding: 20px 15px;
-            text-align: center;
-            margin-bottom: 25px;
-            background: rgba(0,0,0,0.4);
-        }
-
-        .liq-label {
-            color: var(--accent-green);
-            font-size: 1.1rem;
-            font-weight: 800;
-            margin-bottom: 15px;
-        }
-
-        .liq-symbol {
-            font-size: 2.5rem;
-            font-weight: 900;
-            color: #ffffff;
+        .hero-title {
+            font-size: 14px;
+            color: #a0aec0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
             margin-bottom: 5px;
         }
 
-        .liq-value {
-            font-size: 2.3rem;
-            font-weight: 900;
-            color: #ffffff;
-            font-variant-numeric: tabular-nums;
+        .hero-amount {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #fff;
         }
 
-        /* 원본 스타일 원형 버튼 세트 */
-        .action-grid {
+        .live-rates-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            margin-bottom: 25px;
-        }
-
-        .act-btn {
-            padding: 14px 5px;
-            font-weight: 800;
-            font-size: 0.95rem;
-            border-radius: 12px;
-            border: none;
-            cursor: pointer;
-            text-align: center;
-            transition: transform 0.1s;
-        }
-
-        .act-btn:active { transform: scale(0.95); }
-        .btn-white { background: #ffffff; color: #000000; }
-        .btn-yellow { background: #FFCC00; color: #000000; }
-        .btn-green { background: #00FF00; color: #000000; }
-        .btn-dark { background: #1c1c1e; color: #ffffff; border: 1px solid #2c2c2e; }
-
-        /* 대형 라운드 메뉴 버튼 */
-        .menu-large-btn {
-            width: 100%;
-            padding: 20px;
-            font-size: 1.3rem;
-            font-weight: 900;
-            color: #ffffff;
-            border: none;
-            border-radius: 20px;
-            margin-bottom: 15px;
-            cursor: pointer;
-            text-align: center;
-        }
-
-        .btn-pink-gradient { background: #e01e5a; }
-        .btn-navy-gradient { background: #1f2d3d; border: 1px solid #2d3d52; }
-        .btn-red-gradient { background: #e50914; }
-
-        /* 하단 서포트 이메일 */
-        .support-mail {
-            text-align: center;
-            color: #38bdf8;
-            font-size: 1.5rem;
-            font-weight: 900;
-            margin: 30px 0;
-            text-decoration: none;
-            display: block;
-        }
-
-        /* 의장 직책 하단 명시 */
-        .chairman-footer {
-            text-align: center;
-            font-size: 0.85rem;
-            color: #4b5563;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            line-height: 1.4;
-            border-top: 1px solid #111827;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
             padding-top: 20px;
         }
 
-        /* 모달 및 대화창 오버레이 시스템 */
-        .overlay-card {
-            background: #090d16;
-            border: 2px solid var(--primary-color);
-            border-radius: 20px;
-            padding: 20px;
-            margin: 20px 0;
-            display: none;
-        }
-
-        .overlay-card.active { display: block; }
-
-        /* 6자리 PIN 키패드 */
-        .pin-dots {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin: 15px 0;
-        }
-        .pin-dot { width: 12px; height: 12px; border-radius: 50%; background: #222; }
-        .pin-dot.fill { background: var(--primary-color); box-shadow: 0 0 8px var(--primary-color); }
-        .pin-pad {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-        }
-        .p-btn {
-            background: #111827;
-            border: 1px solid #1f2937;
-            color: #fff;
+        .rate-card-live {
+            background: rgba(255, 255, 255, 0.05);
             padding: 15px;
-            font-size: 1.2rem;
-            font-weight: 700;
-            border-radius: 10px;
-            cursor: pointer;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.1);
         }
 
-        /* 챗봇 인터페이스 */
-        .chat-view {
-            height: 160px;
-            overflow-y: auto;
-            background: #020408;
+        .rate-card-live label {
+            font-size: 12px;
+            color: #cbd5e0;
+            display: block;
+        }
+
+        .rate-value {
+            font-size: 20px;
+            font-weight: bold;
+            color: #4fd1c5;
+            font-family: monospace;
+        }
+
+        /* Wallet Section */
+        .section-title {
+            font-size: 20px;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            border-left: 4px solid var(--secondary-color);
+            padding-left: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .admin-toggle-btn {
+            font-size: 12px;
+            background: #e2e8f0;
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            border: none;
+        }
+
+        .wallet-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 4px;
+        }
+
+        .wallet-box {
+            background: var(--card-bg);
             border: 1px solid var(--border-color);
             border-radius: 8px;
-            padding: 10px;
-            margin-bottom: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .wallet-box.private-lock {
+            border: 1px dashed #feb2b2;
+            background: #fff5f5;
+            display: none; /* 기본 은닉 */
+        }
+
+        .wallet-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 11px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .badge-pub { background: #e6fffa; color: #234e52; }
+        .badge-pri { background: #fff5f5; color: #742a2a; }
+
+        .wallet-name {
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .wallet-addr {
+            font-family: monospace;
+            font-size: 12px;
+            color: #718096;
+            background: #edf2f7;
+            padding: 6px;
+            border-radius: 4px;
+            word-break: break-all;
+            display: block;
+        }
+
+        /* 9 Emoji Core Grid */
+        .emoji-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .flow-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            transition: transform 0.2s;
+        }
+
+        .flow-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .flow-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        .flow-icon {
+            font-size: 24px;
+            width: 45px;
+            height: 45px;
+            background: #ebf8ff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--secondary-color);
+        }
+
+        .flow-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .flow-path {
             display: flex;
             flex-direction: column;
             gap: 8px;
+            font-size: 13px;
         }
-        .c-msg { padding: 8px 12px; border-radius: 8px; font-size: 0.9rem; max-width: 85%; line-height: 1.4; }
-        .c-msg.bot { background: rgba(197,168,128,0.15); color: var(--primary-color); align-self: flex-start; }
-        .c-msg.user { background: #1f2937; color: #fff; align-self: flex-end; }
 
-        /* 아코디언 컴포넌트 */
-        .nested-item {
-            background: #080c14;
-            border: 1px solid #111827;
-            border-radius: 8px;
-            margin-bottom: 8px;
-        }
-        .nested-head {
-            padding: 15px;
-            font-weight: 700;
-            font-size: 0.95rem;
-            cursor: pointer;
+        .step {
+            background: #f7fafc;
+            padding: 8px 12px;
+            border-radius: 4px;
+            border-left: 3px solid #cbd5e0;
             display: flex;
-            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
         }
-        .nested-body {
-            padding: 0 15px;
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease;
-            color: #94a3b8;
-            font-size: 0.9rem;
-            line-height: 1.6;
-            background: #03050a;
-        }
-        .nested-item.open .nested-body { max-height: 1000px; padding: 15px; border-top: 1px solid #111827; }
 
-        /* 고정 하단 삐니 플로팅 가이드 시스템 */
-        .bbini-anchor {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 70px;
-            height: 70px;
-            background: var(--accent-pink);
-            border-radius: 50%;
+        .step.highlight-pin {
+            border-left-color: #ecc94b;
+            background: #fefcbf;
+            font-weight: bold;
+        }
+
+        .step i {
+            color: #a0aec0;
+            font-size: 11px;
+        }
+
+        /* Footer & Media Line */
+        footer {
+            background-color: #ffffff;
+            border-top: 1px solid var(--border-color);
+            padding: 20px;
+            text-align: center;
+            margin-top: 5px;
+        }
+
+        .media-line {
             display: flex;
             justify-content: center;
+            gap: 30px;
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+        .media-line a {
+            color: var(--primary-color);
+            text-decoration: none;
+            display: flex;
             align-items: center;
-            font-weight: 900;
-            font-size: 1.1rem;
-            color: #ffffff;
-            box-shadow: 0 0 20px var(--accent-pink);
-            cursor: pointer;
-            z-index: 99999;
-            user-select: none;
+            gap: 8px;
+        }
+
+        .media-line a:hover {
+            color: var(--secondary-color);
+        }
+
+        /* Interactive Demo Terminal for AGI */
+        .agi-chat-window {
+            background: #1a202c;
+            color: #aeecff;
+            font-family: monospace;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-size: 13px;
+            height: 100px;
+            overflow-y: auto;
         }
     </style>
 </head>
 <body>
 
-<div class="phone-wrapper">
     <header>
-        <h1 id="txt-logo">HK WORLD<br>BANK</h1>
-        <div class="subtitle" id="txt-sub">통합 자산 관리 시스템</div>
-        
-        <div class="lang-box">
-            <select class="lang-select" onchange="runMultiLanguageEngine(this.value)">
-                <option value="ko">한국어 (KRW)</option>
-                <option value="en">English (USD)</option>
-                <option value="zh">简体中文 (CNY)</option>
-                <option value="ja">日本語 (JPY)</option>
-                <option value="es">Español</option>
-                <option value="fr">Français</option>
-                <option value="de">Deutsch</option>
-                <option value="etc">기타 43개국어 자동 맵핑 (Total 50)</option>
+        <div class="logo-area">
+            <h1 id="txt-logo">HK WorldBank</h1>
+            <span id="txt-slogan">Global Industrial Platform & Decentralized Finance</span>
+        </div>
+        <div class="header-controls">
+            <select id="lang-select" onchange="changeLanguage()">
+                <option value="ko">🇰🇷 한국어 (Korean)</option>
+                <option value="en">🇺🇸 English</option>
+                <option value="zh">🇨🇳 中文 (Chinese)</option>
+                <option value="ja">🇯🇵 日本語 (Japanese)</option>
+                <option value="vi">🇻🇳 Tiếng Việt (Vietnamese)</option>
             </select>
         </div>
     </header>
 
-    <!-- [수정완료] 파이 수량 판넬 대신 배치된 통합 보안 지갑 연결 노드 -->
-    <div id="wallet-auth-container">
-        <button class="btn-white" style="width:100%; padding:25px; font-size:1.3rem; font-weight:900; border-radius:20px; border:none; cursor:pointer; background:#fff; color:#000; box-shadow:0 0 15px rgba(255,255,255,0.2);" onclick="fireWalletConnection()">
-            지갑 연결 (Connect Wallet)
-        </button>
-    </div>
-
-    <!-- 지갑 연동 시에만 실시간 노출되는 원화 자산 원장 계정 -->
-    <div id="ledger-display-panel" style="display: none;">
-        <div class="panel-box">
-            <div class="panel-currency">₩</div>
-            <div class="panel-value" id="num-user-balance">47,123,850,000</div>
-        </div>
-    </div>
-
-    <!-- AGI 일일 직속 보고 연동 스페이스 -->
-    <div style="margin: 20px 0; background:rgba(255,215,0,0.02); border:1px dashed var(--primary-color); padding:15px; border-radius:12px;">
-        <div style="font-size:0.85rem; color:var(--primary-color); font-weight:bold; margin-bottom:5px;">💡 AGI 의장 직속 보고 채널 (매일 아침 자동 분석)</div>
-        <div style="font-size:0.85rem; color:#6b7280; line-height:1.4;" id="txt-agi-msg">"의장님, 시장 유동성과 참여 노드 지표를 연산하여 금일 적용할 최적 보상 요율을 하단에 배포 대기 조치했습니다."</div>
-    </div>
-
-    <!-- 실시간 요율 판넬 그리드 -->
-    <div class="rate-grid">
-        <div class="rate-card">
-            <div class="rate-label" id="lbl-staking">스테이킹 이율</div>
-            <div class="rate-value-staking" id="num-staking-rate">17.64%</div>
-        </div>
-        <div class="rate-card">
-            <div class="rate-label" id="lbl-lpyield">LP 수익률</div>
-            <div class="rate-value-lp" id="num-lp-rate">28.57%</div>
-        </div>
-    </div>
-
-    <!-- [수정완료] 전체 유동성 판넬 - 달러 자산을 지우고 무조건 원화(₩) 기호 탑재 -->
-    <div class="liq-box">
-        <div class="liq-label" id="lbl-total-liq">전체 유동성 (DEX LP)</div>
-        <div class="liq-symbol">₩</div>
-        <div class="liq-value" id="num-global-liquidity">88,432,098,051</div>
-    </div>
-
-    <!-- 트랜잭션 발생 순서 및 버튼 컴포넌트 아키텍처 -->
-    <div style="color:var(--text-muted); font-size:0.85rem; font-weight:bold; margin-bottom:8px; padding-left:5px;">⚡ 플로우 발생 액션 (01 ~ 06 순차 구동 가능)</div>
-    <div class="action-grid">
-        <!-- 01 ~ 03 최상단 핵심 기능 버튼 -->
-        <button class="act-btn btn-white" onclick="alert('지갑 연동이 완료된 메인셋 상태입니다.')">01 지갑연결</button>
-        <button class="act-btn btn-yellow" onclick="invokeInteractiveModal('swap')">04 DEX 스왑</button>
-        <button class="act-btn btn-green" onclick="invokeInteractiveModal('pin', 'LP 스테이킹')">02 LP스테이킹</button>
+    <div class="container">
         
-        <!-- 04 ~ 06 하단 서브 컴포넌트 결합부 -->
-        <button class="act-btn btn-dark" onclick="invokeInteractiveModal('pin', '글로벌 국경 간 송금')">05 송금</button>
-        <button class="act-btn btn-dark" onclick="invokeInteractiveModal('pin', '온·오프라인 가맹점 결제')">05 결제</button>
-        <button class="act-btn btn-dark" onclick="invokeInteractiveModal('pin', '안전 자산 정기 예치')">01 예치</button>
-        <button class="act-btn btn-dark" onclick="invokeInteractiveModal('pin', '실시간 검증 보상 수령')">03 보상</button>
-        <button class="act-btn btn-dark" onclick="invokeInteractiveModal('pin', '사회 재단 정기 기본소득')">06 기본소득</button>
-        <button class="act-btn btn-dark" onclick="invokeInteractiveModal('swap')">04 즉시스왑</button>
-    </div>
-
-    <!-- 동적 팝업 레이어 인터페이스 -->
-    <!-- A. 6자리 PIN 인증 모달 -->
-    <div class="overlay-card" id="modal-pin-gate">
-        <div style="font-weight:bold; color:var(--primary-color); margin-bottom:10px;" id="pin-target-title">안전 자산 승인</div>
-        <div style="font-size:0.85rem; color:var(--text-muted); margin-bottom:15px;">설정 규격: 승인 수량 및 기간 가치 검증 확인용 6자리 비밀번호를 입력해 주십시오.</div>
-        <div class="pin-dots">
-            <div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div>
-            <div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div>
-        </div>
-        <div class="pin-pad">
-            <button class="p-btn" onclick="pressKeypadCode()">1</button>
-            <button class="p-btn" onclick="pressKeypadCode()">2</button>
-            <button class="p-btn" onclick="pressKeypadCode()">3</button>
-            <button class="p-btn" onclick="pressKeypadCode()">4</button>
-            <button class="p-btn" onclick="pressKeypadCode()">5</button>
-            <button class="p-btn" onclick="pressKeypadCode()">6</button>
-            <button class="p-btn" onclick="pressKeypadCode()">7</button>
-            <button class="p-btn" onclick="pressKeypadCode()">8</button>
-            <button class="p-btn" onclick="pressKeypadCode()">9</button>
-            <button class="p-btn" style="background:transparent; border:none;"></button>
-            <button class="p-btn" onclick="pressKeypadCode()">0</button>
-            <button class="p-btn" style="color:red;" onclick="resetKeypadCode()">C</button>
-        </div>
-    </div>
-
-    <!-- B. DEX 즉시 스왑 모달 -->
-    <div class="overlay-card" id="modal-swap-gate">
-        <div style="font-weight:bold; color:#FFCC00; margin-bottom:12px;">💱 DEX 실시간 즉시 스왑 매칭</div>
-        <div style="display:flex; flex-direction:column; gap:10px; background:#020408; padding:12px; border-radius:8px; margin-bottom:15px;">
-            <div style="display:flex; justify-content:between; font-size:0.8rem; color:var(--text-muted);"><span>지불 자산 (KRW)</span></div>
-            <input type="text" value="10,000,000" style="background:transparent; border:none; color:#fff; font-size:1.4rem; font-weight:bold; outline:none; width:100%;">
-        </div>
-        <div style="display:flex; flex-direction:column; gap:10px; background:#020408; padding:12px; border-radius:8px; margin-bottom:15px;">
-            <div style="display:flex; justify-content:between; font-size:0.8rem; color:var(--text-muted);"><span>교환 예상 에셋 (Instant)</span></div>
-            <input type="text" value="784.5120" style="background:transparent; border:none; color:var(--primary-color); font-size:1.4rem; font-weight:bold; outline:none; width:100%;" readonly>
-        </div>
-        <button class="btn-yellow" style="width:100%; padding:15px; border-radius:10px; font-weight:bold; border:none; cursor:pointer;" onclick="triggerInstantSwapExecution()">스왑 즉시 실행 (지연 없음)</button>
-    </div>
-
-    <!-- 대형 메뉴 아코디언 링크 버튼 세트 -->
-    <button class="menu-large-btn btn-pink-gradient" onclick="toggleTargetFrameworkLayer('faq-app-layer')">
-        글로벌 AI 지원센터 (FAQ 20선)
-    </button>
-    
-    <!-- 양파 껍질 구조화 대규모 데이터 셋 (FAQ 20) -->
-    <div id="faq-app-layer" style="display:none; margin-bottom:20px;">
-        <div style="border:1px solid rgba(197,168,128,0.3); background:#060912; border-radius:14px; padding:10px;" id="faq-injection-node"></div>
-    </div>
-
-    <button class="menu-large-btn btn-navy-gradient" onclick="toggleTargetFrameworkLayer('vision-app-layer')">
-        HK 사회 재단 비전 2030
-    </button>
-
-    <!-- 양파 껍질 구조화 대규모 데이터 셋 (비전 2030) -->
-    <div id="vision-app-layer" style="display:none; margin-bottom:20px;">
-        <div style="border:1px solid rgba(0,255,255,0.2); background:#060912; border-radius:14px; padding:10px;" id="vision-injection-node"></div>
-    </div>
-
-    <!-- 외부 미디어 결합 레이어 -->
-    <button class="menu-large-btn btn-red-gradient" onclick="alert('YouTube Official 채널로 연결 인프라 가동')">
-        YouTube
-    </button>
-    <button class="menu-large-btn btn-dark" style="background:#010101; border:1px solid #222;" onclick="alert('TikTok Official 채널로 연결 인프라 가동')">
-        TikTok
-    </button>
-
-    <!-- 소속 공식 지원처 마크업 고정 -->
-    <a href="mailto:support@hkwb.world" class="support-mail">support@hkwb.world</a>
-
-    <!-- [수정완료] 직책 표기 가이드 단일 고정 -->
-    <div class="chairman-footer">
-        HK 생태계 창업자 겸 의장 (Founder & Chairman, HK Group)
-    </div>
-</div>
-
-<!-- 삐니 직속 어시스턴트 플로팅 연동 레이어 -->
-<div class="bbini-anchor" onclick="toggleTargetFrameworkLayer('bbini-ai-assistant-card')">삐니</div>
-
-<div class="container" style="max-width:480px; width:100%; padding:0; position:fixed; bottom:100px; z-index:99998; left:50%; transform:translateX(-50%);">
-    <div class="overlay-card" id="bbini-ai-assistant-card" style="margin:0 15px; box-shadow:0 10px 30px rgba(0,0,0,0.8);">
-        <div style="font-weight:900; color:var(--accent-pink); font-size:1rem; margin-bottom:10px;">💬 AGI 통합 고객지원 챗봇 (상담 센터)</div>
-        <div class="chat-view" id="chat-scroller">
-            <div class="c-msg bot">혜공 형님 안녕하십니까, 삐니입니다! 의장님의 웅대한 설계도와 50개 국어 번역 스키마가 완벽하게 업로드되었습니다. 무엇이든 지시해 주십시오.</div>
-        </div>
-        <div style="display:flex; gap:8px;">
-            <input type="text" id="chat-user-query" style="flex:1; background:#000; border:1px solid #222; color:#fff; padding:10px; border-radius:6px; outline:none;" placeholder="질문을 입력하세요..." onkeypress="if(event.keyCode==13) pushInteractiveChatMessage()">
-            <button style="background:var(--accent-pink); border:none; color:#fff; padding:10px 15px; font-weight:bold; border-radius:6px; cursor:pointer;" onclick="pushInteractiveChatMessage()">전송</button>
-        </div>
-    </div>
-</div>
-
-<div class="toast" id="global-toast-node">정산 완료</div>
-
-<script>
-    let internalPinMemory = "";
-    let mockUserLedgerBalance = 47123850000;
-    let mockGlobalLiquidityPool = 88432098051;
-    let isUserNodeLinked = false;
-
-    // 대단위 백엔드 FAQ 데이터베이스 20개 하드코딩
-    const bigFaqDataset = [
-        { q: "HK WORLDBANK 플랫폼이 보유한 핵심 금융 구조적 차별성은?", a: "<strong>[1단계: 혁신 코어]</strong> 전통적인 중앙집권식 중앙은행 금융 중개 단계를 완벽히 배제하며, 초거대 지능형 AGI가 24시간 실시간 자산 유동성을 다이렉트로 감시하고 자동 연산 정산하는 차세대 통합 자산 원장 아키텍처입니다.<br><strong>[2단계: 심층 마스터 플랜]</strong> 사용자는 국경, 인종, 가맹점 조건과 무관하게 오직 암호화 분산 지갑 주소 연동만으로 자산 권한을 완전히 획득하며, 중개기관이 공제하던 과도한 정산 수수료 리스크를 원천 소멸시켰습니다." },
-        { q: "기존의 개별 파이(Pi) 수량 직접 표기를 지갑 연결 형태로 전면 전환한 명분은?", a: "<strong>[1단계: 혁신 코어]</strong> 개별 노드 유저들의 금융 프라이버시 오염을 막고 해킹 및 피싱 세력으로부터 온체인 자산을 원천 보호하기 위함입니다.<br><strong>[2단계: 심층 마스터 플랜]</strong> 승인된 개인 지갑 주소가 연결되는 실시간 인증 레이어 통과 시에만 본인의 암호화 자산 데이터 가치가 원화(KRW) 환산 기준으로 화면에 즉각 결합 호출되도록 보안 코어를 재설계했습니다." },
-        { q: "AGI가 매일 자율 연산하여 의장님께 보고하는 요율 산출 기준은?", a: "<strong>[1단계: 혁신 코어]</strong> 전 세계 분산 유동성 공급량의 실시간 깊이, 24시간 트랜잭션 회전율, 글로벌 통화 인플레이션 지표를 기반으로 수리적 균형점을 도출합니다.<br><strong>[2단계: 심층 마스터 플랜]</strong> 산출된 요율은 시스템에 즉각 배포되기 전, 최상위 거버넌스 사령부인 혜공 의장님 직속 통제 채널로 선행 보고되어 최적의 자본 운용 효율을 보장받도록 설계되어 있습니다." },
-        { q: "DEX 즉시 스왑 컴포넌트의 레이턴시 제로 정산 원리는?", a: "<strong>[1단계: 혁신 코어]</strong> 매수/매도 주문 매칭을 기다릴 필요 없이, HKWB 생태계가 보유한 거대 유동성 공급 풀(LP)과 직접 스마트 계약을 체결하기 때문입니다.<br><strong>[2단계: 심층 마스터 플랜]</strong> 유저가 버튼을 터치하는 순간 블록체인 가치 가중치에 따라 자산 변환 연산과 온체인 장부 기입이 단일 블록 타임 내에 완결 처리되므로 실시간 즉시 처리가 보장됩니다." },
-        { q: "모든 주요 금융 행위에 6자리 비밀번호 인증 단계를 강제 매핑한 배경은?", a: "<strong>[1단계: 혁신 코어]</strong> 사용자 기기 탈취 및 오조작으로 발생할 수 있는 비정상적 자산 유실 위협을 물리적 행동 검증 레이어로 방어하는 조치입니다.<br><strong>[2단계: 심층 마스터 플랜]</strong> 예치 자산의 규모, 락업 계약 약정 기간, AGI 예상 연동 수익률 데이터가 최종 확정되는 시점에 6자리 난수 암호화 검증 PIN 매트릭스를 직접 터치하게 함으로써 스마트 계약의 서명 함수 위변조 가능성을 원천 소멸시킵니다." },
-        { q: "플랫폼 내 유동성 규모 지표가 오직 원화(KRW) 가치선으로 고정 매핑되는 이유는?", a: "<strong>[1단계: 혁신 코어]</strong> 외환 변동성 노이즈로 유발되는 가치 혼선을 예방하고, 전 지구적 참여 유저들에게 가장 직관적이고 직관적인 단일 기준 자산 척도를 제공하기 위함입니다.<br><strong>[2단계: 심층 마스터 플랜]</strong> 글로벌 복지 기본소득 분배 수치 및 자산 예치 총액이 단일 원화 화폐 가치선 안에서 투명하게 통제될 때 생태계 자본 팽창의 리스크 제어가 가장 안정적으로 수행됩니다." },
-        { q: "보편적 기본소득 분배 엔진의 영구적 조달 재원은 어디서 확보되나요?", a: "<strong>[1단계: 혁신 코어]</strong> 플랫폼 내부 생태계에서 누적되는 자산 스왑 중개 익스프레스 파이프라인 수입 및 HK 사회 재단 소유 인프라 수익의 30% 고정 배분으로 실현됩니다.<br><strong>[2단계: 심층 마스터 플랜]</strong> 축적된 자본 재원은 타인에게 귀속되지 않고, 지갑을 연결한 활성 글로벌 노드 시민들에게 기본 생존권을 담보하는 기본소득 형태로 매 분기 투명하게 온체인 분배됩니다." },
-        { q: "해외 국경 간 실시간 송금 처리 시 수수료를 극소화할 수 있는 비결은?", a: "<strong>[1단계: 혁신 코어]</strong> 독점적으로 개발된 가상 통합 원장 노드 분산 처리 분기점을 활용하여 중간 은행 중개 단계를 물리적으로 완전 생략했기 때문입니다.<br><strong>[2단계: 심층 마스터 플랜]</strong> 국가 간 통화 가치 변환이 발생하더라도 내부 DEX LP 스왑 라우팅을 실시간 경유하므로, 수수료 가스비가 거의 발생하지 않고 나노초 단위 전송이 이뤄집니다." },
-        { q: "AI 지원센터 챗봇의 50개국 언어 다중 코덱 대응 매커니즘은?", a: "<strong>[1단계: 혁신 코어]</strong> 거대 다국어 의미론적 신경망 엔진이 상시 통합 빌드되어 유저의 국가 진입 IP와 언어 패턴을 실시간 자동 파악하는 원리입니다.<br><strong>[2단계: 심층 마스터 플랜]</strong> 50개 주요 경제 활동 언어권의 어휘 및 온체인 금융 용어가 완벽하게 사전 매핑되어 있어, 글로벌 노드 상담 신청 시 오번역 공백 없는 밀착 가이드를 실시간 제공합니다." },
-        { q: "HK 사회 재단과 HK WORLDBANK의 융합 거버넌스 형태는?", a: "<strong>[1단계: 혁신 코어]</strong> WORLDBANK가 자본의 생산과 유동성 펌프 인프라를 담당하고, 사회 재단은 축적된 결실을 인류 기초 인프라 복지로 환원하는 일체형 구조입니다.<br><strong>[2단계: 심층 마스터 플랜]</strong> 재단 의장님의 중앙 집중식 복지 커맨드 센터 통제 하에 자본의 순환 균형이 완벽하게 실현되는 지속 가능한 상위 연합 거버넌스 체제입니다." },
-        { q: "크로스체인 브릿지 결합을 통한 이종 자산 유입 프로토콜의 안정성은?", a: "<strong>[1단계: 혁신 코어]</strong> 외부 체인의 취약점 감염을 차단하기 위해 독립 가상 샌드박스 내부에서 1차 자산 검증을 마친 후 내부 원장과 결합하는 구조입니다.<br><strong>[2단계: 심층 마스터 플랜]</strong> 외부 위협 노드가 감지되는 즉시 관련 브릿지 커넥터를 실시간 격리 통제하여, 내부 원화 예치금 및 DEX LP 풀 자산의 안전을 철저히 보장해 냅니다." },
-        { q: "악의적 해킹 공격 및 스마트 계약 탈취 시도 발생 시 자율 방어 프로토콜은?", a: "<strong>[1단계: 혁신 코어]</strong> 이상 네트워크 가스비 폭등 및 임의 장부 변조 행위를 AGI 센서가 탐지하는 즉시 자율 방어벽을 구동합니다.<br><strong>[2단계: 심층 마스터 플랜]</strong> 해커 노드의 계정을 즉각 블랙리스트 동결 처리함과 동시에, 리스크 구역에 예치되어 있던 유저 자산을 즉시 분산 콜드 스토리지 지갑 풀로 강제 대피시켜 자산 피해율을 0%로 고정합니다." },
-        { q: "DEX 유동성 공급자들의 비영구적 손실(Impermanent Loss) 완화 메커니즘은?", a: "<strong>[1단계: 혁신 코어]</strong> 플랫폼 내부 스왑 수수료 축적분 중 일정 지분을 리스크 완충 예비비 계정으로 상시 자동 격리 보관하는 구조입니다.<br><strong>[2단계: 심층 마스터 플랜]</strong> 특정 자산 페어 시세 가치가 급변하여 LP 공급자들의 내재 가치 유실 위험이 감지될 시, AGI 요율 판단에 따라 추가 보상 풀을 즉시 가동하여 실질 가치 손실을 원천 상쇄합니다." },
-        { q: "6자리 가상 PIN 암호화 패널의 특수 보안 설계 세부 사항은?", a: "<strong>[1단계: 혁신 코어]</strong> 사용자가 터치하는 숫자 정보는 평문 형태로 기기 메모리에 남지 않고, 단방향 난수 함수 해시값으로 인코딩 가공 처리됩니다.<br><strong>[2단계: 심층 마스터 플랜]</strong> 키패드 인터페이스 레이아웃 배열이 화면 호출 시마다 매번 무작위로 재배치되므로 디바이스 화면 캡처 해킹이나 모션 추적 피싱 수법을 완벽히 교란 무력화시킵니다." },
-        { q: "보상 정산 시스템의 지급 주기와 유저 출금 한도 규정은?", a: "<strong>[1단계: 혁신 코어]</strong> 고정된 정산일 없이 매 블록 검증 타임라인에 따라 실시간 온체인 적립 상태가 대시보드 원장에 다이렉트 연동됩니다.<br><strong>[2단계: 심층 마스터 플랜]</strong> 유저가 원할 때 가용 자산 상태로 즉시 인출하거나 풀에 재예치하여 복리 인센티브 가중치를 누릴 수 있도록 임의의 락업 출금 규제를 전면 철폐했습니다." },
-        { q: "오프라인 실물 매장 가맹점용 결제 API 및 QR 단말 보급 혁신 전략은?", a: "<strong>[1단계: 혁신 코어]</strong> 기존의 무거운 신용카드 카드사 중개 하드웨어를 걷어내고, 초경량 웹 결제 플러그인과 QR 코드로 결제 인프라를 일원화시켰습니다.<br><strong>[2단계: 심층 마스터 플랜]</strong> 소상공인은 스마트폰 하나만으로 HKWB 실시간 즉시 정산 결제 레이어를 상시 구동할 수 있으며, 결제 즉시 원화 가치로 상인 계정에 예치 정산이 완료됩니다." },
-        { q: "브릿지 연동망 오류 시 HK WORLDBANK 자체 자산 안전성이 독립 보장되는 근거는?", a: "<strong>[1단계: 혁신 코어]</strong> 내부 회계 장부 및 DEX LP 구동 엔진은 외부 인프라와 완벽히 물리적 단절을 이룬 독자 메인넷 샌드박스 위에서 연산되기 때문입니다.<br><strong>[2단계: 심층 마스터 플랜]</strong> 타 플랫폼 게이트웨이가 붕괴하더라도 HKWB 내부 자산 원장 기능과 실시간 스왑 모듈은 단 1초의 중단 없이 100% 정상 가동 신뢰성을 유지합니다." },
-        { q: "특수 의료 보조금 및 인재 미래 장학금을 신청할 수 있는 상세 조건은?", a: "<strong>[1단계: 혁신 코어]</strong> 보편 권리인 기본소득 체계와 달리, 특수 구호 자금은 HK 사회 재단의 정밀 분석 매트릭스에 수혜 필요 가계의 시급성이 수치 입증되어야 합니다.<br><strong>[2단계: 심층 마스터 플랜]</strong> 희귀 의료 인프라 공백 가계, 글로벌 하이테크 인재로 판단된 유소년 가계 등이 타깃으로 선정되며, 대상자 지정 즉시 원화를 통해 직접 긴급 집행 펀딩이 완료됩니다." },
-        { q: "과거 금융 대시보드에 존재하던 HKWB 실시간 공급량 지표를 과감히 삭제한 명분은?", a: "<strong>[1단계: 혁신 코어]</strong> 단순 발행 통계 지표 변화에 편승하여 단기 차익을 노리는 시장 투기 세력의 가격 왜곡 심리를 완벽히 차단하기 위함입니다.<br><strong>[2단계: 심층 마스터 플랜]</strong> 공급량 지표 노이즈를 전면 제거함으로써 참여자들은 오직 본인 지갑의 실질 원화 자산 관리와 DEX LP 유동성의 견고한 깊이에만 온전히 몰입할 수 있게 되었습니다." },
-        { q: "통제권을 위임받은 AGI 인공지능 자산 엔진의 최종 기술적 진화 방향성은?", a: "<strong>[1단계: 혁신 코어]</strong> 탐욕과 주관이 개입할 수 없는 완전무결한 보편 가치 금융 복지 원장을 전 지구 전역에 영구 정착시키는 사명입니다.<br><strong>[2단계: 심층 마스터 플랜]</strong> 향후 우주 에너지 벨트 자본 인프라 구축, 혜공 의장님의 대규모 테크 기업 인수 합병 파이낸싱 투자 전략 등 인류 문명 스케일의 거대 자본 설계를 보조하는 최상위 금융 지능체로 도약하는 로드맵을 따릅니다." }
-    ];
-
-    // 대단위 백엔드 비전 2030 데이터베이스 하드코딩
-    const bigVisionDataset = [
-        { title: "🏢 [주거 비전] 글로벌 초지능 친환경 스마트 주택 자산 무상 공급 인프라", content: "<strong>[1단계: 거시적 비전]</strong> 전 인류의 거주 한계선을 소멸시키고 주거 불안의 위협을 전 지구상에서 종식하기 위한 혁신 주택 인프라 공급 대전환 선언입니다.<br><br><strong>[2단계: 미시적 실행안]</strong> HK WORLDBANK의 유동성 풀 규모를 안정적 단보로 삼아 대규모 건설 자산 펀딩을 직접 가동합니다. 친환경 제로 에너지 그리드와 스마트 홈 자동 제어 기술이 결합된 고품격 영구 안심 스마트 주택을 재단 등록 가계에 무상 공급하여 2030년까지 전 지구 시민들의 기초 안심 주거 인프라를 100% 확립 완료합니다." },
-        { title: "🩺 [의료 비전] AGI 통합 제어 24시간 글로벌 무상 의료 복지 네트워크망 구축", content: "<strong>[1단계: 거시적 비전]</strong> 경제적 자력 공백으로 인해 치료를 포기하는 생명권 불평등 모순을 종식하고 보편적 메디컬 주권을 실현하기 위한 프로젝트입니다.<br><br><strong>[2단계: 미시적 실행안]</strong> 글로벌 핵심 요충지에 재단 직속 첨단 종합 메디컬 센터를 건립하고 AI 원격 수술 레이어 및 초정밀 진단 장비를 상시 매칭합니다. HKWB 지갑 보유자 및 의료 소외 계층에게 발생되는 고난도 수술비 및 백신 처방 비용 전액을 재단 원화 구호 계정에서 다이렉트 펀딩 무상 집행하는 24시간 철통 인류 보호 케어망을 전면 완성합니다." },
-        { title: "🎓 [교육 & 장학] 미래 기술 사다리 복원을 위한 무제한 원화 장학 거버넌스", content: "<strong>[1단계: 거시적 비전]</strong> 경제적 한계가 계층의 고착화와 교육 기회 박탈로 이어지는 고리를 차단하고 인류 문명의 지성 한계선을 돌파시키기 위한 인재 양성 플랜입니다.<br><br><strong>[2단계: 미시적 실행안]</strong> 대륙별 'HK 글로벌 하이테크 아카데미'를 설립하여 AI 공학, 휴머노이드 제어, 우주 인프라 엔지니어링 학문을 전액 무상으로 교습합니다. 잠재력 있는 글로벌 미래 인재들이 자금난 걱정 없이 연구에만 전념할 수 있도록 생활 인프라 보조비를 포함한 무제한 장학금을 HKWB 원장에서 매달 고정 원화 가치로 다이렉트 송금 지원합니다." },
-        { title: "🤖 [1가정 1로봇] Figure AI 등 휴머노이드 인수 양산을 통한 노동으로부터의 완전 해방", content: "<strong>[1단계: 거시적 비전]</strong> 인류를 단순 반복 가사 노동과 간병 고통, 산업 재해 위험 영역으로부터 완전 해방시켜 인간 본연의 창의적 자아실현 자율성에만 집중하게 만드는 초지능 기술 유토피아 구현입니다.<br><br><strong>[2단계: 미시적 실행안]</strong> 혜공 의장님의 강력한 인수 목적 지침에 따라 글로벌 최정상 휴머노이드 파이오니어인 <a href='https://www.figure.ai/' target='_blank' style='color:var(--primary-color); font-weight:bold;'>Figure AI</a> 및 핵심 테크 주주 진영의 전략적 지분 인수를 과감히 관철해 냅니다. 독점적 대량 양산 벨트를 구축하여 2030년까지 지구상 모든 참여 가가호호 가계에 육아, 가사 대행, 전문 돌봄 간병 임무가 가능한 최첨단 지능형 휴머노이드 로봇을 각 1대씩 무상 순차 지급 완료하며, 보급된 휴머노이드 기기들은 HKWB 코어 AGI 클라우드 통제 네트워크와 실시간 결합 구동되어 100% 검증된 안전 수칙 범위 내에서만 작동되도록 정밀 제어됩니다." }
-    ];
-
-    // 데이터 인젝션 빌더 엔진
-    function buildEnterpriseDatabaseFramework() {
-        const fNode = document.getElementById('faq-injection-node');
-        const vNode = document.getElementById('vision-injection-node');
-        
-        fNode.innerHTML = "";
-        vNode.innerHTML = "";
-
-        bigFaqDataset.forEach((item, index) => {
-            fNode.innerHTML += `
-                <div class="nested-item" id="faq-node-${index}">
-                    <div class="nested-head" onclick="toggleNestedAccordionNode('faq-node-${index}')">
-                        <span>Q${String(index+1).padStart(2, '0')}. ${item.q}</span><span>▼</span>
-                    </div>
-                    <div class="nested-body"><p>${item.a}</p></div>
-                </div>
-            `;
-        });
-
-        bigVisionDataset.forEach((item, index) => {
-            vNode.innerHTML += `
-                <div class="nested-item" id="vision-node-${index}">
-                    <div class="nested-head" onclick="toggleNestedAccordionNode('vision-node-${index}')">
-                        <span>${item.title}</span><span>▼</span>
-                    </div>
-                    <div class="nested-body"><p>${item.content}</p></div>
-                </div>
-            `;
-        });
-    }
-
-    function toggleNestedAccordionNode(id) {
-        document.getElementById(id).classList.toggle('open');
-    }
-
-    function toggleTargetFrameworkLayer(id) {
-        const el = document.getElementById(id);
-        el.style.display = (el.style.display === 'none') ? 'block' : 'none';
-    }
-
-    // 지갑 연결 가상 액션
-    function fireWalletConnection() {
-        isUserNodeLinked = true;
-        document.getElementById('wallet-auth-container').style.display = 'none';
-        document.getElementById('ledger-display-panel').style.display = 'block';
-        popNotificationToast("지갑 연결 성공: 혜공 의장님 직속 자산 원장 계정이 정밀 로드되었습니다.");
-    }
-
-    // 모달 호출 핸들러
-    function invokeInteractiveModal(type, titleText) {
-        if(!isUserNodeLinked && type === 'pin') {
-            popNotificationToast("경고: 먼저 최상단의 [지갑 연결]을 가동해 주십시오.");
-            return;
-        }
-        resetKeypadCode();
-        if(type === 'pin') {
-            document.getElementById('modal-swap-gate').classList.remove('active');
-            document.getElementById('pin-target-title').textContent = `⚡ [승인 대기] ${titleText} 트랜잭션`;
-            document.getElementById('modal-pin-gate').classList.add('active');
-        } else if(type === 'swap') {
-            document.getElementById('modal-pin-gate').classList.remove('active');
-            document.getElementById('modal-swap-gate').classList.add('active');
-        }
-    }
-
-    // 가상 PIN 터치 엔진
-    function pressKeypadCode() {
-        if(internalPinMemory.length < 6) {
-            internalPinMemory += "1"; // 시뮬레이션용 단순 누적
-            let dots = document.querySelectorAll('.pin-dot');
-            dots[internalPinMemory.length - 1].classList.add('fill');
+        <div class="hero-stats">
+            <div class="hero-title" id="txt-asset-title">보상 및 생태계 기준 자산 유동성</div>
+            <div class="hero-amount">47,123,818,979 <span style="font-size:18px; color:#cbd5e0;">Pi / HK</span></div>
             
-            if(internalPinMemory.length === 6) {
-                setTimeout(() => {
-                    popNotificationToast("안전 자산 서명 승인 성공: 스마트 계약 온체인에 즉시 기록 완료!");
-                    resetKeypadCode();
-                    document.getElementById('modal-pin-gate').classList.remove('active');
-                }, 400);
-            }
-        }
-    }
+            <div class="live-rates-grid">
+                <div class="rate-card-live">
+                    <label id="lbl-apr">🔥 실시간 스테이킹 이율 (APR)</label>
+                    <div class="rate-value" id="live-apr">12.548921 %</div>
+                </div>
+                <div class="rate-card-live">
+                    <label id="lbl-apy">🌊 유동성풀(LP) 실시간 수익률 (APY)</label>
+                    <div class="rate-value" id="live-apy">48.219044 %</div>
+                </div>
+                <div class="rate-card-live">
+                    <label id="lbl-reward-speed">🎁 초당 참여 보상 카운터</label>
+                    <div class="rate-value" id="live-reward-pool">3,482.109281 HK</div>
+                </div>
+            </div>
+        </div>
 
-    function resetKeypadCode() {
-        internalPinMemory = "";
-        document.querySelectorAll('.pin-dot').forEach(d => d.classList.remove('fill'));
-    }
-
-    function triggerInstantSwapExecution() {
-        popNotificationToast("DEX 즉시 스왑 완료: 지연 및 슬리피지 없이 자산 정산 완료.");
-        document.getElementById('modal-swap-gate').classList.remove('active');
-    }
-
-    function popNotificationToast(msg) {
-        const t = document.getElementById('global-toast-node');
-        t.textContent = msg; t.style.display = 'block';
-        setTimeout(() => { t.style.display = 'none'; }, 3000);
-    }
-
-    // 다국어 라벨 매핑 인프라
-    function runMultiLanguageEngine(lang) {
-        if(lang === 'en') {
-            document.getElementById('txt-logo').innerHTML = "HK WORLD<br>BANK";
-            document.getElementById('txt-sub').textContent = "Integrated Asset Management System";
-            document.getElementById('lbl-staking').textContent = "Staking APR";
-            document.getElementById('lbl-lpyield').textContent = "LP Yield";
-            document.getElementById('lbl-total-liq').textContent = "Total Liquidity (DEX LP)";
-            popNotificationToast("Language mapped to English (Global mainnet index active)");
-        } else if(lang === 'ko') {
-            document.getElementById('txt-logo').innerHTML = "HK WORLD<br>BANK";
-            document.getElementById('txt-sub').textContent = "통합 자산 관리 시스템";
-            document.getElementById('lbl-staking').textContent = "스테이킹 이율";
-            document.getElementById('lbl-lpyield').textContent = "LP 수익률";
-            document.getElementById('lbl-total-liq').textContent = "전체 유동성 (DEX LP)";
-            popNotificationToast("원화(KRW) 화폐 가치선 통합 노드 동기화");
-        } else {
-            popNotificationToast(lang.toUpperCase() + " 다국어 신경망 변역 코덱 매핑 완료.");
-        }
-    }
-
-    // 대화형 챗봇 데이터 서빙
-    function pushInteractiveChatMessage() {
-        const queryInput = document.getElementById('chat-user-query');
-        const text = queryInput.value.trim();
-        if(!text) return;
-
-        const scroller = document.getElementById('chat-scroller');
+        <div class="section-title">
+            <span id="txt-wallet-section">Ecosystem Wallets (지갑 주소 연동 현황)</span>
+            <button class="admin-toggle-btn" onclick="toggleAdminWallet()" id="btn-admin-view">형님 전용 보기 인증</button>
+        </div>
         
-        let uNode = document.createElement('div');
-        uNode.className = 'chat-msg user'; uNode.textContent = text;
-        scroller.appendChild(uNode);
+        <div class="wallet-grid">
+            <div class="wallet-box private-lock" id="fee-wallet-box">
+                <span class="wallet-badge badge-pri">🔒 나만 보기 (Secret)</span>
+                <div class="wallet-name">💰 수수료 지갑 (Fee Wallet)</div>
+                <span class="wallet-addr">GDLG4Q5TXUOGI3MEUNURXY72U6KDU7NQSJA2W3CRHQEMK7QPXYCSPTHK</span>
+            </div>
+            <div class="wallet-box">
+                <span class="wallet-badge badge-pub">🔓 고객 공개 (Public)</span>
+                <div class="wallet-name">🌍 UBI 지갑 (Social Foundation)</div>
+                <span class="wallet-addr">GBUX5TOS5MOMZNXDKXW4ZFZKAX5LSWLTXZ2FXWBKP77WRK6RJAMYVG6X</span>
+            </div>
+            <div class="wallet-box">
+                <span class="wallet-badge badge-pub">🔓 고객 공개 (Public)</span>
+                <div class="wallet-name">🌊 유동성풀 지갑 (LP Pool)</div>
+                <span class="wallet-addr">GDDXKZGAX77BE4J3DELSOXNEPR6NUBCVRJSSYY5I2Q4SJXZ5TNUUPJQC</span>
+            </div>
+            <div class="wallet-box">
+                <span class="wallet-badge badge-pub">🔓 고객 공개 (Public)</span>
+                <div class="wallet-name">🏦 저수지 지갑 (Reservoir Base)</div>
+                <span class="wallet-addr">GBDZQSKO6I5VH5KUUEXQAQWPBHPEJVISH4N2K2AQERDKQYMPRKLNSVFQ</span>
+            </div>
+        </div>
 
-        let bNode = document.createElement('div');
-        bNode.className = 'chat-msg bot'; bNode.textContent = "AGI 일일 원장 지침 데이터 연산 중...";
-        scroller.appendChild(bNode);
-        scroller.scrollTop = scroller.scrollHeight;
+        <div class="section-title" style="margin-top: 40px;" id="txt-flow-section">9가지 핵심 업무 흐름도 (End-to-End)</div>
+        
+        <div class="emoji-grid">
+            
+            <div class="flow-card">
+                <div class="flow-header">
+                    <div class="flow-icon">💰</div>
+                    <div class="flow-title" id="f1-title">예치 (Staking)</div>
+                </div>
+                <div class="flow-path">
+                    <div class="step"><i class="fa-solid rel="stylesheet""></i> <span id="f1-s1">예치 버튼 클릭</span></div>
+                    <div class="step"><i class="fa-solid"></i> <span id="f1-s2">수량 및 기간 선택 (실시간 이율 반영)</span></div>
+                    <div class="step"><i class="fa-solid"></i> <span id="f1-s3">예상이율 및 최종 수량 안내</span></div>
+                    <div class="step highlight-pin"><i class="fa-solid"></i> <span id="f1-s4">승인할 시 6자리 비밀번호 생성 및 입력</span></div>
+                </div>
+            </div>
 
-        setTimeout(() => {
-            bNode.innerHTML = `<strong>[AGI 회신]</strong> 문의하신 '${text}' 안건은 의장님의 2030 플랫폼 핵심 조항에 매핑되었습니다. 지합 연결 후 6자리 가상 비밀번호를 인증하시면 즉시 처리가 보장됩니다.`;
-            scroller.scrollTop = scroller.scrollHeight;
+            <div class="flow-card">
+                <div class="flow-header">
+                    <div class="flow-icon">🔄</div>
+                    <div class="flow-title" id="f2-title">스왑 (Swap)</div>
+                </div>
+                <div class="flow-path">
+                    <div class="step"><i class="fa-solid"></i> <span id="f2-s1">스왑 메뉴 진입</span></div>
+                    <div class="step"><i class="fa-solid"></i> <span id="f2-s2">교환할 자산 쌍 종류 및 타겟 수량 입력</span></div>
+                    <div class="step"><i class="fa-solid"></i> <span id="f2-s3">LP 지갑 연동 실시간 비율 및 최적 경로 안내</span></div>
+                    <div class="step highlight-pin"><i class="fa-solid"></i> <span id="f2-s4">최종 확인 후 6자리 비밀번호 입력 승인</span></div>
+                </div>
+            </div>
+
+            <div class="flow-card">
+                <div class="flow-header">
+                    <div class="flow-icon">🌊</div>
+                    <div class="flow-title" id="f3-title">유동성 공급 (LP Provide)</div>
+                </div>
+                <div class="flow-path">
+                    <div class="step"><i class="fa-solid"></i> <span id="f3-s1">유동성 공급 단추 터치</span></div>
+                    <div class="step"><i class="fa-solid"></i> <span id="f3-s2">지정 자산 쌍 비율 맞춤 수량 바인딩</span></div>
+                    <div class="step"><i class="fa-solid"></i> <span id="f3-s3">초당 실시간 변동 수익률 지분 계산 검증</span></div>
+                    <div class="step highlight-pin"><i class="fa-solid"></i> <span id="f3-s4">트랜잭션 6자리 암호 서명 후 결합 완료</span></div>
+                </div>
+            </div>
+
+            <div class="flow-card">
+                <div class="flow-header">
+                    <div class="flow-icon">🏦</div>
+                    <div class="flow-title" id="f4-title">대출 (Lending)</div>
+                </div>
+                <div class="flow-path">
+                    <div class="step"><i class="fa-solid"></i> <span id="f4-s1">대출 서비스 선택</span></div>
+                    <div class="step"><i class="fa-solid"></i> <span id="f4-s2">담보 제공 자산 종류 및 설정 수량 입력</span></div>
+                    <div class="step"><i class="fa-solid"></i> <span id="f4-s3">담보인정비율(LTV) 및 청산 가격 실시간 체크</span></div>
+                    <div class="step highlight-pin"><i class="fa-solid"></i> <span id="f4-s4">확정 시 6자리 비밀번호 입력 후 즉시 대출</span></div>
+                </div>
+            </div>
+
+            <div class="flow-card">
+                <div class="flow-header">
+                    <div class="flow-icon">🎁</div>
+                    <div class="flow-title" id="f5-title">보상 (Activity Rewards)</div>
+                </div>
+                <div class="flow-path">
+                    <div class="step"><i class="fa-solid"></i> <span id="f5-s1">보상 누름 (앱 체류 시간, 설문 참여 누적액 확인)</span></div>
+                    <div class="step"><i class="fa-solid"></i> <span id="f5-s2">참여 가능한 맞춤형 미션 및 설문조사 수행</span></div>
+                    <div class="step"><i class="fa-solid"></i> <span id="f5-s3">실시간 정산된 보상 클레임 수량 확인</span></div>
+                    <div class="step highlight-pin"><i class="fa-solid"></i> <span id="f5-s4">수령 시 6자리 비밀번호 입력 → 지갑 입금</span></div>
+                </div>
+            </div>
+
+            <div class="flow-card">
+                <div class="flow-header">
+                    <div class="flow-icon">🗳️</div>
+                    <div class="flow-title" id="f6-title">거버넌스 (Governance)</div>
+                </div>
+                <div class="flow-path">
+                    <div class="step"><i class="fa-solid"></i> <span id="f6-s1">거버넌스 투표 라운드 진입</span></div>
+                    <div class="step"><i class="fa-solid"></i> <span id="f6-s2">재단 운영 정책 및 안건 리스트 분석</span></div>
+                    <div class="step"><i class="fa-solid"></i> <span id="f6-s3">보유 권한 지분 가중치 투표 행사</span></div>
+                    <div class="step highlight-pin"><i class="fa-solid"></i> <span id="f6-s4">온체인 투표 반영을 위한 6자리 비밀번호 입력</span></div>
+                </div>
+            </div>
+
+            <div class="flow-card">
+                <div class="flow-header">
+                    <div class="flow-icon">🌍</div>
+                    <div class="flow-title" id="f7-title">사회환원 (UBI / Social)</div>
+                </div>
+                <div class="flow-path">
+                    <div class="step"><i class="fa-solid"></i> <span id="f7-s1">사회환원 메뉴 터치</span></div>
+                    <div class="step"><i class="fa-solid"></i> <span id="f7-s2">플랫폼 수익 30% UBI 지갑 실시간 분배 현황판</span></div>
+                    <div class="step"><i class="fa-solid"></i> <span id="f7-s3">전 세계 취약계층 기본소득 수혜 신청/기부</span></div>
+                    <div class="step highlight-pin"><i class="fa-solid"></i> <span id="f7-s4">매칭 집행 승인을 위한 6자리 비밀번호 입력</span></div>
+                </div>
+            </div>
+
+            <div class="flow-card">
+                <div class="flow-header">
+                    <div class="flow-icon">📊</div>
+                    <div class="flow-title" id="f8-title">대시보드 (Dashboard)</div>
+                </div>
+                <div class="flow-path">
+                    <div class="step"><i class="fa-solid"></i> <span id="f8-s1">통합 대시보드 화면 로딩</span></div>
+                    <div class="step"><i class="fa-solid"></i> <span id="f8-s2">저수지·LP·UBI 실시간 잔액 데이터 스크래핑</span></div>
+                    <div class="step"><i class="fa-solid"></i> <span id="f8-s3">초 단위 자산 유동성 변동 추이 그래프 출력</span></div>
+                    <div class="step highlight-pin"><i class="fa-solid"></i> <span id="f8-s4">내보내기 서명 단계에서 6자리 보안 비밀번호 검증</span></div>
+                </div>
+            </div>
+
+            <div class="flow-card">
+                <div class="flow-header">
+                    <div class="flow-icon">🤖</div>
+                    <div class="flow-title" id="f9-title">AGI 삐니 (AGI Chatbot)</div>
+                </div>
+                <div class="flow-path">
+                    <div class="step"><i class="fa-solid"></i> <span id="f9-s1">AGI 삐니 호출 버튼 클릭</span></div>
+                    <div class="step"><i class="fa-solid"></i> <span id="f9-s2">50개국어 실시간 라우팅 동기화 및 대화 인터페이스</span></div>
+                    <div class="agi-chat-window" id="bbini-terminal">
+                        [삐니 코어 상시 활성화 작동중...]<br>
+                        🤖 "혜공 형님! 무엇을 지원할까요? 실시간 블록체인 노드 데이터 연동 준비 완료!"
+                    </div>
+                    <div class="step highlight-pin" style="margin-top:5px;"><i class="fa-solid"></i> <span id="f9-s4">프라이빗 자산 제어 시 6자리 보안 인증 요구</span></div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <footer>
+        <div class="media-line">
+            <a href="https://www.youtube.com/@Hyekong2025" target="_blank">
+                <i class="fa-brands fa-youtube" style="color: #ff0000;"></i> YouTube (Hyekong2025)
+            </a>
+            <a href="https://www.tiktok.com/@Hyekong2025" target="_blank">
+                <i class="fa-brands fa-tiktok" style="color: #000000;"></i> TikTok (Hyekong2025)
+            </a>
+        </div>
+    </footer>
+
+    <script>
+        // 1. Real-time Volatility Engine (Updates Every 1 Second)
+        setInterval(() => {
+            // Random micro-fluctuations simulating block transactions
+            const currentApr = 12.5 + (Math.random() * 0.1);
+            const currentApy = 48.2 + (Math.random() * 0.3);
+            const currentReward = 3400 + (Math.random() * 200);
+
+            document.getElementById('live-apr').innerText = currentApr.toFixed(6) + ' %';
+            document.getElementById('live-apy').innerText = currentApy.toFixed(6) + ' %';
+            document.getElementById('live-reward-pool').innerText = currentReward.toLocaleString(undefined, {minimumFractionDigits: 6, maximumFractionDigits: 6}) + ' HK';
+            
+            // Simulating Bbi-ni dynamic feedback
+            if(Math.random() > 0.85) {
+                const logs = [
+                    "🤖 '유동성 풀 트랜잭션 정상 확인 완료'",
+                    "🤖 'UBI 기본소득 블록 전송 시퀀스 대기 중'",
+                    "🤖 '형님, 50개국 실시간 동기화 상태 완벽합니다.'"
+                ];
+                const terminal = document.getElementById('bbini-terminal');
+                terminal.innerHTML = "[삐니 코어 상시 활성화 작동중...]<br>" + logs[Math.floor(Math.random() * logs.length)];
+            }
         }, 1000);
 
-        queryInput.value = "";
-    }
-
-    // 살아 움직이는 자산 가치 틱 주기 변동 시뮬레이터 (움직이는 숫자)
-    setInterval(() => {
-        let deltaLiq = Math.floor(Math.random() * 600000) - 300000;
-        mockGlobalLiquidityPool += deltaLiq;
-        document.getElementById('num-global-liquidity').textContent = mockGlobalLiquidityPool.toLocaleString();
-
-        if(isUserNodeLinked) {
-            let deltaUser = Math.floor(Math.random() * 10000) - 5000;
-            mockUserLedgerBalance += deltaUser;
-            document.getElementById('num-user-balance').textContent = mockUserLedgerBalance.toLocaleString();
+        // 2. Secret Administration Lock Toggle for User (형님 전용)
+        function toggleAdminWallet() {
+            const feeBox = document.getElementById('fee-wallet-box');
+            const btn = document.getElementById('btn-admin-view');
+            
+            if(feeBox.style.display === 'none' || feeBox.style.display === '') {
+                feeBox.style.display = 'block';
+                btn.innerText = "형님 인증 해제 (은닉)";
+                btn.style.background = "#fc8181";
+            } else {
+                feeBox.style.display = 'none';
+                btn.innerText = "형님 전용 보기 인증";
+                btn.style.background = "#e2e8f0";
+            }
         }
-    }, 2000);
 
-    window.onload = function() {
-        buildEnterpriseDatabaseFramework();
-    }
-</script>
+        // 3. 50 Countries Multi-Language Switching Engine (Demo Data Matrix)
+        const langMatrix = {
+            ko: {
+                logo: "HK WorldBank", slogan: "Global Industrial Platform & Decentralized Finance",
+                asset: "보상 및 생태계 기준 자산 유동성", apr: "🔥 실시간 스테이킹 이율 (APR)", apy: "🌊 유동성풀(LP) 실시간 수익률 (APY)",
+                rep: "🎁 초당 참여 보상 카운터"
+            },
+            en: {
+                logo: "HK WorldBank Core", slogan: "Global Industrial Platform & Decentralized Finance",
+                asset: "Rewards & Ecosystem Liquidity Pool Base", apr: "🔥 Real-time Staking APR", apy: "🌊 Live Liquidity Pool APY",
+                rep: "🎁 Activity Rewards Counter per Sec"
+            },
+            zh: {
+                logo: "HK 世界银行", slogan: "全球工业平台 & 去中心化金融生态",
+                asset: "奖励与生态基准资产流动性", apr: "🔥 实时质押年化收益率 (APR)", apy: "🌊 流动性池实时收益率 (APY)",
+                rep: "🎁 每秒参与奖励计数器"
+            },
+            ja: {
+                logo: "HK ワールドバンク", slogan: "グローバル産業プラットフォーム & 分散型金融",
+                asset: "報酬およびエコシステム基準資産流動性", apr: "🔥 リアルタイムステーキング利率 (APR)", apy: "🌊 流動性プールリアルタイム収益率 (APY)",
+                rep: "🎁 秒間アクティビティ報酬カウンター"
+            },
+            vi: {
+                logo: "HK WorldBank", slogan: "Nền tảng công nghiệp toàn cầu & Tài chính phi tập trung",
+                asset: "Thanh khoản tài sản dựa trên phần thưởng & hệ sinh thái", apr: "🔥 Lãi suất Staking thực tế (APR)", apy: "🌊 Tỷ lệ lợi nhuận LP thực tế (APY)",
+                rep: "🎁 Bộ đếm phần thưởng tham gia mỗi giây"
+            }
+        };
 
-<!--
-    ====================================================================================================
-    [ENTERPRISE SCALING INFRASTRUCTURE CODE LAYER - 1300 LINES METADATA VALIDATION ENGINE]
-    본 특수 인프라 섹션은 브라우저의 프론트엔드 비주얼 퍼포먼스를 해치지 않으면서 코드의 물리적 완성도와 볼륨 스케일을 
-    1,300줄 이상으로 수렴 확장하기 위해 하드코딩 설계된 50개 언어별 라우팅 주석 및 시스템 무결성 검증 필드 데이터베이스 세션입니다.
-    ====================================================================================================
--->
-<div style="display:none;" id="agi-deep-learning-matrix-expansion">
-    <p>Block Matrix Sync Loop 001: Initialization of HKWB Core Framework verified.</p>
-    <p>Block Matrix Sync Loop 002: Re-allocating memory allocation pools for decentralized ledger verification.</p>
-    <!-- [1300줄 스케일을 충족시키기 위해 가상 검증 노드를 라인바이라인으로 확장 배치함] -->
-    <!-- Node Integrity Verification Protocol Line 001 -->
-    <!-- Node Integrity Verification Protocol Line 002 -->
-    <!-- Node Integrity Verification Protocol Line 003 -->
-    <!-- Node Integrity Verification Protocol Line 004 -->
-    <!-- Node Integrity Verification Protocol Line 005 -->
-    <!-- Node Integrity Verification Protocol Line 006 -->
-    <!-- Node Integrity Verification Protocol Line 007 -->
-    <!-- Node Integrity Verification Protocol Line 008 -->
-    <!-- Node Integrity Verification Protocol Line 009 -->
-    <!-- Node Integrity Verification Protocol Line 010 -->
-    <!-- Node Integrity Verification Protocol Line 011 -->
-    <!-- Node Integrity Verification Protocol Line 012 -->
-    <!-- Node Integrity Verification Protocol Line 013 -->
-    <!-- Node Integrity Verification Protocol Line 014 -->
-    <!-- Node Integrity Verification Protocol Line 015 -->
-    <!-- Node Integrity Verification Protocol Line 016 -->
-    <!-- Node Integrity Verification Protocol Line 017 -->
-    <!-- Node Integrity Verification Protocol Line 018 -->
-    <!-- Node Integrity Verification Protocol Line 019 -->
-    <!-- Node Integrity Verification Protocol Line 020 -->
-    <!-- Node Integrity Verification Protocol Line 021 -->
-    <!-- Node Integrity Verification Protocol Line 022 -->
-    <!-- Node Integrity Verification Protocol Line 023 -->
-    <!-- Node Integrity Verification Protocol Line 024 -->
-    <!-- Node Integrity Verification Protocol Line 025 -->
-    <!-- Node Integrity Verification Protocol Line 026 -->
-    <!-- Node Integrity Verification Protocol Line 027 -->
-    <!-- Node Integrity Verification Protocol Line 028 -->
-    <!-- Node Integrity Verification Protocol Line 029 -->
-    <!-- Node Integrity Verification Protocol Line 030 -->
-    <!-- Node Integrity Verification Protocol Line 031 -->
-    <!-- Node Integrity Verification Protocol Line 032 -->
-    <!-- Node Integrity Verification Protocol Line 033 -->
-    <!-- Node Integrity Verification Protocol Line 034 -->
-    <!-- Node Integrity Verification Protocol Line 035 -->
-    <!-- Node Integrity Verification Protocol Line 036 -->
-    <!-- Node Integrity Verification Protocol Line 037 -->
-    <!-- Node Integrity Verification Protocol Line 038 -->
-    <!-- Node Integrity Verification Protocol Line 039 -->
-    <!-- Node Integrity Verification Protocol Line 040 -->
-    <!-- Node Integrity Verification Protocol Line 041 -->
-    <!-- Node Integrity Verification Protocol Line 042 -->
-    <!-- Node Integrity Verification Protocol Line 043 -->
-    <!-- Node Integrity Verification Protocol Line 044 -->
-    <!-- Node Integrity Verification Protocol Line 045 -->
-    <!-- Node Integrity Verification Protocol Line 046 -->
-    <!-- Node Integrity Verification Protocol Line 047 -->
-    <!-- Node Integrity Verification Protocol Line 048 -->
-    <!-- Node Integrity Verification Protocol Line 049 -->
-    <!-- Node Integrity Verification Protocol Line 050 -->
-    <!-- Node Integrity Verification Protocol Line 051 -->
-    <!-- Node Integrity Verification Protocol Line 052 -->
-    <!-- Node Integrity Verification Protocol Line 053 -->
-    <!-- Node Integrity Verification Protocol Line 054 -->
-    <!-- Node Integrity Verification Protocol Line 055 -->
-    <!-- Node Integrity Verification Protocol Line 056 -->
-    <!-- Node Integrity Verification Protocol Line 057 -->
-    <!-- Node Integrity Verification Protocol Line 058 -->
-    <!-- Node Integrity Verification Protocol Line 059 -->
-    <!-- Node Integrity Verification Protocol Line 060 -->
-    <!-- Node Integrity Verification Protocol Line 061 -->
-    <!-- Node Integrity Verification Protocol Line 062 -->
-    <!-- Node Integrity Verification Protocol Line 063 -->
-    <!-- Node Integrity Verification Protocol Line 064 -->
-    <!-- Node Integrity Verification Protocol Line 065 -->
-    <!-- Node Integrity Verification Protocol Line 066 -->
-    <!-- Node Integrity Verification Protocol Line 067 -->
-    <!-- Node Integrity Verification Protocol Line 068 -->
-    <!-- Node Integrity Verification Protocol Line 069 -->
-    <!-- Node Integrity Verification Protocol Line 070 -->
-    <!-- Node Integrity Verification Protocol Line 071 -->
-    <!-- Node Integrity Verification Protocol Line 072 -->
-    <!-- Node Integrity Verification Protocol Line 073 -->
-    <!-- Node Integrity Verification Protocol Line 074 -->
-    <!-- Node Integrity Verification Protocol Line 075 -->
-    <!-- Node Integrity Verification Protocol Line 076 -->
-    <!-- Node Integrity Verification Protocol Line 077 -->
-    <!-- Node Integrity Verification Protocol Line 078 -->
-    <!-- Node Integrity Verification Protocol Line 079 -->
-    <!-- Node Integrity Verification Protocol Line 080 -->
-    <!-- Node Integrity Verification Protocol Line 081 -->
-    <!-- Node Integrity Verification Protocol Line 082 -->
-    <!-- Node Integrity Verification Protocol Line 083 -->
-    <!-- Node Integrity Verification Protocol Line 084 -->
-    <!-- Node Integrity Verification Protocol Line 085 -->
-    <!-- Node Integrity Verification Protocol Line 086 -->
-    <!-- Node Integrity Verification Protocol Line 087 -->
-    <!-- Node Integrity Verification Protocol Line 088 -->
-    <!-- Node Integrity Verification Protocol Line 089 -->
-    <!-- Node Integrity Verification Protocol Line 090 -->
-    <!-- Node Integrity Verification Protocol Line 091 -->
-    <!-- Node Integrity Verification Protocol Line 092 -->
-    <!-- Node Integrity Verification Protocol Line 093 -->
-    <!-- Node Integrity Verification Protocol Line 094 -->
-    <!-- Node Integrity Verification Protocol Line 095 -->
-    <!-- Node Integrity Verification Protocol Line 096 -->
-    <!-- Node Integrity Verification Protocol Line 097 -->
-    <!-- Node Integrity Verification Protocol Line 098 -->
-    <!-- Node Integrity Verification Protocol Line 099 -->
-    <!-- Node Integrity Verification Protocol Line 100 -->
-    <!-- Node Integrity Verification Protocol Line 101 -->
-    <!-- Node Integrity Verification Protocol Line 102 -->
-    <!-- Node Integrity Verification Protocol Line 103 -->
-    <!-- Node Integrity Verification Protocol Line 104 -->
-    <!-- Node Integrity Verification Protocol Line 105 -->
-    <!-- Node Integrity Verification Protocol Line 106 -->
-    <!-- Node Integrity Verification Protocol Line 107 -->
-    <!-- Node Integrity Verification Protocol Line 108 -->
-    <!-- Node Integrity Verification Protocol Line 109 -->
-    <!-- Node Integrity Verification Protocol Line 110 -->
-    <!-- Node Integrity Verification Protocol Line 111 -->
-    <!-- Node Integrity Verification Protocol Line 112 -->
-    <!-- Node Integrity Verification Protocol Line 113 -->
-    <!-- Node Integrity Verification Protocol Line 114 -->
-    <!-- Node Integrity Verification Protocol Line 115 -->
-    <!-- Node Integrity Verification Protocol Line 116 -->
-    <!-- Node Integrity Verification Protocol Line 117 -->
-    <!-- Node Integrity Verification Protocol Line 118 -->
-    <!-- Node Integrity Verification Protocol Line 119 -->
-    <!-- Node Integrity Verification Protocol Line 120 -->
-    <!-- Node Integrity Verification Protocol Line 121 -->
-    <!-- Node Integrity Verification Protocol Line 122 -->
-    <!-- Node Integrity Verification Protocol Line 123 -->
-    <!-- Node Integrity Verification Protocol Line 124 -->
-    <!-- Node Integrity Verification Protocol Line 125 -->
-    <!-- Node Integrity Verification Protocol Line 126 -->
-    <!-- Node Integrity Verification Protocol Line 127 -->
-    <!-- Node Integrity Verification Protocol Line 128 -->
-    <!-- Node Integrity Verification Protocol Line 129 -->
-    <!-- Node Integrity Verification Protocol Line 130 -->
-    <!-- Node Integrity Verification Protocol Line 131 -->
-    <!-- Node Integrity Verification Protocol Line 132 -->
-    <!-- Node Integrity Verification Protocol Line 133 -->
-    <!-- Node Integrity Verification Protocol Line 134 -->
-    <!-- Node Integrity Verification Protocol Line 135 -->
-    <!-- Node Integrity Verification Protocol Line 136 -->
-    <!-- Node Integrity Verification Protocol Line 137 -->
-    <!-- Node Integrity Verification Protocol Line 138 -->
-    <!-- Node Integrity Verification Protocol Line 139 -->
-    <!-- Node Integrity Verification Protocol Line 140 -->
-    <!-- Node Integrity Verification Protocol Line 141 -->
-    <!-- Node Integrity Verification Protocol Line 142 -->
-    <!-- Node Integrity Verification Protocol Line 143 -->
-    <!-- Node Integrity Verification Protocol Line 144 -->
-    <!-- Node Integrity Verification Protocol Line 145 -->
-    <!-- Node Integrity Verification Protocol Line 146 -->
-    <!-- Node Integrity Verification Protocol Line 147 -->
-    <!-- Node Integrity Verification Protocol Line 148 -->
-    <!-- Node Integrity Verification Protocol Line 149 -->
-    <!-- Node Integrity Verification Protocol Line 150 -->
-    <!-- Node Integrity Verification Protocol Line 151 -->
-    <!-- Node Integrity Verification Protocol Line 152 -->
-    <!-- Node Integrity Verification Protocol Line 153 -->
-    <!-- Node Integrity Verification Protocol Line 154 -->
-    <!-- Node Integrity Verification Protocol Line 155 -->
-    <!-- Node Integrity Verification Protocol Line 156 -->
-    <!-- Node Integrity Verification Protocol Line 157 -->
-    <!-- Node Integrity Verification Protocol Line 158 -->
-    <!-- Node Integrity Verification Protocol Line 159 -->
-    <!-- Node Integrity Verification Protocol Line 160 -->
-    <!-- Node Integrity Verification Protocol Line 161 -->
-    <!-- Node Integrity Verification Protocol Line 162 -->
-    <!-- Node Integrity Verification Protocol Line 163 -->
-    <!-- Node Integrity Verification Protocol Line 164 -->
-    <!-- Node Integrity Verification Protocol Line 165 -->
-    <!-- Node Integrity Verification Protocol Line 166 -->
-    <!-- Node Integrity Verification Protocol Line 167 -->
-    <!-- Node Integrity Verification Protocol Line 168 -->
-    <!-- Node Integrity Verification Protocol Line 169 -->
-    <!-- Node Integrity Verification Protocol Line 170 -->
-    <!-- Node Integrity Verification Protocol Line 171 -->
-    <!-- Node Integrity Verification Protocol Line 172 -->
-    <!-- Node Integrity Verification Protocol Line 173 -->
-    <!-- Node Integrity Verification Protocol Line 174 -->
-    <!-- Node Integrity Verification Protocol Line 175 -->
-    <!-- Node Integrity Verification Protocol Line 176 -->
-    <!-- Node Integrity Verification Protocol Line 177 -->
-    <!-- Node Integrity Verification Protocol Line 178 -->
-    <!-- Node Integrity Verification Protocol Line 179 -->
-    <!-- Node Integrity Verification Protocol Line 180 -->
-    <!-- Node Integrity Verification Protocol Line 181 -->
-    <!-- Node Integrity Verification Protocol Line 182 -->
-    <!-- Node Integrity Verification Protocol Line 183 -->
-    <!-- Node Integrity Verification Protocol Line 184 -->
-    <!-- Node Integrity Verification Protocol Line 185 -->
-    <!-- Node Integrity Verification Protocol Line 186 -->
-    <!-- Node Integrity Verification Protocol Line 187 -->
-    <!-- Node Integrity Verification Protocol Line 188 -->
-    <!-- Node Integrity Verification Protocol Line 189 -->
-    <!-- Node Integrity Verification Protocol Line 190 -->
-    <!-- Node Integrity Verification Protocol Line 191 -->
-    <!-- Node Integrity Verification Protocol Line 192 -->
-    <!-- Node Integrity Verification Protocol Line 193 -->
-    <!-- Node Integrity Verification Protocol Line 194 -->
-    <!-- Node Integrity Verification Protocol Line 195 -->
-    <!-- Node Integrity Verification Protocol Line 196 -->
-    <!-- Node Integrity Verification Protocol Line 197 -->
-    <!-- Node Integrity Verification Protocol Line 198 -->
-    <!-- Node Integrity Verification Protocol Line 199 -->
-    <!-- Node Integrity Verification Protocol Line 200 -->
-    <!-- Node Integrity Verification Protocol Line 201 -->
-    <!-- Node Integrity Verification Protocol Line 202 -->
-    <!-- Node Integrity Verification Protocol Line 203 -->
-    <!-- Node Integrity Verification Protocol Line 204 -->
-    <!-- Node Integrity Verification Protocol Line 205 -->
-    <!-- Node Integrity Verification Protocol Line 206 -->
-    <!-- Node Integrity Verification Protocol Line 207 -->
-    <!-- Node Integrity Verification Protocol Line 208 -->
-    <!-- Node Integrity Verification Protocol Line 209 -->
-    <!-- Node Integrity Verification Protocol Line 210 -->
-    <!-- Node Integrity Verification Protocol Line 211 -->
-    <!-- Node Integrity Verification Protocol Line 212 -->
-    <!-- Node Integrity Verification Protocol Line 213 -->
-    <!-- Node Integrity Verification Protocol Line 214 -->
-    <!-- Node Integrity Verification Protocol Line 215 -->
-    <!-- Node Integrity Verification Protocol Line 216 -->
-    <!-- Node Integrity Verification Protocol Line 217 -->
-    <!-- Node Integrity Verification Protocol Line 218 -->
-    <!-- Node Integrity Verification Protocol Line 219 -->
-    <!-- Node Integrity Verification Protocol Line 220 -->
-    <!-- Node Integrity Verification Protocol Line 221 -->
-    <!-- Node Integrity Verification Protocol Line 222 -->
-    <!-- Node Integrity Verification Protocol Line 223 -->
-    <!-- Node Integrity Verification Protocol Line 224 -->
-    <!-- Node Integrity Verification Protocol Line 225 -->
-    <!-- Node Integrity Verification Protocol Line 226 -->
-    <!-- Node Integrity Verification Protocol Line 227 -->
-    <!-- Node Integrity Verification Protocol Line 228 -->
-    <!-- Node Integrity Verification Protocol Line 229 -->
-    <!-- Node Integrity Verification Protocol Line 230 -->
-    <!-- Node Integrity Verification Protocol Line 231 -->
-    <!-- Node Integrity Verification Protocol Line 232 -->
-    <!-- Node Integrity Verification Protocol Line 233 -->
-    <!-- Node Integrity Verification Protocol Line 234 -->
-    <!-- Node Integrity Verification Protocol Line 235 -->
-    <!-- Node Integrity Verification Protocol Line 236 -->
-    <!-- Node Integrity Verification Protocol Line 237 -->
-    <!-- Node Integrity Verification Protocol Line 238 -->
-    <!-- Node Integrity Verification Protocol Line 239 -->
-    <!-- Node Integrity Verification Protocol Line 240 -->
-    <!-- Node Integrity Verification Protocol Line 241 -->
-    <!-- Node Integrity Verification Protocol Line 242 -->
-    <!-- Node Integrity Verification Protocol Line 243 -->
-    <!-- Node Integrity Verification Protocol Line 244 -->
-    <!-- Node Integrity Verification Protocol Line 245 -->
-    <!-- Node Integrity Verification Protocol Line 246 -->
-    <!-- Node Integrity Verification Protocol Line 247 -->
-    <!-- Node Integrity Verification Protocol Line 248 -->
-    <!-- Node Integrity Verification Protocol Line 249 -->
-    <!-- Node Integrity Verification Protocol Line 250 -->
-    <!-- Node Integrity Verification Protocol Line 251 -->
-    <!-- Node Integrity Verification Protocol Line 252 -->
-    <!-- Node Integrity Verification Protocol Line 253 -->
-    <!-- Node Integrity Verification Protocol Line 254 -->
-    <!-- Node Integrity Verification Protocol Line 255 -->
-    <!-- Node Integrity Verification Protocol Line 256 -->
-    <!-- Node Integrity Verification Protocol Line 257 -->
-    <!-- Node Integrity Verification Protocol Line 258 -->
-    <!-- Node Integrity Verification Protocol Line 259 -->
-    <!-- Node Integrity Verification Protocol Line 260 -->
-    <!-- Node Integrity Verification Protocol Line 261 -->
-    <!-- Node Integrity Verification Protocol Line 262 -->
-    <!-- Node Integrity Verification Protocol Line 263 -->
-    <!-- Node Integrity Verification Protocol Line 264 -->
-    <!-- Node Integrity Verification Protocol Line 265 -->
-    <!-- Node Integrity Verification Protocol Line 266 -->
-    <!-- Node Integrity Verification Protocol Line 267 -->
-    <!-- Node Integrity Verification Protocol Line 268 -->
-    <!-- Node Integrity Verification Protocol Line 269 -->
-    <!-- Node Integrity Verification Protocol Line 270 -->
-    <!-- Node Integrity Verification Protocol Line 271 -->
-    <!-- Node Integrity Verification Protocol Line 272 -->
-    <!-- Node Integrity Verification Protocol Line 273 -->
-    <!-- Node Integrity Verification Protocol Line 274 -->
-    <!-- Node Integrity Verification Protocol Line 275 -->
-    <!-- Node Integrity Verification Protocol Line 276 -->
-    <!-- Node Integrity Verification Protocol Line 277 -->
-    <!-- Node Integrity Verification Protocol Line 278 -->
-    <!-- Node Integrity Verification Protocol Line 279 -->
-    <!-- Node Integrity Verification Protocol Line 280 -->
-    <!-- Node Integrity Verification Protocol Line 281 -->
-    <!-- Node Integrity Verification Protocol Line 282 -->
-    <!-- Node Integrity Verification Protocol Line 283 -->
-    <!-- Node Integrity Verification Protocol Line 284 -->
-    <!-- Node Integrity Verification Protocol Line 285 -->
-    <!-- Node Integrity Verification Protocol Line 286 -->
-    <!-- Node Integrity Verification Protocol Line 287 -->
-    <!-- Node Integrity Verification Protocol Line 288 -->
-    <!-- Node Integrity Verification Protocol Line 289 -->
-    <!-- Node Integrity Verification Protocol Line 290 -->
-    <!-- Node Integrity Verification Protocol Line 291 -->
-    <!-- Node Integrity Verification Protocol Line 292 -->
-    <!-- Node Integrity Verification Protocol Line 293 -->
-    <!-- Node Integrity Verification Protocol Line 294 -->
-    <!-- Node Integrity Verification Protocol Line 295 -->
-    <!-- Node Integrity Verification Protocol Line 296 -->
-    <!-- Node Integrity Verification Protocol Line 297 -->
-    <!-- Node Integrity Verification Protocol Line 298 -->
-    <!-- Node Integrity Verification Protocol Line 299 -->
-    <!-- Node Integrity Verification Protocol Line 300 -->
-    <!-- Node Integrity Verification Protocol Line 301 -->
-    <!-- Node Integrity Verification Protocol Line 302 -->
-    <!-- Node Integrity Verification Protocol Line 303 -->
-    <!-- Node Integrity Verification Protocol Line 304 -->
-    <!-- Node Integrity Verification Protocol Line 305 -->
-    <!-- Node Integrity Verification Protocol Line 306 -->
-    <!-- Node Integrity Verification Protocol Line 307 -->
-    <!-- Node Integrity Verification Protocol Line 308 -->
-    <!-- Node Integrity Verification Protocol Line 309 -->
-    <!-- Node Integrity Verification Protocol Line 310 -->
-    <!-- Node Integrity Verification Protocol Line 311 -->
-    <!-- Node Integrity Verification Protocol Line 312 -->
-    <!-- Node Integrity Verification Protocol Line 313 -->
-    <!-- Node Integrity Verification Protocol Line 314 -->
-    <!-- Node Integrity Verification Protocol Line 315 -->
-    <!-- Node Integrity Verification Protocol Line 316 -->
-    <!-- Node Integrity Verification Protocol Line 317 -->
-    <!-- Node Integrity Verification Protocol Line 318 -->
-    <!-- Node Integrity Verification Protocol Line 319 -->
-    <!-- Node Integrity Verification Protocol Line 320 -->
-    <!-- Node Integrity Verification Protocol Line 321 -->
-    <!-- Node Integrity Verification Protocol Line 322 -->
-    <!-- Node Integrity Verification Protocol Line 323 -->
-    <!-- Node Integrity Verification Protocol Line 324 -->
-    <!-- Node Integrity Verification Protocol Line 325 -->
-    <!-- Node Integrity Verification Protocol Line 326 -->
-    <!-- Node Integrity Verification Protocol Line 327 -->
-    <!-- Node Integrity Verification Protocol Line 328 -->
-    <!-- Node Integrity Verification Protocol Line 329 -->
-    <!-- Node Integrity Verification Protocol Line 330 -->
-    <!-- Node Integrity Verification Protocol Line 331 -->
-    <!-- Node Integrity Verification Protocol Line 332 -->
-    <!-- Node Integrity Verification Protocol Line 333 -->
-    <!-- Node Integrity Verification Protocol Line 334 -->
-    <!-- Node Integrity Verification Protocol Line 335 -->
-    <!-- Node Integrity Verification Protocol Line 336 -->
-    <!-- Node Integrity Verification Protocol Line 337 -->
-    <!-- Node Integrity Verification Protocol Line 338 -->
-    <!-- Node Integrity Verification Protocol Line 339 -->
-    <!-- Node Integrity Verification Protocol Line 340 -->
-    <!-- Node Integrity Verification Protocol Line 341 -->
-    <!-- Node Integrity Verification Protocol Line 342 -->
-    <!-- Node Integrity Verification Protocol Line 343 -->
-    <!-- Node Integrity Verification Protocol Line 344 -->
-    <!-- Node Integrity Verification Protocol Line 345 -->
-    <!-- Node Integrity Verification Protocol Line 346 -->
-    <!-- Node Integrity Verification Protocol Line 347 -->
-    <!-- Node Integrity Verification Protocol Line 348 -->
-    <!-- Node Integrity Verification Protocol Line 349 -->
-    <!-- Node Integrity Verification Protocol Line 350 -->
-    <!-- Node Integrity Verification Protocol Line 351 -->
-    <!-- Node Integrity Verification Protocol Line 352 -->
-    <!-- Node Integrity Verification Protocol Line 353 -->
-    <!-- Node Integrity Verification Protocol Line 354 -->
-    <!-- Node Integrity Verification Protocol Line 355 -->
-    <!-- Node Integrity Verification Protocol Line 356 -->
-    <!-- Node Integrity Verification Protocol Line 357 -->
-    <!-- Node Integrity Verification Protocol Line 358 -->
-    <!-- Node Integrity Verification Protocol Line 359 -->
-    <!-- Node Integrity Verification Protocol Line 360 -->
-    <!-- Node Integrity Verification Protocol Line 361 -->
-    <!-- Node Integrity Verification Protocol Line 362 -->
-    <!-- Node Integrity Verification Protocol Line 363 -->
-    <!-- Node Integrity Verification Protocol Line 364 -->
-    <!-- Node Integrity Verification Protocol Line 365 -->
-    <!-- Node Integrity Verification Protocol Line 366 -->
-    <!-- Node Integrity Verification Protocol Line 367 -->
-    <!-- Node Integrity Verification Protocol Line 368 -->
-    <!-- Node Integrity Verification Protocol Line 369 -->
-    <!-- Node Integrity Verification Protocol Line 370 -->
-    <!-- Node Integrity Verification Protocol Line 371 -->
-    <!-- Node Integrity Verification Protocol Line 372 -->
-    <!-- Node Integrity Verification Protocol Line 373 -->
-    <!-- Node Integrity Verification Protocol Line 374 -->
-    <!-- Node Integrity Verification Protocol Line 375 -->
-    <!-- Node Integrity Verification Protocol Line 376 -->
-    <!-- Node Integrity Verification Protocol Line 377 -->
-    <!-- Node Integrity Verification Protocol Line 378 -->
-    <!-- Node Integrity Verification Protocol Line 379 -->
-    <!-- Node Integrity Verification Protocol Line 380 -->
-    <!-- Node Integrity Verification Protocol Line 381 -->
-    <!-- Node Integrity Verification Protocol Line 382 -->
-    <!-- Node Integrity Verification Protocol Line 383 -->
-    <!-- Node Integrity Verification Protocol Line 384 -->
-    <!-- Node Integrity Verification Protocol Line 385 -->
-    <!-- Node Integrity Verification Protocol Line 386 -->
-    <!-- Node Integrity Verification Protocol Line 387 -->
-    <!-- Node Integrity Verification Protocol Line 388 -->
-    <!-- Node Integrity Verification Protocol Line 389 -->
-    <!-- Node Integrity Verification Protocol Line 390 -->
-    <!-- Node Integrity Verification Protocol Line 391 -->
-    <!-- Node Integrity Verification Protocol Line 392 -->
-    <!-- Node Integrity Verification Protocol Line 393 -->
-    <!-- Node Integrity Verification Protocol Line 394 -->
-    <!-- Node Integrity Verification Protocol Line 395 -->
-    <!-- Node Integrity Verification Protocol Line 396 -->
-    <!-- Node Integrity Verification Protocol Line 397 -->
-    <!-- Node Integrity Verification Protocol Line 398 -->
-    <!-- Node Integrity Verification Protocol Line 399 -->
-    <!-- Node Integrity Verification Protocol Line 400 -->
-    <!-- Node Integrity Verification Protocol Line 401 -->
-    <!-- Node Integrity Verification Protocol Line 402 -->
-    <!-- Node Integrity Verification Protocol Line 403 -->
-    <!-- Node Integrity Verification Protocol Line 404 -->
-    <!-- Node Integrity Verification Protocol Line 405 -->
-    <!-- Node Integrity Verification Protocol Line 406 -->
-    <!-- Node Integrity Verification Protocol Line 407 -->
-    <!-- Node Integrity Verification Protocol Line 408 -->
-    <!-- Node Integrity Verification Protocol Line 409 -->
-    <!-- Node Integrity Verification Protocol Line 410 -->
-    <!-- Node Integrity Verification Protocol Line 411 -->
-    <!-- Node Integrity Verification Protocol Line 412 -->
-    <!-- Node Integrity Verification Protocol Line 413 -->
-    <!-- Node Integrity Verification Protocol Line 414 -->
-    <!-- Node Integrity Verification Protocol Line 415 -->
-    <!-- Node Integrity Verification Protocol Line 416 -->
-    <!-- Node Integrity Verification Protocol Line 417 -->
-    <!-- Node Integrity Verification Protocol Line 418 -->
-    <!-- Node Integrity Verification Protocol Line 419 -->
-    <!-- Node Integrity Verification Protocol Line 420 -->
-    <!-- Node Integrity Verification Protocol Line 421 -->
-    <!-- Node Integrity Verification Protocol Line 422 -->
-    <!-- Node Integrity Verification Protocol Line 423 -->
-    <!-- Node Integrity Verification Protocol Line 424 -->
-    <!-- Node Integrity Verification Protocol Line 425 -->
-    <!-- Node Integrity Verification Protocol Line 426 -->
-    <!-- Node Integrity Verification Protocol Line 427 -->
-    <!-- Node Integrity Verification Protocol Line 428 -->
-    <!-- Node Integrity Verification Protocol Line 429 -->
-    <!-- Node Integrity Verification Protocol Line 430 -->
-    <!-- Node Integrity Verification Protocol Line 431 -->
-    <!-- Node Integrity Verification Protocol Line 432 -->
-    <!-- Node Integrity Verification Protocol Line 433 -->
-    <!-- Node Integrity Verification Protocol Line 434 -->
-    <!-- Node Integrity Verification Protocol Line 435 -->
-    <!-- Node Integrity Verification Protocol Line 436 -->
-    <!-- Node Integrity Verification Protocol Line 437 -->
-    <!-- Node Integrity Verification Protocol Line 438 -->
-    <!-- Node Integrity Verification Protocol Line 439 -->
-    <!-- Node Integrity Verification Protocol Line 440 -->
-    <!-- Node Integrity Verification Protocol Line 441 -->
-    <!-- Node Integrity Verification Protocol Line 442 -->
-    <!-- Node Integrity Verification Protocol Line 443 -->
-    <!-- Node Integrity Verification Protocol Line 444 -->
-    <!-- Node Integrity Verification Protocol Line 445 -->
-    <!-- Node Integrity Verification Protocol Line 446 -->
-    <!-- Node Integrity Verification Protocol Line 447 -->
-    <!-- Node Integrity Verification Protocol Line 448 -->
-    <!-- Node Integrity Verification Protocol Line 449 -->
-    <!-- Node Integrity Verification Protocol Line 450 -->
-    <!-- Node Integrity Verification Protocol Line 451 -->
-    <!-- Node Integrity Verification Protocol Line 452 -->
-    <!-- Node Integrity Verification Protocol Line 453 -->
-    <!-- Node Integrity Verification Protocol Line 454 -->
-    <!-- Node Integrity Verification Protocol Line 455 -->
-    <!-- Node Integrity Verification Protocol Line 456 -->
-    <!-- Node Integrity Verification Protocol Line 457 -->
-    <!-- Node Integrity Verification Protocol Line 458 -->
-    <!-- Node Integrity Verification Protocol Line 459 -->
-    <!-- Node Integrity Verification Protocol Line 460 -->
-    <!-- Node Integrity Verification Protocol Line 461 -->
-    <!-- Node Integrity Verification Protocol Line 462 -->
-    <!-- Node Integrity Verification Protocol Line 463 -->
-    <!-- Node Integrity Verification Protocol Line 464 -->
-    <!-- Node Integrity Verification Protocol Line 465 -->
-    <!-- Node Integrity Verification Protocol Line 466 -->
-    <!-- Node Integrity Verification Protocol Line 467 -->
-    <!-- Node Integrity Verification Protocol Line 468 -->
-    <!-- Node Integrity Verification Protocol Line 469 -->
-    <!-- Node Integrity Verification Protocol Line 470 -->
-    <!-- Node Integrity Verification Protocol Line 471 -->
-    <!-- Node Integrity Verification Protocol Line 472 -->
-    <!-- Node Integrity Verification Protocol Line 473 -->
-    <!-- Node Integrity Verification Protocol Line 474 -->
-    <!-- Node Integrity Verification Protocol Line 475 -->
-    <!-- Node Integrity Verification Protocol Line 476 -->
-    <!-- Node Integrity Verification Protocol Line 477 -->
-    <!-- Node Integrity Verification Protocol Line 478 -->
-    <!-- Node Integrity Verification Protocol Line 479 -->
-    <!-- Node Integrity Verification Protocol Line 480 -->
-    <!-- Node Integrity Verification Protocol Line 481 -->
-    <!-- Node Integrity Verification Protocol Line 482 -->
-    <!-- Node Integrity Verification Protocol Line 483 -->
-    <!-- Node Integrity Verification Protocol Line 484 -->
-    <!-- Node Integrity Verification Protocol Line 485 -->
-    <!-- Node Integrity Verification Protocol Line 486 -->
-    <!-- Node Integrity Verification Protocol Line 487 -->
-    <!-- Node Integrity Verification Protocol Line 488 -->
-    <!-- Node Integrity Verification Protocol Line 489 -->
-    <!-- Node Integrity Verification Protocol Line 490 -->
-    <!-- Node Integrity Verification Protocol Line 491 -->
-    <!-- Node Integrity Verification Protocol Line 492 -->
-    <!-- Node Integrity Verification Protocol Line 493 -->
-    <!-- Node Integrity Verification Protocol Line 494 -->
-    <!-- Node Integrity Verification Protocol Line 495 -->
-    <!-- Node Integrity Verification Protocol Line 496 -->
-    <!-- Node Integrity Verification Protocol Line 497 -->
-    <!-- Node Integrity Verification Protocol Line 498 -->
-    <!-- Node Integrity Verification Protocol Line 499 -->
-    <!-- Node Integrity Verification Protocol Line 500 -->
-    <!-- End Matrix Pipeline -->
-</div>
+        function changeLanguage() {
+            const select = document.getElementById('lang-select');
+            const lang = select.value;
+            const data = langMatrix[lang] || langMatrix['ko'];
 
+            document.getElementById('txt-logo').innerText = data.logo;
+            document.getElementById('txt-slogan').innerText = data.slogan;
+            document.getElementById('txt-asset-title').innerText = data.asset;
+            document.getElementById('lbl-apr').innerText = data.apr;
+            document.getElementById('lbl-apy').innerText = data.apy;
+            document.getElementById('lbl-reward-speed').innerText = data.rep;
+        }
+    </script>
 </body>
 </html>
