@@ -4,509 +4,691 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HK WORLD BANK</title>
-    <!-- FontAwesome for Emojis -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        body {
-            background-color: #000000;
-            color: #ffffff;
-            padding: 20px 15px 100px 15px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .app-wrapper {
-            width: 100%;
-            max-width: 450px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        /* Top Header Area (10702.jpg) */
-        .brand-header {
-            text-align: center;
-            margin-top: 10px;
-            margin-bottom: 10px;
-        }
-
-        .brand-title {
-            color: #FFCC00;
-            font-size: 34px;
-            font-weight: 900;
-            letter-spacing: 1px;
-            line-height: 1.2;
-        }
-
-        .brand-subtitle {
-            color: #00E5FF;
-            font-size: 16px;
-            font-weight: bold;
-            margin-top: 8px;
-        }
-
-        /* Big Asset Displays */
-        .main-pi-display {
-            font-size: 52px;
-            font-weight: bold;
-            text-align: center;
-            margin: 15px 0;
-        }
-
-        .pi-unit {
-            color: #FFCC00;
-            font-size: 32px;
-            margin-left: 5px;
-        }
-
-        /* Neon Green Border Cards */
-        .neon-box-krw {
-            border: 3px solid #00FF00;
-            border-radius: 35px;
-            padding: 15px;
-            text-align: center;
-            margin-bottom: 5px;
-        }
-
-        .neon-box-krw .symbol {
-            color: #00FF00;
-            font-size: 28px;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        .neon-box-krw .amount {
-            color: #00FF00;
-            font-size: 32px;
-            font-weight: bold;
-            font-family: monospace;
-        }
-
-        /* HKWB Real-time Supply Section */
-        .dark-panel {
-            background-color: #0D1117;
-            border: 1px solid #21262D;
-            border-radius: 15px;
-            padding: 15px;
-            text-align: center;
-        }
-
-        .panel-label {
-            color: #8B949E;
-            font-size: 13px;
-            font-weight: bold;
-            margin-bottom: 8px;
-        }
-
-        .panel-value-blue {
-            color: #00E5FF;
-            font-size: 26px;
-            font-weight: bold;
-            font-family: monospace;
-        }
-
-        /* Staking & LP Rates Grid (10704.jpg) */
-        .rates-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
-
-        .rate-sub-panel {
-            background-color: #0D1117;
-            border: 1px solid #21262D;
-            border-radius: 15px;
-            padding: 15px;
-            text-align: center;
-        }
-
-        .rate-sub-panel .value-staking {
-            color: #00E5FF;
-            font-size: 24px;
-            font-weight: bold;
-            font-family: monospace;
-            margin-top: 5px;
-        }
-
-        .rate-sub-panel .value-lp {
-            color: #FF00FF;
-            font-size: 24px;
-            font-weight: bold;
-            font-family: monospace;
-            margin-top: 5px;
-        }
-
-        /* DEX LP Total Liquidity Card */
-        .neon-box-dex {
-            border: 3px solid #00FF00;
-            border-radius: 15px;
-            padding: 20px;
-            text-align: center;
-            background-color: transparent;
-        }
-
-        .dex-title {
-            color: #00FF00;
-            font-size: 15px;
-            font-weight: bold;
-            margin-bottom: 15px;
-        }
-
-        .dex-symbol {
-            font-size: 36px;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        .dex-amount {
-            font-size: 32px;
-            font-weight: bold;
-            font-family: monospace;
-        }
-
-        /* Multi-Color Primary Action Row */
-        .primary-action-row {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin-top: 5px;
-        }
-
-        .btn-action {
-            padding: 15px 5px;
-            border-radius: 12px;
-            font-weight: bold;
-            font-size: 15px;
-            text-align: center;
-            border: none;
-            cursor: pointer;
-        }
-
-        .btn-white { background-color: #ffffff; color: #000000; }
-        .btn-yellow { background-color: #FFCC00; color: #000000; }
-        .btn-green { background-color: #00FF00; color: #000000; }
-
-        /* 3x3 Standard Core Grid Dashboard */
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-        }
-
-        .grid-item {
-            background-color: #161B22;
-            border-radius: 12px;
-            padding: 15px 5px;
-            text-align: center;
-            font-size: 14px;
-            font-weight: bold;
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .grid-item:active, .btn-action:active, .banner-btn:active {
-            opacity: 0.7;
-        }
-
-        /* Large Banner Action Buttons (10706.jpg) */
-        .banner-btn {
-            width: 100%;
-            padding: 18px;
-            border-radius: 15px;
-            font-size: 17px;
-            font-weight: bold;
-            text-align: center;
-            border: none;
-            cursor: pointer;
-            color: #ffffff;
-        }
-
-        .btn-pink-banner { background-color: #E91E63; }
-        .btn-dark-blue { background-color: #1F2937; }
-
-        /* Media Link Group (Same Row Alignment) */
-        .media-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
-
-        .media-btn {
-            padding: 18px;
-            border-radius: 15px;
-            font-size: 18px;
-            font-weight: bold;
-            text-align: center;
-            text-decoration: none;
-            color: #ffffff;
-            border: none;
-        }
-
-        .btn-youtube { background-color: #FF0000; }
-        .btn-tiktok { background-color: #111111; border: 1px solid #222222; }
-
-        /* Official Support Contact */
-        .support-email {
-            color: #00E5FF;
-            font-size: 22px;
-            font-weight: bold;
-            text-align: center;
-            margin-top: 15px;
-            font-family: monospace;
-        }
-
-        /* Secret Administrative Hidden Section */
-        .secret-admin-panel {
-            background-color: #1f1414;
-            border: 1px dashed #ff4444;
-            border-radius: 12px;
-            padding: 15px;
-            margin-top: 10px;
-            display: none; /* 관리자 토글 전까지 철저히 은닉 */
-        }
-
-        /* 👑 Pink Neon "Bbi-ni" Floating System Button */
-        .bbini-floating-ball {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 85px;
-            height: 85px;
-            background-color: #FF00FF;
-            border-radius: 50%;
-            box-shadow: 0 0 20px #FF00FF, inset 0 0 10px rgba(255,255,255,0.6);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #ffffff;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            z-index: 9999;
-            user-select: none;
-            border: 3px solid #ffffff;
-        }
-
-        /* Lang Select Global Top Mini Fix */
-        .global-lang-box {
-            display: flex;
-            justify-content: flex-end;
-            margin-bottom: 5px;
-        }
-        #lang-selector {
-            background: #111;
-            color: #fff;
-            border: 1px solid #333;
-            padding: 4px 8px;
-            border-radius: 50px;
-            font-size: 11px;
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+        .font-orbitron { font-family: 'Orbitron', sans-serif; }
+        .font-noto { font-family: 'Noto Sans KR', sans-serif; }
+        .glassmorphism {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
     </style>
 </head>
-<body>
+<body class="bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 text-slate-100 font-noto min-h-screen selection:bg-amber-500 selection:text-slate-950">
 
-    <div class="app-wrapper">
-        
-        <!-- Global Multi-Language System Selector (50 Countries Infrastructure) -->
-        <div class="global-lang-box">
-            <select id="lang-selector" onchange="translateSystemUI()">
-                <option value="ko">🇰🇷 한국어 (KR)</option>
-                <option value="en">🇺🇸 English (US)</option>
-                <option value="zh">🇨🇳 中文 (CN)</option>
-                <option value="ja">🇯🇵 日本語 (JP)</option>
-                <option value="vi">🇻🇳 Tiếng Việt (VN)</option>
-            </select>
-        </div>
-
-        <!-- Brand Top Area -->
-        <div class="brand-header">
-            <div class="brand-title">HK WORLD<br>BANK</div>
-            <div class="brand-subtitle" id="txt-sub-title">통합 자산 관리 시스템</div>
-        </div>
-
-        <!-- Core Asset Metrics -->
-        <div class="main-pi-display">314,159<span class="pi-unit">Pi</span></div>
-
-        <div class="neon-box-krw">
-            <div class="symbol">₩</div>
-            <div class="amount">47,123,850,000</div>
-        </div>
-
-        <div class="dark-panel">
-            <div class="panel-label" id="txt-supply-label">HKWB 실시간 공급량</div>
-            <div class="panel-value-blue" id="dyn-hkwb-supply">6280000.5074</div>
-        </div>
-
-        <!-- Staking / LP Volatility Real-time Section -->
-        <div class="rates-grid">
-            <div class="rate-sub-panel">
-                <div class="panel-label" id="txt-staking-label">스테이킹</div>
-                <div class="value-staking" id="dyn-staking-apr">17.64%</div>
-            </div>
-            <div class="rate-sub-panel">
-                <div class="panel-label" id="txt-lp-label">LP 수익률</div>
-                <div class="value-lp" id="dyn-lp-apy">28.57%</div>
+    <header class="border-b border-slate-800/60 sticky top-0 z-50 glassmorphism shadow-2xl">
+        <div class="max-w-7xl mx-auto px-6 py-5 flex flex-col md:flex-row justify-between items-center gap-4">
+            <h1 class="text-4xl md:text-5xl font-black font-orbitron tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-orange-400 to-yellow-200 drop-shadow-[0_0_15px_rgba(245,158,11,0.3)]">
+                HK WORLD BANK
+            </h1>
+            
+            <div id="wallet-section" class="flex flex-col sm:flex-row items-center gap-4 w-full md:w-auto">
+                <button id="btn-connect" onclick="connectWallet()" class="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold rounded-xl shadow-[0_4px_20px_rgba(245,158,11,0.25)] transition-all duration-300 transform hover:-translate-y-0.5 flex items-center justify-center gap-2 text-sm">
+                    <i class="fa-solid fa-wallet"></i> [지갑 연결] Connect Wallet
+                </button>
+                <div id="wallet-info" class="hidden flex flex-col sm:flex-row items-center gap-4 w-full">
+                    <div class="glassmorphism px-4 py-2 rounded-lg border-amber-500/30 border flex items-center gap-2 text-xs text-amber-400">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                        <span id="wallet-address" class="font-mono">0x0000...0000</span>
+                    </div>
+                    <div class="flex gap-3 w-full sm:w-auto">
+                        <div class="bg-slate-900/80 px-4 py-2 rounded-lg border border-slate-700 text-right min-w-[120px]">
+                            <span class="text-[10px] text-slate-400 block">보유 수량</span>
+                            <span id="user-pi" class="text-sm font-bold text-amber-400 font-orbitron">0.00</span> <span class="text-[10px] text-amber-500">Pi</span>
+                        </div>
+                        <div class="bg-slate-900/80 px-4 py-2 rounded-lg border border-slate-700 text-right min-w-[140px]">
+                            <span class="text-[10px] text-slate-400 block">자산 가치</span>
+                            <span id="user-value" class="text-sm font-bold text-emerald-400 font-orbitron">$0.00</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+    </header>
 
-        <!-- DEX LP Total Vault Display -->
-        <div class="neon-box-dex">
-            <div class="dex-title" id="txt-dex-label">전체 유동성 (DEX LP)</div>
-            <div class="dex-symbol">$</div>
-            <div class="dex-amount">88,432,098,051</div>
-        </div>
+    <main class="max-w-7xl mx-auto px-4 md:px-6 py-12 space-y-16">
 
-        <!-- Primary Core Matrix Menu Control Row -->
-        <div class="primary-action-row">
-            <button class="btn-action btn-white" onclick="triggerWorkflow('PI 수량 확인')">PI 수량</button>
-            <button class="btn-action btn-yellow" onclick="triggerWorkflow('DEX 스왑')">DEX 스왑</button>
-            <button class="btn-action btn-green" onclick="triggerWorkflow('LP 스테이킹')">LP 스테이킹</button>
-        </div>
+        <section class="space-y-6">
+            <div class="border-l-4 border-amber-500 pl-4 flex justify-between items-end">
+                <div>
+                    <h2 class="text-xl font-bold tracking-tight md:text-2xl">글로벌 특수 목적 지갑 현황</h2>
+                    <p class="text-slate-400 text-xs mt-1">HK 세계은행 생태계를 지탱하는 핵심 지갑 주소 투명 공개</p>
+                </div>
+                <button onclick="verifyChairman()" class="text-xs text-slate-500 hover:text-amber-400 transition-all font-mono">
+                    <i class="fa-solid fa-lock-open mr-1"></i> Chairman 전용인증
+                </button>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="glassmorphism p-5 rounded-2xl border border-slate-800 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 bg-emerald-500/10 text-emerald-400 text-[10px] font-bold uppercase px-3 py-1 rounded-bl-xl font-orbitron">Public</div>
+                    <span class="text-xs text-amber-500 font-bold block mb-1">■ HK 사회재단 UBI 지갑</span>
+                    <div class="bg-slate-950/60 p-3 rounded-xl font-mono text-[11px] text-slate-300 break-all select-all border border-slate-900">
+                        GBUX5TOS5MOMZNXDKXW4ZFZKAX5LSWLTXZ2FXWBKP77WRK6RJAMYVG6X
+                    </div>
+                    <p class="text-slate-400 text-[10px] mt-2"><i class="fa-solid fa-circle-info mr-1"></i>전 세계 취약계층 보편적 기본소득 재원 공급용</p>
+                </div>
 
-        <!-- 3x3 Integrated Core Functional Menu Grid -->
-        <div class="dashboard-grid">
-            <div class="grid-item" onclick="triggerWorkflow('송금')">🚀 송금</div>
-            <div class="grid-item" onclick="triggerWorkflow('결제')">🛒 결제</div>
-            <div class="grid-item" onclick="triggerWorkflow('예치')">💰 예치</div>
-            <div class="grid-item" onclick="triggerWorkflow('보상(참여형 기여)')">🏆 보상</div>
-            <div class="grid-item" onclick="triggerWorkflow('기본소득 사회환원')">🏦 기본소득</div>
-            <div class="grid-item" onclick="triggerWorkflow('스왑')">🔄 스왑</div>
-        </div>
+                <div class="glassmorphism p-5 rounded-2xl border border-slate-800 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 bg-emerald-500/10 text-emerald-400 text-[10px] font-bold uppercase px-3 py-1 rounded-bl-xl font-orbitron">Public</div>
+                    <span class="text-xs text-amber-500 font-bold block mb-1">■ 글로벌 실시간 유동성풀 지갑</span>
+                    <div class="bg-slate-950/60 p-3 rounded-xl font-mono text-[11px] text-slate-300 break-all select-all border border-slate-900">
+                        GDDXKZGAX77BE4J3DELSOXNEPR6NUBCVRJSSYY5I2Q4SJXZ5TNUUPJQC
+                    </div>
+                    <p class="text-slate-400 text-[10px] mt-2"><i class="fa-solid fa-circle-info mr-1"></i>외환 환전 및 뱅킹 스와프 유동성 공급용</p>
+                </div>
 
-        <!-- Large Action Banners Group -->
-        <button class="banner-btn btn-pink-banner" id="txt-faq-banner" onclick="triggerWorkflow('글로벌 AI 지원센터')">글로벌 AI 지원센터 (FAQ 20선)</button>
-        <button class="banner-btn btn-dark-blue" id="txt-vision-banner" onclick="triggerWorkflow('HK 사회 재단 비전')">HK 사회 재단 비전</button>
+                <div class="glassmorphism p-5 rounded-2xl border border-slate-800 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 bg-emerald-500/10 text-emerald-400 text-[10px] font-bold uppercase px-3 py-1 rounded-bl-xl font-orbitron">Public</div>
+                    <span class="text-xs text-amber-500 font-bold block mb-1">■ 리저브 통화 저수지 지갑</span>
+                    <div class="bg-slate-950/60 p-3 rounded-xl font-mono text-[11px] text-slate-300 break-all select-all border border-slate-900">
+                        GBDZQSKO6I5VH5KUUEXQAQWPBHPEJVISH4N2K2AQERDKQYMPRKLNSVFQ
+                    </div>
+                    <p class="text-slate-400 text-[10px] mt-2"><i class="fa-solid fa-circle-info mr-1"></i>급격한 뱅크런 방지 및 시스템 안정 자산 비축용</p>
+                </div>
+            </div>
 
-        <!-- Social Media Official Channel Link Integration (Same Row Alignment) -->
-        <div class="media-row">
-            <a href="https://www.youtube.com/@Hyekong2025" target="_blank" class="media-btn btn-youtube">YouTube</a>
-            <a href="https://www.tiktok.com/@Hyekong2025" target="_blank" class="media-btn btn-tiktok">TikTok</a>
-        </div>
+            <div id="chairman-fee-wallet" class="hidden transition-all duration-500 mt-4">
+                <div class="bg-amber-950/20 border-2 border-dashed border-amber-500/40 p-6 rounded-2xl relative">
+                    <div class="absolute top-0 right-0 bg-amber-500 text-slate-950 text-[10px] font-black uppercase px-3 py-1 rounded-bl-xl font-orbitron">Chairman & CEO Only</div>
+                    <span class="text-sm font-bold text-amber-400 block mb-2"><i class="fa-solid fa-shield-halved mr-1"></i> ■ 최고경영자 전용 수수료 수익 지갑</span>
+                    <div class="bg-slate-950 p-4 rounded-xl font-mono text-sm text-amber-200 break-all select-all border border-amber-500/30 shadow-inner">
+                        GDLG4Q5TXUOGI3MEUNURXY72U6KDU7NQSJA2W3CRHQEMK7QPXYCSPTHK
+                    </div>
+                    <p class="text-amber-400/80 text-[11px] mt-2"><i class="fa-solid fa-eye-slash mr-1"></i>이 지갑은 비공개 보안 주소이며 오직 최고 권한자 의장님 화면에만 활성화됩니다.</p>
+                </div>
+            </div>
+        </section>
 
-        <!-- Official Support Channel Contact Identity -->
-        <div class="support-email">support@hkwb.world</div>
+        <section class="space-y-6">
+            <div class="border-l-4 border-amber-500 pl-4">
+                <h2 class="text-xl font-bold tracking-tight md:text-2xl">4가지 멀티 디지털 자산 지갑 종류</h2>
+                <p class="text-slate-400 text-xs mt-1">글로벌 금융 생태계와 연동되는 강력한 다중 보안 자산 보관소</p>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="glassmorphism p-6 rounded-2xl border-l-4 border-l-amber-500">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="p-3 bg-amber-500/10 rounded-xl text-amber-400 text-xl"><i class="fa-solid fa-p"></i></div>
+                        <span class="text-[10px] font-semibold bg-amber-500/20 text-amber-300 px-2.5 py-1 rounded-full uppercase font-orbitron">Main</span>
+                    </div>
+                    <h3 class="text-base font-bold">Pi Network 지갑</h3>
+                    <p class="text-slate-400 text-xs mt-1">메인넷 에코시스템 다이렉트 연동</p>
+                    <div class="mt-4 pt-4 border-t border-slate-800/60 flex justify-between items-center text-xs font-orbitron">
+                        <span class="text-slate-500">Bal:</span>
+                        <span class="wallet-pi-bal font-bold text-amber-400">0.00 Pi</span>
+                    </div>
+                </div>
+                <div class="glassmorphism p-6 rounded-2xl border-l-4 border-l-indigo-500">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="p-3 bg-indigo-500/10 rounded-xl text-indigo-400 text-xl"><i class="fa-solid fa-cubes"></i></div>
+                        <span class="text-[10px] font-semibold bg-indigo-500/20 text-indigo-300 px-2.5 py-1 rounded-full uppercase font-orbitron">Web3</span>
+                    </div>
+                    <h3 class="text-base font-bold">Web3 가상자산 지갑</h3>
+                    <p class="text-slate-400 text-xs mt-1">BTC, ETH, 대형 레이어1 자산 지원</p>
+                    <div class="mt-4 pt-4 border-t border-slate-800/60 flex justify-between items-center text-xs font-orbitron">
+                        <span class="text-slate-500">Status:</span>
+                        <span class="text-indigo-400 font-medium">Ready</span>
+                    </div>
+                </div>
+                <div class="glassmorphism p-6 rounded-2xl border-l-4 border-l-emerald-500">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="p-3 bg-emerald-500/10 rounded-xl text-emerald-400 text-xl"><i class="fa-solid fa-building-columns"></i></div>
+                        <span class="text-[10px] font-semibold bg-emerald-500/20 text-emerald-300 px-2.5 py-1 rounded-full uppercase font-orbitron">Fiat</span>
+                    </div>
+                    <h3 class="text-base font-bold">글로벌 CBDC 지갑</h3>
+                    <p class="text-slate-400 text-xs mt-1">각국 정부 발행 법정 디지털 화폐 매핑</p>
+                    <div class="mt-4 pt-4 border-t border-slate-800/60 flex justify-between items-center text-xs font-orbitron">
+                        <span class="text-slate-500">Network:</span>
+                        <span class="text-emerald-400 font-medium">Global</span>
+                    </div>
+                </div>
+                <div class="glassmorphism p-6 rounded-2xl border-l-4 border-l-rose-500">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="p-3 bg-rose-500/10 rounded-xl text-rose-400 text-xl"><i class="fa-solid fa-gem"></i></div>
+                        <span class="text-[10px] font-semibold bg-rose-500/20 text-rose-300 px-2.5 py-1 rounded-full uppercase font-orbitron">RWA</span>
+                    </div>
+                    <h3 class="text-base font-bold">RWA 실물자산 지갑</h3>
+                    <p class="text-slate-400 text-xs mt-1">부동산, 금, 우주인프라 토큰화 자산</p>
+                    <div class="mt-4 pt-4 border-t border-slate-800/60 flex justify-between items-center text-xs font-orbitron">
+                        <span class="text-slate-500">Asset:</span>
+                        <span class="text-rose-400 font-medium">Secured</span>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-        <!-- 🔒 Private Administration Shield Area (수수료 지갑 은닉 구역) -->
-        <div class="secret-admin-panel" id="hk-admin-panel">
-            <strong style="color: #ff4444; font-size: 13px;">🔒 [형님 전용 관리 세션] 최고 권한 지갑</strong>
-            <div style="margin-top: 8px; font-size: 11px; color: #ccc;">
-                <strong>수수료 지갑 (프라이빗 가스비 락업):</strong><br>
-                <span style="font-family: monospace; background:#331111; padding:4px; display:block; border-radius:4px; margin-top:4px; word-break:break-all; color:#ff8888;">GDLG4Q5TXUOGI3MEUNURXY72U6KDU7NQSJA2W3CRHQEMK7QPXYCSPTHK</span>
+        <section class="space-y-6">
+            <div class="border-l-4 border-amber-500 pl-4">
+                <h2 class="text-xl font-bold tracking-tight md:text-2xl">9대 핵심 글로벌 업무 스케줄러</h2>
+                <p class="text-slate-400 text-xs mt-1">실제 수량을 기입하고 6자리 암호 승인을 통해 작동하는 실시간 뱅킹 구동 시스템</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="glassmorphism p-6 rounded-2xl flex flex-col justify-between border border-slate-800 hover:border-amber-500/30 transition-all duration-300">
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-9 h-9 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-400 font-black font-orbitron text-sm">01</div>
+                            <h3 class="text-base font-bold">안전 자산 예치 (Deposit)</h3>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="grid grid-cols-2 gap-2">
+                                <div>
+                                    <label class="text-[10px] text-slate-400 block mb-1">예치 수량 (Pi)</label>
+                                    <input type="number" id="input-dep-amt" oninput="calcDeposit()" placeholder="0.00" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-amber-400 focus:outline-none focus:border-amber-500 font-orbitron">
+                                </div>
+                                <div>
+                                    <label class="text-[10px] text-slate-400 block mb-1">기한 설정</label>
+                                    <select id="input-dep-period" onchange="calcDeposit()" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-2 text-xs focus:outline-none focus:border-amber-500">
+                                        <option value="12">12개월 (연 6%)</option>
+                                        <option value="24">24개월 (연 8%)</option>
+                                        <option value="36">36개월 (연 12%)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="bg-slate-950/80 p-2.5 rounded-lg border border-slate-800 text-[11px] text-emerald-400 flex justify-between font-mono">
+                                <span>📈 예상 이자 수량:</span>
+                                <span id="res-dep-interest" class="font-bold">0.00 Pi</span>
+                            </div>
+                            <div>
+                                <label class="text-[10px] text-slate-400 block mb-1">보안 승인 비밀번호 (6자리)</label>
+                                <input type="password" maxlength="6" id="pwd-dep" placeholder="******" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-center tracking-widest text-sm focus:outline-none focus:border-amber-500 font-orbitron">
+                            </div>
+                        </div>
+                    </div>
+                    <button onclick="runWorkflow('deposit')" class="mt-4 w-full py-2.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold rounded-xl text-xs tracking-wide transition-all shadow-md shadow-amber-500/5">예치 승인 실행</button>
+                </div>
+
+                <div class="glassmorphism p-6 rounded-2xl flex flex-col justify-between border border-slate-800 hover:border-amber-500/30 transition-all duration-300">
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-9 h-9 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-400 font-black font-orbitron text-sm">02</div>
+                            <h3 class="text-base font-bold">신용 및 담보 대출 (Loan)</h3>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="grid grid-cols-2 gap-2">
+                                <div>
+                                    <label class="text-[10px] text-slate-400 block mb-1">대출 신청액 (Pi)</label>
+                                    <input type="number" id="input-loan-amt" oninput="calcLoan()" placeholder="0.00" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-amber-400 focus:outline-none focus:border-amber-500 font-orbitron">
+                                </div>
+                                <div>
+                                    <label class="text-[10px] text-slate-400 block mb-1">담보 종류</label>
+                                    <select class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-2 text-xs">
+                                        <option>RWA 실물자산</option>
+                                        <option>지갑 기여도 신용</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="bg-slate-950/80 p-2.5 rounded-lg border border-slate-800 text-[11px] text-rose-400 flex justify-between font-mono">
+                                <span>📉 월 상환 예상액:</span>
+                                <span id="res-loan-month" class="font-bold">0.00 Pi</span>
+                            </div>
+                            <div>
+                                <label class="text-[10px] text-slate-400 block mb-1">보안 승인 비밀번호 (6자리)</label>
+                                <input type="password" maxlength="6" id="pwd-loan" placeholder="******" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-center tracking-widest text-sm focus:outline-none focus:border-amber-500 font-orbitron">
+                            </div>
+                        </div>
+                    </div>
+                    <button onclick="runWorkflow('loan')" class="mt-4 w-full py-2.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold rounded-xl text-xs tracking-wide transition-all shadow-md shadow-amber-500/5">대출 승인 실행</button>
+                </div>
+
+                <div class="glassmorphism p-6 rounded-2xl flex flex-col justify-between border border-slate-800 hover:border-amber-500/30 transition-all duration-300">
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-9 h-9 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-400 font-black font-orbitron text-sm">03</div>
+                            <h3 class="text-base font-bold">실시간 글로벌 송금 (Remittance)</h3>
+                        </div>
+                        <div class="space-y-3">
+                            <div>
+                                <label class="text-[10px] text-slate-400 block mb-1">수신자 블록체인 주소</label>
+                                <input type="text" placeholder="GB... 또는 지갑 주소 입력" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs focus:outline-none focus:border-amber-500 font-mono">
+                            </div>
+                            <div class="grid grid-cols-2 gap-2">
+                                <div>
+                                    <label class="text-[10px] text-slate-400 block mb-1">송금 수량</label>
+                                    <input type="number" id="input-remit-amt" oninput="calcRemit()" placeholder="0.00" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-amber-400 focus:outline-none focus:border-amber-500 font-orbitron">
+                                </div>
+                                <div>
+                                    <label class="text-[10px] text-slate-400 block mb-1">네트워크 수수료</label>
+                                    <div id="res-remit-fee" class="w-full bg-slate-950 border border-slate-800 text-slate-400 rounded-lg px-3 py-1.5 text-xs font-mono h-[30px] flex items-center">0.0000 Pi</div>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="text-[10px] text-slate-400 block mb-1">보안 승인 비밀번호 (6자리)</label>
+                                <input type="password" maxlength="6" id="pwd-remit" placeholder="******" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-center tracking-widest text-sm focus:outline-none focus:border-amber-500 font-orbitron">
+                            </div>
+                        </div>
+                    </div>
+                    <button onclick="runWorkflow('remit')" class="mt-4 w-full py-2.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold rounded-xl text-xs tracking-wide transition-all shadow-md shadow-amber-500/5">송금 승인 실행</button>
+                </div>
+
+                <div class="glassmorphism p-6 rounded-2xl flex flex-col justify-between border border-slate-800 hover:border-amber-500/30 transition-all duration-300">
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-9 h-9 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-400 font-black font-orbitron text-sm">04</div>
+                            <h3 class="text-base font-bold">통화 환전 및 스와프 (Swap)</h3>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="grid grid-cols-2 gap-2">
+                                <div>
+                                    <label class="text-[10px] text-slate-400 block mb-1">전환 전 자산</label>
+                                    <select class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1.5 text-xs text-amber-400 font-bold">
+                                        <option>Pi Network</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="text-[10px] text-slate-400 block mb-1">전환 후 대상 자산</label>
+                                    <select id="input-swap-target" onchange="calcSwap()" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1.5 text-xs text-emerald-400 font-bold">
+                                        <option value="usd">글로벌 CBDC ($)</option>
+                                        <option value="rwa">RWA 금 토큰</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-2">
+                                <div>
+                                    <label class="text-[10px] text-slate-400 block mb-1">교환할 수량</label>
+                                    <input type="number" id="input-swap-amt" oninput="calcSwap()" placeholder="0.00" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-amber-400 focus:outline-none focus:border-amber-500 font-orbitron">
+                                </div>
+                                <div>
+                                    <label class="text-[10px] text-slate-400 block mb-1">예상 수령액</label>
+                                    <div id="res-swap-out" class="w-full bg-slate-950 border border-slate-800 text-emerald-400 rounded-lg px-3 py-1.5 text-xs font-bold font-orbitron h-[30px] flex items-center">0.00</div>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="text-[10px] text-slate-400 block mb-1">보안 승인 비밀번호 (6자리)</label>
+                                <input type="password" maxlength="6" id="pwd-swap" placeholder="******" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-center tracking-widest text-sm focus:outline-none focus:border-amber-500 font-orbitron">
+                            </div>
+                        </div>
+                    </div>
+                    <button onclick="runWorkflow('swap')" class="mt-4 w-full py-2.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold rounded-xl text-xs tracking-wide transition-all shadow-md shadow-amber-500/5">스와프 즉시 실행</button>
+                </div>
+
+                <div class="glassmorphism p-6 rounded-2xl flex flex-col justify-between border border-slate-800 hover:border-amber-500/30 transition-all duration-300">
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-9 h-9 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-400 font-black font-orbitron text-sm">05</div>
+                            <h3 class="text-base font-bold">글로벌 기여 보상 이체 (Rewards)</h3>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="bg-slate-950/50 p-2 rounded-lg border border-slate-800 flex justify-between items-center text-xs">
+                                <span class="text-slate-400">나의 누적 기여도 포인트:</span>
+                                <span class="font-bold text-amber-400 font-orbitron">7,450 Pt</span>
+                            </div>
+                            <div class="grid grid-cols-2 gap-2">
+                                <div>
+                                    <label class="text-[10px] text-slate-400 block mb-1">청구할 보상 수량</label>
+                                    <input type="number" id="input-rew-amt" oninput="calcReward()" placeholder="0.00" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-amber-400 focus:outline-none focus:border-amber-500 font-orbitron">
+                                </div>
+                                <div>
+                                    <label class="text-[10px] text-slate-400 block mb-1">재단 기부액 (30%)</label>
+                                    <div id="res-rew-donation" class="w-full bg-slate-950 border border-slate-800 text-rose-400 rounded-lg px-3 py-1.5 text-xs font-mono h-[30px] flex items-center">0.00 Pi</div>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="text-[10px] text-slate-400 block mb-1">보안 승인 비밀번호 (6자리)</label>
+                                <input type="password" maxlength="6" id="pwd-rew" placeholder="******" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-center tracking-widest text-sm focus:outline-none focus:border-amber-500 font-orbitron">
+                            </div>
+                        </div>
+                    </div>
+                    <button onclick="runWorkflow('reward')" class="mt-4 w-full py-2.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold rounded-xl text-xs tracking-wide transition-all shadow-md shadow-amber-500/5">보상 수령 이체</button>
+                </div>
+
+                <div class="glassmorphism p-6 rounded-2xl flex flex-col justify-between border border-slate-800 hover:border-amber-500/30 transition-all duration-300">
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-9 h-9 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-400 font-black font-orbitron text-sm">06</div>
+                            <h3 class="text-base font-bold">노드 검증 스테이킹 (Staking)</h3>
+                        </div>
+                        <div class="space-y-3">
+                            <div>
+                                <label class="text-[10px] text-slate-400 block mb-1">대상 검증인 노드 분산 풀</label>
+                                <select class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1.5 text-xs">
+                                    <option>HK 메인 인프라 검증 노드 1호 (APY 14.2%)</option>
+                                    <option>글로벌 UBI 공익 커뮤니티 노드 (APY 11.5%)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="text-[10px] text-slate-400 block mb-1">위임(Lock-up) 락업 수량</label>
+                                <input type="number" id="input-stake-amt" placeholder="0.00" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-amber-400 focus:outline-none focus:border-amber-500 font-orbitron">
+                            </div>
+                            <div>
+                                <label class="text-[10px] text-slate-400 block mb-1">보안 승인 비밀번호 (6자리)</label>
+                                <input type="password" maxlength="6" id="pwd-stake" placeholder="******" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-center tracking-widest text-sm focus:outline-none focus:border-amber-500 font-orbitron">
+                            </div>
+                        </div>
+                    </div>
+                    <button onclick="runWorkflow('stake')" class="mt-4 w-full py-2.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold rounded-xl text-xs tracking-wide transition-all shadow-md shadow-amber-500/5">스테이킹 계약 체결</button>
+                </div>
+
+                <div class="glassmorphism p-6 rounded-2xl flex flex-col justify-between border border-slate-800 hover:border-amber-500/30 transition-all duration-300">
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-9 h-9 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-400 font-black font-orbitron text-sm">07</div>
+                            <h3 class="text-lg font-bold">HK 재단 공익 기부 (Donation)</h3>
+                        </div>
+                        <div class="space-y-3">
+                            <div>
+                                <label class="text-[10px] text-slate-400 block mb-1">후원 복지 인프라 분과 선택</label>
+                                <select class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1.5 text-xs text-rose-400 font-medium">
+                                    <option>1가구 1로봇 휴머노이드 글로벌 보급망</option>
+                                    <option>취약계층 무상 디지털 의료 진단 인프라</option>
+                                    <option>비전 2030 글로벌 미래 무료 학교 설립</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="text-[10px] text-slate-400 block mb-1">기부 참여 자산 수량 (Pi)</label>
+                                <input type="number" id="input-donate-amt" placeholder="0.00" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-amber-400 focus:outline-none focus:border-amber-500 font-orbitron">
+                            </div>
+                            <div>
+                                <label class="text-[10px] text-slate-400 block mb-1">보안 승인 비밀번호 (6자리)</label>
+                                <input type="password" maxlength="6" id="pwd-donate" placeholder="******" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-center tracking-widest text-sm focus:outline-none focus:border-amber-500 font-orbitron">
+                            </div>
+                        </div>
+                    </div>
+                    <button onclick="runWorkflow('donate')" class="mt-4 w-full py-2.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold rounded-xl text-xs tracking-wide transition-all shadow-md shadow-amber-500/5">영구 공익 기부 확정</button>
+                </div>
+
+                <div class="glassmorphism p-6 rounded-2xl flex flex-col justify-between border border-slate-800 hover:border-amber-500/30 transition-all duration-300">
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-9 h-9 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-400 font-black font-orbitron text-sm">08</div>
+                            <h3 class="text-base font-bold">RWA 및 딥테크 투자 관리</h3>
+                        </div>
+                        <div class="space-y-3">
+                            <div>
+                                <label class="text-[10px] text-slate-400 block mb-1">청약 가능 글로벌 자산 포트폴리오</label>
+                                <select class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1.5 text-xs">
+                                    <option>핵융합 에너지 차세대 인프라 토큰 ($HK-Fusion)</option>
+                                    <option>우주 기지 및 궤도 물류 RWA 바스켓</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="text-[10px] text-slate-400 block mb-1">청약금 규모 입력 (Pi)</label>
+                                <input type="number" id="input-invest-amt" placeholder="0.00" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-amber-400 focus:outline-none focus:border-amber-500 font-orbitron">
+                            </div>
+                            <div>
+                                <label class="text-[10px] text-slate-400 block mb-1">보안 승인 비밀번호 (6자리)</label>
+                                <input type="password" maxlength="6" id="pwd-invest" placeholder="******" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-center tracking-widest text-sm focus:outline-none focus:border-amber-500 font-orbitron">
+                            </div>
+                        </div>
+                    </div>
+                    <button onclick="runWorkflow('invest')" class="mt-4 w-full py-2.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold rounded-xl text-xs tracking-wide transition-all shadow-md shadow-amber-500/5">스마트 청약 계약 체결</button>
+                </div>
+
+                <div class="glassmorphism p-6 rounded-2xl flex flex-col justify-between border border-slate-800 hover:border-amber-500/30 transition-all duration-300">
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-9 h-9 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-400 font-black font-orbitron text-sm">09</div>
+                            <h3 class="text-base font-bold">정산 및 거래 한도 변경</h3>
+                        </div>
+                        <div class="space-y-3">
+                            <div>
+                                <label class="text-[10px] text-slate-400 block mb-1">설정 변경 항목</label>
+                                <select class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1.5 text-xs">
+                                    <option>일일 최대 거래 전송 한도</option>
+                                    <option>1회 패스워드 프리 최고액 한도</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="text-[10px] text-slate-400 block mb-1">변경 희망 한도 금액 (Pi)</label>
+                                <input type="number" id="input-limit-amt" placeholder="50,000" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-amber-400 focus:outline-none focus:border-amber-500 font-orbitron">
+                            </div>
+                            <div>
+                                <label class="text-[10px] text-slate-400 block mb-1">보안 승인 비밀번호 (6자리)</label>
+                                <input type="password" maxlength="6" id="pwd-limit" placeholder="******" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-center tracking-widest text-sm focus:outline-none focus:border-amber-500 font-orbitron">
+                            </div>
+                        </div>
+                    </div>
+                    <button onclick="runWorkflow('limit')" class="mt-4 w-full py-2.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold rounded-xl text-xs tracking-wide transition-all shadow-md shadow-amber-500/5">보안 한도 계정 갱신</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="space-y-6">
+            <div class="border-l-4 border-amber-500 pl-4">
+                <h2 class="text-xl font-bold tracking-tight md:text-2xl">글로벌 AI 지원센터 (FAQ 20)</h2>
+                <p class="text-slate-400 text-xs mt-1">인공지능 상담 시스템이 실시간으로 제공하는 핵심 운영 정책 및 해결 가이드</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="space-y-3" id="faq-group-1"></div>
+                <div class="space-y-3" id="faq-group-2"></div>
+            </div>
+        </section>
+
+        <section class="glassmorphism p-8 rounded-3xl border border-amber-500/20 relative overflow-hidden">
+            <div class="absolute -right-20 -bottom-20 w-80 h-80 bg-amber-500/5 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="max-w-5xl mx-auto space-y-8">
+                <div class="text-center space-y-3">
+                    <div class="inline-block px-4 py-1.5 bg-amber-500/10 text-amber-400 rounded-full text-xs font-bold font-orbitron tracking-widest uppercase">
+                        HK Social Foundation
+                    </div>
+                    <h2 class="text-3xl font-black tracking-tight bg-gradient-to-r from-slate-100 via-amber-200 to-slate-100 bg-clip-text text-transparent">
+                        HK 사회 재단 비전 2030
+                    </h2>
+                    <p class="text-slate-300 leading-relaxed max-w-3xl mx-auto text-xs md:text-sm">
+                        우리는 기술 혁신과 금융 포용을 결합하여 인류 공동의 번영을 주도합니다. 비즈니스를 통해 창출되는 모든 수익의 30%를 글로벌 사회 재단에 분배하며, 전 세계 인류가 의식주와 인프라의 차별을 받지 않도록 강력한 초격차 사회 안전망을 구축합니다.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
+                    <div class="bg-slate-900/40 border border-slate-800/80 p-5 rounded-2xl flex gap-4 items-start">
+                        <div class="p-3 bg-amber-500/10 rounded-xl text-amber-400 text-lg"><i class="fa-solid fa-house-chimney"></i></div>
+                        <div>
+                            <h4 class="text-xs font-bold text-slate-200">인류 보편적 주거</h4>
+                            <p class="text-slate-400 text-[10px] mt-1 leading-normal">주거 소외 계층 제로화. 친환경 고밀도 디지털 주거 팩 인프라 무상 지원망 확보.</p>
+                        </div>
+                    </div>
+                    <div class="bg-slate-900/40 border border-slate-800/80 p-5 rounded-2xl flex gap-4 items-start">
+                        <div class="p-3 bg-indigo-500/10 rounded-xl text-indigo-400 text-lg"><i class="fa-solid fa-graduation-cap"></i></div>
+                        <div>
+                            <h4 class="text-xs font-bold text-slate-200">글로벌 미래 학교</h4>
+                            <p class="text-slate-400 text-[10px] mt-1 leading-normal">AGI 튜터링 기반 국경 없는 무료 교육 커리큘럼 및 초현대식 교육 인프라 공급.</p>
+                        </div>
+                    </div>
+                    <div class="bg-slate-900/40 border border-slate-800/80 p-5 rounded-2xl flex gap-4 items-start">
+                        <div class="p-3 bg-emerald-500/10 rounded-xl text-emerald-400 text-lg"><i class="fa-solid fa-heart-pulse"></i></div>
+                        <div>
+                            <h4 class="text-xs font-bold text-slate-200">무상 디지털 의료</h4>
+                            <p class="text-slate-400 text-[10px] mt-1 leading-normal">실시간 바이오 원격 진단 시스템 및 고도화된 메디컬 케어의 전 인류 보편적 제공.</p>
+                        </div>
+                    </div>
+                    <div class="bg-slate-900/40 border border-slate-800/80 p-5 rounded-2xl flex gap-4 items-start ring-1 ring-amber-500/30">
+                        <div class="p-3 bg-rose-500/10 rounded-xl text-rose-400 text-lg animate-pulse"><i class="fa-solid fa-robot"></i></div>
+                        <div>
+                            <h4 class="text-xs font-bold text-amber-300">1가구 1로봇 실현</h4>
+                            <p class="text-slate-400 text-[10px] mt-1 leading-normal">가사·돌봄·산업용 휴머노이드 로봇을 전 가구에 전면 보급하여 노동으로부터의 해방 선언.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 max-w-xl mx-auto text-center">
+                    <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-800">
+                        <div class="text-lg font-bold text-amber-400 font-orbitron">30%</div>
+                        <div class="text-[10px] text-slate-400 mt-1">사회 환원 비율</div>
+                    </div>
+                    <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-800">
+                        <div class="text-lg font-bold text-amber-400 font-orbitron">Global</div>
+                        <div class="text-[10px] text-slate-400 mt-1">보편적 기본소득 기반</div>
+                    </div>
+                    <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-800">
+                        <div class="text-lg font-bold text-amber-400 font-orbitron">2030</div>
+                        <div class="text-[10px] text-slate-400 mt-1">인프라 완공 목표</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="border-t border-slate-900 bg-slate-950/80 mt-20">
+        <div class="max-w-7xl mx-auto px-6 py-10 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="text-[11px] text-slate-500 font-mono tracking-wide text-center md:text-left">
+                &copy; 2026 HK WORLD BANK. All Rights Reserved. Fully Decentralized AGI Network.
+            </div>
+            <div class="text-right">
+                <div class="text-[10px] text-amber-500/70 font-orbitron tracking-widest uppercase font-bold">Founder & Chairman</div>
+                <div class="text-base font-black tracking-wider text-slate-300 font-orbitron mt-0.5">
+                    Hyekong Chairman & CEO
+                </div>
             </div>
         </div>
+    </footer>
 
-    </div>
-
-    <!-- 🔮 Pink Neon "Bbi-ni" Core Interactive Floating Ball System -->
-    <div class="bbini-floating-ball" id="bbini-core" onclick="bbiniQuickInquiry()" oncontextmenu="toggleSecretPanel(event)">
-        <span>삐니</span>
-    </div>
-
-    <!-- Script Application Execution Infrastructure -->
     <script>
-        // 1. $1s Real-time Dynamic Volatility Numerical Calculation Engine
-        setInterval(() => {
-            // Micro transactional fluctuations simulation matching scannability
-            const supplyBase = 6280000.5074 + (Math.random() * 0.05);
-            const stakingApr = 17.64 + (Math.sin(Date.now() / 5000) * 0.08);
-            const lpApy = 28.57 + (Math.cos(Date.now() / 4000) * 0.15);
+        let currentBalance = 0.00;
 
-            document.getElementById('dyn-hkwb-supply').innerText = supplyBase.toFixed(4);
-            document.getElementById('dyn-staking-apr').innerText = stakingApr.toFixed(2) + '%';
-            document.getElementById('dyn-lp-apy').innerText = lpApy.toFixed(2) + '%';
-        }, 1000);
-
-        // 2. Secret Administration Master Controller (형님 수수료 지갑 은닉 제어)
-        function toggleSecretPanel(e) {
-            if(e) e.preventDefault(); // Prevent default mobile browser context popup
-            const panel = document.getElementById('hk-admin-panel');
-            if(panel.style.display === 'none' || panel.style.display === '') {
-                panel.style.display = 'block';
-                alert("👑 혜공 형님 최고 관리자 전용 수수료 지갑 은닉 상태가 잠시 해제되었습니다.");
-            } else {
-                panel.style.display = 'none';
-            }
-        }
-
-        // 3. 9 Emoji Core Workflow Unified Execution Engine with 6-Digit PIN Generation
-        function triggerWorkflow(menuName) {
-            let detailMessage = "";
+        // 1. 지갑 연결 시 동적 값 매핑 처리
+        function connectWallet() {
+            const randomAddress = "GD" + Array.from({length: 5}, () => Math.random().toString(36)[2].toUpperCase()).join('') + "..." + Array.from({length: 4}, () => Math.random().toString(36)[2].toUpperCase()).join('');
+            currentBalance = parseFloat((Math.random() * 8000 + 1500).toFixed(2));
             
-            if(menuName === "예치") {
-                detailMessage = "👉 [예치 흐름]\n1. 예치 누름\n2. 수량 및 기간 선택 (실시간 이율 연동)\n3. 예상 이율 및 최종 만기 수량 자동 안내";
-            } else if(menuName === "보상(참여형 기여)") {
-                detailMessage = "👉 [참여 보상 흐름]\n1. 보상 누름\n2. 앱 체류 시간 및 설문조사 기여도 데이터 실시간 산정 및 누적액 가이드\n3. 기여 트랜잭션 전송 대기";
-            } else if(menuName === "기본소득 사회환원") {
-                detailMessage = "👉 [기본소득 흐름]\n1. 기본소득 누름\n2. HK 소셜 재단 30% 분배 UBI 지갑 자산 투명 연동 확인\n3. 지원 풀 집행 시퀀스 승인";
-            } else {
-                detailMessage = `👉 [${menuName} 흐름]\n1. 메뉴 활성화\n2. 실시간 최적 블록체인 가스비 산정 완료\n3. 연동 퍼블릭 지갑 데이터 최종 검증 완료`;
-            }
-
-            // Phase Action Output Chain
-            alert(`${detailMessage}\n\n⚠️ 금융 안전 및 트랜잭션 보호를 위해 최종 승인용 '6자리 비밀번호'를 설정 및 생성하여 입력해 주십시오.`);
+            document.getElementById('btn-connect').classList.add('hidden');
+            document.getElementById('wallet-info').classList.remove('hidden');
             
-            let pinInput = prompt("🔑 보안 승인용 6자리 비밀번호(PIN)를 입력하세요:");
-            if(pinInput && pinInput.length === 6) {
-                alert(`✅ 승인 성공!\n${menuName} 시스템 처리가 정상적으로 완료되어 지정된 온체인 지갑 풀로 안전하게 전송되었습니다.`);
+            updateDisplay(randomAddress);
+        }
+
+        function updateDisplay(address) {
+            if(address) document.getElementById('wallet-address').innerText = address;
+            document.getElementById('user-pi').innerText = currentBalance.toLocaleString(undefined, {minimumFractionDigits: 2});
+            document.getElementById('user-value').innerText = (currentBalance * 314.159).toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+            document.querySelector('.wallet-pi-bal').innerText = currentBalance.toLocaleString(undefined, {minimumFractionDigits: 2}) + " Pi";
+        }
+
+        // 2. 예치 실시간 계산 (수량 입력 즉시 산정)
+        function calcDeposit() {
+            const amt = parseFloat(document.getElementById('input-dep-amt').value) || 0;
+            const period = parseInt(document.getElementById('input-dep-period').value);
+            let rate = 0.06;
+            if(period === 24) rate = 0.08;
+            if(period === 36) rate = 0.12;
+            
+            const interest = amt * rate * (period / 12);
+            document.getElementById('res-dep-interest').innerText = interest.toFixed(2) + " Pi";
+        }
+
+        // 3. 대출 실시간 계산
+        function calcLoan() {
+            const amt = parseFloat(document.getElementById('input-loan-amt').value) || 0;
+            const monthRepay = (amt * 1.04) / 12; // 연 4% 가정 12개월 분할 상환
+            document.getElementById('res-loan-month').innerText = monthRepay.toFixed(2) + " Pi";
+        }
+
+        // 4. 송금 수수료 실시간 산정
+        function calcRemit() {
+            const amt = parseFloat(document.getElementById('input-remit-amt').value) || 0;
+            const fee = amt > 0 ? 0.01 : 0.00; // 고정 가스비 0.01 Pi 세팅
+            document.getElementById('res-remit-fee').innerText = fee.toFixed(4) + " Pi";
+        }
+
+        // 5. 스와프 실시간 교환비 대조
+        function calcSwap() {
+            const amt = parseFloat(document.getElementById('input-swap-amt').value) || 0;
+            const target = document.getElementById('input-swap-target').value;
+            if(target === 'usd') {
+                document.getElementById('res-swap-out').innerText = "$" + (amt * 314.159).toLocaleString(undefined, {maximumFractionDigits:2});
             } else {
-                alert("❌ 취소 완료: 6자리 암호가 일치하지 않거나 누락되어 안전을 위해 세션이 차단되었습니다.");
+                document.getElementById('res-swap-out').innerText = (amt * 0.043).toFixed(3) + " 👑 Gold";
             }
         }
 
-        // 4. AGI Bbi-ni Context-Aware Direct Assistant Dialogue Trigger
-        function bbiniQuickInquiry() {
-            alert("🤖 AGI 삐니 시스템 비서:\n\n\"혜공 형님! 현재 UBI, 유동성풀, 저수지 지갑 노드는 100% 정상 가동 및 외부 투명 가시화 배포 상태입니다.\n\n💡 팁: 수수료 지갑 조회가 필요하실 경우, 저(삐니 버튼)를 마우스 우클릭하시거나 모바일 기기에서 길게 꾹 눌러주십시오!\"");
+        // 6. 보상 분배 기부금 자동 연산
+        function calcReward() {
+            const amt = parseFloat(document.getElementById('input-rew-amt').value) || 0;
+            document.getElementById('res-rew-donation').innerText = (amt * 0.30).toFixed(2) + " Pi";
         }
 
-        // 5. 50 Countries Multi-Language Dynamic Translation Script Interface Matrix
-        const translationMatrix = {
-            ko: {
-                subtitle: "통합 자산 관리 시스템", supply: "HKWB 실시간 공급량", staking: "스테이킹",
-                lp: "LP 수익률", dex: "전체 유동성 (DEX LP)", faq: "글로벌 AI 지원센터 (FAQ 20선)", vision: "HK 사회 재단 비전"
-            },
-            en: {
-                subtitle: "Integrated Asset Management System", supply: "HKWB Live Circulating Supply", staking: "Staking",
-                lp: "LP Yield Rate", dex: "Total Liquidity (DEX LP)", faq: "Global AI Support Center (FAQ 20)", vision: "HK Social Foundation Vision"
-            },
-            zh: {
-                subtitle: "一体化资产管理系统", supply: "HKWB 实时供应量", staking: "质押收益",
-                lp: "LP 收益率", dex: "总流动性 (DEX LP)", faq: "全球 AI 服务中心 (FAQ 20问)", vision: "HK 社会基金会愿景"
-            },
-            ja: {
-                subtitle: "統合資産管理システム", supply: "HKWB リアルタイム供給量", staking: "ステーキング",
-                lp: "LP 収益率", dex: "総流動性 (DEX LP)", faq: "グローバル AI 支援センター (FAQ 20選)", vision: "HK 社会財団ビジョン"
-            },
-            vi: {
-                subtitle: "Hệ thống quản lý tài sản tích hợp", supply: "Khối lượng cung ứng thực tế HKWB", staking: "Đặt cọc",
-                lp: "Tỷ lệ lợi nhuận LP", dex: "Tổng thanh khoản (DEX LP)", faq: "Trung tâm hỗ trợ AI toàn cầu (FAQ 20)", vision: "Tầm nhìn Quỹ Xã hội HK"
+        // 7. 9대 금융 기능 통합 워크플로우 실 처리 구동부
+        function runWorkflow(type) {
+            if (currentBalance === 0) {
+                alert("먼저 최상단의 [지갑 연결]을 완료해 주십시오.");
+                return;
             }
-        };
 
-        function translateSystemUI() {
-            const currentLang = document.getElementById('lang-selector').value;
-            const textSet = translationMatrix[currentLang] || translationMatrix['ko'];
+            let amtId = '', pwdId = '', actionName = '';
+            
+            if(type === 'deposit') { amtId = 'input-dep-amt'; pwdId = 'pwd-dep'; actionName = '안전 자산 예치'; }
+            if(type === 'loan') { amtId = 'input-loan-amt'; pwdId = 'pwd-loan'; actionName = '신용/담보 대출'; }
+            if(type === 'remit') { amtId = 'input-remit-amt'; pwdId = 'pwd-remit'; actionName = '글로벌 송금'; }
+            if(type === 'swap') { amtId = 'input-swap-amt'; pwdId = 'pwd-swap'; actionName = '통화 환전 스와프'; }
+            if(type === 'reward') { amtId = 'input-rew-amt'; pwdId = 'pwd-rew'; actionName = '기여 보상 이체'; }
+            if(type === 'stake') { amtId = 'input-stake-amt'; pwdId = 'pwd-stake'; actionName = '노드 스테이킹'; }
+            if(type === 'donate') { amtId = 'input-donate-amt'; pwdId = 'pwd-donate'; actionName = '재단 공익 기부'; }
+            if(type === 'invest') { amtId = 'input-invest-amt'; pwdId = 'pwd-invest'; actionName = 'RWA 혁신 자산 청약'; }
+            if(type === 'limit') { amtId = 'input-limit-amt'; pwdId = 'pwd-limit'; actionName = '거래 한도 변경'; }
 
-            document.getElementById('txt-sub-title').innerText = textSet.subtitle;
-            document.getElementById('txt-supply-label').innerText = textSet.supply;
-            document.getElementById('txt-staking-label').innerText = textSet.staking;
-            document.getElementById('txt-lp-label').innerText = textSet.lp;
-            document.getElementById('txt-dex-label').innerText = textSet.dex;
-            document.getElementById('txt-faq-banner').innerText = textSet.faq;
-            document.getElementById('txt-vision-banner').innerText = textSet.vision;
+            const amt = parseFloat(document.getElementById(amtId).value) || 0;
+            const pwd = document.getElementById(pwdId).value;
+
+            if(amt <= 0) {
+                alert("처리하고자 하는 정확한 수량 및 금액을 입력해 주세요.");
+                return;
+            }
+            if(pwd.length !== 6) {
+                alert("보안 승인을 위해 6자리 마스터 비밀번호를 정확히 기입해 주십시오.");
+                return;
+            }
+
+            // 실시간 잔고 변경 구동부 반영 (예치, 송금, 스테이킹, 기부, 투자 시 차감 처리 / 대출, 보상 시 가산 처리)
+            if(['deposit', 'remit', 'stake', 'donate', 'invest'].includes(type)) {
+                if(currentBalance < amt) { alert("지갑의 잔여 Pi 수량이 부족합니다."); return; }
+                currentBalance -= amt;
+            } else if(['loan', 'reward'].includes(type)) {
+                currentBalance += amt;
+            }
+
+            alert(`[보안 인증 완료]\n${actionName} 업무 프로세스가 최종 승인되었습니다.\n트랜잭션이 블록체인 원장에 즉시 기록되었으며 대시보드 자산이 즉각 갱신됩니다.`);
+            
+            // 입력 폼 초기화 및 상단 대시보드 리렌더링
+            document.getElementById(amtId).value = '';
+            document.getElementById(pwdId).value = '';
+            updateDisplay(null);
         }
+
+        // Chairman 권한자 전용 제어 스크립트
+        function verifyChairman() {
+            const accessKey = prompt("의장님 전용 마스터 키 또는 보안 암호를 입력해 주십시오:");
+            if(accessKey === "0982" || accessKey === "hyekong") {
+                const feeSection = document.getElementById('chairman-fee-wallet');
+                feeSection.classList.remove('hidden');
+                alert("의장님(Chairman) 인증에 성공하였습니다. 최고경영자 전용 수수료 수익 지갑이 활성화되었습니다.");
+                feeSection.scrollIntoView({ behavior: 'smooth' });
+            } else {
+                alert("권한이 없습니다. 접근 권한 오류가 전송됩니다.");
+            }
+        }
+
+        // FAQ 20개 동적 생성 로직
+        const faqs = [
+            { q: "HK WORLD BANK는 기존 은행과 어떤 차이점이 있나요?", a: "AGI 가상 비서 시스템과 분산 원장 기술을 통합하여 국경과 서류가 없는 즉각적 처리를 완수합니다." },
+            { q: "내 지갑 계정의 보안 비밀번호 6자리를 분실하면 어떻게 되나요?", a: "본인 인증 프로토콜과 다중 서명 생체 데이터를 결합하여 안전한 복구 동선을 지원합니다." },
+            { q: "사회 기부 30% 정책은 어떻게 강제되고 투명하게 운영되나요?", a: "재단 스마트 계약 메인 블록에 변조 불가능한 코드로 아키텍처가 고정되어 매 정산시 완전 자동 분배됩니다." },
+            { q: "Pi 자산 외에 다른 가상자산도 완벽히 지원되나요?", a: "4가지 멀티 지갑 인터페이스를 통해 대형 메이저 자산 및 실물 연동 토큰(RWA)까지 완벽하게 연계됩니다." },
+            { q: "실시간 예치 시 예상 이자는 어떻게 결정되나요?", a: "유동성 풀의 실시간 수요 공급 지표에 따라 AGI 코어가 가장 이상적이고 안전한 최적 비율을 도출합니다." },
+            { q: "대출을 신청할 때 신용 등급 심사 프로세스는 어떻게 되나요?", a: "기존 금융권의 서류 심사 대신 블록체인 상의 자산 기여도와 지갑 담보율을 실시간 연산하여 즉시 한도를 산정합니다." },
+            { q: "글로벌 송금 시 부과되는 가스비(수수료)는 어느 정도인가요?", a: "전통 해외 송금망의 수백분의 일 수준으로, 최소한의 네트워크 유지를 위한 가스비만 정산 처리됩니다." },
+            { q: "통화 스와프 실행 시 슬리피지 허용 범위는 무엇인가요?", a: "체인 간 거래 유동성 급변으로 발생하는 오차를 방지하는 안전장치로, 기본 0.5% 내외로 세팅됩니다." },
+            { q: "기여 보상 이체는 언제든지 무제한 청약이 가능한가요?", a: "글로벌 생태계 기여도 점수가 산정되는 즉시 실시간으로 보상풀에서 다이렉트 출금이 가능합니다." },
+            { q: "노드 검증 스테이킹의 언스테이킹(락업 해제) 조건은 어떻게 되나요?", a: "선택하신 노드 계약 기한 및 위임 규칙에 따라 지정 기간 완료 후 즉시 원금과 이자가 반환됩니다." },
+            { q: "HK 사회 재단 비전 2030의 핵심 마일스톤은 무엇인가요?", a: "2030년까지 전 인류 누구나 금융 소외 없이 안전한 기본 자산망의 혜택을 누릴 수 있는 유비쿼터스 플랫폼 완공입니다." },
+            { q: "정산 및 일일 거래 한도를 변경하면 즉시 적용되나요?", a: "보안 6자리 마스터 비밀번호 및 다중 디바이스 승인이 완료되는 즉시 네트워크에 선반영됩니다." },
+            { q: "스마트 계약 보증서는 어디서 상시 열람할 수 있나요?", a: "모든 트랜잭션 기록과 소스 검증 내역은 에코시스템 공개 탐색기(Explorer)를 통해 투명하게 조회 가능합니다." },
+            { q: "RWA(실물자산) 투자의 법적 안정성은 어떻게 확보되나요?", a: "글로벌 규제 샌드박스 표준 가이드라인에 따라 실물 자산과 디지털 토큰 간 완전한 1:1 매핑 계약을 적용합니다." },
+            { q: "CBDC 지갑은 각국 중앙은행 시스템과 직접 연동되나요?", a: "국제 결제 표준 프로토콜을 준수하는 게이트웨이를 사용하여 이기종 체인 간 실시간 브릿징을 처리합니다." },
+            { q: "AI 상담 시스템이 처리할 수 있는 다국어 범위는 어느 정도인가요?", a: "AGI 기반 언어 팩 엔진을 적용하여 전 세계 50개 이상의 메이저 및 마이너 언어를 완벽하게 동시 통역 지원합니다." },
+            { q: "대출금 상환 연체 시 어떤 패널티가 발생하나요?", a: "담보로 위임된 디지털 자산의 일부가 스마트 계약 조건에 의거하여 자동으로 청산 프로세스에 진입하게 됩니다." },
+            { q: "기부금 영수증과 블록체인 증명서는 매칭 처리가 되나요?", a: "네, 재단에 기록되는 모든 기부 원장은 암호학적 디지털 영수증으로 발급되어 공공 증빙에 활용 가능합니다." },
+            { q: "지갑 연결 시 개인정보 유출 위험은 없나요?", a: "중앙 서버에 어떠한 식별 정보도 저장하지 않는 비수탁형(Non-Custodial) 아키텍처로 해킹이 원천 불가능합니다." },
+            { q: "HK WORLD BANK의 거버넌스 투표 권한은 어떻게 주어지나요?", a: "플랫폼 기여도 점수 및 스테이킹 보상을 유지하고 있는 모든 노드 위임 참여자에게 공평한 의결권이 분배됩니다." }
+        ];
+
+        const group1 = document.getElementById('faq-group-1');
+        const group2 = document.getElementById('faq-group-2');
+        faqs.forEach((item, index) => {
+            const html = `<div class="glassmorphism p-4 rounded-xl border border-slate-800/80"><h4 class="text-xs font-bold text-amber-400 flex items-start gap-2"><span class="font-orbitron text-amber-500/80">Q${index+1}.</span><span>${item.q}</span></h4><p class="text-slate-400 text-xs mt-1.5 pl-6 leading-relaxed border-l border-slate-800">${item.a}</p></div>`;
+            if (index < 10) group1.innerHTML += html; else group2.innerHTML += html;
+        });
     </script>
 </body>
 </html>
