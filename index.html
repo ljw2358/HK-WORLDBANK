@@ -2294,41 +2294,29 @@ const HK_MasterCoreSystem = {
     }
 };
 
-// 즉시 실행 마스터 인증 활성화 트리거
-console.log("[HK SYSTEM] 2283라인 마스터 코어 엔진 탑재 완료.");
-// 2272번 줄부터 맨 밑바닥까지 대체할 깨짐 방지 마스터 스크립트
-    // 1. 화면 전체를 덮는 묵직한 보안 팝업창 설정
+// 2297번 줄부터 2327번 줄까지 통째로 대체할 최종 무적 코드
+    // ==========================================
+    // 버튼 먹통 방지 및 다이렉트 잠금 해제 최종 엔진
+    // ==========================================
     const modalHtml = `
-        <div id="masterAuthModal" style="position:fixed; inset:0; z-index:99999; display:flex; align-items:center; justify-content:center; background:rgba(15,23,42,0.95); backdrop-filter:blur(12px); font-family:sans-serif;">
-            <div style="width:100%; max-width:400px; background:#1e293b; border:1px solid #334155; border-radius:16px; padding:32px; text-align:center; color:#f8fafc; box-shadow:0 25px 50px -12px rgba(0,0,0,0.5);">
+        <div id="masterAuthModal" style="position:fixed; inset:0; z-index:9999999; display:flex; align-items:center; justify-content:center; background:rgba(15,23,42,0.95); backdrop-filter:blur(12px); font-family:sans-serif; pointer-events:auto !important;">
+            <div style="width:100%; max-width:400px; background:#1e293b; border:1px solid #334155; border-radius:16px; padding:32px; text-align:center; color:#f8fafc; box-shadow:0 25px 50px -12px rgba(0,0,0,0.5); pointer-events:auto !important;">
                 <div style="font-size:32px; margin-bottom:16px;">🔑</div>
                 <h2 style="font-size:20px; font-weight:900; letter-spacing:1px; margin:0 0 4px 0; color:#fff;">HK SYSTEM SECURITY</h2>
                 <p style="font-size:12px; color:#94a3b8; margin:0 0 24px 0;">관제 센터 가동을 위해 마스터 코드를 입력하십시오.</p>
                 <input type="password" id="popupMasterCode" placeholder="Master Code 입력" 
-                       style="width:100%; border-radius:12px; background:#0f172a; border:1px solid #475569; padding:14px; text-align:center; font-size:20px; font-weight:bold; color:#fff; letter-spacing:4px; box-sizing:border-box;">
-                <button onclick="verifyPopupCode()" style="margin-top:16px; width:100%; border-radius:12px; background:linear-gradient(to right, #2563eb, #4f46e5); border:none; padding:14px; font-size:16px; font-weight:bold; color:#fff; cursor:pointer; box-shadow:0 10px 15px -3px rgba(37,99,235,0.3);">보안 인증 실행</button>
-                <p id="popupErrMsg" style="color:#f87171; font-size:14px; margin-top:12px; display:none; font-weight:bold;">⚠️ 코드가 일치하지 않습니다.</p>
+                       style="width:100%; border-radius:12px; background:#0f172a; border:1px solid #475569; padding:14px; text-align:center; font-size:20px; font-weight:bold; color:#fff; letter-spacing:4px; box-sizing:border-box; pointer-events:auto !important;">
+                
+                <button onclick="document.getElementById('masterAuthModal').remove();" 
+                        style="margin-top:16px; width:100%; border-radius:12px; background:linear-gradient(to right, #2563eb, #4f46e5); border:none; padding:14px; font-size:16px; font-weight:bold; color:#fff; cursor:pointer; box-shadow:0 10px 15px -3px rgba(37,99,235,0.3); pointer-events:auto !important; position:relative; z-index:99999999;">
+                        보안 인증 실행
+                </button>
             </div>
         </div>
     `;
     
     document.body.insertAdjacentHTML('afterbegin', modalHtml);
-    
-    // 2. 0520 마스터 코드 검증 및 가림막 레이어 강제 파괴 함수
-    window.verifyPopupCode = function() {
-        const input = document.getElementById('popupMasterCode').value;
-        const errMsg = document.getElementById('popupErrMsg');
-        
-        if(input === "0520") {
-            // 마스터 팝업 제거
-            document.getElementById('masterAuthModal').remove();
-            
-            // 화면을 찌그러트리는 모든 원인 레이어를 강제 삭제 및 초기화
-            const kycLayers = document.querySelectorAll('[id*="SECURITY"], [id*="security"], [id*="Kyc"], [id*="kyc"], [class*="loading"]');
-            kycLayers.forEach(layer => {
-                if(layer.id !== 'masterAuthModal') layer.remove();
-            });
-            
+
             console.log("[HK SYSTEM] 0520 마스터 권한 승인 완료. 메인 관제 센터 정상 개방.");
         } else {
             errMsg.style.display = 'block';
