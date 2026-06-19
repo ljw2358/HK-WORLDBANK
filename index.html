@@ -68,7 +68,6 @@
             border-radius: 10px;
             font-size: 16px;
             cursor: pointer;
-            max-width: 180px;
         }
 
         /* Node Power Section */
@@ -150,6 +149,7 @@
             width: 100%;
             transition: background 0.2s;
             box-shadow: 0 4px 10px rgba(243, 180, 19, 0.2);
+            margin-bottom: 12px;
         }
 
         .btn:hover {
@@ -164,11 +164,11 @@
             border-radius: 16px;
             padding: 24px;
             margin-bottom: 28px;
-            animation: fadeIn 0.5s ease-in-out forwards;
+            animation: fadeIn 0.3s ease-in-out forwards;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
+            from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
@@ -346,7 +346,6 @@
             padding-bottom: 16px;
         }
 
-        /* RTL Layout for Arabic Script */
         .rtl { direction: rtl; text-align: right; }
         .rtl .section-title { border-left: none; border-right: 6px solid var(--accent-color); padding-right: 12px; }
         .rtl .node-status-box, .rtl .dashboard-box { text-align: right; }
@@ -354,7 +353,6 @@
 </head>
 <body>
 
-    <!-- Security & Privacy Modal -->
     <div id="securityModal" class="modal-overlay">
         <div class="modal-box" id="modalBox">
             <div class="modal-title" id="modalTitle">🛡️ 보안 및 개인정보 처리방침</div>
@@ -369,66 +367,17 @@
         </div>
     </div>
 
-    <!-- Main Container -->
     <div class="app-container" id="appContainer">
         <header>
             <div class="logo">🌐 HK WorldBank</div>
             <select class="lang-select" id="langSelect" onchange="changeLanguage()">
-                <!-- 50개국 글로벌 대표 언어 인프라 레이어 맵핑 -->
                 <option value="ko">한국어</option>
-                <option value="uk">Українська (우크라이나)</option>
-                <option value="ar">العربية (팔레스타인)</option>
-                <option value="en">English (US)</option>
-                <option value="zh">🚀 中文 (简体)</option>
-                <option value="ja">日本語</option>
-                <option value="de">Deutsch</option>
-                <option value="fr">Français</option>
-                <option value="es">Español</option>
-                <option value="vi">Tiếng Việt</option>
-                <option value="th">ไทย</option>
-                <option value="id">Bahasa Indonesia</option>
-                <option value="tl">Tagalog</option>
-                <option value="ru">Русский</option>
-                <option value="it">Italiano</option>
-                <option value="tr">Türkçe</option>
-                <option value="pt">Português</option>
-                <option value="hi">हिन्दी</option>
-                <option value="bn">বাংলা</option>
-                <option value="pa">ਪੰਜਾਬੀ</option>
-                <option value="ms">Bahasa Melayu</option>
-                <option value="fa">فارسی</option>
-                <option value="ur">اردو</option>
-                <option value="nl">Nederlands</option>
-                <option value="pl">Polski</option>
-                <option value="sv">Svenska</option>
-                <option value="no">Norsk</option>
-                <option value="fi">Suomi</option>
-                <option value="da">Dansk</option>
-                <option value="cs">Čeština</option>
-                <option value="hu">Magyar</option>
-                <option value="ro">Română</option>
-                <option value="el">Ελληνικά</option>
-                <option value="he">עברית</option>
-                <option value="uk">Українська</option>
-                <option value="bg">Български</option>
-                <option value="sr">Српски</option>
-                <option value="hr">Hrvatski</option>
-                <option value="sk">Slovenčina</option>
-                <option value="sl">Slovenščina</option>
-                <option value="et">Eesti</option>
-                <option value="lv">Latviešu</option>
-                <option value="lt">Lietuvių</option>
-                <option value="sw">Kiswahili</option>
-                <option value="am">አማርኛ</option>
-                <option value="yo">Yorùbá</option>
-                <option value="zu">isiZulu</option>
-                <option value="ta">தமிழ்</option>
-                <option value="te">తెలుగు</option>
-                <option value="kn">ಕನ್ನಡ</option>
+                <option value="uk">Українська (우크라이나어)</option>
+                <option value="ar">العربية (팔레스타인 아랍어)</option>
+                <option value="en">English</option>
             </select>
         </header>
 
-        <!-- Master Nodes Status Section -->
         <div class="node-status-box">
             <div class="node-main-title" id="nodeMainTitle">⚡ HK 메인 검증 노드 실시간 상태</div>
             <div class="node-flex">
@@ -443,14 +392,12 @@
             </div>
         </div>
 
-        <!-- Reservoir Wallet Section -->
         <div class="reservoir-box">
             <div class="reservoir-title" id="resTitle">금융 허브 원천</div>
             <div class="reservoir-status" id="resStatus">저수지 지갑 연결 대기 중</div>
             <button class="btn" id="connectBtn" onclick="connectReservoir()">저수지 지갑 연결하기</button>
         </div>
 
-        <!-- Asset Dashboard (Revealed after wallet connection) -->
         <div class="dashboard-box" id="dashboardBox">
             <div class="dash-title" id="dashTitle">📊 실시간 자산 대시보드</div>
             <div class="dash-row">
@@ -465,10 +412,11 @@
                 <label class="input-label" id="lblStakeAmount">스테이킹 자산 설정</label>
                 <input type="number" class="staking-input" placeholder="0.00" id="stakeInput">
                 <button class="btn" style="background-color: var(--success-color); color: white;" id="btnSubmitStaking" onclick="submitStaking()">스테이킹 실행하기</button>
+                
+                <button class="btn" style="background-color: var(--accent-color); color: black; margin-top: 12px;" id="btnGoMain" onclick="goToMainMenu()">🏠 처음 메인으로 가기</button>
             </div>
         </div>
 
-        <!-- Compound Interest Banner -->
         <div class="interest-box">
             <div class="interest-info">
                 <p id="intLabel">매일 자동 복리 시스템</p>
@@ -477,13 +425,11 @@
             <div class="clock-badge" id="botName">AGI 삐니</div>
         </div>
 
-        <!-- FAQ Rollback Section -->
         <div class="section-title" id="faqSectionTitle">자주 묻는 질문 (FAQ 20선)</div>
         <div class="faq-container" id="faqContainer"></div>
     </div>
 
     <script>
-        // Dictionary mapping for core strategic languages (Extensible blueprint for 50 languages)
         const languages = {
             ko: {
                 modalTitle: "🛡️ 보안 및 개인정보 처리방침",
@@ -493,7 +439,7 @@
                 n1: "마스터 노드 #01", n2: "마스터 노드 #02", nodeState: "CONNECTED 100%",
                 resTitle: "금융 허브 원천", resStatus: "저수지 지갑 연결 대기 중", resConnected: "✅ 저수지 지갑 연결 성공", connectBtn: "저수지 지갑 연결하기",
                 dashTitle: "📊 실시간 자산 대시보드", lblDeposit: "총 예치 자산 (Pi)", lblInterest: "누적 복리 이자", lblStakeAmount: "스테이킹 자산 설정",
-                btnSubmitStaking: "스테이킹 실행하기", successStaking: "🎉 스테이킹이 완료되었습니다. 내일 오전 8시에 첫 복리 이자가 적립됩니다!",
+                btnSubmitStaking: "스테이킹 실행하기", btnGoMain: "🏠 처음 메인으로 가기", successStaking: "🎉 스테이킹이 완료되었습니다. 내일 오전 8시에 첫 복리 이자가 적립됩니다!",
                 intLabel: "매일 자동 복리 시스템", intTime: "오전 08:00 지급", faqTitle: "자주 묻는 질문 (FAQ 20선)",
                 faqs: [
                     { q: "Q1. 저수지 지갑과의 연결은 안전한가요?", a: "네, HK WorldBank의 저수지 지갑은 다중 서명 스마트 계약을 통해 완벽한 자본 안전성을 보장합니다." },
@@ -503,55 +449,32 @@
                 ]
             },
             uk: {
-                modalTitle: "🛡️ Політика безпеки та конфіденційності",
-                modalText: "<p><strong>[Угода про фінансову безпеку HK WorldBank]</strong></p><p>Ця платформа використовує систему підключення гаманця-резервуара для захисту активів. Всі дані зашифровані.</p><p>1. Перевірка дозволів гаманця для щоденного нарахування складних відсотків о 08:00.<br>2. Суворий захист конфіденційності та шифрування активів.</p>",
-                modalBtn: "Погодитися та розпочати",
-                nodeTitle: "⚡ Статус головних вузлів валідатора HK",
-                n1: "Мастер-нода #01", n2: "Мастер-нода #02", nodeState: "CONNECTED 100%",
-                resTitle: "Джерело фінансового хабу", resStatus: "Очікування підключення гаманця-резервуара", resConnected: "✅ Гаманець-резервуар підключено", connectBtn: "Підключити гаманець-резервуар",
-                dashTitle: "📊 Панель активів у реальному часі", lblDeposit: "Загальний депозит (Pi)", lblInterest: "Накопичені складні відсотки", lblStakeAmount: "Налаштування стейкінгу",
-                btnSubmitStaking: "Запустити стейкінг", successStaking: "🎉 Стейкінг виконано успішно. Перші складні відсотки надійдуть завтра о 8:00 ранку!",
-                intLabel: "Щоденна система складних відсотків", intTime: "Виплата о 08:00 ранку", faqTitle: "Часті питання (FAQ 20)",
-                faqs: [
-                    { q: "Q1. Чи безпечно підключатися до гаманця-резервуара?", a: "Так, гаманець-резервуар HK WorldBank гарантує повну безпеку капіталу за допомогою смарт-контрактів із мультипідписом." },
-                    { q: "Q2. Коли виплачуються складні відсотки?", a: "AGI Бінні автоматично розраховує та виплачує складні відсотки щодня рівно о 08:00 ранку." }
-                ]
+                modalTitle: "🛡️ Політика безпеки", modalText: "<p>Угода про безпеку HK WorldBank.</p>", modalBtn: "Погодитися",
+                nodeTitle: "⚡ Статус вузлів валідатора HK", n1: "Мастер-нода #01", n2: "Мастер-нода #02", nodeState: "CONNECTED 100%",
+                resTitle: "Джерело хабу", resStatus: "Очікування", resConnected: "✅ Підключено успішно", connectBtn: "Підключити гаманець",
+                dashTitle: "📊 Панель активів", lblDeposit: "Депозит (Pi)", lblInterest: "Складні відсотки", lblStakeAmount: "Налаштування",
+                btnSubmitStaking: "Запустити стейкінг", btnGoMain: "🏠 На головну", successStaking: "🎉 Стейкінг виконано!", intLabel: "Складні відсотки", intTime: "08:00",
+                faqTitle: "Часті питання", faqs: [{ q: "Q1. Безпечно?", a: "Так, абсолютно." }]
             },
             ar: {
-                modalTitle: "🛡️ سياسة الخصوصية والأمان",
-                modalText: "<p><strong>[اتفاقية الأمن المالي لـ HK WorldBank]</strong></p><p>تعتمد هذه المنصة نظام ربط محفظة الخزان لحماية الأصول بالكامل. جميع البيانات مشفرة وآمنة.</p><p>1. التحقق من صلاحيات المحفظة لتوزيع الفوائد المركبة اليومية الساعة 08:00 صباحًا.<br>2. حماية صارمة للخصوصية وتشفير معتمد للأصول.</p>",
-                modalBtn: "الموافقة وبدء الاتصال",
-                nodeTitle: "⚡ حالة عقد التحقق الرئيسية لـ HK المباشرة",
-                n1: "العقدة الرئيسية #01", n2: "العقدة الرئيسية #02", nodeState: "CONNECTED 100%",
-                resTitle: "مصدر المركز المالي", resStatus: "في انتظار ربط محفظة الخزان", resConnected: "✅ تم ربط محفظة الخزان بنجاح", connectBtn: "ربط محفظة الخزان",
-                dashTitle: "📊 لوحة التحكم بالأصول المباشرة", lblDeposit: "إجمالي الأصول المودعة (Pi)", lblInterest: "الفوائد المركبة المتراكمة", lblStakeAmount: "إعداد أصول التحصيص",
-                btnSubmitStaking: "تنفيذ التحصيص الفوري", successStaking: "🎉 تم تنفيذ التحصيص بنجاح. سيتم إضافة الفائدة المركبة الأولى غدًا في الثامنة صباحًا!",
-                intLabel: "نظام الفائدة المركبة التلقائي اليومي", intTime: "التوزيع 08:00 صباحًا", faqTitle: "الأسئلة الشائعة (قائمة الـ 20)",
-                faqs: [
-                    { q: "س1. هل الربط بمحفظة الخزان آمن؟", a: "نعم، تضمن محفظة الخزان الخاصة بـ HK WorldBank أمانًا مطلقًا لرأس المال من خلال العقود الذكية متعددة التوقيع." },
-                    { q: "س2. متى يتم دفع الفائدة المركبة؟", a: "يقوم نظام الذكاء الاصطناعي العام (AGI بيني) بحساب وتوزيع الفوائد المركبة تلقائيًا كل يوم الساعة 08:00 صباحًا." }
-                ]
+                modalTitle: "🛡️ سياسة الأمان", modalText: "<p>اتفاقية الأمن المالي لـ HK WorldBank.</p>", modalBtn: "الموافقة",
+                nodeTitle: "⚡ حالة عقد التحقق الرئيسية لـ HK", n1: "العقدة الرئيسية #01", n2: "العقدة الرئيسية #02", nodeState: "CONNECTED 100%",
+                resTitle: "مصدر المركز", resStatus: "في الانتظار", resConnected: "✅ تم ربط محفظة الخزان", connectBtn: "ربط المحفظة",
+                dashTitle: "📊 لوحة الأصول المباشرة", lblDeposit: "إجمالي الإيداع (Pi)", lblInterest: "الفوائد المتراكمة", lblStakeAmount: "إعداد التحصيص",
+                btnSubmitStaking: "تنفيذ التحصيص", btnGoMain: "🏠 العودة للرئيسية", successStaking: "🎉 تم بنجاح!", intLabel: "الفائدة المركبة", intTime: "08:00 صباحًا",
+                faqTitle: "الأسئلة الشائعة", faqs: [{ q: "س1. هل هو آمن؟", a: "نعم، آمن للغاية." }]
             },
             en: {
-                modalTitle: "🛡️ Privacy & Security Policy",
-                modalText: "<p><strong>[HK WorldBank Global Financial Security Agreement]</strong></p><p>This platform adopts the Reservoir Wallet integration method for asset protection.</p>",
-                modalBtn: "Agree and Connect",
-                nodeTitle: "⚡ HK Main Validator Nodes Live Status",
-                n1: "Master Node #01", n2: "Master Node #02", nodeState: "CONNECTED 100%",
-                resTitle: "Financial Hub Source", resStatus: "Awaiting Reservoir Wallet Connection", resConnected: "✅ Reservoir Wallet Connected", connectBtn: "Connect Reservoir Wallet",
-                dashTitle: "📊 Real-Time Asset Dashboard", lblDeposit: "Total Deposited Asset (Pi)", lblInterest: "Accumulated Compound Interest", lblStakeAmount: "Set Staking Amount",
-                btnSubmitStaking: "Execute Staking", successStaking: "🎉 Staking executed. First compound interest will be credited tomorrow at 08:00 AM!",
-                intLabel: "Daily Auto Compound System", intTime: "Payout 08:00 AM", faqTitle: "Frequently Asked Questions (FAQ 20)",
-                faqs: [
-                    { q: "Q1. Is connecting to the Reservoir Wallet safe?", a: "Yes, HK WorldBank's Reservoir Wallet guarantees absolute capital security." },
-                    { q: "Q2. When is the compound interest paid?", a: "AGI Binni automatically calculates and pays compound interest every day at exactly 08:00 AM." }
-                ]
+                modalTitle: "🛡️ Security Policy", modalText: "<p>HK WorldBank Agreement.</p>", modalBtn: "Agree",
+                nodeTitle: "⚡ HK Validator Nodes Live Status", n1: "Master Node #01", n2: "Master Node #02", nodeState: "CONNECTED 100%",
+                resTitle: "Financial Hub Source", resStatus: "Awaiting", resConnected: "✅ Reservoir Wallet Connected", connectBtn: "Connect Wallet",
+                dashTitle: "📊 Real-Time Asset Dashboard", lblDeposit: "Total Deposit (Pi)", lblInterest: "Accumulated Compound Interest", lblStakeAmount: "Set Amount",
+                btnSubmitStaking: "Execute Staking", btnGoMain: "🏠 Back to Main", successStaking: "🎉 Staking executed!", intLabel: "Daily Compound System", intTime: "08:00 AM",
+                faqTitle: "FAQ", faqs: [{ q: "Q1. Is it safe?", a: "Yes, secure." }]
             }
         };
 
-        function acceptSecurity() {
-            document.getElementById('securityModal').style.display = 'none';
-        }
+        function acceptSecurity() { document.getElementById('securityModal').style.display = 'none'; }
 
         function connectReservoir() {
             const currentLang = document.getElementById('langSelect').value;
@@ -574,45 +497,59 @@
             }
         }
 
+        // 🔄 핵심: '처음부터 다시 메인으로' 강제 복귀 함수 구현 완료
+        function goToMainMenu() {
+            const currentLang = document.getElementById('langSelect').value;
+            const data = languages[currentLang] || languages['en'];
+            
+            // 1. 자산 데이터 및 입력창 공백 리셋
+            document.getElementById('stakeInput').value = '';
+            document.getElementById('valDeposit').innerText = '0.00 Pi';
+            
+            // 2. 지갑 연결 상태 초기화
+            document.getElementById('resStatus').innerText = data.resStatus;
+            document.getElementById('resStatus').style.color = "var(--accent-color)";
+            
+            // 3. 대시보드 화면 감추고 최상단으로 강제 스크롤 이동
+            document.getElementById('dashboardBox').style.display = 'none';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
         function changeLanguage() {
             const lang = document.getElementById('langSelect').value;
-            const data = languages[lang] || languages['ko']; // 기본값 한국어 설정
+            const data = languages[lang] || languages['ko'];
             const appContainer = document.getElementById('appContainer');
             const modalBox = document.getElementById('modalBox');
 
-            // 아랍어(팔레스타인) 선택 시 실시간 RTL 그리드 레이아웃 전환
-            if (lang === 'ar') {
-                appContainer.classList.add('rtl');
-                modalBox.classList.add('rtl');
-            } else {
-                appContainer.classList.remove('rtl');
-                modalBox.classList.remove('rtl');
-            }
+            if (lang === 'ar') { appContainer.classList.add('rtl'); modalBox.classList.add('rtl'); } 
+            else { appContainer.classList.remove('rtl'); modalBox.classList.remove('rtl'); }
 
-            document.getElementById('modalTitle').innerText = data.modalTitle || languages['en'].modalTitle;
-            document.getElementById('modalContent').innerHTML = data.modalText || languages['en'].modalText;
-            document.getElementById('modalBtn').innerText = data.modalBtn || languages['en'].modalBtn;
-            document.getElementById('nodeMainTitle').innerText = data.nodeTitle || languages['en'].nodeTitle;
-            document.getElementById('node1Name').innerText = data.n1 || languages['en'].n1;
-            document.getElementById('node2Name').innerText = data.n2 || languages['en'].n2;
-            document.getElementById('node1Status').innerText = data.nodeState || languages['en'].nodeState;
-            document.getElementById('node2Status').innerText = data.nodeState || languages['en'].nodeState;
-            document.getElementById('resTitle').innerText = data.resTitle || languages['en'].resTitle;
+            document.getElementById('modalTitle').innerText = data.modalTitle;
+            document.getElementById('modalContent').innerHTML = data.modalText;
+            document.getElementById('modalBtn').innerText = data.modalBtn;
+            document.getElementById('nodeMainTitle').innerText = data.nodeTitle;
+            document.getElementById('node1Name').innerText = data.n1;
+            document.getElementById('node2Name').innerText = data.n2;
+            document.getElementById('node1Status').innerText = data.nodeState;
+            document.getElementById('node2Status').innerText = data.nodeState;
+            document.getElementById('resTitle').innerText = data.resTitle;
             
             if(document.getElementById('resStatus').innerText.includes('✅')) {
-                document.getElementById('resStatus').innerText = data.resConnected || languages['en'].resConnected;
+                document.getElementById('resStatus').innerText = data.resConnected;
             } else {
-                document.getElementById('resStatus').innerText = data.resStatus || languages['en'].resStatus;
+                document.getElementById('resStatus').innerText = data.resStatus;
             }
-            document.getElementById('connectBtn').innerText = data.connectBtn || languages['en'].connectBtn;
-            document.getElementById('dashTitle').innerText = data.dashTitle || languages['en'].dashTitle;
-            document.getElementById('lblDeposit').innerText = data.lblDeposit || languages['en'].lblDeposit;
-            document.getElementById('lblInterest').innerText = data.lblInterest || languages['en'].lblInterest;
-            document.getElementById('lblStakeAmount').innerText = data.lblStakeAmount || languages['en'].lblStakeAmount;
-            document.getElementById('btnSubmitStaking').innerText = data.btnSubmitStaking || languages['en'].btnSubmitStaking;
-            document.getElementById('intLabel').innerText = data.intLabel || languages['en'].intLabel;
-            document.getElementById('intTime').innerText = data.intTime || languages['en'].intTime;
-            document.getElementById('faqSectionTitle').innerText = data.faqTitle || languages['en'].faqTitle;
+            document.getElementById('connectBtn').innerText = data.connectBtn;
+            document.getElementById('dashTitle').innerText = data.dashTitle;
+            document.getElementById('lblDeposit').innerText = data.lblDeposit;
+            document.getElementById('lblInterest').innerText = data.lblInterest;
+            document.getElementById('lblStakeAmount').innerText = data.lblStakeAmount;
+            document.getElementById('btnSubmitStaking').innerText = data.btnSubmitStaking;
+            document.getElementById('btnGoMain').innerText = data.btnGoMain; // 처음 메인으로 번역 레이어
+            
+            document.getElementById('intLabel').innerText = data.intLabel;
+            document.getElementById('intTime').innerText = data.intTime;
+            document.getElementById('faqSectionTitle').innerText = data.faqTitle;
 
             const faqContainer = document.getElementById('faqContainer');
             faqContainer.innerHTML = '';
@@ -635,7 +572,6 @@
                 faqContainer.appendChild(faqItem);
             });
         }
-        // 초기 로드 실행
         changeLanguage();
     </script>
 </body>
