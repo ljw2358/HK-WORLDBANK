@@ -3,308 +3,251 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HK WorldBank 글로벌 플랫폼</title>
+    <title>HK WORLD BANK</title>
+    <!-- Tailwind CSS 스타일 빌드 -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- FontAwesome 아이콘팩 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body {
-            background-color: #080610;
+            background-color: #000000;
             color: #ffffff;
             font-family: 'Noto Sans KR', sans-serif;
-            overflow-x: hidden;
+            -webkit-user-select: none;
+            user-select: none;
         }
-        html { font-size: 14px; }
-        @media (min-width: 1024px) { html { font-size: 20px; } }
-        
-        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #362963; border-radius: 4px; }
-        .modal-bg { background-color: rgba(8, 6, 16, 0.9); }
+        .neon-border-green {
+            border: 3px solid #10b981;
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.2);
+        }
+        .bbini-btn {
+            background-color: #ff00ff;
+            box-shadow: 0 0 20px rgba(255, 0, 255, 0.6);
+        }
+        .modal-bg {
+            background-color: rgba(0, 0, 0, 0.9);
+        }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #333; border-radius: 2px; }
     </style>
 </head>
-<body>
+<body class="p-4 min-h-screen flex flex-col justify-between max-w-md mx-auto relative pb-24">
 
-    <div class="flex flex-col lg:flex-row h-screen overflow-hidden">
+    <!-- [1] 상단 타이틀 영역 (클릭하면 50개국어 자동 스위칭 인터페이스 가동) -->
+    <header onclick="toggleLanguage()" class="text-center pt-6 space-y-1 cursor-pointer active:opacity-80">
+        <h1 id="title-main-1" class="text-4xl font-black tracking-wider text-amber-400">HK WORLD</h1>
+        <h1 id="title-main-2" class="text-4xl font-black tracking-wider text-amber-400">BANK</h1>
+        <p id="title-sub" class="text-xl font-bold text-cyan-400 tracking-tight pt-1">통합 자산 관리 시스템</p>
+        <p class="text-[10px] text-gray-600 font-bold tracking-widest uppercase">🌐 터치하여 언어 전환 (총 50개국어 지원)</p>
+    </header>
+
+    <!-- [2] 메인 자산 현황판 섹션 -->
+    <main class="mt-6 space-y-5">
         
-        <!-- [1] 좌측 메인 내비게이션 -->
-        <aside class="w-full lg:w-80 bg-[#120e24] border-b-2 lg:border-b-0 lg:border-r-2 border-[#362963] flex flex-col justify-between overflow-y-auto custom-scrollbar max-h-52 lg:max-h-screen">
-            <div>
-                <div class="h-20 lg:h-28 flex items-center px-6 border-b-2 border-[#362963] bg-[#191333] sticky top-0 z-20">
-                    <div class="relative mr-4 flex items-center justify-center scale-110 lg:scale-125">
-                        <i class="fa-solid fa-earth-americas text-3xl lg:text-4xl text-[#3ba3ec] z-10"></i>
-                    </div>
-                    <div class="flex flex-col">
-                        <span class="text-2xl lg:text-3xl font-black tracking-wider text-[#1ea1f2]">HK</span>
-                        <span class="text-base lg:text-lg font-bold text-white tracking-tight">WorldBank</span>
-                    </div>
-                </div>
-                
-                <nav class="p-3 lg:p-4 space-y-1">
-                    <div class="text-[10px] lg:text-xs font-bold text-purple-300 px-4 uppercase tracking-wider mb-1">계정 현황</div>
-                    <a href="#" onclick="showTab('dashboard')" class="flex items-center justify-between px-4 py-2.5 bg-purple-500/20 text-white rounded-xl font-bold border-2 border-purple-500/40 text-lg lg:text-xl">
-                        <div class="flex items-center space-x-3">
-                            <i class="fa-solid fa-chart-pie text-xl lg:text-2xl text-purple-300"></i>
-                            <span>종합 대시보드</span>
-                        </div>
-                    </a>
-                    <a href="#" onclick="showTab('workflow')" class="flex items-center justify-between px-4 py-2.5 text-gray-200 hover:bg-[#1f183a] rounded-xl font-bold text-lg lg:text-xl transition mt-1">
-                        <div class="flex items-center space-x-3">
-                            <i class="fa-solid fa-diagram-project text-xl lg:text-2xl text-amber-400"></i>
-                            <span>업무 흐름도</span>
-                        </div>
-                    </a>
-
-                    <div class="pt-3 lg:pt-5 text-[10px] lg:text-xs font-bold text-purple-300 px-4 uppercase tracking-wider mb-1">뱅킹 서비스</div>
-                    <div class="grid grid-cols-3 lg:grid-cols-1 gap-1 lg:gap-0 lg:space-y-1">
-                        <button onclick="openModal('send')" class="flex items-center justify-center lg:justify-start lg:space-x-3 px-2 lg:px-4 py-2 text-gray-200 hover:bg-[#1f183a] rounded-xl font-bold text-base lg:text-xl transition border border-[#362963] lg:border-0 w-full text-left">
-                            <i class="fa-solid fa-paper-plane text-lg lg:text-2xl text-purple-400 mr-1.5 lg:mr-0"></i> <span>송금</span>
-                        </button>
-                        <button onclick="openModal('pay')" class="flex items-center justify-center lg:justify-start lg:space-x-3 px-2 lg:px-4 py-2 text-gray-200 hover:bg-[#1f183a] rounded-xl font-bold text-base lg:text-xl transition border border-[#362963] lg:border-0 w-full text-left">
-                            <i class="fa-solid fa-credit-card text-lg lg:text-2xl text-purple-400 mr-1.5 lg:mr-0"></i> <span>결제</span>
-                        </button>
-                        <button onclick="openModal('dep')" class="flex items-center justify-center lg:justify-start lg:space-x-3 px-2 lg:px-4 py-2 text-gray-200 hover:bg-[#1f183a] rounded-xl font-bold text-base lg:text-xl transition border border-[#362963] lg:border-0 w-full text-left">
-                            <i class="fa-solid fa-piggy-bank text-lg lg:text-2xl text-purple-400 mr-1.5 lg:mr-0"></i> <span>예치</span>
-                        </button>
-                    </div>
-
-                    <div class="pt-3 lg:pt-5 text-[10px] lg:text-xs font-bold text-purple-300 px-4 uppercase tracking-wider mb-1">투자 및 스왑</div>
-                    <div class="grid grid-cols-4 lg:grid-cols-1 gap-1 lg:gap-0 lg:space-y-1">
-                        <button onclick="openModal('swap')" class="flex flex-col lg:flex-row items-center lg:justify-start lg:space-x-3 py-2 text-gray-200 hover:bg-[#1f183a] rounded-xl font-bold text-sm lg:text-xl transition border border-[#362963] lg:border-0 w-full">
-                            <i class="fa-solid fa-arrows-rotate text-base lg:text-2xl text-purple-400 mb-0.5 lg:mb-0"></i> <span>스왑</span>
-                        </button>
-                        <button onclick="openModal('dex')" class="flex flex-col lg:flex-row items-center lg:justify-start lg:space-x-3 py-2 text-gray-200 hover:bg-[#1f183a] rounded-xl font-bold text-sm lg:text-xl transition border border-[#362963] lg:border-0 w-full">
-                            <i class="fa-solid fa-shuffle text-base lg:text-2xl text-purple-400 mb-0.5 lg:mb-0"></i> <span>DEX스왑</span>
-                        </button>
-                        <button onclick="openModal('lp')" class="flex flex-col lg:flex-row items-center lg:justify-start lg:space-x-3 py-2 text-gray-200 hover:bg-[#1f183a] rounded-xl font-bold text-sm lg:text-xl transition border border-[#362963] lg:border-0 w-full">
-                            <i class="fa-solid fa-layer-group text-base lg:text-2xl text-purple-400 mb-0.5 lg:mb-0"></i> <span>LP</span>
-                        </button>
-                        <button onclick="openModal('stake')" class="flex flex-col lg:flex-row items-center lg:justify-start lg:space-x-3 py-2 text-gray-200 hover:bg-[#1f183a] rounded-xl font-bold text-sm lg:text-xl transition border border-[#362963] lg:border-0 w-full">
-                            <i class="fa-solid fa-vault text-base lg:text-2xl text-purple-400 mb-0.5 lg:mb-0"></i> <span>스테이킹</span>
-                        </button>
-                    </div>
-
-                    <div class="pt-3 lg:pt-5 text-[10px] lg:text-xs font-bold text-purple-300 px-4 uppercase tracking-wider mb-1">재단 운영</div>
-                    <div class="grid grid-cols-2 gap-1 lg:gap-0 lg:space-y-1">
-                        <button onclick="openModal('reward')" class="flex items-center justify-center lg:justify-start lg:space-x-3 px-4 py-2 text-gray-200 hover:bg-[#1f183a] rounded-xl font-bold text-base lg:text-xl transition border border-[#362963] lg:border-0 w-full text-left">
-                            <i class="fa-solid fa-gifts text-xl lg:text-2xl text-purple-400 mr-2 lg:mr-0"></i> <span>보상</span>
-                        </button>
-                        <button onclick="openModal('ubi')" class="flex items-center justify-center lg:justify-start lg:space-x-3 px-4 py-2 text-gray-200 hover:bg-[#1f183a] rounded-xl font-bold text-base lg:text-xl transition border border-[#362963] lg:border-0 w-full text-left">
-                            <i class="fa-solid fa-hand-holding-dollar text-xl lg:text-2xl text-green-400 mr-2 lg:mr-0"></i> <span>기본소득</span>
-                        </button>
-                    </div>
-                </nav>
-            </div>
-            
-            <!-- [직함 수정] 하단 혜공 의장 공식 영어 프로필 카드 -->
-            <div class="hidden lg:block p-4 border-t-2 border-[#362963] bg-[#0d0a1a] sticky bottom-0">
-                <div class="flex items-center space-x-4 px-2 py-2">
-                    <div class="w-12 h-12 bg-gradient-to-tr from-[#1ea1f2] to-[#a1df33] rounded-full flex items-center justify-center font-black text-black text-lg shadow-md">혜공</div>
-                    <div>
-                        <p class="text-lg font-black text-white tracking-wide">혜공 의장</p>
-                        <p class="text-sm text-purple-300 font-bold tracking-tight">Chairman & CEO</p>
-                    </div>
-                </div>
-            </div>
-        </aside>
-
-        <!-- [2] 우측 메인 대시보드 화면 -->
-        <div class="flex-1 flex flex-col overflow-hidden">
-            <header class="h-20 lg:h-24 bg-[#120e24] border-b-2 border-[#362963] flex items-center justify-between px-4 lg:px-8 z-10 shrink-0">
-                <div class="flex items-center space-x-2">
-                    <div class="flex items-center space-x-2 bg-[#1f183a] px-3 lg:px-5 py-1.5 lg:py-2 rounded-full border-2 border-[#362963]">
-                        <span class="w-2.5 h-2.5 bg-green-400 rounded-full animate-pulse"></span>
-                        <span class="text-xs lg:text-sm font-bold text-green-400 tracking-wider">파이 메인넷 가동 중</span>
-                    </div>
-                </div>
-                
-                <div class="flex items-center space-x-2 lg:space-x-6">
-                    <div class="flex items-center bg-[#191333] border border-[#362963] rounded-xl px-2 py-1 lg:px-3 lg:py-2">
-                        <i class="fa-solid fa-language text-xl lg:text-2xl text-purple-400 mr-1 lg:mr-2"></i>
-                        <select class="bg-transparent font-bold text-white focus:outline-none cursor-pointer text-xs lg:text-base">
-                            <option value="ko" class="bg-[#120e24]">한국어 (KO)</option>
-                            <option value="en" class="bg-[#120e24]">English (EN)</option>
-                            <option value="zh" class="bg-[#120e24]">中文 (ZH)</option>
-                            <option value="ja" class="bg-[#120e24]">日本語 (JA)</option>
-                            <option value="vi" class="bg-[#120e24]">Tiếng Việt (VI)</option>
-                            <option value="global" class="bg-[#120e24]" disabled>...포함 총 50개국어 지원</option>
-                        </select>
-                    </div>
-                    <button class="bg-gradient-to-r from-[#1ea1f2] to-[#3ba3ec] text-white font-black px-3 py-1.5 lg:px-6 lg:py-3 rounded-xl text-xs lg:text-sm tracking-wide shadow-lg">지갑 연결</button>
-                </div>
-            </header>
-
-            <main class="flex-1 overflow-y-auto p-4 lg:p-8 space-y-6 lg:space-y-8 custom-scrollbar">
-                
-                <!-- 대시보드 탭 -->
-                <div id="tab-dashboard" class="space-y-6 lg:space-y-8">
-                    <h2 class="text-xl lg:text-2xl font-black text-amber-400"><i class="fa-solid fa-vault mr-2"></i>HK WorldBank 4대 핵심 유동성 지갑</h2>
-                    
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
-                        <div class="bg-[#120e24] border-2 border-blue-500/50 p-4 lg:p-6 rounded-2xl relative shadow-xl">
-                            <div class="absolute top-0 left-0 w-full h-[4px] bg-blue-500"></div>
-                            <p class="text-xs lg:text-sm font-black text-blue-400 uppercase tracking-wider">1. 수수료 지갑</p>
-                            <p class="text-2xl lg:text-3xl font-black mt-2 lg:mt-3 text-white tracking-wide">458,120 <span class="text-base lg:text-lg font-bold text-gray-400">π</span></p>
-                        </div>
-                        <div class="bg-[#120e24] border-2 border-green-500/50 p-4 lg:p-6 rounded-2xl relative shadow-xl">
-                            <div class="absolute top-0 left-0 w-full h-[4px] bg-green-500"></div>
-                            <p class="text-xs lg:text-sm font-black text-green-400 uppercase tracking-wider">2. UBI 지갑 (기본소득)</p>
-                            <p class="text-2xl lg:text-3xl font-black mt-2 lg:mt-3 text-white tracking-wide">1,374,360 <span class="text-base lg:text-lg font-bold text-gray-400">π</span></p>
-                        </div>
-                        <div class="bg-[#120e24] border-2 border-purple-500/50 p-4 lg:p-6 rounded-2xl relative shadow-xl">
-                            <div class="absolute top-0 left-0 w-full h-[4px] bg-purple-500"></div>
-                            <p class="text-xs lg:text-sm font-black text-purple-400 uppercase tracking-wider">3. 저수지 지갑 (완충 자금)</p>
-                            <p class="text-2xl lg:text-3xl font-black mt-2 lg:mt-3 text-white tracking-wide">5,000,000 <span class="text-base lg:text-lg font-bold text-gray-400">π</span></p>
-                        </div>
-                        <div class="bg-[#120e24] border-2 border-amber-500/50 p-4 lg:p-6 rounded-2xl relative shadow-xl">
-                            <div class="absolute top-0 left-0 w-full h-[4px] bg-amber-500"></div>
-                            <p class="text-xs lg:text-sm font-black text-amber-400 uppercase tracking-wider">4. 유동성풀 지갑 (LP)</p>
-                            <p class="text-2xl lg:text-3xl font-black mt-2 lg:mt-3 text-[#a1df33] tracking-wide">9,245,150 <span class="text-base lg:text-lg font-bold text-white">π</span></p>
-                        </div>
-                    </div>
-
-                    <div class="bg-[#120e24] border-2 border-[#362963] p-4 lg:p-6 rounded-2xl">
-                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
-                            <span class="text-sm lg:text-lg font-bold text-purple-300">실시간 글로벌 마이닝 및 LP 보상 분배율</span>
-                            <div class="flex items-baseline space-x-1">
-                                <p id="reward-display" class="text-2xl lg:text-3xl font-black text-purple-300 tracking-wide">32,450.1250</p>
-                                <span class="text-xs lg:text-sm font-bold text-white">원</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 업무 흐름도 영역 -->
-                <div id="tab-workflow" class="space-y-6 hidden">
-                    <h2 class="text-xl lg:text-2xl font-black text-amber-400"><i class="fa-solid fa-diagram-project mr-2"></i>HK WorldBank 자산 및 유동성 업무 흐름도</h2>
-                    <div class="bg-[#120e24] border-2 border-[#362963] p-4 lg:p-8 rounded-2xl space-y-4">
-                        <p class="text-sm lg:text-base text-gray-300 leading-relaxed">금융 거래 발생 시 플랫폼의 유동성 방어와 사회적 기부를 충족하는 고도화된 시스템 순환 구조입니다.</p>
-                        <div class="flex flex-col items-center space-y-4 py-4 bg-[#080610] rounded-xl border border-[#362963] px-2 text-center text-xs lg:text-base">
-                            <div class="bg-gradient-to-r from-purple-600 to-indigo-600 px-4 py-2 rounded-xl font-bold text-white border border-white">🚀 사용자 금융 거래 요청 (송금, 스왑, 결제)</div>
-                            <i class="fa-solid fa-arrow-down text-purple-400 animate-bounce"></i>
-                            <div class="bg-[#1f183a] border-2 border-amber-500 text-amber-300 px-4 py-2 rounded-xl font-black">[유동성풀 지갑 (LP)] 자동 체결 계약 즉시 가동</div>
-                            <i class="fa-solid fa-arrow-down text-purple-400"></i>
-                            <div class="grid grid-cols-1 lg:grid-cols-3 gap-2 w-full">
-                                <div class="bg-[#121f38] border border-blue-500 p-2.5 rounded-xl"><div class="text-blue-400 font-bold mb-1">① 수수료 정산</div><p class="text-[11px]">[수수료 지갑] 분배</p></div>
-                                <div class="bg-[#123020] border border-green-500 p-2.5 rounded-xl"><div class="text-green-400 font-bold mb-1">② UBI 30% 축적</div><p class="text-[11px]">[UBI 지갑] 전송</p></div>
-                                <div class="bg-[#2a1338] border border-purple-500 p-2.5 rounded-xl"><div class="text-purple-400 font-bold mb-1">③ 위험 분산 방어</div><p class="text-[11px]">[저수지 지갑] 완충 자금 보존</p></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </main>
+        <!-- 대형 파이 수치 -->
+        <div class="text-center">
+            <p class="text-6xl font-black tracking-tight inline-block text-white">
+                314,159 <span class="text-3xl font-bold text-amber-400 ml-1">Pi</span>
+            </p>
         </div>
+
+        <!-- 원화 가치 네온 박스 -->
+        <div class="neon-border-green rounded-3xl p-5 text-center bg-[#050505]">
+            <span class="text-2xl font-black text-green-500 block mb-1">₩</span>
+            <span class="text-3xl font-black tracking-wide text-green-400">47,123,850,000</span>
+        </div>
+
+        <!-- HKWB 실시간 공급량 박스 -->
+        <div class="bg-[#0f1319] border border-gray-800 rounded-2xl p-4 text-center">
+            <p id="lbl-supply" class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">HKWB 실시간 공급량</p>
+            <p class="text-2xl font-black text-cyan-400 tracking-wide">6280000.5074</p>
+        </div>
+
+        <!-- 스테이킹 및 LP 수익률 2열 격자 -->
+        <div class="grid grid-cols-2 gap-4">
+            <div class="bg-[#0f1319] border border-gray-800 rounded-2xl p-4 text-center">
+                <p id="lbl-stake-rate" class="text-sm font-bold text-gray-400 mb-1">스테이킹</p>
+                <p class="text-2xl font-black text-cyan-400">17.64%</p>
+            </div>
+            <div class="bg-[#0f1319] border border-gray-800 rounded-2xl p-4 text-center">
+                <p id="lbl-lp-rate" class="text-sm font-bold text-gray-400 mb-1">LP 수익률</p>
+                <p class="text-2xl font-black" style="color: #ff00ff;">28.57%</p>
+            </div>
+        </div>
+
+        <!-- 전체 유동성 대형 네온 박스 -->
+        <div class="neon-border-green rounded-3xl p-5 text-center bg-[#050505]">
+            <p id="lbl-total-liq" class="text-sm font-black text-green-500 uppercase tracking-wider mb-1">전체 유동성 (DEX LP)</p>
+            <span class="text-3xl font-black text-white block my-1">$</span>
+            <span class="text-3xl font-black tracking-tight text-white">88,432,098,051</span>
+        </div>
+
+        <!-- 핵심 인덱스 3열 컬러 버튼 라인 -->
+        <div class="grid grid-cols-3 gap-2 pt-1">
+            <button onclick="openModal('pi')" id="btn-pi-vol" class="bg-white text-black font-black py-3 rounded-xl text-sm shadow-md transition active:scale-95">PI 수량</button>
+            <button onclick="openModal('dex_swap')" id="btn-dex-swap" class="bg-amber-400 text-black font-black py-3 rounded-xl text-sm shadow-md transition active:scale-95">DEX 스왑</button>
+            <button onclick="openModal('lp_stake')" id="btn-lp-stake" class="bg-green-500 text-black font-black py-3 rounded-xl text-sm shadow-md transition active:scale-95">LP 스테이킹</button>
+        </div>
+
+        <!-- 6대 뱅킹 및 재단 운영 격자 버튼 메뉴 -->
+        <div class="grid grid-cols-3 gap-2">
+            <button onclick="openModal('send')" id="btn-m-send" class="bg-[#1c1c1e] text-white font-bold py-4 rounded-2xl text-base flex flex-col items-center justify-center transition active:scale-95">🚀 송금</button>
+            <button onclick="openModal('pay')" id="btn-m-pay" class="bg-[#1c1c1e] text-white font-bold py-4 rounded-2xl text-base flex flex-col items-center justify-center transition active:scale-95">🛒 결제</button>
+            <button onclick="openModal('dep')" id="btn-m-dep" class="bg-[#1c1c1e] text-white font-bold py-4 rounded-2xl text-base flex flex-col items-center justify-center transition active:scale-95">💰 예치</button>
+            <button onclick="openModal('reward')" id="btn-m-reward" class="bg-[#1c1c1e] text-white font-bold py-4 rounded-2xl text-base flex flex-col items-center justify-center transition active:scale-95">🏆 보상</button>
+            <button onclick="openModal('ubi')" id="btn-m-ubi" class="bg-[#1c1c1e] text-white font-bold py-4 rounded-2xl text-base flex flex-col items-center justify-center transition active:scale-95">🏛️ 기본소득</button>
+            <button onclick="openModal('swap')" id="btn-m-swap" class="bg-[#1c1c1e] text-white font-bold py-4 rounded-2xl text-base flex flex-col items-center justify-center transition active:scale-95">🔄 스왑</button>
+        </div>
+
+        <!-- 하단 대형 와이드 배너형 버튼 및 링크 연동 라인 -->
+        <div class="space-y-3 pt-1">
+            <button onclick="openModal('ai_center')" id="btn-m-faq" class="w-full bg-[#e91e63] text-white font-black py-4 rounded-2xl text-lg tracking-wide shadow-md transition active:scale-95">
+                글로벌 AI 지원센터 (FAQ 20선)
+            </button>
+            <button onclick="openModal('vision')" id="btn-m-vision" class="w-full bg-[#1f293d] text-white font-black py-4 rounded-2xl text-lg tracking-wide shadow-md transition active:scale-95">
+                HK 사회 재단 비전
+            </button>
+            
+            <div class="grid grid-cols-2 gap-3">
+                <a href="https://youtube.com/@Hyekong2025" target="_blank" class="bg-red-600 text-white font-black py-4 rounded-2xl text-center text-lg shadow-md block transition active:scale-95">YouTube</a>
+                <a href="https://tiktok.com/@Hyekong2025" target="_blank" class="bg-[#111111] border border-gray-800 text-white font-black py-4 rounded-2xl text-center text-lg shadow-md block transition active:scale-95">TikTok</a>
+            </div>
+        </div>
+    </main>
+
+    <!-- [3] 최하단 공식 고객지원 주소 -->
+    <footer class="text-center pt-6 pb-2">
+        <a href="mailto:support@hkwb.world" class="text-cyan-400 font-black text-xl tracking-wide">support@hkwb.world</a>
+    </footer>
+
+    <!-- ================= 우측 하단 고정 상징: 삐니 AGI 챗봇 링크 모듈 ================= -->
+    <div class="fixed bottom-6 right-6 z-50">
+        <button onclick="openChatbot()" class="bbini-btn text-white w-16 h-16 rounded-full flex items-center justify-center shadow-2xl border-2 border-white font-black text-base tracking-tighter transition active:scale-90">
+            삐니
+        </button>
     </div>
 
-    <!-- 금융 팝업 모달 -->
-    <div id="financial-modal" class="modal-bg fixed inset-0 z-50 hidden items-center justify-center p-4">
-        <div class="bg-[#191333] border-2 border-[#503d8f] w-full max-w-lg rounded-2xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh]">
-            <div class="bg-[#211a42] p-4 flex justify-between items-center border-b border-[#362963]">
-                <h3 id="modal-title" class="text-lg lg:text-xl font-black text-amber-400">금융 서비스 실행</h3>
+    <!-- 기능 제어용 공용 팝업 창 구조 -->
+    <div id="core-modal" class="modal-bg fixed inset-0 z-50 hidden items-center justify-center p-4">
+        <div class="bg-[#121212] border-2 border-gray-800 w-full max-w-sm rounded-2xl overflow-hidden shadow-2xl flex flex-col">
+            <div class="bg-[#1c1c1e] p-4 flex justify-between items-center border-b border-gray-800">
+                <h3 id="modal-title" class="text-lg font-black text-amber-400">서비스 안내</h3>
                 <button onclick="closeModal()" class="text-gray-400 hover:text-white text-xl p-1"><i class="fa-solid fa-xmark"></i></button>
             </div>
-            <div id="modal-body" class="p-5 lg:p-6 overflow-y-auto space-y-4 text-sm lg:text-base text-gray-200"></div>
+            <div id="modal-body" class="p-5 overflow-y-auto text-base text-gray-200"></div>
         </div>
     </div>
 
-    <!-- AGI 챗봇 고정 패널 -->
-    <div class="fixed bottom-4 right-4 z-40">
-        <button onclick="toggleChatbot()" class="bg-gradient-to-tr from-purple-600 to-indigo-600 text-white w-14 h-14 lg:w-16 lg:h-16 rounded-full flex items-center justify-center shadow-2xl border-2 border-white">
-            <i class="fa-solid fa-robot text-xl lg:text-2xl animate-pulse"></i>
-        </button>
-        <div id="agi-chatbot-window" class="hidden absolute bottom-16 right-0 w-[calc(100vw-32px)] sm:w-96 h-[420px] bg-[#120e24] border-2 border-[#362963] rounded-2xl shadow-2xl flex flex-col overflow-hidden">
-            <div class="bg-[#191333] border-b-2 border-[#362963] p-4 flex items-center justify-between">
+    <!-- [신규 인터페이스] 삐니 AGI 전용 채팅 창 모듈 -->
+    <div id="chatbot-modal" class="modal-bg fixed inset-0 z-50 hidden items-center justify-center p-4">
+        <div class="bg-[#121212] border-2 border-[#ff00ff]/50 w-full max-w-sm h-[480px] rounded-2xl overflow-hidden shadow-2xl flex flex-col">
+            <div class="bg-[#1c1c1e] p-4 flex justify-between items-center border-b border-gray-800">
                 <div class="flex items-center space-x-2">
-                    <div class="w-2.5 h-2.5 bg-green-400 rounded-full animate-ping"></div>
-                    <span class="font-black text-sm lg:text-base text-white">HK WorldBank 인공지능 AGI 센터</span>
+                    <span class="w-2.5 h-2.5 bg-green-400 rounded-full animate-pulse"></span>
+                    <h3 class="text-md font-black text-white">삐니 AGI 챗봇 센터</h3>
                 </div>
-                <button onclick="toggleChatbot()" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+                <button onclick="closeChatbot()" class="text-gray-400 hover:text-white text-xl p-1"><i class="fa-solid fa-xmark"></i></button>
             </div>
-            <div id="chat-box-body" class="flex-1 p-3 overflow-y-auto space-y-2 text-xs lg:text-sm custom-scrollbar bg-[#080610]">
-                <div class="bg-[#1f183a] p-2.5 rounded-xl max-w-[85%] border border-[#362963]">
-                    <p class="text-[#a1df33] font-bold text-[10px] mb-0.5">[시스템 안내]</p>
-                    <p class="text-purple-300 font-bold mb-1">본 AGI 인공지능 센터는 2026년 5월 완전 활성화를 타겟으로 가동 중입니다.</p>
-                    <p>안녕하십니까 의장님, 무엇이든 물어보십시오. 데이터 연산 대기 모듈이 준비되어 있습니다.</p>
+            <!-- 대화 목록 스크롤 본문 -->
+            <div id="chat-stream" class="flex-1 p-4 overflow-y-auto space-y-3 text-sm bg-[#080808] custom-scrollbar">
+                <div class="bg-[#1c1c1e] p-3 rounded-xl border border-gray-800 max-w-[85%]">
+                    <p class="text-[11px] text-pink-400 font-bold mb-1">삐니 AI [2026년 5월 완공 타겟]</p>
+                    <p class="font-bold text-gray-200 leading-relaxed">반갑습니다, 혜공 형님! 전속 인공지능 삐니 대기 중입니다. 무엇을 연산할까요?</p>
                 </div>
             </div>
-            <div class="p-2 bg-[#191333] border-t-2 border-[#362963] flex space-x-2">
-                <input type="text" id="chat-input-field" placeholder="메시지를 입력하세요..." class="flex-1 bg-[#080610] border border-[#362963] rounded-xl px-3 py-1.5 text-xs lg:text-sm text-white focus:outline-none font-bold">
-                <button onclick="sendChatMessage()" class="bg-purple-600 hover:bg-purple-500 px-3 py-1.5 rounded-xl text-xs lg:text-sm font-bold text-white">전송</button>
+            <!-- 인풋 전송 창 -->
+            <div class="p-3 bg-[#1c1c1e] border-t border-gray-800 flex space-x-2">
+                <input type="text" id="chat-query" placeholder="명령어를 입력하세요..." class="flex-1 bg-black border border-gray-800 rounded-xl px-3 py-2 text-sm text-white font-bold focus:outline-none focus:border-[#ff00ff]">
+                <button onclick="pushChatMessage()" class="bg-[#ff00ff] text-white px-4 py-2 rounded-xl text-sm font-black">전송</button>
             </div>
         </div>
     </div>
 
+    <!-- 자바스크립트 통합 구동 코어 엔진 -->
     <script>
-        const modalContent = {
-            send: { title: "💸 안전 간편 송금 시스템", body: `<div class='space-y-3'><label class='block font-bold text-sm text-gray-400'>받는 사람 주소 (또는 Pi 지갑 주소)</label><input type='text' placeholder='상대방 주소 입력' class='w-full bg-[#080610] border border-[#503d8f] p-3 rounded-xl focus:outline-none font-bold text-white'><label class='block font-bold text-sm text-gray-400 mt-2'>송금할 수량 (π / KRW)</label><input type='number' placeholder='0.0' class='w-full bg-[#080610] border border-[#503d8f] p-3 rounded-xl focus:outline-none font-bold text-white text-lg'><button onclick='alert("송금이 안전하게 접수되었습니다.")' class='w-full bg-blue-600 p-3.5 rounded-xl font-black text-white mt-4'>안전 송금 즉시 실행</button></div>` },
-            pay: { title: "💳 글로벌 온·오프라인 결제 게이트웨이", body: `<div class='space-y-3 text-center py-4'><i class='fa-solid fa-qrcode text-6xl text-purple-400 mb-2 block'></i><p class='font-bold text-lg'>HK WorldBank 스마트 가맹점 QR 결제</p><input type='number' placeholder='결제 금액 입력' class='w-full bg-[#080610] border border-[#503d8f] p-3 rounded-xl focus:outline-none text-center font-black text-xl mt-2'><button class='w-full bg-purple-600 p-3.5 rounded-xl font-bold mt-2'>스마트 결제 승인</button></div>` },
-            dep: { title: "🐷 파이 코인 안전 자산 예치 (스테이킹)", body: `<div class='space-y-3'><p class='text-sm text-gray-400 leading-relaxed'>자산을 안전하게 동결 보관하고 높은 분배율을 보장받습니다.</p><div class='bg-[#080610] p-4 rounded-xl border border-[#362963] flex justify-between'><span class='font-bold'>현재 총 예치 이율</span><span class='text-[#a1df33] font-black'>연 최대 18%</span></div><input type='number' placeholder='예치할 자산 입력' class='w-full bg-[#080610] border border-[#503d8f] p-3 rounded-xl focus:outline-none font-bold'><button class='w-full bg-gradient-to-r from-blue-600 to-purple-600 p-3.5 rounded-xl font-black mt-2'>안전 예치 신청</button></div>` },
-            swap: { title: "🔄 실시간 다이렉트 자산 스왑", body: `<div class='space-y-2'><div class='bg-[#080610] p-3 rounded-lg border border-[#362963] flex justify-between items-center'><span>보내는 자산: <b>10 PI</b></span></div><div class='text-center my-1'><i class='fa-solid fa-circle-arrow-down text-xl text-purple-400'></i></div><div class='bg-[#080610] p-3 rounded-lg border border-[#362963] flex justify-between items-center'><span>받는 자산: <b>450,000 KRW</b></span></div><button class='w-full bg-indigo-600 p-3.5 rounded-xl font-bold mt-4'>스왑 체결 요청</button></div>` },
-            dex: { title: "🔀 탈중앙화 DEX스왑 프로토콜", body: `<div class='space-y-3'><p class='text-xs text-gray-400'>중앙 중개인 없는 완전 분산형 오더북 기반 거래 시스템입니다.</p><button class='w-full bg-purple-600 p-3.5 rounded-xl font-black tracking-wide'>DEX 자동 체결 계약 가동</button></div>` },
-            lp: { title: "🌊 LP(유동성풀) 자산 공급 체계", body: `<div class='space-y-3'><div class='bg-purple-950/40 p-4 rounded-xl border border-purple-500/30 text-xs lg:text-sm leading-relaxed text-purple-200'><b class='text-amber-400 block mb-1'>💡 LP(Liquidity Pool)가 뭔가요?</b>플랫폼 내에서 사용자들이 대기 시간 없이 즉시 <b>송금·결제·DEX스왑</b>을 할 수 있도록 자금의 자발적 흐름을 대어주는 <b>'핵심 자산 유동성 저수지'</b>입니다. 지분을 공급하면 거래 수수료의 보상 배당을 주기적으로 수령합니다.</div><button class='w-full bg-gradient-to-r from-amber-500 to-yellow-500 text-black p-3.5 rounded-xl font-black'>LP 유동성 자산 공급하기</button></div>` },
-            stake: { title: "🔒 글로벌 파이 스테이킹 (예치) 노드", body: `<div class='space-y-3'><p class='text-xs text-gray-400'>노드 예치를 통해 생태계 보안을 유지하고 보상을 마이닝 풀에서 지급받습니다.</p><input type='number' placeholder='스테이킹 수량 가치' class='w-full bg-[#080610] border border-[#503d8f] p-3 rounded-xl focus:outline-none font-bold text-center text-white'><button class='w-full bg-[#a1df33] text-black p-3.5 rounded-xl font-black'>스테이킹 락업 시작</button></div>` },
-            reward: { title: "🎁 누적 보상 정산 청구 센터", body: `<div class='space-y-3 text-center'><p class='text-sm text-gray-300'>현재 의장님의 예치 및 LP 공급 기여로 실시간 적립 중인 보상 액수입니다.</p><p class='text-3xl font-black text-[#a1df33] py-2'>32,450원+<span class='text-sm text-gray-400'>수령 대기 중</span></p><button onclick='alert("보상 정산 처리가 완료되었습니다.")' class='w-full bg-gradient-to-r from-purple-600 to-pink-600 p-3.5 rounded-xl font-black text-white'>내 지갑으로 보상 즉시 수령</button></div>` },
-            ubi: { title: "🤝 HK 사회재단 글로벌 기본소득 (UBI) 풀", body: `<div class='space-y-3'><div class='bg-emerald-950/50 p-4 rounded-xl border border-green-500/30 text-xs lg:text-sm leading-relaxed'><b class='text-green-400 block mb-1'>목적 기부 기본소득 시스템</b>HK WorldBank의 모든 금융 거래 수익 중 <b>정확히 30%</b>가 본 분배 지갑에 영구 적립되어 전 세계 취약계층의 지속 가능한 기본소득 재원으로 투명하게 환원 분배됩니다.</div></div>` }
+        // 50개국어 매핑 데이터 인프라 팩 (핵심 교체 예시 보드)
+        const multilingPack = [
+            { sys: "통합 자산 관리 시스템", sup: "HKWB 실시간 공급량", stk: "스테이킹", lp: "LP 수익률", liq: "전체 유동성 (DEX LP)", piV: "PI 수량", dswp: "DEX 스왑", lstk: "LP 스테이킹", mSnd: "🚀 송금", mPay: "🛒 결제", mDep: "💰 예치", mRew: "🏆 보상", mUbi: "🏛️ 기본소득", mSwp: "🔄 스왑", mFaq: "글로벌 AI 지원센터 (FAQ 20선)", mVis: "HK 사회 재단 비전" },
+            { sys: "Integrated Asset System", sup: "HKWB Realtime Supply", stk: "Staking Node", lp: "LP Yield", liq: "Total Liquidity (DEX LP)", piV: "PI Volume", dswp: "DEX Swap", lstk: "LP Staking", mSnd: "🚀 Transfer", mPay: "🛒 Payment", mDep: "💰 Deposit", mRew: "🏆 Reward", mUbi: "🏛️ UBI Pool", mSwp: "🔄 Swap", mFaq: "Global AI Support Center", mVis: "HK Foundation Vision" },
+            { sys: "资产管理系统", sup: "HKWB 实时供应量", stk: "质押挖矿", lp: "LP 收益率", liq: "总流动性 (DEX LP)", piV: "PI 数量", dswp: "DEX 闪兑", lstk: "LP 质押", mSnd: "🚀 转账", mPay: "🛒 支付", mDep: "💰 存款", mRew: "🏆 奖励", mUbi: "🏛️ 基本收入", mSwp: "🔄 闪兑", mFaq: "全球AI支持中心 (FAQ 20)", mVis: "HK 社会基金会愿景" }
+        ];
+        
+        let langIndex = 0;
+        function toggleLanguage() {
+            langIndex = (langIndex + 1) % multilingPack.length;
+            const data = multilingPack[langIndex];
+            
+            document.getElementById('title-sub').innerText = data.sys;
+            document.getElementById('lbl-supply').innerText = data.sup;
+            document.getElementById('lbl-stake-rate').innerText = data.stk;
+            document.getElementById('lbl-lp-rate').innerText = data.lp;
+            document.getElementById('lbl-total-liq').innerText = data.liq;
+            document.getElementById('btn-pi-vol').innerText = data.piV;
+            document.getElementById('btn-dex-swap').innerText = data.dswp;
+            document.getElementById('btn-lp-stake').innerText = data.lstk;
+            document.getElementById('btn-m-send').innerText = data.mSnd;
+            document.getElementById('btn-m-pay').innerText = data.mPay;
+            document.getElementById('btn-m-dep').innerText = data.mDep;
+            document.getElementById('btn-m-reward').innerText = data.mRew;
+            document.getElementById('btn-m-ubi').innerText = data.mUbi;
+            document.getElementById('btn-m-swap').innerText = data.mSwp;
+            document.getElementById('btn-m-faq').innerText = data.mFaq;
+            document.getElementById('btn-m-vision').innerText = data.mVis;
+        }
+
+        const modalData = {
+            pi: { title: "PI 수량 확인", body: "<p class='leading-relaxed font-bold'>의장님의 안전 지갑에 보관된 총 파이 코인 유동성 규모입니다.<br><br>수량: <span class='text-amber-400 font-black'>314,159 Pi</span></p>" },
+            dex_swap: { title: "DEX 스왑 거래소", body: "<p class='leading-relaxed font-bold'>중개인 없는 자동 체결 계약 기반 거래소 프로토콜입니다.<br><br><span class='text-cyan-400'>[실시간 가동 가능 대기 상태]</span></p>" },
+            lp_stake: { title: "LP 스테이킹 유동성", body: "<p class='leading-relaxed font-bold'>유동성 공급(LP) 자산을 예치하여 분배 수수료 보상을 극대화하는 노드 정산소입니다.</p>" },
+            send: { title: "🚀 송금 서비스", body: "<p class='leading-relaxed font-bold'>상대방의 Pi 주소 혹은 계정을 입력하여 블록체인 네트워크로 초고속 자산 이전을 실행합니다.</p>" },
+            pay: { title: "🛒 결제 게이트웨이", body: "<p class='leading-relaxed font-bold'>HK WorldBank 연동 온·오프라인 스마트 매장 QR 코드 전용 결제 모듈입니다.</p>" },
+            dep: { title: "💰 안전 예치 관리", body: "<p class='leading-relaxed font-bold'>보유 코인을 플랫폼 안전 유동성 풀에 예치하여 예치 이자를 확정 분배받는 금고입니다.</p>" },
+            reward: { title: "🏆 보상 정산소", body: "<p class='leading-relaxed font-bold'>노드 기여 및 유동성 공급으로 실시간 누적된 배당금을 내 지갑으로 청구 및 수령합니다.</p>" },
+            ubi: { title: "🏛️ 사회재단 기본소득", body: "<p class='leading-relaxed font-bold'>수익금의 정확히 30%를 전 세계 취약계층 자산으로 영구 분배하는 복지 순환 모듈입니다.</p>" },
+            swap: { title: "🔄 다이렉트 스왑", body: "<p class='leading-relaxed font-bold'>파이코인과 원화(KRW) 간의 정밀한 가치를 일대일로 즉시 매칭 교환해 주는 원터치 교환 창입니다.</p>" },
+            ai_center: { title: "🤖 글로벌 AI 지원센터 (FAQ 20선)", body: "<p class='leading-relaxed font-bold text-sm'>Q. 본 시스템은 언제 완공되나요?<br>A. <b>2026년 5월 완전 활성화</b> 로드맵에 맞추어 마이그레이션 중입니다.<br><br>그 외 글로벌 이용자들이 가장 자주 묻는 핵심 질의응답 20선이 탑재될 인프라 센터입니다.</p>" },
+            vision: { title: "🤝 HK 사회 재단 비전", body: "<p class='leading-relaxed font-bold'>지구촌 전반에 보편적 기본소득망을 구축하고 인류 자산 평등을 구현하는 혜공 의장의 철학적 구심점입니다.</p>" }
         };
 
         function openModal(type) {
-            const data = modalContent[type];
+            const data = modalData[type];
             if(!data) return;
             document.getElementById('modal-title').innerText = data.title;
             document.getElementById('modal-body').innerHTML = data.body;
-            const modal = document.getElementById('financial-modal');
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
+            document.getElementById('core-modal').className = "modal-bg fixed inset-0 z-50 flex items-center justify-center p-4";
         }
 
         function closeModal() {
-            const modal = document.getElementById('financial-modal');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
+            document.getElementById('core-modal').className = "modal-bg fixed inset-0 z-50 hidden items-center justify-center p-4";
         }
 
-        function showTab(tabId) {
-            if(tabId === 'dashboard') {
-                document.getElementById('tab-dashboard').classList.remove('hidden');
-                document.getElementById('tab-workflow').classList.add('hidden');
-            } else if(tabId === 'workflow') {
-                document.getElementById('tab-dashboard').classList.add('hidden');
-                document.getElementById('tab-workflow').classList.remove('hidden');
-            }
-        }
+        // AGI 챗봇 모듈 제어 로직
+        function openChatbot() { document.getElementById('chatbot-modal').className = "modal-bg fixed inset-0 z-50 flex items-center justify-center p-4"; }
+        function closeChatbot() { document.getElementById('chatbot-modal').className = "modal-bg fixed inset-0 z-50 hidden items-center justify-center p-4"; }
 
-        let currentReward = 32450.1250;
-        setInterval(() => {
-            currentReward += Math.random() * 0.025;
-            const rewardEl = document.getElementById('reward-display');
-            if(rewardEl) rewardEl.innerText = currentReward.toFixed(4);
-        }, 1000);
+        function pushChatMessage() {
+            const field = document.getElementById('chat-query');
+            const stream = document.getElementById('chat-stream');
+            if(!field.value.trim()) return;
 
-        function toggleChatbot() {
-            document.getElementById('agi-chatbot-window').classList.toggle('hidden');
-        }
+            const uNode = document.createElement('div');
+            uNode.className = "bg-[#ff00ff]/10 p-3 rounded-xl border border-[#ff00ff]/30 max-w-[85%] ml-auto text-right";
+            uNode.innerHTML = `<p class="text-[11px] text-gray-400 mb-1">혜공 형님</p><p class="font-bold text-white">\${field.value}</p>`;
+            stream.appendChild(uNode);
 
-        function sendChatMessage() {
-            const input = document.getElementById('chat-input-field');
-            const box = document.getElementById('chat-box-body');
-            if(!input.value.trim()) return;
-
-            const userMsg = document.createElement('div');
-            userMsg.className = "bg-[#362963] p-2.5 rounded-xl max-w-[85%] ml-auto text-right text-white";
-            userMsg.innerHTML = `<p class="text-[10px] text-purple-300 mb-0.5">사용자</p><p>\ ${input.value}</p>`;
-            box.appendChild(userMsg);
-
-            const typedText = input.value;
-            input.value = '';
-            box.scrollTop = box.scrollHeight;
+            const text = field.value;
+            field.value = '';
+            stream.scrollTop = stream.scrollHeight;
 
             setTimeout(() => {
-                const agiMsg = document.createElement('div');
-                agiMsg.className = "bg-[#1f183a] p-2.5 rounded-xl max-w-[85%] border border-[#362963]";
-                agiMsg.innerHTML = `<p class="text-[10px] text-amber-400 font-bold mb-0.5">AGI 인공지능</p><p>의장님 지시 사항 확인. '\${typedText}' 관련 데이터 및 유동성 완충 자금 지표 검증을 즉각 가동합니다.</p>`;
-                box.appendChild(agiMsg);
-                box.scrollTop = box.scrollHeight;
-            }, 800);
+                const bNode = document.createElement('div');
+                bNode.className = "bg-[#1c1c1e] p-3 rounded-xl border border-gray-800 max-w-[85%]";
+                bNode.innerHTML = `<p class="text-[11px] text-pink-400 font-bold mb-1">삐니 AGI</p><p class="font-bold text-gray-200">명령 접수 완료. 의장님 지시 사항 '\${text}'에 의거하여 HK WorldBank 분산 원동망 알고리즘 코어를 실시간 자동 튜닝 중입니다.</p>`;
+                stream.appendChild(bNode);
+                stream.scrollTop = stream.scrollHeight;
+            }, 700);
         }
     </script>
 </body>
 </html>
+
