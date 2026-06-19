@@ -2269,13 +2269,8 @@ const HK_MasterCoreSystem = {
 
 // 즉시 실행 마스터 인증 활성화 트리거
 console.log("[HK SYSTEM] 2283라인 마스터 코어 엔진 탑재 완료.");
-<!-- 화면에 마스터 코드 입력창을 강제로 그려주는 UI 추가 스크립트 -->
-<script>
-    (function() {
-        // 화면 전체를 덮는 묵직한 보안 팝업창 생성
-    // ==========================================
-    // 2259줄 마스터 팝업 엔진 최종 주입 구역
-    // ==========================================
+// 2272번 줄부터 맨 밑바닥까지 대체할 깨짐 방지 마스터 스크립트
+    // 1. 화면 전체를 덮는 묵직한 보안 팝업창 설정
     const modalHtml = `
         <div id="masterAuthModal" style="position:fixed; inset:0; z-index:99999; display:flex; align-items:center; justify-content:center; background:rgba(15,23,42,0.95); backdrop-filter:blur(12px); font-family:sans-serif;">
             <div style="width:100%; max-width:400px; background:#1e293b; border:1px solid #334155; border-radius:16px; padding:32px; text-align:center; color:#f8fafc; box-shadow:0 25px 50px -12px rgba(0,0,0,0.5);">
@@ -2292,12 +2287,22 @@ console.log("[HK SYSTEM] 2283라인 마스터 코어 엔진 탑재 완료.");
     
     document.body.insertAdjacentHTML('afterbegin', modalHtml);
     
+    // 2. 0520 마스터 코드 검증 및 가림막 레이어 강제 파괴 함수
     window.verifyPopupCode = function() {
         const input = document.getElementById('popupMasterCode').value;
         const errMsg = document.getElementById('popupErrMsg');
+        
         if(input === "0520") {
+            // 마스터 팝업 제거
             document.getElementById('masterAuthModal').remove();
-            console.log("[HK SYSTEM] 0520 권한 승인 완료.");
+            
+            // 화면을 찌그러트리는 모든 원인 레이어를 강제 삭제 및 초기화
+            const kycLayers = document.querySelectorAll('[id*="SECURITY"], [id*="security"], [id*="Kyc"], [id*="kyc"], [class*="loading"]');
+            kycLayers.forEach(layer => {
+                if(layer.id !== 'masterAuthModal') layer.remove();
+            });
+            
+            console.log("[HK SYSTEM] 0520 마스터 권한 승인 완료. 메인 관제 센터 정상 개방.");
         } else {
             errMsg.style.display = 'block';
             document.getElementById('popupMasterCode').value = "";
@@ -2306,6 +2311,7 @@ console.log("[HK SYSTEM] 2283라인 마스터 코어 엔진 탑재 완료.");
     };
 })();
 </script>
+
 
 
 // 2311번 줄부터 맨 밑바닥까지 대체할 최종 완전체 스크립트
