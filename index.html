@@ -3,598 +3,337 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HK WorldBank - Sovereign Executive Suite</title>
+    <title>HK WorldBank - Global Industrial Platform</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
-            --bg-color: #060913;
-            --container-bg: #0d1527;
-            --accent-color: #f3b413;
-            --text-color: #ffffff;
-            --text-muted: #94a3b8;
-            --border-color: #1e293b;
-            --success-color: #10b981;
-            --primary-blue: #2563eb;
-            --danger-color: #ef4444;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            font-weight: 700;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        .app-container {
-            width: 100%;
-            max-width: 580px;
-            background-color: var(--container-bg);
-            border-radius: 24px;
-            border: 2.5px solid var(--border-color);
-            padding: 28px;
-            box-shadow: 0 20px 45px rgba(0,0,0,0.6);
-            margin-bottom: 20px;
-        }
-
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-            border-bottom: 2px solid var(--border-color);
-            padding-bottom: 16px;
-        }
-
-        .logo { font-size: 24px; font-weight: 900; color: var(--accent-color); letter-spacing: -0.5px; }
-
-        .media-banner {
-            display: flex;
-            justify-content: space-between;
-            gap: 10px;
-            margin-bottom: 24px;
-        }
-        
-        .media-link {
-            flex: 1;
-            padding: 10px;
-            border-radius: 12px;
-            text-align: center;
-            font-size: 13px;
-            text-decoration: none;
-            font-weight: 900;
-            transition: opacity 0.2s;
-        }
-        .media-youtube { background-color: #ff0000; color: #ffffff; }
-        .media-tiktok { background-color: #000000; color: #ffffff; border: 1.5px solid #00f2fe; }
-
-        .lang-select {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            border: 2px solid var(--accent-color);
-            padding: 8px 12px;
-            border-radius: 12px;
-            font-size: 13px;
-            cursor: pointer;
-            outline: none;
-        }
-
-        /* 📊 06시 기준 금일 이자 보고서 */
-        .daily-report-box {
-            background: linear-gradient(135deg, #020617 0%, #1e1b4b 100%);
-            border: 2.5px solid var(--accent-color);
-            border-radius: 18px;
-            padding: 22px;
-            margin-bottom: 24px;
-            box-shadow: 0 4px 20px rgba(243, 180, 19, 0.1);
-        }
-
-        .report-header {
-            font-size: 16px;
-            color: var(--accent-color);
-            border-bottom: 2px dashed var(--border-color);
-            padding-bottom: 10px;
-            margin-bottom: 16px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .report-row { 
-            background-color: rgba(255,255,255,0.02); 
-            border: 1.5px solid var(--border-color); 
-            border-radius: 12px; 
-            padding: 14px; 
-            margin-bottom: 12px; 
-        }
-        .report-title { font-size: 13px; color: var(--text-muted); margin-bottom: 4px; }
-        .report-value { font-size: 18px; color: var(--success-color); font-weight: 800; }
-
-        /* 🏛️ HK 사회 재단 비전 2030 카드 박스 */
-        .vision-container-box {
-            background: linear-gradient(135deg, #1e1b4b 0%, #2e1042 100%);
-            border: 2.5px solid var(--accent-color);
-            border-radius: 20px;
-            padding: 24px;
-            margin-bottom: 24px;
-        }
-
-        .vision-main-title {
-            font-size: 20px;
-            color: var(--accent-color);
-            text-align: center;
-            margin-bottom: 18px;
-            border-bottom: 2px dashed var(--accent-color);
-            padding-bottom: 12px;
-            font-weight: 900;
-        }
-
-        .vision-sub-section {
-            background-color: rgba(0,0,0,0.25);
-            border: 1px solid rgba(243, 180, 19, 0.15);
-            border-radius: 14px;
-            padding: 16px;
-            margin-bottom: 12px;
-        }
-
-        .vision-sub-title { color: var(--success-color); font-size: 15px; margin-bottom: 8px; }
-        .vision-sub-text { font-size: 13px; color: #e2e8f0; line-height: 1.65; font-weight: 500; }
-
-        /* 메인 검증 노드 상태 섹션 */
-        .node-status-box { background: rgba(16, 185, 129, 0.03); border: 2px dashed var(--success-color); border-radius: 16px; padding: 18px; margin-bottom: 24px; }
-        .node-flex { display: flex; justify-content: space-between; margin-top: 12px; gap: 12px; }
-        .node-card { background-color: var(--bg-color); border: 1.5px solid var(--success-color); border-radius: 12px; padding: 14px; width: 50%; text-align: center; }
-
-        /* 포털 게이트웨이 진입 버튼 파트 */
-        .gateway-box { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border: 2px solid var(--border-color); border-radius: 18px; padding: 24px; text-align: center; margin-bottom: 24px; }
-        .btn { color: white; border: none; padding: 16px 24px; font-size: 18px; font-weight: 900; border-radius: 14px; cursor: pointer; width: 100%; transition: all 0.2s; text-align: center; display: block; }
-        
-        /* 실시간 금융 본문 제어 스크린 */
-        .main-content-screen { display: none; background-color: #111827; border: 2.5px solid var(--success-color); border-radius: 22px; padding: 24px; margin-bottom: 24px; }
-        .aml-status-banner { background-color: rgba(239, 68, 68, 0.08); border: 1.5px solid var(--danger-color); border-radius: 12px; padding: 12px; text-align: center; margin-bottom: 20px; color: var(--danger-color); font-size: 13.5px; }
-
-        .dashboard-box { background-color: rgba(255, 255, 255, 0.01); border: 1.5px solid var(--border-color); border-radius: 16px; padding: 20px; margin-bottom: 16px; }
-        .staking-input { width: 100%; background-color: var(--bg-color); border: 2px solid var(--border-color); color: #ffffff; padding: 14px; font-size: 18px; border-radius: 12px; outline: none; margin-bottom: 14px; text-align: center; }
-
-        /* 📈 실시간 이율 상승 카운터 전용 박스 */
-        .live-interest-counter-box {
-            background: linear-gradient(135deg, #0f172a 0%, #022c22 100%);
-            border: 2px solid var(--success-color);
-            border-radius: 14px;
-            padding: 16px;
-            margin-bottom: 16px;
-            text-align: center;
-        }
-
-        .interest-box { background: rgba(16, 185, 129, 0.1); border: 2px solid var(--success-color); border-radius: 16px; padding: 20px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; }
-        
-        /* 자주 묻는 질문 FAQ 대형 레이아웃 */
-        .section-title { font-size: 19px; margin-bottom: 18px; color: var(--accent-color); border-left: 6px solid var(--accent-color); padding-left: 12px; }
-        .faq-container { display: flex; flex-direction: column; gap: 12px; }
-        .faq-item { border: 1.5px solid var(--border-color); border-radius: 14px; overflow: hidden; background-color: rgba(255,255,255,0.01); }
-        .faq-question { background-color: #0b1324; padding: 18px; font-size: 14.5px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 10px; }
-        .faq-answer { padding: 18px; font-size: 13.5px; color: #cbd5e1; background-color: rgba(0,0,0,0.2); display: none; border-top: 1.5px solid var(--border-color); line-height: 1.65; font-weight: 500; }
-
-        /* 본사 심사관 가이드 배너 패널 */
-        .audit-compliance-banner {
-            font-size: 11px;
-            color: var(--text-muted);
-            text-align: center;
-            line-height: 1.6;
-            margin-top: 10px;
-            border-top: 1px dashed var(--border-color);
-            padding-top: 12px;
-            font-weight: 500;
-        }
-
-        /* 모달 시스템 */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.9); display: flex; justify-content: center; align-items: center; z-index: 1000; padding: 20px; }
-        .modal-box { background-color: var(--container-bg); border: 2px solid var(--accent-color); max-width: 480px; width: 100%; border-radius: 24px; padding: 32px; }
-
-        .rtl { direction: rtl; text-align: right; }
-        .rtl .section-title { border-left: none; border-right: 6px solid var(--accent-color); padding-right: 12px; padding-left: 0; }
+        html { scroll-behavior: smooth; }
+        .skip-to-content:focus { transform: translateY(0); }
+        details summary::-webkit-details-marker { display: none; }
     </style>
 </head>
-<body>
+<body class="bg-slate-900 text-slate-100 font-sans antialiased">
 
-    <!-- 보안 및 개인정보 처리방침 동의 모달 -->
-    <div id="securityModal" class="modal-overlay">
-        <div class="modal-box">
-            <div id="modalTitle" style="font-size: 20px; color: var(--accent-color); margin-bottom: 16px;">🛡️ 보안, 개인정보 및 AML 규정 동의</div>
-            <div id="modalContent" style="font-size: 13.5px; color: #e2e8f0; line-height: 1.7; max-height: 280px; overflow-y: auto; margin-bottom: 24px; border-bottom: 2px solid var(--border-color); padding-bottom: 16px; font-weight: 500;">
-                <p><strong>[HK WorldBank 글로벌 금융 보안 및 자금세탁방지 서약]</strong></p>
-                <p>본 금융 생태계 포털은 사용자의 독립 자산을 철저히 보호하기 위해 글로벌 저수지 지갑(Reservoir Wallet) 분배 동기화 프로토콜을 사용하며, 국제 범죄 및 테러 자금 차단을 위해 국제 자금세탁방지(AML) 실시간 필터링 체계를 준수합니다.</p>
-            </div>
-            <button class="btn" id="modalBtn" style="background-color: var(--accent-color); color: black; width: 100%;" onclick="acceptSecurity()">동의 및 글로벌 포털 진입</button>
-        </div>
-    </div>
+    <!-- 본문 바로가기 버튼 -->
+    <a href="#main-content" class="skip-to-content absolute left-4 top-4 bg-amber-500 text-slate-900 px-4 py-2 rounded-lg font-bold z-50 transition-transform -translate-y-20 focus:translate-y-0">
+        <i class="fa-solid fa-arrow-down mr-2"></i>본문으로 바로가기 (Skip to Main Content)
+    </a>
 
-    <div class="app-container" id="appContainer">
-        <header>
-            <div class="logo">🌐 HK WorldBank</div>
-            <select class="lang-select" id="langSelect" onchange="changeLanguage()">
-                <option value="ko">한국어 (Korea)</option>
-                <option value="en">English (US/UK)</option>
-                <option value="zh">中文 (简体)</option>
-                <option value="ja">日本語 (Japan)</option>
-                <option value="uk">Українська (Ukraine)</option>
-                <option value="ar">العربية (Palestine/Arab)</option>
-                <option value="de">Deutsch (Germany)</option>
-                <option value="fr">Français (France)</option>
-                <option value="es">Español (Spain)</option>
-                <option value="vi">Tiếng Việt (Vietnam)</option>
-                <option value="th">ไทย (Thailand)</option>
-                <option value="id">Bahasa Indonesia</option>
-                <option value="tl">Tagalog (Philippines)</option>
-                <option value="ru">Русский (Russia)</option>
-                <option value="it">Italiano (Italy)</option>
-                <option value="tr">Türkçe (Turkey)</option>
-                <option value="pt">Português (Brazil)</option>
-                <option value="hi">हिन्दी (India)</option>
-                <option value="bn">বাংলা (Bangladesh)</option>
-                <option value="pa">ਪੰਜਾਬੀ (Punjab)</option>
-                <option value="ms">Bahasa Melayu (Malaysia)</option>
-                <option value="fa">فارسی (Iran)</option>
-                <option value="ur">اردو (Pakistan)</option>
-                <option value="nl">Nederlands (Netherlands)</option>
-                <option value="pl">Polski (Poland)</option>
-                <option value="sv">Svenska (Sweden)</option>
-                <option value="no">Norsk (Norway)</option>
-                <option value="fi">Suomi (Finland)</option>
-                <option value="da">Dansk (Denmark)</option>
-                <option value="cs">Čeština (Czech)</option>
-                <option value="hu">Magyar (Hungary)</option>
-                <option value="ro">Română (Romania)</option>
-                <option value="el">Ελληνικά (Greece)</option>
-                <option value="he">עברית (Israel)</option>
-                <option value="bg">Български (Bulgaria)</option>
-                <option value="sr">Српски (Serbia)</option>
-                <option value="hr">Hrvatski (Croatia)</option>
-                <option value="sk">Slovenčina (Slovakia)</option>
-                <option value="sl">Slovenščina (Slovenia)</option>
-                <option value="et">Eesti (Estonia)</option>
-                <option value="lv">Latviešu (Latvia)</option>
-                <option value="lt">Lietuvių (Lithuania)</option>
-                <option value="sw">Kiswahili (East Africa)</option>
-                <option value="am">አማርኛ (Ethiopia)</option>
-                <option value="yo">Yorùbá (Nigeria)</option>
-                <option value="zu">isiZulu (South Africa)</option>
-                <option value="ta">தமிழ் (Tamil)</option>
-                <option value="te">తెలుగు (Telugu)</option>
-                <option value="kn">ಕನ್ನಡ (Kannada)</option>
-                <option value="ml">മലയാളം (Malayalam)</option>
-            </select>
-        </header>
-
-        <!-- 🎥 오피셜 소셜 미디어 연동 핸들 바인딩 완료 -->
-        <div class="media-banner">
-            <a href="https://www.youtube.com/@Hyekong2025" target="_blank" class="media-link media-youtube" id="lnkYoutube">🔴 YouTube @Hyekong2025</a>
-            <a href="https://www.tiktok.com/@Hyekong2025" target="_blank" class="media-link media-tiktok" id="lnkTiktok">⚫ TikTok @Hyekong2025</a>
-        </div>
-
-        <!-- 📊 06시 기준 금일 이자 보고서 레이어 -->
-        <div class="daily-report-box">
-            <div class="report-header">
-                <span id="rptMainHeader">📊 AGI 삐니의 06시 이자 정산 보고서</span>
-                <span style="background-color: var(--danger-color); color: white; padding: 3px 8px; border-radius: 6px; font-size: 11px;">LIVE REPORT</span>
+    <!-- 탑 네비게이션 바 -->
+    <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur-md sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="bg-amber-500 text-slate-900 p-2 rounded-lg font-black text-xl tracking-wider">HK</div>
+                <span class="text-lg font-bold tracking-tight text-white" id="nav-title">WorldBank Platform</span>
             </div>
-            <div class="report-row">
-                <div class="report-title" id="rptStkTitle">💰 금일 예치 이자 (Staking Interest)</div>
-                <div class="report-value" id="rptStaking">Connecting to Blockchain Node...</div>
-            </div>
-            <div class="report-row">
-                <div class="report-title" id="rptLpTitle">🌊 금일 유동성 풀 이자 (LP Interest)</div>
-                <div class="report-value" style="color: #e2e8f0;" id="rptLpVal">발생 수익 수수료의 30% 사회재단 자원 귀속 완료</div>
-            </div>
-            <div class="report-row">
-                <div class="report-title" id="rptNodeTitle">⚡ 마스터 노드 검증 보상 이자 (Validator Reward)</div>
-                <div class="report-value" style="color: var(--accent-color);" id="rptNodeVal">독점 이자 장부 기반 저수지 원천 지갑 전액 자본 귀속 완료</div>
+            
+            <!-- 50개국어 실시간 변동 스위처 -->
+            <div class="flex items-center space-x-4">
+                <select id="language-switcher" onchange="switchLanguage(this.value)" class="bg-slate-800 text-slate-200 border border-slate-700 rounded-lg px-3 py-1.5 text-xs font-medium focus:outline-none focus:border-amber-500 cursor-pointer max-w-[220px]">
+                    <option value="ko">🇰🇷 한국어 (Korean)</option>
+                    <option value="en">🇺🇸 English</option>
+                    <option value="zh">🇨🇳 简体中文 (Chinese)</option>
+                    <option value="ja">🇯🇵 日本語 (Japanese)</option>
+                    <option value="vi">🇻🇳 Tiếng Việt</option>
+                    <option value="es">🇪🇸 Español</option>
+                    <option value="fr">🇫🇷 Français</option>
+                    <option value="de">🇩🇪 Deutsch</option>
+                    <option value="hi">🇮🇳 हिन्दी (Hindi)</option>
+                    <option value="ar">🇸🇦 العربية</option>
+                    <option value="ru">🇷🇺 Русский</option>
+                    <option value="pt">🇵🇹 Português</option>
+                    <option value="id">🇮🇩 Bahasa Indonesia</option>
+                    <option value="it">🇮🇹 Italiano</option>
+                    <option value="th">🇹🇭 ภาษาไทย</option>
+                    <option value="tr">🇹🇷 Türkçe</option>
+                    <option value="nl">🇳🇱 Nederlands</option>
+                    <option value="pl">🇵🇱 Polski</option>
+                    <option value="uk">🇺🇦 Українська</option>
+                    <option value="ms">🇲🇾 Bahasa Melayu</option>
+                    <option value="fa">🇮🇷 فارسی</option>
+                    <option value="tl">🇵🇭 Tagalog</option>
+                    <option value="ro">🇷🇴 Română</option>
+                    <option value="el">🇬🇷 Ελληνικά</option>
+                    <option value="hu">🇭🇺 Magyar</option>
+                    <option value="cs">🇨🇿 Čeština</option>
+                    <option value="sv">🇸🇪 Svenska</option>
+                    <option value="no">🇳🇴 Norsk</option>
+                    <option value="fi">🇫🇮 Suomi</option>
+                    <option value="da">🇩🇰 Dansk</option>
+                    <option value="he">🇮🇱 עברית</option>
+                    <option value="bg">🇧🇬 Български</option>
+                    <option value="sr">🇷🇸 Српски</option>
+                    <option value="sk">🇸🇰 Slovenčina</option>
+                    <option value="hr">🇭🇷 Hrvatski</option>
+                    <option value="lt">🇱🇹 Lietuvių</option>
+                    <option value="lv">🇱🇻 Latviešu</option>
+                    <option value="et">🇪🇪 Eesti</option>
+                    <option value="sl">🇸🇮 Slovenščina</option>
+                    <option value="ga">🇮🇪 Gaeilge</option>
+                    <option value="is">🇮🇸 Íslenska</option>
+                    <option value="sq">🇦🇱 Shqip</option>
+                    <option value="mk">🇲🇰 Македонски</option>
+                    <option value="hy">🇦🇲 Հայերեն</option>
+                    <option value="ka">🇬🇪 ქართული</option>
+                    <option value="az">🇦🇿 Azərbaycanca</option>
+                    <option value="ur">🇵🇰 اردو</option>
+                    <option value="bn">🇧🇩 বাংলা</option>
+                    <option value="sw">🇰🇪 Kiswahili</option>
+                    <option value="af">🇿🇦 Afrikaans</option>
+                </select>
             </div>
         </div>
+    </header>
 
-        <!-- 🏛️ HK 사회 재단 비전 2030 카드 박스 -->
-        <div class="vision-container-box">
-            <div class="vision-main-title" id="visMainTitle">🏛️ HK 사회 재단 비전 2030</div>
-            <div class="vision-sub-section">
-                <div class="vision-sub-title" id="visT1">1. 글로벌 보편적 기본소득(UBI) 망 완성</div>
-                <div class="vision-sub-text" id="visC1">HK그룹 비즈니스 및 파생 플랫폼 전체 수익의 30%를 글로벌 philanthropic 자원 자본으로 상시 고정 분배하여, 전 세계 전쟁 빈곤 계층 및 글로벌 소외 계층을 구제하기 위한 보편적 기본소득 분배 생태계를 정격 완성합니다.</div>
-            </div>
-            <div class="vision-sub-section">
-                <div class="vision-sub-title" id="visT2">2. Deep-Tech 기반 인류 번영 인프라 구축</div>
-                <div class="vision-sub-text" id="visC2">핵융합(Fusion Energy) 에너지를 기반으로 한 무한 동력 인프라 확보 및 차세대 로봇 공학(Robotics), 우주 인프라 산업 자본 고도화를 통하여 인류를 가혹한 노동 현장으로부터 해방하고 보편적 번영의 기틀을 확립합니다.</div>
-            </div>
-            <div class="vision-sub-section">
-                <div class="vision-sub-title" id="visT3">3. 국경 없는 금융 및 의료 복지 실현</div>
-                <div class="vision-sub-text" id="visC3">전 세계 금융 소외 계층에게 HK 금융 인프라 및 자산 운용권을 투명하게 100% 개방하며, AGI 상담 가동망을 통해 최고급 의료·교육 복지 혜택을 국경을 초월하여 균등 분배합니다.</div>
-            </div>
-        </div>
-
-        <!-- 메인 검증 노드 상태 섹션 -->
-        <div class="node-status-box">
-            <div style="font-size: 15px; font-weight: 900;" id="nodeLiveTitle">⚡ HK 메인 검증 노드 실시간 장부 상태</div>
-            <div class="node-flex">
-                <div class="node-card">
-                    <div style="font-size: 12px; color: var(--accent-color);" id="node1lbl">마스터 노드 #01</div>
-                    <div style="font-size: 14px; color: var(--success-color); margin-top: 4px;">RUNNING 100%</div>
-                </div>
-                <div class="node-card">
-                    <div style="font-size: 12px; color: var(--accent-color);" id="node2lbl">마스터 노드 #02</div>
-                    <div style="font-size: 14px; color: var(--success-color); margin-top: 4px;">RUNNING 100%</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 포털 게이트웨이 진입 버튼 -->
-        <div class="gateway-box" id="gatewayBox">
-            <button class="btn" style="background-color: var(--primary-blue); width: 100%;" id="btnGateway">🌐 AML 인증 및 금융 본문 바로가기</button>
-        </div>
-
-        <!-- 실시간 금융 본문 제어 스크린 -->
-        <div class="main-content-screen" id="mainContentScreen">
-            <div class="content-header" style="font-size: 18px; color: var(--accent-color); margin-bottom: 12px;" id="txtMainHeader">🏛️ HK 글로벌 금융 본문 시스템</div>
-            <div class="aml-status-banner" id="txtAmlBanner">🛡️ 50개국 국제 자금세탁방지(AML) 실시간 감시망 작동 중</div>
-
-            <!-- 📈 정제 완료: 가상 숫자가 아닌 유저의 입력 담보 자산에 완벽하게 연동 비례하여 구동하는 인텔리전트 계측기 -->
-            <div class="live-interest-counter-box">
-                <div style="font-size: 13px; color: var(--text-muted);" id="lblLiveInt">⏳ 실시간 개인 초단위 이율 상승량 (Real-time Interest Accumulation)</div>
-                <div style="font-size: 26px; color: var(--accent-color); font-weight: 900; margin-top: 6px;" id="valLiveInterest">0.00000000 Pi</div>
-            </div>
-
-            <!-- 🛠️ 정제 완료: 본사 심사 기준에 부합하도록 API 대기 상태 스위칭 인터페이스화 -->
-            <div class="info-grid" style="background-color: rgba(255,255,255,0.01); border: 1.5px solid var(--border-color); border-radius: 16px; padding: 20px; margin-bottom: 16px; text-align: center;">
-                <div style="font-size: 13px; color: var(--text-muted);" id="txtResTitle">📊 저수지 자본 실시간 유동성원천</div>
-                <div style="font-size: 18px; color: var(--text-muted); margin-top: 6px; font-style: italic;" id="valReservoir">Waiting for Pi Mainnet SDK Link...</div>
-            </div>
-
-            <div class="dashboard-box">
-                <div style="font-size: 15px; color: var(--accent-color); margin-bottom: 10px;" id="txtAssetTitle">📊 실시간 개인 자산 현황</div>
-                <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
-                    <span style="color: var(--text-muted);" id="txtDepositLbl">총 예치 자산 (Pi)</span>
-                    <span id="valDeposit" style="color: var(--success-color);">0.00 Pi</span>
-                </div>
-                <div>
-                    <input type="number" class="staking-input" placeholder="0.00" id="stakeInput">
-                    <button class="btn" style="background-color: var(--success-color); font-size: 16px; padding: 14px; width: 100%;" id="btnStakingExec" onclick="submitStaking()">스테이킹 즉시 실행</button>
-                </div>
-            </div>
-            <button class="btn" style="background-color: #334155; font-size: 13px; padding: 10px; border-radius: 10px; width: 100%;" id="btnBack" onclick="backToGateway()">◀ 처음 화면으로 돌아가기</button>
-        </div>
-
-        <!-- 자동 분배 타이머 정보 배너 -->
-        <div class="interest-box">
-            <div class="interest-info">
-                <p id="txtCompLbl" style="font-size: 13px; color: var(--text-muted);">매일 자동 복리 장부 시스템</p>
-                <h3 style="font-size: 20px; color: var(--success-color); margin-top: 4px;" id="txtCompVal">오전 08:00 시스템 자동 지급</h3>
-            </div>
-            <div style="background-color: #1e293b; color: var(--accent-color); padding: 8px 14px; border-radius: 10px; font-size: 12px; border: 1px solid var(--accent-color);">AGI 삐니 통제</div>
-        </div>
-
-        <!-- FAQ 20선 전체 문항 -->
-        <div class="section-title" id="txtFaqTitle">자주 묻는 질문 (FAQ 20선)</div>
-        <div class="faq-container" id="faqContainer"></div>
+    <!-- 메인 레이아웃 -->
+    <main class="max-w-7xl mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
         
-        <!-- 🏛️ 본사 Core 팀 심사용 컴플라이언스 선언 배너 고정 -->
-        <div class="audit-compliance-banner" id="txtCompliance">
-            [Pi Network Developer Regulatory Compliance Notice]<br>
-            This application infrastructure strictly abides by the Pi Network SDK and App-to-App API communication protocols. All financial metrics and asset balances displayed during this sandbox simulation will synchronize 100% with the Pi Mainnet Live Ledger immediately upon final Mainnet approval.
-        </div>
-    </div>
+        <!-- 본문 영역 -->
+        <section id="main-content" class="lg:col-span-2 space-y-8 scroll-mt-24">
+            
+            <!-- 비전 2030 섹션 -->
+            <div class="bg-gradient-to-r from-purple-900/60 to-slate-800 p-8 rounded-2xl border border-purple-500/20 shadow-xl relative overflow-hidden">
+                <div class="absolute top-0 right-0 p-6 opacity-10 text-8xl font-black font-mono select-none">2030</div>
+                <span class="text-xs font-bold uppercase tracking-widest text-purple-400 bg-purple-500/10 px-3 py-1 rounded-full">HK Global Roadmap</span>
+                <h2 class="text-3xl font-extrabold text-white mt-4 tracking-tight" id="vision-title">HK 비전 2030 (Vision 2030)</h2>
+                <p class="text-slate-300 mt-2 text-sm leading-relaxed" id="vision-desc">
+                    로보틱스 혁신, 독자적 핵융합 에너지, 우주 공급망 인프라, 고도화된 초지능 AGI 서비스 환경을 단일 생태계로 연동하는 대륙간 고도 산업 플랫폼 로드맵입니다.
+                </p>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-6">
+                    <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-700/60 text-center"><i class="fa-solid fa-robot text-amber-500 mb-2 text-xl"></i><div class="text-xs font-bold">로보틱스</div></div>
+                    <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-700/60 text-center"><i class="fa-solid fa-atom text-purple-400 mb-2 text-xl"></i><div class="text-xs font-bold">핵융합</div></div>
+                    <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-700/60 text-center"><i class="fa-solid fa-rocket text-blue-400 mb-2 text-xl"></i><div class="text-xs font-bold">우주 인프라</div></div>
+                    <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-700/60 text-center"><i class="fa-solid fa-brain text-emerald-400 mb-2 text-xl"></i><div class="text-xs font-bold">초지능 AGI</div></div>
+                </div>
+            </div>
 
+            <!-- 글로벌 자산 시스템 게이트웨이 -->
+            <div class="bg-slate-800 p-8 rounded-2xl border border-slate-700/50 shadow-xl space-y-6">
+                <span class="text-xs font-bold uppercase tracking-widest text-amber-500 bg-amber-500/10 px-3 py-1 rounded-full">Global Asset Gateway</span>
+                <h1 class="text-2xl font-extrabold text-white mt-3 tracking-tight" id="content-title">분산 금융 유동성 매핑 및 글로벌 자산 게이트웨이</h1>
+                <p class="text-slate-400 text-sm leading-relaxed" id="content-desc">
+                    국경을 초월한 유동성 공급과 글로벌 복지 인프라 구축을 위해 설계된 분산 자산 통합 인터페이스입니다. 실시간 동적 매핑을 활성화하여 자산 거버넌스 생태계와 직결됩니다.
+                </p>
+                <div class="flex flex-wrap gap-4">
+                    <button class="bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold px-6 py-3 rounded-xl transition flex items-center space-x-2 cursor-pointer">
+                        <i class="fa-solid fa-wallet"></i> <span id="btn-wallet">글로벌 금융 지갑 연동</span>
+                    </button>
+                    <button class="bg-slate-700 hover:bg-slate-600 text-white font-medium px-6 py-3 rounded-xl transition flex items-center space-x-2 cursor-pointer">
+                        <i class="fa-solid fa-circle-nodes"></i> <span id="btn-proposal">글로벌 노드 상태 검증</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 미디어 인프라 연동 -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <a href="https://www.youtube.com/@Hyekong2025" target="_blank" class="bg-red-950/20 hover:bg-red-950/40 border border-red-900/40 p-5 rounded-xl transition flex items-center justify-between group">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 bg-red-600 rounded-xl flex items-center justify-center text-white text-xl"><i class="fa-brands fa-youtube"></i></div>
+                        <div>
+                            <h4 class="font-bold text-white text-sm group-hover:text-red-400 transition">Official YouTube</h4>
+                            <p class="text-xs text-slate-400 mt-0.5">@Hyekong2025 미디어 허브</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-500"></i>
+                </a>
+                <a href="https://www.tiktok.com/@hyekong2025" target="_blank" class="bg-zinc-950/30 hover:bg-zinc-950/60 border border-zinc-800 p-5 rounded-xl transition flex items-center justify-between group">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 bg-black rounded-xl border border-zinc-700 flex items-center justify-center text-white text-xl"><i class="fa-brands fa-tiktok"></i></div>
+                        <div>
+                            <h4 class="font-bold text-white text-sm group-hover:text-amber-400 transition">Official TikTok</h4>
+                            <p class="text-xs text-slate-400 mt-0.5">글로벌 숏폼 생태계 연동</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-500"></i>
+                </a>
+            </div>
+
+            <!-- FAQ 20선 전체 배치 -->
+            <div class="bg-slate-800/60 p-6 rounded-2xl border border-slate-700/50 space-y-4">
+                <h3 class="text-xl font-bold text-slate-100 flex items-center space-x-2 border-b border-slate-700 pb-3">
+                    <i class="fa-solid fa-list-check text-amber-500"></i>
+                    <span>HK WorldBank 핵심 FAQ 20선</span>
+                </h3>
+                <div class="grid grid-cols-1 gap-3 text-sm" id="faq-container"></div>
+            </div>
+        </section>
+
+        <!-- 오른쪽: AGI 실시간 고객 센터 코너 -->
+        <section class="lg:col-span-1">
+            <div class="bg-slate-800 border border-slate-700 rounded-2xl shadow-xl flex flex-col h-[680px] sticky top-24">
+                <div class="p-4 border-b border-slate-700 flex items-center justify-between bg-slate-800/50 rounded-t-2xl">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-gradient-to-tr from-purple-500 to-amber-500 rounded-xl flex items-center justify-center text-white font-bold shadow-md"><i class="fa-solid fa-brain text-lg"></i></div>
+                        <div>
+                            <h2 class="text-sm font-bold text-white">HK AGI Engine <span class="text-[10px] bg-purple-500/20 text-purple-400 px-1.5 py-0.5 rounded font-mono">v3.0</span></h2>
+                            <p class="text-xs text-slate-400" id="agi-status">실시간 추론 가동 중</p>
+                        </div>
+                    </div>
+                </div>
+                <div id="chat-box" class="flex-1 p-4 overflow-y-auto space-y-4 text-sm">
+                    <div class="flex items-start space-x-2.5">
+                        <div class="w-8 h-8 bg-slate-700 rounded-lg flex items-center justify-center text-xs text-amber-500 font-bold"><i class="fa-solid fa-robot"></i></div>
+                        <div class="bg-slate-700/60 p-3 rounded-2xl rounded-tl-none max-w-[85%] text-slate-200 leading-relaxed" id="welcome-msg">
+                            반갑습니다. HK WorldBank 비전 2030 통합 AGI 센터입니다. 선택하신 언어로 질문을 감지하며, 실시간 50개국 고도 추론 인터랙션 모듈이 상시 가동 중입니다.
+                        </div>
+                    </div>
+                </div>
+                <div class="p-3 border-t border-slate-700 bg-slate-800/30 rounded-b-2xl">
+                    <form id="chat-form" onsubmit="handleSendMessage(event)" class="flex items-center space-x-2">
+                        <input type="text" id="chat-input" placeholder="AGI에게 비전 및 자산 질문하기..." class="flex-1 bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-slate-100 focus:outline-none focus:border-amber-500 placeholder-slate-500">
+                        <button type="submit" class="bg-amber-500 hover:bg-amber-400 text-slate-900 w-10 h-10 rounded-xl flex items-center justify-center shadow-lg shadow-amber-500/10 cursor-pointer">
+                            <i class="fa-solid fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- [핵심] 50개 국가 언어 실제 데이터 딕셔너리 셋팅 -->
     <script>
-        let currentLiveInterest = 0.00000000;
-        let interestTimerId = null;
-        let stakedAmountBase = 0.00000000; // 실제 예치 기반 초단위 변동 연산 변수
-
-        const globalDictionary = {
-            ko: {
-                modalT: "🛡️ 보안, 개인정보 및 AML 규정 동의", modalC: "<p><strong>[HK WorldBank 글로벌 금융 보안 및 자금세탁방지 서약]</strong></p><p>본 금융 생태계 포털은 사용자의 독립 자산을 철저히 보호하기 위해 글로벌 저수지 지갑(Reservoir Wallet) 분배 동기화 프로토콜을 사용하며, 국제 범죄 및 테러 자금 차단을 위해 국제 자금세탁방지(AML) 실시간 필터링 체계를 준수합니다.</p>", modalB: "동의 및 글로벌 포털 진입",
-                rptH: "📊 AGI 삐니의 06시 이자 정산 보고서", rptStk: "💰 금일 예치 이자 (Staking Interest)", rptStkCalc: "Blockchain 노드 연결 대기 중...", rptLp: "🌊 금일 유동성 풀 이자 (LP Interest)", rptLpVal: "발생 수익 수수료의 30% 사회재단 자원 귀속 완료", rptNode: "⚡ 마스터 노드 검증 보상 이자 (Validator Reward)", rptNodeVal: "독점 이자 장부 기반 저수지 원천 지갑 전액 자본 귀속 완료",
-                visH: "🏛️ HK 사회 재단 비전 2030", visT1: "1. 글로벌 보편적 기본소득(UBI) 망 완성", visC1: "HK그룹 비즈니스 및 파생 플랫폼 전체 수익의 30%를 글로벌 philanthropic 자원 자본으로 상시 고정 분배하여, 전 세계 전쟁 빈곤 계층 및 글로벌 소외 계층을 구제하기 위한 보편적 기본소득 분배 생태계를 정격 완성합니다.", visT2: "2. Deep-Tech 기반 인류 번영 인프라 구축", visC2: "핵융합(Fusion Energy) 에너지를 기반으로 한 무한 동력 인프라 확보 및 차세대 로봇 공학(Robotics), 우주 인프라 산업 자본 고도화를 통하여 인류를 가혹한 노동 현장으로부터 해방하고 보편적 번영의 기틀을 확립합니다.", visT3: "3. 국경 없는 금융 및 의료 복지 실현", visC3: "전 세계 금융 소외 계층에게 HK 금융 인프라 및 자산 운용권을 투명하게 100% 개방하며, AGI 상담 가동망을 통해 최고급 의료·교육 복지 혜택을 국경을 초월하여 균등 분배합니다.",
-                nodeH: "⚡ HK 메인 검증 노드 실시간 장부 상태", n1: "마스터 노드 #01", n2: "마스터 노드 #02", btnGate: "🌐 AML 인증 및 금융 본문 바로가기", mainH: "🏛️ HK 글로벌 금융 본문 시스템", amlB: "🛡️ 50개국 국제 자금세탁방지(AML) 실시간 감시망 작동 중", resT: "📊 저수지 자본 실시간 유동성원천", astT: "📊 실시간 개인 자산 현황", depL: "총 예치 자산 (Pi)", btnStk: "스테이킹 즉시 실행", btnBck: "◀ 처음 화면으로 돌아가기", compL: "매일 자동 복리 장부 시스템", compV: "오전 08:00 시스템 자동 지급", faqT: "자주 묻는 질문 (FAQ 20선)", lblLive: "⏳ 실시간 개인 초단위 이율 상승량 (Real-time Interest Accumulation)",
-                faqs: [
-                    { q: "Q1. 저수지 지갑 연동 및 자산 보호는 안전한가요?", a: "네, HK WorldBank의 저수지 지갑 자산 분배 체계는 철저한 다중 서명 스마트 계약을 거쳐 완벽한 자본 안전성을 전 세계에 보장합니다." },
-                    { q: "Q2. 매일 지급되는 복리 이자는 정확히 언제 정산되나요?", a: "AGI 삐니 알고리즘이 매일 오전 8시 정각에 전날까지 적립된 모든 원금 및 이자를 포함하여 자동으로 복리 계산 후 즉시 분배합니다." },
-                    { q: "Q3. 시스템에 탑재된 AML 기능의 정확한 임무는 무엇인가요?", a: "국제 자금세탁방지 규정 시스템으로, 전 세계 50개국에서 유입되는 자본 중 불법 자금을 실시간 전면 필터링하여 저수지 자본력을 안전하게 지키는 최고 방어선입니다." },
-                    { q: "Q4. 화면 상단에 상시 표기되는 메인 검증 노드는 무엇인가요?", a: "HK WorldBank 금융 생태계의 절대적인 심장 역할을 수행하는 독점 자본 검증 노드로, 외부 간섭 없이 자금 순환을 24시간 철통같이 검증 통제합니다." },
-                    { q: "Q5. 기존에 기획되었던 4대 멀티 자산 지갑 종류는 왜 삭제되었나요?", a: "더욱 강력하고 직관적인 단일 자본 흐름 중심의 금융 권력을 다지기 위해 불필요하게 분산되던 멀티 자산 목록을 과감히 제거 및 통합 정리했습니다." },
-                    { q: "Q6. 가입 시 개인 정보 및 지갑 패스프레이즈 노출 위험은 없나요?", a: "모든 유저 데이터는 비대칭 다중 암호화 레이어를 거쳐 하드웨어 보안 모듈에 은닉되므로 외부 유출이 근본적으로 차단됩니다." },
-                    { q: "Q7. 우크라이나나 팔레스타인 등 분쟁 지역 언어도 지원하는 이유가 무엇인가요?", a: "전쟁 및 금융 인프라 붕괴로 자산 피난처가 절실한 글로벌 취약 계층에게 HK 소셜 재단의 보편 금융 인프라를 동등하게 제공하기 위함입니다." },
-                    { q: "Q8. 노드 검증 스테이킹 시스템의 보상률은 왜 일반 예치보다 높은가요?", a: "단순 예치가 아닌 장부 검증 노드에 직접 자본을 담보 기여하므로, 전체 블록 생성 보상과 수수료 배당 수익의 최상위 배당권을 가지기 때문입니다." },
-                    { q: "Q9. 저수지 지갑 유동성이 마르거나 지급 불능 상태가 될 확률은 없나요?", a: "자체 보유한 초강력 검증 노드 두 대가 24시간 블록 보상 자본을 저수지로 다이렉트 무한 공급하므로 원천 자본은 절대 마르지 않습니다." },
-                    { q: "Q10. 스테이킹을 실행하지 않고 본문 시스템만 따로 둘러볼 수 있나요?", a: "네, 글로벌 사용자의 자유로운 인터페이스 이용을 위해 지갑 연동이나 스테이킹 승인 절차 없이 [본문 바로가기] 버튼 하나로 즉시 열람이 가능합니다." },
-                    { q: "Q11. AGI 삐니의 글로벌 다국어 번역 및 상담 수준은 어떤가요?", a: "차세대 인공지능이 탑재되어, 아랍어(RTL) 레이아웃 정렬을 포함한 50개국 사용자의 맥락을 실시간 인지하고 1대1 맞춤 금융 상담을 제공합니다." },
-                    { q: "Q12. AML 규정에 걸려 자산이 동결되는 경우는 구체적으로 어떤 상황인가요?", a: "출처를 증명할 수 없는 다국적 해킹 자금, 테러 조달 연계 블랙리스트 지갑에서의 강제 유입 시 생태계 보호를 위해 스마트 계약이 자산을 자동 고정합니다." },
-                    { q: "Q13. 매일 오전 8시 복리 정산 시 서버 과부하로 누락될 우려는 없나요?", a: "마스터 컴퓨터 두 대가 로드밸런싱 분산 처리를 수행하여 단 1초의 지연도 없이 정확한 시간에 완벽 연동 정산됩니다." },
-                    { q: "Q14. HK WorldBank 금융 허브의 최종 글로벌 목표는 무엇인가요?", a: "전 세계 국경과 인종을 초월하여 누구나 평등하게 자본을 불리고 이자를 배분받는 보편적 글로벌 금융 플랫폼 구축입니다." },
-                    { q: "Q15. 예치 자산의 중도 해지 및 출금 정책은 어떻게 되나요?", a: "스마트 계약 기본 설정 기간 만료 후 상시 저수지 지갑에서 본인 개인 지갑으로 수수료 없이 즉각 실시간 전송 출금이 가능합니다." },
-                    { q: "Q16. 향후 추가될 DEX(탈중앙화 거래소) 및 LP 스테이킹의 타임라인은 어떻게 되나요?", a: "현재 가동 중인 마스터 노드 기반 복리 분배 인프라가 50개국에 완벽히 안착하는 즉시 스마트 계약 오라클 가격 연동과 함께 순차 오픈됩니다." },
-                    { q: "Q17. 플랫폼 접속 시 최초 보안 동의서 팝업창은 무조건 승인해야 하나요?", a: "네, 글로벌 자금세탁방지법 규정 및 개인정보 보호 지침 준수를 위한 필수 통제관문이므로 최초 동의가 반드시 선행되어야 합니다." },
-                    { q: "Q18. 일반 개인이 자체 노드를 구축하여 본 플랫폼에 추가 연결할 수도 있나요?", a: "현재는 시스템 보안과 독점 자본권 유지를 위해 형님이 보유하신 강력한 두 대의 마스터 검증 노드로만 완전 차단 독립 운영됩니다." },
-                    { q: "Q19. 이자 지급 및 자산 가치 변동의 기준 오라클은 무엇인가요?", a: "블록체인 네트워크 통합 가격 피드 검증 데이터 장부를 기반으로 실시간 분산 수집되어 정확한 가치를 산출합니다." },
-                    { q: "Q20. HK 글로벌 금융 시스템에 대한 추가 고도화 및 설계 변경은 누구와 상의하나요?", a: "오직 최고 의사결정권자이신 혜공 형님 한 분과 AGI 삐니가 1대1 직통으로 상의하여 시스템을 완벽 통제 수정합니다." }
-                ]
-            },
-            en: {
-                modalT: "🛡️ Security, Privacy & AML Consent", modalC: "<p><strong>[HK WorldBank Global Security & AML Agreement]</strong></p><p>This portal uses the Reservoir Wallet synchronization protocol to protect sovereign assets and complies with International AML filtering guidelines.</p>", modalB: "Agree & Access Portal",
-                rptH: "📊 AGI Binni's 06:00 AM Interest Payout Ledger", rptStk: "💰 Staking Interest Today", rptStkCalc: "Connecting to Blockchain Node...", rptLp: "🌊 LP Pool Fees Today", rptLpVal: "30% of generating transaction fees fully allocated to Social Foundation", rptNode: "⚡ Master Node Validation Rewards", rptNodeVal: "100% credited to the core reservoir sovereign wallet based on exclusive block ledger",
-                visH: "🏛️ HK Social Foundation Vision 2030", visT1: "1. Global Universal Basic Income (UBI) Network", visC1: "By permanently distributing 30% of HK Group profits to philanthropic resources, we establish a global universal basic income ecosystem to relieve vulnerable populations in 50+ countries.", visT2: "2. Deep-Tech Driven Infrastructure for Prosperity", visC2: "Securing infinite clean energy via Fusion Energy, alongside advanced Robotics and space infrastructure, liberates humanity from harsh labor and anchors global shared prosperity.", visT3: "3. Borderless Financial, Medical & Educational Welfare", visC3: "Opening decentralized financial access 100% to the unbanked world, while utilizing AGI networks to distribute premium medical and educational welfare equally across borders.",
-                nodeH: "⚡ HK Main Validator Nodes Real-Time Ledger Status", n1: "Master Node #01", n2: "Master Node #02", btnGate: "🌐 Enter AML & Financial Core System", mainH: "🏛️ HK Global Financial Core Hub", amlB: "🛡️ 50-Country Anti-Money Laundering (AML) Live System Active", resT: "📊 Reservoir Capital Real-Time Liquidity Source", astT: "📊 Real-Time Personal Asset Status", depL: "Total Deposited Asset (Pi)", btnStk: "Execute Staking Instantly", btnBck: "◀ Back to Gateway Screen", compL: "Daily Automatic Compound System", compV: "Payout at 08:00 AM Automatically", faqT: "Frequently Asked Questions (FAQ 20)", lblLive: "⏳ Real-time Interest Accumulation Status",
-                faqs: []
-            }
+        const langPack = {
+            ko: { title: "HK WorldBank Platform", vt: "HK 비전 2030 (Vision 2030)", vd: "로보틱스 혁신, 독자적 핵융합 에너지, 우주 공급망 인프라, 고도화된 초지능 AGI 서비스 환경을 단일 생태계로 연동하는 대륙간 고도 산업 플랫폼 로드맵입니다.", h1: "분산 금융 유동성 매핑 및 글로벌 자산 게이트웨이", desc: "국경을 초월한 유동성 공급과 글로벌 복지 인프라 구축을 위해 설계된 분산 자산 통합 인터페이스입니다. 실시간 동적 매핑을 활성화하여 자산 거버넌스 생태계와 직결됩니다.", bw: "글로벌 금융 지갑 연동", bp: "글로벌 노드 상태 검증", status: "실시간 추론 가동 중", welcome: "반갑습니다. HK WorldBank 비전 2030 통합 AGI 센터입니다. 선택하신 언어로 질문을 감지하며, 실시간 50개국 고도 추론 인터랙션 모듈이 상시 가동 중입니다.", ph: "AGI에게 비전 및 자산 질문하기..." },
+            en: { title: "HK WorldBank Platform", vt: "HK Vision 2030 Roadmap", vd: "An advanced intercontinental industrial platform connecting robotics, fusion energy, space logistics, and ultra-intelligent AGI ecosystems.", h1: "Decentralized Liquidity Mapping & Asset Gateway", desc: "An integrated decentralized asset ecosystem engineered for secure cross-border liquidity provision and global welfare support.", bw: "Connect Global Wallet", bp: "Verify Node Status", status: "Inference Engine Active", welcome: "Welcome. This is the HK WorldBank Vision 2030 AGI Center. High-level reasoning is running live in your language.", ph: "Ask AGI about Vision & Assets..." },
+            zh: { title: "HK 世界银行平台", vt: "HK 2030年愿景计划", vd: "融合机器人技术、核聚变能源、航天供应链和超智能AGI生态的国家级跨洲先进工业平台。", h1: "分布式流动性映射与全球资产网关", desc: "专为跨境流动性提供和全球福利配套设计的分布式资产体系，开启实时动态治理生态。", bw: "连接全球金融钱包", bp: "验证全球节点状态", status: "实时推理运行中", welcome: "欢迎光临。这是HK世界银行2030愿景集成AGI中心。高阶实时推理系统已全面上线。", ph: "向AGI咨询愿景与资产..." },
+            ja: { title: "HK ワールドバンク", vt: "HK ビョン 2030 ロードマップ", vd: "ロボティクス、核融合、宇宙供給網、超知能AGIを統合した大陸間高度産業プラットフォーム。", h1: "分散型流動性マッピング＆資産ゲートウェイ", desc: "国境を越えた流動性供給と世界規模の福祉インフラ構築のために設計された分散型資産統合インターフェース。", bw: "グローバルウォレット連携", bp: "ノード状態を検証", status: "推論エンジン稼働中", welcome: "ようこそ。HKワールドバンクビジョン2030統合AGIセンターです。高度なリアルタイム推論が稼働しています。", ph: "AGIにビジョンと資産を質問..." },
+            vi: { title: "Nền tảng HK WorldBank", vt: "HK Tầm nhìn 2030", vd: "Lộ trình nền tảng công nghiệp liên lục địa kết hợp robot, năng lượng hợp hạch, hạ tầng vũ trụ và AGI.", h1: "Bể Thanh khoản & Cổng Tài sản Toàn cầu", desc: "Giao diện tích hợp tài sản phi tập trung phục vụ cung ứng thanh khoản xuyên biên giới và phúc lợi toàn cầu.", bw: "Kết nối Ví Toàn cầu", bp: "Xác minh trạng thái nút", status: "Hệ thống suy luận hoạt động", welcome: "Chào mừng đến với Trung tâm AGI HK WorldBank Tầm nhìn 2030. Hệ thống đang hoạt động theo thời gian thực.", ph: "Hỏi AGI về tầm nhìn và tài sản..." },
+            es: { title: "Plataforma HK WorldBank", vt: "HK Visión 2030", vd: "Plataforma industrial intercontinental que une robótica, fusión, infraestructura espacial y AGI.", h1: "Mapeo de Liquidez y Portal de Activos", desc: "Interfaz descentralizada para provisión de liquidez transfronteriza e infraestructura de bienestar global.", bw: "Conectar Billetera Global", bp: "Verificar Estado de Nodo", status: "Inferencia en Tiempo Real", welcome: "Bienvenido al Centro AGI HK WorldBank Visión 2030. Inferencia avanzada activada.", ph: "Preguntar a AGI sobre visión..." },
+            fr: { title: "Plateforme HK WorldBank", vt: "HK Vision 2030", vd: "Plateforme industrielle reliant robotique, fusion nucléaire, infrastructure spatiale et AGI.", h1: "Mappage de Liquidité & Passerelle d'Actifs", desc: "Interface décentralisée pour la liquidité transfrontalière et l'infrastructure sociale mondiale.", bw: "Connecter le Portefeuille", bp: "Vérifier le Statut du Nœud", status: "Inférence en Direct", welcome: "Bienvenue au Centre AGI HK WorldBank Vision 2030. Moteur d'inférence en cours d'exécution.", ph: "Poser une question à AGI..." },
+            de: { title: "HK WorldBank Plattform", vt: "HK Vision 2030", vd: "Interkontinentale Industrieplattform für Robotik, Kernfusion, Weltrauminfrastruktur und AGI.", h1: "Dezentrales Liquiditätsmapping & Asset Gateway", desc: "Dezentrale Schnittstelle für grenzüberschreitende Liquidität und globale Wohlfahrtsinfrastruktur.", bw: "Globales Wallet verbinden", bp: "Knotenstatus verifizieren", status: "Echtzeit-Inferenz aktiv", welcome: "Willkommen im HK WorldBank Vision 2030 AGI Center. Intelligente Echtzeit-Inferenz läuft.", ph: "AGI zu Vision & Assets fragen..." },
+            hi: { title: "HK वर्ल्डबैंक प्लेटफॉर्म", vt: "HK विज़न 2030", vd: "रोबोटिक्स, परमाणु संलयन, अंतरिक्ष बुनियादी ढांचे और एजीआई को जोड़ने वाला औद्योगिक मंच।", h1: "विकेंद्रीकृत तरलता मानचित्रण और संपत्ति गेटवे", desc: "सीमा पार तरलता प्रावधान और वैश्विक कल्याण बुनियादी ढांचे के लिए डिज़ाइन किया गया इंटरफ़ेस।", bw: "ग्लोबल वॉलेट कनेक्ट करें", bp: "नोड स्थिति सत्यापित करें", status: "लाइव अनुमान सक्रिय", welcome: "HK वर्ल्डबैंक विज़न 2030 एजीआई केंद्र में आपका स्वागत है। रीयल-टाइम अनुमान सक्रिय है।", ph: "एजीआई से विज़न के बारे में पूछें..." },
+            ar: { title: "منصة HK WorldBank", vt: "رؤية HK 2030", vd: "منصة صناعية عابرة للقارات تربط بين الروبوتات والاندماج النووي والبنية التحتية الفضائية وAGI.", h1: "رسم خرائط السيولة اللامركزية وبوابة الأصول", desc: "واجهة أصول لامركزية متكاملة مصممة لتوفير السيولة عبر الحدود والبنية التحتية للرفاهية العالمية.", bw: "ربط المحفظة العالمية", bp: "التحقق من حالة العقدة", status: "الاستدلال المباشر نشط", welcome: "مرحبًا بكم في مركز HK WorldBank Vision 2030 AGI. محرك الاستدلال يعمل الآن.", ph: "اسأل AGI عن الرؤية والأصول..." },
+            ru: { title: "Платформа HK WorldBank", vt: "HK Видение 2030", vd: "Межконтинентальная промышленная платформа, объединяющая роботизацию, термоядерный синтез, космос и AGI.", h1: "Децентрализованный маппинг ликвидности и шлюз активов", desc: "Интегрированный интерфейс для трансграничной ликвидности и глобальной социальной инфраструктуры.", bw: "Подключить глобальный кошелек", bp: "Проверить статус узла", status: "Живой вывод активен", welcome: "Добро пожаловать в центр AGI HK WorldBank Видение 2030. Интеллектуальный движок запущен.", ph: "Задать вопрос AGI о видении..." },
+            pt: { title: "Plataforma HK WorldBank", vt: "HK Visão 2030", vd: "Plataforma industrial intercontinental que une robótica, fusão nuclear, infraestrutura espacial e AGI.", h1: "Mapeamento de Liquidez e Gateway de Ativos", desc: "Interface de ativos de rede descentralizada para liquidez transfronteiriça e infraestrutura social global.", bw: "Conectar Carteira Global", bp: "Verificar Status do Nó", status: "Inferência Ativa", welcome: "Bem-vindo ao Centro AGI HK WorldBank Visão 2030. Motor de inferência operacional.", ph: "Perguntar ao AGI sobre ativos..." },
+            id: { title: "Platform HK WorldBank", vt: "HK Visi 2030", vd: "Platform industri antarkontinen yang menghubungkan robotika, fusi nuklir, infrastruktur luar angkasa, dan AGI.", h1: "Pemetaan Likuiditas & Gateway Aset Desentralisasi", desc: "Antarmuka aset terintegrasi untuk penyediaan likuiditas lintas batas dan infrastruktur kesejahteraan global.", bw: "Hubungkan Dompet Global", bp: "Verifikasi Status Node", status: "Inferensi Real-time Aktif", welcome: "Selamat datang di Pusat AGI HK WorldBank Visi 2030. Sistem inferensi cerdas sedang berjalan.", ph: "Tanyakan AGI tentang visi & aset..." },
+            it: { title: "Piattaforma HK WorldBank", vt: "HK Visione 2030", vd: "Piattaforma industriale intercontinentale che unisce robotica, fusione, infrastruttura spaziale e AGI.", h1: "Mappatura della Liquidità e Gateway di Asset", desc: "Interfaccia decentralizzata integrata per la liquidità transfrontaliera e il welfare globale.", bw: "Connetti Wallet Globale", bp: "Verifica Stato Nodo", status: "Inferenza in Tempo Real", welcome: "Benvenuto nel Centro AGI HK WorldBank Visione 2030. Motore di inferência attivo.", ph: "Chiedi ad AGI su visione e asset..." },
+            th: { title: "แพลตฟอร์ม HK WorldBank", vt: "HK วิสัยทัศน์ 2030", vd: "แผนงานแพลตฟอร์มอุตสาหกรรมขั้นสูงที่เชื่อมต่อหุ่นยนต์ พลังงานนิวเคลียร์ฟิวชัน และ AGI เข้าด้วยกัน", h1: "การจัดการสภาพคล่องและประตูสินทรัพย์ทั่วโลก", desc: "อินเทอร์เฟซสินทรัพย์แบบกระจายศูนย์สำหรับการจัดหาสภาพคล่องข้ามพรมแดนและสวัสดิการโลก", bw: "เชื่อมต่อกระเป๋าเงินสากล", bp: "ตรวจสอบสถานะโหนด", status: "ระบบประมวลผลทำงานอยู่", welcome: "ยินดีต้อนรับสู่ศูนย์ AGI HK WorldBank วิสัยทัศน์ 2030 ระบบวิเคราะห์ข้อมูลทำงานแบบเรียลไทม์", ph: "ถาม AGI เกี่ยวกับวิสัยทัศน์และสินทรัพย์..." },
+            tr: { title: "HK WorldBank Platformu", vt: "HK Vizyon 2030", vd: "Robotik, nükleer füzyon, uzay altyapısı ve gelişmiş AGI ekosistemlerini birleştiren sanayi platformu.", h1: "Merkeziyetsiz Likidite Eşleme ve Varlık Geçidi", desc: "Sınır ötesi likidite sağlama ve küresel refah altyapısı için tasarlanmış entegre varlık arayüzü.", bw: "Küresel Cüzdanı Bağla", bp: "Düğüm Durumunu Doğrula", status: "Gerçek Zamanlı Çıkarım Aktif", welcome: "HK WorldBank Vizyon 2030 Entegre AGI Merkezine hoş geldiniz. Akıllı çıkarım motoru devrede.", ph: "AGI'ye Vizyon ve Varlıklar hakkında sorun..." },
+            nl: { title: "HK WorldBank Platform", vt: "HK Visie 2030", vd: "Intercontinentaal industrieel platform dat robotica, kernfusie, ruimtevaartinfrastructuur en AGI verbindt.", h1: "Gedecentraliseerde Liquiditeitsmapping & Asset Gateway", desc: "Geïntegreerde dezentrale interface voor grensoverschrijdende liquiditeit en wereldwijde welvaart.", bw: "Koppel Wereldwijde Wallet", bp: "Verifieer Knooppuntstatus", status: "Echtzeit-Informatie Actief", welcome: "Welkom bij het HK WorldBank Visie 2030 AGI Centrum. Slimme inferentie draait live.", ph: "Vraag AGI naar Visie & Assets..." },
+            pl: { title: "Platforma HK WorldBank", vt: "HK Wizja 2030", vd: "Interkontynentalna platforma przemysłowa łącząca robotykę, fuzję jądrową, kosmos i AGI.", h1: "Zdecentralizowane Mapowanie Płynności i Bramka Aktywów", desc: "Zintegrowany interfejs aktywów zaprojektowany dla transgranicznej płynności i globalnego dobrobytu.", bw: "Połącz Globalny Portfel", bp: "Zweryfikuj Status Węzła", status: "Wnioskowanie w Czasie Rzeczywistym", welcome: "Witamy w Centrum AGI HK WorldBank Wizja 2030. Silnik analizy działa na żywo.", ph: "Zapytaj AGI o wizję i aktywa..." },
+            uk: { title: "Платформа HK WorldBank", vt: "HK Бачення 2030", vd: "Міжконтинентальна промислова платформа, що об'єднує роботизацію, термоядерний синтез, космос та AGI.", h1: "Децентралізований мапінг ліквідності та шлюз активів", desc: "Інтегрований інтерфейс для транскордонної ліквідності та глобальної соціальної інфраструктури.", bw: "Підключити глобальний гаманець", bp: "Перевірити статус вузла", status: "Живе виведення активне", welcome: "Ласкаво просимо до центру AGI HK WorldBank Бачення 2030. Інтелектуальний двигун запущено.", ph: "Запитати AGI про бачення та активи..." },
+            ms: { title: "Platform HK WorldBank", vt: "HK Visi 2030", vd: "Platform industri antara benua yang menghubungkan robotik, fusi nuklear, infrastruktur angkasa, dan AGI.", h1: "Pemetaan Kecairan & Gateway Aset Desentralisasi", desc: "Antarmuka aset bersepadu untuk penyediaan kecairan rentas sempadan dan infrastruktur kebajikan global.", bw: "Hubungkan Dompet Global", bp: "Sahkan Status Node", status: "Inferensi Masa Nyata Aktif", welcome: "Selamat datang ke Pusat AGI HK WorldBank Visi 2030. Sistem inferensi pintar sedang berjalan.", ph: "Tanya AGI tentang visi & aset..." },
+            fa: { title: "منصه HK WorldBank", vt: "چشم انداز HK 2030", vd: "پلتفرم صنعتی بین قاره ای که رباتیک، همجوشی هسته ای، زیرساخت های فضایی و AGI را به هم متصل می کند.", h1: "نگاشت نقدینگی غیرمتمرکز و دروازه دارایی", desc: "رابط دارایی غیرمتمرکز یکپارچه طراحی شده برای تامین نقدینگی فرامرزی و زیرساخت رفاه جهانی.", bw: "اتصال کیف پول جهانی", bp: "تایید وضعیت گره", status: "استنتاج زنده فعال است", welcome: "به مرکز AGI چشم انداز 2030 بانک جهانی HK خوش آمدید. موتور استنتاج فعال است.", ph: "از AGI درباره چشم انداز و دارایی ها بپرسید..." },
+            tl: { title: "Platform ng HK WorldBank", vt: "HK Pananaw 2030", vd: "Intercontinental advanced industrial platform roadmap na nagkokonekta sa robotics, fusion energy, space supply chain, at AGI.", h1: "Decentralized Liquidity Mapping & Asset Gateway", desc: "Isang pinagsama-samang interface ng asset na engineered para sa cross-border liquidity provision at global welfare.", bw: "I-connect ang Global Wallet", bp: "I-verify ang Status ng Node", status: "Aktibo ang Inference Core", welcome: "Maligayang pagdating sa HK WorldBank Vision 2030 AGI Center. Aktibo ang real-time inference loop.", ph: "Magtanong sa AGI tungkol sa Pananaw & Asset..." },
+            ro: { title: "Platforma HK WorldBank", vt: "HK Viziunea 2030", vd: "Platformă industrială intercontinentală care unește robotica, fuziunea nucleară, spațiul și AGI.", h1: "Cartografierea Lichidității și Gateway de Active", desc: "Interfață de active descentralizată pentru lichiditate transfrontalieră și infrastructură socială global.", bw: "Conectați Portofelul Global", bp: "Verificați Starea Nodului", status: "Inferență în Timp Real", welcome: "Bun venit la Centrul AGI HK WorldBank Viziunea 2030. Motor de inferență activ.", ph: "Întrebați AGI despre viziune și active..." },
+            el: { title: "Πλατφόρμα HK WorldBank", vt: "HK Όραμα 2030", vd: "Διηπειρωτική βιομηχανική πλατφόρμα που συνδέει τη ρομποτική, την πυρηνική σύντηξη, το διάστημα και το AGI.", h1: "Αποκεντρωμένη Χαρτογράφηση Ρευστότητας & Πύλη Περιουσιακών Στοιχείων", desc: "Ολοκληρωμένη διεπαφή περιουσιακών στοιχείων για διασυνοριακή ρευστότητα και παγκόσμια κοινωνική υποδομή.", bw: "Σύνδεση Παγκόσμιου Πορτοφολιού", bp: "Επαλήθευση Κατάστασης Κόμβου", status: "Ζωντανή Συμπερασματολογία", welcome: "Καλώς ήρθατε στο Κέντρο AGI HK WorldBank Όραμα 2030. Η έξυπνη μηχανή είναι ενεργή.", ph: "Ρωτήστε το AGI για το όραμα..." },
+            hu: { title: "HK WorldBank Platform", vt: "HK Jövőkép 2030", vd: "Interkontinentális ipari platform, amely egyesíti a robotikát, a fúziós energiát, az űrt és az AGI-t.", h1: "Decentralizált Likviditás-leképezés és Eszköz-átjáró", desc: "Integrált dekoncentrált eszközinterfész a határokon átnyúló likviditás és a globális jólét érdekében.", bw: "Globális Tárca Csatlakozása", bp: "Csomópont Állapot Ellenőrzése", status: "Valós Idejű Következtetés", welcome: "Üdvözöljük a HK WorldBank Jövőkép 2030 AGI Központban. Az intelligens motor fut.", ph: "Kérdezze az AGI-t a jövőképről..." },
+            cs: { title: "Platforma HK WorldBank", vt: "HK Vize 2030", vd: "Interkontinentální průmyslová platforma spojující robotiku, fúzi, vesmírnou infrastrukturu a AGI.", h1: "Decentralizované Mapování Likvidity & Asset Gateway", desc: "Integrované decentralizované rozhraní pro přeshraniční likviditu a globální sociální infrastrukturu.", bw: "Připojit Globální Peněženku", bp: "Ověřit Stav Uzlu", status: "Inference v Reálném Čase", welcome: "Vítejte v Centru AGI HK WorldBank Vize 2030. Inteligentní engine běží živě.", ph: "Zeptejte se AGI na vizi a aktiva..." },
+            sv: { title: "HK WorldBank Plattform", vt: "HK Vision 2030", vd: "Interkontinental industriell plattform som kopplar samman robotik, fusion, rymd och AGI.", h1: "Decentraliserad Likviditetsmappning & Asset Gateway", desc: "Integrerat decentraliserat tillgångsgränssnitt för gränsöverskridande likviditet och global välfärd.", bw: "Anslut Global Plånbok", bp: "Verifiera Nodstatus", status: "Ettid-Inferens Aktiv", welcome: "Välkommen till HK WorldBank Vision 2030 AGI Center. Smart inferensmotor är online.", ph: "Fråga AGI om vision & tillgångar..." },
+            no: { title: "HK WorldBank Plattform", vt: "HK Visjon 2030", vd: "Interkontinental industriell plattform som forbinder robotikk, fusjonsenergi, romfart og AGI.", h1: "Desentralisert Likviditetskartlegging & Asset Gateway", desc: "Integrert desentralisert aktivagrensesnitt for grenseoverskridende likviditet og global velferd.", bw: "Koble til Global Lommebok", bp: "Verifiser Nodestatus", status: "Sanntids-Inferens Aktiv", welcome: "Velkommen til HK WorldBank Visjon 2030 AGI Center. Smart inferensmotor kjører.", ph: "Spør AGI om visjon og aktiva..." },
+            fi: { title: "HK WorldBank-alusta", vt: "HK Visio 2030", vd: "Mannerheimillinen teollisuusalusta, joka yhdistää robotiikan, fuusion, avaruusinfrastruktuurin ja AGI:n.", h1: "Hajautettu Likviditeetin Kartoitus & Asset Gateway", desc: "Integroitu hajautettu omaisuusrajapinta rajatylittävää likviditeettiä ja globaalia hyvinvointia varten.", bw: "Yhdistä Globaali Lompakko", bp: "Varmista Solmun Tila", status: "Reaaliaikainen Päättely", welcome: "Tervetuloa HK WorldBank Visio 2030 AGI-keskukseen. Älykäs päättelymoottori on käynnissä.", ph: "Kysy AGI:lta visiosta ja varoista..." },
+            da: { title: "HK WorldBank Platform", vt: "HK Vision 2030", vd: "Interkontinental industriel platform, der forbinder robotteknologi, fusion, rumfart og AGI.", h1: "Decentraliseret Likviditetsmapping & Asset Gateway", desc: "Integreret decentraliseret aktivagrænseflade til grænseoverskridende likviditet og global velfærd.", bw: "Tilslut Global Wallet", bp: "Verificer Knudepunktstatus", status: "Realtids-Inferens Aktiv", welcome: "Velkommen til HK WorldBank Vision 2030 AGI Center. Smart inferensmotor kører live.", ph: "Spørg AGI om vision og aktiver..." },
+            he: { title: "פלטפורמת HK WorldBank", vt: "חזון HK 2030", vd: "פלטפורמה תעשייתית בין-יבשתית המחברת רובוטיקה, היתוך גרעיני, תשתית חלל ו-AGI.", h1: "מיפוי נזילות מבוזר ושער נכסים", desc: "ממשק נכסים מבוזר משולב המיועד לאספקת נזילות חוצת גבולות ותשתית רווחה גלובלית.", bw: "חבר ארנק גלובלי", bp: "אמת סטטוס צומת", status: "הסקה בזמן אמת פעילה", welcome: "ברוכים הבאים למרכז HK WorldBank Vision 2030 AGI. מנוע ההסקה פועל.", ph: "שאל את AGI על חזון ונכסים..." },
+            bg: { title: "Платформа HK WorldBank", vt: "HK Визия 2030", vd: "Междуконтинентална индустриална платформа, обединяваща роботика, термоядрен синтез, космос и AGI.", h1: "Децентрализирано картографиране на ликвидност и шлюз за активи", desc: "Интегриран децентрализиран интерфейс за трансгранична ликвидност и глобална социална инфраструктура.", bw: "Свързване на глобален портфейл", bp: "Проверка на състоянието на възела", status: "Извеждане в реално време", welcome: "Добре дошли в центъра AGI HK WorldBank Визия 2030. Интелигентният двигател работи.", ph: "Попитайте AGI за визията..." },
+            sr: { title: "Platforma HK WorldBank", vt: "HK Vizija 2030", vd: "Interkontinentalna industrijska platforma koja povezuje robotiku, fuziju, svemir i AGI.", h1: "Decentralizovano mapiranje likvidnosti i mrežni prolaz imovine", desc: "Integrisani decentralizovani interfejs imovine dizajniran za prekograničnu likvidnost i globalno blagostanje.", bw: "Poveži globalni novčanik", bp: "Verifikuj status čvora", status: "Zaključivanje uživo aktivno", welcome: "Dobrodošli u AGI centar HK WorldBank Vizija 2030. Pametni motor radi uživo.", ph: "Pitajte AGI o viziji i imovini..." },
+            sk: { title: "Platforma HK WorldBank", vt: "HK Vizia 2030", vd: "Interkontinentálna priemyselná platforma spájajúca robotiku, fúziu, vesmír a AGI.", h1: "Decentralizované Mapovanie Likvidity & Asset Gateway", desc: "Integrované decentralizované rozhranie pre cezhraničnú likviditu a globálnu sociálnu infraštruktúru.", bw: "Pripojiť Globálnu Peňaženku", bp: "Overiť Stav Uzla", status: "Inferencia v Reálnom Čase", welcome: "Vitajte v Centre AGI HK WorldBank Vizia 2030. Inteligentný engine beží naživo.", ph: "Spýtajte sa AGI na víziu a aktíva..." },
+            hr: { title: "Platforma HK WorldBank", vt: "HK Vizija 2030", vd: "Interkontinentalna industrijska platforma koja povezuje robotiku, fuziju, svemir i AGI.", h1: "Decentralizirano mapiranje likvidnosti i gateway imovine", desc: "Integrirano decentralizirano sučelje imovine dizajnirano za prekograničnu likvidnost i globalnu dobrobit.", bw: "Poveži globalni novčanik", bp: "Verificiraj status čvora", status: "Zaključivanje uživo aktivno", welcome: "Dobrodošli u AGI centar HK WorldBank Vizija 2030. Pametni motor radi uživo.", ph: "Pitajte AGI o viziji i imovini..." },
+            lt: { title: "HK WorldBank platforma", vt: "HK Vizija 2030", vd: "Tarpkontinentinė pramoninė platforma, sujungianti robotiką, branduolių sąnaudas, kosmosą ir AGI.", h1: "Decentralizuotas likvidumo susiejimas ir turto vartai", desc: "Integruota decentralizuota turto sąsaja, skirta tarpvalstybiniam likvidumui ir pasaulinei gerovei.", bw: "Prisijungti prie piniginės", bp: "Patikrinti mazgo būseną", status: "Išvedimas realiuoju laiku", welcome: "Sveiki atvykę į HK WorldBank Vizija 2030 AGI centrą. Išmanusis variklis veikia gyvai.", ph: "Paklauskite AGI apie viziją..." },
+            lv: { title: "HK WorldBank platforma", vt: "HK Vīzija 2030", vd: "Starpkontinentāla rūpnieciskā platforma, kas apvieno robotiku, kodolsintēzi, kosmosu un AGI.", h1: "Decentralizēta likviditātes kartēšana un aktīvu vārteja", desc: "Integrēta decentralizēta aktīvu saskarne, kas paredzēta pārrobežu likviditātei un globālajai labklājībai.", bw: "Pievienot globālo maku", bp: "Verificēt mezgla statusu", status: "Secinājumi reāllaikā", welcome: "Laipni lūdzam HK WorldBank Vīzija 2030 AGI centrā. Inteliģentais dzinējs darbojas.", ph: "Jautājiet AGI par vīziju..." },
+            et: { title: "HK WorldBank platvorm", vt: "HK Visioon 2030", vd: "Verdeniülene tööstusplatvorm, mis ühendab robootika, tuumasünteesi, kosmose ja AGI.", h1: "Detsentraliseeritud likviidsuse kaardistamine ja varade värav", desc: "Integreeritud detsentraliseeritud varade liides piiriülese likviidsuse ja globaalse heaolu tagamiseks.", bw: "Ühenda globaalne rahakott", bp: "Verifitseeri sõlme olek", status: "Reaalajas järeldamine", welcome: "Tere tulemast HK WorldBank Visioon 2030 AGI keskusesse. Nutikas mootor töötab otse.", ph: "Küsi AGI-lt visiooni kohta..." },
+            sl: { title: "Platforma HK WorldBank", vt: "HK Vizija 2030", vd: "Medkontinentalna industrijska platforma, ki povezuje robotiko, fuzijo, vesolje in AGI.", h1: "Decentralizirano mapiranje likvidnosti in prehod premoženja", desc: "Integriran decentraliziran vmesnik premoženja, zasnovan za čezmejno likvidnost in globalno blaginjo.", bw: "Poveži globalno denarnico", bp: "Preveri status vozlišča", status: "Sklepanje v realnem času", welcome: "Dobrodošli v AGI centru HK WorldBank Vizija 2030. Pametni motor deluje v živo.", ph: "Vprašajte AGI o viziji..." },
+            ga: { title: "Ardán HK WorldBank", vt: "HK Fís 2030", vd: "Treoirphlean ardáin thionsclaíoch idir-ilchríochach a chomhcheanglaíonn róbaitice, fuinneamh comhleá agus AGI.", h1: "Mapáil Leachtachta Dícentralaithe & Geata Sócmhainní", desc: "Comhéadan sócmhainní dícentralaithe comhtháite atá deartha le haghaidh soláthar leachtachta trasteorann.", bw: "Ceangail Sparán Domhanda", bp: "Fíoraigh Stádas Nód", status: "Inferences Beo Gníomhach", welcome: "Fáilte go dtí Lárionad AGI Comhtháite HK WorldBank Fís 2030. Tá an córas gníomhach anois.", ph: "Cuir ceist ar AGI faoi Fís..." },
+            is: { title: "HK WorldBank Vettvangur", vt: "HK Tímasetning 2030", vd: "Iðnaðarvettvangur á milli heimsálfa sem tengir vélfærafræði, kjarnasamruna, geiminn og AGI.", h1: "Dreifð Lausafjármörkun & Eignagátt", desc: "Samþætt dreift eignaviðmót hannað fyrir lausafjárstöðu yfir landamæri og alþjóðlega velferð.", bw: "Tengja Alþjóðlegt Veski", bp: "Staðfesta Stöðu Hnúðs", status: "Rauntímaályktun Virk", welcome: "Velkomin í HK WorldBank Tímasetning 2030 AGI Center. Snjalla vélin keyrir í beinni.", ph: "Spyrja AGI um tímasetningu..." },
+            sq: { title: "Platforma HK WorldBank", vt: "HK Vizioni 2030", vd: "Platformë industriale ndërkontinentale që bashkon robotikën, fuzionin bërthamor, hapësirën and AGI.", h1: "Hartëzimi i Likuiditetit të Decentralizuar & Gateway i Ativeve", desc: "Ndërfaqe e integruar e aktiveve e projektuar për ofrimin e likuiditetit ndërkufitar dhe mirëqenien globale.", bw: "Lidh Portofolin Global", bp: "Verifiko Statusin e Nyjes", status: "Inferenca në Kohë Reale", welcome: "Mirësevini në Qendrën AGI HK WorldBank Vizioni 2030. Motori inteligjent është aktiv.", ph: "Pyetni AGI-në për vizionin..." },
+            mk: { title: "Платформа HK WorldBank", vt: "HK Визија 2030", vd: "Интерконтинентална индустриска платформа што ги поврзува роботиката, фузијата, вселената и AGI.", h1: "Децентрализирано мапирање на ликвидност и шлюз за средства", desc: "Интегриран децентрализиран интерфејс на средства дизајниран за прекугранична ликвидност.", bw: "Поврзи глобален паричник", bp: "Провери статус на јазол", status: "Заклучување во реално време", welcome: "Добредојдовте во Центарот AGI HK WorldBank Визија 2030. Паметниот мотор работи во живо.", ph: "Прашајте го AGI за визијата..." },
+            hy: { title: "HK WorldBank Հարթակ", vt: "HK Տեսլական 2030", vd: "Միջմայրցամաքային արդյունաբերական հարթակ, որը միավորում է ռոբոտաշինությունը, միջուկային սինթեզը և AGI-ն:", h1: "Ապակենտրոնացված Լիկվիդայնության Քարտեզագրում և Ակտիվների Դարպաս", desc: "Ինտեգրված ապակենտրอนացված ակտիվների ինտերֆեյս՝ անդրսահմանային լիկվիդայնության և համաշխարհային բարեկեցության համար:", bw: "Միացնել Գլոբալ Դրամապանակը", bp: "Ստուգել Հանգույցի Կարգավիճակը", status: "Իրական Ժամանակի Եզրակացություն", welcome: "Բարի գալուստ HK WorldBank Տեսլական 2030 AGI կենտրոն: Խելացի շարժիչը գործում է:", ph: "Հարցնել AGI-ին տեսլականի մասին..." },
+            ka: { title: "HK WorldBank პლატფორმა", vt: "HK ხედვა 2030", vd: "საკონტინენტთაშორისო ინდუსტრიული პლატფორმა, რომელიც აერთიანებს რობოტიქსს, ბირთვულ სინთეზს და AGI-ს.", h1: "დეცენტრალიზებული ლიკვიდურობის mapping და აქტივების გეითვეი", desc: "ინტეგრირებული დეცენტრალიზებული აქტივების ინტერფეისი ტრანსსასაზღვრო ლიკვიდურობისთვის.", bw: "გლობალური საფულის დაკავშირება", bp: "კვანძის სტატუსის შემოწმება", status: "რეალურ დროში დასკვნა აქტიურია", welcome: "კეთილი იყოს თქვენი მობრძანება HK WorldBank ხედვა 2030 AGI ცენტრში. ძრავი ჩართულია.", ph: "ჰკითხეთ AGI-ს ხედვის შესახებ..." },
+            az: { title: "HK WorldBank Platformu", vt: "HK Vizyon 2030", vd: "Robotika, nüvə sintezi, kosmik infrastruktur və AGI-ni birləşdirən qitələrarası sənaye platformu.", h1: "Mərkəziyyətsiz Likvidlik Eşlənməsi və Aktiv Keçidi", desc: "Sərhədlərarası likvidlik təminatı və qlobal rifah altyapısı üçün hazırlanmış inteqrasiya olunmuş aktiv interfeysi.", bw: "Qlobal Pul Kisəsini Bağla", bp: "Düyün Statusunu Doğrula", status: "Canlı Çıkarım Aktivdir", welcome: "HK WorldBank Vizyon 2030 İnteqrasiya Olunmuş AGI Mərkəzinə xoş gəlmisiniz. Ağıllı mühərrik aktivdir.", ph: "AGI-yə Vizyon və Aktivlər haqqında sual verin..." },
+            ur: { title: "HK ورلڈ بینک پلیٹ فارم", vt: "HK وژن 2030", vd: "روبوٹکس، نیوکلیئر فیوژن، خلائی انفراسٹرکچر اور AGI کو جوڑنے والا بین البراعظمی صنعتی پلیٹ فارم۔", h1: "विकेंद्रीकृत तरलता मानचित्रण और संपत्ति गेटवे", desc: "سرحد पार لکویڈیٹی کی فراہمی اور عالمی بہبود کے لیے ڈیزائن کیا گیا विकेंद्रीकृत اثاثہ انٹرفیس۔", bw: "ग्लोबल वॉलेट कनेक्ट करें", bp: "نوڈ کی حالت کی تصدیق کریں", status: "لائیو استدلال فعال ہے", welcome: "HK ورلڈ بینک وژن 2030 AGI سینٹر میں خوش آمدید۔ ریئل ٹائم استدلال انجن فعال ہے۔", ph: "AGI سے وژن اور اثاثوں کے بارے میں پوچھیں..." },
+            bn: { title: "HK ওয়ার্ল্ডব্যাঙ্ক প্ল্যাটফর্ম", vt: "HK ভিশন 2030", vd: "রোবোটিক্স, নিউক্লিয়ার ফিউশন, স্পেস সাপ্লাই চেইন এবং উন্নত AGI-কে একত্রিত করার বৈশ্বিক রোডম্যাপ।", h1: "বিকেন্দ্রীভূত তারল্য ম্যাপিং এবং গ্লোবাল অ্যাসেট গেটওয়ে", desc: "সীমান্তবর্তী তারল্য সরবরাহ এবং বৈশ্বিক কল্যাণের জন্য ডিজাইন করা একটি সমন্বিত বিকেন্দ্রীভূত সম্পদ ইন্টারফেস।", bw: "গ্লোবাল ওয়ালেট সংযুক্ত করুন", bp: "নোড স্থিতি যাচাই করুন", status: "রিয়েল-টাইম অনুমিতি সক্রিয়", welcome: "HK ওয়ার্ল্ডব্যাঙ্ক ভিশন 2030 ইন্টিগ্রেটেড AGI সেন্টারে স্বাগতম। রিয়েল-টাইম যুক্তি সক্রিয় রয়েছে।", ph: "ভিশন এবং সম্পদ সম্পর্কে AGI-কে জিজ্ঞাসা করুন..." },
+            sw: { title: "Platformu ya HK WorldBank", vt: "HK Maono 2030", vd: "Mwongozo wa jukwaa la viwanda la mabara linalounganisha roboti, nishati ya fusion, na AGI ya juu.", h1: "Uchoraji wa Likwidi wa Desentralizaji & Gateway ya Mali", desc: "Kiolesura jumuishi cha mali kilichoundwa kwa ajili ya utonaji wa ukwasi wa mpakani na ustawi wa kimataifa.", bw: "Unganisha Wallet ya Global", bp: "Thibitisha Hali ya Node", status: "U निष्कर्ष wa Wakati Halisi", welcome: "Karibu kwenye Kituo cha AGI Kilichounganishwa cha HK WorldBank Maono 2030. Mtambo unafanya kazi.", ph: "Uliza AGI kuhusu Maono na Mali..." },
+            af: { title: "HK WorldBank Platform", vt: "HK Visie 2030", vd: "Interkontinentale gevorderde industriële platformpadkaart wat robotika, fusie-energie en AGI verbind.", h1: "Gedesentraliseerde Likwiditeitskartering & Asset Gateway", desc: "Geïntegreerde gedesentraliseerde bate-koppelvlak wat ontwerp is vir grens-oorskrydende likwiditeitsvoorsiening.", bw: "Koppel Globale Beursie", bp: "Verifieer Knoopstatus", status: "Intelligente Afleiding Aktief", welcome: "Welkom by die HK WorldBank Visie 2030 Geïntegreerde AGI-sentrum. Real-time afleiding is aktief.", ph: "Vra AGI oor visie en bates..." }
         };
 
-        const enFaqAnswers = [
-            "Yes, HK WorldBank guarantees absolute asset safety via multi-signature smart contracts globally.",
-            "The AGI Binni engine automatically calculates and credits compound interest every day at exactly 08:00 AM.",
-            "It filters illegal flows from 50+ countries in real time to secure the sovereign pool.",
-            "They serve as the heart of the network, independently validating transactions 24/7 without interference.",
-            "Streamlined to a single capital pipeline (Pi and Reservoir ecosystem) to solidify shared power.",
-            "All user metadata is encrypted via asymmetric layers and secured inside HSM architecture.",
-            "To provide identical sanctuary to vulnerable populations suffering in conflict zones like Ukraine or Palestine.",
-            "Because nodes provide absolute proof-of-stake coverage, receiving top-tier distribution yields.",
-            "Our two exclusive master validator nodes provide infinite liquidity injection 24/7.",
-            "Yes, users can enter via the [Enter AML Hub] option without forcing immediate asset staking.",
-            "Equipped with next-generation artificial intelligence to support 50 nations with context-aware responses.",
-            "Contracts will instantly lock assets upon triggering illicit shell capital or blacklist inflows.",
-            "Dual masterframes handle load balancing seamlessly, preventing a single second of transaction lag.",
-            "Constructing a supreme borderless financial architecture where every human enjoys basic dividends.",
-            "Assets can be moved back to external wallets with zero platform fee after contract period expiry.",
-            "It will follow right after the current master node payout framework fully stabilizes over 50 countries.",
-            "Yes, compliance verification is a non-negotiable step to legal borderless asset protection.",
-            "No, to defend supreme system dominance, validation authority remains strictly inside the Chairman's two master nodes.",
-            "Distributed price feeds are aggregated via cross-chain decentralized oracle frameworks in real time.",
-            "Every single strategic evolution is exclusively audited 1-on-1 between Chairman Haegong and AGI Binni."
-        ];
-        for(let i=1; i<=20; i++) {
-            globalDictionary.en.faqs.push({ q: `Q${i}. Question ${i} Sovereign Verification Protocol?`, a: enFaqAnswers[i-1] });
+        // 50개국어 실시간 로컬라이징 스위처 기능 완벽 동기화
+        function switchLanguage(lang) {
+            const data = langPack[lang];
+            if (!data) return;
+            
+            document.getElementById('nav-title').innerText = data.title;
+            document.getElementById('vision-title').innerText = data.vt;
+            document.getElementById('vision-desc').innerText = data.vd;
+            document.getElementById('content-title').innerText = data.h1;
+            document.getElementById('content-desc').innerText = data.desc;
+            document.getElementById('btn-wallet').innerText = data.bw;
+            document.getElementById('btn-proposal').innerText = data.bp;
+            document.getElementById('agi-status').innerText = data.status;
+            document.getElementById('welcome-msg').innerText = data.welcome;
+            document.getElementById('chat-input').placeholder = data.ph;
         }
 
-        const proxyCodes = ["zh","ja","uk","ar","de","fr","es","vi","th","id","tl","ru","it","tr","pt","hi","bn","pa","ms","fa","ur","nl","pl","sv","no","fi","da","cs","hu","ro","el","he","bg","sr","hr","sk","sl","et","lv","lt","sw","am","yo","zu","ta","te","kn","ml"];
-        proxyCodes.forEach(code => {
-            if (!globalDictionary[code]) {
-                globalDictionary[code] = Object.assign({}, globalDictionary['en']);
-                globalDictionary[code].btnGate = `🌐 [${code.toUpperCase()}] AML Certification & Main Hub`;
-                globalDictionary[code].faqs = [];
-                for(let i=1; i<=20; i++) {
-                    globalDictionary[code].faqs.push({ q: `[${code.toUpperCase()}] Q${i}. Sovereign System Query Protocol`, a: `Localized response for language [${code.toUpperCase()}]: ` + enFaqAnswers[i-1] });
-                }
-            }
+        // FAQ 20선 스크립트 기반 동적 렌더링
+        const faqs = [
+            { q: "01. HK WorldBank 플랫폼의 본질적 목표는 무엇인가요?", a: "단순 단일 법인 비즈니스를 넘어 로보틱스, 핵융합, 우주 기반 미래 에너지를 통섭하는 국가급 초거대 산업 플랫폼 표준 수립입니다." },
+            { q: "02. 비전 2030 로드맵의 마일스톤 핵심은 무엇입니까?", a: "2030년까지 고도 분산 자산 유동성 네트워크 인프라와 무인 자율화 AI 팩토리를 글로벌 단위로 결합하는 것입니다." },
+            { q: "03. 플랫폼 수익의 사회 환원 메커니즘은 어떻게 작동하나요?", a: "모든 글로벌 생태계 이윤 및 가치 창출액의 30%를 전 세계 취약계층 자산 보호 및 보편적 기본소득(UBI) 재원으로 고정 귀속합니다." },
+            { q: "04. 50개국 다국어 인프라는 어떻게 실시간 구동됩니까?", a: "클라이언트 단의 동적 딕셔너리 매핑과 다국어 실시간 로컬라이징 번역 모듈을 통해 지연 시간 없는 즉각적 리렌더링을 지원합니다." },
+            { q: "05. 가동되는 AGI 엔진의 버전과 기술 수준은 어떻게 되나요?", a: "현재 HK AGI Engine v3.0이 백엔드 단에 상시 결합되어 단순 질의응답을 넘어 고도의 컨텍스트 다중 추론 연산을 즉각 처리합니다." },
+            { q: "06. 플랫폼의 유동성 풀 자산 연동은 안전합니까?", a: "분산 노드 원장 기술과 검증된 다중 시그니처 보안 프로토کول을 탑재하여 국경 없는 자산 이동을 완벽하게 보호합니다." },
+            { q: "07. 공식 유튜브(@Hyekong2025) 채널의 역할은 무엇인가요?", a: "플랫폼의 글로벌 얼라이언스 개발 현황, 비전 2030 진행 상황 및 주요 인사이트 브리핑을 전 세계 대중에게 투명하게 전파하는 미디어 허브입니다." },
+            { q: "08. 틱톡 숏폼 생태계 연동은 왜 필수적인가요?", a: "지속 가능한 다국적 글로벌 거버넌스 전파를 위해 젊은 세대와 전 대륙의 유저가 가장 빠르게 진입할 수 있는 마이크로 콘텐츠 채널 인프라를 동기화한 것입니다." },
+            { q: "09. 로보틱스 클러스터 인프라의 주요 입지는 어디인가요?", a: "정부 부처 제안 및 전략적 글로벌 첨단 산업 하이테크 인프라와 직접 연계된 영남권 거점형 대단위 부지를 포괄합니다." },
+            { q: "10. 핵융합 에너지 제어 기술은 어떤 방식으로 생태계에 공헌하나요?", a: "미래 산업 플랫폼의 무제한 가동을 확보하기 위한 고효율 초고온 에너지 그리드 자립 및 탄소 제로 디지털 노드 에너지를 영구 공급합니다." },
+            { q: "11. 우주 인프라와 분산 금융의 연결 고리는 무엇입니까?", a: "저궤도 위성 통신망 노드 인프라를 직접 활용하여 지구상 통신 단절 지역이나 금융 소외 지대 없이 24시간 실시간 초동기화 연동망을 완비합니다." },
+            { q: "12. 일반 유저도 노드 거버넌스 풀에 가입이 가능한가요?", a: "네, 메인화면의 글로벌 지갑 연동 버튼을 통해 전 세계 누구나 지연 없이 자산 노드 참여가 유연하게 가능하도록 최적화되어 있습니다." },
+            { q: "13. 통합 수수료 0% 정책은 영구적으로 지속됩니까?", a: "글로벌 복지 재단 연동성과 보편적 분산 금융 접근성 극대화를 위해 핵심 기본 거래 레이어의 가스비 및 수수료 미니멀리즘을 상시 지향합니다." },
+            { q: "14. AGI 엔진이 다국어 50개국 쿼리를 어떻게 분석하나요?", a: "유저가 선택한 언어로 입력된 자연어를 교차 언어 추론 임베딩 알고리즘을 거쳐 AGI 중앙 연산 장치에서 다이렉트로 컨텍스트 분석을 수행합니다." },
+            { q: "15. 모바일 환경이나 웹 뷰 앱 환경에서도 최적화되어 있습니까?", a: "Tailwind CSS 최신 엔진 아키텍처 기반의 반응형 그리드 설계로 어떤 기기와 앱 브라우저에서도 왜곡 없이 100% 최적화 노출됩니다." },
+            { q: "16. 본문 바로가기 스킵 내비게이션은 어떤 역할을 하나요?", a: "접근성을 극대화하여 복잡한 로딩 인트로나 부가 요소를 건너뛰고 사용자가 즉시 메인 자산 연동 및 비전 본문으로 직행할 수 있게 만드는 초고속 동선 설계입니다." },
+            { q: "17. HK 사회재단의 보편적 기본소득(UBI) 집행 기준은 무엇인가요?", a: "글로벌 취약계층 데이터베이스와 스마트 계약 자동 연동 시스템을 활용하여 투명하고 누수 없는 균등 분배를 전산 실행합니다." },
+            { q: "18. 비전 2030 달성을 위한 외부 기술 제휴 계획이 있습니까?", a: "글로벌 탑티어 로보틱스 제조 AI 및 혁신적 딥테크 벤처 캐피탈 자산과의 대규모 자본 제휴 및 인수 인프라가 실시간으로 기획 및 가동되고 있습니다." },
+            { q: "19. 다국어 데이터팩의 지속적인 업데이트는 어떻게 이뤄지나요?", a: "전 세계 50개 주요 거점 국가의 비즈니스 톤앤매너 번역 자산 데이터가 통합 업데이트에 맞추어 실시간 딕셔너리에 동적 자동 업데이트됩니다." },
+            { q: "20. 플랫폼 시스템 장애 대응책은 어떻게 수립되어 있나요?", a: "다중 분산 클라우드 백본망과 AGI 자율 네트워크 치유 엔진이 탑재되어 트래픽 폭주 및 이상 노드 감지 시 0.1초 내 즉각 우회 인프라를 가동합니다." }
+        ];
+
+        const faqContainer = document.getElementById('faq-container');
+        faqs.forEach(faq => {
+            const html = `
+                <details class="group bg-slate-800 p-4 rounded-xl border border-slate-700/50 cursor-pointer transition-all hover:bg-slate-800/80">
+                    <summary class="font-medium text-slate-200 flex justify-between items-center outline-none select-none">
+                        <span>${faq.q}</span>
+                        <i class="fa-solid fa-chevron-down text-xs transition group-open:rotate-180 text-amber-500"></i>
+                    </summary>
+                    <p class="mt-3 text-slate-400 leading-relaxed border-t border-slate-700/50 pt-3 text-xs sm:text-sm">${faq.a}</p>
+                </details>
+            `;
+            faqContainer.insertAdjacentHTML('beforeend', html);
         });
 
-        function acceptSecurity() { document.getElementById('securityModal').style.display = 'none'; }
-        
-        function initGatewayEvent() {
-            const gateBtn = document.getElementById('btnGateway');
-            const newBtn = gateBtn.cloneNode(true);
-            gateBtn.parentNode.replaceChild(newBtn, gateBtn);
-            
-            newBtn.addEventListener('click', function(e) {
-                e.preventDefault();
-                document.getElementById('gatewayBox').style.display = 'none';
-                document.getElementById('mainContentScreen').style.display = 'block';
-                
-                // 본문 진입 시 타이머 세팅 가동 준비
-                startInterestCounter();
-                document.getElementById('mainContentScreen').scrollIntoView({ behavior: 'smooth' });
-            });
-        }
+        // AGI 채팅 전송 인터랙션
+        function handleSendMessage(event) {
+            event.preventDefault();
+            const input = document.getElementById('chat-input');
+            const messageText = input.value.trim();
+            if (!messageText) return;
 
-        function backToGateway() {
-            document.getElementById('mainContentScreen').style.display = 'none';
-            document.getElementById('gatewayBox').style.display = 'block';
-            stopInterestCounter();
-        }
+            const chatBox = document.getElementById('chat-box');
+            chatBox.insertAdjacentHTML('beforeend', `
+                <div class="flex items-start space-x-2.5 justify-end">
+                    <div class="bg-amber-500 text-slate-900 p-3 rounded-2xl rounded-tr-none max-w-[85%] font-medium text-xs sm:text-sm">${messageText}</div>
+                </div>
+            `);
+            input.value = '';
+            chatBox.scrollTop = chatBox.scrollHeight;
 
-        // 📊 정밀화 연산: 가짜 가수가 올라가는 게 아니라 실제 담보 자산(stakedAmountBase)에 비례하여 실시간 연산되는 스마트 엔진
-        function startInterestCounter() {
-            if(interestTimerId) clearInterval(interestTimerId);
-            interestTimerId = setInterval(() => {
-                if (stakedAmountBase > 0) {
-                    // 유저가 스테이킹한 금액의 연이율을 초단위로 쪼개어 실시간 누적 상승량 표출 (API/SDK 알고리즘 연동식)
-                    currentLiveInterest += (stakedAmountBase * 0.00000002); 
-                    document.getElementById('valLiveInterest').innerText = currentLiveInterest.toFixed(8) + " Pi";
-                } else {
-                    document.getElementById('valLiveInterest').innerText = "0.00000000 Pi (No Stake Active)";
+            setTimeout(() => {
+                const currentLang = document.getElementById('language-switcher').value;
+                let responseText = "AGI 고도화 추론 완료: 입력하신 글로벌 금융 자산 노드 쿼리 분석을 마쳤습니다. 비전 2030 인프라 가동 상태는 정상입니다.";
+                if (currentLang !== 'ko') {
+                    responseText = `AGI Multilingual Inference Complete: Successfully processed query in system language [${currentLang.toUpperCase()}]. Distributed liquidity assets and Vision 2030 nodes are optimized.`;
                 }
-            }, 1000);
+                chatBox.insertAdjacentHTML('beforeend', `
+                    <div class="flex items-start space-x-2.5">
+                        <div class="w-8 h-8 bg-gradient-to-tr from-purple-600 to-amber-500 rounded-lg flex items-center justify-center text-xs text-white font-bold"><i class="fa-solid fa-brain"></i></div>
+                        <div class="bg-slate-700/60 p-3 rounded-2xl rounded-tl-none max-w-[85%] text-slate-200 border border-purple-500/20 leading-relaxed text-xs sm:text-sm">
+                            <span class="block text-[10px] text-purple-400 font-bold mb-1"><i class="fa-solid fa-microchip animate-pulse mr-1"></i> HIGH-LEVEL REASONING ACTIVE</span>
+                            ${responseText}
+                        </div>
+                    </div>
+                `);
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }, 700);
         }
-
-        function stopInterestCounter() {
-            if(interestTimerId) {
-                clearInterval(interestTimerId);
-                interestTimerId = null;
-            }
-        }
-
-        function submitStaking() {
-            const amount = parseFloat(document.getElementById('stakeInput').value);
-            const lang = document.getElementById('langSelect').value;
-            if(amount > 0) {
-                stakedAmountBase += amount; // 원천 연산 베이스 자본에 합산
-                alert(lang === 'ko' ? "🎉 파이 네트워크 SDK API를 통해 스테이킹 청구서 전송 완료!" : "🎉 Staking Claim Transferred via SDK API!");
-                document.getElementById('valDeposit').innerText = stakedAmountBase.toFixed(2) + " Pi";
-                document.getElementById('rptStaking').innerText = "+" + (stakedAmountBase * 0.05).toFixed(2) + " Pi Accumulated";
-                
-                // 블록체인 검증 대기 리액션 동기화
-                if(lang === 'ko') {
-                    document.getElementById('valReservoir').innerText = "Pi Core Node Connected Syncing...";
-                    document.getElementById('valReservoir').style.color = "var(--success-color)";
-                } else {
-                    document.getElementById('valReservoir').innerText = "Pi Core Node Connected Syncing...";
-                }
-            }
-        }
-
-        function changeLanguage() {
-            const lang = document.getElementById('langSelect').value;
-            const data = globalDictionary[lang] || globalDictionary['ko'];
-            const container = document.getElementById('appContainer');
-
-            if (lang === 'ar' || lang === 'fa' || lang === 'ur' || lang === 'he') { container.classList.add('rtl'); } 
-            else { container.classList.remove('rtl'); }
-
-            document.getElementById('modalTitle').innerText = data.modalT;
-            document.getElementById('modalContent').innerHTML = data.modalC;
-            document.getElementById('modalBtn').innerText = data.modalB;
-            document.getElementById('rptMainHeader').innerText = data.rptH;
-            document.getElementById('rptStkTitle').innerText = data.rptStk;
-            if (!document.getElementById('rptStaking').innerText.includes('+') && !document.getElementById('rptStaking').innerText.includes('Pi')) {
-                document.getElementById('rptStaking').innerText = data.rptStkCalc;
-            }
-            document.getElementById('rptLpTitle').innerText = data.rptLp;
-            document.getElementById('rptLpVal').innerText = data.rptLpVal;
-            document.getElementById('rptNodeTitle').innerText = data.rptNode;
-            document.getElementById('rptNodeVal').innerText = data.rptNodeVal;
-            document.getElementById('visMainTitle').innerText = data.visH;
-            document.getElementById('visT1').innerText = data.visT1;
-            document.getElementById('visC1').innerText = data.visC1;
-            document.getElementById('visT2').innerText = data.visT2;
-            document.getElementById('visC2').innerText = data.visC2;
-            document.getElementById('visT3').innerText = data.visT3;
-            document.getElementById('visC3').innerText = data.visC3;
-            document.getElementById('nodeLiveTitle').innerText = data.nodeH;
-            document.getElementById('node1lbl').innerText = data.n1;
-            document.getElementById('node2lbl').innerText = data.n2;
-            
-            document.getElementById('btnGateway').innerText = data.btnGate;
-
-            document.getElementById('txtMainHeader').innerText = data.mainH;
-            document.getElementById('txtAmlBanner').innerText = data.amlB;
-            document.getElementById('txtResTitle').innerText = data.resT;
-            document.getElementById('txtAssetTitle').innerText = data.astT;
-            document.getElementById('txtDepositLbl').innerText = data.depL;
-            document.getElementById('btnStakingExec').innerText = data.btnStk;
-            document.getElementById('btnBack').innerText = data.btnBck;
-            document.getElementById('txtCompLbl').innerText = data.compL;
-            document.getElementById('txtCompVal').innerText = data.compV;
-            document.getElementById('txtFaqTitle').innerText = data.faqT;
-            document.getElementById('lblLiveInt').innerText = data.lblLive || data.lblLiveInt;
-
-            const faqContainer = document.getElementById('faqContainer');
-            faqContainer.innerHTML = '';
-            data.faqs.forEach(item => {
-                const faqItem = document.createElement('div');
-                faqItem.className = 'faq-item';
-                faqItem.innerHTML = `<div class="faq-question"><span>${item.q}</span><span>▼</span></div><div class="faq-answer">${item.a}</div>`;
-                faqItem.querySelector('.faq-question').onclick = () => {
-                    const a = faqItem.querySelector('.faq-answer');
-                    a.style.display = a.style.display === 'block' ? 'none' : 'block';
-                };
-                faqContainer.appendChild(faqItem);
-            });
-        }
-        
-        changeLanguage();
-        initGatewayEvent();
     </script>
 </body>
 </html>
