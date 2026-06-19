@@ -2308,36 +2308,8 @@ console.log("[HK SYSTEM] 2283라인 마스터 코어 엔진 탑재 완료.");
 </script>
 
 
-</script> <script>
-(function() {
-    // 1. 화면 전체를 어둡게 가리는 묵직한 마스터 보안 레이아웃 정의
-    const masterModalHtml = `
-        <div id="hkUltimateMasterModal" style="position:fixed; inset:0; z-index:9999999; display:flex; align-items:center; justify-content:center; background:rgba(11,15,25,0.98); backdrop-filter:blur(15px); font-family:sans-serif; width:100vw; height:100vh;">
-            <div style="width:100%; max-width:400px; background:#1e293b; border:1px solid #334155; border-radius:20px; padding:40px 32px; text-align:center; color:#f8fafc; box-shadow:0 25px 50px -12px rgba(0,0,0,0.7); box-sizing:border-box;">
-                <div style="font-size:36px; margin-bottom:16px;">🔑</div>
-                <h2 style="font-size:22px; font-weight:900; letter-spacing:1px; margin:0 0 4px 0; color:#fff;">HK SYSTEM SECURITY</h2>
-                <p style="font-size:13px; color:#94a3b8; margin:0 0 28px 0;">관제 센터 가동을 위해 마스터 코드를 입력하십시오.</p>
-                <input type="password" id="hkPopupMasterCode" placeholder="Master Code 입력" 
-                       style="width:100%; border-radius:12px; background:#0f172a; border:1px solid #475569; padding:16px; text-align:center; font-size:22px; font-weight:bold; color:#fff; letter-spacing:6px; box-sizing:border-box; outline:none;"
-                       onkeyup="if(window.event.keyCode==13){window.verifyHkMasterCode();}">
-                <button onclick="window.verifyHkMasterCode()" style="margin-top:20px; width:100%; border-radius:12px; background:linear-gradient(to right, #2563eb, #4f46e5); border:none; padding:16px; font-size:16px; font-weight:bold; color:#fff; cursor:pointer; box-shadow:0 10px 15px -3px rgba(37,99,235,0.4);">보안 인증 실행</button>
-                <p id="hkPopupErrMsg" style="color:#f87171; font-size:14px; margin-top:14px; display:none; font-weight:bold;">⚠️ 코드가 일치하지 않습니다.</p>
-            </div>
-        </div>
-    `;
-    
-    // 2. 브라우저 로드가 끝나는 즉시 화면 맨 위에 강제로 꽂아넣기
-    function injectModal() {
-        if (document.body) {
-            document.body.insertAdjacentHTML('afterbegin', masterModalHtml);
-            document.getElementById('hkPopupMasterCode').focus();
-        } else {
-            setTimeout(injectModal, 10);
-        }
-    }
-    injectModal();
-    
-     // 3. 형님의 고유 키 '0520' 매칭 및 시스템 화면 강제 개방 (KYC 완전 파괴)
+// 2311번 줄부터 맨 밑바닥까지 대체할 최종 완전체 스크립트
+    // 3. 0520 통과 시 모든 가림막을 파괴하고 메인 화면을 강제로 켜는 절대 엔진
     window.verifyHkMasterCode = function() {
         const userInput = document.getElementById('hkPopupMasterCode').value;
         const errorText = document.getElementById('hkPopupErrMsg');
@@ -2348,24 +2320,28 @@ console.log("[HK SYSTEM] 2283라인 마스터 코어 엔진 탑재 완료.");
                 document.getElementById('hkUltimateMasterModal').remove();
             }
             
-            // 2) [핵심] 화면을 가로막고 뱅글뱅글 도는 모든 KYC 레이어와 로딩창을 강제로 투명화/삭제
-            // ID나 클래스 명에 SECURITY, Kyc, loading 등이 들어간 모든 요소를 숨깁니다.
-            const allElements = document.getElementsByTagName('*');
-            for (let i = 0; i < allElements.length; i++) {
-                const el = allElements[i];
-                if (
-                    el.id.includes('SECURITY') || el.id.includes('security') || 
-                    el.id.includes('Kyc') || el.id.includes('kyc') ||
-                    el.className.includes('loading') || 
-                    el.innerText.includes('KYC') || el.innerText.includes('진행 중입니다')
-                ) {
-                    el.style.display = 'none'; // 화면에서 강제로 안 보이게 처리
-                    el.style.visibility = 'hidden';
-                    el.style.opacity = '0';
+            // 2) 흰 화면 탈출을 위해 가림막(로딩/SECURITY) 레이어 전면 영구 삭제
+            const kycLayers = document.querySelectorAll('[id*="SECURITY"], [id*="security"], [id*="Kyc"], [id*="kyc"], [class*="loading"], [id*="loading"]');
+            kycLayers.forEach(layer => {
+                if(layer.id !== 'hkUltimateMasterModal') {
+                    layer.remove();
                 }
+            });
+            
+            // 3) 메인 컨텐츠 대시보드(container 등) 강제 가동법 교정
+            const mainContent = document.querySelector('.container') || document.getElementById('mainDashboard') || document.querySelector('main');
+            if(mainContent) {
+                mainContent.style.setProperty('display', 'block', 'important');
+                mainContent.style.setProperty('opacity', '1', 'important');
+                mainContent.style.setProperty('visibility', 'visible', 'important');
             }
             
-            console.log("[HK SYSTEM] 0520 권한으로 모든 보안 락을 해제하고 관제 센터를 전면 개방합니다.");
+            // 4) 최상위 바디 투명도 및 화면 잠금 완전 해제
+            document.body.style.setProperty('display', 'flex', 'important');
+            document.body.style.setProperty('opacity', '1', 'important');
+            document.body.style.setProperty('visibility', 'visible', 'important');
+            
+            console.log("[HK SYSTEM] 0520 권한 승인. 메인 관제 센터 강제 전면 개방 완료!");
         } else {
             errorText.style.display = 'block';
             document.getElementById('hkPopupMasterCode').value = "";
@@ -2373,4 +2349,4 @@ console.log("[HK SYSTEM] 2283라인 마스터 코어 엔진 탑재 완료.");
         }
     };
 })();
-</script> 
+</script>
