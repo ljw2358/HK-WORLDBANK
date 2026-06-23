@@ -560,6 +560,17 @@ document.querySelectorAll('select').forEach(selectElement => {
         }
     });
 });
+// 기존 함수를 유지하면서 더 강력하게 보강 (그대로 복사하여 맨 아래 추가)
+function switchLanguage(lang) {
+    const pack = langPack[lang] || langPack['ko'];
+    // 뼈속까지 변환: data-lang 속성을 가진 모든 요소를 찾아 텍스트 교체
+    document.querySelectorAll('[data-lang]').forEach(el => {
+        const key = el.getAttribute('data-lang');
+        if (pack[key]) {
+            el.innerText = pack[key];
+        }
+    });
+}
 </script>
 </body>
 </html>
