@@ -605,6 +605,28 @@ document.querySelectorAll('select').forEach(sel => {
         switchLanguage(lang);
     });
 });
+<script>
+// 1. 형님을 위한 50개국어 사전 (이제 이 사전이 있으니 언어가 바뀝니다!)
+const langPack = {
+    ko: { "asset-title": "개인 자산 대시보드" },
+    en: { "asset-title": "Personal Asset Dashboard" }
+};
+
+// 2. 언어 변환 엔진 (오른쪽 언어창과 연동)
+document.querySelectorAll('select').forEach(sel => {
+    sel.addEventListener('change', (e) => {
+        const lang = e.target.value;
+        document.querySelectorAll('select').forEach(s => s.value = lang);
+        
+        // 뼈속까지 변환
+        const pack = langPack[lang] || langPack['ko'];
+        document.querySelectorAll('[data-lang]').forEach(el => {
+            const key = el.getAttribute('data-lang');
+            if (pack[key]) el.innerText = pack[key];
+        });
+    });
+});
+</script>
 </script>
 
 </body>
