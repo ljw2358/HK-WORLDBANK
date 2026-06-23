@@ -1,6 +1,21 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head>
+<script>
+    window.addEventListener('load', () => {
+        document.querySelectorAll('select').forEach(sel => {
+            sel.addEventListener('change', (e) => {
+                const lang = e.target.value;
+                document.querySelectorAll('select').forEach(s => s.value = lang);
+                const pack = langPack[lang] || langPack['ko'];
+                document.querySelectorAll('[data-lang]').forEach(el => {
+                    const key = el.getAttribute('data-lang');
+                    if (pack[key]) el.innerText = pack[key];
+                });
+            });
+        });
+    });
+</script>
+    <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HK 월드뱅크 - 글로벌 산업 플랫폼</title>
