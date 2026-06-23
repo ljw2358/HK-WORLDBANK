@@ -631,3 +631,27 @@ document.querySelectorAll('select').forEach(sel => {
 
 </body>
 </html>
+<script>
+// 1. 사전 데이터
+const langPack = {
+    ko: { "asset-title": "개인 자산 대시보드" },
+    en: { "asset-title": "Personal Asset Dashboard" }
+};
+
+// 2. 엔진 (이름표가 없어도 강제로 글자를 찾아 바꿉니다)
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('select').forEach(sel => {
+        sel.addEventListener('change', (e) => {
+            const lang = e.target.value;
+            const pack = langPack[lang] || langPack['ko'];
+            
+            // "개인 자산 대시보드"라는 글자를 찾아 강제로 영어로 바꿉니다
+            document.querySelectorAll('h3').forEach(el => {
+                if(el.innerText.includes("개인 자산 대시보드")) {
+                    el.innerText = pack["asset-title"];
+                }
+            });
+        });
+    });
+});
+</script>
