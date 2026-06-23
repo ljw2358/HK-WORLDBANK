@@ -572,5 +572,25 @@ function switchLanguage(lang) {
     });
 }
 </script>
+<script>
+// [1] 50개국어 변환 엔진 (기존 기능 보강)
+function switchLanguage(lang) {
+    const pack = langPack[lang] || langPack['ko'];
+    document.querySelectorAll('[data-lang]').forEach(el => {
+        const key = el.getAttribute('data-lang');
+        if (pack[key]) el.innerText = pack[key];
+    });
+}
+
+// [2] 양쪽 언어 선택창 동기화 (오른쪽과 왼쪽을 하나로 연결)
+document.querySelectorAll('select').forEach(sel => {
+    sel.addEventListener('change', (e) => {
+        const lang = e.target.value;
+        document.querySelectorAll('select').forEach(s => s.value = lang);
+        switchLanguage(lang);
+    });
+});
+</script>
+
 </body>
 </html>
