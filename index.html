@@ -546,6 +546,20 @@ function switchLanguage(lang) {
         if (pack[key]) el.innerText = pack[key];
     });
 }
+// 기존 언어 선택창들을 모두 감지하여 즉시 변환 엔진과 연결
+document.querySelectorAll('select').forEach(selectElement => {
+    selectElement.addEventListener('change', (event) => {
+        const selectedLang = event.target.value;
+        
+        // 1. 모든 언어 선택창을 선택한 언어로 동기화 (UI 통일)
+        document.querySelectorAll('select').forEach(s => s.value = selectedLang);
+        
+        // 2. 형님의 50개국어 엔진을 강제로 호출 (뼈속까지 변환)
+        if (typeof switchLanguage === 'function') {
+            switchLanguage(selectedLang);
+        }
+    });
+});
 </script>
 </body>
 </html>
