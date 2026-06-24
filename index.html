@@ -584,7 +584,16 @@ data: {
             }, 600);
         }
     </script>
-<script>
+window.HK_LANG_ENGINE.translate = function() {
+    const lang = this.current;
+    document.querySelectorAll('[data-lang]').forEach(el => {
+        const key = el.getAttribute('data-lang');
+        if (this.data[lang] && this.data[lang][key]) {
+            el.innerText = this.data[lang][key];
+        }
+    });
+};
+    <script>
     // 뺑뺑이 없이, 기존 코드를 건드리지 않고 엔진과 연결합니다.
     window.switchLanguage = (lang) => {
         if(typeof HK_LANG_ENGINE !== 'undefined') {
