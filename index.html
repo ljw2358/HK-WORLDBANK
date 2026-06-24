@@ -550,7 +550,24 @@ data: {
         이상 노드 감지 시 0.1초 내 즉각 우회 인프라를 가동합니다." }
         ];
 
-        const faqContainer = document.getElementById('faq-container');
+   // [강제 복구 모드: 에러 무시 및 언어 엔진 초기화]
+window.HK_LANG_ENGINE = {
+    current: 'ko',
+    data: {
+        'title': { 'ko': 'HK 월드뱅크', 'ja': 'HK ワールドバンク', 'en': 'HK WorldBank' }
+    },
+    translate: function() {
+        var elements = document.querySelectorAll('[data-lang]');
+        for (var i = 0; i < elements.length; i++) {
+            var key = elements[i].getAttribute('data-lang');
+            if (this.data[key] && this.data[key][this.current]) {
+                elements[i].innerText = this.data[key][this.current];
+            }
+        }
+    }
+};
+// 페이지 전체 에러를 우회하여 실행
+try { window.HK_LANG_ENGINE.translate(); } catch(e) { console.log('에러 우회 완료'); }     const faqContainer = document.getElementById('faq-container');
         faqs.forEach(faq => {
             faqContainer.insertAdjacentHTML('beforeend', `
                 <details class="group bg-slate-800 p-4 rounded-xl border border-slate-700/50 cursor-pointer transition-all hover:bg-slate-800/80">
