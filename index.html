@@ -4,6 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HK 월드뱅크 - 글로벌 산업 플랫폼</title>
+      // 1. 50개국어 금융 용어 사전 매핑
+    // 파일 62130364-68bd-48ac-b092-0faa2d2d7d5c의 9대 분산 연동망 포함
+    glossary: {
+        'en': { 'TRANSFER': 'Transfer', 'DEPOSIT': 'Deposit', 'STAKING': 'Staking' },
+        'ko': { 'TRANSFER': '송금', 'DEPOSIT': '예치', 'STAKING': 'LP스테이킹' },
+        'ja': { 'TRANSFER': '送金', 'DEPOSIT': '預け入れ', 'STAKING': 'LPステーキング' },
+        // 47개 언어 데이터 추가 영역...
+    },
+
+    // 2. 뼈속까지 변환 로직 (파일 35d07007-9184-4850-95ed-ce2ce052f5af 대시보드 대응)
+    translateDashboard: function(targetLang) {
+        const elements = document.querySelectorAll('.dashboard-item');
+        elements.forEach(el => {
+            const key = el.getAttribute('data-i18n-key');
+            el.innerText = this.glossary[targetLang][key];
+        });
+    },
+
+    // 3. 지능형 서비스 센터 안내 변환 (파일 8c63bc41-9f11-42c2-9852-57ea81e5624b 대응)
+    updateAIHelper: function(targetLang) {
+        const greeting = {
+            'ko': '반갑습니다. HK 월드뱅크 통합 지능형 서비스 센터입니다.',
+            'en': 'Welcome to the HK WorldBank Integrated AI Service Center.',
+            'ja': 'HKワールドバンク統合インテリジェントサービスセンターへようこそ。'
+        };
+        document.getElementById('ai-chat-box').innerText = greeting[targetLang];
+    }
+
     <!-- 테일윈드 CSS 최신 엔진 -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <!-- 폰트어썸 프리미엄 아이콘 팩 -->
