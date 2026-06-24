@@ -693,3 +693,30 @@ window.translateAll = function(lang) {
     });
     localStorage.setItem('lang', lang);
 };
+// 587번 줄부터 800번 줄까지
+<script>
+window.HK_LANG_ENGINE = {
+    current: localStorage.getItem('lang') || 'ko',
+    data: {
+        'ko': { 'title': 'HK 월드뱅크' },
+        'ja': { 'title': 'HK ワールドバンク' },
+        'en': { 'title': 'HK WorldBank' }
+    },
+    translate: function() {
+        document.querySelectorAll('[data-lang]').forEach(el => {
+            const key = el.getAttribute('data-lang');
+            if (this.data[this.current] && this.data[this.current][key]) {
+                el.innerText = this.data[this.current][key];
+            }
+        });
+    }
+};
+
+window.switchLanguage = (lang) => {
+    window.HK_LANG_ENGINE.current = lang;
+    localStorage.setItem('lang', lang);
+    window.HK_LANG_ENGINE.translate();
+};
+
+window.onload = () => window.HK_LANG_ENGINE.translate();
+</script>
