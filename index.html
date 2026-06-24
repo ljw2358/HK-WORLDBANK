@@ -607,6 +607,29 @@ window.switchLanguage = (lang) => {
 };
 window.onload = () => window.HK_LANG_ENGINE.translate();
 // [800줄] 시스템 끝
+    // [587줄] 50개국어 엔진 시작
+window.HK_LANG_ENGINE = {
+    current: localStorage.getItem('lang') || 'ko',
+    data: {
+        'title': { 'ko': 'HK 월드뱅크', 'en': 'HK WorldBank', 'ja': 'HK ワールドバンク', 'zh': 'HK 世界银行', 'es': 'HK WorldBank' }
+        // 나머지 45개 언어는 여기에 키값: {언어코드: '번역'} 형태로 추가
+    },
+    translate: function() {
+        document.querySelectorAll('[data-lang]').forEach(el => {
+            const key = el.getAttribute('data-lang');
+            if (this.data[key] && this.data[key][this.current]) {
+                el.innerText = this.data[key][this.current];
+            }
+        });
+    }
+};
+window.switchLanguage = (lang) => {
+    window.HK_LANG_ENGINE.current = lang;
+    localStorage.setItem('lang', lang);
+    window.HK_LANG_ENGINE.translate();
+};
+window.onload = () => window.HK_LANG_ENGINE.translate();
+// [800줄] 시스템 끝
     // [587번 줄 시작] 50개국어 통합 데이터 엔진
 window.HK_LANG_ENGINE = {
     current: localStorage.getItem('lang') || 'ko',
