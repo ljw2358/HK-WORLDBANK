@@ -530,5 +530,32 @@
             }, 600);
         }
     </script>
+    <script>
+        // [HK_Localization_Engine_Start]
+        const HK_Localization = {
+            glossary: {
+                'ko': { 'TRANSFER': '송금', 'DEPOSIT': '예치', 'SERVICE': '반갑습니다. HK 월드뱅크 통합 지능형 서비스 센터입니다.' },
+                'en': { 'TRANSFER': 'Wire Transfer', 'DEPOSIT': 'Deposit', 'SERVICE': 'Welcome to the HK WorldBank AI Service Center.' },
+                'ja': { 'TRANSFER': '送金', 'DEPOSIT': '預け入れ', 'SERVICE': 'HKワールドバンクAIサービスセンターへようこそ。' }
+            },
+            init: function() {
+                const selector = document.getElementById('langSelector');
+                if (selector) {
+                    selector.addEventListener('change', (e) => { this.apply(e.target.value); });
+                }
+            },
+            apply: function(lang) {
+                const data = this.glossary[lang] || this.glossary['en'];
+                document.querySelectorAll('[data-i18n-key]').forEach(el => {
+                    const key = el.getAttribute('data-i18n-key');
+                    if (data[key]) el.innerText = data[key];
+                });
+                const aiBox = document.getElementById('ai-chat-box');
+                if (aiBox) aiBox.innerText = data['SERVICE'];
+            }
+        };
+        HK_Localization.init();
+        // [HK_Localization_Engine_End]
+    </script>
 </body>
 </html>
