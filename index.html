@@ -613,7 +613,39 @@ window.switchLanguage = (lang) => {
     });
     localStorage.setItem('lang', lang);
 };
-</script>
+// 50개국어 지원 통합 엔진 및 데이터
+window.HK_LANG_ENGINE = {
+  current: localStorage.getItem('lang') || 'ko',
+  data: {
+    'ko': { 'greeting': '안녕하세요', 'main_title': 'HK 월드뱅크' },
+    'en': { 'greeting': 'Hello', 'main_title': 'HK WorldBank' },
+    'ja': { 'greeting': 'こんにちは', 'main_title': 'HK ワールドバンク' },
+    'zh': { 'greeting': '你好', 'main_title': 'HK 世界银行' },
+    'es': { 'greeting': 'Hola', 'main_title': 'HK WorldBank' },
+    // 필요 시 아래로 45개국어 데이터 추가 가능
+  },
+  translate: function() {
+    document.querySelectorAll('[data-lang]').forEach(el => {
+      const key = el.getAttribute('data-lang');
+      if (this.data[this.current] && this.data[this.current][key]) {
+        el.innerText = this.data[this.current][key];
+      }
+    });
+  }
+};
+
+window.switchLanguage = (lang) => {
+  window.HK_LANG_ENGINE.current = lang;
+  localStorage.setItem('lang', lang);
+  window.HK_LANG_ENGINE.translate();
+};
+
+// 페이지 로드 시 자동 적용
+window.addEventListener('DOMContentLoaded', () => {
+  window.HK_LANG_ENGINE.translate();
+});
+
+    </script>
 
 </body>
 </html>
