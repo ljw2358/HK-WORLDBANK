@@ -530,5 +530,33 @@
             }, 600);
         }
     </script>
+    <script>
+        // 1. 50개국어 금융 용어 사전 (이곳에 내용을 채워 넣으세요)
+        const glossary = {
+            'ko': { 'TRANSFER': '송금', 'DEPOSIT': '예치', 'SERVICE': '반갑습니다. HK 월드뱅크 통합 지능형 서비스 센터입니다.' },
+            'en': { 'TRANSFER': 'Transfer', 'DEPOSIT': 'Deposit', 'SERVICE': 'Welcome to HK WorldBank Service Center.' },
+            'ja': { 'TRANSFER': '送金', 'DEPOSIT': '預け入れ', 'SERVICE': 'HKワールドバンクへようこそ。' }
+        };
+
+        // 2. 언어 변환 실행 함수 (이게 있어야 꿈쩍합니다)
+        function changeLanguage() {
+            const lang = document.getElementById('langSelector').value;
+            
+            // 화면의 모든 텍스트를 찾아 변환
+            document.querySelectorAll('[data-i18n-key]').forEach(el => {
+                const key = el.getAttribute('data-i18n-key');
+                if(glossary[lang] && glossary[lang][key]) {
+                    el.innerText = glossary[lang][key];
+                }
+            });
+
+            // 서비스 센터 멘트 변환
+            if(document.getElementById('ai-chat-box')) {
+                document.getElementById('ai-chat-box').innerText = glossary[lang]['SERVICE'];
+            }
+        }
+    </script>
+
+
 </body>
 </html>
