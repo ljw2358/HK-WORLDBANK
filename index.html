@@ -1,6 +1,27 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+<script>
+    // 뼈속까지 변환할 다국어 엔진
+    const HK_LANG_ENGINE = {
+        current: localStorage.getItem('lang') || 'ko',
+        // 여기에 50개국어 데이터 리스트를 확장
+        data: {
+            ko: { title: "HK 월드뱅크", menu1: "금융", menu2: "로봇", ... },
+            en: { title: "HK WorldBank", menu1: "Finance", menu2: "Robotics", ... },
+            // ... 계속 확장
+        },
+        translate: function() {
+            document.querySelectorAll('[data-lang]').forEach(el => {
+                const key = el.getAttribute('data-lang');
+                if (this.data[this.current][key]) {
+                    el.innerText = this.data[this.current][key];
+                }
+            });
+        }
+    };
+</script>
+   
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HK 월드뱅크 - 글로벌 산업 플랫폼</title>
