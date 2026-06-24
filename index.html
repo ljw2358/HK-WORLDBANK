@@ -1,5 +1,29 @@
 <!DOCTYPE html>
 <html lang="ko">
+<script>
+    // 형님의 코드 위에만 얹히는 별도의 엔진입니다.
+    window.HK_LANG_ENGINE = {
+        current: 'ko',
+        // 여기에 50개국어 데이터를 채워 넣으세요.
+        data: {
+            ko: { "nav-title": "HK 월드뱅크" },
+            en: { "nav-title": "HK WorldBank" }
+        },
+        translate: function() {
+            // 이 엔진은 id="nav-title" 같은 id를 가진 곳만 찾아갑니다.
+            for(let key in this.data[this.current]) {
+                const el = document.getElementById(key);
+                if(el) el.innerText = this.data[this.current][key];
+            }
+        }
+    };
+    
+    // 형님 코드의 switchLanguage와 연결하는 다리입니다.
+    window.switchLanguage = function(lang) {
+        HK_LANG_ENGINE.current = lang;
+        HK_LANG_ENGINE.translate();
+    };
+</script>
  <head>
 <script>
     // 뼈속까지 변환할 다국어 엔진
