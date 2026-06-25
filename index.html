@@ -531,5 +531,76 @@
             }, 600);
         }
     </script>
+<script>
+// [HK 50개국어 마스터 데이터]
+const HK_MASTER_DATA = {
+    KO: { title: "HK 월드뱅크", wallet: "수수료 지갑", deposit: "예치", swap: "스왑", greeting: "환영합니다" },
+    EN: { title: "HK WorldBank", wallet: "Fee Wallet", deposit: "Deposit", swap: "Swap", greeting: "Welcome" },
+    ZH: { title: "HK 世界银行", wallet: "费用钱包", deposit: "存入", swap: "兑换", greeting: "欢迎" },
+    JA: { title: "HK ワールドバンク", wallet: "手数料ウォレット", deposit: "預け入れ", swap: "スワップ", greeting: "歓迎" },
+    ES: { title: "HK WorldBank", wallet: "Monedero de Tarifas", deposit: "Depósito", swap: "Intercambio", greeting: "Bienvenido" },
+    FR: { title: "HK WorldBank", wallet: "Portefeuille de frais", deposit: "Dépôt", swap: "Échange", greeting: "Bienvenue" },
+    DE: { title: "HK WorldBank", wallet: "Gebühren-Wallet", deposit: "Einzahlung", swap: "Tausch", greeting: "Willkommen" },
+    RU: { title: "HK WorldBank", wallet: "Кошелек комиссий", deposit: "Депозит", swap: "Своп", greeting: "Добро пожаловать" },
+    AR: { title: "بنك HK العالمي", wallet: "محفظة الرسوم", deposit: "إيداع", swap: "مبادلة", greeting: "أهلا بك" },
+    PT: { title: "HK WorldBank", wallet: "Carteira de taxas", deposit: "Depósito", swap: "Troca", greeting: "Bem-vindo" },
+    IT: { title: "HK WorldBank", wallet: "Portafoglio commissioni", deposit: "Deposito", swap: "Scambio", greeting: "Benvenuto" },
+    HI: { title: "HK वर्ल्डबैंक", wallet: "शुल्क वॉलेट", deposit: "जमा", swap: "स्वैप", greeting: "आपका स्वागत है" },
+    BN: { title: "HK ওয়ার্ল্ডব্যাংক", wallet: "ফি ওয়ালেট", deposit: "জমা", swap: "সোয়াপ", greeting: "স্বাগতম" },
+    ID: { title: "HK WorldBank", wallet: "Dompet biaya", deposit: "Deposit", swap: "Tukar", greeting: "Selamat datang" },
+    VI: { title: "HK WorldBank", wallet: "Ví phí", deposit: "Tiền gửi", swap: "Hoán đổi", greeting: "Chào mừng" },
+    TH: { title: "HK WorldBank", wallet: "กระเป๋าเงินค่าธรรมเนียม", deposit: "ฝากเงิน", swap: "แลกเปลี่ยน", greeting: "ยินดีต้อนรับ" },
+    TR: { title: "HK WorldBank", wallet: "Ücret cüzdanı", deposit: "Mevduat", swap: "Takas", greeting: "Hoş geldiniz" },
+    NL: { title: "HK WorldBank", wallet: "Kostenportefeuille", deposit: "Storten", swap: "Wissel", greeting: "Welkom" },
+    PL: { title: "HK WorldBank", wallet: "Portfel opłat", deposit: "Depozyt", swap: "Wymiana", greeting: "Witaj" },
+    SV: { title: "HK WorldBank", wallet: "Avgiftsplånbok", deposit: "Insättning", swap: "Byte", greeting: "Välkommen" },
+    CS: { title: "HK WorldBank", wallet: "Peněženka poplatků", deposit: "Vklad", swap: "Směna", greeting: "Vítejte" },
+    HU: { title: "HK WorldBank", wallet: "Díjtárca", deposit: "Letét", swap: "Csere", greeting: "Üdvözöljük" },
+    RO: { title: "HK WorldBank", wallet: "Portofel taxe", deposit: "Depozit", swap: "Schimb", greeting: "Bine ați venit" },
+    EL: { title: "HK WorldBank", wallet: "Πορτοφόλι τελών", deposit: "Κατάθεση", swap: "Ανταλλαγή", greeting: "Καλώς ήρθατε" },
+    FI: { title: "HK WorldBank", wallet: "Maksulompakko", deposit: "Talletus", swap: "Vaihto", greeting: "Tervetuloa" },
+    DA: { title: "HK WorldBank", wallet: "Gebyrpung", deposit: "Indskud", swap: "Bytte", greeting: "Velkommen" },
+    NO: { title: "HK WorldBank", wallet: "Gebyr-lommebok", deposit: "Innskudd", swap: "Bytte", greeting: "Velkommen" },
+    SK: { title: "HK WorldBank", wallet: "Peňaženka poplatkov", deposit: "Vklad", swap: "Výmena", greeting: "Vitajte" },
+    BG: { title: "HK WorldBank", wallet: "Портфейл за такси", deposit: "Депозит", swap: "Размяна", greeting: "Добре дошли" },
+    HR: { title: "HK WorldBank", wallet: "Novčanik naknada", deposit: "Depozit", swap: "Razmjena", greeting: "Dobrodošli" },
+    SR: { title: "HK WorldBank", wallet: "Новчаник накнада", deposit: "Депозит", swap: "Размена", greeting: "Добродошли" },
+    LT: { title: "HK WorldBank", wallet: "Mokesčių piniginė", deposit: "Indėlis", swap: "Keitimas", greeting: "Sveiki atvykę" },
+    LV: { title: "HK WorldBank", wallet: "Maksas maks", deposit: "Depozīts", swap: "Maiņa", greeting: "Laipni lūdzam" },
+    ET: { title: "HK WorldBank", wallet: "Tasude rahakott", deposit: "Hoius", swap: "Vahetus", greeting: "Tere tulemast" },
+    SL: { title: "HK WorldBank", wallet: "Denarnica pristojbin", deposit: "Depozit", swap: "Menjava", greeting: "Dobrodošli" },
+    UK: { title: "HK WorldBank", wallet: "Гаманець комісій", deposit: "Депозит", swap: "Своп", greeting: "Ласкаво просимо" },
+    HE: { title: "HK WorldBank", wallet: "ארנק עמלות", deposit: "הפקדה", swap: "החלפה", greeting: "ברוכים הבאים" },
+    FA: { title: "HK WorldBank", wallet: "کیف پول کارمزد", deposit: "سپرده", swap: "مبادله", greeting: "خوش آمدید" },
+    UR: { title: "HK WorldBank", wallet: "فیس والیٹ", deposit: "جمع", swap: "تبادلہ", greeting: "خوش آمدید" },
+    MS: { title: "HK WorldBank", wallet: "Dompet yuran", deposit: "Deposit", swap: "Tukar", greeting: "Selamat datang" },
+    FIL: { title: "HK WorldBank", wallet: "Fee wallet", deposit: "Deposito", swap: "Palitan", greeting: "Maligayang pagdating" },
+    SW: { title: "HK WorldBank", wallet: "Mkoba wa ada", deposit: "Amana", swap: "Badilishaji", greeting: "Karibu" },
+    AF: { title: "HK WorldBank", wallet: "Fooi-beursie", deposit: "Deponeer", swap: "Ruil", greeting: "Welkom" },
+    KA: { title: "HK WorldBank", wallet: "საკომისიო საფულე", deposit: "დეპოზიტი", swap: "გაცვლა", greeting: "მოგესალმებით" },
+    HY: { title: "HK WorldBank", wallet: "Վճարային դրամապանակ", deposit: "Ավանդ", swap: "Փոխանակում", greeting: "Բարի գալուստ" },
+    AZ: { title: "HK WorldBank", wallet: "Komissiya pul kisəsi", deposit: "Depozit", swap: "Mübadilə", greeting: "Xoş gəlmisiniz" },
+    KK: { title: "HK WorldBank", wallet: "Комиссия әмияны", deposit: "Депозит", swap: "Алмасу", greeting: "Қош келдіңіз" },
+    UZ: { title: "HK WorldBank", wallet: "To'lov hamyoni", deposit: "Depozit", swap: "Ayirboshlash", greeting: "Xush kelibsiz" },
+    MN: { title: "HK WorldBank", wallet: "Хураамжийн түрийвч", deposit: "Хадгаламж", swap: "Солилцоо", greeting: "Тавтай морилно уу" },
+    KM: { title: "HK WorldBank", wallet: "កាបូបថ្លៃសេវា", deposit: "ប្រាក់បញ្ញើ", swap: "ការផ្លាស់ប្តូរ", greeting: "សូមស្វាគមន៍" },
+    SQ: { title: "HK WorldBank", wallet: "Portofoli i tarifave", deposit: "Depozitë", swap: "Shkëmbim", greeting: "Mirë se vini" },
+    BS: { title: "HK WorldBank", wallet: "Novčanik naknada", deposit: "Depozit", swap: "Razmjena", greeting: "Dobrodošli" }
+};
+
+window.HK_GLOBAL_ENGINE = {
+    apply: function(lang) {
+        localStorage.setItem('hk-lang', lang);
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            if(HK_MASTER_DATA[lang] && HK_MASTER_DATA[lang][key]) el.innerText = HK_MASTER_DATA[lang][key];
+        });
+    }
+};
+// 초기화
+window.onload = () => window.HK_GLOBAL_ENGINE.apply(localStorage.getItem('hk-lang') || 'KO');
+</script>
+
+
 </body>
 </html>
