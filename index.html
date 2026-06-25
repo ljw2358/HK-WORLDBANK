@@ -600,6 +600,89 @@ window.HK_GLOBAL_ENGINE = {
 // 초기화
 window.onload = () => window.HK_GLOBAL_ENGINE.apply(localStorage.getItem('hk-lang') || 'KO');
 </script>
+<script>
+// 1. 50개국어 통합 데이터셋
+const HK_MASTER_DATA = {
+    KO: { youtube: "유튜브", tiktok: "틱톡", chat: "질문하기" },
+    EN: { youtube: "YouTube", tiktok: "TikTok", chat: "Ask AI" },
+    ZH: { youtube: "YouTube", tiktok: "TikTok", chat: "提问" },
+    JA: { youtube: "YouTube", tiktok: "TikTok", chat: "質問する" },
+    ES: { youtube: "YouTube", tiktok: "TikTok", chat: "Preguntar" },
+    FR: { youtube: "YouTube", tiktok: "TikTok", chat: "Poser une question" },
+    DE: { youtube: "YouTube", tiktok: "TikTok", chat: "Fragen" },
+    RU: { youtube: "YouTube", tiktok: "TikTok", chat: "Задать вопрос" },
+    AR: { youtube: "YouTube", tiktok: "TikTok", chat: "اسأل" },
+    PT: { youtube: "YouTube", tiktok: "TikTok", chat: "Perguntar" },
+    IT: { youtube: "YouTube", tiktok: "TikTok", chat: "Chiedere" },
+    HI: { youtube: "YouTube", tiktok: "TikTok", chat: "पूछें" },
+    BN: { youtube: "YouTube", tiktok: "TikTok", chat: "জিজ্ঞাসা করুন" },
+    ID: { youtube: "YouTube", tiktok: "TikTok", chat: "Tanya" },
+    VI: { youtube: "YouTube", tiktok: "TikTok", chat: "Hỏi" },
+    TH: { youtube: "YouTube", tiktok: "TikTok", chat: "ถาม" },
+    TR: { youtube: "YouTube", tiktok: "TikTok", chat: "Sor" },
+    NL: { youtube: "YouTube", tiktok: "TikTok", chat: "Vragen" },
+    PL: { youtube: "YouTube", tiktok: "TikTok", chat: "Zapytać" },
+    SV: { youtube: "YouTube", tiktok: "TikTok", chat: "Fråga" },
+    CS: { youtube: "YouTube", tiktok: "TikTok", chat: "Zeptat se" },
+    HU: { youtube: "YouTube", tiktok: "TikTok", chat: "Kérdezni" },
+    RO: { youtube: "YouTube", tiktok: "TikTok", chat: "Întrebați" },
+    EL: { youtube: "YouTube", tiktok: "TikTok", chat: "Ρωτήστε" },
+    FI: { youtube: "YouTube", tiktok: "TikTok", chat: "Kysy" },
+    DA: { youtube: "YouTube", tiktok: "TikTok", chat: "Spørg" },
+    NO: { youtube: "YouTube", tiktok: "TikTok", chat: "Spørre" },
+    SK: { youtube: "YouTube", tiktok: "TikTok", chat: "Opýtať sa" },
+    BG: { youtube: "YouTube", tiktok: "TikTok", chat: "Попитай" },
+    HR: { youtube: "YouTube", tiktok: "TikTok", chat: "Pitaj" },
+    SR: { youtube: "YouTube", tiktok: "TikTok", chat: "Питај" },
+    LT: { youtube: "YouTube", tiktok: "TikTok", chat: "Klausti" },
+    LV: { youtube: "YouTube", tiktok: "TikTok", chat: "Jautāt" },
+    ET: { youtube: "YouTube", tiktok: "TikTok", chat: "Küsi" },
+    SL: { youtube: "YouTube", tiktok: "TikTok", chat: "Vprašajte" },
+    UK: { youtube: "YouTube", tiktok: "TikTok", chat: "Запитати" },
+    HE: { youtube: "YouTube", tiktok: "TikTok", chat: "לשאול" },
+    FA: { youtube: "YouTube", tiktok: "TikTok", chat: "پرسیدن" },
+    UR: { youtube: "YouTube", tiktok: "TikTok", chat: "پوچھیں" },
+    MS: { youtube: "YouTube", tiktok: "TikTok", chat: "Tanya" },
+    FIL: { youtube: "YouTube", tiktok: "TikTok", chat: "Magtanong" },
+    SW: { youtube: "YouTube", tiktok: "TikTok", chat: "Uliza" },
+    AF: { youtube: "YouTube", tiktok: "TikTok", chat: "Vra" },
+    KA: { youtube: "YouTube", tiktok: "TikTok", chat: "კითხვა" },
+    HY: { youtube: "YouTube", tiktok: "TikTok", chat: "Հարցնել" },
+    AZ: { youtube: "YouTube", tiktok: "TikTok", chat: "Soruş" },
+    KK: { youtube: "YouTube", tiktok: "TikTok", chat: "Сұрау" },
+    UZ: { youtube: "YouTube", tiktok: "TikTok", chat: "So'rash" },
+    MN: { youtube: "YouTube", tiktok: "TikTok", chat: "Асуух" },
+    KM: { youtube: "YouTube", tiktok: "TikTok", chat: "សួរ" }
+};
+
+// 2. 언어 변환 실행 함수
+function changeLanguage(lang) {
+    localStorage.setItem('hk-lang', lang);
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if(HK_MASTER_DATA[lang] && HK_MASTER_DATA[lang][key]) {
+            el.innerText = HK_MASTER_DATA[lang][key];
+        }
+    });
+}
+
+// 3. 페이지 로드 시 자동 적용 및 초기값 설정
+window.onload = () => changeLanguage(localStorage.getItem('hk-lang') || 'KO');
+</script>
+
+<div style="position: fixed; bottom: 20px; left: 20px; display: flex; gap: 10px;">
+    <button data-i18n="youtube">유튜브</button>
+    <button data-i18n="tiktok">틱톡</button>
+</div>
+
+<div style="position: fixed; bottom: 20px; right: 20px;">
+    <button data-i18n="chat" style="padding: 15px; border-radius: 50px;">ChatGPT 말풍선</button>
+</div>
+
+<select onchange="changeLanguage(this.value)" style="position: fixed; top: 10px; right: 10px;">
+    <option value="KO">한국어</option><option value="EN">English</option><option value="ZH">中文</option>
+    </select>
+
 
 
 </body>
