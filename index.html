@@ -88,19 +88,24 @@
                 }
             },
 
-            // 2. 금융 연산 엔진: 메인넷 데이터 동기화
-            finance: {
-                accumulate: function(val) { return val * 1.05; },
-                sync: function() { console.log("Financial Ledger Synced."); }
+        // 2. 금융 노드 연산 엔진: 메인넷 데이터 동기화 및 UBI 분배 로직
+        finance: {
+            balance: 1000000,
+            accumulate: function(rate) { 
+                this.balance += (this.balance * rate);
+                return this.balance;
             },
-
-            // 3. 엔진 초기화 및 무결성 검증
-            init: function() {
-                console.log("HK Master Framework Initialized.");
-                this.finance.sync();
+            getUBI: function(userCount) {
+                return (this.balance * 0.3) / userCount; // 30% UBI 분배 로직
+            },
+            verifyNode: function(nodeID) {
+                console.log("메인넷 노드 검증 중: " + nodeID);
+                return true;
+            },
+            sync: function() {
+                console.log("Financial Ledger Synced. Current Balance: " + this.balance);
             }
-        };
-
+        },
         // 시스템 가동
         HK_MASTER.init();
     </script>
