@@ -1,6 +1,59 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head>
+<script>
+    // 형님의 코드 위에만 얹히는 별도의 엔진입니다.
+    window.HK_LANG_ENGINE = {
+        current: 'ko',
+        // 여기에 50개국어 데이터를 채워 넣으세요.
+        data: {
+           
+            en: { "nav-title": "HK WorldBank" }
+        },
+     // 코드의 이 부분을 찾아보세요
+data: {
+    // 여기에 제가 드린 50개국어 리스트를 붙여넣으세요!
+    ko: { "nav-title": "HK 월드뱅크" }, 
+    en: { "nav-title": "HK WorldBank" },
+    ... (이하 50개국어 리스트)
+},
+
+        translate: function() {
+            // 이 엔진은 id="nav-title" 같은 id를 가진 곳만 찾아갑니다.
+            for(let key in this.data[this.current]) {
+                const el = document.getElementById(key);
+                if(el) el.innerText = this.data[this.current][key];
+            }
+        }
+    };
+    
+    // 형님 코드의 switchLanguage와 연결하는 다리입니다.
+    window.switchLanguage = function(lang) {
+        HK_LANG_ENGINE.current = lang;
+        HK_LANG_ENGINE.translate();
+    };
+</script>
+ <head>
+<script>
+    // 뼈속까지 변환할 다국어 엔진
+    const HK_LANG_ENGINE = {
+        current: localStorage.getItem('lang') || 'ko',
+        // 여기에 50개국어 데이터 리스트를 확장
+        data: {
+            ko: { title: "HK 월드뱅크", menu1: "금융", menu2: "로봇", ... },
+            en: { title: "HK WorldBank", menu1: "Finance", menu2: "Robotics", ... },
+            // ... 계속 확장
+        },
+        translate: function() {
+            document.querySelectorAll('[data-lang]').forEach(el => {
+                const key = el.getAttribute('data-lang');
+                if (this.data[this.current][key]) {
+                    el.innerText = this.data[this.current][key];
+                }
+            });
+        }
+    };
+</script>
+   
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HK 월드뱅크 - 글로벌 산업 플랫폼</title>
@@ -35,7 +88,7 @@
            
             <!-- 50개국 풀 스택 실시간 언어 변동 시스템 (순한글 번역 매핑 고정) -->
             <div class="flex items-center space-x-4">
-                <select id="language-switcher" onchange="switchLanguage(this.value)" class="bg-slate-800 text-slate-200 border border-slate-700 rounded-lg px-3 py-1.5 text-xs font-semibold focus:outline-none focus:border-amber-500 cursor-pointer max-w-[240px]">
+                <select id="language-selector" onchange="switchLanguage(this.value)" class="bg-slate-800 text-slate-200 border border-slate-700 rounded-lg px-3 py-1.5 text-xs font-semibold focus:outline-none focus:border-amber-500 cursor-pointer max-w-[240px]">
                     <option value="ko">🇰🇷 대한민국 - 한국어</option>
                     <option value="en">🇺🇸 미국 - 영어 (English)</option>
                     <option value="zh">🇨🇳 중국 - 中文 (Chinese)</option>
@@ -89,6 +142,7 @@
                 </select>
             </div>
         </div>
+  
     </header>
 
     <!-- 메인 레이아웃 그리드 시스템 -->
@@ -530,5 +584,79 @@
             }, 600);
         }
     </script>
+window.HK_LANG_ENGINE.translate = function() {
+    const lang = this.current;
+    document.querySelectorAll('[data-lang]').forEach(el => {
+        const key = el.getAttribute('data-lang');
+        if (this.data[lang] && this.data[lang][key]) {
+            el.innerText = this.data[lang][key];
+        }
+    });
+};
+    <script>
+    // 뺑뺑이 없이, 기존 코드를 건드리지 않고 엔진과 연결합니다.
+    window.switchLanguage = (lang) => {
+        if(typeof HK_LANG_ENGINE !== 'undefined') {
+            HK_LANG_ENGINE.current = lang;
+            HK_LANG_ENGINE.translate();
+            localStorage.setItem('lang', lang);
+        }
+    };
+/* 50개국어 완전 자동 변환 엔진 */
+window.switchLanguage = (lang) => {
+    HK_LANG_ENGINE.current = lang;
+    document.querySelectorAll('[data-lang]').forEach(el => {
+        const key = el.getAttribute('data-lang');
+        if(HK_LANG_ENGINE.data[lang] && HK_LANG_ENGINE.data[lang][key]) {
+            el.innerText = HK_LANG_ENGINE.data[lang][key];
+        }
+    });
+    localStorage.setItem('lang', lang);
+};
+// 50개국어 지원 통합 엔진 및 데이터
+window.HK_LANG_ENGINE = {
+  current: localStorage.getItem('lang') || 'ko',
+  data: {
+    'ko': { 'greeting': '안녕하세요', 'main_title': 'HK 월드뱅크' },
+    'en': { 'greeting': 'Hello', 'main_title': 'HK WorldBank' },
+    'ja': { 'greeting': 'こんにちは', 'main_title': 'HK ワールドバンク' },
+    'zh': { 'greeting': '你好', 'main_title': 'HK 世界银行' },
+    'es': { 'greeting': 'Hola', 'main_title': 'HK WorldBank' },
+    // 필요 시 아래로 45개국어 데이터 추가 가능
+  },
+  translate: function() {
+    document.querySelectorAll('[data-lang]').forEach(el => {
+      const key = el.getAttribute('data-lang');
+      if (this.data[this.current] && this.data[this.current][key]) {
+        el.innerText = this.data[this.current][key];
+      }
+    });
+  }
+};
+
+window.switchLanguage = (lang) => {
+  window.HK_LANG_ENGINE.current = lang;
+  localStorage.setItem('lang', lang);
+  window.HK_LANG_ENGINE.translate();
+};
+
+// 페이지 로드 시 자동 적용
+window.addEventListener('DOMContentLoaded', () => {
+  window.HK_LANG_ENGINE.translate();
+});
+
+    </script>
+
 </body>
 </html>
+// 50개국어 즉시 변환 시스템
+window.translateAll = function(lang) {
+    document.querySelectorAll('[data-lang]').forEach(el => {
+        const key = el.getAttribute('data-lang');
+        const langData = HK_LANG_ENGINE.data[lang];
+        if (langData && langData[key]) {
+            el.innerText = langData[key];
+        }
+    });
+    localStorage.setItem('lang', lang);
+};
