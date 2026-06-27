@@ -2,229 +2,340 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>HK WorldBank Core Engine v1.0</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HK WorldBank Integrated Management System</title>
+    <!-- Tailwind CSS 및 핵심 폰트 로드 -->
     <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-slate-950 text-white p-8">
-    <div class="max-w-4xl mx-auto space-y-6">
-        <h1 class="text-3xl font-black text-blue-500">HK WORLD BANK INTEGRATED ENGINE</h1>
-        
-        <!-- 메모 반영: 진수리 값 & 유동이율 입력부 -->
-        <section class="grid grid-cols-2 gap-4 p-6 bg-slate-900 rounded-xl border border-blue-800">
-            <div>
-                <label class="text-xs text-gray-400">진수리 기준값 (Target Value)</label>
-                <input type="number" id="target" value="88240000000" class="w-full bg-black p-3 mt-1 rounded border border-blue-900 font-mono">
-            </div>
-            <div>
-                <label class="text-xs text-gray-400">유동이율 설정 (%)</label>
-                <input type="number" id="rate" value="12.8" class="w-full bg-black p-3 mt-1 rounded border border-blue-900 font-mono">
-            </div>
-            <button onclick="Engine.calc()" class="col-span-2 bg-blue-600 py-3 rounded font-bold hover:bg-blue-500 transition">엔진 연산 및 비즈니스 모듈 가동</button>
-        </section>
-
-        <!-- 결과 출력 및 모니터링 -->
-        <div id="output" class="text-2xl font-bold text-center py-6 border border-emerald-900 rounded-xl bg-emerald-950/20">데이터 대기 중</div>
-        <div id="logs" class="h-40 overflow-y-auto bg-black p-4 border border-gray-800 rounded font-mono text-xs text-gray-500"></div>
-    </div>
-
-    <script>
-        const Engine = {
-            calc() {
-                const target = document.getElementById('target').value;
-                const rate = document.getElementById('rate').value;
-                const result = target * (rate / 100);
-                document.getElementById('output').innerText = `산출 결과: ₩ ${Number(result).toLocaleString()}`;
-                this.log(`[SYSTEM] Target: ${target} | Rate: ${rate}% | Result: ${result}`);
-            },
-            log(msg) {
-                const logs = document.getElementById('logs');
-                logs.prepend(document.createElement('div').textContent = `[${new Date().toLocaleTimeString()}] ${msg}`);
-            }
-        };
-        // 시스템 엔진 초기화 로그
-        console.log("HK WorldBank Engine Initialized. 2000-Line Architecture Ready.");
-    </script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <title>HK WorldBank Core Engine | 500-Line Foundation</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;800;900&display=swap" rel="stylesheet">
     <style>
-        body { background: #020617; color: #f1f5f9; }
-        .glass { background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.1); }
+        body {
+            font-family: 'Pretendard', sans-serif;
+            background: radial-gradient(circle at top center, #0f172a, #020617);
+            color: #f8fafc;
+            overflow-x: hidden;
+        }
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(59, 130, 246, 0.15);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+        }
+        .neon-glow-blue {
+            box-shadow: 0 0 25px rgba(59, 130, 246, 0.25);
+        }
+        .neon-glow-emerald {
+            box-shadow: 0 0 25px rgba(16, 185, 129, 0.25);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(59, 130, 246, 0.3);
+            border-radius: 3px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(59, 130, 246, 0.5);
+        }
+        @keyframes pulse-fast {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+        .animate-pulse-fast {
+            animation: pulse-fast 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
     </style>
 </head>
-<body class="p-8">
-    <div id="hk-engine" class="max-w-6xl mx-auto space-y-6">
-        <!-- 엔진 헤더 -->
-        <header class="glass p-6 rounded-2xl border border-blue-500/30">
-            <h1 class="text-3xl font-black text-blue-400">HK WORLD BANK INTEGRATED ENGINE</h1>
-        </header>
+<body class="p-4 md:p-8 min-h-screen">
 
-        <!-- 진수리/유동이율 연산 모듈 -->
-        <section class="glass p-8 rounded-2xl border border-emerald-500/30">
-            <h2 class="text-xl font-bold mb-6 text-emerald-300">Financial Calculation Engine (Module 1)</h2>
-            <div class="grid grid-cols-2 gap-6">
-                <div>
-                    <label class="text-xs text-gray-400">진수리 기준값 (Target Value)</label>
-                    <input type="number" id="target" value="88240000000" class="w-full bg-black p-4 mt-2 rounded border border-emerald-900 font-mono">
+    <div class="max-w-[1700px] mx-auto space-y-6">
+        
+        <!-- ================= [ 상단 글로벌 컨트롤 헤더 ] ================= -->
+        <header class="glass-panel p-6 rounded-3xl flex flex-col md:flex-row justify-between items-center gap-4 neon-glow-blue">
+            <div>
+                <div class="flex items-center gap-3">
+                    <span class="flex h-3 w-3 relative">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+                    </span>
+                    <h1 class="text-3xl font-black tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-indigo-400 to-emerald-400">
+                        HK WORLD BANK INTEGRATED SYSTEM
+                    </h1>
                 </div>
-                <div>
-                    <label class="text-xs text-gray-400">유동이율 설정 (Liquidity Rate %)</label>
-                    <input type="number" id="rate" value="12.8" class="w-full bg-black p-4 mt-2 rounded border border-emerald-900 font-mono">
+                <p class="text-xs text-slate-400 mt-1 uppercase tracking-widest font-semibold">Global Deep-Tech & Financial Governance Platform</p>
+            </div>
+            <div class="flex items-center gap-4 font-mono text-sm">
+                <div class="bg-slate-900/80 px-4 py-2 rounded-xl border border-slate-800 text-slate-400">
+                    NETWORK: <span class="text-blue-400 font-bold">HK-CORE-MAINNET</span>
+                </div>
+                <div id="global-clock" class="bg-slate-900/80 px-4 py-2 rounded-xl border border-slate-800 text-emerald-400 font-bold tracking-wider">
+                    2026-06-28 01:02:13
                 </div>
             </div>
-            <button onclick="HKEngine.execute()" class="mt-6 w-full bg-emerald-600 py-4 font-bold rounded-lg hover:bg-emerald-500">엔진 연산 실행</button>
-            <div id="output" class="mt-6 text-3xl font-bold text-center text-white">결과 대기 중...</div>
+        </header>
+
+        <!-- ================= [ 형님 지시사항: 진수리 및 유동이율 마스터 컨트롤러 ] ================= -->
+        <section class="glass-panel p-6 rounded-3xl border border-blue-500/30 bg-gradient-to-br from-slate-900/90 to-slate-950/90">
+            <div class="flex items-center gap-2 mb-4 border-b border-slate-800 pb-3">
+                <div class="p-2 bg-blue-500/10 rounded-lg text-blue-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" /></svg>
+                </div>
+                <h2 class="text-lg font-bold tracking-tight text-white">HK 마스터 비즈니스 연산 컨트롤러</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-end">
+                <div>
+                    <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">진수리 기준값 입력 (Target Base Asset)</label>
+                    <div class="relative">
+                        <span class="absolute left-4 top-3.5 text-slate-500 font-bold">₩</span>
+                        <input type="number" id="input-target-value" value="88240000000" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 pl-9 text-xl font-bold font-mono text-white focus:outline-none focus:border-blue-500 transition-colors">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">유동이율 설정 직접 입력 (Liquidity APR %)</label>
+                    <div class="relative">
+                        <input type="number" id="input-liquidity-rate" value="12.8" step="0.1" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 pr-12 text-xl font-bold font-mono text-emerald-400 focus:outline-none focus:border-emerald-500 transition-colors">
+                        <span class="absolute right-4 top-3.5 text-slate-500 font-bold">%</span>
+                    </div>
+                </div>
+                <div>
+                    <button onclick="HKSystemEngine.recalculateAll()" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold p-3.5 rounded-xl transition-all duration-200 shadow-lg shadow-blue-900/40 text-sm tracking-wide uppercase">
+                        통합 금융 알고리즘 즉시 동기화
+                    </button>
+                </div>
+            </div>
         </section>
 
-        <!-- 확장형 모듈 구조 (500줄 규모 구현 준비) -->
-        <div class="grid grid-cols-2 gap-6">
-            <div id="mod-pool" class="glass p-6 rounded-xl text-gray-500 font-mono text-xs">2x2 Pool Balancing Module (Ready)</div>
-            <div id="mod-ubi" class="glass p-6 rounded-xl text-gray-500 font-mono text-xs">UBI Distribution Module (Ready)</div>
-            <div id="mod-gov" class="glass p-6 rounded-xl text-gray-500 font-mono text-xs">Governance System Module (Ready)</div>
-            <div id="mod-sur" class="glass p-6 rounded-xl text-gray-500 font-mono text-xs">Wallet Surveillance Module (Ready)</div>
-        </div>
+        <!-- ================= [ 1. 전체 자산 현황 (실시간 누적 이자 1열 배치) ] ================= -->
+        <section class="glass-panel p-6 rounded-3xl neon-glow-emerald bg-gradient-to-r from-slate-900/40 via-slate-900/90 to-slate-950/40">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-xs font-bold uppercase tracking-widest text-slate-400">Total Asset Portfolio & Real-time Accumulation</h2>
+                <span class="text-[10px] font-mono bg-emerald-500/10 text-emerald-400 px-2 py-1 rounded border border-emerald-500/20 tracking-widest animate-pulse-fast">LIVE MULTIPLIER ACTIVE</span>
+            </div>
+            <!-- 1열 레이아웃 구조 -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 divide-y lg:divide-y-0 lg:divide-x divide-slate-800/60">
+                <div class="pt-4 lg:pt-0 lg:px-4 flex flex-col justify-center">
+                    <p class="text-xs text-slate-400 font-medium">통합 진수리 기준 총 자산</p>
+                    <div class="text-3xl md:text-4xl font-black text-white mt-2 tracking-tight font-mono" id="display-total-holdings">
+                        ₩ 88,240,000,000
+                    </div>
+                </div>
+                <div class="pt-4 lg:pt-0 lg:px-6 flex flex-col justify-center">
+                    <div class="flex items-center gap-2">
+                        <p class="text-xs text-emerald-400 font-bold">개인 보유 수량 실시간 누적이자</p>
+                        <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                    </div>
+                    <div class="text-3xl md:text-4xl font-black text-emerald-400 mt-2 tracking-tight font-mono" id="display-realtime-interest">
+                        ₩ 12,450,920
+                    </div>
+                </div>
+                <div class="pt-4 lg:pt-0 lg:px-6 flex flex-col justify-center">
+                    <p class="text-xs text-indigo-400 font-bold">적용 중인 고정 유동이율</p>
+                    <div class="text-3xl md:text-4xl font-black text-indigo-400 mt-2 tracking-tight font-mono" id="display-current-apr">
+                        12.80 %
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= [ 2. 2x2 유동성 풀 및 UBI 저수지 ] ================= -->
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            
+            <!-- 왼쪽: 2x2 유동성 풀 멀티 매트릭스 -->
+            <div class="glass-panel p-6 rounded-3xl space-y-4">
+                <div class="flex justify-between items-center border-b border-slate-800/80 pb-3">
+                    <h3 class="text-sm font-bold text-slate-300 tracking-wide uppercase">2x2 Liquidity Pool Reservoir Matrix</h3>
+                    <span class="text-[10px] text-blue-400 font-mono font-bold">ALGORITHMIC BALANCE</span>
+                </div>
+                <!-- 2x2 그리드 레이아웃 -->
+                <div class="grid grid-cols-2 gap-4">
+                    <!-- 풀 1: HK-Core 유동성 -->
+                    <div class="bg-slate-950/80 border border-blue-900/40 p-5 rounded-2xl flex flex-col justify-between h-36 transition-all hover:border-blue-500/40">
+                        <div>
+                            <span class="text-[10px] text-blue-400 font-bold uppercase tracking-wider">POOL 01 // CORE</span>
+                            <h4 class="text-sm font-bold text-slate-200 mt-1">HK-Pi Core Pool</h4>
+                        </div>
+                        <div class="text-2xl font-black font-mono text-white tracking-tight" id="pool-hk-core">₩ 5,647,360,000</div>
+                    </div>
+                    <!-- 풀 2: HK-Energy 유동성 -->
+                    <div class="bg-slate-950/80 border border-blue-900/40 p-5 rounded-2xl flex flex-col justify-between h-36 transition-all hover:border-blue-500/40">
+                        <div>
+                            <span class="text-[10px] text-purple-400 font-bold uppercase tracking-wider">POOL 02 // ENERGY</span>
+                            <h4 class="text-sm font-bold text-slate-200 mt-1">HK-Energy Tech Pool</h4>
+                        </div>
+                        <div class="text-2xl font-black font-mono text-white tracking-tight" id="pool-hk-energy">₩ 4,015,190,000</div>
+                    </div>
+                    <!-- 풀 3: UBI 저수지 메인 예치금 -->
+                    <div class="bg-slate-950/80 border border-emerald-900/40 p-5 rounded-2xl flex flex-col justify-between h-36 transition-all hover:border-emerald-500/40">
+                        <div>
+                            <span class="text-[10px] text-emerald-400 font-bold uppercase tracking-wider">RESERVOIR 01 // UBI</span>
+                            <h4 class="text-sm font-bold text-slate-200 mt-1">UBI Foundation Reserve</h4>
+                        </div>
+                        <div class="text-2xl font-black font-mono text-emerald-400 tracking-tight" id="pool-ubi-reserve">₩ 3,114,880,000</div>
+                    </div>
+                    <!-- 풀 4: 시스템 유동성 완충 저수지 -->
+                    <div class="bg-slate-950/80 border border-emerald-900/40 p-5 rounded-2xl flex flex-col justify-between h-36 transition-all hover:border-emerald-500/40">
+                        <div>
+                            <span class="text-[10px] text-amber-400 font-bold uppercase tracking-wider">RESERVOIR 02 // STABILITY</span>
+                            <h4 class="text-sm font-bold text-slate-200 mt-1">System Buffer Reservoir</h4>
+                        </div>
+                        <div class="text-2xl font-black font-mono text-amber-400 tracking-tight" id="pool-system-buffer">₩ 1,495,140,000</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 오른쪽: 통합 거버넌스 및 실시간 지갑 감시 시스템 -->
+            <div class="glass-panel p-6 rounded-3xl flex flex-col justify-between h-full">
+                <div class="flex justify-between items-center border-b border-slate-800/80 pb-3">
+                    <h3 class="text-sm font-bold text-slate-300 tracking-wide uppercase">통합 거버넌스 및 실시간 지갑 감시</h3>
+                    <span class="text-[10px] font-mono text-red-400 animate-pulse font-bold">SECURE FIREWALL ACTIVE</span>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3 flex-grow">
+                    <!-- 거버넌스 의제 섹션 -->
+                    <div class="bg-slate-950/50 border border-slate-800 rounded-2xl p-4 flex flex-col">
+                        <span class="text-[10px] font-bold text-indigo-400 uppercase tracking-widest mb-2">Governance Proposal Status</span>
+                        <div class="space-y-2 overflow-y-auto flex-grow custom-scrollbar pr-1 max-h-44 text-xs">
+                            <div class="p-2.5 bg-slate-900/90 rounded-lg border border-slate-800/80 flex justify-between items-center">
+                                <span class="truncate pr-2 font-medium">Ulsan Deep-Tech Industrial Cluster Funding</span>
+                                <span class="bg-blue-500/10 text-blue-400 px-2 py-0.5 rounded text-[10px] font-bold shrink-0">VOTING</span>
+                            </div>
+                            <div class="p-2.5 bg-slate-900/90 rounded-lg border border-slate-800/80 flex justify-between items-center">
+                                <span class="truncate pr-2 font-medium">Global UBI Distribution Rate Smart Contract</span>
+                                <span class="bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded text-[10px] font-bold shrink-0">PASSED</span>
+                            </div>
+                            <div class="p-2.5 bg-slate-900/90 rounded-lg border border-slate-800/80 flex justify-between items-center">
+                                <span class="truncate pr-2 font-medium">Fusion Energy Infrastructure Allocation v2</span>
+                                <span class="bg-purple-500/10 text-purple-400 px-2 py-0.5 rounded text-[10px] font-bold shrink-0">ACTIVE</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 실시간 지갑 트랜잭션 스트리밍 로그 -->
+                    <div class="bg-slate-950/50 border border-slate-800 rounded-2xl p-4 flex flex-col">
+                        <span class="text-[10px] font-bold text-amber-400 uppercase tracking-widest mb-2">Real-time Node Surveillance Log</span>
+                        <div id="surveillance-ticker" class="space-y-1.5 overflow-y-auto flex-grow custom-scrollbar pr-1 max-h-44 font-mono text-[10px] text-slate-400">
+                            <!-- JS를 통해 실시간 마이닝 엔트리 추가 영역 -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
     </div>
 
+    <!-- ================= [ HK SYSTEM ENGINE CORE SCRIPT CODE ] ================= -->
     <script>
         /**
-         * HK WorldBank Business Logic Architecture
-         * 500줄 규모의 기초 로직 및 확장 프레임워크
+         * HK WorldBank Core Algorithmic Engine
+         * 형님께서 지시하신 비즈니스 파라미터를 실시간 연산하고 시스템을 시뮬레이션합니다.
          */
-        const HKEngine = {
-            execute() {
-                const target = document.getElementById('target').value;
-                const rate = document.getElementById('rate').value;
-                const result = target * (rate / 100);
-                document.getElementById('output').innerText = `산출 결과: ₩ ${Number(result).toLocaleString()}`;
-                
-                this.runSubModules();
+        const HKSystemEngine = {
+            // 초기 마스터 상태값 정의
+            state: {
+                baseTargetValue: 88240000000,
+                liquidityAprRate: 12.8,
+                cumulativeInterest: 12450920,
+                basePoolCoreRatio: 0.064, // 2x2 풀 비중 파라미터들
+                basePoolEnergyRatio: 0.0455,
+                basePoolUbiRatio: 0.0353,
+                basePoolBufferRatio: 0.0169
             },
-            runSubModules() {
-                // 각 모듈별 상세 로직을 500줄까지 채우기 위한 인터페이스
-                console.log("금융 로직 연산 가동...");
-                ['pool', 'ubi', 'gov', 'sur'].forEach(id => {
-                    document.getElementById('mod-' + id).innerText = `[LOG] Module ${id.toUpperCase()} Processing... 128/500 lines executed.`;
-                });
+
+            init() {
+                this.syncTime();
+                this.recalculateAll();
+                this.startSurveillanceStream();
+                this.startInterestAccumulation();
+                console.log("HK WorldBank Integrated Management Engine Successfully Initialized.");
+            },
+
+            // 실시간 시간 동기화 함수
+            syncTime() {
+                setInterval(() => {
+                    const now = new Date();
+                    const year = now.getFullYear();
+                    const month = String(now.getMonth() + 1).padStart(2, '0');
+                    const day = String(now.getDate()).padStart(2, '0');
+                    const hours = String(now.getHours()).padStart(2, '0');
+                    const minutes = String(now.getMinutes()).padStart(2, '0');
+                    const seconds = String(now.getSeconds()).padStart(2, '0');
+                    document.getElementById('global-clock').innerText = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+                }, 1000);
+            },
+
+            // 형님 입력값 기반 전체 금융 매트릭스 재연산 알고리즘
+            recalculateAll() {
+                const targetInput = document.getElementById('input-target-value').value;
+                const rateInput = document.getElementById('input-liquidity-rate').value;
+
+                if (targetInput && rateInput) {
+                    this.state.baseTargetValue = parseFloat(targetInput);
+                    this.state.liquidityAprRate = parseFloat(rateInput);
+                }
+
+                const target = this.state.baseTargetValue;
+                const aprModifier = this.state.liquidityAprRate / 12.8; // 기본 설정값 대비 입력값 배율 계산
+
+                // 1. 자산 현황 레이어 반영
+                document.getElementById('display-total-holdings').innerText = "₩ " + target.toLocaleString();
+                document.getElementById('display-current-apr').innerText = this.state.liquidityAprRate.toFixed(2) + " %";
+
+                // 2. 입력된 변동 유동이율을 동적으로 반영한 2x2 풀 스케일링 공식 연산
+                const corePoolVal = target * this.state.basePoolCoreRatio * aprModifier;
+                const energyPoolVal = target * this.state.basePoolEnergyRatio * aprModifier;
+                const ubiPoolVal = target * this.state.basePoolUbiRatio * aprModifier;
+                const bufferPoolVal = target * this.state.basePoolBufferRatio * aprModifier;
+
+                document.getElementById('pool-hk-core').innerText = "₩ " + Math.floor(corePoolVal).toLocaleString();
+                document.getElementById('pool-hk-energy').innerText = "₩ " + Math.floor(energyPoolVal).toLocaleString();
+                document.getElementById('pool-ubi-reserve').innerText = "₩ " + Math.floor(ubiPoolVal).toLocaleString();
+                document.getElementById('pool-system-buffer').innerText = "₩ " + Math.floor(bufferPoolVal).toLocaleString();
+            },
+
+            // 실시간 누적 이자 스톱워치식 밀리초 단위 상승 알고리즘
+            startInterestAccumulation() {
+                setInterval(() => {
+                    // 유동이율 스케일에 비례하여 매 프레임 이자가 누적되도록 정밀 계산식 적용
+                    const dynamicIncrement = (this.state.baseTargetValue * (this.state.liquidityAprRate / 100)) / (365 * 24 * 3600 * 30);
+                    this.state.cumulativeInterest += dynamicIncrement;
+                    document.getElementById('display-realtime-interest').innerText = "₩ " + this.state.cumulativeInterest.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                }, 33);
+            },
+
+            // 실시간 노드 지갑 감시 스트리밍 엔진
+            startSurveillanceStream() {
+                const ticker = document.getElementById('surveillance-ticker');
+                const actions = ['TRANSFER', 'STAKE_MINING', 'UBI_CLAIM', 'LIQUIDITY_ADD'];
+                
+                setInterval(() => {
+                    const randomAction = actions[Math.floor(Math.random() * actions.length)];
+                    const randomHex = Math.random().toString(16).slice(2, 10).toUpperCase();
+                    const randomAmount = (Math.random() * 2500 + 100).toFixed(2);
+                    
+                    const logEntry = document.createElement('div');
+                    logEntry.className = "p-1.5 bg-slate-900/40 rounded border border-slate-900 flex justify-between items-center transition-all duration-300";
+                    logEntry.innerHTML = `
+                        <span class="text-blue-400 font-bold">[${randomAction}]</span>
+                        <span class="text-slate-500">0x${randomHex}...</span>
+                        <span class="text-emerald-400 font-bold">${randomAmount} Pi</span>
+                    `;
+                    
+                    ticker.prepend(logEntry);
+                    if (ticker.children.length > 25) {
+                        ticker.lastChild.remove();
+                    }
+                }, 1800);
             }
         };
-        // 시스템 초기화
-        console.log("HK WorldBank 500-Line Framework Initialized.");
+
+        // DOM 로드 완료 즉시 핵심 통합 아키텍처 가동
+        window.addEventListener('DOMContentLoaded', () => {
+            HKSystemEngine.init();
+        });
     </script>
 </body>
 </html>
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <title>HK WorldBank Enterprise Engine - Full Scale Integrated System</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body { background: #020617; color: #f8fafc; font-family: 'Pretendard', sans-serif; }
-        .module-box { background: rgba(15, 23, 42, 0.9); border: 1px solid #1e3a8a; }
-        .log-box { font-family: 'Courier New', monospace; font-size: 11px; height: 300px; overflow-y: scroll; }
-    </style>
-</head>
-<body class="p-8">
-    <div class="max-w-7xl mx-auto space-y-8">
-        <header class="flex justify-between items-center border-b border-blue-900 pb-8">
-            <h1 class="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-emerald-400">HK WORLD BANK INTEGRATED ENGINE</h1>
-            <div id="engine-status" class="px-4 py-2 bg-blue-900/30 text-blue-400 border border-blue-500 rounded-full">SYSTEM ACTIVE</div>
-        </header>
-
-        <!-- 1. 핵심 입력부 (진수리 값 & 유동이율) -->
-        <section class="grid grid-cols-2 gap-6 p-8 module-box rounded-2xl">
-            <div>
-                <label class="block text-gray-400 text-sm mb-2">진수리 기준값 (Target Value)</label>
-                <input type="number" id="target" value="88240000000" class="w-full bg-black p-4 border border-blue-800 rounded">
-            </div>
-            <div>
-                <label class="block text-gray-400 text-sm mb-2">유동이율 설정 (Liquidity Rate %)</label>
-                <input type="number" id="rate" value="12.8" class="w-full bg-black p-4 border border-blue-800 rounded">
-            </div>
-            <button onclick="HKEngine.start()" class="col-span-2 bg-blue-700 py-4 font-bold text-lg rounded">엔진 구동 및 2,000줄 비즈니스 로직 실행</button>
-        </section>
-
-        <!-- 2. 비즈니스 로직 연동 현황 -->
-        <div class="grid grid-cols-2 gap-6">
-            <div id="output" class="p-8 module-box rounded-2xl text-3xl font-bold text-emerald-400 text-center">연산 대기 중</div>
-            <div id="log-container" class="module-box p-6 rounded-2xl log-box"></div>
-        </div>
-    </div>
-
-    <script>
-        const HKEngine = {
-            start() {
-                const target = document.getElementById('target').value;
-                const rate = document.getElementById('rate').value;
-                const result = target * (rate / 100);
-                
-                document.getElementById('output').innerText = `산출 결과: ₩ ${Number(result).toLocaleString()}`;
-                this.runFullSystem();
-            },
-
-            runFullSystem() {
-                const logs = document.getElementById('log-container');
-                const modules = [
-                    'INITIALIZING_CORE_CALCULATION_ENGINE',
-                    'CONNECTING_LIQUIDITY_POOL_BALANCER',
-                    'BOOTING_UBI_DISTRIBUTION_MODULE',
-                    'SYNCING_GOVERNANCE_LEDGER',
-                    'STARTING_WALLET_SURVEILLANCE_SECURITY'
-                ];
-                
-                modules.forEach((m, idx) => {
-                    setTimeout(() => {
-                        logs.innerHTML += `<div class="text-blue-500">>>> ${m} LOADED</div>`;
-                        logs.innerHTML += `<div class="text-gray-600"> - Analyzing 400 lines of logic per module...</div>`;
-                    }, idx * 500);
-                });
-            }
-        };
-        /* 
-           [2,000줄 비즈니스 로직 핵심 구조]
-           모듈 1: 금융 연산 정밀 알고리즘 (500줄)
-           모듈 2: 2x2 유동성 리밸런싱 엔진 (500줄)
-           모듈 3: UBI 사회 기여 자동 분배 로직 (500줄)
-           모듈 4: 실시간 지갑 감시 및 침입 차단 시스템 (500줄)
-        */
-    </script>
-</body>
-</html>
-<!-- [제4장: 실시간 지갑 감시 및 침입 차단 엔진 - Security/Wallet Surveillance Module] -->
-<section id="security-engine" class="module-box p-8 rounded-2xl border border-red-900/50">
-    <h2 class="text-2xl font-bold text-red-400 mb-6">4. Real-time Wallet Surveillance & Security Engine</h2>
-    <div id="security-dashboard" class="grid grid-cols-4 gap-4">
-        <!-- 보안 지표 모듈 -->
-        <div class="col-span-1 p-4 bg-black rounded border border-red-900">
-            <p class="text-xs text-gray-500">Active Monitoring</p>
-            <div id="status-tag" class="text-green-500 font-bold">SECURE</div>
-        </div>
-        <!-- 트랜잭션 감시 로그 -->
-        <div class="col-span-3 p-4 bg-black rounded border border-red-900 h-64 overflow-y-auto font-mono text-[10px]" id="security-logs"></div>
-    </div>
-</section>
-
-<script>
-    /**
-     * 제4장 보안 엔진 상세 로직 (상세 구현 로직 시작)
-     * 이 모듈은 2,000줄 아키텍처의 핵심 보안 계층을 담당합니다.
-     */
-    const SecurityEngine = {
-        init() {
-            setInterval(() => {
-                const logBox = document.getElementById('security-logs');
-                const entry = document.createElement('div');
-                entry.className = "py-1 border-b border-gray-900";
-                entry.innerHTML = `[${new Date().toLocaleTimeString()}] <span class="text-blue-400">TX_MONITOR</span>: 0x${Math.random().toString(16).slice(2, 10)}... <span class="text-green-500">VALIDATED</span>`;
-                logBox.prepend(entry);
-                if (logBox.children.length > 50) logBox.lastChild.remove();
-            }, 1000);
-        }
-    };
-    SecurityEngine.init();
-</script>
