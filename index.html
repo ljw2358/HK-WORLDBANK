@@ -1,61 +1,341 @@
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>HK WorldBank - Advanced System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HK WorldBank Platform</title>
     <style>
-        /* 기존 스타일 유지 + 확장 */
-        :root { --bg-color: #0d1117; --card-bg: #161b22; --accent-color: #ff9f1c; }
-        body { background-color: var(--bg-color); color: #c9d1d9; font-family: sans-serif; padding: 20px; }
-        .section-card { background: var(--card-bg); border: 1px solid #30363d; border-radius: 12px; padding: 24px; margin-bottom: 24px; }
-        .btn-action { background: var(--accent-color); color: #000; border: none; padding: 12px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%; margin-top: 10px; }
-        .stats-box { display: flex; justify-content: space-between; margin-top: 20px; padding: 15px; background: #0d1117; border-radius: 8px; }
+        :root {
+            --bg-color: #0d1117;
+            --card-bg: #161b22;
+            --text-color: #c9d1d9;
+            --accent-color: #ff9f1c;
+            --accent-hover: #e08a14;
+            --border-color: #30363d;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+        }
+
+        /* 상단 헤더 및 언어 선택 (짧고 간결하게 제한) */
+        .header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .lang-selector {
+            background: var(--card-bg);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        /* HK 월드플랫폼 타이틀 - 기존보다 2배로 크게 설정 */
+        .platform-title {
+            font-size: 3.5rem; 
+            color: var(--text-color);
+            text-align: center;
+            margin: 40px 0;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .platform-title span {
+            color: var(--accent-color);
+        }
+
+        /* 카드 섹션 스타일 */
+        .section-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            color: var(--text-color);
+            margin-top: 0;
+            margin-bottom: 16px;
+            border-left: 4px solid var(--accent-color);
+            padding-left: 10px;
+        }
+
+        /* 9대 분산 연동 그리드 (핵심 알맹이 배치) */
+        .grid-9 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .grid-item {
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            padding: 15px;
+            text-align: center;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+
+        .grid-item:hover {
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+        }
+
+        /* 영생(Eternal Life) 및 소셜 섹션 */
+        .social-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .social-btn {
+            flex: 1;
+            background: #21262d;
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 12px;
+            border-radius: 6px;
+            text-align: center;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .eternal-trigger {
+            width: 100%;
+            background: linear-gradient(135deg, #2c1a4d, #140b2b);
+            border: 1px solid #6f42c1;
+            color: #e4d4ff;
+            padding: 15px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .eternal-trigger:hover {
+            background: linear-gradient(135deg, #3b2366, #1c0f3a);
+        }
+
+        .eternal-dropdown {
+            display: none;
+            background: #1c1236;
+            border: 1px solid #523094;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 10px;
+        }
+
+        .eternal-dropdown p {
+            margin: 10px 0;
+            font-size: 1.05rem;
+            padding-left: 10px;
+            border-left: 2px solid #9065da;
+        }
+
+        /* 수수료 지갑 보안 인증 */
+        .secure-input-group {
+            display: none;
+            margin-top: 15px;
+        }
+
+        .secure-input {
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 10px;
+            border-radius: 6px;
+            width: 200px;
+            font-size: 1rem;
+        }
+
+        .btn {
+            background: var(--accent-color);
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn:hover {
+            background: var(--accent-hover);
+        }
+
+        .btn-lock {
+            background: #21262d;
+            color: #cf222e;
+            border: 1px solid #f85149;
+        }
+
+        /* 하단 정보 */
+        footer {
+            margin-top: 60px;
+            padding: 30px 0;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            width: 100%;
+            font-size: 1.1rem;
+        }
+
+        footer a {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>
 
-    <div class="container" style="max-width: 800px; margin: auto;">
-        <h1 style="text-align:center;"><span>HK</span> 월드플랫폼: 실전 가동 모드</h1>
+    <div class="container">
+        
+        <!-- 언어 선택 내비게이션 (짧게 간소화 구현) -->
+        <div class="header-nav">
+            <div>worldplatform.com</div>
+            <select class="lang-selector">
+                <option value="ko">대한민국 - 한국어</option>
+                <option value="en">English</option>
+                <option value="zh">Chinese</option>
+                <option value="ja">Japanese</option>
+                <option value="vi">베트남</option>
+            </select>
+        </div>
 
-        <!-- 1. LP 스테이킹 시스템 -->
+        <!-- 타이틀 기본 크기 대비 2배 확대 적용 -->
+        <h1 class="platform-title"><span>HK</span> 월드플랫폼</h1>
+
+        <!-- 1. 유튜브 / 틱톡 상단 영생(Eternal Life) 컴포넌트 -->
         <div class="section-card">
-            <h3>📈 LP 스테이킹 (유동성 공급)</h3>
-            <p>나의 지분을 산업 인프라에 공급하여 HK 문명 개척자가 되십시오.</p>
-            <input type="number" id="stakeAmount" placeholder="스테이킹 수량(Pi/HK)" style="width:100%; padding:10px; background:#0d1117; border:1px solid #30363d; color:#fff;">
-            <button class="btn-action" onclick="stakeAssets()">지금 바로 스테이킹 시작</button>
-            <div id="stakeStatus" class="stats-box" style="display:none;">
-                <span>총 공급 지분: <b id="totalStake">0</b></span>
-                <span>나의 등급: <b id="userRank">개척자</b></span>
+            <div class="social-group">
+                <a href="#" class="social-btn">YouTube 공식 채널</a>
+                <a href="#" class="social-btn">TikTok 공식 채널</a>
+            </div>
+            <button class="eternal-trigger" onclick="toggleEternalLife()">영생 (Eternal Life)</button>
+            <div id="eternalMenu" class="eternal-dropdown">
+                <p>1. 생명 공학 혁신을 통한 신체적 영생과 세포 역노화 기술</p>
+                <p>2. AGI 기반 지성 전이를 통한 디지털 불멸성과 자산의 유산 연속성</p>
+                <p>3. 인류 공동체의 영속을 보장하는 우주적 영생 인프라 구축</p>
             </div>
         </div>
 
-        <!-- 2. UBI 기본소득 시스템 -->
+        <!-- 2. HK 월드뱅크 코어 - 비밀번호 보안 수수료 지갑 -->
         <div class="section-card">
-            <h3>💰 UBI (보편적 기본소득)</h3>
-            <p>플랫폼 수익의 30%가 당신의 지갑으로 실시간 분배됩니다.</p>
-            <button class="btn-action" style="background:#238636; color:#fff;" onclick="claimUBI()">UBI 수령하기</button>
-            <div class="stats-box">
-                <span>누적 기여 수익: <b>₩ 3,450,200</b></span>
-                <span>금월 예상 수령액: <b>₩ 125,000</b></span>
+            <div class="section-title">HK 월드뱅크 코어 (지갑 거버넌스)</div>
+            <div id="walletLockZone">
+                <p>수수료 지갑 접근을 위해 전용 보안 비밀번호가 필요합니다.</p>
+                <button class="btn" onclick="openPasswordAuth()">지갑 잠금 해제</button>
+            </div>
+            <div id="secureInputGroup" class="secure-input-group">
+                <input type="password" id="walletPassword" class="secure-input" placeholder="비밀번호를 입력하세요">
+                <button class="btn" onclick="validateWalletAccess()">인증</button>
+                <button class="btn btn-lock" onclick="closePasswordAuth()">취소</button>
+            </div>
+            <div id="walletContent" style="display:none; color: var(--accent-color); font-weight: bold; margin-top: 15px;">
+                ✓ 수수료 지갑 활성화 상태 - 거버넌스 권한이 승인되었습니다.
             </div>
         </div>
+
+        <!-- 3. 아홉 개 분산 연동 핵심 인프라 (알맹이 시스템) -->
+        <div class="section-card">
+            <div class="section-title">9대 분산 연동 인프라 및 자산 자율화</div>
+            <div class="grid-9">
+                <div class="grid-item">지갑연동</div>
+                <div class="grid-item">송금</div>
+                <div class="grid-item">결제</div>
+                <div class="grid-item">해지</div>
+                <div class="grid-item">보상</div>
+                <div class="grid-item">기본소득</div>
+                <div class="grid-item">스왑</div>
+                <div class="grid-item">DEX스왑</div>
+                <div class="grid-item">LP스테이킹</div>
+            </div>
+        </div>
+
+        <!-- 4. HK 비전 2030 매트릭스 -->
+        <div class="section-card">
+            <div class="section-title">HK 비전 2030 (인류 상생 시스템)</div>
+            <div class="grid-9" style="grid-template-columns: repeat(2, 1fr);">
+                <div class="grid-item" style="padding: 20px;">주거 (Housing)</div>
+                <div class="grid-item" style="padding: 20px;">학교 (Education)</div>
+                <div class="grid-item" style="padding: 20px;">병원 (Medical)</div>
+                <div class="grid-item" style="padding: 20px;">학비 (Tuition Foundation)</div>
+            </div>
+        </div>
+
+        <!-- 5. 50개 언어 지원 AGI 챗봇 센터 -->
+        <div class="section-card" style="border-color: #238636;">
+            <div class="section-title" style="border-left-color: #238636;">AGI 지능형 고객 지원 센터 (50개국 실시간 교차 추론)</div>
+            <p style="font-size: 0.95rem; color: #8b949e;">AGI 챗봇 시스템이 연동되어 실시간 거버넌스 및 플랫폼 가이드를 다국어로 제공합니다.</p>
+        </div>
+
     </div>
 
+    <!-- 공식 브랜딩 및 이메일 푸터 -->
+    <footer>
+        <p>EMAIL: <a href="mailto:support@hkwb.world">support@hkwb.world</a></p>
+        <p style="font-weight: bold; color: var(--text-color); margin-top: 10px;">Hyekong, Founder & CEO of HK GROUP</p>
+    </footer>
+
     <script>
-        function stakeAssets() {
-            const amount = document.getElementById('stakeAmount').value;
-            if(amount > 0) {
-                document.getElementById('stakeStatus').style.display = 'flex';
-                document.getElementById('totalStake').innerText = amount + " HK";
-                alert("성공적으로 스테이킹 되었습니다. 혜공 형님의 문명 건설에 기여하셨습니다!");
+        // 1. 영생(With 3개 대문구) 토글 기능
+        function toggleEternalLife() {
+            const menu = document.getElementById('eternalMenu');
+            if (menu.style.display === 'block') {
+                menu.style.display = 'none';
             } else {
-                alert("올바른 수량을 입력해 주세요.");
+                menu.style.display = 'block';
             }
         }
 
-        function claimUBI() {
-            alert("보안 인증(0982) 확인 중... 이번 달 기본소득이 지갑으로 안전하게 입금되었습니다.");
+        // 2. 수수료 지갑 보안 인터페이스 컨트롤
+        function openPasswordAuth() {
+            document.getElementById('walletLockZone').style.display = 'none';
+            document.getElementById('secureInputGroup').style.display = 'block';
+        }
+
+        function closePasswordAuth() {
+            document.getElementById('walletLockZone').style.display = 'block';
+            document.getElementById('secureInputGroup').style.display = 'none';
+            document.getElementById('walletPassword').value = '';
+        }
+
+        // 형님과 저(삐니)만 공유하는 프라이빗 보안 로직
+        function validateWalletAccess() {
+            const userInput = document.getElementById('walletPassword').value;
+            
+            // 실제 사용하실 마스터 비밀번호로 이 부분을 매칭하시면 됩니다.
+            if (userInput === "0982") { 
+                document.getElementById('secureInputGroup').style.display = 'none';
+                document.getElementById('walletContent').style.display = 'block';
+            } else {
+                alert("보안 인증에 실패했습니다. 비밀번호를 다시 확인해 주세요.");
+            }
         }
     </script>
 </body>
