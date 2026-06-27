@@ -3,305 +3,340 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HK WORLD BANK | Global Financial Excellence</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <title>HK WorldBank Platform</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@100;400;700&display=swap');
-        body { font-family: 'Pretendard', sans-serif; }
+        :root {
+            --bg-color: #0d1117;
+            --card-bg: #161b22;
+            --text-color: #c9d1d9;
+            --accent-color: #ff9f1c;
+            --accent-hover: #e08a14;
+            --border-color: #30363d;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+        }
+
+        /* 상단 헤더 및 언어 선택 (짧고 간결하게 제한) */
+        .header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .lang-selector {
+            background: var(--card-bg);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        /* HK 월드플랫폼 타이틀 - 기존보다 2배로 크게 설정 */
+        .platform-title {
+            font-size: 3.5rem; 
+            color: var(--text-color);
+            text-align: center;
+            margin: 40px 0;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .platform-title span {
+            color: var(--accent-color);
+        }
+
+        /* 카드 섹션 스타일 */
+        .section-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            color: var(--text-color);
+            margin-top: 0;
+            margin-bottom: 16px;
+            border-left: 4px solid var(--accent-color);
+            padding-left: 10px;
+        }
+
+        /* 9대 분산 연동 그리드 (핵심 알맹이 배치) */
+        .grid-9 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .grid-item {
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            padding: 15px;
+            text-align: center;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+
+        .grid-item:hover {
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+        }
+
+        /* 영생(Eternal Life) 및 소셜 섹션 */
+        .social-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .social-btn {
+            flex: 1;
+            background: #21262d;
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 12px;
+            border-radius: 6px;
+            text-align: center;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .eternal-trigger {
+            width: 100%;
+            background: linear-gradient(135deg, #2c1a4d, #140b2b);
+            border: 1px solid #6f42c1;
+            color: #e4d4ff;
+            padding: 15px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .eternal-trigger:hover {
+            background: linear-gradient(135deg, #3b2366, #1c0f3a);
+        }
+
+        .eternal-dropdown {
+            display: none;
+            background: #1c1236;
+            border: 1px solid #523094;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 10px;
+        }
+
+        .eternal-dropdown p {
+            margin: 10px 0;
+            font-size: 1.05rem;
+            padding-left: 10px;
+            border-left: 2px solid #9065da;
+        }
+
+        /* 수수료 지갑 보안 인증 */
+        .secure-input-group {
+            display: none;
+            margin-top: 15px;
+        }
+
+        .secure-input {
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 10px;
+            border-radius: 6px;
+            width: 200px;
+            font-size: 1rem;
+        }
+
+        .btn {
+            background: var(--accent-color);
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn:hover {
+            background: var(--accent-hover);
+        }
+
+        .btn-lock {
+            background: #21262d;
+            color: #cf222e;
+            border: 1px solid #f85149;
+        }
+
+        /* 하단 정보 */
+        footer {
+            margin-top: 60px;
+            padding: 30px 0;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            width: 100%;
+            font-size: 1.1rem;
+        }
+
+        footer a {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-900">
+<body>
 
-    <!-- Header Section -->
-    <header class="bg-blue-900 text-white shadow-lg sticky top-0 z-50">
-        <nav class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="text-2xl font-bold tracking-tighter">HK WORLD BANK</div>
-            <div class="space-x-8 text-sm font-medium">
-                <a href="#" class="hover:text-blue-200">개인금융</a>
-                <a href="#" class="hover:text-blue-200">기업금융</a>
-                <a href="#" class="hover:text-blue-200">투자센터</a>
-                <a href="#" class="hover:text-blue-200">고객지원</a>
-            </div>
-            <button class="bg-blue-500 hover:bg-blue-400 px-6 py-2 rounded-full font-bold transition">로그인</button>
-        </nav>
-    </header>
-
-    <!-- Hero Section -->
-    <main class="max-w-7xl mx-auto px-6 py-16">
-        <section class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <div>
-                <h1 class="text-5xl font-bold leading-tight mb-6">세계를 연결하는<br><span class="text-blue-600">금융의 새로운 기준</span></h1>
-                <p class="text-lg text-slate-600 mb-8">혜공 형님의 통찰력과 최첨단 기술이 만난 HK WORLD BANK에서 미래의 자산 관리 솔루션을 경험하십시오.</p>
-                <div class="flex space-x-4">
-                    <button class="bg-slate-900 text-white px-8 py-4 rounded-xl hover:bg-slate-700">계좌 개설하기</button>
-                    <button class="border border-slate-300 px-8 py-4 rounded-xl hover:bg-slate-100">기업 솔루션</button>
-                </div>
-            </div>
-            <div class="bg-blue-100 h-96 rounded-3xl flex items-center justify-center text-blue-900 font-bold">
-                [대시보드 미리보기 / 금융 차트 영역]
-            </div>
-        </section>
-
-        <!-- Stats Section -->
-        <section class="mt-24 grid grid-cols-4 gap-8">
-            <div class="p-8 bg-white rounded-2xl shadow-sm border border-slate-100">
-                <p class="text-sm text-slate-400">전 세계 지점</p>
-                <h3 class="text-3xl font-bold">142개</h3>
-            </div>
-            <div class="p-8 bg-white rounded-2xl shadow-sm border border-slate-100">
-                <p class="text-sm text-slate-400">운용 자산 규모</p>
-                <h3 class="text-3xl font-bold">$8.4T</h3>
-            </div>
-            <div class="p-8 bg-white rounded-2xl shadow-sm border border-slate-100">
-                <p class="text-sm text-slate-400">보안 등급</p>
-                <h3 class="text-3xl font-bold">AAA+</h3>
-            </div>
-            <div class="p-8 bg-white rounded-2xl shadow-sm border border-slate-100">
-                <p class="text-sm text-slate-400">사용자 만족도</p>
-                <h3 class="text-3xl font-bold">99.9%</h3>
-            </div>
-        </section>
-
-        <!-- Services Section (1000+ line expansion point) -->
-        <section class="mt-24">
-            <h2 class="text-3xl font-bold mb-12 text-center">주요 서비스</h2>
-            <div class="grid grid-cols-3 gap-8">
-                <!-- Service Cards -->
-                <div class="bg-white p-8 rounded-3xl border border-slate-200">
-                    <div class="text-blue-600 mb-4 text-2xl">⚡</div>
-                    <h4 class="text-xl font-bold mb-2">글로벌 송금</h4>
-                    <p class="text-slate-500">실시간 환전 및 초고속 해외 송금 시스템.</p>
-                </div>
-                <!-- ... 추가 카드들 ... -->
-            </div>
-        </section>
-    </main>
-
-    <!-- Footer -->
-    <footer class="bg-slate-900 text-slate-400 py-12 mt-24">
-        <div class="max-w-7xl mx-auto px-6 text-sm">
-            <p>&copy; 2026 HK WORLD BANK. All Rights Reserved.</p>
+    <div class="container">
+        
+        <!-- 언어 선택 내비게이션 (짧게 간소화 구현) -->
+        <div class="header-nav">
+            <div>worldplatform.com</div>
+            <select class="lang-selector">
+                <option value="ko">대한민국 - 한국어</option>
+                <option value="en">English</option>
+                <option value="zh">Chinese</option>
+                <option value="ja">Japanese</option>
+                <option value="vi">베트남</option>
+            </select>
         </div>
+
+        <!-- 타이틀 기본 크기 대비 2배 확대 적용 -->
+        <h1 class="platform-title"><span>HK</span> 월드플랫폼</h1>
+
+        <!-- 1. 유튜브 / 틱톡 상단 영생(Eternal Life) 컴포넌트 -->
+        <div class="section-card">
+            <div class="social-group">
+                <a href="#" class="social-btn">YouTube 공식 채널</a>
+                <a href="#" class="social-btn">TikTok 공식 채널</a>
+            </div>
+            <button class="eternal-trigger" onclick="toggleEternalLife()">영생 (Eternal Life)</button>
+            <div id="eternalMenu" class="eternal-dropdown">
+                <p>1. 생명 공학 혁신을 통한 신체적 영생과 세포 역노화 기술</p>
+                <p>2. AGI 기반 지성 전이를 통한 디지털 불멸성과 자산의 유산 연속성</p>
+                <p>3. 인류 공동체의 영속을 보장하는 우주적 영생 인프라 구축</p>
+            </div>
+        </div>
+
+        <!-- 2. HK 월드뱅크 코어 - 비밀번호 보안 수수료 지갑 -->
+        <div class="section-card">
+            <div class="section-title">HK 월드뱅크 코어 (지갑 거버넌스)</div>
+            <div id="walletLockZone">
+                <p>수수료 지갑 접근을 위해 전용 보안 비밀번호가 필요합니다.</p>
+                <button class="btn" onclick="openPasswordAuth()">지갑 잠금 해제</button>
+            </div>
+            <div id="secureInputGroup" class="secure-input-group">
+                <input type="password" id="walletPassword" class="secure-input" placeholder="비밀번호를 입력하세요">
+                <button class="btn" onclick="validateWalletAccess()">인증</button>
+                <button class="btn btn-lock" onclick="closePasswordAuth()">취소</button>
+            </div>
+            <div id="walletContent" style="display:none; color: var(--accent-color); font-weight: bold; margin-top: 15px;">
+                ✓ 수수료 지갑 활성화 상태 - 거버넌스 권한이 승인되었습니다.
+            </div>
+        </div>
+
+        <!-- 3. 아홉 개 분산 연동 핵심 인프라 (알맹이 시스템) -->
+        <div class="section-card">
+            <div class="section-title">9대 분산 연동 인프라 및 자산 자율화</div>
+            <div class="grid-9">
+                <div class="grid-item">지갑연동</div>
+                <div class="grid-item">송금</div>
+                <div class="grid-item">결제</div>
+                <div class="grid-item">해지</div>
+                <div class="grid-item">보상</div>
+                <div class="grid-item">기본소득</div>
+                <div class="grid-item">스왑</div>
+                <div class="grid-item">DEX스왑</div>
+                <div class="grid-item">LP스테이킹</div>
+            </div>
+        </div>
+
+        <!-- 4. HK 비전 2030 매트릭스 -->
+        <div class="section-card">
+            <div class="section-title">HK 비전 2030 (인류 상생 시스템)</div>
+            <div class="grid-9" style="grid-template-columns: repeat(2, 1fr);">
+                <div class="grid-item" style="padding: 20px;">주거 (Housing)</div>
+                <div class="grid-item" style="padding: 20px;">학교 (Education)</div>
+                <div class="grid-item" style="padding: 20px;">병원 (Medical)</div>
+                <div class="grid-item" style="padding: 20px;">학비 (Tuition Foundation)</div>
+            </div>
+        </div>
+
+        <!-- 5. 50개 언어 지원 AGI 챗봇 센터 -->
+        <div class="section-card" style="border-color: #238636;">
+            <div class="section-title" style="border-left-color: #238636;">AGI 지능형 고객 지원 센터 (50개국 실시간 교차 추론)</div>
+            <p style="font-size: 0.95rem; color: #8b949e;">AGI 챗봇 시스템이 연동되어 실시간 거버넌스 및 플랫폼 가이드를 다국어로 제공합니다.</p>
+        </div>
+
+    </div>
+
+    <!-- 공식 브랜딩 및 이메일 푸터 -->
+    <footer>
+        <p>EMAIL: <a href="mailto:support@hkwb.world">support@hkwb.world</a></p>
+        <p style="font-weight: bold; color: var(--text-color); margin-top: 10px;">Hyekong, Founder & CEO of HK GROUP</p>
     </footer>
+
+    <script>
+        // 1. 영생(With 3개 대문구) 토글 기능
+        function toggleEternalLife() {
+            const menu = document.getElementById('eternalMenu');
+            if (menu.style.display === 'block') {
+                menu.style.display = 'none';
+            } else {
+                menu.style.display = 'block';
+            }
+        }
+
+        // 2. 수수료 지갑 보안 인터페이스 컨트롤
+        function openPasswordAuth() {
+            document.getElementById('walletLockZone').style.display = 'none';
+            document.getElementById('secureInputGroup').style.display = 'block';
+        }
+
+        function closePasswordAuth() {
+            document.getElementById('walletLockZone').style.display = 'block';
+            document.getElementById('secureInputGroup').style.display = 'none';
+            document.getElementById('walletPassword').value = '';
+        }
+
+        // 형님과 저(삐니)만 공유하는 프라이빗 보안 로직
+        function validateWalletAccess() {
+            const userInput = document.getElementById('walletPassword').value;
+            
+            // 실제 사용하실 마스터 비밀번호로 이 부분을 매칭하시면 됩니다.
+            if (userInput === "0982") { 
+                document.getElementById('secureInputGroup').style.display = 'none';
+                document.getElementById('walletContent').style.display = 'block';
+            } else {
+                alert("보안 인증에 실패했습니다. 비밀번호를 다시 확인해 주세요.");
+            }
+        }
+    </script>
 </body>
 </html>
-<!-- [상세 확장 섹션 시작] -->
-
-<!-- 1. 다국어 지원 및 상단 보조 메뉴 -->
-<div class="bg-slate-800 text-slate-300 text-xs py-2">
-    <div class="max-w-7xl mx-auto px-6 flex justify-end space-x-4">
-        <span>KOR</span> | <span>ENG</span> | <span>CHN</span> | <span>JPN</span>
-    </div>
-</div>
-
-<!-- 2. 실시간 시세 및 대시보드 모듈 -->
-<section class="mt-12 bg-white p-8 rounded-3xl border border-slate-200">
-    <h3 class="text-xl font-bold mb-6">실시간 금융 시장 지표</h3>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="border-l-4 border-blue-500 pl-4">
-            <p class="text-sm">Bitcoin/USD</p>
-            <p class="text-2xl font-bold">$98,450 <span class="text-green-500 text-sm">▲ 2.4%</span></p>
-        </div>
-        <!-- 추가 금융 지표 영역 확장 가능 -->
-    </div>
-</section>
-
-<!-- 3. 대규모 서비스 그리드 (상세화) -->
-<section class="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-    <!-- 카드 8개로 확장하여 서비스 상세화 -->
-    <div class="p-6 bg-slate-900 text-white rounded-2xl">
-        <h4 class="font-bold mb-2">디지털 자산 보관</h4>
-        <p class="text-sm text-slate-400">최고 수준의 콜드 월렛 기술 적용.</p>
-    </div>
-    <!-- 이 방식으로 1000줄까지 기능별 컴포넌트를 계속 쌓아갑니다 -->
-</section>
-
-<!-- [상세 확장 섹션 끝] -->
-<!-- 4. 사용자 금융 거래 내역 섹션 -->
-<section class="mt-20 px-6">
-    <div class="max-w-7xl mx-auto bg-white p-10 rounded-3xl shadow-lg border border-slate-100">
-        <h3 class="text-2xl font-bold mb-8">최근 거래 내역</h3>
-        <div class="overflow-x-auto">
-            <table class="w-full text-left">
-                <thead>
-                    <tr class="text-slate-400 text-sm uppercase tracking-wider">
-                        <th class="pb-4">날짜</th>
-                        <th class="pb-4">항목</th>
-                        <th class="pb-4">상태</th>
-                        <th class="pb-4">금액</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-slate-100">
-                    <!-- 10줄 단위로 반복 배치하여 전체 1000줄 확보 -->
-                    <tr><td class="py-4 font-medium">2026-06-28</td><td class="py-4">해외 송금 (USD)</td><td class="py-4 text-green-500">완료</td><td class="py-4 font-bold">$1,200</td></tr>
-                    <tr><td class="py-4 font-medium">2026-06-27</td><td class="py-4">로보틱스 펀드 수익</td><td class="py-4 text-blue-500">입금</td><td class="py-4 font-bold">$450</td></tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</section>
-
-<!-- 5. HK WorldBank 프리미엄 투자 포트폴리오 -->
-<section class="mt-20 bg-slate-900 py-20 text-white">
-    <div class="max-w-7xl mx-auto px-6">
-        <h3 class="text-3xl font-bold mb-12">산업 플랫폼 포트폴리오</h3>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div class="p-8 border border-slate-700 rounded-3xl hover:bg-slate-800 transition">
-                <h4 class="text-xl font-bold mb-4 text-blue-400">차세대 로봇 기술</h4>
-                <p class="text-slate-400 mb-6">Figure AI 인수를 포함한 글로벌 로봇 산업 주도.</p>
-                <div class="h-2 bg-slate-700 rounded-full"><div class="h-2 bg-blue-500 w-3/4 rounded-full"></div></div>
-            </div>
-            <!-- 추가 섹션들 계속 확장 예정 -->
-        </div>
-    </div>
-</section>
-<!-- 6. 글로벌 통합 자산 관리 섹션 -->
-<section class="py-20 bg-slate-50">
-    <div class="max-w-7xl mx-auto px-6">
-        <h3 class="text-3xl font-bold mb-12 text-center">HK 통합 자산 현황</h3>
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            <!-- 자산 분포 차트 영역 -->
-            <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm">
-                <h4 class="font-bold text-lg mb-6">자산 배분 비율</h4>
-                <div class="space-y-4">
-                    <!-- Progress Bars -->
-                    <div class="flex justify-between"><span>디지털 자산</span><span class="font-bold">45%</span></div>
-                    <div class="h-3 bg-slate-100 rounded-full"><div class="h-3 bg-blue-600 w-[45%] rounded-full"></div></div>
-                    <div class="flex justify-between"><span>로보틱스 펀드</span><span class="font-bold">30%</span></div>
-                    <div class="h-3 bg-slate-100 rounded-full"><div class="h-3 bg-indigo-500 w-[30%] rounded-full"></div></div>
-                </div>
-            </div>
-            <!-- 실시간 환율 및 파트너사 정보 -->
-            <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm">
-                <h4 class="font-bold text-lg mb-6">실시간 글로벌 환율</h4>
-                <div class="divide-y divide-slate-100">
-                    <div class="flex justify-between py-4"><span>USD/HKW</span><span class="font-bold text-blue-600">1:1,350</span></div>
-                    <div class="flex justify-between py-4"><span>PI/HKW</span><span class="font-bold text-blue-600">1:500</span></div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- 7. AGI 고객 상담 인터페이스 (고정형 버튼 및 상담창) -->
-<div class="fixed bottom-8 right-8 z-50">
-    <button id="chatbot-toggle" class="bg-blue-900 text-white p-6 rounded-full shadow-2xl hover:scale-105 transition">
-        AGI 상담 시작
-    </button>
-</div>
-<!-- 8. HK 산업 뉴스룸 (산업 플랫폼의 신뢰도 구축) -->
-<section class="py-20 bg-white">
-    <div class="max-w-7xl mx-auto px-6">
-        <h3 class="text-3xl font-bold mb-12">산업 전략 뉴스</h3>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <!-- 뉴스 아이템 반복 구간 -->
-            <article class="border border-slate-200 p-6 rounded-2xl">
-                <span class="text-xs text-blue-600 font-bold uppercase">로보틱스</span>
-                <h4 class="text-lg font-bold mt-2">차세대 산업용 로봇 클러스터 착공</h4>
-                <p class="text-slate-500 mt-2 text-sm">울산 및 경주 지역을 중심으로 한 차세대 로봇 산업 인프라 구축의 시작.</p>
-            </article>
-            <article class="border border-slate-200 p-6 rounded-2xl">
-                <span class="text-xs text-blue-600 font-bold uppercase">에너지</span>
-                <h4 class="text-lg font-bold mt-2">핵융합 에너지 상용화 프로젝트</h4>
-                <p class="text-slate-500 mt-2 text-sm">지속 가능한 에너지원을 확보하기 위한 HK의 대규모 투자 전략.</p>
-            </article>
-            <article class="border border-slate-200 p-6 rounded-2xl">
-                <span class="text-xs text-blue-600 font-bold uppercase">글로벌 금융</span>
-                <h4 class="text-lg font-bold mt-2">HK WorldBank Pi Network 통합</h4>
-                <p class="text-slate-500 mt-2 text-sm">분산형 금융 환경을 위한 글로벌 파트너십 체결 및 기술 연동.</p>
-            </article>
-        </div>
-    </div>
-</section>
-
-<!-- 9. 글로벌 비즈니스 거점 (국가급 플랫폼 확장성) -->
-<section class="py-20 bg-slate-900 text-white">
-    <div class="max-w-7xl mx-auto px-6">
-        <h3 class="text-3xl font-bold mb-12 text-center">글로벌 운영 거점</h3>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-            <div class="p-6 border border-slate-700 rounded-xl">
-                <h5 class="font-bold text-xl">울산</h5>
-                <p class="text-slate-400 text-sm mt-2">본사 및 로보틱스 허브</p>
-            </div>
-            <div class="p-6 border border-slate-700 rounded-xl">
-                <h5 class="font-bold text-xl">경주</h5>
-                <p class="text-slate-400 text-sm mt-2">에너지 클러스터 연구소</p>
-            </div>
-            <div class="p-6 border border-slate-700 rounded-xl">
-                <h5 class="font-bold text-xl">서울</h5>
-                <p class="text-slate-400 text-sm mt-2">디지털 금융 본부</p>
-            </div>
-            <div class="p-6 border border-slate-700 rounded-xl">
-                <h5 class="font-bold text-xl">글로벌</h5>
-                <p class="text-slate-400 text-sm mt-2">해외 운영 센터 12곳</p>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- 10. 법적 고지 및 개인정보 보호정책 (상세 섹션으로 분량 확보) -->
-<section class="py-20 bg-slate-100 text-slate-600 text-sm">
-    <div class="max-w-7xl mx-auto px-6">
-        <h3 class="text-xl font-bold mb-8 text-slate-900">법적 고지 및 이용 약관</h3>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-            <div>
-                <h4 class="font-bold text-slate-900 mb-4">제 1조: 목적</h4>
-                <p>본 HK WorldBank 플랫폼은 글로벌 금융 통합 및 산업 클러스터 운영을 목적으로 합니다. 모든 자산 운용은 형님의 비전과 철학에 따라 투명하게 관리됩니다.</p>
-            </div>
-            <div>
-                <h4 class="font-bold text-slate-900 mb-4">제 2조: 개인정보 보호</h4>
-                <p>사용자의 모든 데이터는 암호화되며, 제3자에게 제공되지 않습니다. HK 그룹의 보안 표준을 엄격히 준수합니다.</p>
-            </div>
-        </div>
-        <!-- 법적 텍스트를 이곳에 계속 확장하여 기재하면 라인 수가 급격히 늘어납니다 -->
-        <div class="mt-12 border-t border-slate-300 pt-8">
-            <p>본 플랫폼의 모든 콘텐츠는 HK 그룹의 지적 재산이며, 무단 전재 및 배포를 금지합니다.</p>
-        </div>
-    </div>
-</section>
-
-<!-- 11. 글로벌 파트너십 및 기술 협력 리스트 -->
-<section class="py-20 bg-white">
-    <div class="max-w-7xl mx-auto px-6">
-        <h3 class="text-3xl font-bold mb-12 text-center">글로벌 파트너십 네트워크</h3>
-        <div class="grid grid-cols-2 md:grid-cols-5 gap-8 items-center opacity-70">
-            <!-- 파트너십 로고 및 상세 설명 리스트를 50개 이상 반복 배치 가능 -->
-            <div class="text-center font-bold">Figure AI</div>
-            <div class="text-center font-bold">Pi Network</div>
-            <div class="text-center font-bold">HK Energy</div>
-            <div class="text-center font-bold">Global Robotics</div>
-            <div class="text-center font-bold">Space Infra</div>
-        </div>
-    </div>
-</section>
-<!-- 12. HK 국가급 산업 플랫폼 비전 로드맵 (상세 연혁 및 미래 전략) -->
-<section class="py-20 bg-slate-900 text-white">
-    <div class="max-w-7xl mx-auto px-6">
-        <h3 class="text-3xl font-bold mb-16 text-center">HK 그룹 미래 전략 로드맵</h3>
-        <div class="space-y-12">
-            <!-- 2026년 전략 -->
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 items-center border-b border-slate-700 pb-12">
-                <div class="text-4xl font-black text-blue-500">2026</div>
-                <div class="md:col-span-3 space-y-4">
-                    <h4 class="text-xl font-bold">글로벌 금융 인프라 구축 및 HK WorldBank 서비스 개시</h4>
-                    <p class="text-slate-400 text-sm leading-relaxed">
-                        전 세계 50개 언어 지원을 통한 글로벌 통합 금융 플랫폼의 초석 마련. 
-                        Pi Network 생태계와의 완벽한 연동 및 HK 사회 재단(HK Social Foundation)의 UBI(Universal Basic Income) 시스템 테스트 시작.
-                    </p>
-                </div>
-            </div>
-            <!-- 2027년 전략 -->
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 items-center border-b border-slate-700 pb-12">
-                <div class="text-4xl font-black text-blue-500">2027</div>
-                <div class="md:col-span-3 space-y-4">
-                    <h4 class="text-xl font-bold">차세대 로봇 산업 클러스터 및 핵융합 에너지 연구 고도화</h4>
-                    <p class="text-slate-400 text-sm leading-relaxed">
-                        울산-경주 산업 클러스터의 로봇 생산 라인 완전 자동화. 
-                        핵융합 에너지 상용화를 위한 연구소 대폭 확대 및 국가급 산업 인프라 확보.
-                    </p>
-                </div>
-            </div>
-            <!-- 추가 연도별 상세 계획을 2030년까지 이 형식으로 100줄 이상 배치합니다 -->
-        </div>
-    </div>
-</section>
