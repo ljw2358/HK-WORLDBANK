@@ -512,16 +512,22 @@ data: {
         let currentModalType = '';
         let currentBaseRate = 0;
 
-        function openFinanceModal(type, rate) {
-            currentModalType = type;
-            currentBaseRate = rate;
-            document.getElementById('modal-title').innerHTML = `<i class="fa-solid fa-gears text-amber-500"></i> ${type} 분산 프로토콜`;
-            document.getElementById('modal-interest-rate').innerText = (rate * 100).toFixed(2) + "%";
-            document.getElementById('modal-input-qty').value = 0;
-            document.getElementById('modal-pin-code').value = '';
-            calculateModalAsset();
-            document.getElementById('finance-modal').classList.remove('hidden');
-        }
+   function openFinanceModal(type, rate) {
+    currentModalType = type;
+    currentBaseRate = rate;
+    document.getElementById('modal-title').innerHTML = type;
+    
+    // 각 연동망별 고유 프로세스 분기
+    console.log(`[분산망 가동] ${type} 프로세스 활성화`);
+    
+    // 예치/수익률 계산 등 동적 UI 업데이트
+    document.getElementById('modal-interest-rate').innerText = (rate * 100).toFixed(2) + "%";
+    document.getElementById('modal-input-qty').value = 0;
+    
+    // 모달창 오픈
+    document.getElementById('finance-modal').classList.remove('hidden');
+}
+
 
         function closeFinanceModal() {
             document.getElementById('finance-modal').classList.add('hidden');
