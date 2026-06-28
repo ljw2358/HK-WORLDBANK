@@ -82,10 +82,9 @@ data: {
     <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur-md sticky top-0 z-40">
         <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
             <div class="flex items-center space-x-3">
-                <div class="bg-amber-500 text-slate-900 px-3 py-1.5 rounded-xl font-black text-xl tracking-wider shadow-lg">HK</div>            <!-- 87번 줄을 아래 코드로 교체하세요 -->
-<img src="442.png" alt="Logo" class="h-8 mr-2" style="display: inline-block; vertical-align: middle;">
-<span class="text-lg font-bold tracking-wider text-white" id="nav-title">HK WORLD BANK</span>
-  
+                <div class="bg-amber-500 text-slate-900 px-3 py-1.5 rounded-xl font-black text-xl tracking-wider shadow-lg">HK</div>
+                <span class="text-lg font-bold tracking-tight text-white" id="nav-title">월드뱅크 플랫폼</span>
+            </div>
            
             <!-- 50개국 풀 스택 실시간 언어 변동 시스템 (순한글 번역 매핑 고정) -->
             <div class="flex items-center space-x-4">
@@ -513,59 +512,17 @@ data: {
         let currentModalType = '';
         let currentBaseRate = 0;
 
-function openFinanceModal(type, rate) {
-    console.log("버튼 감지 성공: " + type); // 콘솔에 찍히는지 확인
-    
-    // 모달 요소 강제 선택
-    const modal = document.getElementById('finance-modal');
-    const title = document.getElementById('modal-title');
-    const interest = document.getElementById('modal-interest-rate');
+        function openFinanceModal(type, rate) {
+            currentModalType = type;
+            currentBaseRate = rate;
+            document.getElementById('modal-title').innerHTML = `<i class="fa-solid fa-gears text-amber-500"></i> ${type} 분산 프로토콜`;
+            document.getElementById('modal-interest-rate').innerText = (rate * 100).toFixed(2) + "%";
+            document.getElementById('modal-input-qty').value = 0;
+            document.getElementById('modal-pin-code').value = '';
+            calculateModalAsset();
+            document.getElementById('finance-modal').classList.remove('hidden');
+        }
 
-    if (!modal) {
-        console.error("오류: 모달 요소를 찾을 수 없습니다.");
-        return;
-    }
-
-function openFinanceModal(type, rate) {
-    currentModalType = type;
-    currentBaseRate = rate;
-
-    // 1. 제목 업데이트
-    document.getElementById('modal-title').innerHTML = type;
-
-    // 2. [기능별 맞춤 프로세스] 각 망마다 내용 강제 교체
-    let interestText = (rate * 100).toFixed(2) + "%";
-    let inputPlaceholder = "수량 입력";
-
-    if (type === '송금') {
-        interestText = "수수료율: 0.05%";
-        inputPlaceholder = "수신 지갑 주소 입력";
-    } else if (type === '기본소득') {
-        interestText = "분배율: 3.5%";
-        inputPlaceholder = "수령 대상 수량";
-    } else if (type === 'DEX스왑') {
-        interestText = "스왑 슬리피지: 0.1%";
-        inputPlaceholder = "교환할 수량";
-    }
-
-    // 3. UI에 적용
-    document.getElementById('modal-interest-rate').innerText = interestText;
-    document.getElementById('modal-input-qty').placeholder = inputPlaceholder;
-
-    // 4. 모달창 오픈
-    document.getElementById('finance-modal').classList.remove('hidden');
-    console.log(type + " 프로세스 로드 완료");
-}
- 
-
-    } else {
-        // 나머지 기능들 기본 처리
-        document.getElementById('modal-interest-rate').innerText = (rate * 100).toFixed(2) + "%";
-    }
-
-    // 모달창 오픈 (공통)
-    document.getElementById('finance-modal').classList.remove('hidden');
-}
         function closeFinanceModal() {
             document.getElementById('finance-modal').classList.add('hidden');
         }
