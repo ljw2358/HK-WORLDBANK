@@ -512,23 +512,31 @@ data: {
         let currentModalType = '';
         let currentBaseRate = 0;
 
-   function openFinanceModal(type, rate) {
+ function openFinanceModal(type, rate) {
     currentModalType = type;
     currentBaseRate = rate;
+
+    // 제목 변경
     document.getElementById('modal-title').innerHTML = type;
-    
-    // 각 연동망별 고유 프로세스 분기
-    console.log(`[분산망 가동] ${type} 프로세스 활성화`);
-    
-    // 예치/수익률 계산 등 동적 UI 업데이트
-    document.getElementById('modal-interest-rate').innerText = (rate * 100).toFixed(2) + "%";
-    document.getElementById('modal-input-qty').value = 0;
-    
-    // 모달창 오픈
+
+    // [기능별 맞춤 프로세스] 각 기능마다 다른 로그와 동작을 여기에 정의합니다.
+    if (type === '송금') {
+        console.log("송금 전용 프로세스: 초고속 전송 모듈 가동");
+        document.getElementById('modal-interest-rate').innerText = "전송 수수료: 0.05%";
+    } else if (type === '기본소득') {
+        console.log("기본소득 프로세스: 글로벌 분배 엔진 가동");
+        document.getElementById('modal-interest-rate').innerText = "분배율: 3.5%";
+    } else if (type === 'DEX스왑') {
+        console.log("스왑 프로세스: P2P 오더 매칭 가동");
+        document.getElementById('modal-interest-rate').innerText = "스왑율: 1:1.02";
+    } else {
+        // 나머지 기능들 기본 처리
+        document.getElementById('modal-interest-rate').innerText = (rate * 100).toFixed(2) + "%";
+    }
+
+    // 모달창 오픈 (공통)
     document.getElementById('finance-modal').classList.remove('hidden');
 }
-
-
         function closeFinanceModal() {
             document.getElementById('finance-modal').classList.add('hidden');
         }
