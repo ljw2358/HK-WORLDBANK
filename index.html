@@ -525,14 +525,37 @@ function openFinanceModal(type, rate) {
         return;
     }
 
-    // 제목 및 데이터 동적 업데이트
-    title.innerHTML = type;
-    interest.innerText = (type === '송금') ? "수수료 0.05%" : (rate * 100).toFixed(2) + "%";
+function openFinanceModal(type, rate) {
+    currentModalType = type;
+    currentBaseRate = rate;
 
-    // 모달창 띄우기
-    modal.classList.remove('hidden');
-    console.log("모달창 가동 완료");
+    // 1. 제목 업데이트
+    document.getElementById('modal-title').innerHTML = type;
+
+    // 2. [기능별 맞춤 프로세스] 각 망마다 내용 강제 교체
+    let interestText = (rate * 100).toFixed(2) + "%";
+    let inputPlaceholder = "수량 입력";
+
+    if (type === '송금') {
+        interestText = "수수료율: 0.05%";
+        inputPlaceholder = "수신 지갑 주소 입력";
+    } else if (type === '기본소득') {
+        interestText = "분배율: 3.5%";
+        inputPlaceholder = "수령 대상 수량";
+    } else if (type === 'DEX스왑') {
+        interestText = "스왑 슬리피지: 0.1%";
+        inputPlaceholder = "교환할 수량";
+    }
+
+    // 3. UI에 적용
+    document.getElementById('modal-interest-rate').innerText = interestText;
+    document.getElementById('modal-input-qty').placeholder = inputPlaceholder;
+
+    // 4. 모달창 오픈
+    document.getElementById('finance-modal').classList.remove('hidden');
+    console.log(type + " 프로세스 로드 완료");
 }
+ 
 
     } else {
         // 나머지 기능들 기본 처리
