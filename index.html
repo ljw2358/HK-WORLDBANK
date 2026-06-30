@@ -459,14 +459,32 @@
                 alert("승인을 위해 6자리 승인 암호(비밀번호)를 정확히 입력하십시오.");
                 return;
             }
+        function openFinanceModal(type, rate) {
+            currentModalType = type;
+            currentBaseRate = rate;
+            document.getElementById('modal-title').innerHTML = `<i class="fa-solid fa-gears text-amber-500"></i> ${type} 분산 프로토콜`;
+            
+            // 9개 프로세스 버튼 생성 영역
+            const grid = document.getElementById('process-grid') || document.createElement('div');
+            if (!document.getElementById('process-grid')) {
+                grid.id = 'process-grid';
+                grid.className = 'grid grid-cols-3 gap-2 mt-4';
+                document.querySelector('#finance-modal .space-y-3').appendChild(grid);
+            }
+            
+            grid.innerHTML = '';
+            for(let i=1; i<=9; i++) {
+                grid.innerHTML += `<button onclick="alert('${type} 프로세스 ${i} 실행')" class="bg-slate-900 border border-slate-700 p-2 rounded-lg text-[10px] text-white hover:border-amber-500">P ${i}</button>`;
+            }
 
-            // 자산 대시보드 동적 즉각 반영
-            totalQuantity += qty;
-            document.getElementById('user-quantity').innerText = totalQuantity.toFixed(6);
+            document.getElementById('modal-interest-rate').innerText = (rate * 100).toFixed(2) + "%";
+            document.getElementById('modal-input-qty').value = 0;
+            document.getElementById('modal-pin-code').value = '';
+            calculateModalAsset();
+            document.getElementById('finance-modal').classList.remove('hidden');
+        }
+
            
-            const chatBox = document.getElementById('chat-box');
-            chatBox.insertAdjacentHTML('beforeend', `
-                <div class="flex items-start space-x-2.5 justify-end">
                     <div class="bg-amber-500 text-slate-900 p-3 rounded-2xl rounded-tr-none max-w-[85%] font-bold text-xs">
                         [승인 완료] ${currentModalType} 실행요청 수량: ${qty} HK (인증성공)
                     </div>
