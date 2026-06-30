@@ -458,37 +458,16 @@
             if (pin.length !== 6) {
                 alert("승인을 위해 6자리 승인 암호(비밀번호)를 정확히 입력하십시오.");
                 return;
-            
-               // 463번 줄부터 469번 줄까지 삭제 후 아래 내용으로 교체
-function openFinanceModal(type, rate) {
-    currentModalType = type;
-    currentBaseRate = rate;
-    document.getElementById('modal-title').innerHTML = `<i class="fa-solid fa-gears text-amber-500"></i> ${type} 분산 프로토콜`;
-    
-    // 모달 내부에 프로세스 9개 그리드 강제 주입
-    const modalContent = document.querySelector('#finance-modal .space-y-3');
-    let gridHtml = `
-        <div id="process-grid" style="display:grid; grid-template-columns:repeat(3, 1fr); gap:8px; margin-bottom:10px;">
-            ${[1,2,3,4,5,6,7,8,9].map(i => `
-                <button onclick="alert('${type} - 프로세스 ${i} 실행')" style="background:#0f172a; border:1px solid #334155; padding:8px; border-radius:6px; color:#e2e8f0; font-size:10px; cursor:pointer;">
-                    프로세스 ${i}
-                </button>
-            `).join('')}
-        </div>
-    `;
-    
-    // 기존 프로세스 그리드가 없으면 추가
-    if (!document.getElementById('process-grid')) {
-        modalContent.insertAdjacentHTML('afterbegin', gridHtml);
-    }
-    
-    document.getElementById('modal-input-qty').value = 0;
-    document.getElementById('modal-pin-code').value = '';
-    calculateModalAsset();
-    document.getElementById('finance-modal').classList.remove('hidden');
-}
-   
-                <div class="bg-amber-500 text-slate-900 p-3 rounded-2xl rounded-tr-none max-w-[85%] font-bold text-xs">
+            }
+
+            // 자산 대시보드 동적 즉각 반영
+            totalQuantity += qty;
+            document.getElementById('user-quantity').innerText = totalQuantity.toFixed(6);
+           
+            const chatBox = document.getElementById('chat-box');
+            chatBox.insertAdjacentHTML('beforeend', `
+                <div class="flex items-start space-x-2.5 justify-end">
+                    <div class="bg-amber-500 text-slate-900 p-3 rounded-2xl rounded-tr-none max-w-[85%] font-bold text-xs">
                         [승인 완료] ${currentModalType} 실행요청 수량: ${qty} HK (인증성공)
                     </div>
                 </div>
