@@ -460,25 +460,40 @@
                 return;
             }
         function openFinanceModal(type, rate) {
+               
             currentModalType = type;
             currentBaseRate = rate;
+            
+            // 1. 모달 타이틀 업데이트
             document.getElementById('modal-title').innerHTML = `<i class="fa-solid fa-gears text-amber-500"></i> ${type} 분산 프로토콜`;
             
-            // 9개 프로세스 버튼 생성 영역
-            const grid = document.getElementById('process-grid') || document.createElement('div');
-            if (!document.getElementById('process-grid')) {
+            // 2. 모달 내에 프로세스 버튼이 들어갈 공간(process-grid) 강제 생성 및 삽입
+            let modalBody = document.querySelector('#finance-modal .space-y-3');
+            let grid = document.getElementById('process-grid');
+            if (!grid) {
+                grid = document.createElement('div');
                 grid.id = 'process-grid';
-                grid.className = 'grid grid-cols-3 gap-2 mt-4';
-                document.querySelector('#finance-modal .space-y-3').appendChild(grid);
+                grid.className = 'grid grid-cols-3 gap-2 py-2';
+                modalBody.insertBefore(grid, modalBody.firstChild);
             }
             
+            // 3. 버튼 9개 확실하게 생성
             grid.innerHTML = '';
-            for(let i=1; i<=9; i++) {
-                grid.innerHTML += `<button onclick="alert('${type} 프로세스 ${i} 실행')" class="bg-slate-900 border border-slate-700 p-2 rounded-lg text-[10px] text-white hover:border-amber-500">P ${i}</button>`;
+            for(let i = 1; i <= 9; i++) {
+                grid.innerHTML += `
+                    <button onclick="alert('${type} 프로세스 ${i} 실행')" 
+                            class="bg-slate-900 border border-slate-700 p-2 rounded-lg text-[10px] text-white hover:border-amber-500 transition">
+                        P ${i}
+                    </button>`;
             }
 
             document.getElementById('modal-interest-rate').innerText = (rate * 100).toFixed(2) + "%";
             document.getElementById('modal-input-qty').value = 0;
+            document.getElementById('modal-pin-code').value = '';
+            calculateModalAsset();
+            document.getElementById('finance-modal').classList.remove('hidden');
+        }
+
             document.getElementById('modal-pin-code').value = '';
             calculateModalAsset();
             document.getElementById('finance-modal').classList.remove('hidden');
