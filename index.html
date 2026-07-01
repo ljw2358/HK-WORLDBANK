@@ -13,16 +13,18 @@ function executeProcess(funcName) {
     const area = document.getElementById('process-area');
     let description = "";
 
-  // 기능별 상세 프로세스 정의
-if (funcName === '지갑연결') description = "노드 계정 탐색 → 연동 대상 확인 → 상시 연동 설정 → 6자리 승인 코드 입력 → 처리 완료";
-else if (funcName === '송금') description = "수신 주소 입력 → 송금 수량 입력 → 대륙간 전송 경로 확인 → 6자리 승인 코드 입력 → 처리 완료";
-else if (funcName === '결제') description = "결제처 식별 → 금액 확정 → 상거래 승인 대기 → 6자리 승인 코드 입력 → 처리 완료";
-else if (funcName === '예치') description = "자산 선택 → 수량 및 기간 설정 → 예상 수익률 확인 → 6자리 승인 코드 입력 → 처리 완료";
-else if (funcName === '보상') description = "보상 항목 선택 → 인센티브 정산 내역 확인 → 실시간 정산 준비 → 6자리 승인 코드 입력 → 처리 완료";
-else if (funcName === '기본소득') description = "분산 복지 대상 확인 → 분배 금액 조회 → 수령 자격 인증 → 6자리 승인 코드 입력 → 처리 완료";
-else if (funcName === '스왑') description = "자산 페어 선택 → 교환 수량 입력 → 즉각 변환 비율 확인 → 6자리 승인 코드 입력 → 처리 완료";
-else if (funcName === 'DEX스왑') description = "거래 모드 활성화 → P2P 대상/자산 확인 → 교환 조건 검토 → 6자리 승인 코드 입력 → 처리 완료";
-else if (funcName === 'LP스테이킹') description = "유동성 증명 자산 선택 → 스테이킹 수량 결정 → 고리 배당률 확인 → 6자리 승인 코드 입력 → 처리 완료";
+  // 10대 분산 연동망 상세 프로세스 정의
+  if (funcName === '지갑연결') description = "노드 계정 탐색 → 연동 대상 확인 → 상시 연동 설정 → 6자리 승인 코드 입력 → 처리 완료";
+  else if (funcName === '송금') description = "수신 주소 입력 → 송금 수량 입력 → 대륙간 전송 경로 확인 → 6자리 승인 코드 입력 → 처리 완료";
+  else if (funcName === '결제') description = "결제처 식별 → 금액 확정 → 상거래 승인 대기 → 6자리 승인 코드 입력 → 처리 완료";
+  else if (funcName === '예치') description = "자산 선택 → 수량 및 기간 설정 → 예상 수익률 확인 → 6자리 승인 코드 입력 → 처리 완료";
+  else if (funcName === '보상') description = "보상 항목 선택 → 인센티브 정산 내역 확인 → 실시간 정산 준비 → 6자리 승인 코드 입력 → 처리 완료";
+  else if (funcName === '기본소득') description = "분산 복지 대상 확인 → 분배 금액 조회 → 수령 자격 인증 → 6자리 승인 코드 입력 → 처리 완료";
+  else if (funcName === '스왑') description = "자산 페어 선택 → 교환 수량 입력 → 즉각 변환 비율 확인 → 6자리 승인 코드 입력 → 처리 완료";
+  else if (funcName === 'DEX스왑') description = "거래 모드 활성화 → P2P 대상/자산 확인 → 교환 조건 검토 → 6자리 승인 코드 입력 → 처리 완료";
+  else if (funcName === 'LP스테이킹') description = "유동성 증명 자산 선택 → 스테이킹 수량 결정 → 고리 배당률 확인 → 6자리 승인 코드 입력 → 처리 완료";
+  else if (funcName === 'PI수량 추가') description = "지갑 계정 확인 → PI 수량 입력 → 네트워크 노드 검증 → 6자리 승인 코드 입력 → 처리 완료";
+
 
     area.innerHTML = `
         <h3>[${funcName}] 상세 프로세스</h3>
@@ -235,62 +237,34 @@ function confirmAuth(funcName) {
                 </div>
             </div>
 
-            <!-- [요구사항] 9대 핵심 금융 기능 -> 3x3 완전 대칭 정밀 배열 대시보드 -->
-            <div class="bg-slate-800 p-8 rounded-2xl border border-slate-700/50 shadow-2xl space-y-6">
-                <div>
-                    <span class="text-xs font-bold uppercase tracking-widest text-amber-500 bg-amber-500/10 px-3 py-1 rounded-full border border-amber-500/20">9대 분산 연동망</span>
-                    <h2 class="text-2xl font-black text-white mt-3 tracking-tight" id="content-title">분산 금융 통합 인프라 및 자산 자립화</h2>
-                </div>
+        
+<div class="grid grid-cols-2 gap-3 pt-2">
+  <script>
+    const financeItems = [
+      { id: 'wallet', title: '지갑연결', desc: '노드 계정 상시 연동', icon: 'fa-wallet', color: 'bg-amber-500' },
+      { id: 'transfer', title: '송금', desc: '대륙간 초고속 전송', icon: 'fa-paper-plane', color: 'bg-blue-500' },
+      { id: 'payment', title: '결제', desc: '실시간 상거래 승인', icon: 'fa-credit-card', color: 'bg-emerald-500' },
+      { id: 'deposit', title: '예치', desc: '자산 자금금 신탁', icon: 'fa-vault', color: 'bg-purple-500' },
+      { id: 'reward', title: '보상', desc: '인센티브 실시간 정산', icon: 'fa-gift', color: 'bg-indigo-500' },
+      { id: 'ubi', title: '기본소득', desc: '분산 복지 재단 분배', icon: 'fa-hand-holding-dollar', color: 'bg-pink-500' },
+      { id: 'swap', title: '스왑', desc: '즉각 다이렉트 변환', icon: 'fa-right-left', color: 'bg-cyan-500' },
+      { id: 'dex', title: 'DEX 스왑', desc: '탈중앙화 P2P 거래', icon: 'fa-shuffle', color: 'bg-orange-500' },
+      { id: 'lp', title: 'LP스테이킹', desc: '유동성 증명 고리 배당', icon: 'fa-layer-group', color: 'bg-yellow-600' },
+      { id: 'pi_add', title: 'PI 수량 추가', desc: 'PI 자산 즉시 확보', icon: 'fa-plus-circle', color: 'bg-teal-500' }
+    ];
+  </script>
 
-                <!-- 3x3 완벽 입체 그리드 시스템 -->
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
-                    <!-- 1. 지갑연결 -->
-                    <div onclick="openFinanceModal('지갑연결', 0.05)" class="bg-slate-900/80 p-5 rounded-xl border border-slate-700/60 hover:border-amber-500 transition cursor-pointer flex flex-col justify-between group h-32">
-                        <div class="w-9 h-9 bg-amber-500/10 rounded-lg flex items-center justify-center text-amber-500"><i class="fa-solid fa-wallet text-base"></i></div>
-                        <div class="mt-2"><h4 class="font-black text-sm text-white" id="f-wallet">지갑연결</h4><p class="text-[10px] text-slate-500">노드 계정 상시 연동</p></div>
-                    </div>
-                    <!-- 2. 송금 -->
-                    <div onclick="openFinanceModal('송금', 0.01)" class="bg-slate-900/80 p-5 rounded-xl border border-slate-700/60 hover:border-amber-500 transition cursor-pointer flex flex-col justify-between group h-32">
-                        <div class="w-9 h-9 bg-blue-500/10 rounded-lg flex items-center justify-center text-blue-400"><i class="fa-solid fa-paper-plane text-base"></i></div>
-                        <div class="mt-2"><h4 class="font-black text-sm text-white" id="f-transfer">송금</h4><p class="text-[10px] text-slate-500">대륙간 초고속 전송</p></div>
-                    </div>
-                    <!-- 3. 결재 -->
-                    <div onclick="openFinanceModal('결재', 0.02)" class="bg-slate-900/80 p-5 rounded-xl border border-slate-700/60 hover:border-amber-500 transition cursor-pointer flex flex-col justify-between group h-32">
-                        <div class="w-9 h-9 bg-emerald-500/10 rounded-lg flex items-center justify-center text-emerald-400"><i class="fa-solid fa-credit-card text-base"></i></div>
-                        <div class="mt-2"><h4 class="font-black text-sm text-white" id="f-payment">결재</h4><p class="text-[10px] text-slate-500">실시간 상거래 승인</p></div>
-                    </div>
-                    <!-- 4. 예치 -->
-                    <div onclick="openFinanceModal('예치', 0.06)" class="bg-slate-900/80 p-5 rounded-xl border border-slate-700/60 hover:border-amber-500 transition cursor-pointer flex flex-col justify-between group h-32">
-                        <div class="w-9 h-9 bg-purple-500/10 rounded-lg flex items-center justify-center text-purple-400"><i class="fa-solid fa-vault text-base"></i></div>
-                        <div class="mt-2"><h4 class="font-black text-sm text-white" id="f-deposit">예치</h4><p class="text-[10px] text-slate-500">자산 기관급 신탁</p></div>
-                    </div>
-                    <!-- 5. 보상 -->
-                    <div onclick="openFinanceModal('보상', 0.04)" class="bg-slate-900/80 p-5 rounded-xl border border-slate-700/60 hover:border-amber-500 transition cursor-pointer flex flex-col justify-between group h-32">
-                        <div class="w-9 h-9 bg-indigo-500/10 rounded-lg flex items-center justify-center text-indigo-400"><i class="fa-solid fa-gift text-base"></i></div>
-                        <div class="mt-2"><h4 class="font-black text-sm text-white" id="f-reward">보상</h4><p class="text-[10px] text-slate-500">인센티브 실시간 정산</p></div>
-                    </div>
-                    <!-- 6. 기본소득 -->
-                    <div onclick="openFinanceModal('기본소득', 0.03)" class="bg-slate-900/80 p-5 rounded-xl border border-slate-700/60 hover:border-amber-500 transition cursor-pointer flex flex-col justify-between group h-32">
-                        <div class="w-9 h-9 bg-pink-500/10 rounded-lg flex items-center justify-center text-pink-400"><i class="fa-solid fa-hand-holding-dollar text-base"></i></div>
-                        <div class="mt-2"><h4 class="font-black text-sm text-white" id="f-ubi">기본소득</h4><p class="text-[10px] text-slate-500">분산 복지 재단 분배</p></div>
-                    </div>
-                    <!-- 7. 스왑 -->
-                    <div onclick="openFinanceModal('스왑', 0.01)" class="bg-slate-900/80 p-5 rounded-xl border border-slate-700/60 hover:border-amber-500 transition cursor-pointer flex flex-col justify-between group h-32">
-                        <div class="w-9 h-9 bg-cyan-500/10 rounded-lg flex items-center justify-center text-cyan-400"><i class="fa-solid fa-right-left text-base"></i></div>
-                        <div class="mt-2"><h4 class="font-black text-sm text-white" id="f-swap">스왑</h4><p class="text-[10px] text-slate-500">즉각 다이렉트 변환</p></div>
-                    </div>
-                    <!-- 8. DEX스왑 -->
-                    <div onclick="openFinanceModal('DEX스왑', 0.015)" class="bg-slate-900/80 p-5 rounded-xl border border-slate-700/60 hover:border-amber-500 transition cursor-pointer flex flex-col justify-between group h-32">
-                        <div class="w-9 h-9 bg-teal-500/10 rounded-lg flex items-center justify-center text-teal-400"><i class="fa-solid fa-shuffle text-base"></i></div>
-                        <div class="mt-2"><h4 class="font-black text-sm text-white" id="f-dex">DEX스왑</h4><p class="text-[10px] text-slate-500">탈중앙화 P2P 거래</p></div>
-                    </div>
-                    <!-- 9. LP스태이킹 -->
-                    <div onclick="openFinanceModal('LP스태이킹', 0.08)" class="bg-slate-900/80 p-5 rounded-xl border border-slate-700/60 hover:border-amber-500 transition cursor-pointer flex flex-col justify-between group h-32">
-                        <div class="w-9 h-9 bg-orange-500/10 rounded-lg flex items-center justify-center text-orange-400"><i class="fa-solid fa-layer-group text-base"></i></div>
-                        <div class="mt-2"><h4 class="font-black text-sm text-white" id="f-lp">LP스태이킹</h4><p class="text-[10px] text-slate-500">유동성 증명 고리 배당</p></div>
-                    </div>
-                </div>
-            </div>
+  <template x-for="item in financeItems" :key="item.id">
+    <div onclick="openFinanceModal(item.title)"
+         class="bg-slate-900 p-4 rounded-xl border border-slate-700/50 hover:border-amber-500 transition-all cursor-pointer shadow-md group">
+      <div :class="`w-8 h-8 ${item.color}/10 rounded-lg flex items-center justify-center mb-2 group-hover:scale-105 transition-transform`">
+        <i :class="`fa-solid ${item.icon} ${item.color.replace('bg-', 'text-')}`"></i>
+      </div>
+      <h4 class="text-white font-bold text-sm mb-0.5" x-text="item.title"></h4>
+      <p class="text-slate-500 text-[10px]" x-text="item.desc"></p>
+    </div>
+  </template>
+</div>  
 
             <!-- 미디어 링크 공간 -->
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
