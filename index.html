@@ -2,109 +2,114 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HK WORLD BANK - Global Financial OS</title>
     <style>
-        :root {
-            --bg-color: #0a0e14;
-            --card-bg: rgba(255, 255, 255, 0.05);
-            --accent: #00ffcc;
-            --text-main: #ffffff;
-            --text-sub: #b0b0b0;
-        }
-        body {
-            margin: 0;
-            font-family: 'Pretendard', -apple-system, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
-        }
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 5%;
-            border-bottom: 1px solid #333;
-        }
-        .logo { font-size: 24px; font-weight: bold; letter-spacing: 2px; color: var(--accent); }
-        .lang-btn {
-            background: var(--card-bg);
-            border: 1px solid #555;
-            color: white;
-            padding: 8px 16px;
-            cursor: pointer;
-            border-radius: 5px;
-            transition: 0.3s;
-        }
-        .lang-btn:hover { background: rgba(255,255,255,0.1); }
-        .main-container {
-            display: grid;
-            grid-template-columns: 250px 1fr;
-            padding: 40px 5%;
-            gap: 30px;
-        }
-        .card {
-            background: var(--card-bg);
-            backdrop-filter: blur(10px);
-            padding: 25px;
-            border-radius: 15px;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .balance-val { font-size: 36px; font-weight: bold; margin: 15px 0; color: var(--accent); }
-        .chart-placeholder { height: 250px; background: rgba(0,0,0,0.3); border-radius: 10px; margin-top: 15px; border: 1px dashed #444; }
-        
-        #langModal {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.95); padding: 50px; overflow-y: auto; z-index: 1000;
-        }
-        .lang-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 15px; margin-top: 20px; }
-        .lang-item { padding: 15px; border: 1px solid #333; text-align: center; cursor: pointer; border-radius: 8px; transition: 0.2s; }
-        .lang-item:hover { background: var(--accent); color: #000; }
+        :root { --bg: #0a0e14; --accent: #00ffcc; --card: rgba(255, 255, 255, 0.08); }
+        body { margin: 0; background: var(--bg); color: #fff; font-family: 'Pretendard', sans-serif; }
+        header { padding: 40px 5%; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 72px; font-weight: 900; color: var(--accent); letter-spacing: -2px; text-transform: uppercase; }
+        .main-container { display: grid; grid-template-columns: 250px 1fr; padding: 0 5% 40px; gap: 30px; }
+        .card { background: var(--card); padding: 30px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); }
+        .balance-box { font-size: 56px; font-weight: bold; margin-top: 10px; color: var(--accent); }
+        .nav-item { padding: 20px 0; border-bottom: 1px solid #333; cursor: pointer; font-size: 18px; }
+        .nav-item:hover { color: var(--accent); }
+        #langModal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.98); z-index:1000; padding: 50px; overflow-y: auto; }
+        .lang-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; }
+        .lang-btn { padding: 20px; border: 1px solid #444; text-align: center; cursor: pointer; border-radius: 10px; }
+        .lang-btn:hover { background: var(--accent); color: #000; }
     </style>
 </head>
 <body>
 
 <header>
     <div class="logo">HK WORLD BANK</div>
-    <button class="lang-btn" onclick="document.getElementById('langModal').style.display='block'">🌐 Global Language (50)</button>
+    <button onclick="document.getElementById('langModal').style.display='block'" style="padding:15px 30px; cursor:pointer; font-size:16px;">🌐 Change Language</button>
 </header>
 
 <div class="main-container">
     <nav class="card">
-        <h3>Menu</h3>
-        <p>Dashboard</p>
-        <p>Asset Management</p>
-        <p>Wire Transfer</p>
-        <p>Transaction History</p>
+        <div class="nav-item" data-key="dash">Dashboard</div>
+        <div class="nav-item" data-key="asset">Asset Management</div>
+        <div class="nav-item" data-key="transfer">Wire Transfer</div>
+        <div class="nav-item" data-key="history">Transaction History</div>
     </nav>
-    <main>
-        <div class="card">
-            <h3>Total Balance</h3>
-            <div class="balance-val">₩ 12,450,000</div>
-            <div class="chart-placeholder" style="display:flex; justify-content:center; align-items:center; color:#555;">
-                Financial Trend Visualization
-            </div>
-        </div>
+    <main class="card">
+        <div id="balance-title" style="font-size: 20px; color: #aaa;">Total Balance</div>
+        <div class="balance-box">₩ 12,450,000</div>
     </main>
 </div>
 
 <div id="langModal">
-    <h2 style="text-align:center">Global Language Settings</h2>
+    <h1 style="text-align:center">Global Language Selection</h1>
     <div class="lang-grid" id="langGrid"></div>
-    <div style="text-align:center; margin-top:30px;">
-        <button class="lang-btn" onclick="document.getElementById('langModal').style.display='none'">Close</button>
-    </div>
 </div>
 
 <script>
-    const langs = ["한국어", "English", "日本語", "中文", "Español", "Français", "Deutsch", "Português", "Русский", "العربية", "हिन्दी", "Italiano", "Türkçe", "Nederlands", "Tiếng Việt", "ไทย", "Polski", "Svenska", "Dansk", "Norsk", "Suomi", "Ελληνικά", "Magyar", "Čeština", "Română", "Български", "Українська", "Indonesian", "Malay", "Filipino", "Vietnamese", "Farsi", "Hebrew", "Urdu", "Bengali", "Gujarati", "Marathi", "Punjabi", "Tamil", "Telugu", "Kannada", "Malayalam", "Sinhala", "Khmer", "Lao", "Burmese", "Mongolian", "Kazakh", "Uzbek", "Swahili"];
+    const langData = {
+        "한국어": { dash: "대시보드", asset: "자산 관리", transfer: "송금", history: "거래 내역", total: "총 자산" },
+        "English": { dash: "Dashboard", asset: "Asset Management", transfer: "Wire Transfer", history: "Transaction History", total: "Total Balance" },
+        "日本語": { dash: "ダッシュボード", asset: "資産管理", transfer: "送金", history: "取引履歴", total: "総資産" },
+        "中文": { dash: "仪表盘", asset: "资产管理", transfer: "转账", history: "交易记录", total: "总资产" },
+        "Español": { dash: "Tablero", asset: "Gestión de activos", transfer: "Transferencia", history: "Historial", total: "Saldo Total" },
+        "Français": { dash: "Tableau de bord", asset: "Gestion d'actifs", transfer: "Virement", history: "Historique", total: "Solde total" },
+        "Deutsch": { dash: "Dashboard", asset: "Vermögensverwaltung", transfer: "Überweisung", history: "Transaktionsverlauf", total: "Gesamtsaldo" },
+        "Português": { dash: "Painel", asset: "Gestão de ativos", transfer: "Transferência", history: "Histórico", total: "Saldo Total" },
+        "Русский": { dash: "Панель управления", asset: "Управление активами", transfer: "Перевод", history: "История", total: "Итоговый баланс" },
+        "العربية": { dash: "لوحة التحكم", asset: "إدارة الأصول", transfer: "تحويل", history: "سجل المعاملات", total: "إجمالي الرصيد" },
+        "हिन्दी": { dash: "डैशबोर्ड", asset: "संपत्ति प्रबंधन", transfer: "ट्रांसफर", history: "लेनदेन का इतिहास", total: "कुल शेष" },
+        "Italiano": { dash: "Dashboard", asset: "Gestione patrimoniale", transfer: "Trasferimento", history: "Cronologia", total: "Saldo Totale" },
+        "Türkçe": { dash: "Panel", asset: "Varlık Yönetimi", transfer: "Transfer", history: "İşlem Geçmişi", total: "Toplam Bakiye" },
+        "Nederlands": { dash: "Dashboard", asset: "Vermogensbeheer", transfer: "Overboeking", history: "Transactiegeschiedenis", total: "Totaal Saldo" },
+        "Tiếng Việt": { dash: "Bảng điều khiển", asset: "Quản lý tài sản", transfer: "Chuyển tiền", history: "Lịch sử giao dịch", total: "Tổng số dư" },
+        "ไทย": { dash: "แดชบอร์ด", asset: "การจัดการสินทรัพย์", transfer: "โอนเงิน", history: "ประวัติการทำรายการ", total: "ยอดคงเหลือรวม" },
+        "Polski": { dash: "Pulpit", asset: "Zarządzanie aktywami", transfer: "Przelew", history: "Historia transakcji", total: "Saldo całkowite" },
+        "Svenska": { dash: "Instrumentpanel", asset: "Tillgångsförvaltning", transfer: "Överföring", history: "Transaktionshistorik", total: "Totalt saldo" },
+        "Dansk": { dash: "Dashboard", asset: "Formueforvaltning", transfer: "Overførsel", history: "Transaktionshistorik", total: "Samlet saldo" },
+        "Norsk": { dash: "Dashbord", asset: "Formuesforvaltning", transfer: "Overføring", history: "Transaksjonshistorikk", total: "Total saldo" },
+        "Suomi": { dash: "Kojelauta", asset: "Varainhoito", transfer: "Siirto", history: "Tapahtumahistoria", total: "Kokonais saldo" },
+        "Ελληνικά": { dash: "Ταμπλό", asset: "Διαχείριση περιουσιακών στοιχείων", transfer: "Μεταφορά", history: "Ιστορικό συναλλαγών", total: "Συνολικό υπόλοιπο" },
+        "Magyar": { dash: "Irányítópult", asset: "Vagyonkezelés", transfer: "Átutalás", history: "Tranzakciós előzmények", total: "Összesen" },
+        "Čeština": { dash: "Nástěnka", asset: "Správa aktiv", transfer: "Převod", history: "Historie transakcí", total: "Celkový zůstatek" },
+        "Română": { dash: "Tablou de bord", asset: "Gestionarea activelor", transfer: "Transfer", history: "Istoric tranzacții", total: "Sold total" },
+        "Български": { dash: "Табло", asset: "Управление на активи", transfer: "Превод", history: "История на транзакциите", total: "Общ баланс" },
+        "Українська": { dash: "Панель керування", asset: "Управління активами", transfer: "Переказ", history: "Історія транзакцій", total: "Загальний баланс" },
+        "Indonesian": { dash: "Dasbor", asset: "Manajemen Aset", transfer: "Transfer", history: "Riwayat Transaksi", total: "Total Saldo" },
+        "Malay": { dash: "Papan pemuka", asset: "Pengurusan Aset", transfer: "Pindahan", history: "Sejarah Transaksi", total: "Jumlah Baki" },
+        "Filipino": { dash: "Dashboard", asset: "Pamamahala ng Asset", transfer: "Transfer", history: "Kasaysayan ng Transaksyon", total: "Kabuuang Balanse" },
+        "Farsi": { dash: "داشبورد", asset: "مدیریت دارایی", transfer: "انتقال", history: "تاریخچه تراکنش", total: "موجودی کل" },
+        "Hebrew": { dash: "לוח בקרה", asset: "ניהול נכסים", transfer: "העברה", history: "היסטוריית עסקאות", total: "יתרה כוללת" },
+        "Urdu": { dash: "ڈیش بورڈ", asset: "اثاثہ جات کا انتظام", transfer: "منتقلی", history: "ٹرانزیکشن ہسٹری", total: "کل بیلنس" },
+        "Bengali": { dash: "ড্যাশবোর্ড", asset: "সম্পদ ব্যবস্থাপনা", transfer: "ট্রান্সফার", history: "লেনদেনের ইতিহাস", total: "মোট ব্যালেন্স" },
+        "Gujarati": { dash: "ડેશબોર્ડ", asset: "સંપત્તિ વ્યવસ્થાપન", transfer: "ટ્રાન્સફર", history: "ટ્રાન્ઝેક્શન ઇતિહાસ", total: "કુલ બેલેન્સ" },
+        "Marathi": { dash: "डॅशबोर्ड", asset: "मालमत्ता व्यवस्थापन", transfer: "ट्रान्सफर", history: "व्यवहाराचा इतिहास", total: "एकूण शिल्लक" },
+        "Punjabi": { dash: "ਡੈਸ਼ਬੋਰਡ", asset: "ਸੰਪੱਤੀ ਪ੍ਰਬੰਧਨ", transfer: "ਟ੍ਰਾਂਸਫਰ", history: "ਟ੍ਰਾਂਜੈਕਸ਼ਨ ਇਤਿਹਾਸ", total: "ਕੁੱਲ ਬਕਾਇਆ" },
+        "Tamil": { dash: "டாஷ்போர்டு", asset: "சொத்து மேலாண்மை", transfer: "பரிமாற்றம்", history: "பரிவர்த்தனை வரலாறு", total: "மொத்த இருப்பு" },
+        "Telugu": { dash: "డ్యాష్ బోర్డ్", asset: "ఆస్తి నిర్వహణ", transfer: "బదిలీ", history: "లావాదేవీల చరిత్ర", total: "మొత్తం బ్యాలెన్స్" },
+        "Kannada": { dash: "ಡ್ಯಾಶ್ ಬೋರ್ಡ್", asset: "ಆಸ್ತಿ ನಿರ್ವಹಣೆ", transfer: "ವರ್ಗಾವಣೆ", history: "ವಹಿವಾಟಿನ ಇತಿಹಾಸ", total: "ಒಟ್ಟು ಬಾಕಿ" },
+        "Malayalam": { dash: "ഡാഷ് ബോർഡ്", asset: "അസറ്റ് മാനേജ് മെന്റ്", transfer: "ട്രാൻസ്ഫർ", history: "ഇടപാട് ചരിത്രം", total: "ആകെ ബാലൻസ്" },
+        "Sinhala": { dash: "ಡ್ಯಾಶ್ ಬೋರ್ಡ್", asset: "সম্পদ నిర్వహණය", transfer: "පරිවර්තනය", history: "ගනුදෙනු ඉතිහාසය", total: "මුළු ශේෂය" },
+        "Khmer": { dash: "ផ្ទាំងគ្រប់គ្រង", asset: "ការគ្រប់គ្រងទ្រព្យសកម្ម", transfer: "ផ្ទេរប្រាក់", history: "ប្រវត្តិប្រតិបត្តិការ", total: "សមតុល្យសរុប" },
+        "Lao": { dash: "Dashboard", asset: "ການຈັດການຊັບສິນ", transfer: "ໂອນເງິນ", history: "ປະຫວັດການເຮັດທຸລະກຳ", total: "ຍອດເງິນລວມ" },
+        "Burmese": { dash: "ဒက်ရှ်ဘုတ်", asset: "ပိုင်ဆိုင်မှုစီမံခန့်ခွဲမှု", transfer: "လွှဲပြောင်းမှု", history: "ငွေပေးချေမှုမှတ်တမ်း", total: "စုစုပေါင်းလက်ကျန်" },
+        "Mongolian": { dash: "Хяналтын самбар", asset: "Хөрөнгийн удирдлага", transfer: "Шилжүүлэг", history: "Гүйлгээний түүх", total: "Нийт үлдэгдэл" },
+        "Kazakh": { dash: "Бақылау тақтасы", asset: "Активтерді басқару", transfer: "Аударым", history: "Транзакция тарихы", total: "Жалпы баланс" },
+        "Uzbek": { dash: "Boshqaruv paneli", asset: "Aktivlarni boshqarish", transfer: "O'tkazma", history: "Tranzaksiya tarixi", total: "Umumiy balans" },
+        "Swahili": { dash: "Dashibodi", asset: "Usimamizi wa Mali", transfer: "Uhamisho", history: "Historia ya Miamala", total: "Salio Jumla" }
+    };
+
     const grid = document.getElementById('langGrid');
-    langs.forEach(lang => {
+    Object.keys(langData).forEach(lang => {
         const div = document.createElement('div');
-        div.className = 'lang-item';
+        div.className = 'lang-btn';
         div.innerText = lang;
+        div.onclick = () => {
+            const data = langData[lang];
+            document.querySelectorAll('[data-key]').forEach(el => el.innerText = data[el.dataset.key]);
+            document.getElementById('balance-title').innerText = data.total;
+            document.getElementById('langModal').style.display = 'none';
+        };
         grid.appendChild(div);
     });
 </script>
-
 </body>
 </html>
