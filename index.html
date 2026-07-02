@@ -23,78 +23,80 @@
 
 <header>
     <div class="logo">HK WORLD BANK</div>
-    <button onclick="document.getElementById('langModal').style.display='block'" style="padding:15px 30px; cursor:pointer; font-size:16px;">🌐 Change Language</button>
+    <button onclick="document.getElementById('langModal').style.display='block'" style="padding:15px 30px; cursor:pointer; font-size:16px;">🌐 언어 선택 (Language)</button>
 </header>
 
 <div class="main-container">
     <nav class="card">
-        <div class="nav-item" data-key="dash">Dashboard</div>
-        <div class="nav-item" data-key="asset">Asset Management</div>
-        <div class="nav-item" data-key="transfer">Wire Transfer</div>
-        <div class="nav-item" data-key="history">Transaction History</div>
+        <div class="nav-item" data-key="dash">대시보드</div>
+        <div class="nav-item" data-key="asset">자산 관리</div>
+        <div class="nav-item" data-key="transfer">송금</div>
+        <div class="nav-item" data-key="history">거래 내역</div>
     </nav>
     <main class="card">
-        <div id="balance-title" style="font-size: 20px; color: #aaa;">Total Balance</div>
-        <div class="balance-box">₩ 12,450,000</div>
+        <div id="balance-title" style="font-size: 20px; color: #aaa;">총 자산</div>
+        <div class="balance-box" data-key="currency">₩ 12,450,000</div>
     </main>
 </div>
 
 <div id="langModal">
-    <h1 style="text-align:center">Global Language Selection</h1>
+    <h1 style="text-align:center">Global Language Engine (50)</h1>
     <div class="lang-grid" id="langGrid"></div>
 </div>
 
 <script>
+    // 50개국어 완벽 동기화 엔진
     const langData = {
-        "한국어": { dash: "대시보드", asset: "자산 관리", transfer: "송금", history: "거래 내역", total: "총 자산" },
-        "English": { dash: "Dashboard", asset: "Asset Management", transfer: "Wire Transfer", history: "Transaction History", total: "Total Balance" },
-        "日本語": { dash: "ダッシュボード", asset: "資産管理", transfer: "送金", history: "取引履歴", total: "総資産" },
-        "中文": { dash: "仪表盘", asset: "资产管理", transfer: "转账", history: "交易记录", total: "总资产" },
-        "Español": { dash: "Tablero", asset: "Gestión de activos", transfer: "Transferencia", history: "Historial", total: "Saldo Total" },
-        "Français": { dash: "Tableau de bord", asset: "Gestion d'actifs", transfer: "Virement", history: "Historique", total: "Solde total" },
-        "Deutsch": { dash: "Dashboard", asset: "Vermögensverwaltung", transfer: "Überweisung", history: "Transaktionsverlauf", total: "Gesamtsaldo" },
-        "Português": { dash: "Painel", asset: "Gestão de ativos", transfer: "Transferência", history: "Histórico", total: "Saldo Total" },
-        "Русский": { dash: "Панель управления", asset: "Управление активами", transfer: "Перевод", history: "История", total: "Итоговый баланс" },
-        "العربية": { dash: "لوحة التحكم", asset: "إدارة الأصول", transfer: "تحويل", history: "سجل المعاملات", total: "إجمالي الرصيد" },
-        "हिन्दी": { dash: "डैशबोर्ड", asset: "संपत्ति प्रबंधन", transfer: "ट्रांसफर", history: "लेनदेन का इतिहास", total: "कुल शेष" },
-        "Italiano": { dash: "Dashboard", asset: "Gestione patrimoniale", transfer: "Trasferimento", history: "Cronologia", total: "Saldo Totale" },
-        "Türkçe": { dash: "Panel", asset: "Varlık Yönetimi", transfer: "Transfer", history: "İşlem Geçmişi", total: "Toplam Bakiye" },
-        "Nederlands": { dash: "Dashboard", asset: "Vermogensbeheer", transfer: "Overboeking", history: "Transactiegeschiedenis", total: "Totaal Saldo" },
-        "Tiếng Việt": { dash: "Bảng điều khiển", asset: "Quản lý tài sản", transfer: "Chuyển tiền", history: "Lịch sử giao dịch", total: "Tổng số dư" },
-        "ไทย": { dash: "แดชบอร์ด", asset: "การจัดการสินทรัพย์", transfer: "โอนเงิน", history: "ประวัติการทำรายการ", total: "ยอดคงเหลือรวม" },
-        "Polski": { dash: "Pulpit", asset: "Zarządzanie aktywami", transfer: "Przelew", history: "Historia transakcji", total: "Saldo całkowite" },
-        "Svenska": { dash: "Instrumentpanel", asset: "Tillgångsförvaltning", transfer: "Överföring", history: "Transaktionshistorik", total: "Totalt saldo" },
-        "Dansk": { dash: "Dashboard", asset: "Formueforvaltning", transfer: "Overførsel", history: "Transaktionshistorik", total: "Samlet saldo" },
-        "Norsk": { dash: "Dashbord", asset: "Formuesforvaltning", transfer: "Overføring", history: "Transaksjonshistorikk", total: "Total saldo" },
-        "Suomi": { dash: "Kojelauta", asset: "Varainhoito", transfer: "Siirto", history: "Tapahtumahistoria", total: "Kokonais saldo" },
-        "Ελληνικά": { dash: "Ταμπλό", asset: "Διαχείριση περιουσιακών στοιχείων", transfer: "Μεταφορά", history: "Ιστορικό συναλλαγών", total: "Συνολικό υπόλοιπο" },
-        "Magyar": { dash: "Irányítópult", asset: "Vagyonkezelés", transfer: "Átutalás", history: "Tranzakciós előzmények", total: "Összesen" },
-        "Čeština": { dash: "Nástěnka", asset: "Správa aktiv", transfer: "Převod", history: "Historie transakcí", total: "Celkový zůstatek" },
-        "Română": { dash: "Tablou de bord", asset: "Gestionarea activelor", transfer: "Transfer", history: "Istoric tranzacții", total: "Sold total" },
-        "Български": { dash: "Табло", asset: "Управление на активи", transfer: "Превод", history: "История на транзакциите", total: "Общ баланс" },
-        "Українська": { dash: "Панель керування", asset: "Управління активами", transfer: "Переказ", history: "Історія транзакцій", total: "Загальний баланс" },
-        "Indonesian": { dash: "Dasbor", asset: "Manajemen Aset", transfer: "Transfer", history: "Riwayat Transaksi", total: "Total Saldo" },
-        "Malay": { dash: "Papan pemuka", asset: "Pengurusan Aset", transfer: "Pindahan", history: "Sejarah Transaksi", total: "Jumlah Baki" },
-        "Filipino": { dash: "Dashboard", asset: "Pamamahala ng Asset", transfer: "Transfer", history: "Kasaysayan ng Transaksyon", total: "Kabuuang Balanse" },
-        "Farsi": { dash: "داشبورد", asset: "مدیریت دارایی", transfer: "انتقال", history: "تاریخچه تراکنش", total: "موجودی کل" },
-        "Hebrew": { dash: "לוח בקרה", asset: "ניהול נכסים", transfer: "העברה", history: "היסטוריית עסקאות", total: "יתרה כוללת" },
-        "Urdu": { dash: "ڈیش بورڈ", asset: "اثاثہ جات کا انتظام", transfer: "منتقلی", history: "ٹرانزیکشن ہسٹری", total: "کل بیلنس" },
-        "Bengali": { dash: "ড্যাশবোর্ড", asset: "সম্পদ ব্যবস্থাপনা", transfer: "ট্রান্সফার", history: "লেনদেনের ইতিহাস", total: "মোট ব্যালেন্স" },
-        "Gujarati": { dash: "ડેશબોર્ડ", asset: "સંપત્તિ વ્યવસ્થાપન", transfer: "ટ્રાન્સફર", history: "ટ્રાન્ઝેક્શન ઇતિહાસ", total: "કુલ બેલેન્સ" },
-        "Marathi": { dash: "डॅशबोर्ड", asset: "मालमत्ता व्यवस्थापन", transfer: "ट्रान्सफर", history: "व्यवहाराचा इतिहास", total: "एकूण शिल्लक" },
-        "Punjabi": { dash: "ਡੈਸ਼ਬੋਰਡ", asset: "ਸੰਪੱਤੀ ਪ੍ਰਬੰਧਨ", transfer: "ਟ੍ਰਾਂਸਫਰ", history: "ਟ੍ਰਾਂਜੈਕਸ਼ਨ ਇਤਿਹਾਸ", total: "ਕੁੱਲ ਬਕਾਇਆ" },
-        "Tamil": { dash: "டாஷ்போர்டு", asset: "சொத்து மேலாண்மை", transfer: "பரிமாற்றம்", history: "பரிவர்த்தனை வரலாறு", total: "மொத்த இருப்பு" },
-        "Telugu": { dash: "డ్యాష్ బోర్డ్", asset: "ఆస్తి నిర్వహణ", transfer: "బదిలీ", history: "లావాదేవీల చరిత్ర", total: "మొత్తం బ్యాలెన్స్" },
-        "Kannada": { dash: "ಡ್ಯಾಶ್ ಬೋರ್ಡ್", asset: "ಆಸ್ತಿ ನಿರ್ವಹಣೆ", transfer: "ವರ್ಗಾವಣೆ", history: "ವಹಿವಾಟಿನ ಇತಿಹಾಸ", total: "ಒಟ್ಟು ಬಾಕಿ" },
-        "Malayalam": { dash: "ഡാഷ് ബോർഡ്", asset: "അസറ്റ് മാനേജ് മെന്റ്", transfer: "ട്രാൻസ്ഫർ", history: "ഇടപാട് ചരിത്രം", total: "ആകെ ബാലൻസ്" },
-        "Sinhala": { dash: "ಡ್ಯಾಶ್ ಬೋರ್ಡ್", asset: "সম্পদ నిర్వహණය", transfer: "පරිවර්තනය", history: "ගනුදෙනු ඉතිහාසය", total: "මුළු ශේෂය" },
-        "Khmer": { dash: "ផ្ទាំងគ្រប់គ្រង", asset: "ការគ្រប់គ្រងទ្រព្យសកម្ម", transfer: "ផ្ទេរប្រាក់", history: "ប្រវត្តិប្រតិបត្តិការ", total: "សមតុល្យសរុប" },
-        "Lao": { dash: "Dashboard", asset: "ການຈັດການຊັບສິນ", transfer: "ໂອນເງິນ", history: "ປະຫວັດການເຮັດທຸລະກຳ", total: "ຍອດເງິນລວມ" },
-        "Burmese": { dash: "ဒက်ရှ်ဘုတ်", asset: "ပိုင်ဆိုင်မှုစီမံခန့်ခွဲမှု", transfer: "လွှဲပြောင်းမှု", history: "ငွေပေးချေမှုမှတ်တမ်း", total: "စုစုပေါင်းလက်ကျန်" },
-        "Mongolian": { dash: "Хяналтын самбар", asset: "Хөрөнгийн удирдлага", transfer: "Шилжүүлэг", history: "Гүйлгээний түүх", total: "Нийт үлдэгдэл" },
-        "Kazakh": { dash: "Бақылау тақтасы", asset: "Активтерді басқару", transfer: "Аударым", history: "Транзакция тарихы", total: "Жалпы баланс" },
-        "Uzbek": { dash: "Boshqaruv paneli", asset: "Aktivlarni boshqarish", transfer: "O'tkazma", history: "Tranzaksiya tarixi", total: "Umumiy balans" },
-        "Swahili": { dash: "Dashibodi", asset: "Usimamizi wa Mali", transfer: "Uhamisho", history: "Historia ya Miamala", total: "Salio Jumla" }
+        "한국어": { dash: "대시보드", asset: "자산 관리", transfer: "송금", history: "거래 내역", total: "총 자산", currency: "₩ 12,450,000" },
+        "English": { dash: "Dashboard", asset: "Asset Management", transfer: "Wire Transfer", history: "Transaction History", total: "Total Balance", currency: "$ 9,500.00" },
+        "日本語": { dash: "ダッシュボード", asset: "資産管理", transfer: "送金", history: "取引履歴", total: "総資産", currency: "¥ 1,350,000" },
+        "中文": { dash: "仪表盘", asset: "资产管理", transfer: "转账", history: "交易记录", total: "总资产", currency: "¥ 68,000" },
+        "Español": { dash: "Tablero", asset: "Gestión de activos", transfer: "Transferencia", history: "Historial", total: "Saldo Total", currency: "€ 8,900" },
+        "Français": { dash: "Tableau de bord", asset: "Gestion d'actifs", transfer: "Virement", history: "Historique", total: "Solde total", currency: "€ 8,900" },
+        "Deutsch": { dash: "Dashboard", asset: "Vermögensverwaltung", transfer: "Überweisung", history: "Transaktionsverlauf", total: "Gesamtsaldo", currency: "€ 8,900" },
+        "Português": { dash: "Painel", asset: "Gestão de ativos", transfer: "Transferência", history: "Histórico", total: "Saldo Total", currency: "R$ 48,000" },
+        "Русский": { dash: "Панель управления", asset: "Управление активами", transfer: "Перевод", history: "История", total: "Итоговый баланс", currency: "₽ 850,000" },
+        "العربية": { dash: "لوحة التحكم", asset: "إدارة الأصول", transfer: "تحويل", history: "سجل المعاملات", total: "إجمالي الرصيد", currency: "د.إ 35,000" },
+        "हिन्दी": { dash: "डैशबोर्ड", asset: "संपत्ति प्रबंधन", transfer: "ट्रांसफर", history: "लेनदेन का इतिहास", total: "कुल शेष", currency: "₹ 7,80,000" },
+        "Italiano": { dash: "Dashboard", asset: "Gestione patrimoniale", transfer: "Trasferimento", history: "Cronologia", total: "Saldo Totale", currency: "€ 8,900" },
+        "Türkçe": { dash: "Panel", asset: "Varlık Yönetimi", transfer: "Transfer", history: "İşlem Geçmişi", total: "Toplam Bakiye", currency: "₺ 320,000" },
+        "Nederlands": { dash: "Dashboard", asset: "Vermogensbeheer", transfer: "Overboeking", history: "Transactiegeschiedenis", total: "Totaal Saldo", currency: "€ 8,900" },
+        "Tiếng Việt": { dash: "Bảng điều khiển", asset: "Quản lý tài sản", transfer: "Chuyển tiền", history: "Lịch sử giao dịch", total: "Tổng số dư", currency: "₫ 240,000,000" },
+        "ไทย": { dash: "แดชบอร์ด", asset: "การจัดการสินทรัพย์", transfer: "โอนเงิน", history: "ประวัติการทำรายการ", total: "ยอดคงเหลือรวม", currency: "฿ 340,000" },
+        "Polski": { dash: "Pulpit", asset: "Zarządzanie aktywami", transfer: "Przelew", history: "Historia transakcji", total: "Saldo całkowite", currency: "zł 39,000" },
+        "Svenska": { dash: "Instrumentpanel", asset: "Tillgångsförvaltning", transfer: "Överföring", history: "Transaktionshistorik", total: "Totalt saldo", currency: "kr 98,000" },
+        "Dansk": { dash: "Dashboard", asset: "Formueforvaltning", transfer: "Overførsel", history: "Transaktionshistorik", total: "Samlet saldo", currency: "kr 67,000" },
+        "Norsk": { dash: "Dashbord", asset: "Formuesforvaltning", transfer: "Overføring", history: "Transaksjonshistorikk", total: "Total saldo", currency: "kr 102,000" },
+        "Suomi": { dash: "Kojelauta", asset: "Varainhoito", transfer: "Siirto", history: "Tapahtumahistoria", total: "Kokonais saldo", currency: "€ 8,900" },
+        "Ελληνικά": { dash: "Ταμπλό", asset: "Διαχείριση περιουσιακών στοιχείων", transfer: "Μεταφορά", history: "Ιστορικό συναλλαγών", total: "Συνολικό υπόλοιπο", currency: "€ 8,900" },
+        "Magyar": { dash: "Irányítópult", asset: "Vagyonkezelés", transfer: "Átutalás", history: "Tranzakciós előzmények", total: "Összesen", currency: "Ft 3,500,000" },
+        "Čeština": { dash: "Nástěnka", asset: "Správa aktiv", transfer: "Převod", history: "Historie transakcí", total: "Celkový zůstatek", currency: "Kč 220,000" },
+        "Română": { dash: "Tablou de bord", asset: "Gestionarea activelor", transfer: "Transfer", history: "Istoric tranzacții", total: "Sold total", currency: "lei 44,000" },
+        "Български": { dash: "Табло", asset: "Управление на активи", transfer: "Превод", history: "История на транзакциите", total: "Общ баланс", currency: "лв 17,000" },
+        "Українська": { dash: "Панель керування", asset: "Управління активами", transfer: "Переказ", history: "Історія транзакцій", total: "Загальний баланс", currency: "₴ 370,000" },
+        "Indonesian": { dash: "Dasbor", asset: "Manajemen Aset", transfer: "Transfer", history: "Riwayat Transaksi", total: "Total Saldo", currency: "Rp 150,000,000" },
+        "Malay": { dash: "Papan pemuka", asset: "Pengurusan Aset", transfer: "Pindahan", history: "Sejarah Transaksi", total: "Jumlah Baki", currency: "RM 42,000" },
+        "Filipino": { dash: "Dashboard", asset: "Pamamahala ng Asset", transfer: "Transfer", history: "Kasaysayan ng Transaksyon", total: "Kabuuang Balanse", currency: "₱ 540,000" },
+        "Farsi": { dash: "داشبورد", asset: "مدیریت دارایی", transfer: "انتقال", history: "تاریخچه تراکنش", total: "موجودی کل", currency: "﷼ 500,000,000" },
+        "Hebrew": { dash: "לוח בקרה", asset: "ניהול נכסים", transfer: "העברה", history: "היסטוריית עסקאות", total: "יתרה כוללת", currency: "₪ 33,000" },
+        "Urdu": { dash: "ڈیش بورڈ", asset: "اثاثہ جات کا انتظام", transfer: "منتقلی", history: "ٹرانزیکشن ہسٹری", total: "کل بیلنس", currency: "₨ 2,600,000" },
+        "Bengali": { dash: "ড্যাশবোর্ড", asset: "সম্পদ ব্যবস্থাপনা", transfer: "ট্রান্সফার", history: "লেনদেনের ইতিহাস", total: "মোট ব্যালেন্স", currency: "৳ 1,100,000" },
+        "Gujarati": { dash: "ડેશબોર્ડ", asset: "સંપત્તિ વ્યવસ્થાપન", transfer: "ટ્રાન્સફર", history: "ટ્રાન્ઝેક્શન ઇતિહાસ", total: "કુલ બેલેન્સ", currency: "₹ 7,80,000" },
+        "Marathi": { dash: "डॅशबोर्ड", asset: "मालमत्ता व्यवस्थापन", transfer: "ट्रान्सफर", history: "व्यवहाराचा इतिहास", total: "एकूण शिल्लक", currency: "₹ 7,80,000" },
+        "Punjabi": { dash: "ਡੈਸ਼ਬੋਰਡ", asset: "ਸੰਪੱਤੀ ਪ੍ਰਬੰਧਨ", transfer: "ਟ੍ਰਾਂਸਫਰ", history: "ਟ੍ਰਾਂਜੈਕਸ਼ਨ ਇਤਿਹਾਸ", total: "ਕੁੱਲ ਬਕਾਇਆ", currency: "₹ 7,80,000" },
+        "Tamil": { dash: "டாஷ்போர்டு", asset: "சொத்து மேலாண்மை", transfer: "பரிமாற்றம்", history: "பரிவர்த்தனை வரலாறு", total: "மொத்த இருப்பு", currency: "₹ 7,80,000" },
+        "Telugu": { dash: "డ్యాష్ బోర్డ్", asset: "ఆస్తి నిర్వహణ", transfer: "బదిలీ", history: "లావాదేవీల చరిత్ర", total: "మొత్తం బ్యాలెన్స్", currency: "₹ 7,80,000" },
+        "Kannada": { dash: "ಡ್ಯಾಶ್ ಬೋರ್ಡ್", asset: "ಆಸ್ತಿ ನಿರ್ವಹಣೆ", transfer: "ವರ್ಗಾವಣೆ", history: "ವಹಿವಾಟಿನ ಇತಿಹಾಸ", total: "ಒಟ್ಟು ಬಾಕಿ", currency: "₹ 7,80,000" },
+        "Malayalam": { dash: "ഡാഷ് ബോർഡ്", asset: "അസറ്റ് മാനേജ് മെന്റ്", transfer: "ട്രാൻസ്ഫർ", history: "ഇടപാട് ചരിത്രം", total: "ആകെ ബാലൻസ്", currency: "₹ 7,80,000" },
+        "Sinhala": { dash: "ಡ್ಯಾಶ್ ಬೋರ್ಡ್", asset: "সম্পদ నిర్వహණය", transfer: "පරිවර්තනය", history: "ගනුදෙනු ඉතිහාසය", total: "මුළු ශේෂය", currency: "රු 2,900,000" },
+        "Khmer": { dash: "ផ្ទាំងគ្រប់គ្រង", asset: "ការគ្រប់គ្រងទ្រព្យសកម្ម", transfer: "ផ្ទេរប្រាក់", history: "ប្រវត្តិប្រតិបត្តិការ", total: "សមតុល្យសរុប", currency: "៛ 38,000,000" },
+        "Lao": { dash: "Dashboard", asset: "ການຈັດການຊັບສິນ", transfer: "ໂອນເງິນ", history: "ປະຫວັດການເຮັດທຸລະກຳ", total: "ຍອດເງິນລວມ", currency: "₭ 200,000,000" },
+        "Burmese": { dash: "ဒက်ရှ်ဘုတ်", asset: "ပိုင်ဆိုင်မှုစီမံခန့်ခွဲမှု", transfer: "လွှဲပြောင်းမှု", history: "ငွေပေးချေမှုမှတ်တမ်း", total: "စုစုပေါင်းလက်ကျန်", currency: "K 20,000,000" },
+        "Mongolian": { dash: "Хяналтын самбар", asset: "Хөрөнгийн удирдлага", transfer: "Шилжүүлэг", history: "Гүйлгээний түүх", total: "Нийт үлдэгдэл", currency: "₮ 32,000,000" },
+        "Kazakh": { dash: "Бақылау тақтасы", asset: "Активтерді басқару", transfer: "Аударым", history: "Транзакция тарихы", total: "Жалпы баланс", currency: "₸ 4,400,000" },
+        "Uzbek": { dash: "Boshqaruv paneli", asset: "Aktivlarni boshqarish", transfer: "O'tkazma", history: "Tranzaksiya tarixi", total: "Umumiy balans", currency: "so'm 120,000,000" },
+        "Swahili": { dash: "Dashibodi", asset: "Usimamizi wa Mali", transfer: "Uhamisho", history: "Historia ya Miamala", total: "Salio Jumla", currency: "TSh 25,000,000" }
+        "العربية (Palestinian)": { dash: "لوحة التحكم", asset: "إدارة الأصول", transfer: "تحويل", history: "سجل المعاملات", total: "إجمالي الرصيد", currency: "₪ 35,000" },
     };
 
     const grid = document.getElementById('langGrid');
@@ -104,7 +106,11 @@
         div.innerText = lang;
         div.onclick = () => {
             const data = langData[lang];
-            document.querySelectorAll('[data-key]').forEach(el => el.innerText = data[el.dataset.key]);
+            // 데이터 키 값을 찾아 실시간 텍스트 변환
+            document.querySelectorAll('[data-key]').forEach(el => {
+                const key = el.dataset.key;
+                if (data[key]) el.innerText = data[key];
+            });
             document.getElementById('balance-title').innerText = data.total;
             document.getElementById('langModal').style.display = 'none';
         };
