@@ -15,46 +15,41 @@ function executeProcess(funcName) {
 
   // 10대 분산 연동망 상세 프로세스 정의
 <script>
-function executeProcess(funcName) {
-    console.log("실행됨:", funcName); // 버튼이 진짜 눌리는지 확인용
-    
-    // 1. 화면에 출력할 영역을 찾습니다.
-    const area = document.getElementById('process-area');
-    
-    if (!area) {
-        alert("에러: 'process-area'라는 ID를 가진 영역을 찾을 수 없습니다.");
-        return;
-    }
+// 모든 요소가 로드된 후 안전하게 함수를 연결
+document.addEventListener('DOMContentLoaded', function() {
+    window.executeProcess = function(funcName) {
+        const area = document.getElementById('process-area');
+        if (!area) {
+            console.error("ID가 'process-area'인 영역을 찾을 수 없습니다.");
+            return;
+        }
 
-    // 2. 상세 설명 정의
-    let description = "";
-    if (funcName === '지갑연결') description = "노드 계정 탐색 → 연동 대상 확인 → 상시 연동 설정 → 6자리 승인 코드 입력 → 처리 완료";
-    else if (funcName === '송금') description = "수신 주소 입력 → 송금 수량 입력 → 대륙간 전송 경로 확인 → 6자리 승인 코드 입력 → 처리 완료";
-    else if (funcName === '결제') description = "결제처 식별 → 금액 확정 → 상거래 승인 대기 → 6자리 승인 코드 입력 → 처리 완료";
-    else if (funcName === '예치') description = "자산 선택 → 수량 및 기간 설정 → 예상 수익률 확인 → 6자리 승인 코드 입력 → 처리 완료";
-    else if (funcName === '보상') description = "보상 항목 선택 → 인센티브 정산 내역 확인 → 실시간 정산 준비 → 6자리 승인 코드 입력 → 처리 완료";
-    else if (funcName === '기본소득') description = "분산 복지 대상 확인 → 분배 금액 조회 → 수령 자격 인증 → 6자리 승인 코드 입력 → 처리 완료";
-    else if (funcName === '스왑') description = "자산 페어 선택 → 교환 수량 입력 → 즉각 변환 비율 확인 → 6자리 승인 코드 입력 → 처리 완료";
-    else if (funcName === 'DEX 스왑') description = "거래 모드 활성화 → P2P 대상/자산 확인 → 교환 조건 검토 → 6자리 승인 코드 입력 → 처리 완료";
-    else if (funcName === 'LP 스테이킹') description = "유동성 증명 자산 선택 → 스테이킹 수량 결정 → 고리 배당률 확인 → 6자리 승인 코드 입력 → 처리 완료";
-    else if (funcName === 'PI수량 추가') description = "지갑 계정 확인 → PI 수량 입력 → 네트워크 노드 검증 → 6자리 승인 코드 입력 → 처리 완료";
+        let description = "";
+        if (funcName === '지갑연결') description = "노드 계정 탐색 → 연동 대상 확인 → 상시 연동 설정 → 6자리 승인 코드 입력 → 처리 완료";
+        else if (funcName === '송금') description = "수신 주소 입력 → 송금 수량 입력 → 대륙간 전송 경로 확인 → 6자리 승인 코드 입력 → 처리 완료";
+        else if (funcName === '결제') description = "결제처 식별 → 금액 확정 → 상거래 승인 대기 → 6자리 승인 코드 입력 → 처리 완료";
+        else if (funcName === '예치') description = "자산 선택 → 수량 및 기간 설정 → 예상 수익률 확인 → 6자리 승인 코드 입력 → 처리 완료";
+        else if (funcName === '보상') description = "보상 항목 선택 → 인센티브 정산 내역 확인 → 실시간 정산 준비 → 6자리 승인 코드 입력 → 처리 완료";
+        else if (funcName === '기본소득') description = "분산 복지 대상 확인 → 분배 금액 조회 → 수령 자격 인증 → 6자리 승인 코드 입력 → 처리 완료";
+        else if (funcName === '스왑') description = "자산 페어 선택 → 교환 수량 입력 → 즉각 변환 비율 확인 → 6자리 승인 코드 입력 → 처리 완료";
+        else if (funcName === 'DEX 스왑') description = "거래 모드 활성화 → P2P 대상/자산 확인 → 교환 조건 검토 → 6자리 승인 코드 입력 → 처리 완료";
+        else if (funcName === 'LP스테이킹') description = "유동성 증명 자산 선택 → 스테이킹 수량 결정 → 고리 배당률 확인 → 6자리 승인 코드 입력 → 처리 완료";
+        else if (funcName === 'PI수량 추가') description = "지갑 계정 확인 → PI 수량 입력 → 네트워크 노드 검증 → 6자리 승인 코드 입력 → 처리 완료";
 
-    // 3. 화면에 출력
-    area.innerHTML = `
-        <div style="border:1px solid #f59e0b; padding:15px; border-radius:10px;">
-            <h3>${funcName}</h3>
-            <p>${description}</p>
-            <input type="password" id="auth-code" maxlength="6" placeholder="승인코드 6자리">
-            <button onclick="confirmAuth('${funcName}')">승인</button>
-        </div>
-    `;
-}
+        area.innerHTML = `
+            <div style="background:#1e293b; padding:20px; border-radius:10px; color:white; border:1px solid #f59e0b;">
+                <h3 style="margin-bottom:10px;">${funcName} 상세 프로세스</h3>
+                <p style="font-weight:bold; color:#fbbf24;">${description}</p>
+                <input type="password" id="auth-code" maxlength="6" style="padding:8px; margin:10px 0; border-radius:5px; color:black;">
+                <button onclick="confirmAuth('${funcName}')" style="background:#f59e0b; padding:8px 15px; cursor:pointer;">승인</button>
+            </div>
+        `;
+    };
 
-function confirmAuth(funcName) {
-    const code = document.getElementById('auth-code').value;
-    if (code.length === 6) alert(funcName + " 완료!");
-    else alert("6자리 숫자를 입력하세요.");
-}
+    window.confirmAuth = function(funcName) {
+        alert(funcName + " 처리가 완료되었습니다.");
+    };
+});
 </script>
 
 
