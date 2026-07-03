@@ -377,3 +377,31 @@ console.log("HK-WorldBank 시스템 모듈이 정상적으로 로드되었습니
 // document.addEventListener('DOMContentLoaded', () => {
 //     // 초기화 로직이 있다면 여기에 추가
 // });
+// 13. 언어 데이터 및 변경 로직
+const langData = {
+    'ko': {
+        'nav-title': 'HK 월드뱅크 - 글로벌 산업 플랫폼',
+        'hero-title': '개인 자산 대시보드',
+        'apply-btn': '코어팀에게 메인넷 즉시 신청하기'
+    },
+    'en': {
+        'nav-title': 'HK WorldBank - Global Industry Platform',
+        'hero-title': 'Personal Asset Dashboard',
+        'apply-btn': 'Apply for Mainnet Immediately'
+    }
+};
+
+function switchLanguage(lang) {
+    const data = langData[lang];
+    if (!data) return;
+    
+    // HTML 요소가 있다면 텍스트 교체
+    if (document.getElementById('nav-title')) document.getElementById('nav-title').innerText = data['nav-title'];
+    if (document.getElementById('hero-title')) document.getElementById('hero-title').innerText = data['hero-title'];
+    if (document.getElementById('apply-btn')) document.getElementById('apply-btn').innerText = data['apply-btn'];
+    
+    console.log(lang + " 언어로 전환되었습니다.");
+}
+
+// 14. 프로세스 모듈 초기화
+console.log("HK-WorldBank 시스템 모듈이 정상적으로 로드되었습니다.");
