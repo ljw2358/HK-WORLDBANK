@@ -370,3 +370,10 @@ function handleSendMessage(event) {
         chatBox.scrollTop = chatBox.scrollHeight;
     }, 600);
 }
+// 13. 프로세스 모듈 초기화
+console.log("HK-WorldBank 시스템 모듈이 정상적으로 로드되었습니다.");
+
+// 필요 시 페이지 로드 완료 후 실행될 함수들 호출
+// document.addEventListener('DOMContentLoaded', () => {
+//     // 초기화 로직이 있다면 여기에 추가
+// });
