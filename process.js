@@ -861,3 +861,25 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // 원래 있던 updateMenuLanguage 함수는 그대로 두세요!
+// [삐니의 엔진 연결 모듈 - 기존 코드 보존용]
+function executeProcess(funcName) {
+    const area = document.getElementById('process-area');
+    if (area) {
+        isMainnetApplied = true;
+        area.innerHTML = `<h3>🚀 ${funcName} 프로세스 실행 중...</h3>`;
+    }
+}
+
+function switchLanguage(lang) {
+    const data = langPack[lang] || langPack['ko'];
+    const elements = {
+        'nav-title': data.title,
+        'agi-status': data.status,
+        'chat-input': data.ph,
+        'welcome-msg': data.welcome
+    };
+    for (let id in elements) {
+        let el = document.getElementById(id);
+        if (el) el.innerText = elements[id];
+    }
+}
