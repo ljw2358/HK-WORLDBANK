@@ -1278,25 +1278,34 @@
     </script>
 
 <script>
-function switchLanguage(lang) {
-    console.log("Selected Language: " + lang);
-    
-    // 1. 데이터 가져오기 (이미 위쪽에 있는 LangPack 구조를 사용합니다)
-    const data = LangPack[lang];
-    if (!data) return;
+// 본문 내용을 언어별로 정의
+const contentPack = {
+    ko: { intro: "여기는 월드뱅크의 핵심 요약 본문입니다.", details: "금융 주권과 탈중앙화 서비스를 제공합니다." },
+    en: { intro: "This is the core summary of the WorldBank.", details: "Providing financial sovereignty and decentralized services." }
+};
 
-    // 2. 화면 요소들 언어에 맞게 교체
+// 기존 1269번 근처의 switchLanguage 함수를 확장하여 통합합니다
+function switchLanguage(lang) {
+    // 1. 기존 UI 및 챗봇 업데이트
+    const data = langPack[lang] || langPack['en'];
     document.getElementById('nav-title').innerText = data.title;
     document.getElementById('agi-status').innerText = data.status;
     document.getElementById('chat-input').placeholder = data.ph;
-    
-    // 3. 웰컴 메시지 처리
-    const welcomeMsg = document.getElementById('welcome-msg');
-    if (welcomeMsg) {
-        welcomeMsg.innerText = data.welcome;
+
+    const mappedName = langMap[lang];
+    if (mappedName && langData[mappedName]) {
+        document.getElementById('welcome-msg').innerText = langData[mappedName].ai_d;
+    } else {
+        document.getElementById('welcome-msg').innerText = data.welcome;
     }
+
+    // 2. 본문 업데이트 실행
+    const content = contentPack[lang] || contentPack['en'];
+    if (document.getElementById('main-intro')) document.getElementById('main-intro').innerText = content.intro;
+    if (document.getElementById('main-details')) document.getElementById('main-details').innerText = content.details;
 }
 </script>
+
 
 
 </body>
