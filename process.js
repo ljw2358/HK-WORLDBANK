@@ -824,4 +824,22 @@ function switchLanguage(lang) {
     if (btn) btn.innerText = data['apply-btn'];
     
     console.log(lang + " 언어로 전환되었습니다.");
+updateMenuLanguage(lang);
+}
+// 10대 연동망 자동 번역 추가 코드
+function updateMenuLanguage(lang) {
+    const data = langData[langMap[lang]];
+    if (!data) return;
+
+    const boxes = document.querySelectorAll('.hk-box');
+    const menuKeys = ['e1', 'e4', 'e4', 'e4', 'e3', 'e3', 'e1', 'e1', 'e2', 'e4']; 
+
+    boxes.forEach((box, index) => {
+        const title = box.querySelector('h4');
+        const desc = box.querySelector('p');
+        const key = menuKeys[index];
+        
+        if (title && data[key + '_t']) title.innerText = data[key + '_t'];
+        if (desc && data[key + '_d']) desc.innerText = data[key + '_d'];
+    });
 }
