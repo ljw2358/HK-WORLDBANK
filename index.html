@@ -1001,44 +1001,164 @@
             }
         };
 
-        // 10대 프로세스 실행 로직
+// 10대 프로세스 실행 로직 (동적 폼 생성형으로 고도화)
         function executeProcess(funcName) {
             const area = document.getElementById('process-area');
-            let description = ""; 
-            if (funcName === '지갑연결') description = "노드 계정 탐색 → 연동 대상 확인 → 상시 연동 설정 → 6자리 승인 코드 입력 → 처리 완료";
-            else if (funcName === '송금') description = "수신 주소 입력 → 송금 수량 입력 → 대륙간 전송 경로 확인 → 6자리 승인 코드 입력 → 처리 완료";
-            else if (funcName === '결제') description = "결제처 식별 → 금액 확정 → 상거래 승인 대기 → 6자리 승인 코드 입력 → 처리 완료";
-            else if (funcName === '예치') description = "자산 선택 → 수량 및 기간 설정 → 예상 수익률 확인 → 6자리 승인 코드 입력 → 처리 완료";
-            else if (funcName === '보상') description = "보상 항목 선택 → 인센티브 정산 내역 확인 → 실시간 정산 준비 → 6자리 승인 코드 입력 → 처리 완료";
-            else if (funcName === '기본소득') description = "분산 복지 대상 확인 → 분배 금액 조회 → 수령 자격 인증 → 6자리 승인 코드 입력 → 처리 완료";
-            else if (funcName === '스왑') description = "자산 페어 선택 → 교환 수량 입력 → 즉각 변환 비율 확인 → 6자리 승인 코드 입력 → 처리 완료";
-            else if (funcName === 'DEX스왑') description = "거래 모드 활성화 → P2P 대상/자산 확인 → 교환 조건 검토 → 6자리 승인 코드 입력 → 처리 완료";
-            else if (funcName === 'LP스테이킹') description = "유동성 증명 자산 선택 → 스테이킹 수량 결정 → 고리 배당률 확인 → 6자리 승인 코드 입력 → 처리 완료";
-            else if (funcName === 'PI수량 추가') description = "지갑 계정 확인 → PI 수량 입력 → 네트워크 노드 검증 → 6자리 승인 코드 입력 → 처리 완료";
+            let formHTML = "";
+
+            // 각 기능별 실제 입력 폼 생성 (진짜 금융 UI 적용)
+            if (funcName === '지갑연결') {
+                formHTML = `
+                    <label class="block text-slate-400 text-xs mb-1">연동할 메인넷 노드 선택</label>
+                    <select class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-white mb-3 focus:outline-none focus:border-amber-500 cursor-pointer">
+                        <option>HK 글로벌 코어 노드 (권장)</option>
+                        <option>Pi 메인넷 퍼블릭 노드</option>
+                        <option>이더리움 브릿지 노드</option>
+                    </select>
+                `;
+            } else if (funcName === '송금') {
+                formHTML = `
+                    <label class="block text-slate-400 text-xs mb-1">수신자 지갑 주소</label>
+                    <input type="text" placeholder="예: HK_982_A7X..." class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-white mb-3 focus:outline-none focus:border-amber-500">
+                    <label class="block text-slate-400 text-xs mb-1">전송 수량 (HK)</label>
+                    <input type="number" placeholder="0.00" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-white mb-3 focus:outline-none focus:border-amber-500">
+                `;
+            } else if (funcName === '결제') {
+                formHTML = `
+                    <label class="block text-slate-400 text-xs mb-1">가맹점 식별 코드 (Merchant ID)</label>
+                    <input type="text" placeholder="식별 코드 입력" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-white mb-3 focus:outline-none focus:border-amber-500">
+                    <label class="block text-slate-400 text-xs mb-1">결제 금액 (USD 기준)</label>
+                    <input type="number" placeholder="$ 0.00" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-white mb-3 focus:outline-none focus:border-amber-500">
+                `;
+            } else if (funcName === '예치') {
+                formHTML = `
+                    <label class="block text-slate-400 text-xs mb-1">예치 자산 선택</label>
+                    <select class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-white mb-3 focus:outline-none focus:border-amber-500 cursor-pointer">
+                        <option>HK (월드뱅크 코어 토큰)</option>
+                        <option>PI (파이 네트워크)</option>
+                    </select>
+                    <label class="block text-slate-400 text-xs mb-1">예치 기간</label>
+                    <select class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-white mb-3 focus:outline-none focus:border-amber-500 cursor-pointer">
+                        <option>3개월 (예상 연이율 8%)</option>
+                        <option>6개월 (예상 연이율 12%)</option>
+                        <option>12개월 (예상 연이율 24%)</option>
+                    </select>
+                `;
+            } else if (funcName === '보상') {
+                formHTML = `
+                    <div class="p-4 bg-indigo-500/10 border border-indigo-500/30 rounded-lg mb-3">
+                        <p class="text-xs text-indigo-300 mb-1">현재 청구 가능한 보상 내역</p>
+                        <p class="text-2xl font-mono font-bold text-white">1,250.50 <span class="text-sm">HK</span></p>
+                    </div>
+                `;
+            } else if (funcName === '기본소득') {
+                formHTML = `
+                    <div class="p-4 bg-pink-500/10 border border-pink-500/30 rounded-lg mb-3 text-center">
+                        <i class="fa-solid fa-fingerprint text-4xl text-pink-400 mb-3 drop-shadow-[0_0_8px_rgba(236,72,153,0.5)]"></i>
+                        <p class="text-xs text-pink-300">생체 인증 기반 DID 신원 확인 완료</p>
+                        <p class="text-base font-bold text-white mt-1">이번 달 UBI: 500 HK 수령 가능</p>
+                    </div>
+                `;
+            } else if (funcName === '스왑' || funcName === 'DEX스왑') {
+                formHTML = `
+                    <div class="flex items-center gap-2 mb-3">
+                        <div class="flex-1">
+                            <label class="block text-slate-400 text-xs mb-1">From</label>
+                            <select class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-amber-500 cursor-pointer"><option>HK</option><option>PI</option></select>
+                        </div>
+                        <i class="fa-solid fa-arrow-right text-slate-500 mt-4"></i>
+                        <div class="flex-1">
+                            <label class="block text-slate-400 text-xs mb-1">To</label>
+                            <select class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-amber-500 cursor-pointer"><option>PI</option><option>USDT</option></select>
+                        </div>
+                    </div>
+                    <label class="block text-slate-400 text-xs mb-1">변환 수량</label>
+                    <input type="number" placeholder="0.00" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-white mb-3 focus:outline-none focus:border-amber-500">
+                `;
+            } else if (funcName === 'LP스테이킹') {
+                formHTML = `
+                    <label class="block text-slate-400 text-xs mb-1">유동성 풀(Pool) 선택</label>
+                    <select class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-white mb-3 focus:outline-none focus:border-amber-500 cursor-pointer">
+                        <option>HK / PI 페어 (APR 35%)</option>
+                        <option>HK / USDT 페어 (APR 15%)</option>
+                    </select>
+                    <label class="block text-slate-400 text-xs mb-1">LP 토큰 예치 수량</label>
+                    <input type="number" placeholder="0.00" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-white mb-3 focus:outline-none focus:border-amber-500">
+                `;
+            } else if (funcName === 'PI수량 추가') {
+                formHTML = `
+                    <label class="block text-slate-400 text-xs mb-1">확보할 PI 수량 입력</label>
+                    <input type="number" id="pi-add-amount" placeholder="예: 1000" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-white mb-2 focus:outline-none focus:border-amber-500">
+                    <p class="text-[10px] text-teal-400"><i class="fa-solid fa-circle-info mr-1"></i>입력하신 수량은 승인 즉시 메인 대시보드 지갑에 실제 반영됩니다.</p>
+                `;
+            }
 
             area.innerHTML = `
-                <h3 class="text-amber-500 font-bold mb-2">[${funcName}] 상세 프로세스</h3>
-                <p class="text-slate-300 mb-4">${description}</p>
-                <hr class="border-slate-700 mb-4">
-                <label class="block text-slate-400 text-xs mb-2">6자리 승인 코드를 입력하세요:</label>
-                <div class="flex gap-2">
-                    <input type="password" id="auth-code" maxlength="6" class="bg-slate-900 border border-slate-700 rounded px-3 py-2 text-white w-32 focus:outline-none focus:border-amber-500">
-                    <button onclick="confirmAuth('${funcName}')" class="bg-amber-500 text-slate-900 font-bold px-4 py-2 rounded hover:bg-amber-400 cursor-pointer">승인</button>
+                <div class="transition-all duration-300">
+                    <h3 class="text-amber-500 font-bold mb-3 text-lg border-b border-slate-700 pb-2"><i class="fa-solid fa-microchip mr-2"></i>[${funcName}] 프로세스 진행</h3>
+                    
+                    <div class="mb-4">
+                        ${formHTML}
+                    </div>
+                    
+                    <div id="next-btn-${funcName}">
+                        <button onclick="showAuth('${funcName}')" class="w-full bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 rounded-xl transition cursor-pointer shadow-lg">확인 및 서명 단계로 이동 <i class="fa-solid fa-arrow-right ml-1"></i></button>
+                    </div>
+
+                    <div id="auth-section-${funcName}" class="hidden mt-4 pt-4 border-t border-slate-700">
+                        <label class="block text-slate-400 text-xs mb-2">원장 기록을 위한 6자리 서명 (PIN):</label>
+                        <div class="flex gap-2">
+                            <input type="password" id="auth-code" maxlength="6" placeholder="******" class="bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white flex-1 focus:outline-none focus:border-amber-500 text-center tracking-[0.5em] font-mono text-lg">
+                            <button onclick="confirmAuth('${funcName}')" class="bg-amber-500 text-slate-900 font-black px-6 py-2 rounded-xl hover:bg-amber-400 transition cursor-pointer shadow-lg shadow-amber-500/20">원장 승인</button>
+                        </div>
+                    </div>
                 </div>
             `;
         }
 
-        // 인증 로직
+        // 1단계 -> 2단계(서명창) 열기 로직
+        function showAuth(funcName) {
+            document.getElementById(`next-btn-${funcName}`).classList.add('hidden');
+            document.getElementById(`auth-section-${funcName}`).classList.remove('hidden');
+        }
+
+        // 최종 승인 및 렌더링 로직
         function confirmAuth(funcName) {
             const code = document.getElementById('auth-code').value;
             if (code.length === 6) {
-                alert(funcName + " 처리가 완료되었습니다.");
-                document.getElementById('process-area').innerHTML = `<p class="text-emerald-400 font-bold"><i class="fa-solid fa-check-circle mr-2"></i>${funcName} 완료됨</p>`;
+                
+                // [형님 헌정 기능] PI수량 추가 시 실제 좌측 상단 자산 현황판 수량 상승!
+                if (funcName === 'PI수량 추가') {
+                    const addAmount = parseFloat(document.getElementById('pi-add-amount').value) || 0;
+                    totalQuantity += addAmount;
+                    document.getElementById('user-quantity').innerText = totalQuantity.toFixed(6);
+                }
+
+                // AGI 챗봇에 트랜잭션 정상 기록 알림 발송
+                const chatBox = document.getElementById('chat-box');
+                chatBox.insertAdjacentHTML('beforeend', `
+                    <div class="flex items-start space-x-2.5 justify-end mt-2">
+                        <div class="bg-amber-500 text-slate-900 p-3 rounded-2xl rounded-tr-none max-w-[85%] font-bold text-xs shadow-lg">
+                            [원장 알림] ${funcName} 트랜잭션 정상 기록 완료 (서명: ${code.replace(/./g, '*')})
+                        </div>
+                    </div>
+                `);
+                chatBox.scrollTop = chatBox.scrollHeight;
+
+                // 성공 메시지 화면 렌더링
+                document.getElementById('process-area').innerHTML = `
+                    <div class="text-center py-6">
+                        <div class="w-16 h-16 bg-emerald-500/20 rounded-full flex items-center justify-center mx-auto mb-3">
+                            <i class="fa-solid fa-check text-3xl text-emerald-400"></i>
+                        </div>
+                        <p class="text-emerald-400 font-bold text-lg">${funcName} 스마트 계약 완료</p>
+                        <p class="text-slate-400 text-xs mt-2">해당 트랜잭션이 HK 분산 원장에 영구적으로 기록되었습니다.</p>
+                    </div>
+                `;
             } else {
-                alert("6자리 숫자를 입력하세요.");
+                alert("서명을 위해 6자리 숫자를 정확히 입력하세요.");
             }
         }
-
         // 실시간 자산 현황판 로직
         let totalQuantity = 0.000000;
         let realtimeInterest = 0.000000;
