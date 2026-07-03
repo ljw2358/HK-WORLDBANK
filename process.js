@@ -843,3 +843,11 @@ function updateMenuLanguage(lang) {
         if (desc && data[key + '_d']) desc.innerText = data[key + '_d'];
     });
 }
+// 일본어 메뉴 번역 데이터 강제 주입
+langData["日本語"] = {
+    ...langData["日本語"], // 기존 데이터 유지
+    "e1_t": "ウォレット接続", "e1_d": "ノードアカウント常時連携",
+    "e4_t": "送金", "e4_d": "大陸間超高速転送",
+    "e3_t": "報酬", "e3_d": "インセンティブリアルタイム精算",
+    "e2_t": "LPステーキング", "e2_d": "流動性証明配当"
+};
