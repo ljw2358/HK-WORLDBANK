@@ -851,3 +851,13 @@ langData["日本語"] = {
     "e3_t": "報酬", "e3_d": "インセンティブリアルタイム精算",
     "e2_t": "LPステーキング", "e2_d": "流動性証明配当"
 };
+// 페이지가 완전히 로드되면 메뉴 번역을 실행하도록 예약
+document.addEventListener('DOMContentLoaded', () => {
+    // 혹시 모르니 버튼을 누를 때마다 다시 한번 실행되도록 연결
+    const switcher = document.getElementById('language-switcher');
+    if(switcher) {
+        switcher.addEventListener('change', () => updateMenuLanguage(switcher.value));
+    }
+});
+
+// 원래 있던 updateMenuLanguage 함수는 그대로 두세요!
