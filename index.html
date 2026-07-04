@@ -1306,6 +1306,30 @@ function switchLanguage(lang) {
 }
 
 <script>
+    // 1308번 줄 아래, 1309번 줄 위에 이 코드를 넣으십시오.
+    
+    // 강제 엔진 가동 (모든 버튼 연결)
+    window.executeProcess = function(funcName) {
+        const area = document.getElementById('process-area');
+        if(area) {
+            area.innerHTML = `
+                <div class="p-4 border border-amber-500 rounded bg-slate-900 mt-4">
+                    <h3 class="text-amber-500 font-bold mb-2">${funcName} 시스템 연동</h3>
+                    <input type="password" id="auth-code" maxlength="6" placeholder="6자리" class="bg-black p-2 text-white w-20 rounded border border-slate-700">
+                    <button onclick="confirmAuth('${funcName}')" class="bg-amber-500 p-2 font-bold text-black rounded">승인</button>
+                </div>
+            `;
+        }
+    };
+
+    window.confirmAuth = function(funcName) {
+        const code = document.getElementById('auth-code').value;
+        if(code && code.length === 6) {
+            document.getElementById('process-area').innerHTML = `<p class="text-green-500 font-bold">● ${funcName} 최종 처리 완료</p>`;
+        } else {
+            alert("6자리 코드를 확인하십시오.");
+        }
+    };
 
     </body>
 </html>
