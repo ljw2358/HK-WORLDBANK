@@ -1302,38 +1302,35 @@
         const content = contentPack[lang] || contentPack['en'];
         if (document.getElementById('main-intro')) document.getElementById('main-intro').innerText = content.intro;
   // 통합 엔진: 언어 변경 및 프로세스 연동
-    function switchLanguage(lang) {
-        const data = langPack[lang] || langPack['en'];
-        document.getElementById('nav-title').innerText = data.title;
-        document.getElementById('agi-status').innerText = data.status;
-        document.getElementById('chat-input').placeholder = data.ph;
-        
-        const mappedName = langMap[lang];
-        if (mappedName && langData[mappedName]) {
-            document.getElementById('welcome-msg').innerText = langData[mappedName].ai_d;
-        } else {
-            document.getElementById('welcome-msg').innerText = data.welcome;
+// 통합 엔진 및 챗봇 처리 로직
+        function handleSendMessage(event) {
+            event.preventDefault();
+            const input = document.getElementById('chat-input');
+            if(input.value.trim() === "") return;
+            const chatBox = document.getElementById('chat-box');
+            chatBox.insertAdjacentHTML('beforeend', `<div class="text-right"><span class="bg-amber-500 text-black p-2 rounded">${input.value}</span></div>`);
+            input.value = "";
+            chatBox.scrollTop = chatBox.scrollHeight;
         }
-    }
 
-    window.executeProcess = function(funcName) {
-        const area = document.getElementById('process-area');
-        if(area) {
+        window.executeProcess = function(funcName) {
+            const area = document.getElementById('process-area');
             area.innerHTML = `
                 <div class="p-6 bg-black border border-amber-500 rounded-xl">
                     <h3 class="text-amber-500 font-bold mb-4">${funcName} 시스템 연동</h3>
                     <input type="password" id="auth-code" maxlength="6" placeholder="6자리 코드" class="bg-slate-900 p-2 text-white border border-slate-700 w-full mb-4">
                     <button onclick="confirmAuth('${funcName}')" class="bg-amber-500 text-black font-bold px-6 py-2 rounded">승인</button>
                 </div>`;
-        }
-    };
+        };
 
-    window.confirmAuth = function(funcName) {
-        const code = document.getElementById('auth-code').value;
-        if(code.length === 6) {
-            document.getElementById('process-area').innerHTML = `<p class="text-green-400 font-bold p-4">● ${funcName} 처리 완료</p>`;
-        } else {
-            alert("6자리 코드를 입력하세요.");
-        }
-    };
-</script>
+        window.confirmAuth = function(funcName) {
+            const code = document.getElementById('auth-code').value;
+            if(code.length === 6) {
+                document.getElementById('process-area').innerHTML = `<p class="text-green-400 font-bold p-4">● ${funcName} 최종 처리 완료</p>`;
+            } else {
+                alert("6자리 코드를 입력하세요.");
+            }
+        };
+    </script>
+</body>
+</html>
