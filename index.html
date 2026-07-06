@@ -118,22 +118,25 @@
             alert("보안 키는 반드시 6자리여야 합니다.");
         }
     }
-        function executeNode(name) {
-            const code = event.target.parentElement.querySelector('.auth-box').value;
-            const masterKey = localStorage.getItem('hk_master_key');
-            if (code === masterKey && code.length === 6) {
-                alert(`[AGI] ${name} 프로세스 승인 완료.`);
-            } else {
-                alert("보안 키 불일치! 접근 차단.");
-            }
-        }
 
-        function setMasterKey() {
-            const key = document.getElementById('masterKey').value;
-            localStorage.setItem('hk_master_key', key);
-            alert("보안 키 동기화 완료.");
+    }
+// 삐니의 AGI 엔진: 모든 연동망 기능 통합 (중복 제거)
+    function executeNode(name) {
+        const authInput = event.target.parentElement.querySelector('.auth-box').value;
+        const masterKey = localStorage.getItem('hk_master_key');
+        if (!masterKey) { 
+            alert("먼저 [최고운영자] 보안 키를 설정해 주십시오!"); 
+            return; 
         }
-    </script>
+        if (authInput === masterKey && authInput.length === 6) {
+            alert(`[AGI 삐니] ${name} 프로세스 승인 완료. 분산 노드 동기화 중...`);
+        } else {
+            alert("보안 키 불일치! 접근이 차단되었습니다.");
+        }
+    }
+
+        }
+    }
 </body>
 </html>
                 <select id="language-switcher" onchange="switchLanguage(this.value)" class="bg-slate-800 text-slate-200 border border-slate-700 rounded-lg px-3 py-1.5 text-xs font-semibold focus:outline-none focus:border-amber-500 cursor-pointer max-w-[240px]">
