@@ -1150,47 +1150,6 @@ function executeProcess(funcName) {
                 chatBox.scrollTop = chatBox.scrollHeight;
             }, 600);
         }
- // 10대 프로세스 자동 연결 고리
-setTimeout(() => {
-    const boxes = document.querySelectorAll('.hk-box');
-    boxes.forEach(box => {
-        const targetName = box.querySelector('h4') ? box.querySelector('h4').innerText.trim() : '';
-        if (targetName) {
-            box.style.cursor = 'pointer';
-            box.onclick = () => executeProcess(targetName);
-        }
-    });
-}, 500);
-   // [최종 구동 보장] 10대 연동망 강제 연결 고리
-setTimeout(() => {
-    // 화면의 모든 버튼 박스(.hk-box)를 싹 긁어옵니다.
-    const boxes = document.querySelectorAll('.hk-box');
-    
-    boxes.forEach(box => {
-        // h3, h4, span 등 어떤 태그로 되어있든 글자를 찾아냅니다.
-        const titleElement = box.querySelector('h3, h4, p, span');
-        let name = titleElement ? titleElement.innerText.trim() : box.innerText.trim();
-        
-        // 혹시 모를 줄바꿈 제거 및 첫 줄 선택
-        name = name.split('\n')[0].trim();
-        
-        // 'DEX 스왑'처럼 공백이 있는 경우를 위해 공백을 없앱니다.
-        const cleanName = name.replace(/\s+/g, '');
-        
-        // 컴퓨터가 인식할 정확한 10대 기능 목록
-        const validNames = ['지갑연결', '송금', '결제', '예치', '보상', '기본소득', '스왑', 'DEX스왑', 'LP스테이킹', 'PI수량 추가'];
-        
-        // 이름이 일치하면 강제로 스위치를 꽂아버립니다.
-        if (validNames.includes(cleanName) || validNames.includes(name)) {
-            const finalName = validNames.includes(cleanName) ? cleanName : name;
-            
-            box.style.cursor = 'pointer';
-            box.onclick = function() {
-                executeProcess(finalName);
-            };
-        }
-    });
-}, 500);
     </script>
 </body>
 </html>
