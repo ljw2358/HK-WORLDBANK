@@ -1140,6 +1140,46 @@
                 chatBox.scrollTop = chatBox.scrollHeight;
             }, 600);
         }
+ <script>
+        // ... 기존 함수들 ...
+
+        // 여기에 추가하세요!
+        // 10대 분산 연동망 마스터 로직
+        function executeProcess(funcName) {
+            const area = document.getElementById('process-area');
+            const processMap = {
+                '지갑연결': '노드 계정 탐색 → 연동 대상 확인 → 상시 연동 설정 → 6자리 승인 코드 입력 → 처리 완료',
+                '송금': '수신 노드 주소 입력 → 전송 수량 확정 → 경로 최적화 → 6자리 승인 코드 입력 → 대륙간 전송 완료',
+                '결제': '상거래 물품 확인 → 결제 통화 선택 → 거래 서명 요청 → 6자리 승인 코드 입력 → 실시간 승인 완료',
+                '예치': '자산 선택 → 수량 및 기간 설정 → 예상 수익률 확인 → 6자리 승인 코드 입력 → 신탁 처리 완료',
+                '보상': '인센티브 발생 확인 → 정산 주기 설정 → 수령 계정 확인 → 6자리 승인 코드 입력 → 실시간 정산 완료',
+                '기본소득': '수혜 자격 검증 → 분배 노드 동기화 → 분배 수량 산출 → 6자리 승인 코드 입력 → 재단 분배 완료',
+                '스왑': '교환 통화 페어 선택 → 환율 및 슬리피지 확인 → 교환 수량 확정 → 6자리 승인 코드 입력 → 즉각 변환 완료',
+                'DEX스왑': 'P2P 유동성 풀 선택 → 거래 규모 최적화 → 탈중앙화 매칭 → 6자리 승인 코드 입력 → 즉시 거래 완료',
+                'LP스테이킹': '자산 페어 예치 → 유동성 공급 확인 → 배당률 산출 → 6자리 승인 코드 입력 → 증명 고리 배당 완료',
+                'PI수량 추가': 'PI 자산 원장 조회 → 보유 자산 가치 산정 → 확보 수량 결정 → 6자리 승인 코드 입력 → 즉시 확보 완료'
+            };
+
+            area.innerHTML = `
+                <h3 class="text-amber-500 font-bold mb-2">[${funcName}] 상세 프로세스</h3>
+                <p class="text-slate-300 mb-4 text-xs font-mono">${processMap[funcName]}</p>
+                <div class="flex gap-2">
+                    <input type="password" id="auth-code" maxlength="6" placeholder="6자리 코드" class="bg-slate-900 border border-slate-700 rounded px-3 py-2 text-white w-32 focus:outline-none focus:border-amber-500">
+                    <button onclick="confirmAuth('${funcName}')" class="bg-amber-500 text-slate-900 font-bold px-4 py-2 rounded hover:bg-amber-400 cursor-pointer">승인</button>
+                </div>
+            `;
+        }
+
+        function confirmAuth(funcName) {
+            const code = document.getElementById('auth-code').value;
+            if (code.length === 6) {
+                alert(funcName + " 프로세스 승인 완료. HK 노드 동기화 성공.");
+                document.getElementById('process-area').innerHTML = `<p class="text-emerald-400 font-bold"><i class="fa-solid fa-check-circle mr-2"></i>${funcName} 가동 완료</p>`;
+            } else {
+                alert("보안 위반: 6자리 승인 코드가 일치하지 않습니다.");
+            }
+        }
     </script>
 </body>
 </html>
+
