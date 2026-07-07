@@ -1023,7 +1023,7 @@ function executeProcess(funcName) {
     else if (funcName === 'LP스테이킹') description = "유동성 증명 자산 선택 → 스테이킹 수량 결정 → 고리 배당률 확인 → 6자리 승인 코드 입력 → 처리 완료";
     else if (funcName === 'PI수량 추가') description = "지갑 계정 확인 → PI 수량 입력 → 네트워크 노드 검증 → 6자리 승인 코드 입력 → 처리 완료";
 
-area.innerHTML = `
+    area.innerHTML = `
         <h3 class="text-amber-500 font-bold mb-2">[${funcName}] 상세 프로세스</h3>
         <p class="text-slate-300 mb-4">${description}</p>
         <hr class="border-slate-700 mb-4">
@@ -1032,63 +1032,22 @@ area.innerHTML = `
             <input type="password" id="auth-code" maxlength="6" class="bg-slate-900 border border-slate-700 rounded px-3 py-2 text-white w-32 focus:outline-none focus:border-amber-500">
             <button onclick="confirmAuth('${funcName}')" class="bg-amber-500 text-slate-900 font-bold px-4 py-2 rounded hover:bg-amber-400 cursor-pointer">승인</button>
         </div>
-        <div id="process-log-area" class="mt-4 font-bold text-sm leading-loose"></div>
     `;
     console.log(funcName + " 프로세스 창이 정상적으로 로드되었습니다.");
 }
      
 
         // 인증 로직
-      // 인증 로직 (상세 프로세스 지연 출력 버전)
-function confirmAuth(funcName) {
-    const code = document.getElementById('auth-code').value;
-    const logArea = document.getElementById('process-log-area');
-
-    // 6자리 입력 확인
-    if (code.length !== 6) {
-        alert("6자리 숫자를 입력하세요.");
-        return;
-    }
-
-    // 로그 영역 초기화
-    logArea.innerHTML = "";
-
-    // 버튼 이름(funcName)에 맞춰서 동적으로 5단계 텍스트 생성
-    const steps = [
-        `🔄 [1/5] ${funcName} 시작: 메인넷 네트워크 노드 탐색 중...`,
-        `🔄 [2/5] 조건 검증: ${funcName}에 필요한 스마트 컨트랙트 조건 확인 중...`,
-        `📊 [3/5] 데이터 연산: 분산 원장 기록 및 수익/수량 계산 완료...`,
-        `🔑 [4/5] 보안 승인: 입력하신 6자리 코드 암호화 대조 중...`,
-        `✅ [5/5] 처리 완료: 시스템에 ${funcName} 내역이 최종 승인되었습니다!`
-    ];
-
-    let stepIndex = 0;
-
-    // 1.5초(1500ms)마다 하나씩 화면에 출력
-    const interval = setInterval(() => {
-        if (stepIndex < steps.length) {
-            const stepText = document.createElement("div");
-            stepText.innerText = steps[stepIndex];
-            
-            // 마지막 5단계는 초록색, 나머지는 주황색 텍스트
-            if (stepIndex === steps.length - 1) {
-                stepText.className = "text-emerald-400";
+        function confirmAuth(funcName) {
+            const code = document.getElementById('auth-code').value;
+            if (code.length === 6) {
+                alert(funcName + " 처리가 완료되었습니다.");
+                document.getElementById('process-area').innerHTML = `<p class="text-emerald-400 font-bold"><i class="fa-solid fa-check-circle mr-2"></i>${funcName} 완료됨</p>`;
             } else {
-                stepText.className = "text-amber-500";
+                alert("6자리 숫자를 입력하세요.");
             }
-            
-            logArea.appendChild(stepText);
-            stepIndex++;
-        } else {
-            clearInterval(interval);
-            
-            // 프로세스가 다 끝나고 2초 뒤에 기존의 "완료됨" 화면으로 전환
-            setTimeout(() => {
-                document.getElementById('process-area').innerHTML = `<p class="text-emerald-400 font-bold"><i class="fa-solid fa-check-circle mr-2"></i> ${funcName} 완료됨</p>`;
-            }, 2000);
         }
-    }, 1500);
-}
+
         // 실시간 자산 현황판 로직
         let totalQuantity = 0.000000;
         let realtimeInterest = 0.000000;
