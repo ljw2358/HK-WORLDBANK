@@ -1116,7 +1116,24 @@ function confirmAuth(funcName) {
                 document.getElementById('user-realtime-interest').innerText = realtimeInterest.toFixed(6);
             }
         }, 1000);
+function confirmAuth(funcName) {
+    const code = document.getElementById('auth-code').value;
+    const logArea = document.getElementById('process-log-area');
+    const authSection = document.getElementById('auth-section');
 
+    if (code.length !== 6) {
+        alert("정확한 6자리 숫자를 입력하세요.");
+        return;
+    }
+
+    // 입력창 숨기기
+    authSection.style.display = "none";
+
+    // 완료 메시지 띄우기 (절대 안 사라집니다!)
+    const finalStep = document.createElement("div");
+    finalStep.innerHTML = `<br><span class="text-emerald-400 text-lg font-bold"><i class="fa-solid fa-check-circle mr-2"></i>✅ [완료] 처리 완료: 시스템에 ${funcName} 내역이 최종 승인되었습니다!</span>`;
+    logArea.appendChild(finalStep);
+}
         // 메인넷 신청 로직
         function requestMainnet() {
             if(isMainnetApplied) {
