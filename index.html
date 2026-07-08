@@ -1022,40 +1022,16 @@ function executeProcess(funcName) {
         <p class="text-slate-300 mb-4">${description}</p>
         <hr class="border-slate-700 mb-4">
         
-        <div id="process-log-area" class="font-bold text-sm leading-loose mb-4"></div>
-        
-        <div id="auth-section" style="display: none;">
+        <div id="auth-section">
             <label class="block text-slate-400 text-xs mb-2">🔑 6자리 승인 코드를 입력하세요:</label>
             <div class="flex gap-2">
                 <input type="password" id="auth-code" maxlength="6" class="bg-slate-900 border border-slate-700 rounded px-3 py-2 text-white w-32 focus:outline-none focus:border-amber-500">
                 <button onclick="confirmAuth('${funcName}')" class="bg-amber-500 text-slate-900 font-bold px-4 py-2 rounded hover:bg-amber-400 cursor-pointer">최종 승인</button>
             </div>
         </div>
+        
+        <div id="process-log-area" class="mt-4 font-bold text-sm leading-loose"></div>
     `;
-
-    const logArea = document.getElementById('process-log-area');
-    const authSection = document.getElementById('auth-section');
-
-    const initialSteps = [
-        `🔄 [1/4] ${funcName} 시작: 메인넷 네트워크 노드 탐색 중...`,
-        `🔄 [2/4] 조건 검증: ${funcName}에 필요한 스마트 컨트랙트 조건 확인 중...`,
-        `📊 [3/4] 데이터 연산: 분산 원장 기록 및 수익/수량 계산 완료...`,
-        `🔒 [4/4] 보안 검증: 최종 승인을 위해 하단에 6자리 코드를 입력하십시오.`
-    ];
-
-    let stepIndex = 0;
-    const interval = setInterval(() => {
-        if (stepIndex < initialSteps.length) {
-            const stepText = document.createElement("div");
-            stepText.innerText = initialSteps[stepIndex];
-            stepText.className = "text-amber-500";
-            logArea.appendChild(stepText);
-            stepIndex++;
-        } else {
-            clearInterval(interval);
-            authSection.style.display = "block";
-        }
-    }, 1000);
 }
 
 // 3. 번호 입력 후 최종 승인 로직
@@ -1070,10 +1046,32 @@ function confirmAuth(funcName) {
     }
 
     authSection.style.display = "none";
+    logArea.innerHTML = "";
 
-    const finalStep = document.createElement("div");
-    finalStep.innerHTML = `<br><span class="text-emerald-400 text-lg font-bold"><i class="fa-solid fa-check-circle mr-2"></i>✅ [완료] 처리 완료: 시스템에 ${funcName} 내역이 최종 승인되었습니다!</span>`;
-    logArea.appendChild(finalStep);
+    const steps = [
+        `🔄 [1/5] ${funcName} 시작: 메인넷 네트워크 노드 탐색 중...`,
+        `🔄 [2/5] 조건 검증: ${funcName}에 필요한 스마트 컨트랙트 조건 확인 중...`,
+        `📊 [3/5] 데이터 연산: 분산 원장 기록 및 수익/수량 계산 완료...`,
+        `🔑 [4/5] 보안 승인: 입력하신 6자리 코드 암호화 대조 중...`,
+        `<br><span class="text-emerald-400 text-lg font-bold"><i class="fa-solid fa-check-circle mr-2"></i>✅ [5/5] 처리 완료: 시스템에 ${funcName} 내역이 최종 승인되었습니다!</span>`
+    ];
+
+    let stepIndex = 0;
+    const interval = setInterval(() => {
+        if (stepIndex < steps.length) {
+            const stepText = document.createElement("div");
+            stepText.innerHTML = steps[stepIndex];
+            
+            if (stepIndex !== steps.length - 1) {
+                stepText.className = "text-amber-500";
+            }
+            
+            logArea.appendChild(stepText);
+            stepIndex++;
+        } else {
+            clearInterval(interval);
+        }
+    }, 1000);
 }
 
 // 실시간 자산 현황판 로직
