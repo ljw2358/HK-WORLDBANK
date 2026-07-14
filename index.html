@@ -312,8 +312,35 @@
             console.error(e);
         }
     }
+
+<script>
+    // Pi SDK 초기화 및 결제 로직
+    (async function() {
+        try {
+            await Pi.init({ version: "2.0", sandbox: true });
+            window.PiReady = true;
+        } catch (e) {
+            console.error("SDK 초기화 오류:", e);
+        }
+    })();
+
+    async function executeTransfer(amount) {
+        try {
+            const payment = await Pi.createPayment({
+                amount: parseFloat(amount),
+                memo: "HK-WorldBank Transaction",
+                metadata: { type: "finance_process" }
+            }, {
+                onReadyForServerApproval: (id) => console.log("승인 대기 중"),
+                onReadyForServerCompletion: (id, txid) => alert("전송 성공: " + txid),
+                onCancel: (id) => alert("취소됨"),
+                onError: (e) => console.error(e)
+            });
+        } catch (e) {
+            console.error("결제 실행 오류:", e);
+        }
+    }
 </script>
-    // 3. 파이 결제 로직
  
 // [핵심 금융 로직 시작]
 const WALLETS = {
