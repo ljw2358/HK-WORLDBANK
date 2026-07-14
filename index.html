@@ -271,7 +271,35 @@
     </main>
 
     <script>
-       
+    // [Pi 네트워크 맞춤 전송 로직]
+async function executeTransfer(amount) {
+    try {
+        const paymentData = {
+            amount: amount,
+            memo: "HK-WorldBank Transaction",
+            metadata: { type: "finance_process" }
+        };
+
+        // 파이 브라우저와 연동하여 결제 생성
+        const payment = await Pi.createPayment(paymentData, {
+            onReadyForServerApproval: (paymentId) => {
+                console.log("결제 준비 완료, 승인 대기 중: ", paymentId);
+            },
+            onReadyForServerCompletion: (paymentId, txid) => {
+                console.log("결제 완료! TXID: ", txid);
+                alert("전송 성공: " + txid);
+            },
+            onCancel: (paymentId) => {
+                alert("결제가 취소되었습니다.");
+            },
+            onError: (error, paymentId) => {
+                console.error("결제 오류: ", error);
+            }
+        });
+    } catch (e) {
+        console.error("Pi SDK 호출 실패: ", e);
+    }
+}   
 // [핵심 금융 로직 시작]
 const WALLETS = {
     RESERVOIR: "GBDZQSKO6I5VH5KUUEXQAQWPBHPEJVISH4N2K2AQERDKQYMPRKLNSVFQ",
