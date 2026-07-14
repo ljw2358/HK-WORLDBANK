@@ -263,7 +263,7 @@
                 <div class="p-3 border-t border-slate-700 bg-slate-800/40 rounded-b-2xl">
                     <form id="chat-form" onsubmit="handleSendMessage(event)" class="flex items-center space-x-2">
                         <input type="text" id="chat-input" placeholder="원장 상태 및 금융 노드에 대해 질문하십시오..." class="flex-1 bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-slate-100 focus:outline-none focus:border-amber-500 placeholder-slate-500">
-                       <button type="submit" class="...">...</button>
+                      <button type="button" onclick="handleTransferClick()" class="bg-amber-500 hover:bg-amber-600 text-slate-900 px-4 py-2 rounded">송금 실행</button>
                     </form>
                 </div>
             </div>
@@ -272,10 +272,16 @@
 
     <script>
 function handleTransferClick() {
-    const amount = document.getElementById('chat-input').value;
-    executeTransfer(amount); // 우리가 만든 파이 전송 로직 호출
+    const inputElement = document.getElementById('chat-input');
+    const amount = inputElement.value; // 여기서 값을 정확히 가져옵니다.
+    
+    if (!amount || amount <= 0) {
+        alert("보낼 수량을 숫자로 입력하세요!");
+        return;
+    }
+    
+    executeTransfer(amount); 
 }
-
         // [274행 위치에 삽입하세요]
 <script src="https://sdk.minepi.com/pi-sdk.js"></script>
 <script>
