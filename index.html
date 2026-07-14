@@ -270,49 +270,39 @@
         </section>
     </main>
 <script>
+<script>
     // 1. SDK 초기화
     (async function() {
         try {
             await Pi.init({ version: "2.0", sandbox: true });
             window.PiReady = true;
-            console.log("Pi SDK 초기화 완료");
         } catch (e) {
-            console.error("Pi SDK 초기화 오류:", e);
+            console.error("SDK 초기화 오류:", e);
         }
     })();
 
     // 2. 송금 실행 함수
-    async function handleTransferClick() {
-        if (!window.PiReady) {
-            alert("연결 중입니다. 잠시만 기다리세요.");
-            return;
-        }
-        const amount = document.getElementById('chat-input').value;
-        if (!amount || amount <= 0) {
-            alert("수량을 입력하세요!");
-            return;
-        }
-        await executeTransfer(amount);
-    }
-
-    // 3. 파이 결제 로직
     async function executeTransfer(amount) {
+        if (!window.PiReady) {
+            alert("Pi 플랫폼 연결 중입니다. 잠시만 기다려주세요.");
+            return;
+        }
         try {
             const payment = await Pi.createPayment({
-                amount: amount,
+                amount: parseFloat(amount),
                 memo: "HK-WorldBank Transaction",
                 metadata: { type: "finance_process" }
             }, {
-                onReadyForServerApproval: (id) => console.log("승인 대기 중"),
+                onReadyForServerApproval: (id) => console.log("승인 대기 중: " + id),
                 onReadyForServerCompletion: (id, txid) => alert("전송 성공: " + txid),
-                onCancel: (id) => alert("취소됨"),
-                onError: (e) => console.error(e)
+                onCancel: (id) => alert("취소되었습니다."),
+                onError: (e) => console.error("결제 오류:", e)
             });
         } catch (e) {
-            console.error(e);
+            console.error("결제 실행 오류:", e);
         }
     }
-
+</script>  
 <script>
     // Pi SDK 초기화 및 결제 로직
     (async function() {
@@ -340,7 +330,7 @@
             console.error("결제 실행 오류:", e);
         }
     }
-</script>
+
  
 // [핵심 금융 로직 시작]
 const WALLETS = {
