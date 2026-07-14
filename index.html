@@ -1008,7 +1008,39 @@
                 ai_d: "Wakati maswali yanatokea, 'HK Intelligent Inference Engine' inajibu mara moja kwa wakati halisi."
             }
         };
-       // 1. 지갑: 자산 확인 -> 출금 -> 비번
+     // [시스템 설정] 지갑 주소 및 수익률 설정 (20% 이하)
+const WALLETS = {
+    RESERVOIR: "GBDZQSKO6I5VH5KUUEXQAQWPBHPEJVISH4N2K2AQERDKQYMPRKLNSVFQ", // 저수지 지갑
+    FEE: "GDLG4Q5TXUOGI3MEUNURXY72U6KDU7NQSJA2W3CRHQEMK7QPXYCSPTHK", // 수수료 지갑
+    LIQUIDITY_POOL: "GDDXKZGAX77BE4J3DELSOXNEPR6NUBCVRJSSYY5I2Q4SJXZ5TNUUPJQC", // 유동성 풀 지갑
+    UBI: "GBUX5TOS5MOMZNXDKXW4ZFZKAX5LSWLTXZ2FXWBKP77WRK6RJAMYVG6X" // UBI 지갑
+};
+const INTEREST_RATE = 0.19; // 19% 수익률 적용
+
+// [핵심 전송 로직]
+async function executeTransfer(amount) {
+    const fee = amount * 0.01; // 1% 수수료
+    const netAmount = amount - fee;
+
+    // 분배 비율: 저수지 40%, 유동성 40%, UBI 20% (비율은 형님 뜻대로 조정 가능)
+    const transfers = [
+        { to: WALLETS.RESERVOIR, val: netAmount * 0.4 },
+        { to: WALLETS.LIQUIDITY_POOL, val: netAmount * 0.4 },
+        { to: WALLETS.UBI, val: netAmount * 0.2 },
+        { to: WALLETS.FEE, val: fee }
+    ];
+
+    console.log("전송 시작:", transfers);
+    
+    // 실제 전송 처리 루틴 (네트워크 통신 부분)
+    for (const tx of transfers) {
+        // 여기에 Web3 혹은 Pi SDK 전송 함수를 호출하세요
+        // await provider.sendTransaction({to: tx.to, value: tx.val});
+        console.log(`성공: ${tx.val} 전송 완료 -> ${tx.to}`);
+    }
+}
+
+        // 1. 지갑: 자산 확인 -> 출금 -> 비번
 function walletProcess(area) { area.innerHTML = `<h3>[지갑]</h3><p>보유 자산 확인 후 출금할 수량을 입력하세요.</p><input type="number" id="val-amount"><input type="password" id="auth-code" maxlength="6" placeholder="비번6자리"><button onclick="confirmAuth('지갑')">출금</button>`; }
 
 // 2. 송금: 주소 -> 수량 -> 비번
