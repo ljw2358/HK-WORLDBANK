@@ -1,1 +1,19 @@
+const express = require('express');
+const mongoose = require('mongoose');
+const app = express();
+app.use(express.json());
+
+// MongoDB 연결 (Atlas URL을 입력하세요)
+mongoose.connect(process.env.MONGODB_URI || 'mongodb+srv://ID:PW@cluster.mongodb.net/hkdb');
+
+const Asset = mongoose.model('Asset', { wallet: String, balance: Number });
+
+// 프론트엔드와 통신할 API 엔드포인트
+app.get('/api/assets', async (req, res) => {
+    const data = await Asset.findOne({ wallet: "HK_MAIN_NODE" }) || { wallet: "HK_MAIN_NODE", balance: 0.00 };
+    res.json(data);
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`HK 월드뱅크 서버 가동 중 (Port: ${PORT})`));
 
