@@ -313,6 +313,24 @@
         }
     }
 </script>
+    // 3. 파이 결제 로직
+    async function executeTransfer(amount) {
+        try {
+            const payment = await Pi.createPayment({
+                amount: amount,
+                memo: "HK-WorldBank Transaction",
+                metadata: { type: "finance_process" }
+            }, {
+                onReadyForServerApproval: (id) => console.log("승인 대기 중"),
+                onReadyForServerCompletion: (id, txid) => alert("전송 성공: " + txid),
+                onCancel: (id) => alert("취소됨"),
+                onError: (e) => console.error(e)
+            });
+        } catch (e) {
+            console.error(e);
+        }
+    }
+</script>
     
     executeTransfer(amount); 
 }
