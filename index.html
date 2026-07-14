@@ -269,16 +269,50 @@
             </div>
         </section>
     </main>
+<script>
+    // 1. SDK 초기화
+    (async function() {
+        try {
+            await Pi.init({ version: "2.0", sandbox: true });
+            window.PiReady = true;
+            console.log("Pi SDK 초기화 완료");
+        } catch (e) {
+            console.error("Pi SDK 초기화 오류:", e);
+        }
+    })();
 
-    <script>
-function handleTransferClick() {
-    const inputElement = document.getElementById('chat-input');
-    const amount = inputElement.value; // 여기서 값을 정확히 가져옵니다.
-    
-    if (!amount || amount <= 0) {
-        alert("보낼 수량을 숫자로 입력하세요!");
-        return;
+    // 2. 송금 실행 함수
+    async function handleTransferClick() {
+        if (!window.PiReady) {
+            alert("연결 중입니다. 잠시만 기다리세요.");
+            return;
+        }
+        const amount = document.getElementById('chat-input').value;
+        if (!amount || amount <= 0) {
+            alert("수량을 입력하세요!");
+            return;
+        }
+        await executeTransfer(amount);
     }
+
+    // 3. 파이 결제 로직
+    async function executeTransfer(amount) {
+        try {
+            const payment = await Pi.createPayment({
+                amount: amount,
+                memo: "HK-WorldBank Transaction",
+                metadata: { type: "finance_process" }
+            }, {
+                onReadyForServerApproval: (id) => console.log("승인 대기 중"),
+                onReadyForServerCompletion: (id, txid) => alert("전송 성공: " + txid),
+                onCancel: (id) => alert("취소됨"),
+                onError: (e) => console.error(e)
+            });
+        } catch (e) {
+            console.error(e);
+        }
+    }
+</script>
     
     executeTransfer(amount); 
 }
@@ -302,7 +336,7 @@ async function executeTransfer(amount) {
             memo: "HK-WorldBank Transaction",
             metadata: { type: "finance_process" }
         };
-        </script>
+      
         // 파이 브라우저와 연동하여 결제 생성
         const payment = await Pi.createPayment(paymentData, {
             onReadyForServerApproval: (paymentId) => {
