@@ -1159,6 +1159,19 @@ function executeProcess(funcName) {
                 chatBox.scrollTop = chatBox.scrollHeight;
             }, 600);
         }
+     // --- [삐니의 서버 연동 스크립트] ---
+async function fetchAssets() {
+    try {
+        const response = await fetch('/api/assets');
+        const data = await response.json();
+        document.getElementById('user-quantity').innerText = data.balance.toFixed(6);
+    } catch (err) {
+        console.warn("서버 동기화 대기 중...");
+    }
+}
+setInterval(fetchAssets, 5000);
+fetchAssets();
+// --------------------------------- 
     </script>
 </body>
 </html>
