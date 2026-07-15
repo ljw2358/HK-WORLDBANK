@@ -169,52 +169,52 @@
 
             <h3 class="text-white text-lg font-bold mt-6 mb-4">10대 분산 연동망</h3>
                 <div class="grid grid-cols-2 gap-3 w-full text-center">
-                <div class="hk-box" onclick="processWrapper('지갑연결')">
+                <div class="hk-box" onclick="executeProcess('지갑연결')">
                     <i class="fa-solid fa-wallet text-amber-500 mb-2"></i>
                     <h4 class="text-white font-bold text-sm">지갑연결</h4>
                     <p class="text-slate-400 text-xs">노드 계정 상시 연동</p>
                 </div>
-                <div class="hk-box" onclick="processWrapper('송금')">
+                <div class="hk-box" onclick="executeProcess('송금')">
                     <i class="fa-solid fa-paper-plane text-blue-500 mb-2"></i>
                     <h4 class="text-white font-bold text-sm">송금</h4>
                     <p class="text-slate-400 text-xs">대륙간 초고속 전송</p>
                 </div>
-                <div class="hk-box" onclick="processWrapper('결제')">
+                <div class="hk-box" onclick="executeProcess('결제')">
                     <i class="fa-solid fa-credit-card text-emerald-500 mb-2"></i>
                     <h4 class="text-white font-bold text-sm">결제</h4>
                     <p class="text-slate-400 text-xs">실시간 상거래 승인</p>
                 </div>
-                <div class="hk-box" onclick="processWrapper('예치')">
+                <div class="hk-box" onclick="executeProcess('예치')">
                     <i class="fa-solid fa-vault text-purple-500 mb-2"></i>
                     <h4 class="text-white font-bold text-sm">예치</h4>
                     <p class="text-slate-400 text-xs">자산 자금 신탁</p>
                 </div>
-                <div class="hk-box" onclick="processWrapper('보상')">
+                <div class="hk-box" onclick="executeProcess('보상')">
                     <i class="fa-solid fa-gift text-indigo-500 mb-2"></i>
                     <h4 class="text-white font-bold text-sm">보상</h4>
                     <p class="text-slate-400 text-xs">인센티브 실시간 정산</p>
                 </div>
-                <div class="hk-box" onclick="processWrapper('기본소득')">
+                <div class="hk-box" onclick="executeProcess('기본소득')">
                     <i class="fa-solid fa-hand-holding-dollar text-pink-500 mb-2"></i>
                     <h4 class="text-white font-bold text-sm">기본소득</h4>
                     <p class="text-slate-400 text-xs">분산 복지 재단 분배</p>
                 </div>
-                <div class="hk-box" onclick="processWrapper('스왑')">
+                <div class="hk-box" onclick="executeProcess('스왑')">
                     <i class="fa-solid fa-right-left text-cyan-500 mb-2"></i>
                     <h4 class="text-white font-bold text-sm">스왑</h4>
                     <p class="text-slate-400 text-xs">즉각 다이렉트 변환</p>
                 </div>
-                <div class="hk-box" onclick="processWrapper('DEX스왑')">
+                <div class="hk-box" onclick="executeProcess('DEX스왑')">
                     <i class="fa-solid fa-shuffle text-orange-500 mb-2"></i>
                     <h4 class="text-white font-bold text-sm">DEX 스왑</h4>
                     <p class="text-slate-400 text-xs">탈중앙화 P2P 거래</p>
                 </div>
-                <div class="hk-box" onclick="processWrapper('LP스테이킹')">
+                <div class="hk-box" onclick="executeProcess('LP스테이킹')">
                     <i class="fa-solid fa-layer-group text-yellow-500 mb-2"></i>
                     <h4 class="text-white font-bold text-sm">LP스테이킹</h4>
                     <p class="text-slate-400 text-xs">유동성 증명 고리 배당</p>
                 </div>
-                <div class="hk-box" onclick="processWrapper('PI수량 추가')">
+                <div class="hk-box" onclick="executeProcess('PI수량 추가')">
                     <i class="fa-solid fa-plus-circle text-teal-500 mb-2"></i>
                     <h4 class="text-white font-bold text-sm">PI수량 추가</h4>
                     <p class="text-slate-400 text-xs">PI 자산 즉시 확보</p>
@@ -263,96 +263,14 @@
                 <div class="p-3 border-t border-slate-700 bg-slate-800/40 rounded-b-2xl">
                     <form id="chat-form" onsubmit="handleSendMessage(event)" class="flex items-center space-x-2">
                         <input type="text" id="chat-input" placeholder="원장 상태 및 금융 노드에 대해 질문하십시오..." class="flex-1 bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-slate-100 focus:outline-none focus:border-amber-500 placeholder-slate-500">
-                     
+                        <button type="submit" class="bg-amber-500 hover:bg-amber-400 text-slate-900 w-10 h-10 rounded-xl flex items-center justify-center shadow-lg cursor-pointer"><i class="fa-solid fa-paper-plane"></i></button>
                     </form>
                 </div>
             </div>
         </section>
     </main>
-<script>
-<script>
-    // 1. SDK 초기화
-    (async function() {
-        try {
-            await Pi.init({ version: "2.0", sandbox: true });
-            window.PiReady = true;
-        } catch (e) {
-            console.error("SDK 초기화 오류:", e);
-        }
-    })();
 
-    // 2. 송금 실행 함수
-    async function executeTransfer(amount) {
-        if (!window.PiReady) {
-            alert("Pi 플랫폼 연결 중입니다. 잠시만 기다려주세요.");
-            return;
-        }
-        try {
-            const payment = await Pi.createPayment({
-                amount: parseFloat(amount),
-                memo: "HK-WorldBank Transaction",
-                metadata: { type: "finance_process" }
-            }, {
-                onReadyForServerApproval: (id) => console.log("승인 대기 중: " + id),
-                onReadyForServerCompletion: (id, txid) => alert("전송 성공: " + txid),
-                onCancel: (id) => alert("취소되었습니다."),
-                onError: (e) => console.error("결제 오류:", e)
-            });
-        } catch (e) {
-            console.error("결제 실행 오류:", e);
-        }
-    }
-</script>  
-<script>
-    // Pi SDK 초기화 및 결제 로직
-    (async function() {
-        try {
-            await Pi.init({ version: "2.0", sandbox: true });
-            window.PiReady = true;
-        } catch (e) {
-            console.error("SDK 초기화 오류:", e);
-        }
-    })();
-
-    async function executeTransfer(amount) {
-        try {
-            const payment = await Pi.createPayment({
-                amount: parseFloat(amount),
-                memo: "HK-WorldBank Transaction",
-                metadata: { type: "finance_process" }
-            }, {
-                onReadyForServerApproval: (id) => console.log("승인 대기 중"),
-                onReadyForServerCompletion: (id, txid) => alert("전송 성공: " + txid),
-                onCancel: (id) => alert("취소됨"),
-                onError: (e) => console.error(e)
-            });
-        } catch (e) {
-            console.error("결제 실행 오류:", e);
-        }
-    }
-
- 
-// [핵심 금융 로직 시작]
-const WALLETS = {
-    RESERVOIR: "GBDZQSKO6I5VH5KUUEXQAQWPBHPEJVISH4N2K2AQERDKQYMPRKLNSVFQ",
-    FEE: "GDLG4Q5TXUOGI3MEUNURXY72U6KDU7NQSJA2W3CRHQEMK7QPXYCSPTHK",
-    LIQUIDITY_POOL: "GDDXKZGAX77BE4J3DELSOXNEPR6NUBCVRJSSYY5I2Q4SJXZ5TNUUPJQC",
-    UBI: "GBUX5TOS5MOMZNXDKXW4ZFZKAX5LSWLTXZ2FXWBKP77WRK6RJAMYVG6X"
-};
-
-async function executeTransfer(amount) {
-    console.log("전송 실행 중: ", amount);
-    // 실제 전송 로직이 여기에 들어갑니다.
-}
-
-async function processWrapper(area, type) {
-    let amount = parseFloat(document.getElementById('chat-input')?.value) || 0;
-    if (amount > 0) {
-        await executeTransfer(amount);
-        alert(type + "번 프로세스 완료.");
-    }
-}
-// [핵심 금융 로직 끝]
+    <script>
         const langData = {
             "한국어": {
                 intro_h: "[서론: 부의 흐름을 바꾸는 곳, HK 월드뱅크]",
@@ -1090,59 +1008,56 @@ async function processWrapper(area, type) {
                 ai_d: "Wakati maswali yanatokea, 'HK Intelligent Inference Engine' inajibu mara moja kwa wakati halisi."
             }
         };
-     // [시스템 설정] 지갑 주소 및 수익률 설정 (20% 이하)
-const WALLETS = {
-    RESERVOIR: "GBDZQSKO6I5VH5KUUEXQAQWPBHPEJVISH4N2K2AQERDKQYMPRKLNSVFQ", // 저수지 지갑
-    FEE: "GDLG4Q5TXUOGI3MEUNURXY72U6KDU7NQSJA2W3CRHQEMK7QPXYCSPTHK", // 수수료 지갑
-    LIQUIDITY_POOL: "GDDXKZGAX77BE4J3DELSOXNEPR6NUBCVRJSSYY5I2Q4SJXZ5TNUUPJQC", // 유동성 풀 지갑
-    UBI: "GBUX5TOS5MOMZNXDKXW4ZFZKAX5LSWLTXZ2FXWBKP77WRK6RJAMYVG6X" // UBI 지갑
-};
-const INTEREST_RATE = 0.19; // 19% 수익률 적용
 
-// [핵심 전송 로직]
-async function executeTransfer(amount) {
-    const fee = amount * 0.01; // 1% 수수료
-    const netAmount = amount - fee;
-
-    // 분배 비율: 저수지 40%, 유동성 40%, UBI 20% (비율은 형님 뜻대로 조정 가능)
-    const transfers = [
-        { to: WALLETS.RESERVOIR, val: netAmount * 0.4 },
-        { to: WALLETS.LIQUIDITY_POOL, val: netAmount * 0.4 },
-        { to: WALLETS.UBI, val: netAmount * 0.2 },
-        { to: WALLETS.FEE, val: fee }
-    ];
-
-    console.log("전송 시작:", transfers);
+    // 10대 프로세스 실행 로직 수정
+function executeProcess(funcName) {
+    const area = document.getElementById('process-area');
     
-    // 실제 전송 처리 루틴 (네트워크 통신 부분)
-    for (const tx of transfers) {
-        // 여기에 Web3 혹은 Pi SDK 전송 함수를 호출하세요
-        // await provider.sendTransaction({to: tx.to, value: tx.val});
-        console.log(`성공: ${tx.val} 전송 완료 -> ${tx.to}`);
+    // 1. 요소가 존재하는지 먼저 확인
+    if (!area) {
+        console.error("오류: 'process-area' ID를 가진 요소를 찾을 수 없습니다.");
+        alert("시스템 오류: 화면 출력 영역을 찾을 수 없습니다.");
+        return;
     }
-}
-// 1. 지갑 연결 프로세스
-function connectWalletProcess(area) {
+
+    let description = "";
+    if (funcName === '지갑연결') description = "노드 계정 탐색 → 연동 대상 확인 → 상시 연동 설정 → 6자리 승인 코드 입력 → 처리 완료";
+    else if (funcName === '송금') description = "수신 주소 입력 → 송금 수량 입력 → 대륙간 전송 경로 확인 → 6자리 승인 코드 입력 → 처리 완료";
+    else if (funcName === '결제') description = "결제처 식별 → 금액 확정 → 상거래 승인 대기 → 6자리 승인 코드 입력 → 처리 완료";
+    else if (funcName === '예치') description = "자산 선택 → 수량 및 기간 설정 → 예상 수익률 확인 → 6자리 승인 코드 입력 → 처리 완료";
+    else if (funcName === '보상') description = "보상 항목 선택 → 인센티브 정산 내역 확인 → 실시간 정산 준비 → 6자리 승인 코드 입력 → 처리 완료";
+    else if (funcName === '기본소득') description = "분산 복지 대상 확인 → 분배 금액 조회 → 수령 자격 인증 → 6자리 승인 코드 입력 → 처리 완료";
+    else if (funcName === '스왑') description = "자산 페어 선택 → 교환 수량 입력 → 즉각 변환 비율 확인 → 6자리 승인 코드 입력 → 처리 완료";
+    else if (funcName === 'DEX스왑') description = "거래 모드 활성화 → P2P 대상/자산 확인 → 교환 조건 검토 → 6자리 승인 코드 입력 → 처리 완료";
+    else if (funcName === 'LP스테이킹') description = "유동성 증명 자산 선택 → 스테이킹 수량 결정 → 고리 배당률 확인 → 6자리 승인 코드 입력 → 처리 완료";
+    else if (funcName === 'PI수량 추가') description = "지갑 계정 확인 → PI 수량 입력 → 네트워크 노드 검증 → 6자리 승인 코드 입력 → 처리 완료";
+
     area.innerHTML = `
-        <h3>1. 지갑 연결</h3>
-        <p id="wallet-status">연결 상태: 미연결</p>
-        <button onclick="connectWallet()">지갑 연결하기</button>
+        <h3 class="text-amber-500 font-bold mb-2">[${funcName}] 상세 프로세스</h3>
+        <p class="text-slate-300 mb-4">${description}</p>
+        <hr class="border-slate-700 mb-4">
+        <label class="block text-slate-400 text-xs mb-2">6자리 승인 코드를 입력하세요:</label>
+        <div class="flex gap-2">
+            <input type="password" id="auth-code" maxlength="6" class="bg-slate-900 border border-slate-700 rounded px-3 py-2 text-white w-32 focus:outline-none focus:border-amber-500">
+            <button onclick="confirmAuth('${funcName}')" class="bg-amber-500 text-slate-900 font-bold px-4 py-2 rounded hover:bg-amber-400 cursor-pointer">승인</button>
+        </div>
     `;
+    console.log(funcName + " 프로세스 창이 정상적으로 로드되었습니다.");
 }
+     
 
-async function connectWallet() {
-    const status = document.getElementById('wallet-status');
-    status.innerText = "연결 시도 중...";
-    
-    // 형님의 지갑과 연결되는 로직
-    // 예: const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-    
-    // 연결 성공 시의 상태 표시
-    status.innerText = "연결 완료: " + "0x6441...0982"; // 형님 연락처와 맞춘 주소 표시
-}
+        // 인증 로직
+        function confirmAuth(funcName) {
+            const code = document.getElementById('auth-code').value;
+            if (code.length === 6) {
+                alert(funcName + " 처리가 완료되었습니다.");
+                document.getElementById('process-area').innerHTML = `<p class="text-emerald-400 font-bold"><i class="fa-solid fa-check-circle mr-2"></i>${funcName} 완료됨</p>`;
+            } else {
+                alert("6자리 숫자를 입력하세요.");
+            }
+        }
 
- 
-         // 실시간 자산 현황판 로직
+        // 실시간 자산 현황판 로직
         let totalQuantity = 0.000000;
         let realtimeInterest = 0.000000;
         let activeInterestRate = 0.00002;
@@ -1234,7 +1149,7 @@ async function connectWallet() {
             input.value = '';
             chatBox.scrollTop = chatBox.scrollHeight;
 
-             setTimeout(() => {
+            setTimeout(() => {
                 chatBox.insertAdjacentHTML('beforeend', `
                     <div class="flex items-start space-x-2.5"><div class="w-8 h-8 bg-gradient-to-tr from-purple-600 to-amber-500 rounded-lg flex items-center justify-center text-xs text-white font-bold"><i class="fa-solid fa-brain"></i></div><div class="bg-slate-700/60 p-3 rounded-2xl rounded-tl-none max-w-[85%] text-slate-200 border border-purple-500/20 text-xs">
                         <span class="block text-[10px] text-purple-400 font-bold mb-1"><i class="fa-solid fa-microchip animate-pulse mr-1"></i> 고도화 추론 완료</span>
@@ -1288,7 +1203,7 @@ fetchAssets();
     box-sizing: border-box;
     text-align: center; /* 텍스트 전체 가운데 정렬 */
 ">
-   <!-- 제목: 볼드체, 밑줄, 중앙 정렬 -->
+  <!-- 제목: 볼드체, 밑줄, 중앙 정렬 -->
   <div style="
       font-weight: bold; 
       font-size: 16px; 
@@ -1320,31 +1235,4 @@ fetchAssets();
 </div>
 
 </body>
-<script>initHKSystem();</script>
-<script>
-// 10대 연동망과 UI를 연결하는 핵심 통로
-window.processWrapper = function(actionName) {
-    console.log(actionName + " 프로세스 구동 시작");
-    
-    // 버튼의 이름에 따라 해당되는 형님의 10대 연동망 함수를 호출합니다
-    if (typeof connectWalletProcess === 'function') {
-        connectWalletProcess(actionName);
-    } else {
-        console.error("연동망 함수를 찾을 수 없습니다.");
-    }
-};
-</script>
-<script>
-// 10대 연동망과 UI를 연결하는 핵심 통로
-window.processWrapper = function(actionName) {
-    console.log(actionName + " 프로세스 구동 시작");
-    
-    // 버튼의 이름에 따라 해당되는 형님의 10대 연동망 함수를 호출합니다
-    if (typeof connectWalletProcess === 'function') {
-        connectWalletProcess(actionName);
-    } else {
-        console.error("연동망 함수를 찾을 수 없습니다.");
-    }
-};
-</script>
 </html>
