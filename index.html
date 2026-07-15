@@ -1010,12 +1010,19 @@
         };
 
     // 10대 프로세스 실행 로직 수정
-    function executeProcess(funcName) {
+function executeProcess(funcName) {
     const area = document.getElementById('process-area');
-    let description = "시스템이 준비 중입니다.";
     
+    // 1. 요소가 존재하는지 먼저 확인
+    if (!area) {
+        console.error("오류: 'process-area' ID를 가진 요소를 찾을 수 없습니다.");
+        alert("시스템 오류: 화면 출력 영역을 찾을 수 없습니다.");
+        return;
+    }
+
+    let description = "";
     if (funcName === '지갑연결') description = "노드 계정 탐색 → 연동 대상 확인 → 상시 연동 설정 → 6자리 승인 코드 입력 → 처리 완료";
-    else if (funcName === '송금') description = "주소 입력 → 수량 입력 → 전송 경로 확인 → 6자리 승인 코드 입력 → 처리 완료";
+    else if (funcName === '송금') description = "수신 주소 입력 → 송금 수량 입력 → 대륙간 전송 경로 확인 → 6자리 승인 코드 입력 → 처리 완료";
     else if (funcName === '결제') description = "결제처 식별 → 금액 확정 → 상거래 승인 대기 → 6자리 승인 코드 입력 → 처리 완료";
     else if (funcName === '예치') description = "자산 선택 → 수량 및 기간 설정 → 예상 수익률 확인 → 6자리 승인 코드 입력 → 처리 완료";
     else if (funcName === '보상') description = "보상 항목 선택 → 인센티브 정산 내역 확인 → 실시간 정산 준비 → 6자리 승인 코드 입력 → 처리 완료";
@@ -1026,15 +1033,30 @@
     else if (funcName === 'PI수량 추가') description = "지갑 계정 확인 → PI 수량 입력 → 네트워크 노드 검증 → 6자리 승인 코드 입력 → 처리 완료";
 
     area.innerHTML = `
-        <div style="padding:15px; background:#1e293b; border:1px solid #f59e0b; border-radius:10px; color:white;">
-            <h3>[${funcName}] 상세 프로세스</h3>
-            <p>${description}</p>
-            <input type="password" id="auth-code" maxlength="6" placeholder="6자리 승인 코드" style="color:black;">
-            <button onclick="alert('처리 완료')" style="background:#f59e0b; border:none; padding:5px 10px; cursor:pointer;">승인</button>
+        <h3 class="text-amber-500 font-bold mb-2">[${funcName}] 상세 프로세스</h3>
+        <p class="text-slate-300 mb-4">${description}</p>
+        <hr class="border-slate-700 mb-4">
+        <label class="block text-slate-400 text-xs mb-2">6자리 승인 코드를 입력하세요:</label>
+        <div class="flex gap-2">
+            <input type="password" id="auth-code" maxlength="6" class="bg-slate-900 border border-slate-700 rounded px-3 py-2 text-white w-32 focus:outline-none focus:border-amber-500">
+            <button onclick="confirmAuth('${funcName}')" class="bg-amber-500 text-slate-900 font-bold px-4 py-2 rounded hover:bg-amber-400 cursor-pointer">승인</button>
         </div>
     `;
+    console.log(funcName + " 프로세스 창이 정상적으로 로드되었습니다.");
 }
- 
+     
+
+        // 인증 로직
+        function confirmAuth(funcName) {
+            const code = document.getElementById('auth-code').value;
+            if (code.length === 6) {
+                alert(funcName + " 처리가 완료되었습니다.");
+                document.getElementById('process-area').innerHTML = `<p class="text-emerald-400 font-bold"><i class="fa-solid fa-check-circle mr-2"></i>${funcName} 완료됨</p>`;
+            } else {
+                alert("6자리 숫자를 입력하세요.");
+            }
+        }
+
         // 실시간 자산 현황판 로직
         let totalQuantity = 0.000000;
         let realtimeInterest = 0.000000;
