@@ -33,9 +33,38 @@
 
     <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur-md sticky top-0 z-40">
        <div class="max-w-7xl mx-auto px-4 h-auto min-h-[4rem] flex flex-col md:flex-row items-center justify-between py-2">
-           <button id="wallet-connect-btn" onclick="connectWallet()" class="mr-4 bg-amber-500 hover:bg-amber-600 text-slate-900 px-4 py-2 rounded-lg font-bold transition-colors">
+      <button id="wallet-connect-btn" onclick="connectWallet()" class="mr-4 bg-amber-500 hover:bg-amber-600 text-slate-900 px-4 py-2 rounded-lg font-bold transition-colors">
     지갑 연결하기
 </button>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.7.2/ethers.umd.min.js"></script>
+
+<script>
+    async function connectWallet() {
+        if (typeof window.ethereum !== 'undefined') {
+            try {
+                await window.ethereum.request({ method: 'eth_requestAccounts' });
+                const provider = new ethers.providers.Web3Provider(window.ethereum);
+                const signer = provider.getSigner();
+                const address = await signer.getAddress();
+                
+                alert("혜공 형님, 지갑 연결 성공!\n연결된 주소: " + address);
+                
+                const btn = document.getElementById("wallet-connect-btn");
+                if(btn) {
+                    btn.innerText = address.substring(0, 6) + "..." + address.substring(address.length - 4);
+                    btn.style.backgroundColor = "#10B981"; // 성공 초록색
+                    btn.style.color = "#FFFFFF"; // 흰색 글씨
+                }
+            } catch (error) {
+                console.error("지갑 연결 오류:", error);
+                alert("지갑 연결이 취소되었거나 오류가 발생했습니다.");
+            }
+        } else {
+            alert("Web3 지갑(MetaMask 등)이 감지되지 않았습니다.\n크롬 웹스토어에서 메타마스크 확장 프로그램을 먼저 설치해 주십시오!");
+        }
+    }
+</script>
            <div class="flex items-center space-x-3">
                 <div class="bg-amber-500 text-slate-900 px-3 py-1.5 rounded-xl font-black text-xl tracking-wider shadow-lg">HK</div>
                 <span class="text-lg font-bold tracking-tight text-white" id="nav-title">월드뱅크 플랫폼</span>
