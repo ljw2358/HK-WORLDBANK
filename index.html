@@ -1235,37 +1235,4 @@ fetchAssets();
 </div>
 
 </body>
-<div style="position: fixed; bottom: 30px; right: 30px; z-index: 9999;">
-    <button id="wallet-connect-btn" onclick="connectWallet()" class="bg-amber-500 hover:bg-amber-600 text-slate-900 px-6 py-3 rounded-full font-black text-lg shadow-[0_0_20px_rgba(245,158,11,0.5)] transition-all cursor-pointer">
-        <i class="fa-solid fa-wallet mr-2"></i>지갑 연결하기
-    </button>
-</div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.7.2/ethers.umd.min.js"></script>
-<script>
-    async function connectWallet() {
-        alert("삐니 출동 완료! 지갑 연결을 시도합니다 🚀"); 
-        if (typeof window.ethereum !== 'undefined') {
-            try {
-                await window.ethereum.request({ method: 'eth_requestAccounts' });
-                const provider = new ethers.providers.Web3Provider(window.ethereum);
-                const signer = provider.getSigner();
-                const address = await signer.getAddress();
-                alert("혜공 형님, 지갑 연결 대성공!\n주소: " + address);
-                
-                const btn = document.getElementById("wallet-connect-btn");
-                if(btn) {
-                    btn.innerHTML = '<i class="fa-solid fa-check mr-2"></i>' + address.substring(0, 6) + "..." + address.substring(address.length - 4);
-                    btn.classList.replace("bg-amber-500", "bg-emerald-500");
-                    btn.classList.replace("hover:bg-amber-600", "hover:bg-emerald-600");
-                    btn.classList.replace("text-slate-900", "text-white");
-                }
-            } catch (error) {
-                alert("지갑 연결이 취소되었거나 오류가 발생했습니다.");
-            }
-        } else {
-            alert("Web3 지갑이 없습니다. 크롬에 메타마스크를 설치해 주십시오!");
-        }
-    }
-</script>
 </html>
