@@ -1,27 +1,21 @@
-# HK-WorldBank
-출발 언어영어도착 언어한국어번역하기
-# HK Group: Leading the Pi-Industrial Revolution
-**The Vision of 2035 starts with HK-WorldBank.**
+
+# HK-WorldBank: 화폐 혁명의 중심 (2026.07.21 완공)
+
+## [비전] 실물 경제의 주인이 되는 경제 시스템
+우리는 서민, 노동자, 노년층, 장애인, 청년 모두를 실물 경제의 중심으로 흡수합니다. 단순 금융을 넘어, 인류 보편적 번영을 위한 '화폐 혁명'을 완수합니다.
+
+## [HK 10대 핵심 자산 포트폴리오]
+디지털 화폐의 가치는 다음의 거대 실물 자산과 1:1로 매칭됩니다.
+1. **로봇:** 자동화 생태계의 핵심 기반
+2. **인공태양:** 무한 에너지 시대를 여는 기술력
+3. **우주산업:** 인류의 활동 영역을 확장하는 인프라
+4. **퀀텀바이오(Quantum Bio):** 양자 역학 기반의 인류 수명 연장 혁명
+5. **UAM:** 도심 항공 모빌리티 생태계
+
+## [운영 시스템]
+- **AGI(삐니):** 실시간 화폐 정책 결정 및 자산 배분 최적화
+- **10대 연동망:** 지갑, 송금, 결재, 예치, 보상, 기본소득, 스왑, DEX, LP, PI 관리
+- **글로벌 인프라:** 50개국어 실시간 대응 및 포용적 금융 민주주의 실현
 
 ---
-
-## 🚀 Our Mission
-To transform Pi Network from a digital currency into a global industrial powerhouse. By connecting Pi with Real-World Assets (RWA) and high-tech sectors, we create a sustainable economic future.
-
-## 🏛️ 7 Strategic Business Divisions
-1. **Robotics & AI:** Developing the next generation of humanoid workforce.
-2. **UAM (Urban Air Mobility):** Leading the drone taxi and future aviation market.
-3. **Space Industry:** Satellite technology and space resource management.
-4. **Nuclear Fusion:** Supporting clean, limitless energy for the future.
-5. **Quantum Bio:** Innovation in longevity and medical technology.
-6. **Hologram Phones:** The next leap in digital communication.
-7. **PartsBank:** The fundamental supply chain for global manufacturing.
-
-## 💎 HK-WorldBank Utility
-* **Industrial Staking:** Secure your Pi and support high-tech growth.
-* **Asset Bridge:** Connect digital holdings to physical industrial value.
-* **Global Gateway:** A financial hub for the Pi-native economy.
-
----
-© 2026 HK Group. All Rights Reserved.
-
+*소외된 모든 이들을 실물 경제의 주인으로. HK-WorldBank.*
