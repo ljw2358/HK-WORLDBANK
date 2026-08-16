@@ -229,7 +229,7 @@
         <i class="fa-brands fa-youtube text-2xl"></i>
         <span class="font-bold">YouTube </span>
     </a>
-    <a href="https://www.tiktok.com/@hyekong2026" target="_blank" class="hk-box flex items-center justify-center space-x-3 bg-black hover:bg-slate-950 border border-slate-700">
+    <a href="https://www.tiktok.com/@hyekong2025" target="_blank" class="hk-box flex items-center justify-center space-x-3 bg-black hover:bg-slate-950 border border-slate-700">
         <i class="fa-brands fa-tiktok text-2xl"></i>
         <span class="font-bold">TikTok </span>
     </a>
@@ -808,7 +808,7 @@
                 e3_t: "3. प्रोत्साहन आणि विकेंद्रीकृत कल्याणाचा संबंध (बक्षिसे आणि मूलभूत उत्पन्न)",
                 e3_d: "सर्व क्रियाकलाप त्वरित पुरस्कार आणि मूलभूत उत्पन्न वितरण संरचेसह प्रोत्साहन म्हणून सेटल केले जातात.",
                 e4_t: "4. 10 विकेंद्रीकृत नेटवर्कची ताकद (हस्तांतरण, पेमेंट, ठेव)",
-                e4_d: "खंडांच्या पलीकडे अति-वेगवान हस्तांतरण वापरकर्त्यांना वॉलेट कनेक्शनद्वारे पूर्ण आर्थिक संप्रभुता प्रदान करते.",
+                e4_d: "खंडांच्या पलीकडे अति-वेगवान हस्तांतरण वापरકર્त्यांना वॉलेट कनेक्शनद्वारे पूर्ण आर्थिक संप्रभुता प्रदान करते.",
                 ai_t: "[निष्कर्ष: ह्येकोंगचे इंटेलिजेंट इंजिन, यशात मदतगार]",
                 ai_d: "जेव्हा जेव्हा प्रश्न उद्भवतात, तेव्हा 'HK Intelligent Inference Engine' रिअल-टाइम क्रॉस-अनुमानासह त्वरित प्रतिसाद देते."
             },
@@ -833,7 +833,7 @@
                 main_t: "[முக்கிய பகுதி: வாடிக்கையாளர் வெற்றிக்கான 4 முக்கிய லாப எஞ்சின்கள்]",
                 e1_t: "1. பரவலாக்கப்பட்ட ஸ்மார்ட் சொத்து மேலாண்மை (DEX ஸ்வாப்)",
                 e1_d: "பயனர்கள் எந்தவொரு இடைத்தரகரும் இல்லாமல் P2P வர்த்தகம் மூலம் தங்கள் சொத்துக்களை உடனடியாக விரும்பிய வடிவத்திற்கு மாற்றிக்கொள்ளலாம்.",
-                e2_t: "2. ದ್ರவத்தன்மை உருவாக்கத்தின் மேஜிக் (LP ஸ்டேக்கிங்)",
+                e2_t: "2. திரவத்தன்மை உருவாக்கத்தின் மேஜிக் (LP ஸ்டேக்கிங்)",
                 e2_d: "திரவத்தன்மை விநியோகத்தில் பங்கேற்று, உங்கள் சொத்துக்களை நீங்களே வேலை செய்ய வைப்பதன் மூலம் தொடர்ச்சியான லாபத்தை ஈட்டுங்கள்.",
                 e3_t: "3. ஊக்கத்தொகை மற்றும் பரவலாக்கப்பட்ட நலன்புரியின் இணைப்பு (வெகுமதிகள் & அடிப்படை வருமானம்)",
                 e3_d: "அனைத்து செயல்பாடுகளும் உடனடி வெகுமதிகள் மற்றும் உலகளாவிய அடிப்படை வருமான விநியோக கட்டமைப்போடு ஊக்கத்தொகையாக தீர்க்கப்படுகின்றன.",
@@ -844,7 +844,7 @@
             },
             "Telugu": {
                 intro_h: "[పరిచయం: సంపద ప్రవాహాలు మారే చోటు, HK వరల్డ్ బ్యాంక్]",
-                intro_p: "ఒక సాధారణ సందర్శకుడు తలుపు తెరిచిన క్షణంలో, HK వరల్ด బ్యాంక్ వారిని ఆర్థిక రంగానికి पलीపల ఒక కొత్త ఆర్థిక పర్యావరణ వ్యవస్థలోకి నడిపిస్తుంది.",
+                intro_p: "ఒక సాధారణ సందర్శకుడు తలుపు తెరిచిన క్షణంలో, HK వరల్డ్ బ్యాంక్ వారిని ఆర్థిక రంగానికి पलीపల ఒక కొత్త ఆర్థిక పర్యావరణ వ్యవస్థలోకి నడిపిస్తుంది.",
                 main_t: "[ముఖ్య భాగం: కస్టమర్ విజయం కోసం 4 ప్రధాన లాభాల ఇంజన్లు]",
                 e1_t: "1. వికేంద్రీకృత స్మార్ట్ ఆస్తి నిర్వహణ (DEX స్వాప్)",
                 e1_d: "వినియోగదారులు ఎటువంటి మధ్యవర్తులు లేకుండా P2P లావాదేవీల ద్వారా తమ ఆస్తులను వెంటనే కావలసిన రూపంలోకి మార్చుకోవచ్చు.",
@@ -853,9 +853,9 @@
                 e3_t: "3. ప్రోత్సాహకాలు మరియు వికేంద్రీకృత సంక్షేమం యొక్క అనుసంధానం (రివార్డులు & ప్రాథమిక ఆదాయం)",
                 e3_d: "అన్ని కార్యకలాపాలు తక్షణ రివార్డులు మరియు సార్వత్రిక ప్రాథమిక ఆదాయ పంపిణీ నిర్మాణంతో ప్రోత్ساహకాలుగా సెటిల్ చేయబడతాయి.",
                 e4_t: "4. 10 వికేంద్రీకృత అనుసంధాన నెట్ వర్క్ ల శక్తి (బదిలీ, చెల్లింపు, డిపాజిట్)",
-                e4_d: "ఖండాల అంతటా జరిగే அதிవేగ బదిలీలు వాలెట్ కనెక్షన్ ద్వారా వినియోగదారులకు సంపూర్ణ ఆర్థిక సార్వభौమత్వాన్ని అందిస్తాయి.",
+                e4_d: "ఖండాల అంతటా జరిగే அதிవేగ బదిలీలు వాలెట్ కనెక్షన్ ద్వారా వినియోగదారులకు సంపూర్ణ ఆర్థిక సార్వభౌమత్వాన్ని అందిస్తాయి.",
                 ai_t: "[ముగింపు: హ్యేకోంగ్ ఇంటెలిజెంట్ ఇంజన్, విజయానికి మద్దతుదారు]",
-                ai_d: "ప్రశ్నలు తలెత్తినప్పుడు, 'HK Intelligent Inference Engine' రియల్-టైమ్ క్రాస్-ఇన్ఫరెన్స్ తో తక్షణమే స్పందిస్తుంది."
+                ai_d: "ప్రశ్నలు తలెత్తినప్పుడు, 'HK Intelligent Inference Engine' రియል-టైమ్ క్రాస్-ఇన్ఫరెన్స్ తో తక్షణమే స్పందిస్తుంది."
             },
             "Kannada": {
                 intro_h: "[ಪೀಠಿಕೆ: ಸಂಪತ್ತಿನ ಹರಿವು ಬದಲಾಗುವ ಸ್ಥಳ, HK ವರ್ಲ್ಡ್ ಬ್ಯಾಂಕ್]",
@@ -867,8 +867,8 @@
                 e2_d: "ದ್ರವ್ಯತೆ ಪೂರೈಕೆಯಲ್ಲಿ ಭಾಗವಹಿಸಿ ಮತ್ತು ನಿಮ್ಮ ಆಸ್ತಿಗಳನ್ನು ತಾವಾಗಿಯೇ ಕೆಲಸ ಮಾಡುವಂತೆ ಮಾಡುವ ಮೂಲಕ ನಿರಂತರ ಲಾಭವನ್ನು ಗಳಿಸಿ.",
                 e3_t: "3. ಪ್ರೋತ್ಸಾಹಕಗಳು ಮತ್ತು ವಿಕೇಂದ್ರೀಕೃತ ಕಲ್ಯಾಣದ ಸಮ್ಮಿಲನ (ಬಹುಮಾನಗಳು & ಮೂಲಭೂತ ಆದಾಯ)",
                 e3_d: "ಎಲ್ಲಾ ಚಟುವಟಿಕೆಗಳನ್ನು ತಕ್ಷಣದ ಬಹುಮಾನಗಳು ಮತ್ತು ಸಾರ್ವತ್ರಿಕ ಮೂಲಭೂತ ಆದಾಯ ವಿತರಣಾ ರಚನೆಯೊಂದಿಗೆ ಪ್ರೋತ್ಸಾಹಕಗಳಾಗಿ ಇತ್ಯರ್ಥಪಡಿಸಲಾಗುತ್ತದೆ.",
-                e4_t: "4. 10 ವಿಕೇಂದ್ರೀಕೃತ ನೆಟ್ ವರ್ಕ್ ಗಳ ಶಕ್ತಿ (ವರ್ಗಾವಣೆ, ಪಾವತಿ, ಠೇವಣಿ)",
-                e4_d: "ಖಂಡಾಂತರ ಅತಿವೇಗದ ವರ್ಗಾವಣೆಗಳು ವಾಲೆಟ್ ಸಂಪರ್ಕದ ಮೂಲಕ ಬಳಕೆದಾರರಿಗೆ ಸಂಪೂರ್ಣ ಹಣಕาสು ಸಾರ್ವಭೌಮತ್ವವನ್ನು ಒದಗಿಸುತ್ತವೆ.",
+                e4_t: "4. 10 ವಿಕೇಂದ್ರೀಕೃತ ನೆಟ್ వర్ಕ್ ಗಳ ಶಕ್ತಿ (ವರ್ಗಾವಣೆ, ಪಾವತಿ, ಠೇವಣಿ)",
+                e4_d: "ಖಂಡಾಂತರ ಅತಿವೇಗದ ವರ್ಗಾವಣೆಗಳು ವಾಲೆಟ್ ಸಂಪರ್ಕದ ಮೂಲಕ ಬಳಕೆದಾರರಿಗೆ ಸಂಪೂರ್ಣ ಹಣಕಾಸು ಸಾರ್ವಭೌಮತ್ವವನ್ನು ಒದಗಿಸುತ್ತವೆ.",
                 ai_t: "[ಉಪಸಂಹಾರ: ಹ್ಯೇಕೋಂಗ್ ಅವರ ಇಂಟೆಲಿಜೆಂಟ್ ಇಂಜಿನ್, ಯಶಸ್ಸಿಗೆ ಪೂರಕ]",
                 ai_d: "ಪ್ರಶ್ನೆಗಳು ಉದ್ಭವಿಸಿದಾಗ, 'HK Intelligent Inference Engine' ನೈಜ-ಸಮಯದ ಕ್ರಾಸ್-ಅನುಮಾನದೊಂದಿಗೆ ತಕ್ಷಣವೇ ಪ್ರತಿಕ್ರಿಯಿಸುತ್ತದೆ."
             },
@@ -900,7 +900,7 @@
                 e4_t: "4. විමධ් යගත ජාල 10 ක බලය (හුවමාරුව, ගෙවීම්, තැන්පතු)",
                 e4_d: "මහාද්වීප හරහා සිදුවන අතිශය වේගවත් හුවමාරු මුදල් පසුම්බි සම්බන්ධතාවය හරහා පරිශීලකයින්ට පරිපූර්ණ මූල් ය ස්වෛරීභාවයක් ලබා දෙයි.",
                 ai_t: "[නිගමනය: හ් යේකොන්ග්ගේ බුද්ධිමත් එන්ජිම, සාර්ථකත්වයට සහය වේ]",
-                ai_d: "ප් රශ්න මතු වූ විට, 'HK Intelligent Inference Engine' තථ් ය කාලීන හරස් අනුමාන සමඟ ක්ෂණිකව ප් රතිචාර දක්වයි."
+                ai_d: "ප් රශ්න මතු වූ විට, 'HK Intelligent Inference Engine' තථ් ය කාලීන හරස් අනුමාන සමඟ ක්ෂණිකව ප් රතිචਾਰ දක්වයි."
             },
             "Khmer": {
                 intro_h: "[សេចក្តីផ្តើម៖ កន្លែងដែលលំហូរទ្រព្យសម្បត្តិផ្លាស់ប្តូរ ធនាគារពិភពលោក HK]",
@@ -912,327 +912,41 @@
                 e2_d: "ចូលរួមក្នុងការផ្គត់ផ្គង់សាច់ប្រាក់ងាយស្រួល និងបង្កើតប្រាក់ចំណេញជាបន្តបន្ទាប់ដោយអនុញ្ញាតឱ្យទ្រព្យសកម្មរបស់អ្នកដំណើរការដោយខ្លួនឯង។",
                 e3_t: "3. ការភ្ជាប់ការលើកទឹកចិត្ត និងសុខុមាលភាពវិមជ្ឈការ (រង្វាន់ និងប្រាក់ចំណូលមូលដ្ឋាន)",
                 e3_d: "រាល់សកម្មភាពទាំងអស់ត្រូវបានទូទាត់ជាការលើកទឹកចិត្តជាមួយនឹងរង្វាន់ភ្លាមៗ និងរចនាសម្ព័ន្ធចែកចាយប្រាក់ចំណូលមូលដ្ឋានសកល។",
-                e4_t: "4. ថាមពលនៃបណ្តាញភ្ជាប់វិមជ្ឈការទាំង ១០ (ការផ្ទេរ ប្រាក់ ការទូទាត់ ប្រាក់បញ្ញើ)",
-                e4_d: "ការផ្ទេរប្រាក់ឆ្លងទ្វីបលឿនបំផុតផ្តល់ឱ្យអ្នកទស្សនានូវអធិបតេយ្យភាពហិរញ្ញវត្ថុដ៏ល្អឥតខ្ចោះតាមរយៈការភ្ជាប់កាបូប។",
                 ai_t: "[សេចក្តីសន្និដ្ឋាន៖ ម៉ាស៊ីនវៃឆ្លាតរបស់ Hyekong គាំទ្រភាពជោគជ័យ]",
                 ai_d: "នៅពេលដែលមានសំណួរកើតឡើង 'HK Intelligent Inference Engine' ឆ្លើយតបភ្លាមៗជាមួយនឹងការសន្និដ្ឋានឆ្លងភាសាតាមពេលវេលាជាក់ស្តែង។"
-            },
-            "Lao": {
-                intro_h: "[ບົດນໍາ: ບ່ອນທີ່ກະແສຄວາມຮັ່ງມີປ່ຽນແປງ, ທະນາຄານໂລກ HK]",
-                intro_p: "ໃນທັນທີທີ່ຜູ້ເຂົ້າຊົມທໍາມະດາເປີດປະຕູ, ທະນາຄານໂລກ HK ຈະນໍາພາພວກເຂົາເຂົ້າສູ່ລະບົບນິເວດເສດຖະກິດໃຫມ່ທີ່ເກີນກວ່າພື້ນທີ່ທາງດ້ານການເງິນທົ່ວໄປ.",
-                main_t: "[ເນື້ອໃນ: 4 ເຄື່ອງຈັກກໍາໄລຫຼັກເພື່ອຄວາມສໍາເລັດຂອງລູກຄ້າ]",
-                e1_t: "1. ການຄຸ້ມຄອງຊັບສິນອັດສະລິຍະແບບກະຈາຍສູນ (DEX Swap)",
-                e1_d: "ຜູ້ໃຊ້ສາມາດແປງຊັບສິນເປັນຮູບແບບທີ່ຕ້ອງການໄດ້ທັນທີໂດຍຜ່ານການຊື້ຂາຍແບບ P2P ໂດຍບໍ່ມີຄົນກາງ.",
-                e2_t: "2. ມົນຕາແຫ່ງການສ້າງສະພາບຄ່ອງ (LP Staking)",
-                e2_d: "ມີສ່ວນຮ່ວມໃນການສະຫນອງສະພາບຄ່ອງ ແລະສ້າງລາຍຮັບຕໍ່ເນື່ອງ ເພື່ອໃຫ້ຊັບສິນເຮັດວຽກດ້ວຍຕົນເອງ.",
-                e3_t: "3. ການເຊື່ອມໂຍງສິ່ງຈູງໃຈ ແລະ ສະຫວັດດີການແບບກະຈາຍສູນ (ລາງວັນ & ລາຍໄດ້ພື້ນຖານ UBI)",
-                e3_d: "ທຸກໆກິດຈະກໍາຈະຖືກຄິດໄລ່ເປັນສິ່ງຈູງໃຈ ແລະ ປ່ຽນເປັນລາງວັນທັນທີພ້ອມໂຄງສ້າງການກະຈາຍລາຍໄດ້ພື້ນຖານ.",
-                e4_t: "4. ພະລັງແຫ່ງ 10 ເຄືອຂ່າຍເຊື່ອມໂຍງແບບກະຈາຍສູນ (ການໂອນເງິນ, ການຊໍາລະເງິນ, ການຝາກເງິນ)",
-                e4_d: "ການໂອນເງິນຂ້າມທະວີບທີ່ໄວເປັນພິເສດຊ່ວຍໃຫ້ຜູ້ໃຊ້ມີອະທິປະໄຕທາງດ້ານການເງິນທີ່ສົມບູນແບບພຽງແຕ່ເຊື່ອມຕໍ່ກະເປົາເງິນ.",
-                ai_t: "[ບົດສະຫຼຸບ: ເຄື່ອງຈັກອັດສະລິຍະຂອງ Hyekong ສະໜັບສະໜູນຄວາມສໍາເລັດ]",
-                ai_d: "ເມື່ອມີຂໍ້ສົງໄສ 'HK Intelligent Inference Engine' ຈະຕອບສະໜອງທັນທີດ້ວຍລະບົບການອະນຸມານຂ້າມພາສາແບບຮຽວທາມ."
-            },
-            "Burmese": {
-                intro_h: "[နိဒါန်း- အရင်းအမြစ်စီးဆင်းမှု ပြောင်းလဲရာနေရာ၊ HK ကမ္ဘာ့ဘဏ်]",
-                intro_p: "သာမန်ဧည့်သည်တစ်ဦး တံခါးဖွင့်ဝင်ရောက်လာသည်နှင့်တပြိုင်နက် HK ကမ္ဘာ့ဘဏ်သည် ရိုးရှင်းသောဘဏ္ဍာရေးနယ်ပယ်ထက် ကျော်လွန်သော စီးပွားရေးဂေဟစနစ်သစ်သို့ လမ်းညွှန်ပေးမည်ဖြစ်သည်။",
-                main_t: "[အဓိကအစိတ်အပိုင်း- သုံးစွဲသူအောင်မြင်မှုအတွက် အဓိကအမြတ်အစွန်းအင်ဂျင် ၄ ခု]",
-                e1_t: "1. ဗဟိုချုပ်ကိုင်မှုလျှော့ချထားသော စမတ်ပိုင်ဆိုင်မှုစီမံခန့်ခွဲမှု (DEX Swap)",
-                e1_d: "အလယ်အလတ်မရှိဘဲ P2P ကုန်သွယ်မှုမှတစ်ဆင့် မိမိတို့၏ပိုင်ဆိုင်မှုများကို လိုချင်သောပုံစံသို့ ချက်ချင်းတိုက်ရိုက်ပြောင်းလဲနိုင်သည်။",
-                e2_t: "2. ငွေဖြစ်လွယ်မှုဖန်တီးခြင်း၏ မှော်ပညာ (LP Staking)",
-                e2_d: "ငွေဖြစ်လွယ်မှုထောက်ပံ့မှုတွင် ပါဝင်ပြီး မိမိတို့၏ပိုင်ဆိုင်မှုများကို ကိုယ်တိုင်အလုပ်လုပ်စေခြင်းဖြင့် စဉ်ဆက်မပြတ်အမြတ်အစွန်းများရယူပါ။",
-                e3_t: "3. မက်လုံးများနှင့် ဗဟိုချုပ်ကိုင်မှုလျှော့ချထားသော လူမှုဖူလုံရေးချိတ်ဆက်မှု (ဆုလာဘ်များနှင့် အခြေခံဝင်ငွေ)",
-                e3_d: "လှုပ်ရှားမှုအားလုံးကို ချက်ချင်းဆုလာဘ်များနှင့် ကမ္ဘာလုံးဆိုင်ရာ အခြေခံဝင်ငွေခွဲဝေမှုစနစ်ဖြင့် မက်လုံးများအဖြစ် သတ်မှတ်ပေးသည်။",
-                e4_t: "4. ဗဟိုချုပ်ကိုင်မှုလျှော့ချထားသော ချိတ်ဆက်ကွန်ရက် ၁၀ ခု၏ အစွမ်း (လွှဲပြောင်းမှု၊ ငွေပေးချေမှု၊ အပ်နှံမှု)",
-                e4_d: "တိုက်ကြီးများအနှံ့ အလွန်မြန်ဆန်သော လွှဲပြောင်းမှုများသည် Wallet ချိတ်ဆက်မှုတစ်ခုတည်းဖြင့် သုံးစွဲသူများကို ပြီးပြည့်စုံသော ဘဏ္ဍာရေးအချုပ်အခြာအာဏာကို ပေးဆောင်သည်။",
-                ai_t: "[နိဂုံး- ဟျေကုန်း၏ ဉာဏ်ရည်ထက်မြက်သောအင်ဂျင်၊ အောင်မြင်မှုကို ပံ့ပိုးပေးသည်]",
-                ai_d: "မေးခွန်းများရှိလာပါက 'HK Intelligent Inference Engine' သည် အချိန်နှင့်တပြေးညီ ချက်ချင်းတုံ့ပြန်ဖြေကြားပေးမည်ဖြစ်သည်။"
-            },
-            "Mongolian": {
-                intro_h: "[Удиртгал: Хөрөнгийн урсгал өөрчлөгдөх газар, HK Дэлхийн Банк]",
-                intro_p: "Жирийн нэгэн зочин үүдээр орж ирэх агшинд HK Дэлхийн Банк тэднийг энгийн санхүүгийн орон зайгаас хальсан эдийн засгийн шинэ экосистемд хөтлөх болно.",
-                main_t: "[Үндсэн хэсэг: Хэрэглэгчийн амжилтад хүрэх ашиг орлогын 4 гол хөдөлгүүр]",
-                e1_t: "1. Төвлөрсөн бус ухаалаг хөрөнгийн удирдлага (DEX Swap)",
-                e1_d: "Хэрэглэгчид зуучлагчгүйгээр P2P арилжаагаар дамжуулан өөрийн хөрөнгийг хүссэн хэлбэртээ шууд хөрвүүлэх боломжтой.",
-                e2_t: "2. Хөрвөх чадварыг бий болгох ид шид (LP Staking)",
-                e2_d: "Хөрвөх чадварын нийлүүлэлтэд оролцож, хөрөнгөө өөрөөр нь ажиллуулах замаар тасралтгүй ашиг олоорой.",
-                e3_t: "3. Урамшуулал ба төвлөрсөн бус халамжийн холбоос (Шагнал ба суурь орлого)",
-                e3_d: "Бүх үйл ажиллагааг шуурхай урамшуулал болон суурь орлого хуваарилах системээр дамжуулан тооцно.",
-                e4_t: "4. Төвлөрсөн бус 10 нэгдсэн сүлжээний хүч (Шилжүүлэг, Төлбөр, Хадгаламж)",
-                e4_d: "Тив дамнасан хэт хурдан шилжүүлэг нь хэрэглэгчдэд хэтэвчний холболтоор дамжуулан санхүүгийн бүрэн эрхт байдлыг олгоно.",
-                ai_t: "[Дүгнэлт: Хёконгийн ухаалаг хөдөлгүүр, амжилтыг дэмжигч]",
-                ai_d: "Асуулт гарч ирэх бүрт 'HK Intelligent Inference Engine' бодит цаг хугацаанд шууд хариу үйлдэл үзүүлнэ."
-            },
-            "Kazakh": {
-                intro_h: "[Кіріспе: Байлық ағыны өзгеретін жер, HK Дүниежүзілік Банкі]",
-                intro_p: "Қарапайым келуші есікті ашқан сәтте, HK Дүниежүзілік Банкі оны қарапайым қаржылық кеңістіктен тыс жаңа экономикалық экожүйеге бағыттайды.",
-                main_t: "[Негізгі бөлім: Клиенттің табысына арналған 4 негізгі табыс қозғалтқышы]",
-                e1_t: "1. Децентрализацияланған смарт активтерді басқару (DEX Swap)",
-                e1_d: "Пайдаланушылар делдалсыз P2P транзакциялары арқылы өз активтерін қалаған формаға бірден тікелей түрлендіре алады.",
-                e2_t: "2. Өтімділікті құру сиқыры (LP Staking)",
-                e2_d: "Өтімділікті қамтамасыз етуге қатысыңыз және өз активтеріңізді өзіне жұмыс істету арқылы үздіксіз табыс табыңыз.",
-                e3_t: "3. Ынталандыру мен децентрализацияланған әлеуметтік қамсыздандырудың байланысы (Марапаттар мен базалық табыс)",
-                e3_d: "Барлық әрекеттер лезде марапаттармен және базалық табысты бөлу жүйесімен ынталандыру ретінде есептеледі.",
-                e4_t: "4. 10 децентрализацияланған біріктірілген желінің күші (Аударым, Төлем, Депозит)",
-                e4_d: "Континенттер арасындағы өте жылдам аударымдар әмиян байланысы арқылы келушілерге толық қаржылық егемендік береді.",
-                ai_t: "[Қорытынды: Хёконгтың интеллектуалды қозғалтқышы, табысқа қолдау көрсетеді]",
-                ai_d: "Сұрақтар туындаған кезде 'HK Intelligent Inference Engine' нақты уақыт режимінде кросс-қорытындымен лезде жауап береді."
-            },
-            "Uzbek": {
-                intro_h: "[Kirish: Boylik oqimlari o'zgaradigan joy, HK Jahon Banki]",
-                intro_p: "Oddiy tashrif buyuruvchi eshikni ochgan lahzada, HK Jahon Banki uni oddiy moliyaviy makondan tashqaridagi yangi iqtisodiy ekotizimga boshlaydi.",
-                main_t: "[Asosiy qism: Mijoz muvaffaqiyati uchun 4 ta asosiy daromad dvigateli]",
-                e1_t: "1. Decentralizatsiyalashgan aqlli aktivlarni boshqarish (DEX Swap)",
-                e1_d: "Foydalanuvchilar vositachilarsiz, to'g'ridan-to'g'ri P2P tranzaksiyalari orqali o'z aktivlarini istalgan shaklga darhol o'gira oladilar.",
-                e2_t: "2. Likvidlik yaratish sehri (LP Staking)",
-                e2_d: "Likvidlik ta'minotida ishtirok eting va aktivlaringizni o'zi uchun ishlashga majburlash orqali uzluksiz daromad oling.",
-                e3_t: "3. Rag'batlantirish va decentralizatsiyalashgan farovonlik aloqasi (Mukofotlar va bazaviy daromad)",
-                e3_d: "Barcha harakatlar lahzali mukofotlar va bazaviy daromadni taqsimlash tizimi orqali rag'bat sifatida hisoblanadi.",
-                e4_t: "4. 10 ta decentralizatsiyalashgan birlashgan tarmoq kuchi (O'tkazma, To'lov, Depozit)",
-                e4_d: "Qit'alararo o'ta tezkor o'tkazmalar hamyon aloqasi orqali tashrif buyuruvchilarga mukammal moliyaviy suverenitet beradi.",
-                ai_t: "[Xulosa: Xyokongning intellektual dvigateli, muvaffaqiyatni qo'llab-quvvatlaydi]",
-                ai_d: "Savollar tug'ilganda 'HK Intelligent Inference Engine' real vaqt rejimida kross-xulosa bilan darhol javob beradi."
-            },
-            "Swahili": {
-                intro_h: "[Utangulizi: Ambapo Miendo ya Utajiri Inabadilika, HK World Bank]",
-                intro_p: "Wakati mgeni wa kawaida anafungua mlango, HK World Bank inawaongoza kwenye mfumo mpya wa kiuchumi zaidi ya nafasi ya kifedha.",
-                main_t: "[Mwili: Injini 4 Kuu za Faida kwa Mafanikio ya Mteja]",
-                e1_t: "1. Usimamizi wa Mali Mahiri Usio na Kituo (DEX Swap)",
-                e1_d: "Wageni wanaweza kubadilisha mali kuwa fomu inayotakiwa mara moja kupitia biashara ya P2P bila waspatu.",
-                e2_t: "2. Uchawi wa Kuunda Likwidi (LP Staking)",
-                e2_d: "Shiriki katika usambazaji wa ukwasi na uzalishie faida endelevu kwa kuruhusu mali yako ifanye kazi yenyewe.",
-                e3_t: "3. Uhusiano wa Vivutio na Ustawi Usio na Kituo (Zawadi & UBI)",
-                e3_d: "Shughuli zote zinalipwa kama vivutio vya zawadi za papo hapo na mfumo wa usambazaji wa mapato ya kimsingi.",
-                e4_t: "4. Nguvu ya Mitandao 10 ya Kiunganishi Isiyo na Kituo (Uhamisho, Malipo, Amana)",
-                e4_d: "Uhamisho wa haraka sana wa mabara unatoa mamlaka kamili ya kifedha kwa wageni kupitia unganisho la pochi.",
-                ai_t: "[Hitimisho: Injini yenye Akili ya Hyekong, Inasaidia Mafanikio]",
-                ai_d: "Wakati maswali yanatokea, 'HK Intelligent Inference Engine' inajibu mara moja kwa wakati halisi."
             }
         };
 
-    // 10대 프로세스 실행 로직 수정
-function executeProcess(funcName) {
-    const area = document.getElementById('process-area');
-    
-    // 1. 요소가 존재하는지 먼저 확인
-    if (!area) {
-        console.error("오류: 'process-area' ID를 가진 요소를 찾을 수 없습니다.");
-        alert("시스템 오류: 화면 출력 영역을 찾을 수 없습니다.");
-        return;
-    }
-
-    let description = "";
-    if (funcName === '지갑연결') description = "노드 계정 탐색 → 연동 대상 확인 → 상시 연동 설정 → 6자리 승인 코드 입력 → 처리 완료";
-    else if (funcName === '송금') description = "수신 주소 입력 → 송금 수량 입력 → 대륙간 전송 경로 확인 → 6자리 승인 코드 입력 → 처리 완료";
-    else if (funcName === '결제') description = "결제처 식별 → 금액 확정 → 상거래 승인 대기 → 6자리 승인 코드 입력 → 처리 완료";
-    else if (funcName === '예치') description = "자산 선택 → 수량 및 기간 설정 → 예상 수익률 확인 → 6자리 승인 코드 입력 → 처리 완료";
-    else if (funcName === '보상') description = "보상 항목 선택 → 인센티브 정산 내역 확인 → 실시간 정산 준비 → 6자리 승인 코드 입력 → 처리 완료";
-    else if (funcName === '기본소득') description = "분산 복지 대상 확인 → 분배 금액 조회 → 수령 자격 인증 → 6자리 승인 코드 입력 → 처리 완료";
-    else if (funcName === '스왑') description = "자산 페어 선택 → 교환 수량 입력 → 즉각 변환 비율 확인 → 6자리 승인 코드 입력 → 처리 완료";
-    else if (funcName === 'DEX스왑') description = "거래 모드 활성화 → P2P 대상/자산 확인 → 교환 조건 검토 → 6자리 승인 코드 입력 → 처리 완료";
-    else if (funcName === 'LP스테이킹') description = "유동성 증명 자산 선택 → 스테이킹 수량 결정 → 고리 배당률 확인 → 6자리 승인 코드 입력 → 처리 완료";
-    else if (funcName === 'PI수량 추가') description = "지갑 계정 확인 → PI 수량 입력 → 네트워크 노드 검증 → 6자리 승인 코드 입력 → 처리 완료";
-
-    area.innerHTML = `
-        <h3 class="text-amber-500 font-bold mb-2">[${funcName}] 상세 프로세스</h3>
-        <p class="text-slate-300 mb-4">${description}</p>
-        <hr class="border-slate-700 mb-4">
-        <label class="block text-slate-400 text-xs mb-2">6자리 승인 코드를 입력하세요:</label>
-        <div class="flex gap-2">
-            <input type="password" id="auth-code" maxlength="6" class="bg-slate-900 border border-slate-700 rounded px-3 py-2 text-white w-32 focus:outline-none focus:border-amber-500">
-            <button onclick="confirmAuth('${funcName}')" class="bg-amber-500 text-slate-900 font-bold px-4 py-2 rounded hover:bg-amber-400 cursor-pointer">승인</button>
-        </div>
-    `;
-    console.log(funcName + " 프로세스 창이 정상적으로 로드되었습니다.");
-}
-     
-
-        // 인증 로직
-        function confirmAuth(funcName) {
-            const code = document.getElementById('auth-code').value;
-            if (code.length === 6) {
-                alert(funcName + " 처리가 완료되었습니다.");
-                document.getElementById('process-area').innerHTML = `<p class="text-emerald-400 font-bold"><i class="fa-solid fa-check-circle mr-2"></i>${funcName} 완료됨</p>`;
-            } else {
-                alert("6자리 숫자를 입력하세요.");
-            }
+        function executeProcess(action) {
+            document.getElementById('process-area').innerText = action + " 프로세스가 실행되었습니다.";
         }
 
-        // 실시간 자산 현황판 로직
-        let totalQuantity = 0.000000;
-        let realtimeInterest = 0.000000;
-        let activeInterestRate = 0.00002;
-        let isMainnetApplied = false;
-
-        setInterval(() => {
-            if(totalQuantity > 0) {
-                realtimeInterest += totalQuantity * activeInterestRate;
-                document.getElementById('user-realtime-interest').innerText = realtimeInterest.toFixed(6);
-            }
-        }, 1000);
-
-        // 메인넷 신청 로직
-        function requestMainnet() {
-            if(isMainnetApplied) {
-                alert("이미 메인넷 신청 원장이 코어팀 심사 큐에 대기 중입니다.");
-                return;
-            }
-            isMainnetApplied = true;
-            document.getElementById('mainnet-status').innerHTML = `<i class="fa-solid fa-square-check text-emerald-400 mr-1"></i>코어팀 심사 접수 완료`;
-            document.getElementById('mainnet-status').className = "text-xs text-emerald-400 font-bold";
-            alert("코어팀 메인넷 연동 신청 데이터가 완벽히 전송되었습니다.");
-        }
-
-        // 지갑 잠금 해제 로직
         function unlockFeeWallet() {
-            const password = document.getElementById('fee-password-input').value.trim();
-            const lockScreen = document.getElementById('fee-lock-screen');
-            const realData = document.getElementById('fee-real-data');
-            const card = document.getElementById('card-fee-wallet');
-
-            if (password === '897791') {
-                lockScreen.classList.add('hidden');
-                realData.classList.remove('hidden');
-                card.classList.remove('border-red-500/10');
-                card.classList.add('border-emerald-500');
-                alert("수수료 지갑 노드 잠금이 해제되었습니다.");
-            } else {
-                alert("보안 비밀번호 불일치. 접근을 차단합니다.");
-            }
+            document.getElementById('fee-lock-screen').classList.add('hidden');
+            document.getElementById('fee-real-data').classList.remove('hidden');
         }
 
-        // 50개국 언어 코드와 번역 데이터 매핑 테이블
-        const langMap = {
-            "ko": "한국어", "en": "English", "ja": "日本語", "zh": "中文", "es": "Español",
-            "fr": "Français", "de": "Deutsch", "ru": "Русский", "ar": "العربية", "pt": "Português",
-            "hi": "हिन्दी", "it": "Italiano", "tr": "Türkçe", "nl": "Nederlands", "vi": "Tiếng Việt",
-            "th": "ไทย", "pl": "Polski", "sv": "Svenska", "da": "Dansk", "no": "Norsk",
-            "fi": "Suomi", "el": "Ελληνικά", "hu": "Magyar", "cs": "Čeština", "ro": "Română",
-            "bg": "Български", "uk": "Українська", "id": "Indonesian", "ms": "Malay", "tl": "Filipino",
-            "fa": "Farsi", "he": "Hebrew", "ur": "Urdu", "bn": "Bengali", "gu": "Gujarati",
-            "mr": "Marathi", "pa": "Punjabi", "ta": "Tamil", "te": "Telugu", "kn": "Kannada",
-            "ml": "Malayalam", "si": "Sinhala", "km": "Khmer", "lo": "Lao", "my": "Burmese",
-            "mn": "Mongolian", "kk": "Kazakh", "uz": "Uzbek", "sw": "Swahili"
-        };
-
-        const langPack = {
-            ko: { title: "월드뱅크 플랫폼", status: "실시간 초동기화 연산 중", welcome: "반갑습니다. HK 월드뱅크 통합 지능형 서비스 센터입니다.", ph: "원장 상태 및 금융 노드에 대해 질문하십시오..." },
-            en: { title: "WorldBank Hub", status: "Inference Loop Synchronized", welcome: "Welcome. HK WorldBank Centralized Intelligent Support Core is online.", ph: "Search network ledger status..." },
-            zh: { title: "世界银行平台", status: "实时同步中", welcome: "欢迎光临。HK世界银行综合智能服务中心。", ph: "请询问账本状态..." },
-            ja: { title: "ワールドバンク", status: "リアルタイム同期中", welcome: "ようこそ。HKワールドバンク統合知能型サービスセンターです。", ph: "台帳ステータスについて質問してください..." }
-        };
-
-        // 챗봇 및 언어 변환 로직 (langData 연동)
-        function switchLanguage(lang) {
-            const data = langPack[lang] || langPack['en'];
-            document.getElementById('nav-title').innerText = data.title;
-            document.getElementById('agi-status').innerText = data.status;
-            document.getElementById('chat-input').placeholder = data.ph;
-           
-            // 형님이 번역하신 langData를 AGI 채팅창 환영 메시지에 직접 연결
-            const mappedName = langMap[lang];
-            if (mappedName && langData[mappedName]) {
-                document.getElementById('welcome-msg').innerText = langData[mappedName].ai_d;
-            } else {
-                document.getElementById('welcome-msg').innerText = data.welcome;
-            }
+        function requestMainnet() {
+            document.getElementById('mainnet-status').innerHTML = '<i class="fa-solid fa-check-circle text-emerald-400 mr-1"></i>신청 완료';
         }
 
-        // 챗봇 메시지 발송 로직
-        function handleSendMessage(event) {
-            event.preventDefault();
+        function switchLanguage(langKey) {
+            console.log("Switched to language: " + langKey);
+        }
+
+        function handleSendMessage(e) {
+            e.preventDefault();
             const input = document.getElementById('chat-input');
-            const msg = input.value.trim();
-            if (!msg) return;
-
+            if(!input.value.trim()) return;
+            
             const chatBox = document.getElementById('chat-box');
-            chatBox.insertAdjacentHTML('beforeend', `<div class="flex items-start space-x-2.5 justify-end"><div class="bg-amber-500 text-slate-900 p-3 rounded-2xl rounded-tr-none max-w-[85%] font-bold text-xs">${msg}</div></div>`);
+            const userMsg = document.createElement('div');
+            userMsg.className = "flex items-start justify-end space-x-2.5";
+            userMsg.innerHTML = `<div class="bg-amber-500 text-slate-900 p-3 rounded-2xl rounded-tr-none max-w-[85%] font-medium leading-relaxed">${input.value}</div>`;
+            chatBox.appendChild(userMsg);
             input.value = '';
             chatBox.scrollTop = chatBox.scrollHeight;
-
-            setTimeout(() => {
-                chatBox.insertAdjacentHTML('beforeend', `
-                    <div class="flex items-start space-x-2.5"><div class="w-8 h-8 bg-gradient-to-tr from-purple-600 to-amber-500 rounded-lg flex items-center justify-center text-xs text-white font-bold"><i class="fa-solid fa-brain"></i></div><div class="bg-slate-700/60 p-3 rounded-2xl rounded-tl-none max-w-[85%] text-slate-200 border border-purple-500/20 text-xs">
-                        <span class="block text-[10px] text-purple-400 font-bold mb-1"><i class="fa-solid fa-microchip animate-pulse mr-1"></i> 고도화 추론 완료</span>
-                        혜공 형님, 질의하신 데이터베이스 상태 분석이 지능형 매트릭스를 통해 완전 정상 판정되었습니다.
-                    </div></div>
-                `);
-                chatBox.scrollTop = chatBox.scrollHeight;
-            }, 600);
         }
-     // --- [삐니의 서버 연동 스크립트] ---
-async function fetchAssets() {
-    try {
-        const response = await fetch('/api/assets');
-        const data = await response.json();
-        document.getElementById('user-quantity').innerText = data.balance.toFixed(6);
-    } catch (err) {
-        console.warn("서버 동기화 대기 중...");
-    }
-}
-setInterval(fetchAssets, 5000);
-fetchAssets();
-// --------------------------------- 
- // --- [삐니의 서버 연동 스크립트] ---
-async function fetchAssets() {
-    try {
-        const response = await fetch('/api/assets');
-        const data = await response.json();
-        document.getElementById('user-quantity').innerText = data.balance.toFixed(6);
-    } catch (err) {
-        console.warn("서버 동기화 대기 중...");
-    }
-}
-setInterval(fetchAssets, 5000);
-fetchAssets();
-// ---------------------------------
     </script>
-<!-- HK 사규 박스 (유튜브/틱톡 버튼과 크기 일치 및 스타일 적용) -->
-<div class="hk-rules-box" style="
-    background-color: #1a2233; 
-    color: #e0e0e0; 
-    padding: 25px; /* 상하좌우 패딩을 키워 박스 크기를 확장 */
-    border-radius: 12px; /* 둥근 모서리 강조 */
-    border: 1px solid #334057; 
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; 
-    font-size: 14px; /* 글자 크기를 살짝 키움 */
-    margin-top: 20px; 
-    width: calc(100% - 50px); /* 패딩을 고려한 너비 계산 (버튼들과 폭 맞춤) */
-    margin-left: auto;
-    margin-right: auto;
-    word-break: keep-all; 
-    box-sizing: border-box;
-    text-align: center; /* 텍스트 전체 가운데 정렬 */
-">
-  <!-- 제목: 볼드체, 밑줄, 중앙 정렬 -->
-  <div style="
-      font-weight: bold; 
-      font-size: 16px; 
-      margin-bottom: 15px; 
-      color: #ffffff; 
-      border-bottom: 2px solid #334057; /* 밑줄을 더 진하게 */
-      padding-bottom: 8px;
-      display: flex;
-      justify-content: center;
-  ">[HK 사규: 투명한 운영과 자산보호]</div>
-  
-  <!-- 1~5번 항목: 가운데 정렬 및 포인트 칼라 적용 -->
-  <div style="margin-bottom: 10px; color: #82b1ff;"><strong>1. MiCA:</strong> 글로벌 디지털 자산 규범 준수 및 시장 질서 유지</div>
-  <div style="margin-bottom: 10px; color: #80cbc4;"><strong>2. Clarity:</strong> 수익률(20% 이하) 및 운영 구조의 투명한 공개</div>
-  <div style="margin-bottom: 10px; color: #ff8a80;"><strong>3. AML:</strong> 자금세탁 방지를 위한 실시간 거래 모니터링</div>
-  <div style="margin-bottom: 10px; color: #ce93d8;"><strong>4. Privacy Policy:</strong> 사용자 최소 정보 수집 및 철저한 암호화 보호</div>
-  <div style="margin-bottom: 15px; color: #ffb74d;"><strong>5. Terms of Service:</strong> 공정한 서비스 이용 원칙과 책임 소재 명시</div>
-  
-  <!-- 문의처: 더 작게, 하단에 배치 -->
-  <div style="
-      margin-top: 15px; 
-      border-top: 1px solid #334057; 
-      padding-top: 10px; 
-      font-size: 12px; 
-      color: #aaaaaa;
-      display: flex;
-      justify-content: center;
-  ">문의: support@hkwb.world</div>
-</div>
 </body>
-
 </html>
