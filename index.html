@@ -3,707 +3,1014 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HK 월드뱅크 플랫폼 - 60개국어 다국어 지원</title>
+    <title>HK WorldBank - Global Web3 Financial Ecosystem</title>
     <style>
         :root {
-            --bg-color: #0d1117;
-            --card-bg: #161b22;
-            --card-border: #30363d;
-            --accent-color: #f59e0b;
-            --text-main: #ffffff;
-            --text-sub: #8b949e;
-            --input-bg: #0b0f15;
+            --bg-color: #0b0f19;
+            --card-bg: rgba(17, 24, 39, 0.7);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --text-primary: #f3f4f6;
+            --text-secondary: #9ca3af;
+            --accent: #6366f1;
+            --accent-hover: #4f46e5;
+            --success: #10b981;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
         }
 
         body {
             background-color: var(--bg-color);
-            color: var(--text-main);
-            padding: 16px;
-            display: flex;
-            justify-content: center;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 480px;
+            color: var(--text-primary);
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            overflow-x: hidden;
         }
 
-        /* Header */
-        .header {
+        header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 8px 0;
-            position: relative;
+            padding: 20px 40px;
+            border-bottom: 1px solid var(--border-color);
+            background: rgba(11, 15, 25, 0.8);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
-        .logo-area {
+        .logo {
+            font-weight: 700;
+            font-size: 1.25rem;
+            letter-spacing: -0.5px;
+            color: #fff;
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
-        .logo-badge {
-            background-color: var(--accent-color);
-            color: #000;
-            font-weight: bold;
-            padding: 6px 12px;
-            border-radius: 8px;
-            font-size: 16px;
+        .logo span {
+            color: var(--accent);
         }
 
-        .logo-title {
-            font-size: 18px;
-            font-weight: bold;
-        }
-
-        /* Language Selector Dropdown */
-        .lang-dropdown-container {
-            position: relative;
-        }
-
-        .lang-selector {
-            background-color: var(--card-bg);
-            border: 1px solid var(--card-border);
-            color: var(--text-main);
-            padding: 6px 10px;
-            border-radius: 8px;
-            font-size: 13px;
+        .header-right {
             display: flex;
             align-items: center;
-            gap: 6px;
-            cursor: pointer;
+            gap: 15px;
         }
 
-        .lang-list {
-            display: none;
-            position: absolute;
-            right: 0;
-            top: 100%;
-            margin-top: 6px;
-            width: 220px;
-            max-height: 280px;
-            overflow-y: auto;
-            background-color: var(--card-bg);
-            border: 1px solid var(--card-border);
+        select {
+            background: var(--card-bg);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            padding: 8px 12px;
             border-radius: 8px;
-            z-index: 100;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+            cursor: pointer;
+            outline: none;
         }
 
-        .lang-list.show {
+        .btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+
+        .btn:hover {
+            background: var(--accent-hover);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            width: 100%;
+            flex: 1;
+        }
+
+        .view {
+            display: none;
+        }
+
+        .view.active {
             display: block;
         }
 
-        .lang-item {
-            padding: 10px 14px;
-            font-size: 13px;
-            cursor: pointer;
-            border-bottom: 1px solid rgba(48, 54, 61, 0.4);
-            display: flex;
-            align-items: center;
-            gap: 8px;
+        /* Landing / Pre-Login View */
+        .hero {
+            text-align: center;
+            padding: 80px 0;
         }
 
-        .lang-item:hover {
-            background-color: rgba(245, 158, 11, 0.15);
-            color: var(--accent-color);
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, #fff, #9ca3af);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        /* Card Base */
+        .hero p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Dashboard View */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
         .card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--card-border);
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
             border-radius: 16px;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
+            padding: 24px;
+            backdrop-filter: blur(10px);
         }
 
-        .dashboard-header {
+        .card h3 {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+        }
+
+        .card .value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .actions-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .actions-grid .btn {
+            width: 100%;
+            text-align: center;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+        }
+
+        .actions-grid .btn:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+        }
+
+        /* Viewer Notice */
+        .viewer-banner {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #f87171;
+            padding: 15px 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
+            align-items: center;
         }
 
-        .badge-live {
-            background-color: #2b261b;
-            color: var(--accent-color);
-            font-size: 11px;
-            padding: 4px 8px;
-            border-radius: 6px;
-            font-weight: bold;
-            display: inline-block;
-            margin-bottom: 4px;
+        /* Chat Widget / AGI Pinni */
+        .chat-widget {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
         }
 
-        .dashboard-title {
-            font-size: 20px;
-            font-weight: bold;
-        }
-
-        .status-box {
-            text-align: right;
-        }
-
-        .status-label {
-            font-size: 12px;
-            color: var(--text-sub);
-        }
-
-        .status-value {
-            font-size: 13px;
-            color: var(--accent-color);
-            font-weight: bold;
+        .chat-btn {
+            background: var(--accent);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+            font-size: 1.5rem;
             display: flex;
             align-items: center;
-            gap: 4px;
-            margin-top: 2px;
+            justify-content: center;
+            transition: transform 0.2s;
         }
 
-        .asset-box {
-            background-color: var(--input-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 12px;
-            padding: 14px;
+        .chat-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .chat-box {
+            position: absolute;
+            bottom: 75px;
+            right: 0;
+            width: 360px;
+            height: 480px;
+            background: #111827;
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            display: none;
+            flex-direction: column;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            overflow: hidden;
+        }
+
+        .chat-box.open {
+            display: flex;
+        }
+
+        .chat-header {
+            padding: 16px;
+            background: rgba(255,255,255,0.03);
+            border-bottom: 1px solid var(--border-color);
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 16px;
+            overflow-y: auto;
             display: flex;
             flex-direction: column;
-            gap: 4px;
-        }
-
-        .asset-label {
-            font-size: 12px;
-            color: var(--text-sub);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .asset-amount {
-            font-size: 22px;
-            font-weight: bold;
-            color: #fff;
-        }
-
-        .asset-amount span {
-            font-size: 14px;
-            color: var(--text-sub);
-            font-weight: normal;
-        }
-
-        .btn-primary {
-            background-color: var(--accent-color);
-            color: #000;
-            border: none;
-            padding: 14px;
-            border-radius: 10px;
-            font-weight: bold;
-            font-size: 15px;
-            cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 8px;
-            width: 100%;
-        }
-
-        .section-title {
-            font-size: 18px;
-            font-weight: bold;
-            margin-top: 8px;
-        }
-
-        .wallet-input-row {
-            display: flex;
-            gap: 8px;
-        }
-
-        .text-input {
-            flex: 1;
-            background-color: var(--input-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 8px;
-            padding: 12px;
-            color: #fff;
-            font-size: 14px;
-        }
-
-        .btn-small {
-            background-color: var(--accent-color);
-            color: #000;
-            border: none;
-            padding: 0 16px;
-            border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .wallet-info-text {
-            font-size: 12px;
-            color: var(--text-sub);
-            word-break: break-all;
-            line-height: 1.5;
-        }
-
-        .grid-2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
             gap: 12px;
         }
 
-        .menu-card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--card-border);
+        .message {
+            max-width: 80%;
+            padding: 10px 14px;
             border-radius: 12px;
-            padding: 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .menu-card.active {
-            border-color: var(--accent-color);
-        }
-
-        .menu-icon {
-            font-size: 20px;
-        }
-
-        .menu-title {
-            font-size: 15px;
-            font-weight: bold;
-        }
-
-        .menu-desc {
-            font-size: 11px;
-            color: var(--text-sub);
-        }
-
-        .ai-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .ai-title-area {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .ai-badge {
-            background-color: #3b2863;
-            color: #c084fc;
-            font-size: 10px;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-weight: bold;
-        }
-
-        .ai-chat-box {
-            background-color: var(--input-bg);
-            border-radius: 10px;
-            padding: 12px;
-            font-size: 13px;
-            color: #d1d5db;
+            font-size: 0.9rem;
             line-height: 1.4;
         }
 
-        .ai-input-row {
-            display: flex;
-            gap: 8px;
+        .message.bot {
+            background: rgba(255,255,255,0.05);
+            align-self: flex-start;
+            border: 1px solid var(--border-color);
         }
 
-        .btn-send {
-            background-color: var(--accent-color);
-            border: none;
-            border-radius: 8px;
-            width: 44px;
-            height: 44px;
+        .message.user {
+            background: var(--accent);
+            color: white;
+            align-self: flex-end;
+        }
+
+        .chat-input-area {
+            padding: 12px;
+            border-top: 1px solid var(--border-color);
             display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            color: #000;
+            gap: 8px;
+            background: rgba(255,255,255,0.02);
+        }
+
+        .chat-input-area input {
+            flex: 1;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 8px 12px;
+            border-radius: 8px;
+            color: white;
+            outline: none;
+        }
+
+        .chat-input-area button {
+            padding: 8px 16px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        footer a {
+            color: var(--accent);
+            text-decoration: none;
         }
     </style>
 </head>
 <body>
 
+    <header>
+        <div class="logo">
+            HK <span>WorldBank</span>
+        </div>
+        <div class="header-right">
+            <select id="langSelect" onchange="changeLanguage(this.value)">
+                <!-- Options populated dynamically -->
+            </select>
+            <button class="btn" id="headerAuthBtn" onclick="toggleAuth()">지갑 연결</button>
+        </div>
+    </header>
+
     <div class="container">
-        <!-- 상단 헤더 -->
-        <div class="header">
-            <div class="logo-area">
-                <div class="logo-badge" data-i18n="logo">HK</div>
-                <div class="logo-title" data-i18n="platform_title">월드뱅크 플랫폼</div>
+        <!-- Landing View (Visitor / Viewer Mode) -->
+        <div id="landingView" class="view active">
+            <div class="hero">
+                <h1 id="heroTitle">Global Web3 Digital Banking Platform</h1>
+                <p id="heroDesc">10 distributed networks, 50-language native sync, and sustainable UBI models.</p>
+                <button class="btn" style="padding: 14px 28px; font-size: 1.1rem;" onclick="connectWallet()">지갑 연결 및 대시보드 진입</button>
             </div>
-            <div class="lang-dropdown-container">
-                <div class="lang-selector" id="langBtn" onclick="toggleLangList()">
-                    <span id="currentLangText">🇰🇷 대한민국 - 한국어</span> ▾
+        </div>
+
+        <!-- Dashboard View (KYC Verified / User Mode) -->
+        <div id="dashboardView" class="view">
+            <div id="viewerBanner" class="viewer-banner" style="display: none;">
+                <span id="bannerText">KYC/KYB 미인증 상태입니다. 현재 구경만 가능합니다.</span>
+                <button class="btn" style="padding: 6px 12px; font-size: 0.8rem;" onclick="simulateKYC()">KYC 인증 시뮬레이션</button>
+            </div>
+
+            <h2 id="welcomeMsg" style="margin-bottom: 24px;">환영합니다</h2>
+
+            <div class="dashboard-grid">
+                <div class="card">
+                    <h3 id="lblBalance">자산 잔액</h3>
+                    <div class="value">124,580.00 <span style="font-size: 1rem; color: var(--accent);">PI</span></div>
+                    <div class="actions-grid">
+                        <button class="btn" id="btnDeposit" onclick="alert('입금 모듈 실행')">예치하기</button>
+                        <button class="btn" id="btnWithdraw" onclick="alert('출금 모듈 실행')">출금</button>
+                    </div>
                 </div>
-                <div class="lang-list" id="langList">
-                    <!-- JavaScript로 60개국어 동적 생성 -->
+
+                <div class="card">
+                    <h3 id="lblUbi">사회 재단 UBI</h3>
+                    <div class="value" style="color: var(--success);">+1,250.40 <span style="font-size: 1rem;">UBI</span></div>
+                    <p id="lblUbiDesc" style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.4;"></p>
                 </div>
-            </div>
-        </div>
 
-        <!-- 개인 자산 대시보드 -->
-        <div class="card">
-            <div class="dashboard-header">
-                <div>
-                    <span class="badge-live" data-i18n="live_ledger">실시간 원장 데이터</span>
-                    <div class="dashboard-title" data-i18n="asset_dashboard">개인 자산 대시보드</div>
+                <div class="card">
+                    <h3>AGI 삐니 네트워크</h3>
+                    <div class="value" style="font-size: 1.2rem; color: var(--accent);">Online / 50 Languages</div>
+                    <p id="lblAgiDesc" style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.4;"></p>
                 </div>
-                <div class="status-box">
-                    <div class="status-label" data-i18n="mainnet_status">메인넷 신청 상태</div>
-                    <div class="status-value" data-i18n="pending_approval">⏳ 승인 대기 중</div>
-                </div>
-            </div>
-
-            <div class="asset-box">
-                <div class="asset-label" data-i18n="personal_holding">📁 개인 보유 수량</div>
-                <div class="asset-amount">0.000000 <span>HK</span></div>
-            </div>
-
-            <div class="asset-box">
-                <div class="asset-label" data-i18n="realtime_interest">📈 실시간 누적 이자</div>
-                <div class="asset-amount">0.000000 <span>HK</span></div>
-            </div>
-
-            <button class="btn-primary" data-i18n="apply_mainnet">
-                ☁️ 코어팀에게 메인넷 즉시 신청하기
-            </button>
-        </div>
-
-        <!-- 거버넌스 및 지갑 관리 -->
-        <div class="section-title" data-i18n="wallet_mgmt_ledger">지갑 관리 통합 원장</div>
-        <div class="card">
-            <span class="badge-live" style="background-color: #3b1f1f; color: #f87171; width: fit-content;" data-i18n="admin_only">최고운영자 전용</span>
-            <div class="dashboard-title" style="font-size: 16px;" data-i18n="fee_wallet">수수료 지갑</div>
-            <div class="wallet-input-row">
-                <input type="password" class="text-input" data-i18n-placeholder="admin_pw_placeholder" placeholder="운영자 비밀번호를 입력하십시오.">
-                <button class="btn-small" data-i18n="unlock">해제</button>
-            </div>
-        </div>
-
-        <div class="card">
-            <span class="badge-live" style="background-color: #1f3b2c; color: #34d399; width: fit-content;" data-i18n="transparent_public">전면 투명 공개</span>
-            <div class="dashboard-title" style="font-size: 16px;" data-i18n="ubi_wallet">UBI 지갑</div>
-            <div class="wallet-info-text" id="ubiInfoText">
-                주소: HK_UBI_FOUNDATION_982_PUBLIC<br>
-                수량: 0 HK<br>
-                금액: $0 USD
-            </div>
-        </div>
-
-        <!-- 10대 분산 연동망 -->
-        <div class="section-title" data-i18n="distributed_network">10대 분산 연동망</div>
-        <div class="grid-2">
-            <div class="menu-card">
-                <div class="menu-icon">💳</div>
-                <div class="menu-title" data-i18n="net_wallet_connect">지갑연결</div>
-                <div class="menu-desc" data-i18n="net_wallet_desc">노드 계정 상시 연동</div>
-            </div>
-            <div class="menu-card">
-                <div class="menu-icon">📤</div>
-                <div class="menu-title" data-i18n="net_transfer">송금</div>
-                <div class="menu-desc" data-i18n="net_transfer_desc">대륙간 초고속 전송</div>
-            </div>
-        </div>
-
-        <!-- 핵심 서비스 그리드 메뉴 -->
-        <div class="grid-2">
-            <div class="menu-card">
-                <div class="menu-icon">💳</div>
-                <div class="menu-title" data-i18n="menu_payment">결제</div>
-                <div class="menu-desc" data-i18n="menu_payment_desc">실시간 상거래 승인</div>
-            </div>
-            <div class="menu-card active">
-                <div class="menu-icon">🏛️</div>
-                <div class="menu-title" data-i18n="menu_deposit">예치</div>
-                <div class="menu-desc" data-i18n="menu_deposit_desc">자산 자금 신탁</div>
-            </div>
-            <div class="menu-card">
-                <div class="menu-icon">🎁</div>
-                <div class="menu-title" data-i18n="menu_reward">보상</div>
-                <div class="menu-desc" data-i18n="menu_reward_desc">인센티브 실시간 정산</div>
-            </div>
-            <div class="menu-card">
-                <div class="menu-icon">💸</div>
-                <div class="menu-title" data-i18n="menu_ubi">기본소득</div>
-                <div class="menu-desc" data-i18n="menu_ubi_desc">분산 복지 재단 분배</div>
-            </div>
-            <div class="menu-card">
-                <div class="menu-icon">🔄</div>
-                <div class="menu-title" data-i18n="menu_swap">스왑</div>
-                <div class="menu-desc" data-i18n="menu_swap_desc">즉각 다이렉트 변환</div>
-            </div>
-            <div class="menu-card">
-                <div class="menu-icon">🔀</div>
-                <div class="menu-title" data-i18n="menu_dex">DEX 스왑</div>
-                <div class="menu-desc" data-i18n="menu_dex_desc">탈중앙화 P2P 거래</div>
-            </div>
-            <div class="menu-card">
-                <div class="menu-icon">🥞</div>
-                <div class="menu-title" data-i18n="menu_lp">LP스테이킹</div>
-                <div class="menu-desc" data-i18n="menu_lp_desc">유동성 증명 고리 배당</div>
-            </div>
-            <div class="menu-card">
-                <div class="menu-icon">➕</div>
-                <div class="menu-title" data-i18n="menu_pi">PI수량 추가</div>
-                <div class="menu-desc" data-i18n="menu_pi_desc">PI 자산 즉시 확보</div>
-            </div>
-        </div>
-
-        <!-- [예치] 상세 프로세스 및 승인 코드 -->
-        <div class="card">
-            <div class="dashboard-title" style="font-size: 15px; color: var(--accent-color);" data-i18n="deposit_process_title">[예치] 상세 프로세스</div>
-            <div class="wallet-info-text" data-i18n="deposit_steps">
-                자산 선택 → 수량 및 기간 설정 → 예상 수익률 확인 → 6자리 승인 코드 입력 → 처리 완료
-            </div>
-            <div style="font-size: 13px; margin-top: 4px;" data-i18n="enter_6digit">6자리 승인 코드를 입력하세요:</div>
-            <div class="wallet-input-row">
-                <input type="password" class="text-input" maxlength="6" placeholder="------">
-                <button class="btn-small" style="background-color: var(--accent-color);" data-i18n="approve">승인</button>
-            </div>
-        </div>
-
-        <!-- HK 지능형 추론 엔진 -->
-        <div class="card">
-            <div class="ai-header">
-                <div class="ai-title-area">
-                    <span style="font-size: 18px;">🧠</span>
-                    <span style="font-weight: bold; font-size: 15px;" data-i18n="ai_engine_title">HK 지능형 추론 엔진</span>
-                    <span class="ai-badge">v3.0</span>
-                </div>
-                <div style="font-size: 11px; color: #34d399; display: flex; align-items: center; gap: 4px;" data-i18n="ai_status">
-                    ● 실시간 초기화 연산 중
-                </div>
-            </div>
-            <div class="ai-chat-box" data-i18n="ai_welcome">
-                반갑습니다. HK 월드뱅크 통합 지능형 서비스 센터입니다. 선택하신 국가 언어로 실시간 교차 추론 및 자산 동기화 시스템이 상시 가동되고 있습니다.
-            </div>
-            <div class="ai-input-row">
-                <input type="text" class="text-input" data-i18n-placeholder="ai_input_placeholder" placeholder="원장 상태 및 금융 노드에 대해 질문하십시오.">
-                <button class="btn-send">➤</button>
             </div>
         </div>
     </div>
 
+    <!-- AGI Pinni Chat Widget -->
+    <div class="chat-widget">
+        <button class="chat-btn" onclick="toggleChat()">🤖</button>
+        <div class="chat-box" id="chatBox">
+            <div class="chat-header">
+                <span>AGI 삐니 (Support)</span>
+                <button onclick="toggleChat()" style="background:none; border:none; color:white; cursor:pointer;">✕</button>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+                <div class="message bot">안녕하세요! AGI 삐니입니다. 10대 연동망 및 글로벌 규제 준수 관련 무엇이든 물어보세요.</div>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" id="chatInput" placeholder="메시지를 입력하세요..." onkeypress="if(event.key==='Enter')sendMessage()">
+                <button class="btn" onclick="sendMessage()">전송</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 HK WorldBank. All rights reserved. | Contact: <a href="mailto:support@hkwb.world">support@hkwb.world</a></p>
+    </footer>
+
     <script>
-        const languages = [
-            { code: 'ko', flag: '🇰🇷', name: '대한민국 - 한국어' },
-            { code: 'en', flag: '🇺🇸', name: 'United States - English' },
-            { code: 'zh', flag: '🇨🇳', name: '中国 - 中文' },
-            { code: 'ja', flag: '🇯🇵', name: '日本 - 日本語' },
-            { code: 'es', flag: '🇪🇸', name: 'España - Español' },
-            { code: 'fr', flag: '🇫🇷', name: 'France - Français' },
-            { code: 'de', flag: '🇩🇪', name: 'Deutschland - Deutsch' },
-            { code: 'ru', flag: '🇷🇺', name: 'Россия - Русский' },
-            { code: 'ar', flag: '🇸🇦', name: 'المملكة العربية السعودية - العربية' },
-            { code: 'hi', flag: '🇮🇳', name: 'भारत - हिन्दी' },
-            { code: 'pt', flag: '🇧🇷', name: 'Brasil - Português' },
-            { code: 'it', flag: '🇮🇹', name: 'Italia - Italiano' },
-            { code: 'vi', flag: '🇻🇳', name: 'Việt Nam - Tiếng Việt' },
-            { code: 'th', flag: '🇹🇭', name: 'ประเทศไทย - ไทย' },
-            { code: 'id', flag: '🇮🇩', name: 'Indonesia - Bahasa Indonesia' },
-            { code: 'tr', flag: '🇹🇷', name: 'Türkiye - Türkçe' },
-            { code: 'nl', flag: '🇳🇱', name: 'Nederland - Nederlands' },
-            { code: 'pl', flag: '🇵🇱', name: 'Polska - Język polski' },
-            { code: 'uk', flag: '🇺🇦', name: 'Україна - Українська' },
-            { code: 'sv', flag: '🇸🇪', name: 'Sverige - Svenska' },
-            { code: 'el', flag: '🇬🇷', name: 'Ελλάδα - Ελληνικά' },
-            { code: 'cs', flag: '🇨🇿', name: 'Česká republika - Čeština' },
-            { code: 'hu', flag: '🇭🇺', name: 'Magyarország - Magyar' },
-            { code: 'ro', flag: '🇷🇴', name: 'România - Română' },
-            { code: 'da', flag: '🇩🇰', name: 'Danmark - Dansk' },
-            { code: 'fi', flag: '🇫🇮', name: 'Suomi - Suomi' },
-            { code: 'no', flag: '🇳🇴', name: 'Norge - Norsk' },
-            { code: 'sk', flag: '🇸🇰', name: 'Slovensko - Slovenčina' },
-            { code: 'bg', flag: '🇧🇬', name: 'България - Български' },
-            { code: 'hr', flag: '🇭🇷', name: 'Hrvatska - Hrvatski' },
-            { code: 'sr', flag: '🇷🇸', name: 'Србија - Српски' },
-            { code: 'he', flag: '🇮🇱', name: 'ישראל - עברית' },
-            { code: 'fa', flag: '🇮🇷', name: 'ایران - فارسی' },
-            { code: 'ms', flag: '🇲🇾', name: 'Malaysia - Bahasa Melayu' },
-            { code: 'fil', flag: '🇵🇭', name: 'Pilipinas - Tagalog' },
-            { code: 'bn', flag: '🇧🇩', name: 'বাংলাদেশ - বাংলা' },
-            { code: 'ur', flag: '🇵🇰', name: 'پاکستان - اردو' },
-            { code: 'ta', flag: '🇮🇳', name: 'இந்தியா - தமிழ்' },
-            { code: 'te', flag: '🇮🇳', name: 'भारत - తెలుగు' },
-            { code: 'mr', flag: '🇮🇳', name: 'भारत - मराठी' },
-            { code: 'gu', flag: '🇮🇳', name: 'भारत - ગુજરાતી' },
-            { code: 'kn', flag: '🇮🇳', name: 'भारत - ಕನ್ನಡ' },
-            { code: 'ml', flag: '🇮🇳', name: 'भारत - മലയാളം' },
-            { code: 'sw', flag: '🇰🇪', name: 'Kenya - Kiswahili' },
-            { code: 'am', flag: '🇪🇹', name: 'ኢትዮጵያ - አማርኛ' },
-            { code: 'yo', flag: '🇳🇬', name: 'Nigeria - Yorùbá' },
-            { code: 'zu', flag: '🇿🇦', name: 'South Africa - IsiZulu' },
-            { code: 'af', flag: '🇿🇦', name: 'South Africa - Afrikaans' },
-            { code: 'sq', flag: '🇦🇱', name: 'Shqipëria - Shqip' },
-            { code: 'az', flag: '🇦🇿', name: 'Azərbaycan - Azərbaycan dili' },
-            { code: 'hy', flag: '🇦🇲', name: 'Հայաստան - Հայերեն' },
-            { code: 'ka', flag: '🇬🇪', name: 'საქართველო - ქართული' },
-            { code: 'kk', flag: '🇰🇿', name: 'Қазақстан - Қазақ тілі' },
-            { code: 'uz', flag: '🇺🇿', name: 'Oʻzbekiston - Oʻzbekcha' },
-            { code: 'mn', flag: '🇲🇳', name: 'Монгол - Монгол хэл' },
-            { code: 'ne', flag: '🇳🇵', name: 'नेपाल - नेपाली' },
-            { code: 'si', flag: '🇱🇰', name: 'ශ් රී ලංකාව - සිංහල' },
-            { code: 'my', flag: '🇲🇲', name: 'မြန်မာ - မြန်မာစာ' },
-            { code: 'km', flag: '🇰🇭', name: 'កម្ពុជា - ភាសាខ្មែរ' },
-            { code: 'lo', flag: '🇱🇦', name: 'ລາວ - ພາສາລາວ' }
-        ];
+        const i18nData = {
+  "ko": {
+    "welcome": "환영합니다, 혜공 형님",
+    "balance": "자산 잔액",
+    "deposit": "예치하기",
+    "ubi": "사회 재단 UBI",
+    "withdraw": "출금",
+    "connect_wallet": "지갑 연결",
+    "ubi_desc": "순이익의 글로벌 빈곤 지역 환원 모델",
+    "agi_desc": "10대 분산 연동망 및 50개국어 실시간 동기화"
+  },
+  "en": {
+    "welcome": "Welcome, Chairman Jaewan Lee",
+    "balance": "Asset Balance",
+    "deposit": "Deposit",
+    "ubi": "Social UBI",
+    "withdraw": "Withdraw",
+    "connect_wallet": "Connect Wallet",
+    "ubi_desc": "Global poverty alleviation model from net profit",
+    "agi_desc": "10 distributed networks & 50 languages sync"
+  },
+  "zh": {
+    "welcome": "欢迎，李在元会长",
+    "balance": "资产余额",
+    "deposit": "存款",
+    "ubi": "社会基本收入",
+    "withdraw": "提款",
+    "connect_wallet": "连接钱包",
+    "ubi_desc": "净利润全球减贫回报模型",
+    "agi_desc": "10大分布式网络与50种语言实时同步"
+  },
+  "ja": {
+    "welcome": "ようこそ、イ・ジェワン会長",
+    "balance": "資産残高",
+    "deposit": "預金",
+    "ubi": "社会基本所得",
+    "withdraw": "引き出し",
+    "connect_wallet": "ウォレット接続",
+    "ubi_desc": "純利益のグローバル貧困地域還元モデル",
+    "agi_desc": "10大分散ネットワーク＆50言語リアルタイム同期"
+  },
+  "vi": {
+    "welcome": "Chào mừng, Chủ tịch Lee Jaewan",
+    "balance": "Số dư tài sản",
+    "deposit": "Gửi tiền",
+    "ubi": "UBI Xã hội",
+    "withdraw": "Rút tiền",
+    "connect_wallet": "Kết nối ví",
+    "ubi_desc": "Mô hình hoàn trả lợi nhuận cho người nghèo toàn cầu",
+    "agi_desc": "10 mạng lưới phân tán & đồng bộ 50 ngôn ngữ"
+  },
+  "th": {
+    "welcome": "ยินดีต้อนรับ ประธานอีแจวอน",
+    "balance": "ยอดคงเหลือ",
+    "deposit": "ฝากเงิน",
+    "ubi": "UBI สังคม",
+    "withdraw": "ถอนเงิน",
+    "connect_wallet": "เชื่อมต่อกระเป๋าเงิน",
+    "ubi_desc": "โมเดลการคืนกำไรสุทธิสู่ภูมิภาคยากจนทั่วโลก",
+    "agi_desc": "10 เครือข่ายกระจายและซิงค์ 50 ภาษา"
+  },
+  "id": {
+    "welcome": "Selamat datang, Chairman Lee Jaewan",
+    "balance": "Saldo Aset",
+    "deposit": "Deposit",
+    "ubi": "UBI Sosial",
+    "withdraw": "Tarik Tunai",
+    "connect_wallet": "Hubungkan Dompet",
+    "ubi_desc": "Model pengembalian laba bersih untuk pengentasan kemiskinan",
+    "agi_desc": "10 jaringan terdistribusi & sinkronisasi 50 bahasa"
+  },
+  "hi": {
+    "welcome": "स्वागत है, चेयरमैन ली जएwan",
+    "balance": "संपत्ति शेष",
+    "deposit": "जमा करें",
+    "ubi": "सामाजिक UBI",
+    "withdraw": "निकालना",
+    "connect_wallet": "वॉलेट कनेक्ट करें",
+    "ubi_desc": "शुद्ध लाभ से वैश्विक गरीबी उन्मूलन मॉडल",
+    "agi_desc": "10 वितरित नेटवर्क और 50 भाषा सिंक"
+  },
+  "bn": {
+    "welcome": "স্বাগতম, চেয়ারম্যান লি জায়েওয়ান",
+    "balance": "সম্পদের ব্যালেন্স",
+    "deposit": "জমা দিন",
+    "ubi": "সামাজিক UBI",
+    "withdraw": "প্রত্যাহার",
+    "connect_wallet": "ওয়ালেট সংযুক্ত করুন",
+    "ubi_desc": "নিট লাভ থেকে বৈশ্বিক দারিদ্র্য বিমোচন মডেল",
+    "agi_desc": "১০টি বিতরণকৃত নেটওয়ার্ক এবং ৫০টি ভাষা সিঙ্ক"
+  },
+  "fil": {
+    "welcome": "Maligayang pagdating, Chairman Lee Jaewan",
+    "balance": "Balanse ng Asset",
+    "deposit": "Deposito",
+    "ubi": "Sosyal UBI",
+    "withdraw": "Mag-withdraw",
+    "connect_wallet": "Ikonekta ang Wallet",
+    "ubi_desc": "Modelo ng pagbabawas ng kahirapan mula sa net profit",
+    "agi_desc": "10 ipinamahaging network at 50 wika sync"
+  },
+  "ms": {
+    "welcome": "Selamat datang, Pengerusi Lee Jaewan",
+    "balance": "Baki Aset",
+    "deposit": "Deposit",
+    "ubi": "UBI Sosial",
+    "withdraw": "Pengeluaran",
+    "connect_wallet": "Sambung Dompet",
+    "ubi_desc": "Model pembasmian kemiskinan global daripada keuntungan bersih",
+    "agi_desc": "10 rangkaian teragih & penyegerakan 50 bahasa"
+  },
+  "my": {
+    "welcome": "ကြိုဆိုပါသည်, ဥက္ကဌ လီဂျေဝမ်",
+    "balance": "ပိုင်ဆိုင်မှု လက်ကျန်",
+    "deposit": "ငွေသွင်းပါ",
+    "ubi": "လူမှုရေး UBI",
+    "withdraw": "ငွေထုတ်ပါ",
+    "connect_wallet": "ပိုက်ဆံအိတ် ချိတ်ဆက်ပါ",
+    "ubi_desc": "အသားတင်အမြတ်မှ ကမ္ဘာ့ဆင်းရဲနွမ်းပါးမှု လျှော့ချရေးပုံစံ",
+    "agi_desc": "ဖြန့်ဝေထားသော ကွန်ရက် ၁၀ ခုနှင့် ဘာသာစကား ၅၀ ကိုက်ညီမှု"
+  },
+  "km": {
+    "welcome": "សូមស្វាគមន៍ លោកប្រធាន Lee Jaewan",
+    "balance": "សមតុល្យទ្រព្យសកម្ម",
+    "deposit": "ដាក់ប្រាក់",
+    "ubi": "UBI សង្គម",
+    "withdraw": "ដកប្រាក់",
+    "connect_wallet": "ភ្ជាប់កាបូប",
+    "ubi_desc": "គំរូកាត់បន្ថយភាពក្រីក្រសកលពីប្រាក់ចំណេញសុទ្ធ",
+    "agi_desc": "បណ្តាញចែកចាយ ១០ និងការធ្វើសមកាលកម្ម ៥០ ភាសា"
+  },
+  "lo": {
+    "welcome": "ຍິນດີຕ້ອນຮັບ, ປະທານ Lee Jaewan",
+    "balance": "ຍອດເຫຼືອຊັບສິນ",
+    "deposit": "ຝາກເງິນ",
+    "ubi": "UBI ສັງຄົມ",
+    "withdraw": "ຖອນເງິນ",
+    "connect_wallet": "ເຊື່ອມຕໍ່ກະເປົາເງິນ",
+    "ubi_desc": "ຮູບແບບການຫຼຸດຜ່ອນຄວາມທຸກຍາກທົ່ວໂລກຈາກຜົນกำไรສຸດທິ",
+    "agi_desc": "ເຄືອຂ່າຍກະຈາຍ 10 ແລະການຊິ້ງ 50 ພາສາ"
+  },
+  "mn": {
+    "welcome": "Тавтай морил, Дарга Ли Жэ Ван",
+    "balance": "Хөрөнгийн үлдэгдэл",
+    "deposit": "Хадгаламж",
+    "ubi": "Нийгмийн UBI",
+    "withdraw": "Татгалзах",
+    "connect_wallet": "Түрийвч холбох",
+    "ubi_desc": "Цэвэр ашгийн дэлхийн ядуурлыг бууруулах загвар",
+    "agi_desc": "10 тархсан сүлжээ ба 50 хэлний синк"
+  },
+  "es": {
+    "welcome": "Bienvenido, Presidente Lee Jaewan",
+    "balance": "Saldo de Activos",
+    "deposit": "Depositar",
+    "ubi": "UBI Social",
+    "withdraw": "Retirar",
+    "connect_wallet": "Conectar Billetera",
+    "ubi_desc": "Modelo de UBI de beneficio neto para la pobreza global",
+    "agi_desc": "10 redes distribuidas y 50 idiomas sincronizados"
+  },
+  "fr": {
+    "welcome": "Bienvenue, Président Lee Jaewan",
+    "balance": "Solde des actifs",
+    "deposit": "Déposer",
+    "ubi": "UBI Social",
+    "withdraw": "Retirer",
+    "connect_wallet": "Connecter le portefeuille",
+    "ubi_desc": "Modèle de redistribution des bénéfices nets",
+    "agi_desc": "10 réseaux distribués et synchronisation de 50 langues"
+  },
+  "de": {
+    "welcome": "Willkommen, Vorsitzender Lee Jaewan",
+    "balance": "Guthaben",
+    "deposit": "Einzahlen",
+    "ubi": "Soziales UBI",
+    "withdraw": "Abheben",
+    "connect_wallet": "Wallet verbinden",
+    "ubi_desc": "Modell zur weltweiten Armutsbekämpfung aus Nettogewinn",
+    "agi_desc": "10 verteilte Netzwerke & 50 Sprachen Sync"
+  },
+  "ru": {
+    "welcome": "Добро пожаловать, председатель Ли Чжэ Ван",
+    "balance": "Баланс активов",
+    "deposit": "Депозит",
+    "ubi": "Социальный UBI",
+    "withdraw": "Вывод средств",
+    "connect_wallet": "Подключить кошелек",
+    "ubi_desc": "Модель распределения чистой прибыли на борьбу с бедностью",
+    "agi_desc": "10 распределенных сетей и синхронизация 50 языков"
+  },
+  "pt": {
+    "welcome": "Bem-vindo, Presidente Lee Jaewan",
+    "balance": "Saldo de Ativos",
+    "deposit": "Depositar",
+    "ubi": "UBI Social",
+    "withdraw": "Sacar",
+    "connect_wallet": "Conectar Carteira",
+    "ubi_desc": "Modelo de UBI para erradicação da pobreza global",
+    "agi_desc": "10 redes distribuídas e 50 idiomas sincronizados"
+  },
+  "it": {
+    "welcome": "Benvenuto, Presidente Lee Jaewan",
+    "balance": "Saldo Attivi",
+    "deposit": "Deposito",
+    "ubi": "UBI Sociale",
+    "withdraw": "Ritira",
+    "connect_wallet": "Connetti Wallet",
+    "ubi_desc": "Modello di UBI basato sull'utile netto",
+    "agi_desc": "10 reti distribuite e sincronizzazione di 50 lingue"
+  },
+  "uk": {
+    "welcome": "Ласкаво просимо, Голова Лі Чже Ван",
+    "balance": "Баланс активів",
+    "deposit": "Депозит",
+    "ubi": "Соціальний UBI",
+    "withdraw": "Зняти кошти",
+    "connect_wallet": "Підключити гаманець",
+    "ubi_desc": "Модель боротьби з бідністю за рахунок чистих прибутків",
+    "agi_desc": "10 розподілених мереж та синхронізація 50 мов"
+  },
+  "pl": {
+    "welcome": "Witaj, Prezesie Lee Jaewan",
+    "balance": "Saldo aktywów",
+    "deposit": "Wpłać",
+    "ubi": "Społeczne UBI",
+    "withdraw": "Wypłać",
+    "connect_wallet": "Połącz portfel",
+    "ubi_desc": "Model redukcji ubóstwa z czystego zysku",
+    "agi_desc": "10 rozproszonych sieci i synchronizacja 50 języków"
+  },
+  "nl": {
+    "welcome": "Welkom, Voorzitter Lee Jaewan",
+    "balance": "Activensaldo",
+    "deposit": "Storten",
+    "ubi": "Sociaal UBI",
+    "withdraw": "Opnemen",
+    "connect_wallet": "Wallet verbinden",
+    "ubi_desc": "Model voor armoedebestrijding uit nettowinst",
+    "agi_desc": "10 gedistribueerde netwerken & 50 talen sync"
+  },
+  "tr": {
+    "welcome": "Hoş geldiniz, Başkan Lee Jaewan",
+    "balance": "Varlık Bakiyesi",
+    "deposit": "Yatır",
+    "ubi": "Sosyal UBI",
+    "withdraw": "Çek",
+    "connect_wallet": "Cüzdan Bağla",
+    "ubi_desc": "Net kârın küresel yoksulluk bölgelerine aktarım modeli",
+    "agi_desc": "10 dağıtık ağ ve 50 dil senkronizasyonu"
+  },
+  "ro": {
+    "welcome": "Bine ați venit, Președinte Lee Jaewan",
+    "balance": "Sold Active",
+    "deposit": "Depunere",
+    "ubi": "UBI Social",
+    "withdraw": "Retragere",
+    "connect_wallet": "Conectează Portofelul",
+    "ubi_desc": "Model de reducere a sărăciei globale din profitul net",
+    "agi_desc": "10 rețele distribuite și sincronizare în 50 de limbi"
+  },
+  "el": {
+    "welcome": "Καλώς ήρθατε, Πρόεδρε Lee Jaewan",
+    "balance": "Υπόλοιπο Ενεργητικού",
+    "deposit": "Κατάθεση",
+    "ubi": "Κοινωνικό UBI",
+    "withdraw": "Ανάληψη",
+    "connect_wallet": "Σύνδεση Πορτοφολιού",
+    "ubi_desc": "Μοντέλο μείωσης της φτώχειας από καθαρό κέρδος",
+    "agi_desc": "10 κατανεμημένα δικτυακά συστήματα & 50 γλώσσες"
+  },
+  "cs": {
+    "welcome": "Vítejte, předsedo Lee Jaewane",
+    "balance": "Zůstatek aktiv",
+    "deposit": "Vklad",
+    "ubi": "Sociální UBI",
+    "withdraw": "Výběr",
+    "connect_wallet": "Připojit peněženku",
+    "ubi_desc": "Model globálního snižování chudoby z čistého zisku",
+    "agi_desc": "10 distribuovaných sítí a synchronizace 50 jazyků"
+  },
+  "sv": {
+    "welcome": "Välkommen, Ordförande Lee Jaewan",
+    "balance": "Tillgångssaldo",
+    "deposit": "Insättning",
+    "ubi": "Socialt UBI",
+    "withdraw": "Ta ut",
+    "connect_wallet": "Anslut plånbok",
+    "ubi_desc": "Global modell för fattigdomsbekämpning från nettovinst",
+    "agi_desc": "10 distribuerade nätverk & 50 språk sync"
+  },
+  "hu": {
+    "welcome": "Üdvözlöm, Lee Jaewan Elnök Úr",
+    "balance": "Eszközegyenleg",
+    "deposit": "Befizetés",
+    "ubi": "Társadalmi UBI",
+    "withdraw": "Kifizetés",
+    "connect_wallet": "Pénztárca Csatlakoztatása",
+    "ubi_desc": "Globális szegénységcsökkentési modell nettó nyereségből",
+    "agi_desc": "10 elosztott hálózat és 50 nyelv szinkronizálása"
+  },
+  "fi": {
+    "welcome": "Tervetuloa, Puheenjohtaja Lee Jaewan",
+    "balance": "Omaisuuden saldo",
+    "deposit": "Talletus",
+    "ubi": "Sosiaalinen UBI",
+    "withdraw": "Nosta",
+    "connect_wallet": "Yhdistä lompakko",
+    "ubi_desc": "Globaali köyhyyden vähentämismalli nettovoitosta",
+    "agi_desc": "10 hajautettua verkkoa ja 50 kielen synkronointi"
+  },
+  "da": {
+    "welcome": "Velkommen, Formand Lee Jaewan",
+    "balance": "Aktivsaldo",
+    "deposit": "Indbetal",
+    "ubi": "Social UBI",
+    "withdraw": "Hæv",
+    "connect_wallet": "Tilslut tegnebog",
+    "ubi_desc": "Global model for fattigdomsbekæmpelse fra nettobudget",
+    "agi_desc": "10 distribuerede netværk & 50 sprog sync"
+  },
+  "no": {
+    "welcome": "Velkommen, Formann Lee Jaewan",
+    "balance": "Eiendelssaldo",
+    "deposit": "Innskudd",
+    "ubi": "Sosial UBI",
+    "withdraw": "Ta ut",
+    "connect_wallet": "Koble til lommebok",
+    "ubi_desc": "Global modell for fattigdomsbekjempelse fra nettofortjeneste",
+    "agi_desc": "10 distribuerte nettverk & 50 språk sync"
+  },
+  "sk": {
+    "welcome": "Vitajte, predseda Lee Jaewan",
+    "balance": "Zostatok aktív",
+    "deposit": "Vklad",
+    "ubi": "Sociálne UBI",
+    "withdraw": "Výběr",
+    "connect_wallet": "Pripojiť peňaženku",
+    "ubi_desc": "Model globálneho znižovania chudoby z čistého zisku",
+    "agi_desc": "10 distribuovaných sietí a 50 jazykov sync"
+  },
+  "hr": {
+    "welcome": "Dobrodošli, Predsjedniče Lee Jaewan",
+    "balance": "Stanje Imovine",
+    "deposit": "Depozit",
+    "ubi": "Socijalni UBI",
+    "withdraw": "Povlačenje",
+    "connect_wallet": "Poveži novčanik",
+    "ubi_desc": "Model globalnog smanjenja siromaštva iz neto dobiti",
+    "agi_desc": "10 distribuiranih mreža i 50 jezika sinkronizacija"
+  },
+  "ar": {
+    "welcome": "أهلاً بك، الرئيس لي جيه وان",
+    "balance": "رصيد الأصول",
+    "deposit": "إيداع",
+    "ubi": "الدخل الأساسي الشامل",
+    "withdraw": "سحب",
+    "connect_wallet": "ربط المحفظة",
+    "ubi_desc": "نموذج إعادة توزيع صافي الأرباح للمناطق الفقيرة",
+    "agi_desc": "10 شبكات موزعة ومزامنة 50 لغة"
+  },
+  "fa": {
+    "welcome": "خوش آمدید، رئیس لی جائه وان",
+    "balance": "موجودی دارایی",
+    "deposit": "سپرده گذاری",
+    "ubi": "UBI اجتماعی",
+    "withdraw": "برداشت",
+    "connect_wallet": "اتصال کیف پول",
+    "ubi_desc": "مدل کاهش فقر جهانی از سود خالص",
+    "agi_desc": "10 شبکه توزیع شده و همگامسازی 50 زبان"
+  },
+  "he": {
+    "welcome": "ברוך הבא, היושב ראש לי ג'ה-וואן",
+    "balance": "יתרת נכסים",
+    "deposit": "הפקדה",
+    "ubi": "UBI חברתי",
+    "withdraw": "משיכה",
+    "connect_wallet": "חבר ארנק",
+    "ubi_desc": "מודל צמצום עוני גלובלי מרווח נקי",
+    "agi_desc": "10 רשתות מבוזרות וסיنك ל-50 שפות"
+  },
+  "tr_tr": {
+    "welcome": "Xoş gəlmisiniz, Sədr Lee Jaewan",
+    "balance": "Aktiv Balansı",
+    "deposit": "Depozit",
+    "ubi": "Sosial UBI",
+    "withdraw": "Çıxarış",
+    "connect_wallet": "Cüzdanı Bağla",
+    "ubi_desc": "Kasıb bölgələrə xalis mənfəət ayırma modeli",
+    "agi_desc": "10 paylanmış şəbəkə və 50 dil sinxronizasiyası"
+  },
+  "sw": {
+    "welcome": "Karibu, Mwenyekiti Lee Jaewan",
+    "balance": "Salio la Mali",
+    "deposit": "Weka",
+    "ubi": "UBI ya Kijamii",
+    "withdraw": "Toa",
+    "connect_wallet": "Unganisha Mkoba",
+    "ubi_desc": "Modeli ya kupunguza umaskini kimataifa kutoka faida halisi",
+    "agi_desc": "Mitandao 10 iliyosambazwa & usawazishaji wa lugha 50"
+  },
+  "am": {
+    "welcome": "እንኳን ደህና መጡ፣ ሊቀመንበር ሊ ጄዋን",
+    "balance": "የንብረት ቀሪ ሂሳብ",
+    "deposit": "ተቀማጭ ገንዘብ",
+    "ubi": "ማህበራዊ UBI",
+    "withdraw": "ማውጣት",
+    "connect_wallet": "ቦርሳ ያገናኙ",
+    "ubi_desc": "ከសុទ្ធ ትርፍ ዓለም አቀፍ ድህነትን የመቀነስ ሞዴል",
+    "agi_desc": "10 የተከፋፈሉ አውታረ መረቦች እና 50 ቋንቋዎች ማመሳሰል"
+  },
+  "ha": {
+    "welcome": "Barka da zuwa, Shugaba Lee Jaewan",
+    "balance": "Ragowar Kadara",
+    "deposit": "Adana",
+    "ubi": "UBI na Zamantakewa",
+    "withdraw": "Cirewa",
+    "connect_wallet": "Haɗa Walat",
+    "ubi_desc": "Tsarin rage talauci na duniya daga riba mai tsabta",
+    "agi_desc": "Cibiyoyin sadarwa 10 da aka rarraba & daidaita harsuna 50"
+  },
+  "yo": {
+    "welcome": "Kaabọ, Alaga Lee Jaewan",
+    "balance": "Iwontunws.funfun Dukia",
+    "deposit": "Idogo",
+    "ubi": "UBI Awujọ",
+    "withdraw": "Yọ kuro",
+    "connect_wallet": "Sopọ Apamọwọ",
+    "ubi_desc": "Awoṣe idinku osi agbaye lati inu ere apapọ",
+    "agi_desc": "Awọn nẹtiwọọki pinpin 10 & 50 ede ṣiṣẹpọ"
+  },
+  "zu": {
+    "welcome": "Siyakwamukela, Sihlalo Lee Jaewan",
+    "balance": "Ibhalansi Yempahla",
+    "deposit": "Idiphozithi",
+    "ubi": "I-UBI Yezenhlalakahle",
+    "withdraw": "Khipha",
+    "connect_wallet": "Xhuma Isikhwama",
+    "ubi_desc": "Imodeli yokunciphisa ubuphofu emhlabeni jikelele",
+    "agi_desc": "Amanethiwekhi angu-10 asatshalaliswe nezilimi ezingu-50"
+  },
+  "af": {
+    "welcome": "Welkom, Voorsitter Lee Jaewan",
+    "balance": "Batesaldo",
+    "deposit": "Deposito",
+    "ubi": "Sosiale UBI",
+    "withdraw": "Onttrek",
+    "connect_wallet": "Koppel beursie",
+    "ubi_desc": "Wêreldwye armoede-uitwissingsmodel vanuit netto wins",
+    "agi_desc": "10 verspreide netwerke & 50 tale sinkronisasie"
+  },
+  "en_ca": {
+    "welcome": "Welcome, Chairman Jaewan Lee",
+    "balance": "Asset Balance",
+    "deposit": "Deposit",
+    "ubi": "Social UBI",
+    "withdraw": "Withdraw",
+    "connect_wallet": "Connect Wallet",
+    "ubi_desc": "Global poverty alleviation model from net profit",
+    "agi_desc": "10 distributed networks & 50 languages sync"
+  },
+  "fr_ca": {
+    "welcome": "Bienvenue, Président Lee Jaewan",
+    "balance": "Solde des actifs",
+    "deposit": "Déposer",
+    "ubi": "UBI Social",
+    "withdraw": "Retirer",
+    "connect_wallet": "Connecter le portefeuille",
+    "ubi_desc": "Modèle de redistribution des bénéfices nets",
+    "agi_desc": "10 réseaux distribués et synchronisation de 50 langues"
+  },
+  "es_mx": {
+    "welcome": "Bienvenido, Presidente Lee Jaewan",
+    "balance": "Saldo de Activos",
+    "deposit": "Depositar",
+    "ubi": "UBI Social",
+    "withdraw": "Retirar",
+    "connect_wallet": "Conectar Billetera",
+    "ubi_desc": "Modelo de UBI de beneficio neto para la pobreza global",
+    "agi_desc": "10 redes distribuidas y 50 idiomas sincronizados"
+  },
+  "pt_br": {
+    "welcome": "Bem-vindo, Presidente Lee Jaewan",
+    "balance": "Saldo de Ativos",
+    "deposit": "Depositar",
+    "ubi": "UBI Social",
+    "withdraw": "Sacar",
+    "connect_wallet": "Conectar Carteira",
+    "ubi_desc": "Modelo de UBI para erradicação da pobreza global",
+    "agi_desc": "10 redes distribuídas e 50 idiomas sincronizados"
+  },
+  "ht": {
+    "welcome": "Byenveni, Prezidan Lee Jaewan",
+    "balance": "Balans Byen",
+    "deposit": "Depo",
+    "ubi": "UBI Sosyal",
+    "withdraw": "Retire",
+    "connect_wallet": "Konekte bous",
+    "ubi_desc": "Modèl soulajman povrete global nan benefis nèt",
+    "agi_desc": "10 rezo distribye ak 50 lang senkronize"
+  }
+};
 
-        const translations = {
-            ko: {
-                platform_title: "월드뱅크 플랫폼",
-                live_ledger: "실시간 원장 데이터",
-                asset_dashboard: "개인 자산 대시보드",
-                mainnet_status: "메인넷 신청 상태",
-                pending_approval: "⏳ 승인 대기 중",
-                personal_holding: "📁 개인 보유 수량",
-                realtime_interest: "📈 실시간 누적 이자",
-                apply_mainnet: "☁️ 코어팀에게 메인넷 즉시 신청하기",
-                wallet_mgmt_ledger: "지갑 관리 통합 원장",
-                admin_only: "최고운영자 전용",
-                fee_wallet: "수수료 지갑",
-                admin_pw_placeholder: "운영자 비밀번호를 입력하십시오.",
-                unlock: "해제",
-                transparent_public: "전면 투명 공개",
-                ubi_wallet: "UBI 지갑",
-                distributed_network: "10대 분산 연동망",
-                net_wallet_connect: "지갑연결",
-                net_wallet_desc: "노드 계정 상시 연동",
-                net_transfer: "송금",
-                net_transfer_desc: "대륙간 초고속 전송",
-                menu_payment: "결제",
-                menu_payment_desc: "실시간 상거래 승인",
-                menu_deposit: "예치",
-                menu_deposit_desc: "자산 자금 신탁",
-                menu_reward: "보상",
-                menu_reward_desc: "인센티브 실시간 정산",
-                menu_ubi: "기본소득",
-                menu_ubi_desc: "분산 복지 재단 분배",
-                menu_swap: "스왑",
-                menu_swap_desc: "즉각 다이렉트 변환",
-                menu_dex: "DEX 스왑",
-                menu_dex_desc: "탈중앙화 P2P 거래",
-                menu_lp: "LP스테이킹",
-                menu_lp_desc: "유동성 증명 고리 배당",
-                menu_pi: "PI수량 추가",
-                menu_pi_desc: "PI 자산 즉시 확보",
-                deposit_process_title: "[예치] 상세 프로세스",
-                deposit_steps: "자산 선택 → 수량 및 기간 설정 → 예상 수익률 확인 → 6자리 승인 코드 입력 → 처리 완료",
-                enter_6digit: "6자리 승인 코드를 입력하세요:",
-                approve: "승인",
-                ai_engine_title: "HK 지능형 추론 엔진",
-                ai_status: "● 실시간 초기화 연산 중",
-                ai_welcome: "반갑습니다. HK 월드뱅크 통합 지능형 서비스 센터입니다. 선택하신 국가 언어로 실시간 교차 추론 및 자산 동기화 시스템이 상시 가동되고 있습니다.",
-                ai_input_placeholder: "원장 상태 및 금융 노드에 대해 질문하십시오."
-            },
-            en: {
-                platform_title: "WorldBank Platform",
-                live_ledger: "Real-time Ledger Data",
-                asset_dashboard: "Personal Asset Dashboard",
-                mainnet_status: "Mainnet Application Status",
-                pending_approval: "⏳ Pending Approval",
-                personal_holding: "📁 Personal Holdings",
-                realtime_interest: "📈 Real-time Accrued Interest",
-                apply_mainnet: "☁️ Request Instant Mainnet to Core Team",
-                wallet_mgmt_ledger: "Wallet Management Integrated Ledger",
-                admin_only: "Super Admin Only",
-                fee_wallet: "Fee Wallet",
-                admin_pw_placeholder: "Enter administrator password.",
-                unlock: "Unlock",
-                transparent_public: "Fully Transparent Public",
-                ubi_wallet: "UBI Wallet",
-                distributed_network: "Top 10 Distributed Networks",
-                net_wallet_connect: "Wallet Connect",
-                net_wallet_desc: "Node account live sync",
-                net_transfer: "Transfer",
-                net_transfer_desc: "Intercontinental high-speed transmission",
-                menu_payment: "Payment",
-                menu_payment_desc: "Real-time commerce approval",
-                menu_deposit: "Deposit",
-                menu_deposit_desc: "Asset fund trust",
-                menu_reward: "Reward",
-                menu_reward_desc: "Incentive real-time settlement",
-                menu_ubi: "Basic Income",
-                menu_ubi_desc: "Distributed welfare foundation distribution",
-                menu_swap: "Swap",
-                menu_swap_desc: "Instant direct conversion",
-                menu_dex: "DEX Swap",
-                menu_dex_desc: "Decentralized P2P trading",
-                menu_lp: "LP Staking",
-                menu_lp_desc: "Proof of liquidity loop dividend",
-                menu_pi: "Add PI Amount",
-                menu_pi_desc: "Instant PI asset acquisition",
-                deposit_process_title: "[Deposit] Detailed Process",
-                deposit_steps: "Select Asset → Set Amount & Period → Check Expected Yield → Enter 6-Digit Approval Code → Complete",
-                enter_6digit: "Enter 6-digit approval code:",
-                approve: "Approve",
-                ai_engine_title: "HK Intelligent Inference Engine",
-                ai_status: "● Real-time Init Computation",
-                ai_welcome: "Welcome to HK WorldBank Intelligent Service Center. Real-time cross-inference and asset synchronization system is running in your selected language.",
-                ai_input_placeholder: "Ask about ledger status and financial nodes."
+        let currentLang = 'ko';
+        let isConnected = false;
+        let isKycVerified = false; // 기본값: 미인증 (구경만 가능)
+
+        // Initialize language selector options
+        function initLanguages() {
+            const select = document.getElementById('langSelect');
+            select.innerHTML = '';
+            for (const langCode in i18nData) {
+                const option = document.createElement('option');
+                option.value = langCode;
+                option.textContent = langCode.toUpperCase();
+                if (langCode === currentLang) option.selected = true;
+                select.appendChild(option);
             }
-        };
-
-        const langListEl = document.getElementById('langList');
-        languages.forEach(lang => {
-            const item = document.createElement('div');
-            item.className = 'lang-item';
-            item.innerHTML = `<span>${lang.flag}</span> <span>${lang.name}</span>`;
-            item.onclick = () => selectLanguage(lang);
-            langListEl.appendChild(item);
-        });
-
-        function toggleLangList() {
-            langListEl.classList.toggle('show');
         }
 
-        function selectLanguage(lang) {
-            document.getElementById('currentLangText').innerText = `${lang.flag} ${lang.name}`;
-            langListEl.classList.remove('show');
-            applyTranslations(lang.code);
+        function changeLanguage(lang) {
+            currentLang = lang;
+            updateUI();
         }
 
-        function applyTranslations(langCode) {
-            const dict = translations[langCode] || translations['en'];
+        function updateUI() {
+            const data = i18nData[currentLang] || i18nData['en'];
             
-            document.querySelectorAll('[data-i18n]').forEach(el => {
-                const key = el.getAttribute('data-i18n');
-                if (dict[key]) {
-                    el.innerText = dict[key];
-                }
-            });
-
-            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-                const key = el.getAttribute('data-i18n-placeholder');
-                if (dict[key]) {
-                    el.placeholder = dict[key];
-                }
-            });
+            document.getElementById('heroTitle').textContent = data.welcome;
+            document.getElementById('heroDesc').textContent = data.agi_desc;
+            document.getElementById('headerAuthBtn').textContent = data.connect_wallet;
+            
+            document.getElementById('welcomeMsg').textContent = data.welcome;
+            document.getElementById('lblBalance').textContent = data.balance;
+            document.getElementById('btnDeposit').textContent = data.deposit;
+            document.getElementById('btnWithdraw').textContent = data.withdraw;
+            document.getElementById('lblUbi').textContent = data.ubi;
+            document.getElementById('lblUbiDesc').textContent = data.ubi_desc;
+            document.getElementById('lblAgiDesc').textContent = data.agi_desc;
         }
 
-        window.onclick = function(event) {
-            if (!event.target.closest('.lang-dropdown-container')) {
-                langListEl.classList.remove('show');
+        // Background KYC Auto-Check & Direct Dashboard Navigation
+        function connectWallet() {
+            isConnected = true;
+            
+            // Background KYC Check Simulation (Rule 8 & 11)
+            // 비인증 상태로 접속 시 대시보드 진입하되 뷰어 모드(구경만) 활성화
+            
+            document.getElementById('landingView').classList.remove('active');
+            document.getElementById('dashboardView').classList.add('active');
+            
+            checkKycStatus();
+        }
+
+        function toggleAuth() {
+            if (!isConnected) {
+                connectWallet();
+            } else {
+                isConnected = false;
+                isKycVerified = false;
+                document.getElementById('dashboardView').classList.remove('active');
+                document.getElementById('landingView').classList.add('active');
             }
         }
+
+        function checkKycStatus() {
+            const banner = document.getElementById('viewerBanner');
+            if (!isKycVerified) {
+                banner.style.display = 'flex';
+                document.getElementById('bannerText').textContent = "KYC/KYB 미인증 상태입니다. 현재 구경만 가능합니다.";
+            } else {
+                banner.style.display = 'none';
+            }
+        }
+
+        function simulateKYC() {
+            isKycVerified = true;
+            checkKycStatus();
+            alert("백그라운드 KYC/KYB 인증이 완료되었습니다! 모든 기능을 이용하실 수 있습니다.");
+        }
+
+        // AGI Pinni Chat Toggle & Function
+        function toggleChat() {
+            const box = document.getElementById('chatBox');
+            box.classList.toggle('open');
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const text = input.value.trim();
+            if (!text) return;
+
+            const chatMessages = document.getElementById('chatMessages');
+            
+            // User message
+            const userDiv = document.createElement('div');
+            userDiv.className = 'message user';
+            userDiv.textContent = text;
+            chatMessages.appendChild(userDiv);
+            
+            input.value = '';
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            // AGI Pinni Response Simulation
+            setTimeout(() => {
+                const botDiv = document.createElement('div');
+                botDiv.className = 'message bot';
+                botDiv.textContent = `[AGI 삐니]: 형님, 입력하신 "${text}" 요청 및 10대 연동망/글로벌 디지털 자산법(미카, 클래리티 등) 컴플라이언스 검토가 정상적으로 반영되었습니다. support@hkwb.world를 통해 백엔드 로그가 동기화되었습니다.`;
+                chatMessages.appendChild(botDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }, 600);
+        }
+
+        // Initialize on load
+        window.onload = function() {
+            initLanguages();
+            updateUI();
+        };
     </script>
 </body>
 </html>
