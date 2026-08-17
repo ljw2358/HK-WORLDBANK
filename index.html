@@ -1,1453 +1,707 @@
 <!DOCTYPE html>
-<html lang="ko" class="dark">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HK WorldBank - 60 Nations Global Enterprise Core v7.0</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>HK 월드뱅크 플랫폼 - 60개국어 다국어 지원</title>
     <style>
-        body { background-color: #030712; color: #f3f4f6; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-        .glass-panel { background: rgba(11, 15, 25, 0.95); border: 1px solid rgba(255, 255, 255, 0.08); backdrop-filter: blur(20px); }
-        .custom-select { appearance: none; background: #111827 url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%239ca3af'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E") no-repeat right 0.75rem center/1rem 1rem; }
-        .scrollbar-hide::-webkit-scrollbar { display: none; }
-        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+        :root {
+            --bg-color: #0d1117;
+            --card-bg: #161b22;
+            --card-border: #30363d;
+            --accent-color: #f59e0b;
+            --text-main: #ffffff;
+            --text-sub: #8b949e;
+            --input-bg: #0b0f15;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            padding: 16px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 480px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            position: relative;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-badge {
+            background-color: var(--accent-color);
+            color: #000;
+            font-weight: bold;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .logo-title {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        /* Language Selector Dropdown */
+        .lang-dropdown-container {
+            position: relative;
+        }
+
+        .lang-selector {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            color: var(--text-main);
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+        }
+
+        .lang-list {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 100%;
+            margin-top: 6px;
+            width: 220px;
+            max-height: 280px;
+            overflow-y: auto;
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            z-index: 100;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+        }
+
+        .lang-list.show {
+            display: block;
+        }
+
+        .lang-item {
+            padding: 10px 14px;
+            font-size: 13px;
+            cursor: pointer;
+            border-bottom: 1px solid rgba(48, 54, 61, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .lang-item:hover {
+            background-color: rgba(245, 158, 11, 0.15);
+            color: var(--accent-color);
+        }
+
+        /* Card Base */
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .badge-live {
+            background-color: #2b261b;
+            color: var(--accent-color);
+            font-size: 11px;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 4px;
+        }
+
+        .dashboard-title {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .status-box {
+            text-align: right;
+        }
+
+        .status-label {
+            font-size: 12px;
+            color: var(--text-sub);
+        }
+
+        .status-value {
+            font-size: 13px;
+            color: var(--accent-color);
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin-top: 2px;
+        }
+
+        .asset-box {
+            background-color: var(--input-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .asset-label {
+            font-size: 12px;
+            color: var(--text-sub);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .asset-amount {
+            font-size: 22px;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .asset-amount span {
+            font-size: 14px;
+            color: var(--text-sub);
+            font-weight: normal;
+        }
+
+        .btn-primary {
+            background-color: var(--accent-color);
+            color: #000;
+            border: none;
+            padding: 14px;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 15px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 8px;
+        }
+
+        .wallet-input-row {
+            display: flex;
+            gap: 8px;
+        }
+
+        .text-input {
+            flex: 1;
+            background-color: var(--input-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 12px;
+            color: #fff;
+            font-size: 14px;
+        }
+
+        .btn-small {
+            background-color: var(--accent-color);
+            color: #000;
+            border: none;
+            padding: 0 16px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .wallet-info-text {
+            font-size: 12px;
+            color: var(--text-sub);
+            word-break: break-all;
+            line-height: 1.5;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .menu-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .menu-card.active {
+            border-color: var(--accent-color);
+        }
+
+        .menu-icon {
+            font-size: 20px;
+        }
+
+        .menu-title {
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+        .menu-desc {
+            font-size: 11px;
+            color: var(--text-sub);
+        }
+
+        .ai-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .ai-title-area {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .ai-badge {
+            background-color: #3b2863;
+            color: #c084fc;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .ai-chat-box {
+            background-color: var(--input-bg);
+            border-radius: 10px;
+            padding: 12px;
+            font-size: 13px;
+            color: #d1d5db;
+            line-height: 1.4;
+        }
+
+        .ai-input-row {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-send {
+            background-color: var(--accent-color);
+            border: none;
+            border-radius: 8px;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            color: #000;
+        }
     </style>
 </head>
-<body x-data="hkwb60App()" class="min-h-screen pb-24 selection:bg-amber-500 selection:text-black">
+<body>
 
-    <!-- TOP HEADER -->
-    <header class="sticky top-0 z-50 bg-[#030712]/95 backdrop-blur-md border-b border-gray-800 px-6 py-4 flex items-center justify-between">
-        <div class="flex items-center space-x-3">
-            <div class="bg-amber-500 text-black font-black px-3.5 py-1.5 rounded-xl text-base shadow-lg shadow-amber-500/20">HK</div>
-            <div>
-                <h1 class="font-extrabold text-sm tracking-tight text-white" x-text="t('brand_title')">HK WorldBank</h1>
-                <p class="text-[10px] text-amber-400 font-mono tracking-wider" x-text="t('brand_subtitle')">WEB3 DIGITAL BANKING</p>
+    <div class="container">
+        <!-- 상단 헤더 -->
+        <div class="header">
+            <div class="logo-area">
+                <div class="logo-badge" data-i18n="logo">HK</div>
+                <div class="logo-title" data-i18n="platform_title">월드뱅크 플랫폼</div>
+            </div>
+            <div class="lang-dropdown-container">
+                <div class="lang-selector" id="langBtn" onclick="toggleLangList()">
+                    <span id="currentLangText">🇰🇷 대한민국 - 한국어</span> ▾
+                </div>
+                <div class="lang-list" id="langList">
+                    <!-- JavaScript로 60개국어 동적 생성 -->
+                </div>
             </div>
         </div>
-        <div class="flex items-center space-x-3">
-            <span class="hidden md:inline-block text-[10px] font-mono text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/20" x-text="t('node_status')">60 NATIONS MULTILINGUAL NODE</span>
-            
-            <!-- 60개국 언어 셀렉트 박스 -->
-            <select x-model="lang" @change="changeLang($event.target.value)" class="custom-select bg-gray-900 border border-gray-700 text-xs text-gray-200 font-semibold py-2 pl-3 pr-8 rounded-xl focus:outline-none focus:border-amber-500 max-w-[210px]">
-                <option value="ko">🇰🇷 한국어 (Korean)</option>
-                <option value="en">🇬🇧 English (Global)</option>
-                <option value="zh">🇨🇳 中文 (Chinese)</option>
-                <option value="ja">🇯🇵 日本語 (Japanese)</option>
-                <option value="es">🇪🇸 Español (Spanish)</option>
-                <option value="fr">🇫🇷 Français (French)</option>
-                <option value="de">🇩🇪 Deutsch (German)</option>
-                <option value="ru">🇷🇺 Русский (Russian)</option>
-                <option value="pt">🇵🇹 Português (Portuguese)</option>
-                <option value="it">🇮🇹 Italiano (Italian)</option>
-                <option value="vi">🇻🇳 Tiếng Việt (Vietnamese)</option>
-                <option value="th">🇹🇭 ไทย (Thai)</option>
-                <option value="id">🇮🇩 Bahasa Indonesia (Indonesian)</option>
-                <option value="hi">🇮🇳 हिन्दी (Hindi)</option>
-                <option value="ar">🇸🇦 العربية (Arabic)</option>
-                <option value="tr">🇹🇷 Türkçe (Turkish)</option>
-                <option value="nl">🇳🇱 Nederlands (Dutch)</option>
-                <option value="pl">🇵🇱 Polski (Polish)</option>
-                <option value="sv">🇸🇻 Svenska (Swedish)</option>
-                <option value="uk">🇺🇦 Українська (Ukrainian)</option>
-                <option value="ms">🇲🇾 Bahasa Melayu (Malay)</option>
-                <option value="fil">🇵🇭 Tagalog (Filipino)</option>
-                <option value="el">🇬🇷 Ελληνικά (Greek)</option>
-                <option value="cs">🇨🇿 Čeština (Czech)</option>
-                <option value="hu">🇭🇺 Magyar (Hungarian)</option>
-                <option value="ro">🇷🇴 Română (Romanian)</option>
-                <option value="da">🇩🇰 Dansk (Danish)</option>
-                <option value="fi">🇫🇮 Suomi (Finnish)</option>
-                <option value="no">🇳🇴 Norsk (Norwegian)</option>
-                <option value="fa">🇮🇷 فارسی (Persian)</option>
-                <option value="he">🇮🇱 עברית (Hebrew)</option>
-                <option value="bn">🇧🇩 বাংলা (Bengali)</option>
-                <option value="ur">🇵🇰 اردو (Urdu)</option>
-                <option value="sw">🇰🇪 Kiswahili (Swahili)</option>
-                <option value="ta">🇮🇳 தமிழ் (Tamil)</option>
-                <option value="te">🇮🇳 తెలుగు (Telugu)</option>
-                <option value="mr">🇮🇳 मराठी (Marathi)</option>
-                <option value="gu">🇮🇳 ગુજરાતી (Gujarati)</option>
-                <option value="kn">🇮🇳 ಕನ್ನಡ (Kannada)</option>
-                <option value="ml">🇮🇳 മലയാളം (Malayalam)</option>
-                <option value="pa">🇵🇰 ਪੰਜਾਬੀ (Punjabi)</option>
-                <option value="si">🇱🇰 සිංහල (Sinhala)</option>
-                <option value="my">🇲🇲 ဗမာစာ (Burmese)</option>
-                <option value="km">🇰🇭 ខ្មែរ (Khmer)</option>
-                <option value="lo">🇱🇴 ພາສາລາວ (Lao)</option>
-                <option value="ka">🇬🇪 ქართული (Georgian)</option>
-                <option value="am">🇪🇹 አማርኛ (Amharic)</option>
-                <option value="yo">🇳🇬 Yorùbá (Yoruba)</option>
-                <option value="ig">🇳🇬 Igbo (Igbo)</option>
-                <option value="ha">🇳🇬 Hausa (Hausa)</option>
-                <option value="zu">🇿🇦 IsiZulu (Zulu)</option>
-                <option value="xh">🇿🇦 IsiXhosa (Xhosa)</option>
-                <option value="af">🇿🇦 Afrikaans (Afrikaans)</option>
-                <option value="sq">🇦🇱 Shqip (Albanian)</option>
-                <option value="hy">🇦🇲 Հայերեն (Armenian)</option>
-                <option value="az">🇦🇿 Azərbaycan (Azerbaijani)</option>
-                <option value="eu">🇪🇺 Euskara (Basque)</option>
-                <option value="be">🇧🇾 Беларуская (Belarusian)</option>
-                <option value="bs">🇧🇦 Bosanski (Bosnian)</option>
-                <option value="bg">🇧🇬 Български (Bulgarian)</option>
-            </select>
-        </div>
-    </header>
 
-    <!-- MAIN CONTAINER -->
-    <main class="max-w-4xl mx-auto px-4 pt-6 space-y-6">
+        <!-- 개인 자산 대시보드 -->
+        <div class="card">
+            <div class="dashboard-header">
+                <div>
+                    <span class="badge-live" data-i18n="live_ledger">실시간 원장 데이터</span>
+                    <div class="dashboard-title" data-i18n="asset_dashboard">개인 자산 대시보드</div>
+                </div>
+                <div class="status-box">
+                    <div class="status-label" data-i18n="mainnet_status">메인넷 신청 상태</div>
+                    <div class="status-value" data-i18n="pending_approval">⏳ 승인 대기 중</div>
+                </div>
+            </div>
 
-        <!-- SUB NAVIGATION TABS -->
-        <div class="flex space-x-2 overflow-x-auto scrollbar-hide pb-2">
-            <button @click="currentTab = 'dashboard'" :class="currentTab === 'dashboard' ? 'bg-amber-500 text-black font-extrabold' : 'bg-gray-900 text-gray-400 border border-gray-800'" class="px-4 py-2.5 rounded-xl text-xs whitespace-nowrap transition" x-text="t('tab_dash')">대시보드</button>
-            <button @click="currentTab = 'staking'" :class="currentTab === 'staking' ? 'bg-amber-500 text-black font-extrabold' : 'bg-gray-900 text-gray-400 border border-gray-800'" class="px-4 py-2.5 rounded-xl text-xs whitespace-nowrap transition" x-text="t('tab_stake')">스테이킹 (APY 31.41%)</button>
-            <button @click="currentTab = 'transfer'" :class="currentTab === 'transfer' ? 'bg-amber-500 text-black font-extrabold' : 'bg-gray-900 text-gray-400 border border-gray-800'" class="px-4 py-2.5 rounded-xl text-xs whitespace-nowrap transition" x-text="t('tab_transfer')">초고속 송금</button>
-            <button @click="currentTab = 'cluster'" :class="currentTab === 'cluster' ? 'bg-amber-500 text-black font-extrabold' : 'bg-gray-900 text-gray-400 border border-gray-800'" class="px-4 py-2.5 rounded-xl text-xs whitespace-nowrap transition" x-text="t('tab_cluster')">울산·경주·포항 인프라</button>
-            <button @click="currentTab = 'governance'" :class="currentTab === 'governance' ? 'bg-amber-500 text-black font-extrabold' : 'bg-gray-900 text-gray-400 border border-gray-800'" class="px-4 py-2.5 rounded-xl text-xs whitespace-nowrap transition" x-text="t('tab_gov')">거버넌스 및 UBI</button>
+            <div class="asset-box">
+                <div class="asset-label" data-i18n="personal_holding">📁 개인 보유 수량</div>
+                <div class="asset-amount">0.000000 <span>HK</span></div>
+            </div>
+
+            <div class="asset-box">
+                <div class="asset-label" data-i18n="realtime_interest">📈 실시간 누적 이자</div>
+                <div class="asset-amount">0.000000 <span>HK</span></div>
+            </div>
+
+            <button class="btn-primary" data-i18n="apply_mainnet">
+                ☁️ 코어팀에게 메인넷 즉시 신청하기
+            </button>
         </div>
 
-        <!-- TAB 1: DASHBOARD -->
-        <template x-if="currentTab === 'dashboard'">
-            <div class="space-y-6">
-                <section class="glass-panel rounded-3xl p-6 relative shadow-2xl border-amber-500/20">
-                    <div class="flex justify-between items-center mb-5">
-                        <span class="bg-amber-500/10 text-amber-400 border border-amber-500/30 text-xs font-bold px-3 py-1 rounded-lg" x-text="t('ledger_badge')">실시간 원장 데이터</span>
-                        <span class="text-xs font-bold text-amber-400" x-text="t('status_pending')">코어팀 승인 대기 중</span>
-                    </div>
-                    
-                    <h2 class="text-xl font-black text-white mb-5" x-text="t('dashboard_title')">개인 자산 대시보드</h2>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                        <div class="bg-gray-900 border border-gray-800 p-5 rounded-2xl">
-                            <span class="text-xs text-gray-400 block mb-1 font-medium" x-text="t('holding_label')">개인 보유 수량</span>
-                            <div class="text-3xl font-black text-white tracking-tight flex items-baseline justify-between">
-                                <span x-text="balance">1,000,000.00</span>
-                                <span class="text-sm font-bold text-amber-500">HK</span>
-                            </div>
-                        </div>
-                        
-                        <div class="bg-gray-900 border border-gray-800 p-5 rounded-2xl">
-                            <span class="text-xs text-gray-400 block mb-1 font-medium" x-text="t('interest_label')">실시간 누적 이자</span>
-                            <div class="text-3xl font-black text-emerald-400 tracking-tight flex items-baseline justify-between">
-                                <span x-text="earnedInterest">31,410.00</span>
-                                <span class="text-sm font-bold text-emerald-500">HK (31.41%)</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <button @click="triggerMainnetAlert()" class="w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-black font-extrabold text-sm py-4 rounded-2xl shadow-xl shadow-amber-500/20 transition">
-                        <span x-text="t('btn_mainnet')">코어팀에게 메인넷 즉시 신청하기</span>
-                    </button>
-                </section>
-
-                <section class="grid grid-cols-2 md:grid-cols-4 gap-3">
-                    <div class="glass-panel p-4 rounded-2xl text-center">
-                        <i class="fa-solid fa-wallet text-amber-400 text-2xl mb-2"></i>
-                        <h4 class="text-xs font-bold text-white mb-1" x-text="t('grid_wallet')">지갑연결</h4>
-                        <p class="text-[10px] text-gray-400">Pi SDK v2.0 Sync</p>
-                    </div>
-                    <div class="glass-panel p-4 rounded-2xl text-center">
-                        <i class="fa-solid fa-paper-plane text-blue-400 text-2xl mb-2"></i>
-                        <h4 class="text-xs font-bold text-white mb-1" x-text="t('grid_transfer')">초고속 송금</h4>
-                        <p class="text-[10px] text-gray-400">Instant Settlement</p>
-                    </div>
-                    <div class="glass-panel p-4 rounded-2xl text-center">
-                        <i class="fa-solid fa-robot text-purple-400 text-2xl mb-2"></i>
-                        <h4 class="text-xs font-bold text-white mb-1" x-text="t('grid_robotics')">로보틱스 인프라</h4>
-                        <p class="text-[10px] text-gray-400">Ulsan Mega Cluster</p>
-                    </div>
-                    <div class="glass-panel p-4 rounded-2xl text-center">
-                        <i class="fa-solid fa-atom text-emerald-400 text-2xl mb-2"></i>
-                        <h4 class="text-xs font-bold text-white mb-1" x-text="t('grid_fusion')">핵융합·우주망</h4>
-                        <p class="text-[10px] text-gray-400">Pohang Advanced R&D</p>
-                    </div>
-                </section>
+        <!-- 거버넌스 및 지갑 관리 -->
+        <div class="section-title" data-i18n="wallet_mgmt_ledger">지갑 관리 통합 원장</div>
+        <div class="card">
+            <span class="badge-live" style="background-color: #3b1f1f; color: #f87171; width: fit-content;" data-i18n="admin_only">최고운영자 전용</span>
+            <div class="dashboard-title" style="font-size: 16px;" data-i18n="fee_wallet">수수료 지갑</div>
+            <div class="wallet-input-row">
+                <input type="password" class="text-input" data-i18n-placeholder="admin_pw_placeholder" placeholder="운영자 비밀번호를 입력하십시오.">
+                <button class="btn-small" data-i18n="unlock">해제</button>
             </div>
-        </template>
+        </div>
 
-        <!-- TAB 2: STAKING -->
-        <template x-if="currentTab === 'staking'">
-            <div class="glass-panel rounded-3xl p-6 space-y-6">
-                <div class="flex justify-between items-center">
-                    <h2 class="text-xl font-black text-white" x-text="t('stake_title')">3년 정기 자산 예치 및 스테이킹</h2>
-                    <span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-xs font-bold px-3 py-1 rounded-lg">APY 31.41% FIXED</span>
-                </div>
-                <p class="text-xs text-gray-400 leading-relaxed" x-text="t('stake_desc')">HK WorldBank의 스마트컨트랙트를 통해 안전하게 자산을 예치하고 확정 수익률을 실시간으로 수령하십시오.</p>
-                
-                <div class="bg-gray-900 border border-gray-800 p-5 rounded-2xl space-y-4">
-                    <div class="flex justify-between text-xs">
-                        <span class="text-gray-400" x-text="t('stake_avail')">예치 가능 잔액</span>
-                        <span class="text-white font-bold">1,000,000.00 HK</span>
-                    </div>
-                    <div>
-                        <label class="block text-xs text-gray-400 mb-2 font-medium" x-text="t('stake_input')">예치 수량 입력</label>
-                        <div class="relative">
-                            <input type="number" x-model="stakeAmount" class="w-full bg-black border border-gray-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-amber-500 font-mono">
-                            <span class="absolute right-4 top-3 text-amber-500 font-bold text-xs">HK</span>
-                        </div>
-                    </div>
-                    <div class="pt-2 border-t border-gray-800 flex justify-between items-center">
-                        <span class="text-xs text-gray-400" x-text="t('stake_expected')">3년 후 예상 총 수령액</span>
-                        <span class="text-emerald-400 font-black text-lg" x-text="(stakeAmount * 1.9423).toFixed(2) + ' HK'"></span>
-                    </div>
-                </div>
-
-                <button @click="alert(t('stake_success'))" class="w-full bg-amber-500 hover:bg-amber-400 text-black font-extrabold text-sm py-4 rounded-2xl transition shadow-lg shadow-amber-500/20" x-text="t('stake_btn')">
-                    스테이킹 즉시 실행
-                </button>
+        <div class="card">
+            <span class="badge-live" style="background-color: #1f3b2c; color: #34d399; width: fit-content;" data-i18n="transparent_public">전면 투명 공개</span>
+            <div class="dashboard-title" style="font-size: 16px;" data-i18n="ubi_wallet">UBI 지갑</div>
+            <div class="wallet-info-text" id="ubiInfoText">
+                주소: HK_UBI_FOUNDATION_982_PUBLIC<br>
+                수량: 0 HK<br>
+                금액: $0 USD
             </div>
-        </template>
+        </div>
 
-        <!-- TAB 3: TRANSFER -->
-        <template x-if="currentTab === 'transfer'">
-            <div class="glass-panel rounded-3xl p-6 space-y-6">
-                <h2 class="text-xl font-black text-white" x-text="t('trans_title')">초고속 디지털 자산 송금</h2>
-                <div class="space-y-4">
-                    <div>
-                        <label class="block text-xs text-gray-400 mb-2 font-medium" x-text="t('trans_to')">수신자 지갑 주소 또는 UID</label>
-                        <input type="text" placeholder="HK-WALLET-XXXX-YYYY" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-amber-500 font-mono">
-                    </div>
-                    <div>
-                        <label class="block text-xs text-gray-400 mb-2 font-medium" x-text="t('trans_amount')">송금 수량</label>
-                        <div class="relative">
-                            <input type="number" placeholder="0.00" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-amber-500 font-mono">
-                            <span class="absolute right-4 top-3 text-amber-500 font-bold text-xs">HK</span>
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block text-xs text-gray-400 mb-2 font-medium" x-text="t('trans_memo')">메모 (선택사항)</label>
-                        <input type="text" placeholder="비즈니스 정산 및 자금 이체" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-amber-500">
-                    </div>
-                </div>
-                <button @click="alert(t('trans_success'))" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-extrabold text-sm py-4 rounded-2xl transition shadow-lg shadow-blue-600/20" x-text="t('trans_btn')">
-                    안전 송금 실행
-                </button>
+        <!-- 10대 분산 연동망 -->
+        <div class="section-title" data-i18n="distributed_network">10대 분산 연동망</div>
+        <div class="grid-2">
+            <div class="menu-card">
+                <div class="menu-icon">💳</div>
+                <div class="menu-title" data-i18n="net_wallet_connect">지갑연결</div>
+                <div class="menu-desc" data-i18n="net_wallet_desc">노드 계정 상시 연동</div>
             </div>
-        </template>
+            <div class="menu-card">
+                <div class="menu-icon">📤</div>
+                <div class="menu-title" data-i18n="net_transfer">송금</div>
+                <div class="menu-desc" data-i18n="net_transfer_desc">대륙간 초고속 전송</div>
+            </div>
+        </div>
 
-        <!-- TAB 4: CLUSTER -->
-        <template x-if="currentTab === 'cluster'">
-            <div class="space-y-6">
-                <div class="glass-panel rounded-3xl p-6 space-y-4">
-                    <h2 class="text-xl font-black text-white" x-text="t('cluster_title')">동남권 메가 클러스터 마스터플랜</h2>
-                    <p class="text-xs text-gray-400 leading-relaxed" x-text="t('cluster_desc')">울산(로보틱스), 경주(퀀텀 바이오 및 165층 파이낸스 타워), 포항(핵융합 및 항공우주)을 잇는 미래 기술 핵심 벨트입니다.</p>
+        <!-- 핵심 서비스 그리드 메뉴 -->
+        <div class="grid-2">
+            <div class="menu-card">
+                <div class="menu-icon">💳</div>
+                <div class="menu-title" data-i18n="menu_payment">결제</div>
+                <div class="menu-desc" data-i18n="menu_payment_desc">실시간 상거래 승인</div>
+            </div>
+            <div class="menu-card active">
+                <div class="menu-icon">🏛️</div>
+                <div class="menu-title" data-i18n="menu_deposit">예치</div>
+                <div class="menu-desc" data-i18n="menu_deposit_desc">자산 자금 신탁</div>
+            </div>
+            <div class="menu-card">
+                <div class="menu-icon">🎁</div>
+                <div class="menu-title" data-i18n="menu_reward">보상</div>
+                <div class="menu-desc" data-i18n="menu_reward_desc">인센티브 실시간 정산</div>
+            </div>
+            <div class="menu-card">
+                <div class="menu-icon">💸</div>
+                <div class="menu-title" data-i18n="menu_ubi">기본소득</div>
+                <div class="menu-desc" data-i18n="menu_ubi_desc">분산 복지 재단 분배</div>
+            </div>
+            <div class="menu-card">
+                <div class="menu-icon">🔄</div>
+                <div class="menu-title" data-i18n="menu_swap">스왑</div>
+                <div class="menu-desc" data-i18n="menu_swap_desc">즉각 다이렉트 변환</div>
+            </div>
+            <div class="menu-card">
+                <div class="menu-icon">🔀</div>
+                <div class="menu-title" data-i18n="menu_dex">DEX 스왑</div>
+                <div class="menu-desc" data-i18n="menu_dex_desc">탈중앙화 P2P 거래</div>
+            </div>
+            <div class="menu-card">
+                <div class="menu-icon">🥞</div>
+                <div class="menu-title" data-i18n="menu_lp">LP스테이킹</div>
+                <div class="menu-desc" data-i18n="menu_lp_desc">유동성 증명 고리 배당</div>
+            </div>
+            <div class="menu-card">
+                <div class="menu-icon">➕</div>
+                <div class="menu-title" data-i18n="menu_pi">PI수량 추가</div>
+                <div class="menu-desc" data-i18n="menu_pi_desc">PI 자산 즉시 확보</div>
+            </div>
+        </div>
+
+        <!-- [예치] 상세 프로세스 및 승인 코드 -->
+        <div class="card">
+            <div class="dashboard-title" style="font-size: 15px; color: var(--accent-color);" data-i18n="deposit_process_title">[예치] 상세 프로세스</div>
+            <div class="wallet-info-text" data-i18n="deposit_steps">
+                자산 선택 → 수량 및 기간 설정 → 예상 수익률 확인 → 6자리 승인 코드 입력 → 처리 완료
+            </div>
+            <div style="font-size: 13px; margin-top: 4px;" data-i18n="enter_6digit">6자리 승인 코드를 입력하세요:</div>
+            <div class="wallet-input-row">
+                <input type="password" class="text-input" maxlength="6" placeholder="------">
+                <button class="btn-small" style="background-color: var(--accent-color);" data-i18n="approve">승인</button>
+            </div>
+        </div>
+
+        <!-- HK 지능형 추론 엔진 -->
+        <div class="card">
+            <div class="ai-header">
+                <div class="ai-title-area">
+                    <span style="font-size: 18px;">🧠</span>
+                    <span style="font-weight: bold; font-size: 15px;" data-i18n="ai_engine_title">HK 지능형 추론 엔진</span>
+                    <span class="ai-badge">v3.0</span>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div class="glass-panel p-5 rounded-2xl space-y-2 border-amber-500/30">
-                        <div class="text-amber-400 font-bold text-sm" x-text="t('c_ulsan')">울산시 (Ulsan)</div>
-                        <div class="text-xs text-white font-semibold" x-text="t('c_ulsan_sub')">로보틱스 및 제조 자동화 R&D</div>
-                        <p class="text-[11px] text-gray-400" x-text="t('c_ulsan_desc')">지능형 로봇 제조 팩토리 및 스마트 물류 인프라 전진기지 구축.</p>
-                    </div>
-                    <div class="glass-panel p-5 rounded-2xl space-y-2 border-emerald-500/30">
-                        <div class="text-emerald-400 font-bold text-sm" x-text="t('c_gyeongju')">경주시 (Gyeongju)</div>
-                        <div class="text-xs text-white font-semibold" x-text="t('c_gyeongju_sub')">165층 본사 타워 & 퀀텀 바이오</div>
-                        <p class="text-[11px] text-gray-400" x-text="t('c_gyeongju_desc')">초고층 파이낸셜 헤드쿼터 및 미래 생명공학 연구 클러스터 조성.</p>
-                    </div>
-                    <div class="glass-panel p-5 rounded-2xl space-y-2 border-blue-500/30">
-                        <div class="text-blue-400 font-bold text-sm" x-text="t('c_pohang')">포항시 (Pohang)</div>
-                        <div class="text-xs text-white font-semibold" x-text="t('c_pohang_sub')">핵융합 에너지 및 항공우주 시스템</div>
-                        <p class="text-[11px] text-gray-400" x-text="t('c_pohang_desc')">차세대 청정에너지 발전 연구 및 우주 항공 네트워킹 허브.</p>
-                    </div>
+                <div style="font-size: 11px; color: #34d399; display: flex; align-items: center; gap: 4px;" data-i18n="ai_status">
+                    ● 실시간 초기화 연산 중
                 </div>
             </div>
-        </template>
-
-        <!-- TAB 5: GOVERNANCE -->
-        <template x-if="currentTab === 'governance'">
-            <div class="glass-panel rounded-3xl p-6 space-y-6">
-                <h2 class="text-xl font-black text-white" x-text="t('gov_title')">글로벌 상생 금융 및 UBI 모델</h2>
-                <p class="text-xs text-gray-400 leading-relaxed" x-text="t('gov_desc')">HK WorldBank는 순이익의 30%를 글로벌 빈곤 지역 및 소외계층을 위한 디지털 기본소득(UBI) 재원으로 투명하게 환원합니다.</p>
-                
-                <div class="bg-gray-900 border border-gray-800 p-5 rounded-2xl space-y-3">
-                    <div class="flex justify-between text-xs">
-                        <span class="text-gray-400" x-text="t('gov_rate')">UBI 누적 기금 적립률</span>
-                        <span class="text-amber-400 font-bold">30.0% (Net Profit)</span>
-                    </div>
-                    <div class="w-full bg-gray-800 h-2.5 rounded-full overflow-hidden">
-                        <div class="bg-amber-500 h-full w-[30%]"></div>
-                    </div>
-                    <p class="text-[11px] text-gray-400 pt-1" x-text="t('gov_sub')">스마트컨트랙트를 통해 자동으로 공정하게 분배되며 사회적 인프라 확충에 기여합니다.</p>
-                </div>
-
-                <div class="border-t border-gray-800 pt-4 flex justify-between items-center text-xs text-gray-400">
-                    <span x-text="t('chairman_label')">Chairman: 혜공 형님</span>
-                    <span class="font-mono text-amber-500">HK GROUP © 2026</span>
-                </div>
+            <div class="ai-chat-box" data-i18n="ai_welcome">
+                반갑습니다. HK 월드뱅크 통합 지능형 서비스 센터입니다. 선택하신 국가 언어로 실시간 교차 추론 및 자산 동기화 시스템이 상시 가동되고 있습니다.
             </div>
-        </template>
+            <div class="ai-input-row">
+                <input type="text" class="text-input" data-i18n-placeholder="ai_input_placeholder" placeholder="원장 상태 및 금융 노드에 대해 질문하십시오.">
+                <button class="btn-send">➤</button>
+            </div>
+        </div>
+    </div>
 
-    </main>
-
-    <!-- SYSTEM SCRIPT CONTROLLER (60 Languages Full Enterprise Engine) -->
     <script>
-        function hkwb60App() {
-            return {
-                lang: 'ko',
-                currentTab: 'dashboard',
-                balance: '1,000,000.00',
-                earnedInterest: '31,410.00',
-                stakeAmount: 100000,
-                dict: {
-                    ko: {
-                        brand_title: "HK WorldBank", brand_subtitle: "WEB3 DIGITAL BANKING", node_status: "60개국 글로벌 노드 활성화",
-                        ledger_badge: "실시간 원장 데이터", status_pending: "코어팀 승인 대기 중", dashboard_title: "개인 자산 대시보드",
-                        holding_label: "개인 보유 수량", interest_label: "실시간 누적 이자", btn_mainnet: "코어팀에게 메인넷 즉시 신청하기",
-                        alert_msg: "메인넷 연결 요청 패킷이 정상적으로 전송되었습니다, 혜공 형님.",
-                        grid_wallet: "지갑연결", grid_transfer: "초고속 송금", grid_robotics: "로보틱스 인프라", grid_fusion: "핵융합·우주망",
-                        tab_dash: "대시보드", tab_stake: "스테이킹 (APY 31.41%)", tab_transfer: "초고속 송금", tab_cluster: "울산·경주·포항 인프라", tab_gov: "거버넌스 및 UBI",
-                        stake_title: "3년 정기 자산 예치 및 스테이킹", stake_desc: "HK WorldBank의 스마트컨트랙트를 통해 안전하게 자산을 예치하고 확정 수익률을 실시간으로 수령하십시오.",
-                        stake_avail: "예치 가능 잔액", stake_input: "예치 수량 입력", stake_expected: "3년 후 예상 총 수령액",
-                        stake_success: "스테이킹 계약이 정상적으로 체결되었습니다, 형님.", stake_btn: "스테이킹 즉시 실행",
-                        trans_title: "초고속 디지털 자산 송금", trans_to: "수신자 지갑 주소 또는 UID", trans_amount: "송금 수량", trans_memo: "메모 (선택사항)",
-                        trans_success: "자산 송금이 안전하게 완료되었습니다, 형님.", trans_btn: "안전 송금 실행",
-                        cluster_title: "동남권 메가 클러스터 마스터플랜", cluster_desc: "울산(로보틱스), 경주(퀀텀 바이오 및 165층 파이낸스 타워), 포항(핵융합 및 항공우주)을 잇는 미래 기술 핵심 벨트입니다.",
-                        c_ulsan: "울산시 (Ulsan)", c_ulsan_sub: "로보틱스 및 제조 자동화 R&D", c_ulsan_desc: "지능형 로봇 제조 팩토리 및 스마트 물류 인프라 전진기지 구축.",
-                        c_gyeongju: "경주시 (Gyeongju)", c_gyeongju_sub: "165층 본사 타워 & 퀀텀 바이오", c_gyeongju_desc: "초고층 파이낸셜 헤드쿼터 및 미래 생명공학 연구 클러스터 조성.",
-                        c_pohang: "포항시 (Pohang)", c_pohang_sub: "핵융합 에너지 및 항공우주 시스템", c_pohang_desc: "차세대 청정에너지 발전 연구 및 우주 항공 네트워킹 허브.",
-                        gov_title: "글로벌 상생 금융 및 UBI 모델", gov_desc: "HK WorldBank는 순이익의 30%를 글로벌 빈곤 지역 및 소외계층을 위한 디지털 기본소득(UBI) 재원으로 투명하게 환원합니다.",
-                        gov_rate: "UBI 누적 기금 적립률", gov_sub: "스마트컨트랙트를 통해 자동으로 공정하게 분배되며 사회적 인프라 확충에 기여합니다.", chairman_label: "Chairman: 혜공 형님"
-                    },
-                    en: {
-                        brand_title: "HK WorldBank", brand_subtitle: "WEB3 DIGITAL BANKING", node_status: "60-LANG GLOBAL NODE ACTIVE",
-                        ledger_badge: "Live Ledger Data", status_pending: "Pending Core Team Approval", dashboard_title: "Personal Asset Dashboard",
-                        holding_label: "Personal Holding Qty", interest_label: "Live Accumulated Interest", btn_mainnet: "Request Mainnet to Core Team Now",
-                        alert_msg: "Mainnet connection request packet successfully sent, 혜공 형님.",
-                        grid_wallet: "Connect Wallet", grid_transfer: "Fast Transfer", grid_robotics: "Robotics Infra", grid_fusion: "Fusion & Space",
-                        tab_dash: "Dashboard", tab_stake: "Staking (APY 31.41%)", tab_transfer: "Fast Transfer", tab_cluster: "Ulsan·Gyeongju·Pohang Infra", tab_gov: "Governance & UBI",
-                        stake_title: "3-Year Fixed Asset Deposit & Staking", stake_desc: "Safely deposit assets and receive guaranteed yields in real-time through HK WorldBank smart contracts.",
-                        stake_avail: "Available Balance", stake_input: "Enter Deposit Amount", stake_expected: "Expected Total after 3 Years",
-                        stake_success: "Staking contract successfully executed, 혜공 형님.", stake_btn: "Execute Staking Now",
-                        trans_title: "High-Speed Digital Asset Transfer", trans_to: "Recipient Wallet Address or UID", trans_amount: "Transfer Quantity", trans_memo: "Memo (Optional)",
-                        trans_success: "Asset transfer completed safely, 혜공 형님.", trans_btn: "Execute Secure Transfer",
-                        cluster_title: "Southeast Mega Cluster Master Plan", cluster_desc: "The core future tech belt connecting Ulsan (Robotics), Gyeongju (Quantum Bio & 165-Floor Finance Tower), and Pohang (Fusion & Aerospace).",
-                        c_ulsan: "Ulsan City", c_ulsan_sub: "Robotics & Automation R&D", c_ulsan_desc: "Building intelligent robot manufacturing factories and smart logistics infrastructure.",
-                        c_gyeongju: "Gyeongju City", c_gyeongju_sub: "165-Floor HQ Tower & Quantum Bio", c_gyeongju_desc: "Establishing supertall financial headquarters and future biotechnology research clusters.",
-                        c_pohang: "Pohang City", c_pohang_sub: "Fusion Energy & Aerospace Systems", c_pohang_desc: "Next-gen clean energy power research and aerospace networking hub.",
-                        gov_title: "Global Inclusive Finance & UBI Model", gov_desc: "HK WorldBank transparently returns 30% of net profits as Digital Universal Basic Income (UBI) funds for global impoverished and marginalized regions.",
-                        gov_rate: "UBI Cumulative Fund Rate", gov_sub: "Automatically and fairly distributed via smart contracts, contributing to social infrastructure expansion.", chairman_label: "Chairman: 혜공 형님"
-                    },
-                    zh: {
-                        brand_title: "HK WorldBank", brand_subtitle: "WEB3 数字银行", node_status: "60国全球节点激活",
-                        ledger_badge: "实时账本数据", status_pending: "等待核心团队批准", dashboard_title: "个人资产仪表盘",
-                        holding_label: "个人持仓数量", interest_label: "实时累计利息", btn_mainnet: "立即向核心团队申请主网",
-                        alert_msg: "主网连接请求数据包已成功发送，혜공 형님。",
-                        grid_wallet: "连接钱包", grid_transfer: "极速转账", grid_robotics: "机器人基础设施", grid_fusion: "核聚变与太空网",
-                        tab_dash: "仪表盘", tab_stake: "质押 (APY 31.41%)", tab_transfer: "极速转账", tab_cluster: "蔚山·庆州·浦项 基础设施", tab_gov: "治理与 UBI",
-                        stake_title: "3年定期资产存款与质押", stake_desc: "通过 HK WorldBank 智能合约安全存入资产并实时获得固定收益。",
-                        stake_avail: "可用余额", stake_input: "输入质押数量", stake_expected: "3年后期望总额",
-                        stake_success: "质押合约已成功签署，혜공 형님。", stake_btn: "立即执行质押",
-                        trans_title: "极速数字资产转账", trans_to: "接收方钱包地址或UID", trans_amount: "转账数量", trans_memo: "备注（可选）",
-                        trans_success: "资产转账已安全完成，혜공 형님。", trans_btn: "执行安全转账",
-                        cluster_title: "东南沿海超级集群总体规划", cluster_desc: "连接蔚山(机器人)、庆州(量子生物及165层金融大厦)、浦项(核聚变与航空航天)的未来核心技术带。",
-                        c_ulsan: "蔚山市", c_ulsan_sub: "机器人与自动化研发", c_ulsan_desc: "构建智能机器人制造工厂和智能物流基础设施前哨基地。",
-                        c_gyeongju: "庆州市", c_gyeongju_sub: "165层总部大厦 & 量子生物", c_gyeongju_desc: "打造超高层金融总部及未来生物技术研究集群。",
-                        c_pohang: "浦项市", c_pohang_sub: "核聚变能源与航空航天系统", c_pohang_desc: "下一代清洁能源发电研究及航空航天网络枢纽。",
-                        gov_title: "全球包容性金融与 UBI 模式", gov_desc: "HK WorldBank 将净利润的 30% 透明返还，作为全球贫困和边缘化地区的数字全民基本收入 (UBI) 基金。",
-                        gov_rate: "UBI 累计基金比率", gov_sub: "通过智能合约自动且公平地分配，助力社会基础设施扩展。", chairman_label: "Chairman: 혜공 형님"
-                    },
-                    ja: {
-                        brand_title: "HK WorldBank", brand_subtitle: "WEB3 デジタルバンキング", node_status: "60カ国グローバルノード有効",
-                        ledger_badge: "リアルタイム台帳データ", status_pending: "コアチーム承認待ち", dashboard_title: "個人資産ダッシュボード",
-                        holding_label: "個人保有数量", interest_label: "リアルタイム累積利息", btn_mainnet: "コアチームへメインネット即時申請",
-                        alert_msg: "メインネット接続リクエストパケットが正常に送信されました、혜공 형님。",
-                        grid_wallet: "ウォレット連携", grid_transfer: "超高速送金", grid_robotics: "ロボティクスインフラ", grid_fusion: "核融合・宇宙網",
-                        tab_dash: "ダッシュボード", tab_stake: "ステーキング (APY 31.41%)", tab_transfer: "超高速送金", tab_cluster: "蔚山·慶州·浦項インフラ", tab_gov: "ガバナンス＆UBI",
-                        stake_title: "3年定期資産預入およびステーキング", stake_desc: "HK WorldBankのスマートコントラクトを通じて安全に資産を預け、確定利回りをリアルタイムで受け取ります。",
-                        stake_avail: "預入可能残高", stake_input: "預入数量入力", stake_expected: "3年後の予想総受取額",
-                        stake_success: "ステーキング契約が正常に締結されました、혜공 형님。", stake_btn: "ステーキング即時実行",
-                        trans_title: "超高速デジタル資産送金", trans_to: "受信者ウォレットアドレスまたはUID", trans_amount: "送金数量", trans_memo: "メモ（オプション）",
-                        trans_success: "資産送金が安全に完了しました、혜공 형님。", trans_btn: "安全送金実行",
-                        cluster_title: "東南圏メガクラスターマスタープラン", cluster_desc: "蔚山(ロボティクス)、慶州(量子バイオ・165階ファイナンスタワー)、浦項(核融合・航空宇宙)を結ぶ未来技術コアベルトです。",
-                        c_ulsan: "蔚山市", c_ulsan_sub: "ロボティクス及び製造自動化R&D", c_ulsan_desc: "知能型ロボット製造ファクトリー及びスマート物流インフラ前進基地の構築。",
-                        c_gyeongju: "慶州市", c_gyeongju_sub: "165階本社タワー & 量子バイオ", c_gyeongju_desc: "超高層ファイナンシャルヘッドクォーター及び未来生命工学研究クラスターの造成。",
-                        c_pohang: "浦項市", c_pohang_sub: "核融合エネルギー及び航空宇宙システム", c_pohang_desc: "次世代クリーンエネルギー発電研究及び宇宙航空ネットワーキングハブ。",
-                        gov_title: "グローバル共生金融およびUBIモデル", gov_desc: "HK WorldBankは純利益の30%をグローバル貧困地域および疎外階層のためのデジタル基本所得(UBI)財源として透明に還元します。",
-                        gov_rate: "UBI累積基金積立率", gov_sub: "スマートコントラクトを通じて自動的かつ公平に分配され、社会インフラ拡充に寄与します。", chairman_label: "Chairman: 혜공 형님"
-                    },
-                    es: {
-                        brand_title: "HK WorldBank", brand_subtitle: "BANCA DIGITAL WEB3", node_status: "NODO GLOBAL 60 IDIOMAS",
-                        ledger_badge: "Datos en Vivo", status_pending: "Aprobación Pendiente", dashboard_title: "Panel de Activos",
-                        holding_label: "Cantidad Poseída", interest_label: "Interés Acumulado", btn_mainnet: "Solicitar Mainnet Ahora",
-                        alert_msg: "Paquete enviado con éxito, 혜공 형님.",
-                        grid_wallet: "Billetera", grid_transfer: "Transferencia", grid_robotics: "Robótica", grid_fusion: "Fusión y Espacio",
-                        tab_dash: "Panel", tab_stake: "Staking (31.41%)", tab_transfer: "Transferencia", tab_cluster: "Infraestructura", tab_gov: "Gobernanza",
-                        stake_title: "Depósito y Staking a 3 Años", stake_desc: "Deposite activos de forma segura mediante contratos inteligentes.",
-                        stake_avail: "Saldo Disponible", stake_input: "Ingresar Monto", stake_expected: "Total Esperado",
-                        stake_success: "Contrato ejecutado con éxito, 혜공 형님.", stake_btn: "Ejecutar Staking",
-                        trans_title: "Transferencia de Activos", trans_to: "Dirección de Billetera", trans_amount: "Cantidad", trans_memo: "Nota",
-                        trans_success: "Transferencia completada, 혜공 형님.", trans_btn: "Enviar",
-                        cluster_title: "Plan Maestro del Megaclúster", cluster_desc: "Ulsan, Gyeongju y Pohang.",
-                        c_ulsan: "Ulsan", c_ulsan_sub: "Robótica", c_ulsan_desc: "Fábrica de robots.",
-                        c_gyeongju: "Gyeongju", c_gyeongju_sub: "Torre HQ y Bio", c_gyeongju_desc: "Sede financiera.",
-                        c_pohang: "Pohang", c_pohang_sub: "Fusión y Aeroespacial", c_pohang_desc: "Energía limpia.",
-                        gov_title: "Modelo UBI Global", gov_desc: "Retorno del 30% de beneficios netos.",
-                        gov_rate: "Tasa UBI", gov_sub: "Contratos inteligentes.", chairman_label: "Chairman: 혜공 형님"
-                    },
-                    fr: {
-                        brand_title: "HK WorldBank", brand_subtitle: "BANQUE NUMÉRIQUE WEB3", node_status: "NOEUD GLOBAL 60 LANGUES",
-                        ledger_badge: "Données en Direct", status_pending: "En attente", dashboard_title: "Tableau de Bord",
-                        holding_label: "Quantité Détenue", interest_label: "Intérêts Cumulés", btn_mainnet: "Demander le Mainnet",
-                        alert_msg: "Demande envoyée avec succès, 혜공 형님.",
-                        grid_wallet: "Portefeuille", grid_transfer: "Transfert", grid_robotics: "Robotique", grid_fusion: "Fusion & Espace",
-                        tab_dash: "Tableau de Bord", tab_stake: "Staking (31.41%)", tab_transfer: "Transfert", tab_cluster: "Infrastructure", tab_gov: "Gouvernance",
-                        stake_title: "Dépôt et Staking sur 3 Ans", stake_desc: "Déposez des actifs en toute sécurité.",
-                        stake_avail: "Solde Disponible", stake_input: "Montant", stake_expected: "Total Prévu",
-                        stake_success: "Contrat exécuté, 혜공 형님.", stake_btn: "Exécuter",
-                        trans_title: "Transfert d'Actifs", trans_to: "Adresse", trans_amount: "Quantité", trans_memo: "Mémo",
-                        trans_success: "Transfert effectué, 혜공 형님.", stake_btn: "Envoyer",
-                        cluster_title: "Plan Directeur", cluster_desc: "Ulsan, Gyeongju et Pohang.",
-                        c_ulsan: "Ulsan", c_ulsan_sub: "Robotique", c_ulsan_desc: "Automatisation.",
-                        c_gyeongju: "Gyeongju", c_gyeongju_sub: "Tour HQ", c_gyeongju_desc: "Siège.",
-                        c_pohang: "Pohang", c_pohang_sub: "Énergie", c_pohang_desc: "Recherche.",
-                        gov_title: "Modèle UBI", gov_desc: "30% des bénéfices nets.",
-                        gov_rate: "Taux UBI", gov_sub: "Contrats intelligents.", chairman_label: "Chairman: 혜공 형님"
-                    },
-                    de: {
-                        brand_title: "HK WorldBank", brand_subtitle: "WEB3 DIGITAL BANKING", node_status: "60-SPRACHEN KNOTEN AKTIV",
-                        ledger_badge: "Live-Daten", status_pending: "Ausstehend", dashboard_title: "Vermögens-Dashboard",
-                        holding_label: "Bestand", interest_label: "Zinsen", btn_mainnet: "Mainnet beantragen",
-                        alert_msg: "Anfrage erfolgreich gesendet, 혜공 형님.",
-                        grid_wallet: "Wallet", grid_transfer: "Transfer", grid_robotics: "Robotik", grid_fusion: "Fusion & Raum",
-                        tab_dash: "Dashboard", tab_stake: "Staking (31.41%)", tab_transfer: "Transfer", tab_cluster: "Infra", tab_gov: "Governance",
-                        stake_title: "3-Jahres-Staking", stake_desc: "Sichere Einzahlung.",
-                        stake_avail: "Guthaben", stake_input: "Betrag", stake_expected: "Erwartung",
-                        stake_success: "Erfolgreich ausgeführt, 혜공 형님.", stake_btn: "Ausführen",
-                        trans_title: "Asset-Transfer", trans_to: "Adresse", trans_amount: "Menge", trans_memo: "Memo",
-                        trans_success: "Abgeschlossen, 혜공 형님.", stake_btn: "Senden",
-                        cluster_title: "Megacluster", cluster_desc: "Ulsan, Gyeongju, Pohang.",
-                        c_ulsan: "Ulsan", c_ulsan_sub: "Robotik", c_ulsan_desc: "F&E.",
-                        c_gyeongju: "Gyeongju", c_gyeongju_sub: "HQ Turm", c_gyeongju_desc: "Finanzen.",
-                        c_pohang: "Pohang", c_pohang_sub: "Energie", c_pohang_desc: "Hub.",
-                        gov_title: "UBI Modell", gov_desc: "30% Nettogewinn.",
-                        gov_rate: "Quote", gov_sub: "Smart Contracts.", chairman_label: "Chairman: 혜공 형님"
-                    },
-                    ru: {
-                        brand_title: "HK WorldBank", brand_subtitle: "WEB3 ЦИФРОВОЙ БАНК", node_status: "АКТИВЕН УЗЕЛ НА 60 ЯЗЫКАХ",
-                        ledger_badge: "Данные реестра", status_pending: "Ожидание одобрения", dashboard_title: "Панель активов",
-                        holding_label: "Баланс", interest_label: "Проценты", btn_mainnet: "Запросить Mainnet",
-                        alert_msg: "Пакет запроса успешно отправлен, 혜공 형님.",
-                        grid_wallet: "Кошелек", grid_transfer: "Перевод", grid_robotics: "Робототехника", grid_fusion: "Фин. сеть",
-                        tab_dash: "Главная", tab_stake: "Стейкинг (31.41%)", tab_transfer: "Перевод", tab_cluster: "Инфраструктура", tab_gov: "Управление",
-                        stake_title: "Стейкинг на 3 года", stake_desc: "Безопасный депозит.",
-                        stake_avail: "Доступно", stake_input: "Сумма", stake_expected: "Итог",
-                        stake_success: "Контракт выполнен, 혜공 형님.", stake_btn: "Запустить",
-                        trans_title: "Перевод активов", trans_to: "Адрес", trans_amount: "Сумма", trans_memo: "Заметка",
-                        trans_success: "Перевод завершен, 혜공 형님.", stake_btn: "Отправить",
-                        cluster_title: "Мегакластер", cluster_desc: "Ульсан, Кёнджу, Пхохан.",
-                        c_ulsan: "Ульсан", c_ulsan_sub: "Роботы", c_ulsan_desc: "НИОКР.",
-                        c_gyeongju: "Кёнджу", c_gyeongju_sub: "Башня HQ", c_gyeongju_desc: "Финансы.",
-                        c_pohang: "Пхохан", c_pohang_sub: "Энергия", c_pohang_desc: "Хаб.",
-                        gov_title: "Модель UBI", gov_desc: "30% чистой прибыли.",
-                        gov_rate: "Ставка UBI", gov_sub: "С смарт-контрактами.", chairman_label: "Chairman: 혜공 형님"
-                    },
-                    pt: {
-                        brand_title: "HK WorldBank", brand_subtitle: "BANCO DIGITAL WEB3", node_status: "NÓ GLOBAL DE 60 IDIOMAS",
-                        ledger_badge: "Dados ao Vivo", status_pending: "Aprovação Pendente", dashboard_title: "Painel de Ativos",
-                        holding_label: "Saldo Pessoal", interest_label: "Juros Acumulados", btn_mainnet: "Solicitar Mainnet Agora",
-                        alert_msg: "Requisição enviada com sucesso, 혜공 형님.",
-                        grid_wallet: "Carteira", grid_transfer: "Transferência", grid_robotics: "Robótica", grid_fusion: "Fusão e Espaço",
-                        tab_dash: "Painel", tab_stake: "Staking (31.41%)", tab_transfer: "Transferência", tab_cluster: "Infraestrutura", tab_gov: "Governança",
-                        stake_title: "Depósito e Staking de 3 Anos", stake_desc: "Deposite com segurança.",
-                        stake_avail: "Disponível", stake_input: "Valor", stake_expected: "Total Esperado",
-                        stake_success: "Contrato executado, 혜공 형님.", stake_btn: "Executar Staking",
-                        trans_title: "Transferência de Ativos", trans_to: "Endereço", trans_amount: "Quantidade", trans_memo: "Nota",
-                        trans_success: "Transferência concluída, 혜공 형님.", stake_btn: "Enviar",
-                        cluster_title: "Plano Diretor do Megacluster", cluster_desc: "Ulsan, Gyeongju e Pohang.",
-                        c_ulsan: "Ulsan", c_ulsan_sub: "Robótica", c_ulsan_desc: "Automação.",
-                        c_gyeongju: "Gyeongju", c_gyeongju_sub: "Torre HQ", c_gyeongju_desc: "Finanças.",
-                        c_pohang: "Pohang", c_pohang_sub: "Energia", c_pohang_desc: "Hub.",
-                        gov_title: "Modelo UBI Global", gov_desc: "30% de lucro líquido.",
-                        gov_rate: "Taxa UBI", gov_sub: "Contratos inteligentes.", chairman_label: "Chairman: 혜공 형님"
-                    },
-                    it: {
-                        brand_title: "HK WorldBank", brand_subtitle: "BANCA DIGITALE WEB3", node_status: "NODO GLOBALE 60 LINGUE",
-                        ledger_badge: "Dati in Tempo Reale", status_pending: "In Attesa", dashboard_title: "Dashboard Asset",
-                        holding_label: "Quantità", interest_label: "Interessi", btn_mainnet: "Richiedi Mainnet",
-                        alert_msg: "Richiesta inviata con successo, 혜공 형님.",
-                        grid_wallet: "Wallet", grid_transfer: "Trasferisci", grid_robotics: "Robotica", grid_fusion: "Fusione",
-                        tab_dash: "Dashboard", tab_stake: "Staking (31.41%)", tab_transfer: "Trasferisci", tab_cluster: "Infrastruttura", tab_gov: "Governance",
-                        stake_title: "Staking a 3 Anni", stake_desc: "Deposita in sicurezza.",
-                        stake_avail: "Disponibile", stake_input: "Importo", stake_expected: "Totale Previsto",
-                        stake_success: "Contratto eseguito, 혜공 형님.", stake_btn: "Esegui Staking",
-                        trans_title: "Trasferimento Asset", trans_to: "Indirizzo", trans_amount: "Quantità", trans_memo: "Nota",
-                        trans_success: "Trasferimento completato, 혜공 형님.", stake_btn: "Invia",
-                        cluster_title: "Megacluster", cluster_desc: "Ulsan, Gyeongju e Pohang.",
-                        c_ulsan: "Ulsan", c_ulsan_sub: "Robotica", c_ulsan_desc: "R&D.",
-                        c_gyeongju: "Gyeongju", c_gyeongju_sub: "Torre HQ", c_gyeongju_desc: "Finanza.",
-                        c_pohang: "Pohang", c_pohang_sub: "Energia", c_pohang_desc: "Hub.",
-                        gov_title: "Modello UBI", gov_desc: "30% profitto netto.",
-                        gov_rate: "Tasso UBI", gov_sub: "Smart contracts.", chairman_label: "Chairman: 혜공 형님"
-                    },
-                    vi: {
-                        brand_title: "HK WorldBank", brand_subtitle: "NGÂN HÀNG SỐ WEB3", node_status: "NODE TOÀN CẦU 60 NGÔN NGỮ",
-                        ledger_badge: "Dữ liệu sổ cái", status_pending: "Chờ phê duyệt", dashboard_title: "Bảng điều khiển tài sản",
-                        holding_label: "Số lượng sở hữu", interest_label: "Lãi tích lũy", btn_mainnet: "Yêu cầu Mainnet ngay",
-                        alert_msg: "Gói yêu cầu đã được gửi thành công, 혜공 형님.",
-                        grid_wallet: "Ví", grid_transfer: "Chuyển nhanh", grid_robotics: "Robot", grid_fusion: "Năng lượng",
-                        tab_dash: "Trang chủ", tab_stake: "Staking (31.41%)", tab_transfer: "Chuyển tiền", tab_cluster: "Hạ tầng", tab_gov: "Quản trị",
-                        stake_title: "Gửi tiết kiệm 3 năm & Staking", stake_desc: "Gửi tài sản an toàn.",
-                        stake_avail: "Số dư khả dụng", stake_input: "Nhập số lượng", stake_expected: "Tổng dự kiến",
-                        stake_success: "Hợp đồng staking thành công, 혜공 형님.", stake_btn: "Thực hiện Staking",
-                        trans_title: "Chuyển tài sản số", trans_to: "Địa chỉ ví nhận", trans_amount: "Số lượng", trans_memo: "Ghi chú",
-                        trans_success: "Chuyển tiền thành công, 혜공 형님.", stake_btn: "Gửi an toàn",
-                        cluster_title: "Quy hoạch siêu cụm", cluster_desc: "Ulsan, Gyeongju, Pohang.",
-                        c_ulsan: "Ulsan", c_ulsan_sub: "Robot", c_ulsan_desc: "R&D tự động hóa.",
-                        c_gyeongju: "Gyeongju", c_gyeongju_sub: "Tháp HQ", c_gyeongju_desc: "Tài chính.",
-                        c_pohang: "Pohang", c_pohang_sub: "Năng lượng", c_pohang_desc: "Trung tâm.",
-                        gov_title: "Mô hình UBI", gov_desc: "30% lợi nhuận ròng.",
-                        gov_rate: "Tỷ lệ UBI", gov_sub: "Phân phối tự động.", chairman_label: "Chairman: 혜공 형님"
-                    },
-                    th: {
-                        brand_title: "HK WorldBank", brand_subtitle: "ธนาคารดิจิทัล WEB3", node_status: "โหนดระดับโลก 60 ภาษา",
-                        ledger_badge: "ข้อมูลบัญชีแยกประเภท", status_pending: "รออนุมัติ", dashboard_title: "แดชบอร์ดทรัพย์สิน",
-                        holding_label: "จำนวนที่ถือครอง", interest_label: "ดอกเบี้ยสะสม", btn_mainnet: "ขอ Mainnet ทันที",
-                        alert_msg: "ส่งคำขอ Mainnet สำเร็จแล้ว, 혜공 형님",
-                        grid_wallet: "กระเป๋าเงิน", grid_transfer: "โอนด่วน", grid_robotics: "หุ่นยนต์", grid_fusion: "ฟิวชั่น",
-                        tab_dash: "แดชบอร์ด", tab_stake: "สเตกกิ้ง (31.41%)", tab_transfer: "โอนเงิน", tab_cluster: "โครงสร้างพื้นฐาน", tab_gov: "ธรรมาภิบาล",
-                        stake_title: "ฝากสินทรัพย์ 3 ปี", stake_desc: "ฝากสินทรัพย์อย่างปลอดภัย",
-                        stake_avail: "ยอดคงเหลือ", stake_input: "จำนวนที่ฝาก", stake_expected: "คาดว่าจะได้รับ",
-                        stake_success: "ทำสัญญาสำเร็จ, 혜공 형님", stake_btn: "เริ่มสเตกกิ้ง",
-                        trans_title: "โอนสินทรัพย์ดิจิทัล", trans_to: "ที่อยู่กระเป๋าเงิน", trans_amount: "จำนวน", trans_memo: "บันทึก",
-                        trans_success: "โอนสำเร็จ, 혜공 형님", stake_btn: "โอนอย่างปลอดภัย",
-                        cluster_title: "มาสเตอร์แพลนเมกะคลัสเตอร์", cluster_desc: "อ울산, คยองจู, โป항",
-                        c_ulsan: "อุล산", c_ulsan_sub: "หุ่นยนต์", c_ulsan_desc: "R&D",
-                        c_gyeongju: "คยองจู", c_gyeongju_sub: "ทาวเวอร์ HQ", c_gyeongju_desc: "การเงิน",
-                        c_pohang: "โป항", c_pohang_sub: "พลังงาน", c_pohang_desc: "ฮับ",
-                        gov_title: "โมเดล UBI", gov_desc: "30% ของกำไรสุทธิ",
-                        gov_rate: "อัตรา UBI", gov_sub: "กระจายอัตโนมัติ", chairman_label: "Chairman: 혜공 형님"
-                    },
-                    id: {
-                        brand_title: "HK WorldBank", brand_subtitle: "PERBANKAN DIGITAL WEB3", node_status: "NODE GLOBAL 60 BAHASA",
-                        ledger_badge: "Data Buku Besar", status_pending: "Menunggu Persetujuan", dashboard_title: "Dasbor Aset",
-                        holding_label: "Kepemilikan", interest_label: "Bunga Akumulasi", btn_mainnet: "Ajukan Mainnet Sekarang",
-                        alert_msg: "Paket permintaan berhasil dikirim, 혜공 형님.",
-                        grid_wallet: "Dompet", grid_transfer: "Transfer Cepat", grid_robotics: "Robotik", grid_fusion: "Fusi",
-                        tab_dash: "Dasbor", tab_stake: "Staking (31.41%)", tab_transfer: "Transfer", tab_cluster: "Infrastruktur", tab_gov: "Tata Kelola",
-                        stake_title: "Deposit & Staking 3 Tahun", stake_desc: "Simpan aset dengan aman.",
-                        stake_avail: "Saldo Tersedia", stake_input: "Jumlah Deposit", stake_expected: "Total Perkiraan",
-                        stake_success: "Kontrak staking berhasil, 혜공 형님.", stake_btn: "Eksekusi Staking",
-                        trans_title: "Transfer Aset Digital", trans_to: "Alamat Dompet", trans_amount: "Jumlah", trans_memo: "Memo",
-                        trans_success: "Transfer selesai, 혜공 형님.", stake_btn: "Kirim Aman",
-                        cluster_title: "Rencana Induk Megakluster", cluster_desc: "Ulsan, Gyeongju, Pohang.",
-                        c_ulsan: "Ulsan", c_ulsan_sub: "Robotik", c_ulsan_desc: "R&D.",
-                        c_gyeongju: "Gyeongju", c_gyeongju_sub: "Menara HQ", c_gyeongju_desc: "Keuangan.",
-                        c_pohang: "Pohang", c_pohang_sub: "Energi", c_pohang_desc: "Pusat.",
-                        gov_title: "Model UBI Global", gov_desc: "30% laba bersih.",
-                        gov_rate: "Tingkat UBI", gov_sub: "Kontrak cerdas.", chairman_label: "Chairman: 혜공 형님"
-                    },
-                    hi: {
-                        brand_title: "HK WorldBank", brand_subtitle: "WEB3 डिजिटल बैंकिंग", node_status: "60-भाषा वैश्विक नोड सक्रिय",
-                        ledger_badge: "लाइव लेज़र डेटा", status_pending: "लंबित अनुमोदन", dashboard_title: "व्यक्तिगत संपत्ति डैशबोर्ड",
-                        holding_label: "कुल होल्डिंग", interest_label: "संचित ब्याज", btn_mainnet: "मेननेट का अनुरोध करें",
-                        alert_msg: "मेननेट अनुरोध सफलतापूर्व भेजा गया, 혜공 형님।",
-                        grid_wallet: "वॉलेट", grid_transfer: "तेज़ ट्रांसफर", grid_robotics: "रोबोटिक्स", grid_fusion: "फ्यूजन",
-                        tab_dash: "डैशबोर्ड", tab_stake: "स्टैकिंग (31.41%)", tab_transfer: "ट्रांसफर", tab_cluster: "इन्फ्रास्ट्रक्चर", tab_gov: "गवर्नेंस",
-                        stake_title: "3-वर्षीय संपत्ति जमा", stake_desc: "सुरक्षित रूप से जमा करें।",
-                        stake_avail: "उपलब्ध शेष राशि", stake_input: "राशि दर्ज करें", stake_expected: "अपेक्षित कुल",
-                        stake_success: "अनुबंध सफल, 혜공 형님।", stake_btn: "स्टेकिंग निष्पादित करें",
-                        trans_title: "डिजिटल संपत्ति ट्रांसफर", trans_to: "वॉलेट पता", trans_amount: "मात्रा", trans_memo: "मेमो",
-                        trans_success: "ट्रांसफर पूरा हुआ, 혜공 형님।", stake_btn: "सुरक्षित भेजें",
-                        cluster_title: "मेगा क्लस्टर मास्टर प्लान", cluster_desc: "उल्सान, ग्यŏंगजू, पोहांग।",
-                        c_ulsan: "उल्सान", c_ulsan_sub: "रोबोटिक्स", c_ulsan_desc: "आर एंड डी",
-                        c_gyeongju: "ग्यŏंगजू", c_gyeongju_sub: "मुख्यालय टावर", c_gyeongju_desc: "वित्त",
-                        c_pohang: "पोहांग", c_pohang_sub: "ऊर्जा", c_pohang_desc: "हब",
-                        gov_title: "UBI मॉडल", gov_desc: "शुद्ध लाभ का 30%",
-                        gov_rate: "UBI दर", gov_sub: "स्मार्ट अनुबंध", chairman_label: "Chairman: 혜공 형님"
-                    },
-                    ar: {
-                        brand_title: "HK WorldBank", brand_subtitle: "الخدمات المصرفية الرقمية WEB3", node_status: "عقدة عالمية بـ 60 لغة",
-                        ledger_badge: "بيانات السجل الحي", status_pending: "في انتظار الموافقة", dashboard_title: "لوحة الأصول الشخصية",
-                        holding_label: "الكمية المحتفظ بها", interest_label: "الفائدة المتراكمة", btn_mainnet: "طلب الشبكة الرئيسية الآن",
-                        alert_msg: "تم إرسال طلب الشبكة الرئيسية بنجاح، 혜공 형님.",
-                        grid_wallet: "المحفظة", grid_transfer: "تحويل سريع", grid_robotics: "الروبوتات", grid_fusion: "الطاقة والفضاء",
-                        tab_dash: "لوحة القيادة", tab_stake: "التخزين (31.41%)", tab_transfer: "تحويل", tab_cluster: "البنية التحتية", tab_gov: "الحوكمة",
-                        stake_title: "إيداع الأصول لمدة 3 سنوات", stake_desc: "إيداع الأصول بأمان.",
-                        stake_avail: "الرصيد المتاح", stake_input: "أدخل المبلغ", stake_expected: "المجموع المتوقع",
-                        stake_success: "تم تنفيذ العقد بنجاح، 혜공 형님.", stake_btn: "تنفيذ التخزين",
-                        trans_title: "تحويل الأصول الرقمية", trans_to: "عنوان المحفظة", trans_amount: "الكمية", trans_memo: "ملاحظة",
-                        trans_success: "تم إتمام التحويل، 혜공 형님.", stake_btn: "إرسال آمن",
-                        cluster_title: "خطة الميجاكلاستر", cluster_desc: "أولسان، غيونغجو، بوهانغ.",
-                        c_ulsan: "أولسان", c_ulsan_sub: "روبوتات", c_ulsan_desc: "بحث وتطوير.",
-                        c_gyeongju: "غيونغجو", c_gyeongju_sub: "برج المقر", c_gyeongju_desc: "المالية.",
-                        c_pohang: "بوهانغ", c_pohang_sub: "طاقة", c_pohang_desc: "مركز.",
-                        gov_title: "نموذج UBI", gov_desc: "30% من صافي الربح.",
-                        gov_rate: "معدل UBI", gov_sub: "عقود ذكية.", chairman_label: "Chairman: 혜공 형님"
-                    },
-                    tr: {
-                        brand_title: "HK WorldBank", brand_subtitle: "WEB3 DİJİTAL BANKACILIK", node_status: "60 DİL KÜRESEL DÜĞÜM AKTİF",
-                        ledger_badge: "Canlı Veri", status_pending: "Onay Bekliyor", dashboard_title: "Kişisel Varlık Paneli",
-                        holding_label: "Miktar", interest_label: "Biriken Faiz", btn_mainnet: "Mainnet İste",
-                        alert_msg: "Mainnet istek paketi başarıyla gönderildi, 혜공 형님.",
-                        grid_wallet: "Cüzdan", grid_transfer: "Hızlı Transfer", grid_robotics: "Robotik", grid_fusion: "Füzyon",
-                        tab_dash: "Panel", tab_stake: "Staking (31.41%)", tab_transfer: "Transfer", tab_cluster: "Altyapı", tab_gov: "Yönetişim",
-                        stake_title: "3 Yıllık Varlık Yatırımı ve Staking", stake_desc: "Varlıklarınızı güvenle yatırın.",
-                        stake_avail: "Kullanılabilir Bakiye", stake_input: "Miktar Girin", stake_expected: "Beklenen Toplam",
-                        stake_success: "Staking sözleşmesi imzalandı, 혜공 형님.", stake_btn: "Staking Başlat",
-                        trans_title: "Dijital Varlık Transferi", trans_to: "Cüzdan Adresi", trans_amount: "Miktar", trans_memo: "Not",
-                        trans_success: "Transfer tamamlandı, 혜공 형님.", stake_btn: "Güvenli Gönder",
-                        cluster_title: "Mega Küme Ana Planı", cluster_desc: "Ulsan, Gyeongju, Pohang.",
-                        c_ulsan: "Ulsan", c_ulsan_sub: "Robotik", c_ulsan_desc: "Ar-Ge.",
-                        c_gyeongju: "Gyeongju", c_gyeongju_sub: "HQ Kulesi", c_gyeongju_desc: "Finans.",
-                        c_pohang: "Pohang", c_pohang_sub: "Enerji", c_pohang_desc: "Merkez.",
-                        gov_title: "UBI Modeli", gov_desc: "Net kârın %30'u.",
-                        gov_rate: "UBI Oranı", gov_sub: "Akıllı sözleşmeler.", chairman_label: "Chairman: 혜공 형님"
-                    },
-                    nl: {
-                        brand_title: "HK WorldBank", brand_subtitle: "WEB3 DIGITAAL BANKIEREN", node_status: "60-TALEN GLOBALE NODE ACTIEF",
-                        ledger_badge: "Live Grootboek", status_pending: "In Afwachting", dashboard_title: "Vermogensdashboard",
-                        holding_label: "Bezit", interest_label: "Opgebouwde Rente", btn_mainnet: "Vraag Mainnet Aan",
-                        alert_msg: "Mainnet-verzoek succesvol verzonden, 혜공 형님.",
-                        grid_wallet: "Wallet", grid_transfer: "Snelle Overboeking", grid_robotics: "Robotica", grid_fusion: "Fusie",
-                        tab_dash: "Dashboard", tab_stake: "Staking (31.41%)", tab_transfer: "Overboeking", tab_cluster: "Infrastructuur", tab_gov: "Governance",
-                        stake_title: "3-Jarige Staking", stake_desc: "Veilig activa storten.",
-                        stake_avail: "Beschikbaar Saldo", stake_input: "Bedrag", stake_expected: "Verwacht Totaal",
-                        stake_success: "Staking contract uitgevoerd, 혜공 형님.", stake_btn: "Start Staking",
-                        trans_title: "Digitale Overboeking", trans_to: "Wallet Adres", trans_amount: "Bedrag", trans_memo: "Memo",
-                        trans_success: "Overboeking voltooid, 혜공 형님.", stake_btn: "Veilig Verzenden",
-                        cluster_title: "Megacluster Masterplan", cluster_desc: "Ulsan, Gyeongju, Pohang.",
-                        c_ulsan: "Ulsan", c_ulsan_sub: "Robotica", c_ulsan_desc: "R&D.",
-                        c_gyeongju: "Gyeongju", c_gyeongju_sub: "HQ Toren", c_gyeongju_desc: "Financiën.",
-                        c_pohang: "Pohang", c_pohang_sub: "Energie", c_pohang_desc: "Hub.",
-                        gov_title: "UBI Model", gov_desc: "30% nettomarge.",
-                        gov_rate: "UBI Percentage", gov_sub: "Smart contracts.", chairman_label: "Chairman: 혜공 형님"
-                    },
-                    pl: {
-                        brand_title: "HK WorldBank", brand_subtitle: "CYFROWA BANKOWOŚĆ WEB3", node_status: "GLOBALNY WĘZEŁ (60 JĘZYKÓW)",
-                        ledger_badge: "Dane na żywo", status_pending: "Oczekiwanie", dashboard_title: "Panel Aktywów",
-                        holding_label: "Saldo", interest_label: "Odsetki", btn_mainnet: "Zgłoś Mainnet",
-                        alert_msg: "Wysłano pomyślnie, 혜공 형님.",
-                        grid_wallet: "Portfel", grid_transfer: "Szybki Przelew", grid_robotics: "Robotyka", grid_fusion: "Fuzja",
-                        tab_dash: "Panel", tab_stake: "Staking (31.41%)", tab_transfer: "Przelew", tab_cluster: "Infrastruktura", tab_gov: "Zarządzanie",
-                        stake_title: "3-letni Staking", stake_desc: "Bezpieczny depozyt.",
-                        stake_avail: "Dostępne", stake_input: "Kwota", stake_expected: "Oczekiwana Suma",
-                        stake_success: "Kontrakt zawarty, 혜공 형님.", stake_btn: "Uruchom Staking",
-                        trans_title: "Przelew Aktywów", trans_to: "Adres Portfela", trans_amount: "Ilość", trans_memo: "Notatka",
-                        trans_success: "Przelew ukończony, 혜공 형님.", stake_btn: "Wyślij",
-                        cluster_title: "Masterplan Megacluster", cluster_desc: "Ulsan, Gyeongju, Pohang.",
-                        c_ulsan: "Ulsan", c_ulsan_sub: "Robotyka", c_ulsan_desc: "B+R.",
-                        c_gyeongju: "Gyeongju", c_gyeongju_sub: "Wieża HQ", c_gyeongju_desc: "Finanse.",
-                        c_pohang: "Pohang", c_pohang_sub: "Energia", c_pohang_desc: "Hub.",
-                        gov_title: "Model UBI", gov_desc: "30% zysku netto.",
-                        gov_rate: "Stawka UBI", gov_sub: "Smart kontrakty.", chairman_label: "Chairman: 혜공 형님"
-                    },
-                    sv: {
-                        brand_title: "HK WorldBank", brand_subtitle: "WEB3 DIGITAL BANKING", node_status: "60-SPRÅKS GLOBAL NODE",
-                        ledger_badge: "Liveresultat", status_pending: "Väntar", dashboard_title: "Tillgångspanel",
-                        holding_label: "Innehav", interest_label: "Ackumulerad Ränta", btn_mainnet: "Begär Mainnet Nu",
-                        alert_msg: "Mainnet-förfrågan skickad, 혜공 형님.",
-                        grid_wallet: "Plånbok", grid_transfer: "Snabböverföring", grid_robotics: "Robotik", grid_fusion: "Fusion",
-                        tab_dash: "Dashboard", tab_stake: "Staking (31.41%)", tab_transfer: "Överföring", tab_cluster: "Infrastruktur", tab_gov: "Styrning",
-                        stake_title: "3-Årig Staking", stake_desc: "Säker insättning.",
-                        stake_avail: "Tillgängligt Saldo", stake_input: "Ange Belopp", stake_expected: "Förväntat Totalt",
-                        stake_success: "Staking utförd, 혜공 형님.", stake_btn: "Starta Staking",
-                        trans_title: "Digital Överföring", trans_to: "Mottagarens Adress", trans_amount: "Belopp", trans_memo: "Meddelande",
-                        trans_success: "Överföring klar, 혜공 형님.", stake_btn: "Skicka Säkert",
-                        cluster_title: "Megacluster Masterplan", cluster_desc: "Ulsan, Gyeongju, Pohang.",
-                        c_ulsan: "Ulsan", c_ulsan_sub: "Robotik", c_ulsan_desc: "FoU.",
-                        c_gyeongju: "Gyeongju", c_gyeongju_sub: "HQ Torn", c_gyeongju_desc: "Finans.",
-                        c_pohang: "Pohang", c_pohang_sub: "Energi", c_pohang_desc: "Nav.",
-                        gov_title: "UBI Modell", gov_desc: "30% nettovinst.",
-                        gov_rate: "UBI-sats", gov_sub: "Smarta kontrakt.", chairman_label: "Chairman: 혜공 형님"
-                    },
-                    uk: {
-                        brand_title: "HK WorldBank", brand_subtitle: "WEB3 ЦИФРОВИЙ БАНК", node_status: "АКТИВНИЙ ВУЗОЛ (60 МОВ)",
-                        ledger_badge: "Дані реєстру", status_pending: "Очікування", dashboard_title: "Панель активів",
-                        holding_label: "Баланс", interest_label: "Нараховані відсотки", btn_mainnet: "Запитати Mainnet",
-                        alert_msg: "Запит надійшов успішно, 혜공 형님.",
-                        grid_wallet: "Гаманець", grid_transfer: "Швидкий переказ", grid_robotics: "Робототехніка", grid_fusion: "Енергія",
-                        tab_dash: "Головна", tab_stake: "Стейкінг (31.41%)", tab_transfer: "Переказ", tab_cluster: "Інфраструктура", tab_gov: "Управління",
-                        stake_title: "3-річний стейкінг", stake_desc: "Безпечний депозит.",
-                        stake_avail: "Доступно", stake_input: "Сума", stake_expected: "Очікуваний підсумок",
-                        stake_success: "Контракт виконано, 혜공 형님.", stake_btn: "Запустити стейкінг",
-                        trans_title: "Переказ активів", trans_to: "Адреса гаманця", trans_amount: "Кількість", trans_memo: "Нотатка",
-                        trans_success: "Переказ завершено, 혜공 형님.", stake_btn: "Надіслати безпечно",
-                        cluster_title: "Мегакластер", cluster_desc: "Ульсан, Кенджу, Пхохан.",
-                        c_ulsan: "Ульсан", c_ulsan_sub: "Роботи", c_ulsan_desc: "НДДКР.",
-                        c_gyeongju: "Кенджу", c_gyeongju_sub: "Вежа HQ", c_gyeongju_desc: "Фінанси.",
-                        c_pohang: "Пхохан", c_pohang_sub: "Енергія", c_pohang_desc: "Хаб.",
-                        gov_title: "Модель UBI", gov_desc: "30% чистого прибутку.",
-                        gov_rate: "Ставка UBI", gov_sub: "Смарт-контракти.", chairman_label: "Chairman: 혜공 형님"
-                    },
-                    ms: {
-                        brand_title: "HK WorldBank", brand_subtitle: "PERBANKAN DIGITAL WEB3", node_status: "NOD GLOBAL 60 BAHASA",
-                        ledger_badge: "Data Lejar Langsung", status_pending: "Menunggu Kelulusan", dashboard_title: "Papan Pemuka Aset",
-                        holding_label: "Pegangan", interest_label: "Faedah Terkumpul", btn_mainnet: "Mohon Mainnet Sekarang",
-                        alert_msg: "Permohonan berjaya dihantar, 혜공 형님.",
-                        grid_wallet: "Dompet", grid_transfer: "Pemindahan Pantas", grid_robotics: "Robotik", grid_fusion: "Fusi",
-                        tab_dash: "Utama", tab_stake: "Staking (31.41%)", tab_transfer: "Pemindahan", tab_cluster: "Infrastruktur", tab_gov: "Tadbir Urus",
-                        stake_title: "Deposit & Staking 3 Tahun", stake_desc: "Simpan aset dengan selamat.",
-                        stake_avail: "Baki Tersedia", stake_input: "Masukkan Jumlah", stake_expected: "Jumlah Jangkaan",
-                        stake_success: "Kontrak staking berjaya, 혜공 형님.", stake_btn: "Laksanakan Staking",
-                        trans_title: "Pemindahan Aset Digital", trans_to: "Alamat Dompet Penerima", trans_amount: "Kuantiti", trans_memo: "Memo",
-                        trans_success: "Pemindahan selesai, 혜공 형님.", stake_btn: "Hantar Selamat",
-                        cluster_title: "Pelan Induk Megakluster", cluster_desc: "Ulsan, Gyeongju, Pohang.",
-                        c_ulsan: "Ulsan", c_ulsan_sub: "Robotik", c_ulsan_desc: "R&D.",
-                        c_gyeongju: "Gyeongju", c_gyeongju_sub: "Menara HQ", c_gyeongju_desc: "Kewangan.",
-                        c_pohang: "Pohang", c_pohang_sub: "Tenaga", c_pohang_desc: "Hab.",
-                        gov_title: "Model UBI Global", gov_desc: "30% keuntungan bersih.",
-                        gov_rate: "Kadar UBI", gov_sub: "Kontrak Pintar.", chairman_label: "Chairman: 혜공 형님"
-                    },
-                    fil: {
-                        brand_title: "HK WorldBank", brand_subtitle: "WEB3 DIGITAL BANKING", node_status: "60-BANSA GLOBAL NODE",
-                        ledger_badge: "Live Ledger Data", status_pending: "Naghihintay ng Pag-aprub", dashboard_title: "Dashboard ng Asset",
-                        holding_label: "Hawak na Dami", interest_label: "Naipon na Interes", btn_mainnet: "Humiling ng Mainnet Ngayon",
-                        alert_msg: "Matagumpay na naipadala ang kahilingan, 혜공 형님.",
-                        grid_wallet: "Wallet", grid_transfer: "Mabilis na Lipat", grid_robotics: "Robotics", grid_fusion: "Fusion",
-                        tab_dash: "Dashboard", tab_stake: "Staking (31.41%)", tab_transfer: "Lipat", tab_cluster: "Imprastraktura", tab_gov: "Pamamahala",
-                        stake_title: "3-Taong Deposito at Staking", stake_desc: "Ligtas na i-deposito.",
-                        stake_avail: "Magagamit na Balanse", stake_input: "Ilagay ang Dami", stake_expected: "Inaasahang Kabuuan",
-                        stake_success: "Tagumpay ang kontrata, 혜공 형님.", stake_btn: "I-execute ang Staking",
-                        trans_title: "Digital Asset Transfer", trans_to: "Address ng Wallet", trans_amount: "Dami", trans_memo: "Memo",
-                        trans_success: "Tapos na ang paglilipat, 혜공 형님.", stake_btn: "Ipadala",
-                        cluster_title: "Master Plan ng Megacluster", cluster_desc: "Ulsan, Gyeongju, Pohang.",
-                        c_ulsan: "Ulsan", c_ulsan_sub: "Robotics", c_ulsan_desc: "R&D.",
-                        c_gyeongju: "Gyeongju", c_gyeongju_sub: "HQ Tower", c_gyeongju_desc: "Pinansyal.",
-                        c_pohang: "Pohang", c_pohang_sub: "Enerhiya", c_pohang_desc: "Hub.",
-                        gov_title: "Modelo ng UBI", gov_desc: "30% ng netong kita.",
-                        gov_rate: "Rate ng UBI", gov_sub: "Smart contracts.", chairman_label: "Chairman: 혜공 형님"
-                    },
-                    el: {
-                        brand_title: "HK WorldBank", brand_subtitle: "WEB3 DIGITAL BANKING", node_status: "ΚΟΜΒΟΣ 60 ΓΛΩΣΣΩΝ",
-                        ledger_badge: "Δεδομένα Live", status_pending: "Εκκρεμεί έγκριση", dashboard_title: "Dashboard Περιουσίας",
-                        holding_label: "Καッチ", interest_label: "Τόκοι", btn_mainnet: "Αίτηση Mainnet",
-                        alert_msg: "Το αίτημα στάλθηκε, 혜공 형님.",
-                        grid_wallet: "Πορτοφόλι", grid_transfer: "Γρήγορη Μεταφορά", grid_robotics: "Ρομποτική", grid_fusion: "Σύντηξη",
-                        tab_dash: "Dashboard", tab_stake: "Staking (31.41%)", tab_transfer: "Μεταφορά", tab_cluster: "Υποδομή", tab_gov: "Διακυβέρνηση",
-                        stake_title: "Staking 3 Ετών", stake_desc: "Ασφαλής κατάθεση.",
-                        stake_avail: "Διαθέσιμο", stake_input: "Ποσό", stake_expected: "Αναμενόμενο",
-                        stake_success: "Επιτυχές συμβόλαιο, 혜공 형님.", stake_btn: "Εκτέλεση Staking",
-                        trans_title: "Μεταφορά Ψηφιακών Αسсет", trans_to: "Διεύθυνση", trans_amount: "Ποσότητα", trans_memo: "Σημείωση",
-                        trans_success: "Η μεταφορά ολοκληρώθηκε, 혜공 형님.", stake_btn: "Ασφαλής Αποστολή",
-                        cluster_title: "Megacluster Master Plan", cluster_desc: "Ulsan, Gyeongju, Pohang.",
-                        c_ulsan: "Ulsan", c_ulsan_sub: "Ρομποτική", c_ulsan_desc: "R&D.",
-                        c_gyeongju: "Gyeongju", c_gyeongju_sub: "HQ Tower", c_gyeongju_desc: "Χρηματοοικονομικά.",
-                        c_pohang: "Pohang", c_pohang_sub: "Ενέργεια", c_pohang_desc: "Hub.",
-                        gov_title: "Μοντέλο UBI", gov_desc: "30% καθαρό κέρδος.",
-                        gov_rate: "Ποσοστό UBI", gov_sub: "Smart contracts.", chairman_label: "Chairman: 혜공 형님"
-                    },
-                    cs: {
-                        brand_title: "HK WorldBank", brand_subtitle: "WEB3 DIGITÁLNÍ BANKOVNICTVÍ", node_status: "60-JAZYKOVÝ Uzel",
-                        ledger_badge: "Živá data", status_pending: "Čeká na schválení", dashboard_title: "Panel aktiv",
-                        holding_label: "Držené množství", interest_label: "Úroky", btn_mainnet: "Požádat o Mainnet",
-                        alert_msg: "Žádost odeslána, 혜공 형님.",
-                        grid_wallet: "Peněženka", grid_transfer: "Rychlý převod", grid_robotics: "Robotika", grid_fusion: "Fúze",
-                        tab_dash: "Panel", tab_stake: "Staking (31.41%)", tab_transfer: "Převod", tab_cluster: "Infrastruktura", tab_gov: "Governance",
-                        stake_title: "3letý staking", stake_desc: "Bezpečný vklad.",
-                        stake_avail: "Dostupný zůstatek", stake_input: "Zadejte částku", stake_expected: "Očekávaný celkový",
-                        stake_success: "Smlouva uzavřena, 혜공 형님.", stake_btn: "Spustit staking",
-                        trans_title: "Převod aktiv", trans_to: "Adresa peněženky", trans_amount: "Množství", trans_memo: "Poznámka",
-                        trans_success: "Převod dokončen, 혜공 형님.", stake_btn: "Odeslat bezpečně",
-                        cluster_title: "Megaklastr Masterplan", cluster_desc: "Ulsan, Gyeongju, Pohang.",
-                        c_ulsan: "Ulsan", c_ulsan_sub: "Robotika", c_ulsan_desc: "VaV.",
-                        c_gyeongju: "Gyeongju", c_gyeongju_sub: "HQ Věž", c_gyeongju_desc: "Finance.",
-                        c_pohang: "Pohang", c_pohang_sub: "Energie", c_pohang_desc: "Hub.",
-                        gov_title: "Model UBI", gov_desc: "30% čistého zisku.",
-                        gov_rate: "Sazba UBI", gov_sub: "Chytré smlouvy.", chairman_label: "Chairman: 혜공 형님"
-                    },
-                    hu: {
-                        brand_title: "HK WorldBank", brand_subtitle: "WEB3 DIGITÁLIS BANKING", node_status: "60 NYELVŰ GLOBÁLIS CSOMÓPONT",
-                        ledger_badge: "Élő adatok", status_pending: "Jóváhagyásra vár", dashboard_title: "Vagyonkezelő Irányítópult",
-                        holding_label: "Egyenleg", interest_label: "Kamatos", btn_mainnet: "Mainnet Igénylése",
-                        alert_msg: "A kérelmet elküldtük, 혜공 형님.",
-                        grid_wallet: "Tárca", grid_transfer: "Gyors Utalás", grid_robotics: "Robotika", grid_fusion: "Fúzió",
-                        tab_dash: "Főoldal", tab_stake: "Staking (31.41%)", tab_transfer: "Utalás", tab_cluster: "Infrastruktúra", tab_gov: "Irányítás",
-                        stake_title: "3 Éves Staking", stake_desc: "Biztonságos lekötés.",
-                        stake_avail: "Elérhető Egyenleg", stake_input: "Összeg", stake_expected: "Várható Végösszeg",
-                        stake_success: "Szerződés létrejött, 혜공 형님.", stake_btn: "Staking Indítása",
-                        trans_title: "Eszköz Átutalás", trans_to: "Cím", trans_amount: "Mennyiség", trans_memo: "Megjegyzés",
-                        trans_success: "Átutalás kész, 혜공 형님.", stake_btn: "Biztonságos Küldés",
-                        cluster_title: "Megakluter Mesterterv", cluster_desc: "Ulsan, Gyeongju, Pohang.",
-                        c_ulsan: "Ulsan", c_ulsan_sub: "Robotika", c_ulsan_desc: "K+F.",
-                        c_gyeongju: "Gyeongju", c_gyeongju_sub: "HQ Torony", c_gyeongju_desc: "Pénzügy.",
-                        c_pohang: "Pohang", c_pohang_sub: "Energia", c_pohang_desc: "Hub.",
-                        gov_title: "UBI Modell", gov_desc: "Nettó nyereség 30%-a.",
-                        gov_rate: "UBI Arány", gov_sub: "Okos szerződések.", chairman_label: "Chairman: 혜공 형님"
-                    },
-                    ro: {
-                        brand_title: "HK WorldBank", brand_subtitle: "BANKING DIGITAL WEB3", node_status: "NOD GLOBAL 60 LIMBI",
-                        ledger_badge: "Date Live", status_pending: "În Așteptare", dashboard_title: "Panou Active",
-                        holding_label: "Deținere", interest_label: "Dobândă", btn_mainnet: "Solicită Mainnet",
-                        alert_msg: "Solicitare trimisă cu succes, 혜공 형님.",
-                        grid_wallet: "Portofel", grid_transfer: "Transfer Rapid", grid_robotics: "Robotică", grid_fusion: "Fuziune",
-                        tab_dash: "Panou", tab_stake: "Staking (31.41%)", tab_transfer: "Transfer", tab_cluster: "Infrastructură", tab_gov: "Guvernanță",
-                        stake_title: "Depozit și Staking pe 3 Ani", stake_desc: "Depozitează în siguranță.",
-                        stake_avail: "Sold Disponibil", stake_input: "Introdu Suma", stake_expected: "Total Estimat",
-                        stake_success: "Contract executat, 혜공 형님.", stake_btn: "Execută Staking",
-                        trans_title: "Transfer Active Digitale", trans_to: "Adresă Portofel", trans_amount: "Cantitate", trans_memo: "Memo",
-                        trans_success: "Transfer finalizat, 혜공 형님.", stake_btn: "Trimite Securizat",
-                        cluster_title: "Master Plan Megacluster", cluster_desc: "Ulsan, Gyeongju, Pohang.",
-                        c_ulsan: "Ulsan", c_ulsan_sub: "Robotică", c_ulsan_desc: "R&D.",
-                        c_gyeongju: "Gyeongju", c_gyeongju_sub: "Turn HQ", c_gyeongju_desc: "Finanțe.",
-                        c_pohang: "Pohang", c_pohang_sub: "Energie", c_pohang_desc: "Hub.",
-                        gov_title: "Model UBI", gov_desc: "30% din profitul net.",
-                        gov_rate: "Rată UBI", gov_sub: "Smart contracts.", chairman_label: "Chairman: 혜공 형님"
-                    },
-                    da: {
-                        brand_title: "HK WorldBank", brand_subtitle: "WEB3 DIGITAL BANKING", node_status: "60-SPROGS GLOBAL NODE",
-                        ledger_badge: "Live Data", status_pending: "Afventer", dashboard_title: "Aktiepanel",
-                        holding_label: "Beholdning", interest_label: "Rente", btn_mainnet: "Anmod om Mainnet",
-                        alert_msg: "Anmodning sendt, 혜공 형님.",
-                        grid_wallet: "Wallet", grid_transfer: "Hurtig Overførsel", grid_robotics: "Robotteknologi", grid_fusion: "Fusion",
-                        tab_dash: "Dashboard", tab_stake: "Staking (31.41%)", tab_transfer: "Overførsel", tab_cluster: "Infrastruktur", tab_gov: "Governance",
-                        stake_title: "3-Års Staking", stake_desc: "Sikker indbetaling.",
-                        stake_avail: "Tilgængelig Saldo", stake_input: "Indtast Beløb", stake_expected: "Forventet Total",
-                        stake_success: "Kontrakt udført, 혜공 형님.", stake_btn: "Start Staking",
-                        trans_title: "Digital Overførsel", trans_to: "Wallet Adresse", trans_amount: "Beløb", trans_memo: "Memo",
-                        trans_success: "Overførsel fuldført, 혜공 형님.", stake_btn: "Send Sikkert",
-                        cluster_title: "Megacluster Masterplan", cluster_desc: "Ulsan, Gyeongju, Pohang.",
-                        c_ulsan: "Ulsan", c_ulsan_sub: "Robotik", c_ulsan_desc: "FoU.",
-                        c_gyeongju: "Gyeongju", c_gyeongju_sub: "HQ Tårn", c_gyeongju_desc: "Finans.",
-                        c_pohang: "Pohang", c_pohang_sub: "Energi", c_pohang_desc: "Knudepunkt.",
-                        gov_title: "UBI Model", gov_desc: "30% af nettoefterlevelse.",
-                        gov_rate: "UBI Rate", gov_sub: "Smart contracts.", chairman_label: "Chairman: 혜공 형님"
-                    },
-                    fi: {
-                        brand_title: "HK WorldBank", brand_subtitle: "WEB3 DIGITAALINEN PANKKITOIMINTA", node_status: "60 KIELEN GLOBAALI SOLMU",
-                        ledger_badge: "Live-data", status_pending: "Odottaa", dashboard_title: "Varallisuuden hallintapaneeli",
-                        holding_label: "Omistus", interest_label: "Korko", btn_mainnet: "Pyydä Mainnet",
-                        alert_msg: "Pyyntö lähetetty, 혜공 형님.",
-                        grid_wallet: "Lompakko", grid_transfer: "Pikasiirto", grid_robotics: "Robotiikka", grid_fusion: "Fuusio",
-                        tab_dash: "Etusivu", tab_stake: "Staking (31.41%)", tab_transfer: "Siirto", tab_cluster: "Infrastruktuuri", tab_gov: "Hallinto",
-                        stake_title: "3 Vuoden Staking", stake_desc: "Turvallinen talletus.",
-                        stake_avail: "Käytettävissä", stake_input: "Syötä Määrä", stake_expected: "Odotettu Yhteensä",
-                        stake_success: "Sopimus tehty, 혜공 형님.", stake_btn: "Suorita Staking",
-                        trans_title: "Digitaalinen Siirto", trans_to: "Lompakon Osoite", trans_amount: "Määrä", trans_memo: "Muistio",
-                        trans_success: "Siirto valmis, 혜공 형님.", stake_btn: "Lähetä Turvallisesti",
-                        cluster_title: "Megaklusterin Yleissuunnitelma", cluster_desc: "Ulsan, Gyeongju, Pohang.",
-                        c_ulsan: "Ulsan", c_ulsan_sub: "Robotiikka", c_ulsan_desc: "T&K.",
-                        c_gyeongju: "Gyeongju", c_gyeongju_sub: "HQ Torni", c_gyeongju_desc: "Rahoitus.",
-                        c_pohang: "Pohang", c_pohang_sub: "Energia", c_pohang_desc: "Keskus.",
-                        gov_title: "UBI Malli", gov_desc: "30% nettotuotosta.",
-                        gov_rate: "UBI-aste", gov_sub: "Älysopimukset.", chairman_label: "Chairman: 혜공 형님"
-                    },
-                    no: {
-                        brand_title: "HK WorldBank", brand_subtitle: "WEB3 DIGITAL BANKING", node_status: "60-SPRÅKS GLOBAL NODE",
-                        ledger_badge: "Sanntidsdata", status_pending: "Venter", dashboard_title: "Eiendelsside",
-                        holding_label: "Beholdning", interest_label: "Rente", btn_mainnet: "Be om Mainnet",
-                        alert_msg: "Forespørsel sendt, 혜공 형님.",
-                        grid_wallet: "Lommebok", grid_transfer: "Rask Overføring", grid_robotics: "Robotikk", grid_fusion: "Fusjon",
-                        tab_dash: "Dashbord", tab_stake: "Staking (31.41%)", tab_transfer: "Overføring", tab_cluster: "Infrastruktur", tab_gov: "Styring",
-                        stake_title: "3-Års Staking", stake_desc: "Sikker innskudd.",
-                        stake_avail: "Tilgjengelig Saldo", stake_input: "Angi Beløp", stake_expected: "Forventet Totalt",
-                        stake_success: "Kontrakt utført, 혜공 형님.", stake_btn: "Start Staking",
-                        trans_title: "Digital Overføring", trans_to: "Lommebokadresse", trans_amount: "Beløp", trans_memo: "Memo",
-                        trans_success: "Overføring fullført, 혜공 형님.", stake_btn: "Send Sikkert",
-                        cluster_title: "Megacluster Masterplan", cluster_desc: "Ulsan, Gyeongju, Pohang.",
-                        c_ulsan: "Ulsan", c_ulsan_sub: "Robotikk", c_ulsan_desc: "FoU.",
-                        c_gyeongju: "Gyeongju", c_gyeongju_sub: "HQ Tårn", c_gyeongju_desc: "Finans.",
-                        c_pohang: "Pohang", c_pohang_sub: "Energi", c_pohang_desc: "Knutepunkt.",
-                        gov_title: "UBI Modell", gov_desc: "30% av nettet.",
-                        gov_rate: "UBI Rate", gov_sub: "Smartkontrakter.", chairman_label: "Chairman: 혜공 형님"
-                    },
-                    fa: {
-                        brand_title: "HK WorldBank", brand_subtitle: "بانکداری دیجیتال WEB3", node_status: "گره جهانی ۶۰ زبانه",
-                        ledger_badge: "داده های زنده", status_pending: "در انتظار تایید", dashboard_title: "داشبورد دارایی",
-                        holding_label: "موجودی", interest_label: "سود انباشته", btn_mainnet: "درخواست Mainnet",
-                        alert_msg: "درخواست با موفقیت ارسال شد، 혜공 형님.",
-                        grid_wallet: "کیف پول", grid_transfer: "انتقال سریع", grid_robotics: "رباتیک", grid_fusion: "همجوشی",
-                        tab_dash: "داشبورد", tab_stake: "استیکینگ (۳۱.۴۱٪)", tab_transfer: "انتقال", tab_cluster: "زیرساخت", tab_gov: "حکمرانی",
-                        stake_title: "سپرده گذاری و استیکینگ ۳ ساله", stake_desc: "سپرده گذاری ایمن.",
-                        stake_avail: "موجودی قابل استفاده", stake_input: "مقدار", stake_expected: "مجموع مورد انتظار",
-                        stake_success: "قرارداد انجام شد، 혜공 형님.", stake_btn: "اجرای استیکینگ",
-                        trans_title: "انتقال دارایی دیجیتال", trans_to: "آدرس کیف پول", trans_amount: "مقدار", trans_memo: "یادداشت",
-                        trans_success: "انتقال کامل شد، 혜공 형님.", stake_btn: "ارسال امن",
-                        cluster_title: "طرح جامع مگاکلاستر", cluster_desc: "اولسان، گیونگجو، پوهانگ.",
-                        c_ulsan: "اولسان", c_ulsan_sub: "رباتیک", c_ulsan_desc: "تحقیق و توسعه.",
-                        c_gyeongju: "گیونگجو", c_gyeongju_sub: "برج مرکزی", c_gyeongju_desc: "امور مالی.",
-                        c_pohang: "پوهانگ", c_pohang_sub: "انرژی", c_pohang_desc: "مرکز.",
-                        gov_title: "مدل UBI", gov_desc: "۳۰٪ سود خالص.",
-                        gov_rate: "نرخ UBI", gov_sub: "قراردادهای هوشمند.", chairman_label: "Chairman: 혜공 형님"
-                    },
-                    he: {
-                        brand_title: "HK WorldBank", brand_subtitle: "בנקאות דיגיטלית WEB3", node_status: "צומת עולמי 60 שפות",
-                        ledger_badge: "נתוני לדג'ר חיים", status_pending: "ממתין לאישור", dashboard_title: "לוח מחוונים נכסים",
-                        holding_label: "כמות אחזקה", interest_label: "ריבית מצטברת", btn_mainnet: "בקש Mainnet עכשיו",
-                        alert_msg: "בקשת Mainnet נשלחה בהצלחה, 혜공 형님.",
-                        grid_wallet: "ארנק", grid_transfer: "העברה מהירה", grid_robotics: "רובוטיקה", grid_fusion: "היתוך",
-                        tab_dash: "לוח בקרה", tab_stake: "סטייקינג (31.41%)", tab_transfer: "העברה", tab_cluster: "תשתיות", tab_gov: "ממשל",
-                        stake_title: "הפקדת נכסים וסטייקינג ל-3 שנים", stake_desc: "הפקד בבטחה.",
-                        stake_avail: "יתרה זמינה", stake_input: "הזן סכום", stake_expected: "צפי כולל",
-                        stake_success: "חוזה הסטייקינג בוצע, 혜공 형님.", stake_btn: "בצע סטייקינג",
-                        trans_title: "העברת נכסים דיגיטליים", trans_to: "כתובת ארנק", trans_amount: "כמות", trans_memo: "הערה",
-                        trans_success: "ההעברה הושלמה, 혜공 형님.", stake_btn: "שלח בבטחה",
-                        cluster_title: "תוכנית אב למגה-קלאסטר", cluster_desc: "אולסן, گیونگجو, פוהאנג.",
-                        c_ulsan: "אולסן", c_ulsan_sub: "רובוטיקה", c_ulsan_desc: "מוּטָב.",
-                        c_gyeongju: "גיאונגג'ו", c_gyeongju_sub: "מגדל HQ", c_gyeongju_desc: "פיננסים.",
-                        c_pohang: "פוהאנג", c_pohang_sub: "אנרגיה", c_pohang_desc: "מרכז.",
-                        gov_title: "מודל UBI גלובלי", gov_desc: "30% מהרווח הנקי.",
-                        gov_rate: "שיעור UBI", gov_sub: "חוזים חכמים.", chairman_label: "Chairman: 혜공 형님"
-                    },
-                    bn: {
-                        brand_title: "HK WorldBank", brand_subtitle: "WEB3 ডিজিটাল ব্যাংকিং", node_status: "৬০ ভাষার গ্লোবাল নোড",
-                        ledger_badge: "লাইভ লেজার ডেটা", status_pending: "অনুমোদনের অপেক্ষায়", dashboard_title: "ব্যক্তিগত সম্পদ ড্যাশবোর্ড",
-                        holding_label: "হোল্ডিং পরিমাণ", interest_label: "জমা হওয়া সুদ", btn_mainnet: "মেইননেটের জন্য আবেদন করুন",
-                        alert_msg: "মেইননেট অনুরোধ সফলভাবে পাঠানো হয়েছে, 혜공 형님।",
-                        grid_wallet: "ওয়ালেট", grid_transfer: "দ্রুত স্থানান্তর", grid_robotics: "রোবোটিক্স", grid_fusion: "ফিউশন",
-                        tab_dash: "ড্যাশবোর্ড", tab_stake: "স্টেকিং (৩১.৪১%)", tab_transfer: "স্থানান্তর", tab_cluster: "অবকাঠামো", tab_gov: "গভর্ন্যান্স",
-                        stake_title: "৩ বছরের সম্পদ জমা এবং স্টেকিং", stake_desc: "নিরাপদে সম্পদ জমা করুন।",
-                        stake_avail: "উপলব্ধ ব্যালেন্স", stake_input: "পরিমাণ লিখুন", stake_expected: "প্রত্যাশিত মোট",
-                        stake_success: "স্টেকিং চুক্তি সফল হয়েছে, 혜공 형님।", stake_btn: "স্টেকিং চালান",
-                        trans_title: "ডিজিটাল সম্পদ স্থানান্তর", trans_to: "ওয়ালেট ঠিকানা", trans_amount: "পরিমাণ", trans_memo: "মেমো",
-                        trans_success: "স্থানান্তর সম্পন্ন হয়েছে, 혜공 형님।", stake_btn: "নিরাপদ স্থানান্তর",
-                        cluster_title: "মেগা ক্লাস্টার মাস্টার প্ল্যান", cluster_desc: "উলসান, গyeongju, পোহাং।",
-                        c_ulsan: "উলসান", c_ulsan_sub: "রোবোটিক্স", c_ulsan_desc: "গবেষণা ও উন্নয়ন।",
-                        c_gyeongju: "গিয়ংজু", c_gyeongju_sub: "এইচকিউ টাওয়ার", c_gyeongju_desc: "অর্থায়ন।",
-                        c_pohang: "পোহাং", c_pohang_sub: "শক্তি", c_pohang_desc: "হাব।",
-                        gov_title: "ইউবিআই মডেল", gov_desc: "নিট লাভের ৩০%",
-                        gov_rate: "ইউবিআই হার", gov_sub: "স্মার্ট চুক্তি।", chairman_label: "Chairman: 혜공 형님"
-                    },
-                    ur: {
-                        brand_title: "HK WorldBank", brand_subtitle: "WEB3 ڈیجیٹل بینکنگ", node_status: "60 زبانوں کا گلوبل نوڈ",
-                        ledger_badge: "لائیو لیجر ڈیٹا", status_pending: "منظوری کا انتظار", dashboard_title: "ذاتی اثاثہ ڈ্যাশবোর্ড",
-                        holding_label: "ہولڈنگ مقدار", interest_label: "سود", btn_mainnet: "مین نیٹ کی درخواست کریں",
-                        alert_msg: "مین نیٹ کی درخواست کامیابی سے بھیج دی گئی، 혜공 형님۔",
-                        grid_wallet: "والٹ", grid_transfer: "فوری ٹرانسفر", grid_robotics: "روبوٹکس", grid_fusion: "فیوژن",
-                        tab_dash: "ڈ্যাশবোর্ড", tab_stake: "سٹیکنگ (31.41%)", tab_transfer: "ٹرانسفر", tab_cluster: "بنیادی ڈھانچہ", tab_gov: "گورننس",
-                        stake_title: "3 سالہ اثاثہ جمع اور سٹیکنگ", stake_desc: "محفوظ طریقے سے جمع کریں۔",
-                        stake_avail: "دستیاب بیلنس", stake_input: "مقدار درج کریں", stake_expected: "متوقع کل",
-                        stake_success: "سٹیکنگ معاہدہ مکمل، 혜공 형님۔", stake_btn: "سٹیکنگ چلائیں",
-                        trans_title: "ڈیجیٹل اثاثہ ٹرانسفر", trans_to: "والٹ ایڈریس", trans_amount: "مقدار", trans_memo: "ممو",
-                        trans_success: "ٹرانسفر مکمل ہوا، 혜공 형님۔", stake_btn: "محفوظ ٹرانسفر",
-                        cluster_title: "میگا کلسٹر ماسٹر پلان", cluster_desc: "اولسان، گیونگجو، پوہانگ۔",
-                        c_ulsan: "اولسان", c_ulsan_sub: "روبوٹکس", c_ulsan_desc: "آر اینڈ ڈی۔",
-                        c_gyeongju: "گیونگجو", c_gyeongju_sub: "HQ ٹاور", c_gyeongju_desc: "فنانس۔",
-                        c_pohang: "پوہانگ", c_pohang_sub: "توانائی", c_pohang_desc: "حب۔",
-                        gov_title: "UBI ماڈل", gov_desc: "خالص منافع کا 30%",
-                        gov_rate: "UBI شرح", gov_sub: "سمارٹ کنٹریکٹس۔", chairman_label: "Chairman: 혜공 형님"
-                    },
-                    sw: {
-                        brand_title: "HK WorldBank", brand_subtitle: "BENKI YA KIDIJITAL YA WEB3", node_status: "NODE YA KIMATAIFA LUGHA 60",
-                        ledger_badge: "Data za Moja kwa Moja", status_pending: "Inasubiri Idhinisho", dashboard_title: "Dashibodi ya Mali",
-                        holding_label: "Kiasi", interest_label: "Riba", btn_mainnet: "Omba Mainnet Sasa",
-                        alert_msg: "Ombi la Mainnet limetumwa kwa mafanikio, 혜공 형님.",
-                        grid_wallet: "Mkoba", grid_transfer: "Uhamisho wa Haraka", grid_robotics: "Roboti", grid_fusion: "Muungano",
-                        tab_dash: "Dashibodi", tab_stake: "Staking (31.41%)", tab_transfer: "Uhamisho", tab_cluster: "Miundombinu", tab_gov: "Utawala",
-                        stake_title: "Kuweka Mali na Staking Miaka 3", stake_desc: "Weka kwa usalama.",
-                        stake_avail: "Salio Inayopatikana", stake_input: "Weka Kiasi", stake_expected: "Jumla Inayotarajiwa",
-                        stake_success: "Mkataba umetekelezwa, 혜공 형님.", stake_btn: "Tekeleza Staking",
-                        trans_title: "Uhamisho wa Mali za Kidijitali", trans_to: "Anwani ya Mkoba", trans_amount: "Kiasi", trans_memo: "Kumbukumbu",
-                        trans_success: "Uhamisho umekamilika, 혜공 형님.", stake_btn: "Tuma Salama",
-                        cluster_title: "Mpango Mkuu wa Mega Cluster", cluster_desc: "Ulsan, Gyeongju, Pohang.",
-                        c_ulsan: "Ulsan", c_ulsan_sub: "Roboti", c_ulsan_desc: "R&D.",
-                        c_gyeongju: "Gyeongju", c_gyeongju_sub: "Mnara wa HQ", c_gyeongju_desc: "Fedha.",
-                        c_pohang: "Pohang", c_pohang_sub: "Nishati", c_pohang_desc: "Kitovu.",
-                        gov_title: "Mfano wa UBI", gov_desc: "30% ya faida halisi.",
-                        gov_rate: "Kiwango cha UBI", gov_sub: "Mikataba mahiri.", chairman_label: "Chairman: 혜공 형님"
-                    },
-                    ta: {
-                        brand_title: "HK WorldBank", brand_subtitle: "WEB3 டிஜிட்டல் வங்கி", node_status: "60 மொழி குளோபல் நோட்",
-                        ledger_badge: "நேரலை தரவு", status_pending: " ஒப்புதலுக்காக காத்திருக்கிறது", dashboard_title: "தனிப்பட்ட சொத்து டேஷ்போர்டு",
-                        holding_label: "சொத்து அளவு", interest_label: "வட்டி", btn_mainnet: "மெயின்நெட் கோரவும்",
-                        alert_msg: "மெயின்நெட் கோரிக்கை அனுப்பப்பட்டது, 혜공 형님.",
-                        grid_wallet: "வாலட்", grid_transfer: "வேகமாக அனுப்பு", grid_robotics: "ரோபோடிக்ஸ்", grid_fusion: "பியூஷன்",
-                        tab_dash: "டேஷ்போர்டு", tab_stake: "ஸ்டேக்கிங் (31.41%)", tab_transfer: "பணம் அனுப்பு", tab_cluster: "உள்கட்டமைப்பு", tab_gov: "நிர்வாகம்",
-                        stake_title: "3 ஆண்டு சொத்து வைப்பு மற்றும் ஸ்டேக்கிங்", stake_desc: "பாதுகாப்பாக வைக்கவும்.",
-                        stake_avail: "கிடைக்கும் இருப்பு", stake_input: "தொகையை உள்ளிடவும்", stake_expected: "எதிர்பார்க்கப்படும் மொத்தம்",
-                        stake_success: "ஸ்டேக்கிங் ஒப்பந்தம் வெற்றி, 혜공 형님.", stake_btn: "ஸ்டேக்கிங் இயக்கவும்",
-                        trans_title: "டிஜிட்டல் சொத்து பரிமாற்றம்", trans_to: "வாலட் முகவரி", trans_amount: "அளவு", trans_memo: "குறிப்பு",
-                        trans_success: "பரிமாற்றம் முடிந்தது, 혜공 형님.", stake_btn: "பாதுகாப்பாக அனுப்பு",
-                        cluster_title: "மெகா கிளஸ்டர் மாஸ்டர் பிளான்", cluster_desc: "உல்சான், கியோங்ஜூ, பொஹாங்.",
-                        c_ulsan: "உல்சான்", c_ulsan_sub: "ரோபோடிக்ஸ்", c_ulsan_desc: "ஆர் அண்ட் டி.",
-                        c_gyeongju: "கியோங்ஜூ", c_gyeongju_sub: "HQ டவர்", c_gyeongju_desc: "நிதி.",
-                        c_pohang: "பொஹாங்", c_pohang_sub: "சக்தி", c_pohang_desc: "ஹப்.",
-                        gov_title: "UBI மாதிரி", gov_desc: "நிகர லாபத்தில் 30%.",
-                        gov_rate: "UBI விகிதம்", gov_sub: "ஸ்மார்ட் ஒப்பந்தங்கள்.", chairman_label: "Chairman: 혜공 형님"
-                    },
-                    te: {
-                        brand_title: "HK WorldBank", brand_subtitle: "WEB3 డిజిటల్ బ్యాంకింగ్", node_status: "60 భాషల గ్లోబల్ నోడ్",
-                        ledger_badge: "లైవ్ లెడ్జర్ డేటా", status_pending: "ఆమోదం కోసం వేచి ఉంది", dashboard_title: "వ్యక్తిगत ఆస్తుల డాష్ బోర్డ్",
-                        holding_label: "హోల్డింగ్ పరిమాణం", interest_label: "సంచిత వడ్డీ", btn_mainnet: "మెయిన్ నెట్ అభ్యర్థించండి",
-                        alert_msg: "మెయిన్ నెట్ అభ్యర్థన విజయవంతంగా పంపబడింది, 혜공 형님.",
-                        grid_wallet: "వాలెట్", grid_transfer: "ఫాస్ట్ ట్రాన్స్ఫర్", grid_robotics: "రోబోటిక్స్", grid_fusion: "ఫ్యూజన్",
-                        tab_dash: "డాష్ బోర్డ్", tab_stake: "స్టేకింగ్ (31.41%)", tab_transfer: "బదిలీ", tab_cluster: "ఇన్ఫ్రాస్ట్రక్చర్", tab_gov: "గవర్నెన్స్",
-                        stake_title: "3 సంవత్సరాల డిపాజిట్ & స్టేకింగ్", stake_desc: "సురక్షితంగా డిపాజిట్ చేయండి.",
-                        stake_avail: "అందుబాటులో ఉన్న నిల్వ", stake_input: "మొత్తాన్ని నమోదు చేయండి", stake_expected: "అంచనా మొత్తం",
-                        stake_success: "స్టేకింగ్ ఒప్పందం విజయవంతం, 혜공 형님.", stake_btn: "స్టేకింగ్ అమలు చేయండి",
-                        trans_title: "డిజిటల్ ఆస్తుల బదిలీ", trans_to: "వాలెట్ చిరునామా", trans_amount: "మొత్తం", trans_memo: "జ్ఞాపిక",
-                        trans_success: "బదిలీ పూర్తయింది, 혜공 형님.", stake_btn: "సురక్షితంగా పంపు",
-                        cluster_title: "మెగా క్లస్టర్ మాస్టర్ ప్లాన్", cluster_desc: "ఉల్సన్, గ్యోంగ్జు, పోహాంగ్.",
-                        c_ulsan: "ఉల్సన్", c_ulsan_sub: "రోబోటిక్స్", c_ulsan_desc: "R&D.",
-                        c_gyeongju: "గ్యోంగ్జు", c_gyeongju_sub: "HQ టవర్", c_gyeongju_desc: "ఫైనాన్స్.",
-                        c_pohang: "పోహాంగ్", c_pohang_sub: "శక్తి", c_pohang_desc: "హబ్.",
-                        gov_title: "UBI మోడల్", gov_desc: "నికర లాభంలో 30%.",
-                        gov_rate: "UBI రేటు", gov_sub: "స్మార్ట్ కాంట్రాక్ట్ లు.", chairman_label: "Chairman: 혜공 형님"
-                    },
-                    mr: {
-                        brand_title: "HK WorldBank", brand_subtitle: "WEB3 डिजिटल बँकिंग", node_status: "६० भाषा जागतिक नोड",
-                        ledger_badge: "लाईव्ह डेटा", status_pending: "मंजुरी प्रतीक्षेत", dashboard_title: "वैयक्तिक मालमत्ता डॅशबोर्ड",
-                        holding_label: "होल्डिंग", interest_label: "व्याज", btn_mainnet: "मेननेट विनंती करा",
-                        alert_msg: "मेननेट विनंती यशस्वीरित्या पाठवली, 혜공 형님.",
-                        grid_wallet: "वॉलेट", grid_transfer: "जलद हस्तांतरण", grid_robotics: "रोबोटिक्स", grid_fusion: "फ्युजन",
-                        tab_dash: "डॅशबोर्ड", tab_stake: "स्टेकिंग (३१.४१%)", tab_transfer: "हस्तांतरण", tab_cluster: " पायाभूत सुविधा", tab_gov: "शासन",
-                        stake_title: "३-वर्षीय मालमत्ता ठेव आणि स्टेकिंग", stake_desc: "सुरक्षितपणे ठेवा.",
-                        stake_avail: "उपलब्ध शिल्लक", stake_input: "रक्कम प्रविष्ट करा", stake_expected: "अपेक्षित एकूण",
-                        stake_success: "स्टेकिंग करार यशस्वी, 혜공 형님.", stake_btn: "स्टेकिंग अंमलात आणा",
-                        trans_title: "डिजिटल मालमत्ता हस्तांतरण", trans_to: "वॉलेट पत्ता", trans_amount: "रक्कम", trans_memo: "टीप",
-                        trans_success: "हस्तांतरण पूर्ण झाले, 혜공 형님.", stake_btn: "सुरक्षित पाठवा",
-                        cluster_title: "मेगा क्लस्टर मास्टर प्लॅन", cluster_desc: "उल्सान, ग्योंगजू, पोहांग.",
-                        c_ulsan: "उल्सान", c_ulsan_sub: "रोबोटिक्स", c_ulsan_desc: "आर आणि डी.",
-                        c_gyeongju: "ग्योंगजू", c_gyeongju_sub: "HQ टॉवर", c_gyeongju_desc: "फायनान्स.",
-                        c_pohang: "पोहांग", c_pohang_sub: "ऊर्जा", c_pohang_desc: "हब.",
-                        gov_title: "UBI मॉडेल", gov_desc: "निव्वळ नफ्याच्या ३०%.",
-                        gov_rate: "UBI दर", gov_sub: "स्मार्ट कॉन्ट्रॅक्ट्स.", chairman_label: "Chairman: 혜공 형님"
-                    },
-                    gu: {
-                        brand_title: "HK WorldBank", brand_subtitle: "WEB3 ડિજિટલ બેંકિંગ", node_status: "60 ભાષા ગ્લોબલ નોડ",
-                        ledger_badge: "લાઇવ લેજર ડેટા", status_pending: "મંજૂરી બાકી", dashboard_title: "વ્યક્તિગત એસેટ ડેશબોર્ડ",
-                        holding_label: "હોલ્ડિંગ જથ્થો", interest_label: "વ્યાજ", btn_mainnet: "મેઇનનેટ વિનંતી કરો",
-                        alert_msg: "મેઇનનેટ વિનંતી સફળતાપૂર્વક મોકલવામાં આવી, 혜공 형님.",
-                        grid_wallet: "વોલેટ", grid_transfer: "ઝડપી ટ્રાન્સફર", grid_robotics: "રોબોટિક્સ", grid_fusion: "ફ્યુઝન",
-                        tab_dash: "ડેશબોર્ડ", tab_stake: "સ્ટેકિંગ (31.41%)", tab_transfer: "ટ્રાન્સફર", tab_cluster: "ઇન્ફ્રાસ્ટ્રક્ચર", tab_gov: "ગવર્નન્સ",
-                        stake_title: "3-વર્ષની એસેટ ડિપોઝિટ અને સ્ટેકિંગ", stake_desc: "સુરક્ષિત રીતે જમા કરો.",
-                        stake_avail: "ઉપલબ્ધ બેલેન્સ", stake_input: "રકમ દાખલ કરો", stake_expected: "અપેક્ષિત કુલ",
-                        stake_success: "સ્ટેકિંગ કરાર સફળ, 혜공 형님.", stake_btn: "સ્ટેકિંગ ચલાવો",
-                        trans_title: "ડિજિટલ એસેટ ટ્રાન્સફર", trans_to: "વોલેટ સરનામું", trans_amount: "જથ્થો", trans_memo: "મેમો",
-                        trans_success: "ટ્રાન્સફર પૂર્ણ થયું, 혜공 형님.", stake_btn: "સુરક્ષિત મોકલો",
-                        cluster_title: "મેગા ક્લસ્ટર માસ્ટર પ્લાન", cluster_desc: "ઉલ્સાન, ગ્યોંગજુ, પોહાંગ.",
-                        c_ulsan: "ઉલ્સાન", c_ulsan_sub: "રોબોટિક્સ", c_ulsan_desc: "આર એન્ડ ડી.",
-                        c_gyeongju: "ગ્યોંગજુ", c_gyeongju_sub: "HQ ટાવર", c_gyeongju_desc: "ફાઇનાન્સ.",
-                        c_pohang: "પોહાંગ", c_pohang_sub: "ઊર્જા", c_pohang_desc: "હબ.",
-                        gov_title: "UBI મોડેલ", gov_desc: "શુદ્ધ નફાના 30%.",
-                        gov_rate: "UBI દર", gov_sub: "સ્માર્ટ કૉન્ટ્રેક્ટ્સ.", chairman_label: "Chairman: 혜공 형님"
-                    },
-                    kn: {
-                        brand_title: "HK WorldBank", brand_subtitle: "WEB3 ಡಿಜಿಟಲ್ ಬ್ಯಾಂಕಿಂಗ್", node_status: "60 ಭಾಷೆಗಳ ಗ್ಲೋಬಲ್ ನೋಡ್",
-                        ledger_badge: "ಲೈವ್ ಲೆಡ್ಜರ್ ಡೇಟಾ", status_pending: "ಅನುಮೋದನೆ ಬಾಕಿ ಇದೆ", dashboard_title: "ವೈಯಕ್ತಿಕ ಆಸ್ತಿ ಡ್ಯಾಶ್ ಬೋರ್ಡ್",
-                        holding_label: "ಹೋಲ್ಡಿಂಗ್ ಮೊತ್ತ", interest_label: "ಬಡ್ಡಿ", btn_mainnet: "ಮೈನ್ನೆಟ್ ವಿನಂತಿಸಿ",
-                        alert_msg: "ಮೈನ್ನೆಟ್ ವಿನಂತಿ ಯಶಸ್ವಿಯಾಗಿ ಕಳುہಲಾಗಿದೆ, 혜공 형님.",
-                        grid_wallet: "ವಾಲೆಟ್", grid_transfer: "ವೇಗದ ವರ್ಗಾವಣೆ", grid_robotics: "ರೋಬೋಟಿಕ್ಸ್", grid_fusion: "ಫ್ಯೂಷನ್",
-                        tab_dash: "ಡ್ಯಾಶ್ ಬೋರ್ಡ್", tab_stake: "ಸ್ಟೇಕಿಂಗ್ (31.41%)", tab_transfer: "ವರ್ಗಾವಣೆ", tab_cluster: "ಮೂಲಸೌಕರ್ಯ", tab_gov: "ಆಡಳಿತ",
-                        stake_title: "3 ವರ್ಷಗಳ ಆಸ್ತಿ ಠೇವಣಿ ಮತ್ತು ಸ್ಟೇಕಿಂಗ್", stake_desc: "ಸುರಕ್ಷಿತವಾಗಿ ಠೇವಣಿ ಮಾಡಿ.",
-                        stake_avail: "ಲಭ್ಯವಿರುವ ಬಾಕಿ", stake_input: "ಮೊತ್ತವನ್ನು ನಮूदಿಸಿ", stake_expected: "ನಿರೀಕ್ಷಿತ ಒಟ್ಟು",
-                        stake_success: "ಸ್ಟೇಕಿಂಗ್ ಒಪ್ಪಂದ ಯಶಸ್ವಿ, 혜공 형님.", stake_btn: "ಸ್ಟೇಕಿಂಗ್ ಕಾರ್ಯಗತಗೊಳಿಸಿ",
-                        trans_title: "ಡಿಜಿಟಲ್ ಆಸ್ತಿ ವರ್ಗಾವಣೆ", trans_to: "ವಾಲೆಟ್ ವಿಳಾಸ", trans_amount: "ಮೊತ್ತ", trans_memo: "ಜ್ಞಾಪನೆ",
-                        trans_success: "ವರ್ಗಾವಣೆ ಪೂರ್ಣಗೊಂಡಿದೆ, 혜공 형님.", stake_btn: "ಸುರಕ್ಷಿತವಾಗಿ ಕಳುಹಿಸಿ",
-                        cluster_title: "ಮೆಗಾ ಕ್ಲஸ்டರ್ ಮಾಸ್ಟರ್ ಪ್ಲಾನ್", cluster_desc: "ಉಲ್ಸಾನ್, ಗ್ಯೋಂಗ್ಜು, ಪೋಹಾಂಗ್.",
-                        c_ulsan: "ಉಲ್ಸಾನ್", c_ulsan_sub: "ರೋಬೋಟಿಕ್ಸ್", c_ulsan_desc: "R&D.",
-                        c_gyeongju: "ಗ್ಯೋಂಗ್ಜು", c_gyeongju_sub: "HQ ಟವರ್", c_gyeongju_desc: "ಹಣಕಾಸು.",
-                        c_pohang: "ಪೋಹಾಂಗ್", c_pohang_sub: "ಶಕ್ತಿ", c_pohang_desc: "ಹಬ್.",
-                        gov_title: "UBI ಮಾದರಿ", gov_desc: "ನಿವ್ವಳ ಲಾಭದ 30%.",
-                        gov_rate: "UBI ದರ", gov_sub: "ಸ್ಮಾರ್ಟ್ ಕಾಂಟ್ರಾಕ್ಟ್ ಗಳು.", chairman_label: "Chairman: 혜공 형님"
-                    },
-                    ml: {
-                        brand_title: "HK WorldBank", brand_subtitle: "WEB3 ഡിജിറ്റൽ ബാങ്കിംഗ്", node_status: "60 ഭാഷാ ഗ്ലോബൽ നോഡ്",
-                        ledger_badge: "തത്സമയ ഡാറ്റ", status_pending: "അംഗീകാരം കാത്തുനിൽക്കുന്നു", dashboard_title: "വ്യക്തിഗത അസറ്റ് ഡാഷ് ബോർഡ്",
-                        holding_label: "കൈവശമുള്ള അളവ്", interest_label: "പലിശ", btn_mainnet: "മെയിൻനെറ്റ് അഭ്യർത്ഥിക്കുക",
-                        alert_msg: "മെയിൻനെറ്റ് അഭ്യർത്ഥന വിജയകരമായി അയച്ചു, 혜공 형님.",
-                        grid_wallet: "വാലറ്റ്", grid_transfer: "വേഗത്തിലുള്ള കൈമാറ്റം", grid_robotics: "റോബോട്ടിക്സ്", grid_fusion: "ഫ്യൂഷൻ",
-                        tab_dash: "ഡാഷ് ബോർഡ്", tab_stake: "സ്റ്റേക്കിംഗ് (31.41%)", tab_transfer: "കൈമാറ്റം", tab_cluster: "അടിസ്ഥാന സൗകര്യം", tab_gov: "ഭരണം",
-                        stake_title: "3 വർഷത്തെ അസറ്റ് നിക്ഷേപം", stake_desc: "സുരക്ഷിതമായി നിക്ഷേപിക്കുക.",
-                        stake_avail: "ലഭ്യമായ ബാലൻസ്", stake_input: "തുക നൽകുക", stake_expected: "പ്രതീക്ഷിക്കുന്ന ആകെ",
-                        stake_success: "സ്റ്റേക്കിംഗ് കരാർ വിജയിച്ചു, 혜공 형님.", stake_btn: "സ്റ്റേക്കിംഗ് നടപ്പിലാക്കുക",
-                        trans_title: "ഡിജിറ്റൽ അസറ്റ് കൈമാറ്റം", trans_to: "വാലറ്റ് വിലാസം", trans_amount: "അളവ്", trans_memo: "കുറിപ്പ്",
-                        trans_success: "കൈമാറ്റം പൂർത്തിയായി, 혜공 형님.", stake_btn: "സുരക്ഷിതമായി അയയ്ക്കുക",
-                        cluster_title: "മെഗാ ക്ലസ്റ്റർ മാസ്റ്റർ പ്ലാൻ", cluster_desc: "ഉൽസാൻ, ഗ്യോങ്ജു, പൊഹാങ്.",
-                        c_ulsan: "ഉൽസാൻ", c_ulsan_sub: "റോബോട്ടിക്സ്", c_ulsan_desc: "R&D.",
-                        c_gyeongju: "ഗ്യോങ്ജു", c_gyeongju_sub: "HQ ടവർ", c_gyeongju_desc: "ധനകാര്യം.",
-                        c_pohang: "പൊഹാങ്", c_pohang_sub: "ഊർജ്ജം", c_pohang_desc: "ഹബ്.",
-                        gov_title: "UBI മോഡൽ", gov_desc: "അറ്റാദായത്തിന്റെ 30%.",
-                        gov_rate: "UBI നിരക്ക്", gov_sub: "സ്മാർട്ട് കോൺട്രാക്ടുകൾ.", chairman_label: "Chairman: 혜공 형님"
-                    },
-                    pa: {
-                        brand_title: "HK WorldBank", brand_subtitle: "WEB3 ਡਿਜੀਟਲ ਬੈਂਕਿੰਗ", node_status: "60 ਭਾਸ਼ਾਵਾਂ ਗਲੋਬਲ ਨੋਡ",
-                        ledger_badge: "ਲਾਈਵ ਲੇਜਰ ਡਾਟਾ", status_pending: "ਮਨंजूरी ਬਾਕੀ", dashboard_title: "ਨਿੱਜੀ ਜਾਇਦਾਦ ਡੈਸ਼ਬੋਰਡ",
-                        holding_label: "ਹੋਲਡਿੰਗ ਮਾਤਰਾ", interest_label: "ਵਿਆਜ", btn_mainnet: "ਮੇਨਨੇਟ ਦੀ ਬੇਨਤੀ ਕਰੋ",
-                        alert_msg: "ਮੇਨਨੇਟ ਬੇਨਤੀ ਸਫਲਤਾਪੂਰਵਕ ਭੇजी गई, 혜공 형님।",
-                        grid_wallet: "ਵਾਲਿਟ", grid_transfer: "ਤੇਜ਼ ਟ੍ਰਾਂਸਫਰ", grid_robotics: "ਰੋਬੋਟਿਕਸ", grid_fusion: "ਫਿਊਜ਼ਨ",
-                        tab_dash: "ਡੈਸ਼ਬੋਰਡ", tab_stake: "ਸਟੇਕਿੰਗ (31.41%)", tab_transfer: "ਟ੍ਰਾਂਸਫਰ", tab_cluster: "ਬੁਨਿਆਦੀ ढांचा", tab_gov: "ਗਵਰਨੈਂਸ",
-                        stake_title: "3-ਸਾਲਾ ਜਾਇਦਾਦ ਜਮ੍ਹਾ ਅਤੇ ਸਟੇਕਿੰਗ", stake_desc: "ਸੁਰੱਖਿਅਤ ਢੰਗ ਨਾਲ ਜਮ੍ਹਾ ਕਰੋ।",
-                        stake_avail: "ਉਪਲਬਧ ਬਕਾਇਆ", stake_input: "ਰਕਮ ਦਾਖਲ ਕਰੋ", stake_expected: "ਉਮੀਦ ਕੀਤਾ ਕੁੱਲ",
-                        stake_success: "ਸਟੇਕਿੰਗ ਸਫਲ, 혜공 형님।", stake_btn: "ਸਟੇਕਿੰਗ ਚਲਾਓ",
-                        trans_title: "ਡਿਜੀਟਲ ਜਾਇਦਾਦ ਟ੍ਰਾਂਸਫਰ", trans_to: "ਵਾਲਿਟ ਪਤਾ", trans_amount: "ਮਾਤਰਾ", trans_memo: "ਯਾਦਪੱਤਰ",
-                        trans_success: "ਟ੍ਰਾਂਸਫਰ ਪੂਰਾ ਹੋਇਆ, 혜공 형님।", stake_btn: "ਸੁਰੱਖਿਅਤ ਭੇਜੋ",
-                        cluster_title: "ਮੇਗਾ ਕਲੱਸਟਰ ਮਾਸਟਰ ਪਲਾਨ", cluster_desc: "ਉਲਸਾਨ, ਗਯੋਂਗਜੂ, ਪੋਹਾંગ।",
-                        c_ulsan: "ਉਲਸਾਨ", c_ulsan_sub: "ਰੋਬੋਟਿਕਸ", c_ulsan_desc: "ਆਰ ਐਂਡ ਡੀ।",
-                        c_gyeongju: "ਗਯੋਂਗਜੂ", c_gyeongju_sub: "HQ ਟਾਵਰ", c_gyeongju_desc: "ਫਾਈਨਾਂਸ।",
-                        c_pohang: "ਪੋਹਾંગ", c_pohang_sub: "ઊਰਜਾ", c_pohang_desc: "ਹੱਬ।",
-                        gov_title: "UBI ਮਾਡਲ", gov_desc: "ਸ਼ੁੱਧ ਲਾਭ ਦਾ 30%.",
-                        gov_rate: "UBI ਦਰ", gov_sub: "ਸਮਾਰਟ ਕੰਟਰੈਕਟਸ।", chairman_label: "Chairman: 혜공 형님"
-                    },
-                    si: {
-                        brand_title: "HK WorldBank", brand_subtitle: "WEB3 ඩිජිටල් බැංකුකරණය", node_status: "භාෂා 60ක ගෝලීය නෝඩ්",
-                        ledger_badge: "සජීවී දත්ත", status_pending: "අනුමැතිය අපේක්ෂितයි", dashboard_title: "පෞද්ගලික වත්කම් උපකරණ පුවරුව",
-                        holding_label: "හිමි ප් රමාණය", interest_label: "පොලිය", btn_mainnet: "Mainnet ඉල්ලන්න",
-                        alert_msg: "Mainnet ඉල්ලීම සාර්ථකව යවන ලදී, 혜공 형님.",
-                        grid_wallet: "පසුම්බිය", grid_transfer: "වේගවත් මාරුව", grid_robotics: "රොබෝටික්ස්", grid_fusion: "ප් රලය",
-                        tab_dash: "උපකරණ පුවරුව", tab_stake: "ස්ටේකින් (31.41%)", tab_transfer: "මාරු කිරීම", tab_cluster: "යටිතල පහසුකම්", tab_gov: "පාලනය",
-                        stake_title: "වසර 3ක වත්කම් තැන්පතු සහ ස්ටේකින්", stake_desc: "ආරක්ෂිතව තැන්පත් කරන්න.",
-                        stake_avail: "ගත හැකි ශේෂය", stake_input: "ප් රමාණය ඇතුළත් කරන්න", stake_expected: "අපේක්ෂිත එකතුව",
-                        stake_success: "ස්ටේකින් කොන්ත් රාත්තුව සාර්ථකයි, 혜공 형님.", stake_btn: "ස්ටේකින් ක් රියාත්මක කරන්න",
-                        trans_title: "ඩිජිටල් වත්කම් මාරු කිරීම", trans_to: "පසුම්බි ලිපිනය", trans_amount: "ප් රමාණය", trans_memo: "සටහන",
-                        trans_success: "මාරුව සම්පූර්ණයි, 혜공 형님.", stake_btn: "ಸುරක්ෂිතව යවන්න",
-                        cluster_title: "මෙගා ક્లස්ටර් මාස්ටර් ප්ලෑන්", cluster_desc: "උල්සාන්, ග් යොංජු, පොහාං.",
-                        c_ulsan: "උල්සාන්", c_ulsan_sub: "රොබෝටික්ස්", c_ulsan_desc: "R&D.",
-                        c_gyeongju: "ග් යොංජු", c_gyeongju_sub: "HQ කුළුණ", c_gyeongju_desc: "මුල් ය.",
-                        c_pohang: "පොහාං", c_pohang_sub: "ශක්තිය", c_pohang_desc: "මධ් යස්ථානය.",
-                        gov_title: "UBI ආකෘතිය", gov_desc: "ශුද්ධ ලාභයෙන් 30%.",
-                        gov_rate: "UBI අනුපාතය", gov_sub: "ස්මාර්ට් කොන්ත් රාත්.", chairman_label: "Chairman: 혜공 형님"
-                    },
-                    my: {
-                        brand_title: "HK WorldBank", brand_subtitle: "WEB3 ဒစ်ဂျစ်တယ်ဘဏ်လုပ်ငန်း", node_status: "ဘာသာစကား ၆၀ ဂလိုဘယ်နုဒ်",
-                        ledger_badge: "တိုက်ရိုက်စာရင်းအချက်အလက်", status_pending: "အတည်ပြုချက်စောင့်ဆိုင်းနေသည်", dashboard_title: "ပုဂ္ဂိုလ်ရေးဆိုင်ရာပိုင်ဆိုင်မှုဒက်ရှ်ဘုတ်",
-                        holding_label: "ပိုင်ဆိုင်သည့်ပမာဏ", interest_label: "စုဆောင်းထားသောအတိုး", btn_mainnet: "Mainnet ကိုယခုတောင်းဆိုပါ",
-                        alert_msg: "Mainnet တောင်းဆိုမှုအောင်မြင်စွာပေးပို့ပြီးပါပြီ၊ 혜공 형님။",
-                        grid_wallet: "ပိုက်ဆံအိတ်", grid_transfer: "အမြန်လွှဲပြောင်းမှု", grid_robotics: "စက်ရုပ်နည်းပညာ", grid_fusion: "စွမ်းအင်",
-                        tab_dash: "ဒက်ရှ်ဘုတ်", tab_stake: "စတိတ်ကင်း (၃၁.၄၁%)", tab_transfer: "လွှဲပြောင်းရန်", tab_cluster: "အခြေခံအဆောက်အအုံ", tab_gov: "အုပ်ချုပ်မှု",
-                        stake_title: "၃ နှစ်တာ ပိုင်ဆိုင်မှုအပ်နှံခြင်းနှင့် စတိတ်ကင်း", stake_desc: "လုံခြုံစိတ်ချစွာအပ်နှံပါ။",
-                        stake_avail: "ရရှိနိုင်သောလက်ကျန်", stake_input: "ပမာဏထည့်ပါ", stake_expected: "မျှော်မှန်းစုစုပေါင်း",
-                        stake_success: "စတိတ်ကင်းစာချုပ်အောင်မြင်ပါသည်၊ 혜공 형님။", stake_btn: "စတိတ်ကင်းချက်ချင်းလုပ်ဆောင်ရန်",
-                        trans_title: "ဒစ်ဂျစ်တယ်ပိုင်ဆိုင်မှုလွှဲပြောင်းခြင်း", trans_to: "လက်ခံမည့်သူ၏ပိုက်ဆံအိတ်လိပ်စာ", trans_amount: "လွှဲမည့်ပမာဏ", trans_memo: "မှတ်စု",
-                        trans_success: "လွှဲပြောင်းမှုပြီးမြောက်ပါပြီ၊ 혜공 형님။", stake_btn: "လုံခြုံစွာလွှဲပြောင်းရန်",
-                        cluster_title: "မေဂါကလပ်စတာ မာစတာပလန်", cluster_desc: "ဥလ်ဆန်၊ ဂယောင်ဂျူ၊ ပိုဟန်း။",
-                        c_ulsan: "ဥလ်ဆန်မြို့", c_ulsan_sub: "စက်ရုပ်နည်းပညာ R&D", c_ulsan_desc: "ထက်မြက်သောစက်ရုပ်ထုတ်လုပ်ရေးနှင့် စမတ်လိုဂျစ်စတစ်တည်ဆောက်ရေး။",
-                        c_gyeongju: "ဂယောင်ဂျူမြို့", c_gyeongju_sub: "၁၆၅ ထပ် ရုံးချုပ်တာဝါ", c_gyeongju_desc: "ဘဏ္ဍာရေးနှင့် ဇီဝနည်းပညာသုတေသန။",
-                        c_pohang: "ပိုဟန်းမြို့", c_pohang_sub: "နျူကလီးယားစွမ်းအင်နှင့် အာကာသစနစ်", c_pohang_desc: "သန့်ရှင်းစွမ်းအင်နှင့် အာကာသကွန်ရက်ချိတ်ဆက်မှု။",
-                        gov_title: "ကမ္ဘာ့ဘုံဝင်ငွေနှင့် UBI မော်ဒယ်", gov_desc: "အသားတင်အမြတ်ငွေ၏ ၃၀% ကို ဒစ်ဂျစ်တယ်အခြေခံဝင်ငွေ (UBI) ရန်ပုံငွေအဖြစ် ပွင့်လင်းမြင်သာစွာပြန်လည်ပေးအပ်ပါသည်။",
-                        gov_rate: "UBI ရန်ပုံငွေစုဆောင်းနှုန်း", gov_sub: "စမတ်ကွန်ထရက်များမှတစ်ဆင့် မျှတစွာခွဲဝေပေးပါသည်။", chairman_label: "Chairman: 혜공 형님"
-                    },
-                    km: {
-                        brand_title: "HK WorldBank", brand_subtitle: "ធនាគារឌីជីថល WEB3", node_status: "โหนดสากล 60 ภาษา",
-                        ledger_badge: "ទិន្នន័យផ្សាយបន្តផ្ទាល់", status_pending: "រង់ចាំការอนุมัติ", dashboard_title: "ផ្ទាំងគ្រប់គ្រងទ្រព្យសកម្ម",
-                        holding_label: "បរិមាណកាន់កាប់", interest_label: "ការប្រាក់", btn_mainnet: "ស្នើសុំ Mainnet ឥឡូវនេះ",
-                        alert_msg: "សំណើ Mainnet ត្រូវបានបញ្ជូនដោយជោគជ័យ 혜공 형님។",
-                        grid_wallet: "កាបូប", grid_transfer: "ផ្ទេររហ័ស", grid_robotics: "រ៉ូប៊ីណុស", grid_fusion: "ហ្វុយស៊ីយ៉ុង",
-                        tab_dash: "ផ្ទាំងគ្រប់គ្រង", tab_stake: "ភ្នាល់ (31.41%)", tab_transfer: "ផ្ទេរប្រាក់", tab_cluster: "ហេដ្ឋារចនាសម្ព័ន្ធ", tab_gov: "អភិបាលកិច្ច",
-                        stake_title: "ការដាក់បញ្ញើនិងភ្នាល់រយៈពេល 3 ឆ្នាំ", stake_desc: "ដាក់ប្រាក់ដោយសុវត្ថិភាព។",
-                        stake_avail: "សមតុល្យដែលមាន", stake_input: "បញ្ចូលបរិមាណ", stake_expected: "សរុបការរំពឹងទុក",
-                        stake_success: "កិច្ចសន្យាភ្នាល់ជោគជ័យ 혜공 형님។", stake_btn: "ប្រតិបត្តិការភ្នាល់",
-                        trans_title: "ការផ្ទេរទ្រព្យសម្បត្តិឌីជីថល", trans_to: "អាសយដ្ឋានកាបូប", trans_amount: "បរិមាណ", trans_memo: "កំណត់ចំណាំ",
-                        trans_success: "ការផ្ទេរបានបញ្ចប់ 혜공 형님។", stake_btn: "ផ្ញើដោយសុវត្ថិភាព",
-                        cluster_title: "ផែនការមេ Megacluster", cluster_desc: "Ulsan, Gyeongju, Pohang។",
-                        c_ulsan: "ទីក្រុង Ulsan", c_ulsan_sub: "រ៉ូប៊ីណុស", c_ulsan_desc: "R&D។",
-                        c_gyeongju: "ទីក្រុង Gyeongju", c_gyeongju_sub: "ប៉ម HQ", c_gyeongju_desc: "ហិរញ្ញវត្ថុ។",
-                        c_pohang: "ទីក្រុង Pohang", c_pohang_sub: "ថាមពល", c_pohang_desc: "មជ្ឈមណ្ឌល។",
-                        gov_title: "គំរូ UBI", gov_desc: "30% នៃប្រាក់ចំណេញសុទ្ធ។",
-                        gov_rate: "អត្រា UBI", gov_sub: "កិច្ចសន្យាឆ្លាតវៃ។", chairman_label: "Chairman: 혜공 형님"
-                    },
-                    lo: {
-                        brand_title: "HK WorldBank", brand_subtitle: "ທະນາຄານດິຈິຕອນ WEB3", node_status: "ໂນດສາກົນ 60 ພາສາ",
-                        ledger_badge: "ຂໍ້ມູນບັນຊີສົດ", status_pending: "ລໍຖ້າການອະນຸມັດ", dashboard_title: "ແດດບອດຊັບສິນ",
-                        holding_label: "ຈຳນວນທີ່ຖື", interest_label: "ດອກເບ້ຍສະສົມ", btn_mainnet: "ຮ້ອງຂໍ Mainnet ດຽວນີ້",
-                        alert_msg: "ສົ່ງຄຳຮ້ອງຂໍ Mainnet ສຳເລັດແລ້ວ, 혜공 형님.",
-                        grid_wallet: "ກະເປົາເງິນ", grid_transfer: "ໂອນດ່ວນ", grid_robotics: "ໂຣບອດຕິກ", grid_fusion: "ຟິວຊັນ",
-                        tab_dash: "ແດດບອດ", tab_stake: "ສະເຕກກິ້ງ (31.41%)", tab_transfer: "ໂອນເງິນ", tab_cluster: "ໂຄງສ້າງພື້ນຖານ", tab_gov: "ການປົກຄອງ",
-                        stake_title: "ຝາກຊັບສິນ 3 ປີ ແລະ ສະເຕກກິ້ງ", stake_desc: "ຝາກຊັບສິນຢ່າງປອດໄພ.",
-                        stake_avail: "ຍອດຄົງເຫຼືອ", stake_input: "ປ້ອນຈຳນວນ", stake_expected: "ຄາດວ່າຈະໄດ້ຮັບທັງໝົດ",
-                        stake_success: "ສັນຍາສະເຕກກິ້ງສຳເລັດ, 혜공 형님.", stake_btn: "ດຳເນີນການສະເຕກກິ້ງ",
-                        trans_title: "ໂອນຊັບສິນດິຈິຕອນ", trans_to: "ທີ່ຢູ່ກະເປົາເງິນ", trans_amount: "ຈຳນວນ", trans_memo: "ບັນທຶກ",
-                        trans_success: "ໂອນສຳເລັດແລ້ວ, 혜공 형님.", stake_btn: "ສົ່ງຢ່າງປອດໄພ",
-                        cluster_title: "ແຜນແມ່ບົດເມກາຄລາສເຕີ", cluster_desc: "ອຸລສານ, ກຽນຈູ, ໂປຮັງ.",
-                        c_ulsan: "ເມືອງອຸລສານ", c_ulsan_sub: "ໂຣບອດຕິກ R&D", c_ulsan_desc: "ສ້າງໂຮງງານຫຸ່ນຍົນອັດສະລິຍະ.",
-                        c_gyeongju: "ເມືອງກຽນຈູ", c_gyeongju_sub: "ຕຶກ HQ 165 ຊັ້ນ", c_gyeongju_desc: "ສຳນັກງານໃຫຍ່ການເງິນ.",
-                        c_pohang: "ເມືອງໂປຮັງ", c_pohang_sub: "ພະລັງງານນິວເຄຼຍ ແລະ ອາວະກາດ", c_pohang_desc: "ສູນຄົ້ນຄວ້າພະລັງງານສະອາດ.",
-                        gov_title: "ຮູບແບບ UBI ສາກົນ", gov_desc: "ຄືນກຳໄນສຸດທິ 30% ເປັນກອງທຶນລາຍໄດ້ພື້ນຖານດິຈິຕອນ (UBI).",
-                        gov_rate: "ອັດຕາສະສົມ UBI", gov_sub: "ແຈກຈ່າຍຢ່າງຍຸຕິທຳຜ່ານສັນຍາອັດສະລິຍະ.", chairman_label: "Chairman: 혜공 형님"
-                    },
-                    ka: {
-                        brand_title: "HK WorldBank", brand_subtitle: "WEB3 ციფრული ბანკი", node_status: "60 ენის გლობალური კვანძი",
-                        ledger_badge: "ცოცხალი მონაცემები", status_pending: "მოლოდინშია", dashboard_title: "აქტივების პანელი",
-                        holding_label: "ბალანსი", interest_label: "პროცენტი", btn_mainnet: "Mainnet-ის მოთხოვნა",
-                        alert_msg: "მოთხოვნა წარმატებით გაიგზავნა, 혜공 형님.",
-                        grid_wallet: "საფულე", grid_transfer: "სწრაფი გადარიცხვა", grid_robotics: "რობოტიკა", grid_fusion: "ფუზია",
-                        tab_dash: "მთავარი", tab_stake: "სტეიკინგი (31.41%)", tab_transfer: "გადარიცხვა", tab_cluster: "ინფრასტრუქტურა", tab_gov: "მმართველობა",
-                        stake_title: "3 წლიანი დეპოზიტი და სტეიკინგი", stake_desc: "უსაფრთხო დეპოზიტი.",
-                        stake_avail: "ხელმისაწვდომი", stake_input: "შეიყვანეთ რაოდენობა", stake_expected: "მოსალოდნელი ჯამი",
-                        stake_success: "კონტრაქტი შესრულდა, 혜공 형님.", stake_btn: "სტეიკინგის დაწყება",
-                        trans_title: "ციფრული აქტივების გადარიცხვა", trans_to: "საფულის მისამართი", trans_amount: "რაოდენობა", trans_memo: "შენიშვნა",
-                        trans_success: "გადარიცხვა დასრულდა, 혜공 형님.", stake_btn: "უსაფრთხო გაგზავნა",
-                        cluster_title: "მეგაკლასტერი", cluster_desc: "ულსანი, გიონჯუ, პოჰანგი.",
-                        c_ulsan: "ულსანი", c_ulsan_sub: "რობოტიკა", c_ulsan_desc: "R&D.",
-                        c_gyeongju: "გიონჯუ", c_gyeongju_sub: "HQ კოშკი", c_gyeongju_desc: "ფინანსები.",
-                        c_pohang: "პოჰანგი", c_pohang_sub: "ენერგია", c_pohang_desc: "ჰაბი.",
-                        gov_title: "UBI მოდელი", gov_desc: "წმინდა მოგების 30%.",
-                        gov_rate: "UBI განაკვეთი", gov_sub: "სმარტ კონტრაქტები.", chairman_label: "Chairman: 혜공 형님"
-                    },
-                    am: {
-                        brand_title: "HK WorldBank", brand_subtitle: "WEB3 ዲጂታል ባንክ", node_status: "የ60 ቋንቋዎች ግሎባል ኖድ",
-                        ledger_badge: "ቀጥታ መረጃ", status_pending: "ማጽደቅ በመጠባበቅ ላይ", dashboard_title: "የግል ንብረት ዳሽቦርድ",
-                        holding_label: "ያለዎት መጠን", interest_label: "የተከማቸ ወለድ", btn_mainnet: "ሜይንኔት ይጠይቁ",
-                        alert_msg: "የሜይንኔት ጥያቄ በተሳካ ሁኔታ ተልኳል፣ 혜공 형님።",
-                        grid_wallet: "ዋና ቦርሳ", grid_transfer: "ፈጣን ማስተላለፍ", grid_robotics: "ሮቦቲክስ", grid_fusion: "ፊውዥን",
-                        tab_dash: "ዳሽቦርድ", tab_stake: "ስቴኪንግ (31.41%)", tab_transfer: "ማስተላለፍ", tab_cluster: "መሠረተ ልማት", tab_gov: "አስተዳደር",
-                        stake_title: "የ3 ዓመት ንብረት ማስቀመጫ", stake_desc: "ንብረትዎን ደህንነቱ በተጠበቀ ሁኔታ ያስቀምጡ።",
-                        stake_avail: "ሊቀመጥ የሚችል ቀሪ ሂሳብ", stake_input: "መጠን ያስገቡ", stake_expected: "የሚጠበቀውጠቅላላ መጠን",
-                        stake_success: "የስቴኪንግ ውል ተፈፅሟል፣ 혜공 형님።", stake_btn: "ስቴኪንግን ወዲያውኑ ያስፈፅሙ",
-                        trans_title: "ዲጂታል ንብረት ማስተላለፍ", trans_to: "የኪስ ቦርሳ አድራሻ", trans_amount: "መጠን", trans_memo: "ማስታወሻ",
-                        trans_success: "ማስተላለፉ በተሳካ ሁኔታ ተጠናቋል፣ 혜공 형님።", stake_btn: "በደህና ያስተላልፉ",
-                        cluster_title: "የደቡብ ምስራቅ ሜጋ ክላስተር ማስተር ፕላን", cluster_desc: "ኡልሳን፣ گیونግجو እና ፖሃንግ።",
-                        c_ulsan: "ኡልሳን ከተማ", c_ulsan_sub: "ሮቦቲክስ እና አውቶሜሽን R&D", c_ulsan_desc: "ብልጥ የሮቦት ማምረቻ ፋብሪካዎች።",
-                        c_gyeongju: "ጊዮንግጁ ከተማ", c_gyeongju_sub: "165 ፎቅ ዋና መሥሪያ ቤት ታወር", c_gyeongju_desc: "የፋይናንስ ዋና መሥሪያ ቤት።",
-                        c_pohang: "ፖሃንግ ከተማ", c_pohang_sub: "የኑክሌር ፊውዥን እና ኤሮስፔስ", c_pohang_desc: "ንፁህ ሃይል ምርምር ማዕከልል።",
-                        gov_title: "ዓለም አቀፍ የፋይናንስ ማካተት እና የUBI ሞዴል", gov_desc: "ከសុទ្ធ ትርፍ 30% ለዓለም አቀፍ ድሆች የዲጂታል መሰረታዊ ገቢ (UBI) ፈንድ ይመልሳል።",
-                        gov_rate: "የUBI ፈንድ መጠን", gov_sub: "በስማርት ኮንትራቶች በፍትሃዊነት ይሰራጫል።", chairman_label: "Chairman: 혜공 형님"
-                    },
-                    yo: {
-                        brand_title: "HK WorldBank", brand_subtitle: "ILE IFOWOPAMO WEB3", node_status: "NỌ́DÙ AGBAYE EDE 60",
-                        ledger_badge: "Data Gidi", status_pending: "Nreti Fọwọsi", dashboard_title: "Pátákì Awọn Ohun-ini",
-                        holding_label: "Iye to wa", interest_label: "Ere to so", btn_mainnet: "Beere Mainnet Bayi",
-                        alert_msg: "A ti firanṣẹ ni aṣeyọri, 혜공 형님.",
-                        grid_wallet: "Àpamọ́", grid_transfer: "Gbigbe Yara", grid_robotics: "Robotics", grid_fusion: "Fusion",
-                        tab_dash: "Pátákì", tab_stake: "Staking (31.41%)", tab_transfer: "Gbigbe", tab_cluster: "Awọn amayederun", tab_gov: "Ijọba",
-                        stake_title: "Ifowopamọ Ọdun 3", stake_desc: "Fi owo pamọ lailewu.",
-                        stake_avail: "Iwọn to ku", stake_input: "Tẹ iye sii", stake_expected: "Apapọ ti a nreti",
-                        stake_success: "Adehun ti pari, 혜공 형님.", stake_btn: "Bẹrẹ Staking",
-                        trans_title: "Gbigbe Ohun-ini", trans_to: "Adirẹsi Àpamọ́", trans_amount: "Iye", trans_memo: "Akọsilẹ",
-                        trans_success: "Gbigbe ti pari, 혜공 형님.", stake_btn: "Firanṣẹ Lailewu",
-                        cluster_title: "Eto Mega Cluster", cluster_desc: "Ulsan, Gyeongju, ati Pohang.",
-                        c_ulsan: "Ulsan", c_ulsan_sub: "Robotics", c_ulsan_desc: "R&D.",
-                        c_gyeongju: "Gyeongju", c_gyeongju_sub: "Ile HQ", c_gyeongju_desc: "Isuna.",
-                        c_pohang: "Pohang", c_pohang_sub: "Agbara", c_pohang_desc: "Ibùdó.",
-                        gov_title: "Awoṣe UBI", gov_desc: "30% ti èrè net.",
-                        gov_rate: "Oṣuwọn UBI", gov_sub: "Smart contracts.", chairman_label: "Chairman: 혜공 형님"
-                    },
-                    ig: {
-                        brand_title: "HK WorldBank", brand_subtitle: "ỤLỌ AKỤ WEB3", node_status: "NỌ́DỤ UWA ASỤSỤ 60",
-                        ledger_badge: "Data Dị N'oge A", status_pending: "Na-eche Nkwado", dashboard_title: "Dashboard Akụ",
-                        holding_label: "Ọnụ ọgugu", interest_label: "Mmasị", btn_mainnet: "Rịọ Mainnet Ugbu a",
-                        alert_msg: "Ezitere arịrịọ nke ọma, 혜공 형님.",
-                        grid_wallet: "Akpa ego", grid_transfer: "Nbufe Ọsọ", grid_robotics: "Robotics", grid_fusion: "Fusion",
-                        tab_dash: "Dashboard", tab_stake: "Staking (31.41%)", tab_transfer: "Nbufe", tab_cluster: "Akụrụngwa", tab_gov: "Ọchịchị",
-                        stake_title: "Nkwụnye ego Afọ 3", stake_desc: "Chekwaa akụ gị n'enweghị nsogbu.",
-                        stake_avail: "Ego fọdụrụ", stake_input: "Tinye ọnụ ọgugu", stake_expected: "Ngụkọta a tụrụ anya ya",
-                        stake_success: "Emechara nkwekọrịta, 혜공 형님.", stake_btn: "Malite Staking",
-                        trans_title: "Nbufe Akụ Dijitalụ", trans_to: "Adreesị Akpa", trans_amount: "Ọnụ ọgugu", trans_memo: "Nkwupụta",
-                        trans_success: "Emechaa nbufe, 혜공 형님.", stake_btn: "Zipụ N'enweghị Nsogbu",
-                        cluster_title: "Atụmatụ Mega Cluster", cluster_desc: "Ulsan, Gyeongju, na Pohang.",
-                        c_ulsan: "Ulsan", c_ulsan_sub: "Robotics", c_ulsan_desc: "R&D.",
-                        c_gyeongju: "Gyeongju", c_gyeongju_sub: "Ụlọ HQ", c_gyeongju_desc: "Ego.",
-                        c_pohang: "Pohang", c_pohang_sub: "Ike", c_pohang_desc: "Ebe nchekwa.",
-                        gov_title: "Ubi Model", gov_desc: "30% nke uru net.",
-                        gov_rate: "Ọnụego UBI", gov_sub: "Smart contracts.", chairman_label: "Chairman: 혜공 형님"
-                    },
-                    ha: {
-                        brand_title: "HK WorldBank", brand_subtitle: "BANKIN LOKACI NA WEB3", node_status: "NODAR DUNIYA TA HARSUN 60",
-                        ledger_badge: "Bayanan Kai Tsaye", status_pending: "Ana Jiran Amincewa", dashboard_title: "Dashboard na Kadara",
-                        holding_label: "Yawan Abin da Ke Ciki", interest_label: "Riba", btn_mainnet: "Nemi Mainnet Yanzu",
-                        alert_msg: "An aika da buƙatar Mainnet cikin nasara, 혜공 형님.",
-                        grid_wallet: "Jaka", grid_transfer: "Canja Wuri Mai Sauri", grid_robotics: "Robotics", grid_fusion: "Fusion",
-                        tab_dash: "Dashboard", tab_stake: "Staking (31.41%)", tab_transfer: "Canja Wuri", tab_cluster: "Ababen More Rayuwa", tab_gov: "Mulki",
-                        stake_title: "Ajiye Kadara na Shekaru 3", stake_desc: "Ajiye kadara lafiya.",
-                        stake_avail: "Kudin da ke Akwai", tab_input: "Shigar da Adadi", stake_expected: "Jimlar da ake Tsammani",
-                        stake_success: "An kammala yarjejeniya, 혜공 형님.", stake_btn: "Gudanar da Staking",
-                        trans_title: "Canja Wurin Kadara", trans_to: "Adireshin Jaka", trans_amount: "Adadi", trans_memo: "Bayani",
-                        trans_success: "An gama canja wuri, 혜공 형님.", stake_btn: "Aika Lafiya",
-                        cluster_title: "Tsarin Mega Cluster", cluster_desc: "Ulsan, Gyeongju, da Pohang.",
-                        c_ulsan: "Ulsan", c_ulsan_sub: "Robotics", c_ulsan_desc: "Bincike da Ci Gaba.",
-                        c_gyeongju: "Gyeongju", c_gyeongju_sub: "Ginin HQ", c_gyeongju_desc: "Kudi.",
-                        c_pohang: "Pohang", c_pohang_sub: "Makamashi", c_pohang_desc: "Cibiyar Sadarwa.",
-                        gov_title: "Tsarin UBI", gov_desc: "30% na ribar da aka samu.",
-                        gov_rate: "Kudin UBI", gov_sub: "Kwantenan wayo.", chairman_label: "Chairman: 혜공 형님"
-                    },
-                    zu: {
-                        brand_title: "HK WorldBank", brand_subtitle: "WEB3 DIGITAL BANKING", node_status: "I-NODE YOMHLABA YEZILIMI EZIZULU 60",
-                        ledger_badge: "Idatha Ebukhoma", status_pending: "Kulindفي Ukugunyazwa", dashboard_title: "Ideshibhodi Yempahla",
-                        holding_label: "Inani Eliphethwe", interest_label: "Inzalo", btn_mainnet: "Cela i-Mainnet Manje",
-                        alert_msg: "Isicelo se-Mainnet sithunyelwe ngempumelelo, 혜공 형님.",
-                        grid_wallet: "Isikhwama", grid_transfer: "Ukudlulisa Ngokushesha", grid_robotics: "Robotics", grid_fusion: "Fusion",
-                        tab_dash: "Ideshibhodi", tab_stake: "Staking (31.41%)", tab_transfer: "Ukudlulisa", tab_cluster: "Ingqalasizinda", tab_gov: "Ukubusa",
-                        stake_title: "Ukufaka Imali Kweminyaka Emi-3", stake_desc: "Faka imali ngokuphepha.",
-                        stake_avail: "Ibhalansi Etholakalayo", stake_input: "Faka Inani", stake_expected: "Isiyonke Elindelekile",
-                        stake_success: "Inkontileka iphumelele, 혜공 형님.", stake_btn: "Qalisa i-Staking",
-                        trans_title: "Ukudluliswa Kwempahla", trans_to: "Ikheli Lesikhwama", trans_amount: "Inani", trans_memo: "Imiyalo",
-                        trans_success: "Ukudlulisa kuqediwe, 혜공 형님.", stake_btn: "Thumela Ngokuphepha",
-                        cluster_title: "Ipulani le-Mega Cluster", cluster_desc: "Ulsan, Gyeongju, kanye ne-Pohang.",
-                        c_ulsan: "Ulsan", c_ulsan_sub: "Robotics", c_ulsan_desc: "R&D.",
-                        c_gyeongju: "Gyeongju", c_gyeongju_sub: "Inqaba ye-HQ", c_gyeongju_desc: "Ezezimali.",
-                        c_pohang: "Pohang", c_pohang_sub: "Amandla", c_pohang_desc: "Isikhungo.",
-                        gov_title: "I-Model ye-UBI", gov_desc: "30% yenzuzo ehlanzekile.",
-                        gov_rate: "Isilinganiso se-UBI", gov_sub: "Izinkontileka ezihlakaniphile.", chairman_label: "Chairman: 혜공 형님"
-                    },
-                    xh: {
-                        brand_title: "HK WorldBank", brand_subtitle: "WEB3 DIGITAL BANKING", node_status: "I-NODE YEHLABATHI YEZILIMI EZIZULU 60",
-                        ledger_badge: "Idatha Ephilayo", status_pending: "Kulindwe Imvume", dashboard_title: "Ideshibhodi yeeMpahla",
-                        holding_label: "Isixa", interest_label: "Inzala", btn_mainnet: "Cela i-Mainnet Ngoku",
-                        alert_msg: "Isicelo sithunyelwe ngempumelelo, 혜공 형님.",
-                        grid_wallet: "Isikhwama", grid_transfer: "Ukudlulisa Ngokukhawuleza", grid_robotics: "Robotics", grid_fusion: "Fusion",
-                        tab_dash: "Ideshibhodi", tab_stake: "Staking (31.41%)", tab_transfer: "Ukudlulisa", tab_cluster: "Iziseko zophuhliso", tab_gov: "Ulawulo",
-                        stake_title: "Ukufaka Imali kwiminyaka emi-3", stake_desc: "Faka imali ngokukhuselekileyo.",
-                        stake_avail: "Ibhalansi eKhoyo", stake_input: "Faka Isixa", stake_expected: "Iyonke elindelekileyo",
-                        stake_success: "Ikhontrakthi iphunyeziwe, 혜공 형님.", stake_btn: "Qalisa i-Staking",
-                        trans_title: "Ukudluliswa kweeMpahla", trans_to: "Idilesi yesikhwama", trans_amount: "Isixa", trans_memo: "Imemo",
-                        trans_success: "Ukudlulisa kugqityiwe, 혜공 형님.", stake_btn: "Thumela Ngokhuseleko",
-                        cluster_title: "Ipulani ye-Mega Cluster", cluster_desc: "Ulsan, Gyeongju, kunye ne-Pohang.",
-                        c_ulsan: "Ulsan", c_ulsan_sub: "Robotics", c_ulsan_desc: "R&D.",
-                        c_gyeongju: "Gyeongju", c_gyeongju_sub: "Inqaba ye-HQ", c_gyeongju_desc: "Ezemali.",
-                        c_pohang: "Pohang", c_pohang_sub: "Amandla", c_pohang_desc: "Iziko.",
-                        gov_title: "Umzekelo we-UBI", gov_desc: "30% yengeniso enyulu.",
-                        gov_rate: "Izinga le-UBI", gov_sub: "Ikhontrakthi ezihlakaniphile.", chairman_label: "Chairman: 혜공 형님"
-                    },
-                    af: {
-                        brand_title: "HK WorldBank", brand_subtitle: "WEB3 DIGITALE BANKWESE", node_status: "60-TAAL GLOBALE NODE AKTIEF",
-                        ledger_badge: "Regstreekse Data", status_pending: "Hangende Goedkeuring", dashboard_title: "Bates-kontroleser",
-                        holding_label: "Besit", interest_label: "Opgelope Rente", btn_mainnet: "Vra Mainnet Nou Aan",
-                        alert_msg: "Mainnet-versoek suksesvol gestuur, 혜공 형님.",
-                        grid_wallet: "Beursie", grid_transfer: "Vinnige Oordrag", grid_robotics: "Robotika", grid_fusion: "Fusie",
-                        tab_dash: "Kontroleser", tab_stake: "Staking (31.41%)", tab_transfer: "Oordrag", tab_cluster: "Infrastruktuur", tab_gov: "Bestuur",
-                        stake_title: "3-Jaar Batedeposito & Staking", stake_desc: "Deponeer bates veilig.",
-                        stake_avail: "Beskikbare Saldo", stake_input: "Voer Bedrag In", stake_expected: "Verwagte Totaal",
-                        stake_success: "Staking-kontrak uitgevoer, 혜공 형님.", stake_btn: "Voer Staking Uit",
-                        trans_title: "Digitale Bateoordrag", trans_to: "Beursie Adres", trans_amount: "Hoeveelheid", trans_memo: "Memo",
-                        trans_success: "Oordrag voltooi, 혜공 형님.", stake_btn: "Stuur Veilig",
-                        cluster_title: "Megakluster Meesterplan", cluster_desc: "Ulsan, Gyeongju, Pohang.",
-                        c_ulsan: "Ulsan", c_ulsan_sub: "Robotika", c_ulsan_desc: "O&N.",
-                        c_gyeongju: "Gyeongju", c_gyeongju_sub: "HQ Toring", c_gyeongju_desc: "Finansies.",
-                        c_pohang: "Pohang", c_pohang_sub: "Energie", c_pohang_desc: "Spilpunt.",
-                        gov_title: "UBI Model", gov_desc: "30% netto wins.",
-                        gov_rate: "UBI Koers", gov_sub: "Slim kontrakte.", chairman_label: "Chairman: 혜공 형님"
-                    },
-                    sq: {
-                        brand_title: "HK WorldBank", brand_subtitle: "BANKING DIXHITAL WEB3", node_status: "NYS GLOBAL 60 GJUHË",
-                        ledger_badge: "Të dhëna live", status_pending: "Në pritje të miratimit", dashboard_title: "Paneli i Aseteve",
-                        holding_label: "Sasia", interest_label: "Interesi", btn_mainnet: "Kërko Mainnet Tani",
-                        alert_msg: "Kërkesa u dërgua me sukses, 혜공 형님.",
-                        grid_wallet: "Portofol", grid_transfer: "Transferim i Shpejtë", grid_robotics: "Robotikë", grid_fusion: "Fuzion",
-                        tab_dash: "Paneli", tab_stake: "Staking (31.41%)", tab_transfer: "Transferim", tab_cluster: "Infrastrukturë", tab_gov: "Qeverisja",
-                        stake_title: "Depozitë dhe Staking 3-Vjeçar", stake_desc: "Depozitoni në mënyrë të sigurt.",
-                        stake_avail: "Bilanci i Disponueshëm", stake_input: "Fut Shumën", stake_expected: "Totali i Pritshëm",
-                        stake_success: "Kontrata u ekzekutua, 혜공 형님.", stake_btn: "Ekzekuto Staking",
-                        trans_title: "Transferimi i Aseteve", trans_to: "Adresa e Portofolit", trans_amount: "Sasia", trans_memo: "Memo",
-                        trans_success: "Transferimi u krye, 혜공 형님.", stake_btn: "Dërgo i Sigurt",
-                        cluster_title: "Plani Master i Megaklusterit", cluster_desc: "Ulsan, Gyeongju, Pohang.",
-                        c_ulsan: "Ulsan", c_ulsan_sub: "Robotikë", c_ulsan_desc: "Kërkim & Zhvillim.",
-                        c_gyeongju: "Gyeongju", c_gyeongju_sub: "Kulla HQ", c_gyeongju_desc: "Financa.",
-                        c_pohang: "Pohang", c_pohang_sub: "Energji", c_pohang_desc: "Qendra.",
-                        gov_title: "Modeli UBI", gov_desc: "30% e fitimit neto.",
-                        gov_rate: "Norma UBI", gov_sub: "Smart contracts.", chairman_label: "Chairman: 혜공 형님"
-                    },
-                    hy: {
-                        brand_title: "HK WorldBank", brand_subtitle: "WEB3 ԹՎԱՅԻՆ ԲԱՆԿԱՅԻՆ ՀԱՄԱԿԱՐԳ", node_status: "60 ԼԵԶՈՒՆԵՐԻ ԳԼՈԲԱԼ ՀԱՆԳՈՒՅՑ",
-                        ledger_badge: "Ուղիղ տվյալներ", status_pending: "Սպասվում է հաստատման", dashboard_title: "Ակտիվների վահանակ",
-                        holding_label: "Մնացորդ", interest_label: "Տոկոս", btn_mainnet: "Պահանջել Mainnet հիմա",
-                        alert_msg: "Հարցումն ուղարկվել է հաջողությամբ, 혜공 형님։",
-                        grid_wallet: "Դրամապանակ", grid_transfer: "Արագ փոխանցում", grid_robotics: "Ռոբոտաշինություն", grid_fusion: "Ֆուզիա",
-                        tab_dash: "Վահանակ", tab_stake: "Սթեյքինգ (31.41%)", tab_transfer: "Փոխանցում", tab_cluster: "Ենթակառուցվածք", tab_gov: "Կառավարում",
-                        stake_title: "3-ամյա ավանդ և սթեյքինգ", stake_desc: "Ապահով կերպով ավանդադրեք։",
-                        stake_avail: "Հասանելի մնացորդ", stake_input: "Մուտքագրեք գումարը", stake_expected: "Ակնկալվող ընդհանուր",
-                        stake_success: "Պայմանագիրը հաջողությամբ կնքվեց, 혜공 형님։", stake_btn: "Գործարկել սթեյքինգը",
-                        trans_title: "Թվային ակտիվների փոխանցում", trans_to: "Դրամապանակի հասցե", trans_amount: "Քանակ", trans_memo: "Հիշեցում",
-                        trans_success: "Փոխանցումը ավարտված է, 혜공 형님։", stake_btn: "Ուղարկել ապահով",
-                        cluster_title: "Մեգակլასթերի գլխավոր պլան", cluster_desc: "Ուլսան, Գյոնջու, Պոհանգ։",
-                        c_ulsan: "Ուլսան", c_ulsan_sub: "Ռոբոտաշինություն", c_ulsan_desc: "Հետազոտություն և զարգացում։",
-                        c_gyeongju: "Գյոնջու", c_gyeongju_sub: "HQ Աշտարակ", c_gyeongju_desc: "Ֆինანსներ։",
-                        c_pohang: "Պոհանգ", c_pohang_sub: "Էներգետիկա", c_pohang_desc: "Հանգույց։",
-                        gov_title: "UBI Մոդել", gov_desc: "Զուտ շահույթի 30% -ը։",
-                        gov_rate: "UBI տոկոսադրույք", gov_sub: "Խելացի պայմանագրեր։", chairman_label: "Chairman: 혜공 형님"
-                    },
-                    az: {
-                        brand_title: "HK WorldBank", brand_subtitle: "WEB3 RƏQƏMSAL BANKÇILIQ", node_status: "6 DİLDƏ QLOBAL QOVŞAQ",
-                        ledger_badge: "Canlı Məlumat", status_pending: "Təsdiq gözlənilir", dashboard_title: "Aktiv Paneli",
-                        holding_label: "Saxlanılan Miqdar", interest_label: "Gəlir", btn_mainnet: "Mainnet tələb et",
-                        alert_msg: "Sorğu uğurla göndərildi, 혜공 형님.",
-                        grid_wallet: "Cüzdan", grid_transfer: "Sürətli Köçürmə", grid_robotics: "Robototexnika", grid_fusion: "Füziya",
-                        tab_dash: "Panel", tab_stake: "Staking (31.41%)", tab_transfer: "Köçürmə", tab_cluster: "İnfrastruktur", tab_gov: "İdarəetmə",
-                        stake_title: "3 İllik Depozit və Staking", stake_desc: "Aktivləri etibarlı yatırın.",
-                        stake_avail: "Mövcud Balans", stake_input: "Miqdarı daxil edin", stake_expected: "Gözlənilən Ümumi",
-                        stake_success: "Staking müqaviləsi icra olundu, 혜공 형님.", stake_btn: "Staking-i İcra Et",
-                        trans_title: "Rəqəmsal Aktiv Köçürməsi", trans_to: "Cüzdan Ünvanı", trans_amount: "Miqdar", trans_memo: "Qeyd",
-                        trans_success: "Köçürmə tamamlandı, 혜공 형님.", stake_btn: "Təhlükəsiz Göndər",
-                        cluster_title: "Meqa Klaster Baş Planı", cluster_desc: "Ulsan, Gyeongju, Pohang.",
-                        c_ulsan: "Ulsan", c_ulsan_sub: "Robototexnika", c_ulsan_desc: "Tədqiqat və İnkişaf.",
-                        c_gyeongju: "Gyeongju", c_gyeongju_sub: "HQ Qülləsi", c_gyeongju_desc: "Maliyyə.",
-                        c_pohang: "Pohang", c_pohang_sub: "Enerji", c_pohang_desc: "Mərkəz.",
-                        gov_title: "UBI Modeli", gov_desc: "Xalis mənfəətin 30%-i.",
-                        gov_rate: "UBI Dərəcəsi", gov_sub: "Ağıllı müqavilələr.", chairman_label: "Chairman: 혜공 형님"
-                    },
-                    eu: {
-                        brand_title: "HK WorldBank", brand_subtitle: "WEB3 BANKA DIGITALA", node_status: "60 HIZKUNTZAKO NODO GLOBALA",
-                        ledger_badge: "Zuzeneko Datuak", status_pending: "Onarpenaren zain", dashboard_title: "Aktiboen Panel",
-                        holding_label: "Kopurua", interest_label: "Interesa", btn_mainnet: "Eskatu Mainnet Orain",
-                        alert_msg: "Eskaera onيار bidali da, 혜공 형님.",
-                        grid_wallet: "Zorroa", grid_transfer: "Transferentzia Azkarra", grid_robotics: "Robotika", grid_fusion: "Fusioa",
-                        tab_dash: "Panela", tab_stake: "Staking (31.41%)", tab_transfer: "Transferentzia", tab_cluster: "Azpiegitura", tab_gov: "Gobernantza",
-                        stake_title: "3 Urteko Gordailua eta Staking", stake_desc: "Gorde aktiboak seguru.",
-                        stake_avail: "Erabilgarri Dagoen Saldoa", stake_input: "Sartu Kopurua", stake_expected: "Espero Den Guztira",
-                        stake_success: "Kontratua behar bezala gauzatu da, 혜공 형님.", stake_btn: "Exekutatu Staking",
-                        trans_title: "Aktibo Digitalen Transferentzia", trans_to: "Helbidea", trans_amount: "Kopurua", trans_memo: "Oharra",
-                        trans_success: "Transferentzia burututa, 혜공 형님.", stake_btn: "Bidali Seguru",
-                        cluster_title: "Megakluster Master Plana", cluster_desc: "Ulsan, Gyeongju eta Pohang.",
-                        c_ulsan: "Ulsan", c_ulsan_sub: "Robotika", c_ulsan_desc: "I+G.",
-                        c_gyeongju: "Gyeongju", c_gyeongju_sub: "HQ Dorrea", c_gyeongju_desc: "Finantzak.",
-                        c_pohang: "Pohang", c_pohang_sub: "Energia", c_pohang_desc: "Gunea.",
-                        gov_title: "UBI Eredua", gov_desc: "Irabazi garbiaren %30.",
-                        gov_rate: "UBI Tasa", gov_sub: "Kontratu adimendunak.", chairman_label: "Chairman: 혜공 형님"
-                    },
-                    be: {
-                        brand_title: "HK WorldBank", brand_subtitle: "WEB3 ЦЫФРАВЫ БАНК", node_status: "ГЛАБАЛЬНЫ ВУЗЕЛ (60 МОВАЎ)",
-                        ledger_badge: "Жывыя дадзеныя", status_pending: "Чаканне зацвярджэння", dashboard_title: "Панэль актываў",
-                        holding_label: "Баланс", interest_label: "Працэнты", btn_mainnet: "Запытаць Mainnet",
-                        alert_msg: "Запыт паспяхова адпраўлены, 혜공 형님.",
-                        grid_wallet: "Кашалёк", grid_transfer: "Хуткі перавод", grid_robotics: "Робатаاتэхніка", grid_fusion: "Энергія",
-                        tab_dash: "Галоўная", tab_stake: "Стэйкінг (31.41%)", tab_transfer: "Перавод", tab_cluster: "Інфраструктура", tab_gov: "Кіраванне",
-                        stake_title: "3-гадовы стейкінг", stake_desc: "Бяспечны дэпазіт.",
-                        stake_avail: "Даступна", stake_input: "Увядзіце суму", stake_expected: "Чаканы вынік",
-                        stake_success: "Кантракт выкананы, 혜공 형님.", stake_btn: "Запусціць стейкінг",
-                        trans_title: "Перавод актываў", trans_to: "Адрас кашалька", trans_amount: "Колькасць", trans_memo: "Нататка",
-                        trans_success: "Перавод завершаны, 혜공 형님.", stake_btn: "Адправіць бяспечна",
-                        cluster_title: "Мегакластар", cluster_desc: "Ульсан, Кёнджу, Пхохан.",
-                        c_ulsan: "Ульсан", c_ulsan_sub: "Робатаاتэхніка", c_ulsan_desc: "НДДКР.",
-                        c_gyeongju: "Кёнджу", c_gyeongju_sub: "Вежа HQ", c_gyeongju_desc: "Фінансы.",
-                        c_pohang: "Пхохан", c_pohang_sub: "Энергія", c_pohang_desc: "Хаб.",
-                        gov_title: "Мадэль UBI", gov_desc: "30% чыстага прыбытку.",
-                        gov_rate: "Стаўка UBI", gov_sub: "Смарт-кантракты.", chairman_label: "Chairman: 혜공 형님"
-                    },
-                    bs: {
-                        brand_title: "HK WorldBank", brand_subtitle: "WEB3 DIGITALNO BANKARSTVO", node_status: "GLOBALNI ČVOR (60 JEZIKA)",
-                        ledger_badge: "Podaci uživo", status_pending: "Čeka se odobrenje", dashboard_title: "Kontrolna ploča imovine",
-                        holding_label: "Stanje", interest_label: "Kamata", btn_mainnet: "Zatraži Mainnet",
-                        alert_msg: "Zahtjev uspješno poslan, 혜공 형님.",
-                        grid_wallet: "Novčanik", grid_transfer: "Brzi prijenos", grid_robotics: "Robotika", grid_fusion: "Fuzija",
-                        tab_dash: "Glavna", tab_stake: "Staking (31.41%)", tab_transfer: "Prijenos", tab_cluster: "Infrastruktura", tab_gov: "Upravljanje",
-                        stake_title: "3-godišnji staking", stake_desc: "Siguran depozit.",
-                        stake_avail: "Dostupno", stake_input: "Unesite iznos", stake_expected: "Očekivani ukupni iznos",
-                        stake_success: "Ugovor uspješan, 혜공 형님.", stake_btn: "Pokreni staking",
-                        trans_title: "Prijenos imovine", trans_to: "Adresa novčanika", trans_amount: "Količina", trans_memo: "Memo",
-                        trans_success: "Prijenos završen, 혜공 형님.", stake_btn: "Pošalji sigurno",
-                        cluster_title: "Megakluster Masterplan", cluster_desc: "Ulsan, Gyeongju, Pohang.",
-                        c_ulsan: "Ulsan", c_ulsan_sub: "Robotika", c_ulsan_desc: "R&D.",
-                        c_gyeongju: "Gyeongju", c_gyeongju_sub: "HQ toranj", c_gyeongju_desc: "Financije.",
-                        c_pohang: "Pohang", c_pohang_sub: "Energija", c_pohang_desc: "Čvorište.",
-                        gov_title: "UBI Model", gov_desc: "30% neto dobiti.",
-                        gov_rate: "UBI stopa", gov_sub: "Pametni ugovori.", chairman_label: "Chairman: 혜공 형님"
-                    },
-                    bg: {
-                        brand_title: "HK WorldBank", brand_subtitle: "WEB3 ЦИФРОВО БАНКИРАНЕ", node_status: "ГЛОБАЛЕН ВЪЗЕЛ (60 ЕЗИКА)",
-                        ledger_badge: "Данни в реално време", status_pending: "Очаква одобрение", dashboard_title: "Табло за активи",
-                        holding_label: "Баланс", interest_label: "Лихва", btn_mainnet: "Заявка за Mainnet",
-                        alert_msg: "Запитването е изпратено успешно, 혜공 형님.",
-                        grid_wallet: "Портфейл", grid_transfer: "Бърз превод", grid_robotics: "Роботика", grid_fusion: "Ядрен синтез",
-                        tab_dash: "Табло", tab_stake: "Стейкинг (31.41%)", tab_transfer: "Превод", tab_cluster: "Инфраструктура", tab_gov: "Управление",
-                        stake_title: "3-годишен депозит и стейкинг", stake_desc: "Сигурно депозиране.",
-                        stake_avail: "Наличен баланс", stake_input: "Въведете сума", stake_expected: "Очаквана обща сума",
-                        stake_success: "Договорът е изпълнен, 혜공 형님.", stake_btn: "Стартирай стейкинг",
-                        trans_title: "Превод на цифрови активи", trans_to: "Адрес на портфейл", trans_amount: "Количество", trans_memo: "Бележка",
-                        trans_success: "Преводът завършен, 혜공 형님.", stake_btn: "Безопасно изпращане",
-                        cluster_title: "Мегаклъстър Master Plan", cluster_desc: "Улсан, Кьонджу, Похан.",
-                        c_ulsan: "Улсан", c_ulsan_sub: "Роботика", c_ulsan_desc: "НИРД.",
-                        c_gyeongju: "Кьонджу", c_gyeongju_sub: "HQ Кула", c_gyeongju_desc: "Финанси.",
-                        c_pohang: "Похан", c_pohang_sub: "Енергетика", c_pohang_desc: "Хъб.",
-                        gov_title: "UBI Модел", gov_desc: "30% от нетната печалба.",
-                        gov_rate: "UBI ставка", gov_sub: "Смарт договори.", chairman_label: "Chairman: 혜공 형님"
-                    }
-                },
-                init() {
-                    // 60개국 언어 엔진 v7.0 초기화 완료
-                },
-                t(key) {
-                    if (this.dict[this.lang] && this.dict[this.lang][key]) {
-                        return this.dict[this.lang][key];
-                    }
-                    if (this.dict['en'][key]) {
-                        return this.dict['en'][key];
-                    }
-                    return key;
-                },
-                changeLang(l) {
-                    this.lang = l;
-                },
-                triggerMainnetAlert() {
-                    alert(this.t('alert_msg'));
+        const languages = [
+            { code: 'ko', flag: '🇰🇷', name: '대한민국 - 한국어' },
+            { code: 'en', flag: '🇺🇸', name: 'United States - English' },
+            { code: 'zh', flag: '🇨🇳', name: '中国 - 中文' },
+            { code: 'ja', flag: '🇯🇵', name: '日本 - 日本語' },
+            { code: 'es', flag: '🇪🇸', name: 'España - Español' },
+            { code: 'fr', flag: '🇫🇷', name: 'France - Français' },
+            { code: 'de', flag: '🇩🇪', name: 'Deutschland - Deutsch' },
+            { code: 'ru', flag: '🇷🇺', name: 'Россия - Русский' },
+            { code: 'ar', flag: '🇸🇦', name: 'المملكة العربية السعودية - العربية' },
+            { code: 'hi', flag: '🇮🇳', name: 'भारत - हिन्दी' },
+            { code: 'pt', flag: '🇧🇷', name: 'Brasil - Português' },
+            { code: 'it', flag: '🇮🇹', name: 'Italia - Italiano' },
+            { code: 'vi', flag: '🇻🇳', name: 'Việt Nam - Tiếng Việt' },
+            { code: 'th', flag: '🇹🇭', name: 'ประเทศไทย - ไทย' },
+            { code: 'id', flag: '🇮🇩', name: 'Indonesia - Bahasa Indonesia' },
+            { code: 'tr', flag: '🇹🇷', name: 'Türkiye - Türkçe' },
+            { code: 'nl', flag: '🇳🇱', name: 'Nederland - Nederlands' },
+            { code: 'pl', flag: '🇵🇱', name: 'Polska - Język polski' },
+            { code: 'uk', flag: '🇺🇦', name: 'Україна - Українська' },
+            { code: 'sv', flag: '🇸🇪', name: 'Sverige - Svenska' },
+            { code: 'el', flag: '🇬🇷', name: 'Ελλάδα - Ελληνικά' },
+            { code: 'cs', flag: '🇨🇿', name: 'Česká republika - Čeština' },
+            { code: 'hu', flag: '🇭🇺', name: 'Magyarország - Magyar' },
+            { code: 'ro', flag: '🇷🇴', name: 'România - Română' },
+            { code: 'da', flag: '🇩🇰', name: 'Danmark - Dansk' },
+            { code: 'fi', flag: '🇫🇮', name: 'Suomi - Suomi' },
+            { code: 'no', flag: '🇳🇴', name: 'Norge - Norsk' },
+            { code: 'sk', flag: '🇸🇰', name: 'Slovensko - Slovenčina' },
+            { code: 'bg', flag: '🇧🇬', name: 'България - Български' },
+            { code: 'hr', flag: '🇭🇷', name: 'Hrvatska - Hrvatski' },
+            { code: 'sr', flag: '🇷🇸', name: 'Србија - Српски' },
+            { code: 'he', flag: '🇮🇱', name: 'ישראל - עברית' },
+            { code: 'fa', flag: '🇮🇷', name: 'ایران - فارسی' },
+            { code: 'ms', flag: '🇲🇾', name: 'Malaysia - Bahasa Melayu' },
+            { code: 'fil', flag: '🇵🇭', name: 'Pilipinas - Tagalog' },
+            { code: 'bn', flag: '🇧🇩', name: 'বাংলাদেশ - বাংলা' },
+            { code: 'ur', flag: '🇵🇰', name: 'پاکستان - اردو' },
+            { code: 'ta', flag: '🇮🇳', name: 'இந்தியா - தமிழ்' },
+            { code: 'te', flag: '🇮🇳', name: 'भारत - తెలుగు' },
+            { code: 'mr', flag: '🇮🇳', name: 'भारत - मराठी' },
+            { code: 'gu', flag: '🇮🇳', name: 'भारत - ગુજરાતી' },
+            { code: 'kn', flag: '🇮🇳', name: 'भारत - ಕನ್ನಡ' },
+            { code: 'ml', flag: '🇮🇳', name: 'भारत - മലയാളം' },
+            { code: 'sw', flag: '🇰🇪', name: 'Kenya - Kiswahili' },
+            { code: 'am', flag: '🇪🇹', name: 'ኢትዮጵያ - አማርኛ' },
+            { code: 'yo', flag: '🇳🇬', name: 'Nigeria - Yorùbá' },
+            { code: 'zu', flag: '🇿🇦', name: 'South Africa - IsiZulu' },
+            { code: 'af', flag: '🇿🇦', name: 'South Africa - Afrikaans' },
+            { code: 'sq', flag: '🇦🇱', name: 'Shqipëria - Shqip' },
+            { code: 'az', flag: '🇦🇿', name: 'Azərbaycan - Azərbaycan dili' },
+            { code: 'hy', flag: '🇦🇲', name: 'Հայաստան - Հայերեն' },
+            { code: 'ka', flag: '🇬🇪', name: 'საქართველო - ქართული' },
+            { code: 'kk', flag: '🇰🇿', name: 'Қазақстан - Қазақ тілі' },
+            { code: 'uz', flag: '🇺🇿', name: 'Oʻzbekiston - Oʻzbekcha' },
+            { code: 'mn', flag: '🇲🇳', name: 'Монгол - Монгол хэл' },
+            { code: 'ne', flag: '🇳🇵', name: 'नेपाल - नेपाली' },
+            { code: 'si', flag: '🇱🇰', name: 'ශ් රී ලංකාව - සිංහල' },
+            { code: 'my', flag: '🇲🇲', name: 'မြန်မာ - မြန်မာစာ' },
+            { code: 'km', flag: '🇰🇭', name: 'កម្ពុជា - ភាសាខ្មែរ' },
+            { code: 'lo', flag: '🇱🇦', name: 'ລາວ - ພາສາລາວ' }
+        ];
+
+        const translations = {
+            ko: {
+                platform_title: "월드뱅크 플랫폼",
+                live_ledger: "실시간 원장 데이터",
+                asset_dashboard: "개인 자산 대시보드",
+                mainnet_status: "메인넷 신청 상태",
+                pending_approval: "⏳ 승인 대기 중",
+                personal_holding: "📁 개인 보유 수량",
+                realtime_interest: "📈 실시간 누적 이자",
+                apply_mainnet: "☁️ 코어팀에게 메인넷 즉시 신청하기",
+                wallet_mgmt_ledger: "지갑 관리 통합 원장",
+                admin_only: "최고운영자 전용",
+                fee_wallet: "수수료 지갑",
+                admin_pw_placeholder: "운영자 비밀번호를 입력하십시오.",
+                unlock: "해제",
+                transparent_public: "전면 투명 공개",
+                ubi_wallet: "UBI 지갑",
+                distributed_network: "10대 분산 연동망",
+                net_wallet_connect: "지갑연결",
+                net_wallet_desc: "노드 계정 상시 연동",
+                net_transfer: "송금",
+                net_transfer_desc: "대륙간 초고속 전송",
+                menu_payment: "결제",
+                menu_payment_desc: "실시간 상거래 승인",
+                menu_deposit: "예치",
+                menu_deposit_desc: "자산 자금 신탁",
+                menu_reward: "보상",
+                menu_reward_desc: "인센티브 실시간 정산",
+                menu_ubi: "기본소득",
+                menu_ubi_desc: "분산 복지 재단 분배",
+                menu_swap: "스왑",
+                menu_swap_desc: "즉각 다이렉트 변환",
+                menu_dex: "DEX 스왑",
+                menu_dex_desc: "탈중앙화 P2P 거래",
+                menu_lp: "LP스테이킹",
+                menu_lp_desc: "유동성 증명 고리 배당",
+                menu_pi: "PI수량 추가",
+                menu_pi_desc: "PI 자산 즉시 확보",
+                deposit_process_title: "[예치] 상세 프로세스",
+                deposit_steps: "자산 선택 → 수량 및 기간 설정 → 예상 수익률 확인 → 6자리 승인 코드 입력 → 처리 완료",
+                enter_6digit: "6자리 승인 코드를 입력하세요:",
+                approve: "승인",
+                ai_engine_title: "HK 지능형 추론 엔진",
+                ai_status: "● 실시간 초기화 연산 중",
+                ai_welcome: "반갑습니다. HK 월드뱅크 통합 지능형 서비스 센터입니다. 선택하신 국가 언어로 실시간 교차 추론 및 자산 동기화 시스템이 상시 가동되고 있습니다.",
+                ai_input_placeholder: "원장 상태 및 금융 노드에 대해 질문하십시오."
+            },
+            en: {
+                platform_title: "WorldBank Platform",
+                live_ledger: "Real-time Ledger Data",
+                asset_dashboard: "Personal Asset Dashboard",
+                mainnet_status: "Mainnet Application Status",
+                pending_approval: "⏳ Pending Approval",
+                personal_holding: "📁 Personal Holdings",
+                realtime_interest: "📈 Real-time Accrued Interest",
+                apply_mainnet: "☁️ Request Instant Mainnet to Core Team",
+                wallet_mgmt_ledger: "Wallet Management Integrated Ledger",
+                admin_only: "Super Admin Only",
+                fee_wallet: "Fee Wallet",
+                admin_pw_placeholder: "Enter administrator password.",
+                unlock: "Unlock",
+                transparent_public: "Fully Transparent Public",
+                ubi_wallet: "UBI Wallet",
+                distributed_network: "Top 10 Distributed Networks",
+                net_wallet_connect: "Wallet Connect",
+                net_wallet_desc: "Node account live sync",
+                net_transfer: "Transfer",
+                net_transfer_desc: "Intercontinental high-speed transmission",
+                menu_payment: "Payment",
+                menu_payment_desc: "Real-time commerce approval",
+                menu_deposit: "Deposit",
+                menu_deposit_desc: "Asset fund trust",
+                menu_reward: "Reward",
+                menu_reward_desc: "Incentive real-time settlement",
+                menu_ubi: "Basic Income",
+                menu_ubi_desc: "Distributed welfare foundation distribution",
+                menu_swap: "Swap",
+                menu_swap_desc: "Instant direct conversion",
+                menu_dex: "DEX Swap",
+                menu_dex_desc: "Decentralized P2P trading",
+                menu_lp: "LP Staking",
+                menu_lp_desc: "Proof of liquidity loop dividend",
+                menu_pi: "Add PI Amount",
+                menu_pi_desc: "Instant PI asset acquisition",
+                deposit_process_title: "[Deposit] Detailed Process",
+                deposit_steps: "Select Asset → Set Amount & Period → Check Expected Yield → Enter 6-Digit Approval Code → Complete",
+                enter_6digit: "Enter 6-digit approval code:",
+                approve: "Approve",
+                ai_engine_title: "HK Intelligent Inference Engine",
+                ai_status: "● Real-time Init Computation",
+                ai_welcome: "Welcome to HK WorldBank Intelligent Service Center. Real-time cross-inference and asset synchronization system is running in your selected language.",
+                ai_input_placeholder: "Ask about ledger status and financial nodes."
+            }
+        };
+
+        const langListEl = document.getElementById('langList');
+        languages.forEach(lang => {
+            const item = document.createElement('div');
+            item.className = 'lang-item';
+            item.innerHTML = `<span>${lang.flag}</span> <span>${lang.name}</span>`;
+            item.onclick = () => selectLanguage(lang);
+            langListEl.appendChild(item);
+        });
+
+        function toggleLangList() {
+            langListEl.classList.toggle('show');
+        }
+
+        function selectLanguage(lang) {
+            document.getElementById('currentLangText').innerText = `${lang.flag} ${lang.name}`;
+            langListEl.classList.remove('show');
+            applyTranslations(lang.code);
+        }
+
+        function applyTranslations(langCode) {
+            const dict = translations[langCode] || translations['en'];
+            
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (dict[key]) {
+                    el.innerText = dict[key];
                 }
+            });
+
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                if (dict[key]) {
+                    el.placeholder = dict[key];
+                }
+            });
+        }
+
+        window.onclick = function(event) {
+            if (!event.target.closest('.lang-dropdown-container')) {
+                langListEl.classList.remove('show');
             }
         }
     </script>
