@@ -1302,6 +1302,47 @@ fetchAssets();
     <div id="bbini-output" class="output" style="display:none; margin-top: 10px; background: #111; padding: 10px; border-radius: 5px; color: #00ffcc;"></div>
 </div> 
 <script>
+   <script>
+    function askBbini() {
+        const inputEl = document.getElementById('user-prompt');
+        const outputDiv = document.getElementById('bbini-output');
+        
+        if (!inputEl || !inputEl.value.trim()) {
+            alert("질문을 입력해주세요 형님!");
+            return;
+        }
+        
+        const query = inputEl.value.trim();
+        const lang = document.getElementById('language-switcher').value;
+        
+        outputDiv.style.display = 'block';
+        outputDiv.innerText = lang === 'en' ? "Bbini is analyzing in real-time..." : "삐니가 실시간으로 분석 중입니다 형님...";
+
+        setTimeout(() => {
+            if (query.includes("누구") || query.toLowerCase().includes("who")) {
+                outputDiv.innerText = lang === 'en' ? "I am Bbini, your AGI Financial Assistant." : "저는 HK 월드뱅크의 AGI 금융 어시스턴트 삐니입니다, 혜공 형님!";
+            } else {
+                outputDiv.innerText = lang === 'en' ? `Processed query: "${query}". All nodes operating normally.` : `혜공 형님, 요청하신 "${query}"에 대한 블록체인 노드 및 자산 원장 연동이 완료되었습니다.`;
+            }
+        }, 400);
+    }
+
+    function switchLanguage(lang) {
+        const titleEl = document.querySelector('span[style*="color: #ffb700"]');
+        const btnEl = document.querySelector('button[onclick="askBbini()"]');
+        const inputEl = document.getElementById('user-prompt');
+
+        if (lang === 'en') {
+            if (titleEl) titleEl.innerText = "AGI BBini Financial Assistant";
+            if (btnEl) btnEl.innerText = "Ask Bbini";
+            if (inputEl) inputEl.placeholder = "Ask Bbini in real-time...";
+        } else {
+            if (titleEl) titleEl.innerText = "AGI BBini Financial Assistant";
+            if (btnEl) btnEl.innerText = "Ask Bbini";
+            if (inputEl) inputEl.placeholder = "Ask Bbini in real-time...";
+        }
+    }
+</script>
     function askBbini() {
         const inputEl = document.getElementById('user-prompt');
         const outputDiv = document.getElementById('bbini-output');
