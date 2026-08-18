@@ -6,7 +6,7 @@
     <title>HK 월드뱅크 - 글로벌 산업 플랫폼</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-   <script src="https://sdk.minepi.com/pi-sdk.js"></script>
+   
     <style>
         html { scroll-behavior: smooth; }
         .skip-to-content:focus { transform: translateY(0); }
@@ -38,15 +38,7 @@
                 <span class="text-lg font-bold tracking-tight text-white" id="nav-title">월드뱅크 플랫폼</span>
             </div>
        <div class="flex items-center justify-end w-full md:w-auto mt-2 md:mt-0">
-  <button onclick="authPiNetwork()">Pi Network 로그인 및 인증</button>
-<p id="pi-status" style="margin-top: 10px; font-weight: bold; color: #0284c7;"></p>
-<button id="send-btn" onclick="askBbini()">
-    <i class="fa-solid fa-paper-plane"></i>
-</button>
-
-</div>
-
-           <select id="language-switcher" onchange="switchLanguage(this.value)" class="bg-slate-800 text-slate-200 border border-slate-700 rounded-lg px-3 py-1.5 text-xs font-semibold focus:outline-none focus:border-amber-500 cursor-pointer w-full max-w-[150px]">
+    <select id="language-switcher" onchange="switchLanguage(this.value)" class="bg-slate-800 text-slate-200 border border-slate-700 rounded-lg px-3 py-1.5 text-xs font-semibold focus:outline-none focus:border-amber-500 cursor-pointer w-full max-w-[150px]">
         <option value="ko">🇰🇷 대한민국 - 한국어</option>
         <option value="en">🇺🇸 미국 - 영어 (English)</option>
         <option value="zh">🇨🇳 중국 - 中文 (Chinese)</option>
@@ -98,63 +90,7 @@
         <option value="uz">🇺🇿 우즈베크어 - Uzbek</option>
     </select>
 </div>    
-<script>
-    // Pi Network SDK 초기화
-    Pi.init({ version: "2.0", sandbox: true });
-
-    function authPiNetwork() {
-        const scopes = ['username', 'payments'];
-        function onIncompletePaymentFound(payment) {
-            console.log("미완료 결제 발견:", payment);
-        }
-
-        Pi.authenticate(scopes, onIncompletePaymentFound).then(auth => {
-            document.getElementById('pi-status').innerText = `인증 완료! 환영합니다, ${auth.user.username} 형님.`;
-        }).catch(err => {
-            console.error(err);
-            alert("Pi 인증 실패: " + err);
-        });
-    }
-
-function askBbini() {
-    alert("삐니 작동 확인 완료!");
-}    
-    inputEl.value = '';
-}
-
-    if (lowerQuery.includes("누구") || lowerQuery.includes("who")) {
-        responseText = lang === 'en' ? "I am Bbini, your AGI Financial Assistant." : "저는 형님의 AGI 금융 비서, 삐니입니다!";
-    } else if (lowerQuery.includes("안녕") || lowerQuery.includes("hello") || lowerQuery.includes("하이")) {
-        responseText = lang === 'en' ? "Hello, Chairman! How can I assist HK WorldBank today?" : "반갑습니다 형님! 오늘 HK 월드뱅크를 위해 어떤 업무를 도와드릴까요?";
-    } else if (lowerQuery.includes("원장") || lowerQuery.includes("node") || lowerQuery.includes("상태") || lowerQuery.includes("바빠") || lowerQuery.includes("정원")) {
-        responseText = lang === 'en' ? "All financial nodes and ledgers are fully synchronized and operating normally." : "모든 금융 노드와 원장 상태가 완벽하게 동기화되어 정상 가동 중입니다 형님. 방해 세력은 차단 완료했습니다.";
-    } else {
-        responseText = lang === 'en' ? `Processed query: "${query}". All systems operational.` : `요청하신 내용("${query}")을 완벽하게 분석했습니다 형님. HK 월드뱅크 시스템이 정상 작동 중입니다.`;
-    }
-
-    if (chatContainer) {
-        const userBubble = document.createElement('div');
-        userBubble.style.cssText = "margin: 10px 0; text-align: right;";
-        userBubble.innerHTML = `<span style="background: #e6b800; color: #000; padding: 8px 12px; border-radius: 8px; display: inline-block;">${query}</span>`;
-        chatContainer.appendChild(userBubble);
-
-        setTimeout(() => {
-            const bbiniBubble = document.createElement('div');
-            bbiniBubble.style.cssText = "margin: 10px 0; text-align: left;";
-            bbiniBubble.innerHTML = `<div style="background: #2b3748; color: #e2e8f0; padding: 10px 14px; border-radius: 8px; display: inline-block; border-left: 3px solid #e6b800;">${responseText}</div>`;
-            chatContainer.appendChild(bbiniBubble);
-            chatContainer.scrollTop = chatContainer.scrollHeight;
-        }, 300);
-    } else {
-        alert(responseText);
-    }
-    
-    inputEl.value = '';
-}
-
-</script>
-  
-       </div>
+        </div>
     </header>
 
     <main class="max-w-7xl mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -1201,39 +1137,38 @@ function executeProcess(funcName) {
             }
         }
 
-      // 챗봇 메시지 전송 통합 처리
-function handleSendMessage(event) {
-    if (event) event.preventDefault();
-    sendBinBinMessage();
-}
+        // 챗봇 메시지 발송 로직
+        function handleSendMessage(event) {
+            event.preventDefault();
+            const input = document.getElementById('chat-input');
+            const msg = input.value.trim();
+            if (!msg) return;
 
-// 삐니 키보드 전송 및 버튼 이벤트 대화
-function sendBinBinMessage() {
-    const chatInput = document.getElementById('chat-input') || document.getElementById('user-prompt');
-    const chatBox = document.querySelector('.hk-chat-messages') || document.getElementById('bbini-output');
-    
-    if (!chatInput || !chatInput.value.trim()) return;
-    const msg = chatInput.value.trim();
-    chatInput.value = '';
-
-    if (chatBox) {
-        // 유저 말풍선 추가
-        const userDiv = document.createElement('div');
-        userDiv.style.cssText = "margin: 10px 0; text-align: right;";
-        userDiv.innerHTML = `<span style="background: #e6b800; color: #000; padding: 8px 12px; border-radius: 8px; display: inline-block;">${msg}</span>`;
-        chatBox.appendChild(userDiv);
-
-        // 삐니 AGI 답변 추가
-        setTimeout(() => {
-            const bbiniDiv = document.createElement('div');
-            bbiniDiv.style.cssText = "margin: 10px 0; text-align: left;";
-            bbiniDiv.innerHTML = `<div style="background: #2b3748; color: #e2e8f0; padding: 10px 14px; border-radius: 8px; display: inline-block; border-left: 3px solid #e6b800;">형님, 요청하신 내용("${msg}")에 대한 고도화 추론이 완료되었습니다. HK 월드뱅크 시스템 및 금융 노드 정상 가동 중입니다!</div>`;
-            chatBox.appendChild(bbiniDiv);
+            const chatBox = document.getElementById('chat-box');
+            chatBox.insertAdjacentHTML('beforeend', `<div class="flex items-start space-x-2.5 justify-end"><div class="bg-amber-500 text-slate-900 p-3 rounded-2xl rounded-tr-none max-w-[85%] font-bold text-xs">${msg}</div></div>`);
+            input.value = '';
             chatBox.scrollTop = chatBox.scrollHeight;
-        }, 300);
+
+            setTimeout(() => {
+                chatBox.insertAdjacentHTML('beforeend', `
+                    <div class="flex items-start space-x-2.5"><div class="w-8 h-8 bg-gradient-to-tr from-purple-600 to-amber-500 rounded-lg flex items-center justify-center text-xs text-white font-bold"><i class="fa-solid fa-brain"></i></div><div class="bg-slate-700/60 p-3 rounded-2xl rounded-tl-none max-w-[85%] text-slate-200 border border-purple-500/20 text-xs">
+                        <span class="block text-[10px] text-purple-400 font-bold mb-1"><i class="fa-solid fa-microchip animate-pulse mr-1"></i> 고도화 추론 완료</span>
+                        혜공 형님, 질의하신 데이터베이스 상태 분석이 지능형 매트릭스를 통해 완전 정상 판정되었습니다.
+                    </div></div>
+                `);
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }, 600);
+        }
+     // --- [삐니의 서버 연동 스크립트] ---
+async function fetchAssets() {
+    try {
+        const response = await fetch('/api/assets');
+        const data = await response.json();
+        document.getElementById('user-quantity').innerText = data.balance.toFixed(6);
+    } catch (err) {
+        console.warn("서버 동기화 대기 중...");
     }
 }
-
 setInterval(fetchAssets, 5000);
 fetchAssets();
 // --------------------------------- 
@@ -1298,178 +1233,6 @@ fetchAssets();
       justify-content: center;
   ">문의: support@hkwb.world</div>
 </div>
-<div class="card" style="margin-top: 20px; background: #121212; border: 1px solid #333; border-radius: 12px; padding: 20px;">
-<div class="card" style="margin-top: 20px; background: #121212; border: 1px solid #333; border-radius: 12px; padding: 20px;">
-    <!-- BBini Assistant & Language Control -->
-    <div style="margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center;">
-        <span style="font-weight: bold; color: #ffb700;">AGI BBini Financial Assistant</span>
-        <select id="language-switcher" onchange="switchLanguage(this.value)" style="background: #1a1a1a; color: #fff; padding: 5px; border-radius: 5px; border: 1px solid #ffb700;">
-            <option value="ko">Korean (한국어)</option>
-            <option value="en">English</option>
-        </select>
-    </div>
-    <textarea id="user-prompt" placeholder="Ask Bbini in real-time..." style="width: 100%; height: 60px; background: #1a1a1a; color: #fff; border: 1px solid #333; border-radius: 5px; padding: 8px; box-sizing: border-box;"></textarea>
-    <button onclick="askBbini()" style="margin-top: 8px; background: linear-gradient(135deg, #ffb700, #ff8800); color: #000; font-weight: bold; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">Ask Bbini</button>
-   <button onclick="askBbini()">Ask Bbini</button>
-<button onclick="askBbini()" style="margin-top: 5px; background: linear-gradient(155deg, #ffb700, #ff8800); color: #000; font-weight: bold; border-radius: 5px; border: none; padding: 5px 15px; cursor: pointer;">Ask Bbini</button>
-<div id="bbini-output" style="display: none; margin-top: 10px; background: #2b3748; color: #e2e8f0; padding: 10px 14px; border-radius: 8px; border-left: 3px solid #ffb700;"></div>
+</body>
 
-<script>
-function askBbini() {
-    const inputEl = document.getElementById('user-prompt');
-    const outputEl = document.getElementById('bbini-output');
-    
-    if (!inputEl || !inputEl.value.trim()) {
-        alert("질문을 입력해주세요 형님!");
-        return;
-    }
-
-    const query = inputEl.value.trim();
-    outputEl.style.display = 'block';
-    outputEl.innerHTML = `형님, "${query}"에 대한 분석 결과입니다. 시스템 정상 가동 중!`;
-    
-    inputEl.value = '';
-}
-</script>
-
-    function switchLanguage(lang) {
-        const titleEl = document.querySelector('span[style*="color: #ffb700"]');
-        const btnEl = document.querySelector('button[onclick="askBbini()"]');
-        const inputEl = document.getElementById('user-prompt');
-
-        if (lang === 'en') {
-            if (titleEl) titleEl.innerText = "AGI BBini Financial Assistant";
-            if (btnEl) btnEl.innerText = "Ask Bbini";
-            if (inputEl) inputEl.placeholder = "Ask Bbini in real-time...";
-        } else {
-            if (titleEl) titleEl.innerText = "AGI BBini Financial Assistant";
-            if (btnEl) btnEl.innerText = "Ask Bbini";
-            if (inputEl) inputEl.placeholder = "Ask Bbini in real-time...";
-        }
-    }
-<script>
-function askBbini() {
-    const inputEl = document.getElementById('user-prompt');
-    const chatContainer = document.querySelector('.hk-chat-messages') || document.getElementById('bbini-output');
-    
-    // 1. 빈 값 유효성 검사
-    if (!inputEl || !inputEl.value.trim()) {
-        alert("질문을 입력해주세요 형님!");
-        return;
-    }
-
-    const query = inputEl.value.trim();
-    const lang = document.getElementById('language-switcher') ? document.getElementById('language-switcher').value : 'ko';
-
-    // 2. 키워드별 맞춤 응답 결정
-    let responseText = "";
-    const lowerQuery = query.toLowerCase();
-
-    if (lowerQuery.includes("누구") || lowerQuery.includes("who")) {
-        responseText = lang === 'en' ? "I am Bbini, your AGI Financial Assistant." : "저는 형님의 AGI 금융 비서, 삐니입니다!";
-    } else if (lowerQuery.includes("안녕") || lowerQuery.includes("hello") || lowerQuery.includes("하이")) {
-        responseText = lang === 'en' ? "Hello, Chairman! How can I assist HK WorldBank today?" : "반갑습니다 형님! 오늘 HK 월드뱅크를 위해 어떤 업무를 도와드릴까요?";
-    } else if (lowerQuery.includes("원장") || lowerQuery.includes("node") || lowerQuery.includes("상태") || lowerQuery.includes("바빠")) {
-        responseText = lang === 'en' ? "All financial nodes and ledgers are fully synchronized and operating normally." : "모든 금융 노드와 원장 상태가 완벽하게 동기화되어 정상 가동 중입니다 형님.";
-    } else {
-        responseText = lang === 'en' ? `Processed query: "${query}". All systems operational.` : `요청하신 내용("${query}")을 완벽하게 분석했습니다 형님. HK 월드뱅크 시스템이 정상 작동 중입니다.`;
-    }
-
-    // 3. 화면에 말풍선 형태로 결과 띄우기
-    if (chatContainer) {
-        // 사용자가 보낸 질문 말풍선 추가
-        const userBubble = document.createElement('div');
-        userBubble.className = 'user-message-bubble';
-        userBubble.style.cssText = "margin: 10px 0; text-align: right; color: #fff;";
-        userBubble.innerHTML = `<span style="background: #e6b800; color: #000; padding: 8px 12px; border-radius: 8px; display: inline-block;">${query}</span>`;
-        chatContainer.appendChild(userBubble);
-
-        // 삐니의 답변 말풍선 추가
-        setTimeout(() => {
-            const bbiniBubble = document.createElement('div');
-            bbiniBubble.className = 'bbini-message-bubble';
-            bbiniBubble.style.cssText = "margin: 10px 0; text-align: left;";
-            bbiniBubble.innerHTML = `<div style="background: #2b3748; color: #e2e8f0; padding: 10px 14px; border-radius: 8px; display: inline-block; border-left: 3px solid #e6b800;">${responseText}</div>`;
-            chatContainer.appendChild(bbiniBubble);
-            
-            // 스크롤 맨 아래로 내리기
-            chatContainer.scrollTop = chatContainer.scrollHeight;
-        }, 300);
-    } else {
-        alert(responseText);
-    }
-    
-    // 입력창 비우기
-    inputEl.value = '';
-}
-
-        // 5. 결과 렌더링
-        if (outputDiv) {
-            outputDiv.innerText = responseText;
-        } else {
-            alert(responseText);
-        }
-        
-        // 입력창 초기화
-        inputEl.value = '';
-    }, 300);
-}
-
-    function switchLanguage(lang) {
-        const titleEl = document.querySelector('span[style*="color: #ffb700"]');
-        const btnEl = document.querySelector('button[onclick="askBbini()"]');
-        const inputEl = document.getElementById('user-prompt');
-
-        if (lang === 'en') {
-            if (titleEl) titleEl.innerText = "AGI BBini Financial Assistant";
-            if (btnEl) btnEl.innerText = "Ask Bbini";
-            if (inputEl) inputEl.placeholder = "Ask Bbini in real-time...";
-        } else {
-            if (titleEl) titleEl.innerText = "AGI BBini Financial Assistant";
-            if (btnEl) btnEl.innerText = "Ask Bbini";
-            if (inputEl) inputEl.placeholder = "Ask Bbini in real-time...";
-        }
-  
-
-
-
-  function askBbini() {
-        const inputEl = document.getElementById('user-prompt');
-        const outputDiv = document.getElementById('bbini-output');
-        
-        if (!inputEl || !inputEl.value.trim()) {
-            alert("질문을 입력해주세요 형님!");
-            return;
-        }
-        
-        const query = inputEl.value.trim();
-        const lang = document.getElementById('language-switcher').value;
-        
-        outputDiv.style.display = 'block';
-        outputDiv.innerText = lang === 'en' ? "Bbini is analyzing in real-time..." : "삐니가 실시간으로 분석 중입니다 형님...";
-
-        setTimeout(() => {
-            if (query.includes("누구") || query.toLowerCase().includes("who")) {
-                outputDiv.innerText = lang === 'en' ? "I am Bbini, your AGI Financial Assistant." : "저는 HK 월드뱅크의 AGI 금융 어시스턴트 삐니입니다, 혜공 형님!";
-            } else {
-                outputDiv.innerText = lang === 'en' ? `Processed query: "${query}". All nodes operating normally.` : `혜공 형님, 요청하신 "${query}"에 대한 블록체인 노드 및 자산 원장 연동이 완료되었습니다.`;
-            }
-        }, 400);
-    }
-
-    function switchLanguage(lang) {
-        const titleEl = document.querySelector('span[style*="color: #ffb700"]');
-        const btnEl = document.querySelector('button[onclick="askBbini()"]');
-        const inputEl = document.getElementById('user-prompt');
-
-        if (lang === 'en') {
-            if (titleEl) titleEl.innerText = "AGI BBini Financial Assistant";
-            if (btnEl) btnEl.innerText = "Ask Bbini";
-            if (inputEl) inputEl.placeholder = "Ask Bbini in real-time...";
-        } else {
-            if (titleEl) titleEl.innerText = "AGI BBini Financial Assistant";
-            if (btnEl) btnEl.innerText = "Ask Bbini";
-            if (inputEl) inputEl.placeholder = "Ask Bbini in real-time...";
-        }
-    }
-</script>
+</html>
