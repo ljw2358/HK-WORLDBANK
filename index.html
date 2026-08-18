@@ -1346,7 +1346,7 @@ fetchAssets();
 <script>
 function askBbini() {
     const inputEl = document.getElementById('user-prompt');
-    const outputDiv = document.getElementById('bbini-output');
+    const chatContainer = document.querySelector('.hk-chat-messages') || document.getElementById('bbini-output');
     
     // 1. 빈 값 유효성 검사
     if (!inputEl || !inputEl.value.trim()) {
@@ -1357,27 +1357,47 @@ function askBbini() {
     const query = inputEl.value.trim();
     const lang = document.getElementById('language-switcher') ? document.getElementById('language-switcher').value : 'ko';
 
-    // 2. 화면에 출력 영역 세팅
-    if (outputDiv) {
-        outputDiv.style.display = 'block';
-        outputDiv.innerText = lang === 'en' ? "Bbini is analyzing in real-time..." : "삐니가 실시간으로 분석 중입니다 형님...";
+    // 2. 키워드별 맞춤 응답 결정
+    let responseText = "";
+    const lowerQuery = query.toLowerCase();
+
+    if (lowerQuery.includes("누구") || lowerQuery.includes("who")) {
+        responseText = lang === 'en' ? "I am Bbini, your AGI Financial Assistant." : "저는 형님의 AGI 금융 비서, 삐니입니다!";
+    } else if (lowerQuery.includes("안녕") || lowerQuery.includes("hello") || lowerQuery.includes("하이")) {
+        responseText = lang === 'en' ? "Hello, Chairman! How can I assist HK WorldBank today?" : "반갑습니다 형님! 오늘 HK 월드뱅크를 위해 어떤 업무를 도와드릴까요?";
+    } else if (lowerQuery.includes("원장") || lowerQuery.includes("node") || lowerQuery.includes("상태") || lowerQuery.includes("바빠")) {
+        responseText = lang === 'en' ? "All financial nodes and ledgers are fully synchronized and operating normally." : "모든 금융 노드와 원장 상태가 완벽하게 동기화되어 정상 가동 중입니다 형님.";
+    } else {
+        responseText = lang === 'en' ? `Processed query: "${query}". All systems operational.` : `요청하신 내용("${query}")을 완벽하게 분석했습니다 형님. HK 월드뱅크 시스템이 정상 작동 중입니다.`;
     }
 
-    // 3. 지연 시간 없이 또는 부드럽게 바로 응답 처리
-    setTimeout(() => {
-        let responseText = "";
-        const lowerQuery = query.toLowerCase();
+    // 3. 화면에 말풍선 형태로 결과 띄우기
+    if (chatContainer) {
+        // 사용자가 보낸 질문 말풍선 추가
+        const userBubble = document.createElement('div');
+        userBubble.className = 'user-message-bubble';
+        userBubble.style.cssText = "margin: 10px 0; text-align: right; color: #fff;";
+        userBubble.innerHTML = `<span style="background: #e6b800; color: #000; padding: 8px 12px; border-radius: 8px; display: inline-block;">${query}</span>`;
+        chatContainer.appendChild(userBubble);
 
-        // 4. 키워드별 맞춤 응답 분기
-        if (lowerQuery.includes("누구") || lowerQuery.includes("who")) {
-            responseText = lang === 'en' ? "I am Bbini, your AGI Financial Assistant." : "저는 형님의 AGI 금융 비서, 삐니입니다!";
-        } else if (lowerQuery.includes("안녕") || lowerQuery.includes("hello")) {
-            responseText = lang === 'en' ? "Hello, Chairman! How can I assist HK WorldBank today?" : "반갑습니다 형님! 오늘 HK 월드뱅크를 위해 어떤 업무를 도와드릴까요?";
-        } else if (lowerQuery.includes("원장") || lowerQuery.includes("node") || lowerQuery.includes("상태")) {
-            responseText = lang === 'en' ? "All financial nodes and ledgers are fully synchronized and operating normally." : "모든 금융 노드와 원장 상태가 완벽하게 동기화되어 정상 가동 중입니다 형님.";
-        } else {
-            responseText = lang === 'en' ? `Processed query: "${query}". All systems operational.` : `요청하신 내용("${query}")을 완벽하게 분석했습니다 형님. 시스템이 정상 작동 중입니다.`;
-        }
+        // 삐니의 답변 말풍선 추가
+        setTimeout(() => {
+            const bbiniBubble = document.createElement('div');
+            bbiniBubble.className = 'bbini-message-bubble';
+            bbiniBubble.style.cssText = "margin: 10px 0; text-align: left;";
+            bbiniBubble.innerHTML = `<div style="background: #2b3748; color: #e2e8f0; padding: 10px 14px; border-radius: 8px; display: inline-block; border-left: 3px solid #e6b800;">${responseText}</div>`;
+            chatContainer.appendChild(bbiniBubble);
+            
+            // 스크롤 맨 아래로 내리기
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }, 300);
+    } else {
+        alert(responseText);
+    }
+    
+    // 입력창 비우기
+    inputEl.value = '';
+}
 
         // 5. 결과 렌더링
         if (outputDiv) {
