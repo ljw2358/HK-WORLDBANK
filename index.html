@@ -6,7 +6,7 @@
     <title>HK 월드뱅크 - 글로벌 산업 플랫폼</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-   
+   <script src="https://sdk.minepi.com/pi-sdk.js"></script>
     <style>
         html { scroll-behavior: smooth; }
         .skip-to-content:focus { transform: translateY(0); }
@@ -38,7 +38,17 @@
                 <span class="text-lg font-bold tracking-tight text-white" id="nav-title">월드뱅크 플랫폼</span>
             </div>
        <div class="flex items-center justify-end w-full md:w-auto mt-2 md:mt-0">
-    <select id="language-switcher" onchange="switchLanguage(this.value)" class="bg-slate-800 text-slate-200 border border-slate-700 rounded-lg px-3 py-1.5 text-xs font-semibold focus:outline-none focus:border-amber-500 cursor-pointer w-full max-w-[150px]">
+  <button onclick="authPiNetwork()">Pi Network 로그인 및 인증</button>
+<p id="pi-status" style="margin-top: 10px; font-weight: bold; color: #0284c7;"></p>
+
+<div class="card">
+    <h2>🤖 AGI 삐니 금융 어시스턴트 연동</h2>
+    <textarea id="user-prompt" placeholder="질문을 입력하세요 형님"></textarea>
+    <button onclick="askBbini()">삐니에게 질문하기</button>
+    <div id="bbini-output" class="output" style="display:none;"></div>
+</div>
+
+           <select id="language-switcher" onchange="switchLanguage(this.value)" class="bg-slate-800 text-slate-200 border border-slate-700 rounded-lg px-3 py-1.5 text-xs font-semibold focus:outline-none focus:border-amber-500 cursor-pointer w-full max-w-[150px]">
         <option value="ko">🇰🇷 대한민국 - 한국어</option>
         <option value="en">🇺🇸 미국 - 영어 (English)</option>
         <option value="zh">🇨🇳 중국 - 中文 (Chinese)</option>
@@ -90,7 +100,143 @@
         <option value="uz">🇺🇿 우즈베크어 - Uzbek</option>
     </select>
 </div>    
-        </div>
+<script>
+    // Pi Network SDK 초기화
+    Pi.init({ version: "2.0", sandbox: true });
+
+    function authPiNetwork() {
+        const scopes = ['username', 'payments'];
+        function onIncompletePaymentFound(payment) {
+            console.log("미완료 결제 발견:", payment);
+        }
+
+        Pi.authenticate(scopes, onIncompletePaymentFound).then(auth => {
+            document.getElementById('pi-status').innerText = `인증 완료! 환영합니다, ${auth.user.username} 형님.`;
+        }).catch(err => {
+            console.error(err);
+            alert("Pi 인증 실패: " + err);
+        });
+    }
+
+    async function askBbini() {
+        const prompt = document.getElementById('user-prompt').value;
+        const outputDiv = document.getElementById('bbini-output');
+        
+        if (!prompt) {
+            alert("질문을 입력해주세요 형님!");
+            return;
+        }
+
+        outputDiv.style.display = 'block';
+        outputDiv.innerText = "삐니가 실시간으로 분석 중입니다...";
+
+        try {
+            const response = await fetch('http://localhost:3000/api/bbini-chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ prompt })
+            });
+            const data = await response.json();
+            if (data.success) {
+                outputDiv.innerText = data.response;
+            } else {
+                outputDiv.innerText = "오류 발생: " + data.error;
+            }
+        } catch (e) {
+            outputDiv.innerText = "서버 연결 실패: 백엔드가 실행 중인지 확인하세요 형님.";
+        }
+    }
+</script>
+    function authPiNetwork() {
+        const scopes = ['username', 'payments'];
+        function onIncompletePaymentFound(payment) {
+            console.log("미완료 결제 발견:", payment);
+        }
+
+        Pi.authenticate(scopes, onIncompletePaymentFound).then(auth => {
+            document.getElementById('pi-status').innerText = `인증 완료! 환영합니다, ${auth.user.username} 형님.`;
+        }).catch(err => {
+            console.error(err);
+            alert("Pi 인증 실패: " + err);
+        });
+    }
+
+    async function askBbini() {
+        const prompt = document.getElementById('user-prompt').value;
+        const outputDiv = document.getElementById('bbini-output');
+        
+        if (!prompt) {
+            alert("질문을 입력해주세요 형님!");
+            return;
+        }
+
+        outputDiv.style.display = 'block';
+        outputDiv.innerText = "삐니가 실시간으로 분석 중입니다...";
+
+        try {
+            const response = await fetch('http://localhost:3000/api/bbini-chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ prompt })
+            });
+            const data = await response.json();
+            if (data.success) {
+                outputDiv.innerText = data.response;
+            } else {
+                outputDiv.innerText = "오류 발생: " + data.error;
+            }
+        } catch (e) {
+            outputDiv.innerText = "서버 연결 실패: 백엔드가 실행 중인지 확인하세요 형님.";
+        }
+    }
+</script>
+
+    function authPiNetwork() {
+        const scopes = ['username', 'payments'];
+        function onIncompletePaymentFound(payment) {
+            console.log("미완료 결제 발견:", payment);
+        }
+
+        Pi.authenticate(scopes, onIncompletePaymentFound).then(auth => {
+            document.getElementById('pi-status').innerText = `인증 완료! 환영합니다, ${auth.user.username} 형님.`;
+        }).catch(err => {
+            console.error(err);
+            alert("Pi 인증 실패: " + err);
+        });
+    }
+
+    async function askBbini() {
+        const prompt = document.getElementById('user-prompt').value;
+        const outputDiv = document.getElementById('bbini-output');
+        
+        if (!prompt) {
+            alert("질문을 입력해주세요 형님!");
+            return;
+        }
+
+        outputDiv.style.display = 'block';
+        outputDiv.innerText = "삐니가 실시간으로 분석 중입니다...";
+
+        try {
+            const response = await fetch('http://localhost:3000/api/bbini-chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ prompt })
+            });
+            const data = await response.json();
+            if (data.success) {
+                outputDiv.innerText = data.response;
+            } else {
+                outputDiv.innerText = "오류 발생: " + data.error;
+            }
+        } catch (e) {
+            outputDiv.innerText = "서버 연결 실패: 백엔드가 실행 중인지 확인하세요 형님.";
+        }
+    }
+  
+</script>
+
+       </div>
     </header>
 
     <main class="max-w-7xl mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
