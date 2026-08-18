@@ -114,7 +114,8 @@
         });
     }
 <div id="bbini-output" style="display: none; margin-bottom: 10px; padding: 10px; background: #1e293b; color: #38bdf8; border-radius: 6px; font-size: 13px;"></div>
-   function askBbini() {
+  
+function askBbini() {
     const inputEl = document.getElementById('user-prompt');
     const chatContainer = document.querySelector('.hk-chat-messages') || document.getElementById('bbini-output');
     
@@ -129,6 +130,31 @@
     let responseText = "";
     const lowerQuery = query.toLowerCase();
 
+    if (lowerQuery.includes("누구") || lowerQuery.includes("who")) {
+        responseText = lang === 'en' ? "I am Bbini, your AGI Financial Assistant." : "저는 형님의 AGI 금융 비서, 삐니입니다!";
+    } else if (lowerQuery.includes("안녕") || lowerQuery.includes("hello") || lowerQuery.includes("하이")) {
+        responseText = lang === 'en' ? "Hello, Chairman! How can I assist HK WorldBank today?" : "반갑습니다 형님! 오늘 HK 월드뱅크를 위해 어떤 업무를 도와드릴까요?";
+    } else {
+        responseText = lang === 'en' ? `Processed query: "${query}". All systems operational.` : `형님, 요청하신 내용("${query}")을 완벽하게 분석했습니다. HK 월드뱅크 시스템 정상 가동 중입니다!`;
+    }
+
+    if (chatContainer) {
+        const userDiv = document.createElement('div');
+        userDiv.style.cssText = "margin: 10px 0; text-align: right;";
+        userDiv.innerHTML = `<span style="background: #e6b800; color: #000; padding: 8px 12px; border-radius: 8px; display: inline-block;">${query}</span>`;
+        chatContainer.appendChild(userDiv);
+
+        setTimeout(() => {
+            const bbiniDiv = document.createElement('div');
+            bbiniDiv.style.cssText = "margin: 10px 0; text-align: left;";
+            bbiniDiv.innerHTML = `<div style="background: #2b3748; color: #e2e8f0; padding: 10px 14px; border-radius: 8px; display: inline-block; border-left: 3px solid #e6b800;">${responseText}</div>`;
+            chatContainer.appendChild(bbiniDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }, 300);
+    }
+    
+    inputEl.value = '';
+}
     if (lowerQuery.includes("누구") || lowerQuery.includes("who")) {
         responseText = lang === 'en' ? "I am Bbini, your AGI Financial Assistant." : "저는 형님의 AGI 금융 비서, 삐니입니다!";
     } else if (lowerQuery.includes("안녕") || lowerQuery.includes("hello") || lowerQuery.includes("하이")) {
