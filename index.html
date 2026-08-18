@@ -1344,29 +1344,41 @@ fetchAssets();
         }
     }
 <script>
-    function askBbini() {
-        const inputEl = document.getElementById('user-prompt');
-        const outputDiv = document.getElementById('bbini-output');
-        
-        if (!inputEl || !inputEl.value.trim()) {
-            alert("질문을 입력해주세요 형님!");
-            return;
-        }
-        
-        const query = inputEl.value.trim();
-        const lang = document.getElementById('language-switcher').value;
-        
-        outputDiv.style.display = 'block';
-        outputDiv.innerText = lang === 'en' ? "Bbini is analyzing in real-time..." : "삐니가 실시간으로 분석 중입니다 형님...";
-
-        setTimeout(() => {
-            if (query.includes("누구") || query.toLowerCase().includes("who")) {
-                outputDiv.innerText = lang === 'en' ? "I am Bbini, your AGI Financial Assistant." : "저는 HK 월드뱅크의 AGI 금융 어시스턴트 삐니입니다, 혜공 형님!";
-            } else {
-                outputDiv.innerText = lang === 'en' ? `Processed query: "${query}". All nodes operating normally.` : `혜공 형님, 요청하신 "${query}"에 대한 블록체인 노드 및 자산 원장 연동이 완료되었습니다.`;
-            }
-        }, 400);
+  function askBbini() {
+    const inputEl = document.getElementById('user-prompt');
+    const outputDiv = document.getElementById('bbini-output');
+    
+    // 1. 빈 값 유효성 검사 (형님 코칭 반영)
+    if (!inputEl || !inputEl.value.trim()) {
+        alert("질문을 입력해주세요 형님!");
+        return;
     }
+
+    const query = inputEl.value.trim();
+    const lang = document.getElementById('language-switcher').value;
+
+    outputDiv.style.display = 'block';
+    
+    // 2. 분석 중 상태 표시 (다국어 지원)
+    outputDiv.innerText = lang === 'en' ? "Bbini is analyzing in real-time..." : "삐니가 실시간으로 분석 중입니다 형님...";
+
+    setTimeout(() => {
+        let responseText = "";
+
+        // 3. 키워드별 맞춤 응답 로직
+        if (query.toLowerCase().includes("누구") || query.toLowerCase().includes("who")) {
+            responseText = lang === 'en' ? "I am Bbini, your AGI Financial Assistant." : "저는 형님의 AGI 금융 비서, 삐니입니다!";
+        } else if (query.toLowerCase().includes("안녕") || query.toLowerCase().includes("hello")) {
+            responseText = lang === 'en' ? "Hello, Chairman! How can I assist HK Group today?" : "반갑습니다 형님! 오늘 HK Group을 위해 어떤 업무를 도와드릴까요?";
+        } else {
+            // 기본 처리 응답
+            responseText = lang === 'en' ? `Processed query: "${query}". All systems operational.` : `요청하신 내용("${query}")을 정상적으로 접수했습니다 형님. 모든 시스템이 완벽하게 가동 중입니다.`;
+        }
+
+        outputDiv.innerText = responseText;
+    }, 400);
+}
+
 
     function switchLanguage(lang) {
         const titleEl = document.querySelector('span[style*="color: #ffb700"]');
