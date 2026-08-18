@@ -1310,33 +1310,27 @@ fetchAssets();
     </div>
     <textarea id="user-prompt" placeholder="Ask Bbini in real-time..." style="width: 100%; height: 60px; background: #1a1a1a; color: #fff; border: 1px solid #333; border-radius: 5px; padding: 8px; box-sizing: border-box;"></textarea>
     <button onclick="askBbini()" style="margin-top: 8px; background: linear-gradient(135deg, #ffb700, #ff8800); color: #000; font-weight: bold; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">Ask Bbini</button>
-    <div id="bbini-output" class="output" style="display:none; margin-top: 10px; background: #111; padding: 10px; border-radius: 5px; color: #00ffcc;"></div>
-</div> 
-<script>
-   <script>
-    function askBbini() {
-        const inputEl = document.getElementById('user-prompt');
-        const outputDiv = document.getElementById('bbini-output');
-        
-        if (!inputEl || !inputEl.value.trim()) {
-            alert("질문을 입력해주세요 형님!");
-            return;
-        }
-        
-        const query = inputEl.value.trim();
-        const lang = document.getElementById('language-switcher').value;
-        
-        outputDiv.style.display = 'block';
-        outputDiv.innerText = lang === 'en' ? "Bbini is analyzing in real-time..." : "삐니가 실시간으로 분석 중입니다 형님...";
+   <button onclick="askBbini()">Ask Bbini</button>
+<button onclick="askBbini()" style="margin-top: 5px; background: linear-gradient(155deg, #ffb700, #ff8800); color: #000; font-weight: bold; border-radius: 5px; border: none; padding: 5px 15px; cursor: pointer;">Ask Bbini</button>
+<div id="bbini-output" style="display: none; margin-top: 10px; background: #2b3748; color: #e2e8f0; padding: 10px 14px; border-radius: 8px; border-left: 3px solid #ffb700;"></div>
 
-        setTimeout(() => {
-            if (query.includes("누구") || query.toLowerCase().includes("who")) {
-                outputDiv.innerText = lang === 'en' ? "I am Bbini, your AGI Financial Assistant." : "저는 HK 월드뱅크의 AGI 금융 어시스턴트 삐니입니다, 혜공 형님!";
-            } else {
-                outputDiv.innerText = lang === 'en' ? `Processed query: "${query}". All nodes operating normally.` : `혜공 형님, 요청하신 "${query}"에 대한 블록체인 노드 및 자산 원장 연동이 완료되었습니다.`;
-            }
-        }, 400);
+<script>
+function askBbini() {
+    const inputEl = document.getElementById('user-prompt');
+    const outputEl = document.getElementById('bbini-output');
+    
+    if (!inputEl || !inputEl.value.trim()) {
+        alert("질문을 입력해주세요 형님!");
+        return;
     }
+
+    const query = inputEl.value.trim();
+    outputEl.style.display = 'block';
+    outputEl.innerHTML = `형님, "${query}"에 대한 분석 결과입니다. 시스템 정상 가동 중!`;
+    
+    inputEl.value = '';
+}
+</script>
 
     function switchLanguage(lang) {
         const titleEl = document.querySelector('span[style*="color: #ffb700"]');
