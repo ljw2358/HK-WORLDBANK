@@ -153,57 +153,7 @@
             console.log("미완료 결제 발견:", payment);
         }
 
-        Pi.authenticate(scopes, onIncompletePaymentFound).then(auth => {
-            document.getElementById('pi-status').innerText = `인증 완료! 환영합니다, ${auth.user.username} 형님.`;
-        }).catch(err => {
-            console.error(err);
-            alert("Pi 인증 실패: " + err);
-        });
-    }
-
-    async function askBbini() {
-        const prompt = document.getElementById('user-prompt').value;
-        const outputDiv = document.getElementById('bbini-output');
-        
-        if (!prompt) {
-            alert("질문을 입력해주세요 형님!");
-            return;
-        }
-
-        outputDiv.style.display = 'block';
-        outputDiv.innerText = "삐니가 실시간으로 분석 중입니다...";
-
-        try {
-            const response = await fetch('http://localhost:3000/api/bbini-chat', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ prompt })
-            });
-            const data = await response.json();
-            if (data.success) {
-                outputDiv.innerText = data.response;
-            } else {
-                outputDiv.innerText = "오류 발생: " + data.error;
-            }
-        } catch (e) {
-            outputDiv.innerText = "서버 연결 실패: 백엔드가 실행 중인지 확인하세요 형님.";
-        }
-    }
-</script>
-
-    function authPiNetwork() {
-        const scopes = ['username', 'payments'];
-        function onIncompletePaymentFound(payment) {
-            console.log("미완료 결제 발견:", payment);
-        }
-
-        Pi.authenticate(scopes, onIncompletePaymentFound).then(auth => {
-            document.getElementById('pi-status').innerText = `인증 완료! 환영합니다, ${auth.user.username} 형님.`;
-        }).catch(err => {
-            console.error(err);
-            alert("Pi 인증 실패: " + err);
-        });
-    }
+      
 
     async function askBbini() {
         const prompt = document.getElementById('user-prompt').value;
