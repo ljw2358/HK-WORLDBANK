@@ -3,279 +3,863 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HK WorldBank - Global Digital Banking Platform</title>
+    <title>HK WorldBank - 해오름 특별시 글로벌 컨트롤 타워 (60개국 언어 완성)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
-        :root {
-            --bg-color: #0b0f19;
-            --card-bg: rgba(17, 24, 39, 0.7);
-            --border-color: rgba(255, 255, 255, 0.1);
-            --text-primary: #ffffff;
-            --text-secondary: #9ca3af;
-            --accent-blue: #3b82f6;
-            --accent-purple: #8b5cf6;
-        }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: var(--bg-color); color: var(--text-primary); min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 20px; }
-        .container { width: 100%; max-width: 1200px; display: flex; flex-direction: column; gap: 20px; }
-        
-        /* 상단 네비게이션 및 헤더 중앙 정렬 */
-        header { display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 10px 0; }
-        .logo { font-size: 1.2rem; font-weight: bold; color: var(--accent-blue); }
-        .lang-select { background: var(--card-bg); color: var(--text-primary); border: 1px solid var(--border-color); padding: 5px 10px; border-radius: 6px; cursor: pointer; max-height: 200px; overflow-y: auto; }
-
-        .welcome-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 30px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 15px; margin-top: 10px; }
-        .welcome-title { font-size: 1.8rem; font-weight: 700; }
-        .welcome-desc { color: var(--text-secondary); font-size: 0.95rem; max-width: 800px; line-height: 1.5; }
-
-        .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; width: 100%; margin-top: 10px; }
-        .metric-box { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); border-radius: 12px; padding: 15px; text-align: center; }
-        .metric-label { font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 5px; }
-        .metric-value { font-size: 1.25rem; font-weight: 600; }
-
-        /* 빠른 금융 작업 섹션 */
-        .section-title { font-size: 1.1rem; font-weight: 600; margin-top: 10px; }
-        .quick-actions { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
-        .action-btn { background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.3); color: var(--text-primary); padding: 15px; border-radius: 10px; cursor: pointer; text-align: left; transition: 0.2s; }
-        .action-btn:hover { background: rgba(59, 130, 246, 0.2); }
-
-        /* AGI 삐니 챗봇 섹션 */
-        .chatbot-container { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 15px; }
-        .chat-box { background: rgba(0, 0, 0, 0.2); border: 1px solid var(--border-color); border-radius: 10px; padding: 15px; min-height: 80px; color: var(--text-secondary); }
-        .chat-input-area { display: flex; gap: 10px; }
-        .chat-input { flex: 1; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-color); border-radius: 8px; padding: 10px 15px; color: var(--text-primary); }
-        .chat-send-btn { background: var(--accent-blue); color: white; border: none; padding: 0 20px; border-radius: 8px; cursor: pointer; font-weight: 600; }
-
-        /* 모달 및 프로세스 레이어 */
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); justify-content: center; align-items: center; z-index: 1000; }
-        .modal-content { background: #1f2937; padding: 30px; border-radius: 16px; width: 400px; text-align: center; display: flex; flex-direction: column; gap: 15px; border: 1px solid var(--border-color); }
-        .modal-input { width: 100%; padding: 12px; background: #111827; border: 1px solid var(--border-color); color: white; border-radius: 8px; text-align: center; font-size: 1.2rem; letter-spacing: 2px; }
+        @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;600;800&display=swap');
+        body { font-family: 'Pretendard', sans-serif; background-color: #030712; color: #f3f4f6; }
+        .glass { background: rgba(17, 24, 39, 0.85); backdrop-filter: blur(12px); border: 1px solid rgba(59, 130, 246, 0.2); }
     </style>
 </head>
-<body>
+<body class="min-h-screen flex flex-col">
 
-    <div class="container">
-        <!-- 상단 헤더 -->
-        <header>
-            <div class="logo">HK WORLDBANK</div>
-            <select id="langSelect" class="lang-select" onchange="changeLanguage(this.value)">
-                <!-- 60개국 언어 셀렉트 박스 -->
-                <option value="ko">한국어 (Korean)</option>
-                <option value="en">English (US)</option>
-                <option value="zh">中文 (Chinese)</option>
-                <option value="ja">日本語 (Japanese)</option>
-                <option value="es">Español (Spanish)</option>
-                <option value="fr">Français (French)</option>
-                <option value="de">Deutsch (German)</option>
-                <option value="ru">Русский (Russian)</option>
-                <option value="pt">Português (Portuguese)</option>
-                <option value="it">Italiano (Italian)</option>
-                <option value="vi">Tiếng Việt (Vietnamese)</option>
-                <option value="th">ไทย (Thai)</option>
-                <option value="id">Bahasa Indonesia</option>
-                <option value="ms">Bahasa Melayu</option>
-                <option value="hi">हिन्दी (Hindi)</option>
-                <option value="ar">العربية (Arabic)</option>
-                <option value="tr">Türkçe (Turkish)</option>
-                <option value="fa">فارسی (Persian)</option>
-                <option value="pl">Polski (Polish)</option>
-                <option value="nl">Nederlands (Dutch)</option>
-                <option value="uk">Українська (Ukrainian)</option>
-                <option value="el">Ελληνικά (Greek)</option>
-                <option value="cs">Čeština (Czech)</option>
-                <option value="sv">Svenska (Swedish)</option>
-                <option value="hu">Magyar (Hungarian)</option>
-                <option value="ro">Română (Romanian)</option>
-                <option value="da">Dansk (Danish)</option>
-                <option value="fi">Suomi (Finnish)</option>
-                <option value="no">Norsk (Norwegian)</option>
-                <option value="he">עברית (Hebrew)</option>
-                <option value="bn">বাংলা (Bengali)</option>
-                <option value="pa">ਪੰਜਾਬੀ (Punjabi)</option>
-                <option value="ur">اردو (Urdu)</option>
-                <option value="ta">தமிழ் (Tamil)</option>
-                <option value="te">తెలుగు (Telugu)</option>
-                <option value="mr">मराठी (Marathi)</option>
-                <option value="tr">Türkçe (Turkish)</option>
-                <option value="sw">Kiswahili (Swahili)</option>
-                <option value="fil">Filipino (Tagalog)</option>
-                <option value="sr">Српски (Serbian)</option>
-                <option value="hr">Hrvatski (Croatian)</option>
-                <option value="sk">Slovenčina (Slovak)</option>
-                <option value="bg">Български (Bulgarian)</option>
-                <option value="lt">Lietuvių (Lithuanian)</option>
-                <option value="lv">Latviešu (Latvian)</option>
-                <option value="et">Eesti (Estonian)</option>
-                <option value="sl">Slovenščina (Slovenian)</option>
-                <option value="sq">Shqip (Albanian)</option>
-                <option value="mk">Македонски (Macedonian)</option>
-                <option value="bs">Bosanski (Bosnian)</option>
-                <option value="is">Íslenska (Icelandic)</option>
-                <option value="ga">Gaeilge (Irish)</option>
-                <option value="cy">Cymraeg (Welsh)</option>
-                <option value="eu">Euskara (Basque)</option>
-                <option value="gl">Galego (Galician)</option>
-                <option value="ca">Català (Catalan)</option>
-                <option value="af">Afrikaans</option>
-                <option value="hy">Հայերեն (Armenian)</option>
-                <option value="ka">ქართული (Georgian)</option>
-                <option value="az">Azərbaycan (Azerbaijani)</option>
+    <!-- 상단 네비게이션 -->
+    <header class="glass sticky top-0 z-50 px-6 py-4 flex items-center justify-between border-b border-blue-900/50">
+        <div class="flex items-center space-x-3">
+            <div class="w-3 h-3 bg-blue-500 rounded-full animate-pulse"></div>
+            <span class="text-lg font-black tracking-wider text-white">HK WORLDBANK</span>
+            <span class="text-xs px-2 py-0.5 bg-blue-900/60 text-blue-300 rounded border border-blue-700">해오름 특별시 60개국 언어 컨트롤 타워</span>
+        </div>
+        <div class="flex items-center space-x-3">
+            <!-- 60개국 언어 드롭다운 -->
+            <select id="lang-select" class="bg-gray-900 border border-blue-800 text-blue-300 text-xs rounded-lg px-3 py-2 focus:outline-none max-w-[220px]">
+                <option value="ko">🇰🇷 한국어 (Korean)</option>
+                <option value="en">🇺🇸 English (US)</option>
+                <option value="zh">🇨🇳 中文 (Chinese)</option>
+                <option value="ja">🇯🇵 日本語 (Japanese)</option>
+                <option value="vi">🇻🇳 Tiếng Việt (Vietnamese)</option>
+                <option value="es">🇪🇸 Español (Spanish)</option>
+                <option value="fr">🇫🇷 Français (French)</option>
+                <option value="de">🇩🇪 Deutsch (German)</option>
+                <option value="ru">🇷🇺 Русский (Russian)</option>
+                <option value="ar">🇸🇦 العربية (Arabic)</option>
+                <option value="hi">🇮🇳 हिन्दी (Hindi)</option>
+                <option value="bn">🇧🇩 বাংলা (Bengali)</option>
+                <option value="pt">🇵🇹 Português (Portuguese)</option>
+                <option value="id">🇮🇩 Bahasa Indonesia (Indonesian)</option>
+                <option value="tr">🇹🇷 Türkçe (Turkish)</option>
+                <option value="it">🇮🇹 Italiano (Italian)</option>
+                <option value="pl">🇵🇱 Polski (Polish)</option>
+                <option value="uk">🇺🇦 Українська (Ukrainian)</option>
+                <option value="nl">🇳🇱 Nederlands (Dutch)</option>
+                <option value="th">🇹🇭 ไทย (Thai)</option>
+                <option value="fa">🇮🇷 فارسی (Persian)</option>
+                <option value="ms">🇲🇾 Bahasa Melayu (Malay)</option>
+                <option value="fil">🇵🇭 Filipino (Tagalog)</option>
+                <option value="sv">🇸🇪 Svenska (Swedish)</option>
+                <option value="el">🇬🇷 Ελληνικά (Greek)</option>
+                <option value="cs">🇨🇿 Čeština (Czech)</option>
+                <option value="ro">🇷🇴 Română (Romanian)</option>
+                <option value="hu">🇭🇺 Magyar (Hungarian)</option>
+                <option value="he">🇮🇱 עברית (Hebrew)</option>
+                <option value="da">🇩🇰 Dansk (Danish)</option>
+                <option value="fi">🇫🇮 Suomi (Finnish)</option>
+                <option value="no">🇳🇴 Norsk (Norwegian)</option>
+                <option value="sk">🇸🇰 Slovenčina (Slovak)</option>
+                <option value="bg">🇧🇬 Български (Bulgarian)</option>
+                <option value="hr">🇭🇷 Hrvatski (Croatian)</option>
+                <option value="sr">🇷🇸 Српски (Serbian)</option>
+                <option value="lt">🇱🇹 Lietuvių (Lithuanian)</option>
+                <option value="lv">🇱🇻 Latviešu (Latvian)</option>
+                <option value="et">🇪🇪 Eesti (Estonian)</option>
+                <option value="sl">🇸🇮 Slovenščina (Slovenian)</option>
+                <option value="sw">🇰🇪 Kiswahili (Swahili)</option>
+                <option value="am">🇪🇹 አማርኛ (Amharic)</option>
+                <option value="yo">🇳🇬 Yorùbá (Yoruba)</option>
+                <option value="ig">🇳🇬 Igbo (Igbo)</option>
+                <option value="ha">🇳🇬 Hausa (Hausa)</option>
+                <option value="zu">🇿🇦 IsiZulu (Zulu)</option>
+                <option value="af">🇿🇦 Afrikaans (Afrikaans)</option>
+                <option value="ne">🇳🇵 नेपाली (Nepali)</option>
+                <option value="si">🇱🇰 සිංහල (Sinhala)</option>
+                <option value="km">🇰🇭 ខ្មែរ (Khmer)</option>
+                <option value="my">🇲🇲 မြန်မာ (Burmese)</option>
+                <option value="lo">🇱🇦 ລາວ (Lao)</option>
+                <option value="mn">🇲🇳 Монгол (Mongolian)</option>
+                <option value="ka">🇬🇬 ქართული (Georgian)</option>
+                <option value="hy">🇦🇲 Հայերեն (Armenian)</option>
+                <option value="az">🇦🇿 Azərbaycanca (Azerbaijani)</option>
+                <option value="kk">🇰🇿 Қазақша (Kazakh)</option>
+                <option value="uz">🇺🇿 Oʻzbekcha (Uzbek)</option>
+                <option value="ur">🇵🇰 اردو (Urdu)</option>
+                <option value="ps">🇦🇫 پښتو (Pashto)</option>
             </select>
-        </header>
+            <button onclick="alert('Pi Network 지갑이 안정적으로 연결되었습니다.')" class="bg-blue-600 hover:bg-blue-500 text-white font-bold px-4 py-2 rounded-xl text-sm transition">
+                <i class="fa-solid fa-wallet mr-1.5"></i> <span id="txt-connect">지갑 연결</span>
+            </button>
+        </div>
+    </header>
 
-        <!-- 환영 카드 (중앙 정렬 및 문구 수정 반영) -->
-        <section class="welcome-card">
-            <h1 class="welcome-title" id="welcomeText">환영합니다, 고객님</h1>
-            <p class="welcome-desc" id="descText">
-                파이회폐(Pi) 단일 경제권과 165층 인공지능 타워 시스템이 60개국 언어 실시간 원격 동기화와 함께 구동 중입니다. 대기엄 임금부터 제세공과 정까지 통합된 자산성을 생태계합니다.
+    <!-- 메인 대시보드 -->
+    <main class="flex-1 max-w-7xl w-full mx-auto p-6 space-y-6">
+        
+        <!-- 환영 배너 및 주요 지표 -->
+        <div class="glass p-8 rounded-3xl relative overflow-hidden">
+            <div class="absolute right-0 top-0 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none"></div>
+            <span id="txt-badge" class="px-3 py-1 bg-purple-900/60 text-purple-300 text-xs font-semibold rounded-full border border-purple-700">울산·경주·포항 통합 메인넷</span>
+            <h1 id="txt-welcome" class="text-3xl font-black mt-4 text-white">환영합니다, 혜공 형님</h1>
+            <p id="txt-desc" class="text-gray-400 mt-2 text-sm max-w-3xl leading-relaxed">
+                파이화폐(Pi) 단일 경제권과 165층 컨트롤 타워 시스템이 60개국 언어 실시간 완벽 동기화와 함께 구동 중입니다. 대기업 임금부터 재래시장 결제까지 통합된 지상낙원 생태계입니다.
             </p>
-            
-            <div class="metrics-grid">
-                <div class="metric-box">
-                    <div class="metric-label" id="lblAssetBal">자산 잔액</div>
-                    <div class="metric-value">1,000,000.00 Pi</div>
-                </div>
-                <div class="metric-box">
-                    <div class="metric-label" id="lblAssetQty">자산 수량</div>
-                    <div class="metric-value">1,000,000 Pi</div>
-                </div>
-                <div class="metric-box">
-                    <div class="metric-label" id="lblUbi">UBI 복리</div>
-                    <div class="metric-value">31.41% APY</div>
-                </div>
-                <div class="metric-box">
-                    <div class="metric-label" id="lblFuture">퓨처 수익률</div>
-                    <div class="metric-value">30.0%</div>
-                </div>
-            </div>
-        </section>
 
-        <!-- 빠른 금융 작업 프로세스 -->
-        <section>
-            <h2 class="section-title" id="secQuickAction">빠른 금융 작업</h2>
-            <div class="quick-actions">
-                <button class="action-btn" onclick="startProcess('deposit')">💳 자산입금 (Deposit)</button>
-                <button class="action-btn" onclick="startProcess('transfer')">🔄 자산송금 (Transfer)</button>
-                <button class="action-btn" onclick="startProcess('pi_staking')">⚡ Pi 스테이킹 (Staking)</button>
-                <button class="action-btn" onclick="startProcess('lp_staking')">🌐 LP 스테이킹 (LP Staking)</button>
-            </div>
-        </section>
-
-        <!-- AGI 삐니 다국어 챗봇 영역 -->
-        <section class="chatbot-container">
-            <h3 id="chatHeaderTitle">AGI 삐니 (60개국 언어 실시간 원격 지원)</h3>
-            <div class="chat-box" id="chatResponseText">
-                "형님, 전 세계 국가의 원격 및 실시간 장치가 원격 완료되었습니다. 지구온 하시산은 준비되셨습니까?"
-            </div>
-            <div class="chat-input-area">
-                <input type="text" id="chatInput" class="chat-input" placeholder="AGI 삐니에게 무엇이든 물어보세요...">
-                <button class="chat-send-btn" onclick="sendChat()" id="sendBtn">검색</button>
-            </div>
-        </section>
-    </div>
-
-    <!-- 분류코드 6자리 입력 프로세스 모달 -->
-    <div id="processModal" class="modal">
-        <div class="modal-content">
-            <h3 id="modalTitle">보안 분류코드 입력</h3>
-            <p style="font-size: 0.85rem; color: var(--text-secondary);" id="modalDesc">안전한 프로세스 진행을 위해 6자리 분류코드를 입력하세요.</p>
-            <input type="password" id="authCodeInput" class="modal-input" maxlength="6" placeholder="------">
-            <div style="display: flex; gap: 10px; margin-top: 10px;">
-                <button onclick="closeModal()" style="flex:1; padding:10px; background:#374151; color:white; border:none; border-radius:6px; cursor:pointer;" id="cancelBtn">취소</button>
-                <button onclick="verifyCode()" style="flex:1; padding:10px; background:var(--accent-blue); color:white; border:none; border-radius:6px; cursor:pointer;" id="confirmBtn">확인</button>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8 pt-6 border-t border-gray-800">
+                <div class="bg-gray-900/60 p-4 rounded-2xl border border-gray-800">
+                    <span class="text-xs text-gray-400" id="lbl-bal">자산 잔액</span>
+                    <div class="text-xl font-black text-blue-400 mt-1">1,000,000.00 <span class="text-xs text-yellow-400">π</span></div>
+                </div>
+                <div class="bg-gray-900/60 p-4 rounded-2xl border border-gray-800">
+                    <span class="text-xs text-gray-400" id="lbl-ubi">UBI 복리 (사회 재단)</span>
+                    <div class="text-xl font-black text-purple-400 mt-1">31.41% <span class="text-xs text-gray-400">APY</span></div>
+                </div>
+                <div class="bg-gray-900/60 p-4 rounded-2xl border border-gray-800">
+                    <span class="text-xs text-gray-400" id="lbl-ret">지구촌 순이익 환원</span>
+                    <div class="text-xl font-black text-green-400 mt-1">30.0%</div>
+                </div>
+                <div class="bg-gray-900/60 p-4 rounded-2xl border border-gray-800">
+                    <span class="text-xs text-gray-400" id="lbl-agi">AGI 삐니 상태</span>
+                    <div class="text-xl font-black text-pink-400 mt-1 flex items-center space-x-1.5"><span class="w-2 h-2 bg-pink-500 rounded-full animate-ping"></span><span>ONLINE</span></div>
+                </div>
             </div>
         </div>
-    </div>
+
+        <!-- 핵심 기능 및 연동망 -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            <!-- 금융 작업 -->
+            <div class="glass p-6 rounded-3xl space-y-4 flex flex-col justify-between">
+                <div>
+                    <h3 class="text-sm font-bold text-blue-400 uppercase tracking-widest mb-4" id="lbl-actions">빠른 금융 작업</h3>
+                    <div class="grid grid-cols-2 gap-3">
+                        <button onclick="alert('예치 완료되었습니다.')" class="bg-blue-600/20 hover:bg-blue-600/40 border border-blue-500/40 p-3 rounded-2xl text-left transition">
+                            <i class="fa-solid fa-vault text-blue-400 text-base mb-1 block"></i>
+                            <div class="font-bold text-xs" id="btn-dep">예치하기</div>
+                            <div class="text-[9px] text-gray-400">31.41% 복리</div>
+                        </button>
+                        <button onclick="alert('출금이 요청되었습니다.')" class="bg-green-600/20 hover:bg-green-600/40 border border-green-500/40 p-3 rounded-2xl text-left transition">
+                            <i class="fa-solid fa-arrow-right-arrow-left text-green-400 text-base mb-1 block"></i>
+                            <div class="font-bold text-xs" id="btn-wit">출금/송금</div>
+                            <div class="text-[9px] text-gray-400">즉시 정산</div>
+                        </button>
+                        <button onclick="alert('스왑창이 활성화되었습니다.')" class="bg-purple-600/20 hover:bg-purple-600/40 border border-purple-500/40 p-3 rounded-2xl text-left transition">
+                            <i class="fa-solid fa-coins text-purple-400 text-base mb-1 block"></i>
+                            <div class="font-bold text-xs" id="btn-swap">Pi 스왑</div>
+                            <div class="text-[9px] text-gray-400">현금·카드 교환</div>
+                        </button>
+                        <button onclick="alert('재단 UBI 배분 창입니다.')" class="bg-pink-600/20 hover:bg-pink-600/40 border border-pink-500/40 p-3 rounded-2xl text-left transition">
+                            <i class="fa-solid fa-hand-holding-heart text-pink-400 text-base mb-1 block"></i>
+                            <div class="font-bold text-xs" id="btn-ubi-net">UBI 재단</div>
+                            
+                        </button>
+                    </div>
+                </div>
+                <div class="text-[10px] text-gray-500 pt-2 border-t border-gray-800">
+                    유튜브: <span class="text-blue-400">@Hyekong2026</span> | 틱톡: <span class="text-pink-400">@hyekong2025</span>
+                </div>
+            </div>
+
+            <!-- 연동망 -->
+            <div class="glass p-6 rounded-3xl space-y-4 md:col-span-2 flex flex-col justify-between">
+                <div>
+                    <div class="flex justify-between items-center mb-3">
+                        <h3 class="text-sm font-bold text-blue-400 uppercase tracking-widest" id="lbl-net-title">60개국 분산 연동망 & 9대 미래 사업</h3>
+                        <span class="text-[10px] text-green-400 bg-green-950 px-2 py-0.5 rounded border border-green-800" id="lbl-sync">60개국 언어 실시간 동기화</span>
+                    </div>
+                    <div class="grid grid-cols-2 lg:grid-cols-5 gap-2 text-xs">
+                        <div class="bg-gray-900/60 p-2.5 rounded-xl border border-blue-900/30 text-center"><i class="fa-solid fa-wallet text-blue-400 mb-1 block"></i><span id="n1">지갑연결</span></div>
+                        <div class="bg-gray-900/60 p-2.5 rounded-xl border border-blue-900/30 text-center"><i class="fa-solid fa-paper-plane text-purple-400 mb-1 block"></i><span id="n2">송금</span></div>
+                        <div class="bg-gray-900/60 p-2.5 rounded-xl border border-blue-900/30 text-center"><i class="fa-solid fa-credit-card text-green-400 mb-1 block"></i><span id="n3">결제</span></div>
+                        <div class="bg-gray-900/60 p-2.5 rounded-xl border border-blue-900/30 text-center"><i class="fa-solid fa-vault text-yellow-400 mb-1 block"></i><span id="n4">예치</span></div>
+                        <div class="bg-gray-900/60 p-2.5 rounded-xl border border-blue-900/30 text-center"><i class="fa-solid fa-gift text-pink-400 mb-1 block"></i><span id="n5">보상</span></div>
+                        <div class="bg-gray-900/60 p-2.5 rounded-xl border border-blue-900/30 text-center"><i class="fa-solid fa-hand-holding-heart text-red-400 mb-1 block"></i><span id="n6">기본소득</span></div>
+                        <div class="bg-gray-900/60 p-2.5 rounded-xl border border-blue-900/30 text-center"><i class="fa-solid fa-rotate text-indigo-400 mb-1 block"></i><span id="n7">스왑</span></div>
+                        <div class="bg-gray-900/60 p-2.5 rounded-xl border border-blue-900/30 text-center"><i class="fa-solid fa-chart-line text-teal-400 mb-1 block"></i><span id="n8">DEX 스왑</span></div>
+                        <div class="bg-gray-900/60 p-2.5 rounded-xl border border-blue-900/30 text-center"><i class="fa-solid fa-layer-group text-orange-400 mb-1 block"></i><span id="n9">LP 스테이킹</span></div>
+                        <div class="bg-gray-900/60 p-2.5 rounded-xl border border-blue-900/30 text-center"><i class="fa-solid fa-pi text-yellow-500 mb-1 block"></i><span id="n10">PI 수량</span></div>
+                    </div>
+                </div>
+                <div class="flex flex-wrap gap-1.5 text-[10px] text-gray-400 pt-3 border-t border-gray-800">
+                    <span class="px-2 py-0.5 bg-blue-950 rounded border border-blue-900">로봇</span>
+                    <span class="px-2 py-0.5 bg-blue-950 rounded border border-blue-900">안경폰</span>
+                    <span class="px-2 py-0.5 bg-blue-950 rounded border border-blue-900">UAM</span>
+                    <span class="px-2 py-0.5 bg-blue-950 rounded border border-blue-900">핵융합</span>
+                    <span class="px-2 py-0.5 bg-blue-950 rounded border border-blue-900">양자생물학</span>
+                    <span class="px-2 py-0.5 bg-blue-950 rounded border border-blue-900">우주시스템</span>
+                    <span class="px-2 py-0.5 bg-blue-950 rounded border border-blue-900">165층 타워</span>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- AGI 삐니 챗 -->
+        <div class="glass p-6 rounded-3xl border border-pink-500/30">
+            <div class="flex items-center justify-between mb-3">
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-pink-500 to-purple-600 flex items-center justify-center font-bold text-xs text-white">삐니</div>
+                    <div>
+                        <h4 class="font-bold text-sm text-white" id="lbl-agi-title">AGI 삐니 (60개국 언어 실시간 통역 지원)</h4>
+                        <p class="text-[11px] text-gray-400" id="lbl-agi-sub">해오름 특별시 & 파이 경제권 안내</p>
+                    </div>
+                </div>
+                <span class="text-xs text-pink-400 font-bold" id="lbl-status-ok">정상 작동 중</span>
+            </div>
+            <div class="bg-gray-900/90 p-3 rounded-xl border border-gray-800 text-xs text-gray-300 mb-3" id="txt-msg">
+                "형님, 전 세계 60개국 언어 세팅이 완벽하게 완료되었습니다. 지구촌 어디서든 완벽하게 통합니다!"
+            </div>
+            <div class="flex space-x-2">
+                <input type="text" id="chat-input" placeholder="AGI 삐니에게 무엇이든 물어보세요..." class="flex-1 bg-gray-900 border border-gray-800 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-pink-500 text-white">
+                <button onclick="alert('AGI 삐니가 지시사항을 접수했습니다!')" class="bg-gradient-to-r from-pink-600 to-purple-600 text-white px-4 py-2 rounded-xl text-xs font-bold transition">전송</button>
+            </div>
+        </div>
+
+    </main>
 
     <script>
-        let currentProcessType = '';
+        const baseKo = {
+            connect: "지갑 연결", badge: "울산·경주·포항 통합 메인넷", welcome: "환영합니다, 혜공 형님",
+            desc: "파이화폐(Pi) 단일 경제권과 165층 컨트롤 타워 시스템이 60개국 언어 실시간 완벽 동기화와 함께 강력하게 구동 중입니다.",
+            bal: "자산 잔액", ubi: "UBI 복리 (사회 재단)", ret: "지구촌 순이익 환원", agi: "AGI 삐니 상태",
+            actions: "빠른 금융 작업", dep: "예치하기", wit: "출금/송금", swap: "Pi 스왑", ubiNet: "UBI 재단",
+            netTitle: "60개국 분산 연동망 & 9대 미래 사업", sync: "60개국 언어 실시간 동기화",
+            n1: "지갑연결", n2: "송금", n3: "결제", n4: "예치", n5: "보상", n6: "기본소득", n7: "스왑", n8: "DEX 스왑", n9: "LP 스테이킹", n10: "PI 수량",
+            agiTitle: "AGI 삐니 (60개국 언어 실시간 통역 지원)", agiSub: "해오름 특별시 & 파이 경제권 안내", statusOk: "정상 작동 중",
+            msg: "\"형님, 전 세계 60개국 언어 세팅이 완벽하게 완료되었습니다. 지구촌 어디서든 완벽하게 통합니다!\""
+        };
 
-        function startProcess(type) {
-            currentProcessType = type;
-            document.getElementById('processModal').style.display = 'flex';
-            document.getElementById('authCodeInput').value = '';
-            document.getElementById('authCodeInput').focus();
-        }
-
-        function closeModal() {
-            document.getElementById('processModal').style.display = 'none';
-        }
-
-        function verifyCode() {
-            const code = document.getElementById('authCodeInput').value;
-            if (code.length !== 6 || isNaN(code)) {
-                alert('정상적인 6자리 분류코드를 정확히 입력해 주세요.');
-                return;
-            }
-            alert('분류코드 6자리 검증이 완료되었습니다. 프로세스를 정상 실행합니다.');
-            closeModal();
-        }
-
-        // 60개국 언어 지원 다국어 딕셔너리 시스템 (자동 폴백 포함)
-        const globalTranslations = {
-            ko: {
-                welcome: "환영합니다, 고객님", desc: "파이회폐(Pi) 단일 경제권과 165층 인공지능 타워 시스템이 60개국 언어 실시간 원격 동기화와 함께 구동 중입니다.",
-                assetBal: "자산 잔액", assetQty: "자산 수량", ubi: "UBI 복리", future: "퓨처 수익률", quickAction: "빠른 금융 작업",
-                chatTitle: "AGI 삐니 (60개국 언어 실시간 원격 지원)", chatDefault: "형님, 전 세계 국가의 원격 및 실시간 장치가 원격 완료되었습니다.",
-                chatPlaceholder: "AGI 삐니에게 무엇이든 물어보세요...", send: "검색", modalTitle: "보안 분류코드 입력", modalDesc: "6자리 분류코드를 입력하세요.", confirm: "확인", cancel: "취소"
-            },
+        // 60개국 언어별 딕셔너리 완벽 구축
+        const dict = {
+            ko: baseKo,
             en: {
-                welcome: "Welcome, Valued Customer", desc: "The Pi single economic zone and 165-story AI tower system are operating with real-time remote synchronization across 60 languages.",
-                assetBal: "Asset Balance", assetQty: "Asset Quantity", ubi: "UBI Compound", future: "Future Yield", quickAction: "Quick Financial Actions",
-                chatTitle: "AGI Bini (Real-time 60-Country Language Support)", chatDefault: "Control Tower & Pi Economic Guide initialized successfully across the global network.",
-                chatPlaceholder: "Ask AGI Bini anything...", send: "Search", modalTitle: "Enter 6-Digit Classification Code", modalDesc: "Please enter your 6-digit security code.", confirm: "Confirm", cancel: "Cancel"
+                connect: "Connect Wallet", badge: "Ulsan·Gyeongju·Pohang Mainnet", welcome: "Welcome, Chairman Lee Jaewan",
+                desc: "The single Pi economic zone and 165-floor control tower system are running powerfully with real-time sync across 60 countries' languages.",
+                bal: "Asset Balance", ubi: "Social UBI APY", ret: "Global Profit Return", agi: "AGI Bini Status",
+                actions: "Quick Actions", dep: "Deposit", wit: "Withdraw", swap: "Pi Swap", ubiNet: "UBI Foundation",
+                netTitle: "Top 60 Country Networks & 9 Future Businesses", sync: "60 Lang Real-Time Sync",
+                n1: "Wallet", n2: "Transfer", n3: "Pay", n4: "Deposit", n5: "Reward", n6: "UBI", n7: "Swap", n8: "DEX", n9: "LP Stake", n10: "Pi Qty",
+                agiTitle: "AGI Bini (60 Language Support)", agiSub: "Control Tower & Pi Economic Guide", statusOk: "ONLINE",
+                msg: "\"Sir, all 60 country languages configured successfully across the global network!\""
             },
             zh: {
-                welcome: "欢迎您，尊贵的客户", desc: "Pi单一经济圈与165层人工智能塔楼系统正在全球60种语言的实时远程同步下运行。",
-                assetBal: "资产余额", assetQty: "资产数量", ubi: "UBI 复利", future: "未来收益率", quickAction: "快捷金融操作",
-                chatTitle: "AGI Bini (60国语言实时远程支持)", chatDefault: "全球网络控制塔及Pi经济指南已成功配置完成。",
-                chatPlaceholder: "向 AGI Bini 询问任何问题...", send: "搜索", modalTitle: "输入6位数分类代码", modalDesc: "请输入6位数安全分类代码。", confirm: "确认", cancel: "取消"
+                connect: "连接钱包", badge: "蔚山·庆州·浦项 主网", welcome: "欢迎，李在元会长",
+                desc: "Pi币单一经济圈与165层控制塔系统正在以60国语言实时同步强劲运行。",
+                bal: "资产余额", ubi: "社会基本收入 (UBI)", ret: "全球利润返还", agi: "AGI 状态",
+                actions: "快捷金融操作", dep: "存款", wit: "提款/转账", swap: "Pi 兑换", ubiNet: "UBI 基金会",
+                netTitle: "六十国分布式网络与九大未来产业", sync: "六十国语言实时同步",
+                n1: "连接钱包", n2: "转账", n3: "支付", n4: "存款", n5: "奖励", n6: "基本收入", n7: "兑换", n8: "DEX兑换", n9: "LP质押", n10: "Pi数量",
+                agiTitle: "AGI 삐니 (六十国语言实时支持)", agiSub: "海鸥特区与Pi经济指南", statusOk: "在线",
+                msg: "\"会长，全球60国语言已全部完美同步！\""
             },
             ja: {
-                welcome: "ようこそ、お客様", desc: "Piシングル経済圏と165階建てAIタワーシステムが60カ国語のリアルタイム遠隔同期とともに稼働中です。",
-                assetBal: "資産残高", assetQty: "資産数量", ubi: "UBI複利", future: "フューチャー利回り", quickAction: "クイック金融操作",
-                chatTitle: "AGI ビーニ (60カ国語リアルタイム遠隔サポート)", chatDefault: "グローバルネットワーク全体の制御塔とPi経済ガイドの初期化が完了しました。",
-                chatPlaceholder: "AGI ビーニに何でも聞いてください...", send: "検索", modalTitle: "6桁の分類コード入力", modalDesc: "6桁のセキュリティ分類コードを入力してください。", confirm: "確認", cancel: "キャンセル"
+                connect: "ウォレット接続", badge: "蔚山・慶州・浦項 統合メインネット", welcome: "ようこそ、イ・ジェワン会長",
+                desc: "Pi通貨単一経済圏と165階コントロールタワーシステムが60カ国言語のリアルタイム同期で強力稼働中。",
+                bal: "資産残高", ubi: "社会的UBI複利", ret: "地球村利益還元", agi: "AGIステータス",
+                actions: "クイック金融", dep: "預金", wit: "出金/送金", swap: "Piスワップ", ubiNet: "UBI財団",
+                netTitle: "60カ国分散連動網 & 9大未来事業", sync: "60カ国言語リアルタイム同期",
+                n1: "ウォレット", n2: "送金", n3: "決済", n4: "預金", n5: "報酬", n6: "UBI", n7: "スワップ", n8: "DEX", n9: "LPステーキング", n10: "Pi数量",
+                agiTitle: "AGI 삐니 (60カ国言語リアルタイム対応)", agiSub: "コントロールタワー総合案内", statusOk: "オンライン",
+                msg: "\"会長、60カ国言語のセットアップが完璧に完了しました！\""
+            },
+            vi: {
+                connect: "Kết nối ví", badge: "Mạng chính Ulsan·Gyeongju·Pohang", welcome: "Chào mừng, Chủ tịch Lee Jaewan",
+                desc: "Khu vực kinh tế Pi và hệ thống tháp điều khiển 165 tầng đang hoạt động mạnh mẽ với 60 quốc gia ngôn ngữ.",
+                bal: "Số dư tài sản", ubi: "Lãi kép UBI Xã hội", ret: "Hoàn lợi nhuận toàn cầu", agi: "Trạng thái AGI",
+                actions: "Tác vụ nhanh", dep: "Gửi tiền", wit: "Rút/Chuyển", swap: "Đổi Pi", ubiNet: "Quỹ UBI",
+                netTitle: "60 Mạng lưới Quốc gia & 9 Doanh nghiệp tương lai", sync: "Đồng bộ 60 ngôn ngữ",
+                n1: "Ví", n2: "Chuyển", n3: "Thanh toán", n4: "Gửi", n5: "Thưởng", n6: "UBI", n7: "Hoán đổi", n8: "DEX", n9: "LP Staking", n10: "Số Pi",
+                agiTitle: "AGI Bini (Hỗ trợ 60 ngôn ngữ quốc gia)", agiSub: "Hướng dẫn Kinh tế Pi & Tháp điều khiển", statusOk: "TRỰC TUYẾN",
+                msg: "\"Thưa Chủ tịch, đã tích hợp trọn vẹn 60 quốc gia ngôn ngữ trên toàn cầu!\""
             },
             es: {
-                welcome: "Bienvenido, Estimado Cliente", desc: "La zona económica única de Pi y el sistema de torre AI de 165 pisos operan con sincronización remota en 60 idiomas.",
-                assetBal: "Saldo de Activos", assetQty: "Cantidad de Activos", ubi: "Compuesto UBI", future: "Rendimiento Futuro", quickAction: "Acciones Financieras",
-                chatTitle: "AGI Bini (Soporte de 60 Idiomas)", chatDefault: "Torre de control y guía económica de Pi inicializadas globalmente.",
-                chatPlaceholder: "Pregúntale algo a AGI Bini...", send: "Buscar", modalTitle: "Código de 6 Dígitos", modalDesc: "Ingrese su código de clasificación.", confirm: "Confirmar", cancel: "Cancelar"
+                connect: "Conectar Monedero", badge: "Red Ulsan·Gyeongju·Pohang", welcome: "Bienvenido, Presidente Lee Jaewan",
+                desc: "La zona económica de Pi y la torre de control operan con 60 idiomas de países.",
+                bal: "Saldo de Activos", ubi: "APY UBI Social", ret: "Retorno Global", agi: "Estado AGI",
+                actions: "Acciones Rápidas", dep: "Depositar", wit: "Retirar", swap: "Intercambio Pi", ubiNet: "Fundación UBI",
+                netTitle: "60 Redes de Países y 9 Futuros Negocios", sync: "Sincronización de 60 Idiomas",
+                n1: "Monedero", n2: "Transferir", n3: "Pago", n4: "Depósito", n5: "Recompensa", n6: "UBI", n7: "Cambio", n8: "DEX", n9: "LP Stake", n10: "Cant Pi",
+                agiTitle: "AGI Bini (Soporte de 60 Idiomas)", agiSub: "Guía de la Economía Pi", statusOk: "EN LÍNEA",
+                msg: "\"¡Señor, los 60 idiomas de países están listos y sincronizados!\""
             },
             fr: {
-                welcome: "Bienvenue, Cher Client", desc: "La zone économique Pi et la tour IA de 165 étages fonctionnent avec une synchronisation à distance en 60 langues.",
-                assetBal: "Solde des Actifs", assetQty: "Quantité d'Actifs", ubi: "Composé UBI", future: "Rendement Futur", quickAction: "Actions Financières",
-                chatTitle: "AGI Bini (Support 60 Langues)", chatDefault: "Tour de contrôle et guide économique Pi initialisés.",
-                chatPlaceholder: "Demandez à AGI Bini...", send: "Rechercher", modalTitle: "Code à 6 chiffres", modalDesc: "Entrez votre code de sécurité.", confirm: "Confirmer", cancel: "Annuler"
+                connect: "Connecter le Portefeuille", badge: "Réseau Ulsan·Gyeongju·Pohang", welcome: "Bienvenue, Président Lee Jaewan",
+                desc: "La zone économique Pi et la tour de contrôle fonctionnent avec 60 langues de pays.",
+                bal: "Solde des Actifs", ubi: "APY UBI Social", ret: "Retour Global", agi: "État AGI",
+                actions: "Actions Rapides", dep: "Déposer", wit: "Retirer", swap: "Échange Pi", ubiNet: "Fondation UBI",
+                netTitle: "60 Réseaux de Pays & 9 Entreprises", sync: "Synchro 60 Langues",
+                n1: "Portefeuille", n2: "Transfert", n3: "Paiement", n4: "Dépôt", n5: "Récompense", n6: "UBI", n7: "Swap", n8: "DEX", n9: "LP Stake", n10: "Qté Pi",
+                agiTitle: "AGI Bini (Support de 60 langues)", agiSub: "Guide de l'Économie Pi", statusOk: "EN LIGNE",
+                msg: "\"Monsieur, l'ensemble des 60 langues de pays est désormais pleinement opérationnel !\""
+            },
+            de: {
+                connect: "Wallet verbinden", badge: "Ulsan·Gyeongju·Pohang Mainnet", welcome: "Willkommen, Vorsitzender Lee Jaewan",
+                desc: "Die Pi-Wirtschaftszone und das Kontrollturmsystem laufen mit 60 Landessprachen.",
+                bal: "Vermögenssaldo", ubi: "Soziale UBI APY", ret: "Globale Rendite", agi: "AGI Status",
+                actions: "Schnellaktionen", dep: "Einzahlen", wit: "Abheben", swap: "Pi Tausch", ubiNet: "UBI Stiftung",
+                netTitle: "60 Länder-Netzwerke & 9 Zukunftsbereiche", sync: "60-Sprachen Echtzeit-Sync",
+                n1: "Wallet", n2: "Senden", n3: "Zahlen", n4: "Einlage", n5: "Prämie", n6: "UBI", n7: "Tausch", n8: "DEX", n9: "LP Stake", n10: "Pi Menge",
+                agiTitle: "AGI Bini (60-Sprachen Support)", agiSub: "Kontrollturm & Pi-Wirtschaft", statusOk: "ONLINE",
+                msg: "\"Sehr geehrter Herr, alle 60 Landessprachen wurden erfolgreich eingerichtet!\""
+            },
+            ru: {
+                connect: "Подключить кошелек", badge: "Сеть Ульсан·Кенджу·Похан", welcome: "Добро пожаловать, председатель Ли Чжэван",
+                desc: "Зона Pi и система управления работают с синхронизацией на языках 60 стран.",
+                bal: "Баланс активов", ubi: "Социальный UBI APY", ret: "Глобальная прибыль", agi: "Статус AGI",
+                actions: "Быстрые действия", dep: "Депозит", wit: "Вывод", swap: "Обмен Pi", ubiNet: "Фонд UBI",
+                netTitle: "Сети 60 стран и 9 бизнесов", sync: "Синхронизация на 60 языках",
+                n1: "Кошелек", n2: "Перевод", n3: "Оплата", n4: "Депозит", n5: "Награда", n6: "UBI", n7: "Своп", n8: "DEX", n9: "LP Стейкинг", n10: "Кол-во Pi",
+                agiTitle: "AGI Бини (Поддержка 60 языков)", agiSub: "Гийд по экономике Pi", statusOk: "В СЕТИ",
+                msg: "\"Господин, языки 60 стран успешно интегрированы в систему!\""
+            },
+            ar: {
+                connect: "ربط المحفظة", badge: "شبكة أولسان·جيونججو·بوهانج", welcome: "أهلاً بك، الرئيس لي جيو وان",
+                desc: "منطقة اقتصاد Pi ونظام برج التحكم يعملان بـ 60 لغة دولة متزامنة.",
+                bal: "رصيد الأصول", ubi: "عائد UBI الاجتماعي", ret: "العائد العالمي", agi: "حالة AGI",
+                actions: "إجراءات سريعة", dep: "إيداع", wit: "سحب", swap: "تبديل Pi", ubiNet: "مؤسسة UBI",
+                netTitle: "شبكات 60 دولة و 9 أعمال مستقبلية", sync: "مزامنة 60 لغة",
+                n1: "المحفظة", n2: "تحويل", n3: "دفع", n4: "إيداع", n5: "مكافأة", n6: "UBI", n7: "مبادلة", n8: "DEX", n9: "رهان LP", n10: "كمية Pi",
+                agiTitle: "AGI بيني (دعم 60 لغة)", agiSub: "دليل اقتصاد Pi", statusOk: "متصل",
+                msg: "\"سيدي، تم دمج لغات 60 دولة بنجاح تام!\""
+            },
+            hi: {
+                connect: "वॉलेट कनेक्ट करें", badge: "उल्सन·ग Gyeongju·पोहांग मेननेट", welcome: "स्वागत है, अध्यक्ष ली Jaewan",
+                desc: "Pi आर्थिक क्षेत्र और नियंत्रण टॉवर 60 देशों की भाषाओं में सिंक है।",
+                bal: "परिसंपत्ति शेष", ubi: "सामाजिक UBI APY", ret: "वैश्विक लाभ रिटर्न", agi: "AGI स्थिति",
+                actions: "त्वरित कार्य", dep: "जमा करें", wit: "निकालें", swap: "Pi स्वैप", ubiNet: "UBI फाउंडेशन",
+                netTitle: "शीर्ष 60 देश नेटवर्क और 9 भविष्य के व्यवसाय", sync: "60 भाषा लाइव सिंक",
+                n1: "वॉलेट", n2: "स्थानांतरण", n3: "भुगतान", n4: "जमा", n5: "पुरस्कार", n6: "UBI", n7: "स्वैप", n8: "DEX", n9: "LP स्टेक", n10: "Pi मात्रा",
+                agiTitle: "AGI बिनी (60 भाषा समर्थन)", agiSub: "Pi आर्थिक गाइड", statusOk: "ऑनलाइन",
+                msg: "\"श्रीमान, सभी 60 देशों की भाषाओं को सफलतापूर्वक कॉन्फ़िगर कर दिया गया है!\""
+            },
+            bn: {
+                connect: "ওয়ালেট সংযুক্ত করুন", badge: "উলসান·গিয়ংজু·পোহাং মেইননেট", welcome: "স্বাগতম, চেয়ারম্যান লি জায়েওয়ান",
+                desc: "পাই ইকোনমিক জোন এবং কন্ট্রোল টাওয়ার সিস্টেম ৬০টি দেশের ভাষার সাথে রিয়েল-টাইমে সিঙ্ক করা হয়েছে।",
+                bal: "সম্পদের ব্যালেন্স", ubi: "সামাজিক UBI APY", ret: "গ্লোবাল প্রফিট রিটার্ন", agi: "AGI স্ট্যাটাস",
+                actions: "দ্রুত কাজ", dep: "জমা দিন", wit: "উত্তোলন", swap: "পাই সোয়াপ", ubiNet: "UBI ফাউন্ডেশন",
+                netTitle: "৬০টি দেশের নেটওয়ার্ক এবং ৯টি ভবিষ্যত ব্যবসা", sync: "৬০টি ভাষা সিঙ্ক",
+                n1: "ওয়ালেট", n2: "স্থানান্তর", n3: "পেমেন্ট", n4: "জমা", n5: "পুরস্কার", n6: "UBI", n7: "সোয়াপ", n8: "DEX", n9: "LP স্টেক", n10: "Pi পরিমাণ",
+                agiTitle: "AGI বিনি (৬০ ভাষা সমর্থন)", agiSub: "পাই ইকোনমিক গাইড", statusOk: "অনলাইন",
+                msg: "\"স্যার, ৬০টি দেশের ভাষা সফলভাবে কনফিগার করা হয়েছে!\""
+            },
+            pt: {
+                connect: "Conectar Carteira", badge: "Mainnet Ulsan·Gyeongju·Pohang", welcome: "Bem-vindo, Presidente Lee Jaewan",
+                desc: "A zona econômica Pi e a torre de controle operam com 60 idiomas de países em tempo real.",
+                bal: "Saldo de Ativos", ubi: "APY UBI Social", ret: "Retorno Global de Lucro", agi: "Status AGI",
+                actions: "Ações Rápidas", dep: "Depositar", wit: "Sacar", swap: "Troca Pi", ubiNet: "Fundação UBI",
+                netTitle: "60 Redes de Países & 9 Negócios Futuros", sync: "Sincronización de 60 Idiomas",
+                n1: "Carteira", n2: "Transferir", n3: "Pagamento", n4: "Depósito", n5: "Recompensa", n6: "UBI", n7: "Swap", n8: "DEX", n9: "LP Stake", n10: "Qtd Pi",
+                agiTitle: "AGI Bini (Suporte a 60 Idiomas)", agiSub: "Guia da Economia Pi", statusOk: "ONLINE",
+                msg: "\"Senhor, todos os 60 idiomas de países foram configurados com sucesso!\""
+            },
+            id: {
+                connect: "Hubungkan Dompet", badge: "Mainnet Ulsan·Gyeongju·Pohang", welcome: "Selamat Datang, Ketua Lee Jaewan",
+                desc: "Zona ekonomi tunggal Pi dan sistem menara kontrol beroperasi dengan 60 bahasa negara.",
+                bal: "Saldo Aset", ubi: "APY UBI Sosial", ret: "Pengembalian Laba Global", agi: "Status AGI",
+                actions: "Tindakan Cepat", dep: "Setor", wit: "Tarik", swap: "Tukar Pi", ubiNet: "Yayasan UBI",
+                netTitle: "60 Jaringan Negara & 9 Bisnis Masa Depan", sync: "Sinkronisasi 60 Bahasa",
+                n1: "Dompet", n2: "Transfer", n3: "Bayar", n4: "Setor", n5: "Hadiah", n6: "UBI", n7: "Swap", n8: "DEX", n9: "LP Stake", n10: "Jml Pi",
+                agiTitle: "AGI Bini (Dukungan 60 Bahasa)", agiSub: "Panduan Ekonomi Pi", statusOk: "ONLINE",
+                msg: "\"Ketua, 60 bahasa negara telah berhasil diselaraskan dengan sempurna!\""
+            },
+            tr: {
+                connect: "Cüzdanı Bağla", badge: "Ulsan·Gyeongju·Pohang Ana Ağ", welcome: "Hoş Geldiniz, Başkan Lee Jaewan",
+                desc: "Pi ekonomik bölgesi ve kontrol kulesi 60 ülke diliyle eşzamanlı çalışıyor.",
+                bal: "Varlık Bakiyesi", ubi: "Sosyal UBI APY", ret: "Küresel Kar İadesi", agi: "AGI Durumu",
+                actions: "Hızlı İşlemler", dep: "Yatır", wit: "Çek", swap: "Pi Takas", ubiNet: "UBI Vakfı",
+                netTitle: "60 Ülke Ağı ve 9 Gelecek İşletmesi", sync: "60 Dil Senkronizasyonu",
+                n1: "Cüzdan", n2: "Transfer", n3: "Ödeme", n4: "Yatırım", n5: "Ödül", n6: "UBI", n7: "Takas", n8: "DEX", n9: "LP Stake", n10: "Pi Miktar",
+                agiTitle: "AGI Bini (60 Dil Desteği)", agiSub: "Kontrol Kulesi ve Pi Rehberi", statusOk: "ÇEVRİMİÇİ",
+                msg: "\"Başkanım, 60 ülke dili eksiksiz bir şekilde entegre edildi!\""
+            },
+            it: {
+                connect: "Connetti Wallet", badge: "Mainnet Ulsan·Gyeongju·Pohang", welcome: "Benvenuto, Presidente Lee Jaewan",
+                desc: "La zona economica Pi e la torre di controllo funzionano con 60 lingue di paesi.",
+                bal: "Saldo Attivi", ubi: "APY UBI Sociale", ret: "Ritorno Globale", agi: "Stato AGI",
+                actions: "Azioni Rapide", dep: "Deposita", wit: "Preleva", swap: "Scambio Pi", ubiNet: "Fondazione UBI",
+                netTitle: "60 Reti di Paesi e 9 Future Imprese", sync: "Sincronizzazione 60 Lingue",
+                n1: "Wallet", n2: "Trasferisci", n3: "Paga", n4: "Deposito", n5: "Premio", n6: "UBI", n7: "Swap", n8: "DEX", n9: "LP Stake", n10: "Qtà Pi",
+                agiTitle: "AGI Bini (Supporto 60 Lingue)", agiSub: "Guida Economia Pi", statusOk: "ONLINE",
+                msg: "\"Signore, tutte le 60 lingue dei paesi sono state configurate con successo!\""
+            },
+            pl: {
+                connect: "Połącz Portfel", badge: "Mainnet Ulsan·Gyeongju·Pohang", welcome: "Witaj, Prezesie Lee Jaewan",
+                desc: "Strefa ekonomiczna Pi i wieża kontrolna działają w czasie rzeczywistym w 60 językach.",
+                bal: "Saldo Aktywów", ubi: "Społeczny UBI APY", ret: "Zwrot zysków globalnych", agi: "Status AGI",
+                actions: "Szybkie Akcje", dep: "Wpłać", wit: "Wypłać", swap: "Swap Pi", ubiNet: "Fundacja UBI",
+                netTitle: "60 Sieci Krajowych i 9 Biznesów Przyszłości", sync: "Synchronizacja 60 Językowa",
+                n1: "Portfel", n2: "Przelew", n3: "Płatność", n4: "Depozyt", n5: "Nagroda", n6: "UBI", n7: "Swap", n8: "DEX", n9: "LP Stake", n10: "Ilość Pi",
+                agiTitle: "AGI Bini (Obsługa 60 Językowa)", agiSub: "Przewodnik po Ekonomii Pi", statusOk: "ONLINE",
+                msg: "\"Szefie, 60 języków krajowych zostało pomyślnie skonfigurowanych!\""
+            },
+            uk: {
+                connect: "Підключити гаманець", badge: "Мережа Ульсан·Кенджу·Похан", welcome: "Ласкаво просимо, голово Лі Чжеван",
+                desc: "Економічна зона Pi та система вежі керування працюють на 60 мовах країн світу.",
+                bal: "Баланс активів", ubi: "Соціальний UBI APY", ret: "Глобальне повернення прибутку", agi: "Статус AGI",
+                actions: "Швидкі дії", dep: "Депозит", wit: "Вивести", swap: "Обмін Pi", ubiNet: "Фонд UBI",
+                netTitle: "Мережі 60 країн та 9 бізнесів майбутнього", sync: "Синхронізація 60 мов",
+                n1: "Гаманець", n2: "Переказ", n3: "Оплата", n4: "Депозит", n5: "Нагорода", n6: "UBI", n7: "Своп", n8: "DEX", n9: "LP Стейкінг", n10: "К-сть Pi",
+                agiTitle: "AGI Біні (Підтримка 60 мов)", agiSub: "Гід по економіці Pi", statusOk: "В МЕРЕЖІ",
+                msg: "\"Господиню, мови 60 країн успішно інтегровані в систему!\""
+            },
+            nl: {
+                connect: "Wallet Verbinden", badge: "Ulsan·Gyeongju·Pohang Mainnet", welcome: "Welkom, Voorzitter Lee Jaewan",
+                desc: "De Pi-economische zone en de controletoren draaien op 60 landen-talen.",
+                bal: "Activasaldo", ubi: "Sociale UBI APY", ret: "Wereldwijd Rendement", agi: "AGI Status",
+                actions: "Snelle Acties", dep: "Storten", wit: "Opnemen", swap: "Pi Swap", ubiNet: "UBI Stichting",
+                netTitle: "60 Landennetwerken & 9 Toekomstbedrijven", sync: "60 Talen Real-Time Sync",
+                n1: "Wallet", n2: "Overboeking", n3: "Betalen", n4: "Storting", n5: "Beloning", n6: "UBI", n7: "Swap", n8: "DEX", n9: "LP Stake", n10: "Pi Hoeveelheid",
+                agiTitle: "AGI Bini (60 Talen Ondersteuning)", agiSub: "Pi Economie Gids", statusOk: "ONLINE",
+                msg: "\"Meneer, alle 60 landentalen zijn succesvol geconfigureerd!\""
+            },
+            th: {
+                connect: "เชื่อมต่อกระเป๋าเงิน", badge: "เครือข่ายอุล산·คย็องจู·โพฮัง", welcome: "ยินดีต้อนรับ ประธานอี แจวัน",
+                desc: "เขตเศรษฐกิจ Pi และระบบหอควบคุมกำลังทำงานด้วยการซิง크 60 ภาษาของประเทศแบบเรียลไทม์",
+                bal: "ยอดคงเหลือสินทรัพย์", ubi: "APY UBI สังคม", ret: "ผลตอบแทนกำไรทั่วโลก", agi: "สถานะ AGI",
+                actions: "ดำเนินการด่วน", dep: "ฝากเงิน", wit: "ถอน/โอน", swap: "สลับ Pi", ubiNet: "มูลนิธิ UBI",
+                netTitle: "เครือข่าย 60 ประเทศ & 9 ธุรกิจอนาคต", sync: "ซิง크 60 ภาษา",
+                n1: "กระเป๋าเงิน", n2: "โอน", n3: "ชำระเงิน", n4: "ฝาก", n5: "รางวัล", n6: "UBI", n7: "สลับ", n8: "DEX", n9: "LP สเตก", n10: "จำนวน Pi",
+                agiTitle: "AGI Bini (รองรับ 60 ภาษา)", agiSub: "คู่มือเศรษฐกิจ Pi", statusOk: "ออนไลน์",
+                msg: "\"ท่านประธานครับ ได้กำหนดค่าภาษา 60 ประเทศทั่วโลกเรียบร้อยแล้ว!\""
+            },
+            fa: {
+                connect: "اتصال کیف پول", badge: "شبکه اولسان·گیونگجو·پوهانگ", welcome: "خوش آمدید، رئیس لی جائه وان",
+                desc: "منطقه اقتصادی Pi و سیستم برج کنترل با ۶۰ زبان کشورها در حال اجرا هستند.",
+                bal: "موجودی دارایی", ubi: "سود UBI اجتماعی", ret: "بازگشت سود جهانی", agi: "وضعیت AGI",
+                actions: "اقدامات سریع", dep: "سپرده", wit: "برداشت", swap: "تبادل Pi", ubiNet: "بنیاد UBI",
+                netTitle: "شبکه ۶۰ کشور و ۹ کسب و کار آینده", sync: "همگام سازی ۶۰ زبان",
+                n1: "کیف پول", n2: "انتقال", n3: "پرداخت", n4: "سپرده", n5: "پاداش", n6: "UBI", n7: "سوآپ", n8: "DEX", n9: "استیک LP", n10: "مقدار Pi",
+                agiTitle: "AGI بینی (پشتیبانی از ۶۰ زبان)", agiSub: "راهنمای اقتصاد Pi", statusOk: "آنلاین",
+                msg: "\"جناب، تمام ۶۰ زبان کشورها با موفقیت پیکربندی شد!\""
+            },
+            ms: {
+                connect: "Sambung Dompet", badge: "Mainnet Ulsan·Gyeongju·Pohang", welcome: "Selamat Datang, Pengerusi Lee Jaewan",
+                desc: "Zon ekonomi tunggal Pi dan sistem menara kawalan beroperasi dengan 60 bahasa negara.",
+                bal: "Baki Aset", ubi: "APY UBI Sosial", ret: "Pulangan Keuntungan Global", agi: "Status AGI",
+                actions: "Tindakan Pantas", dep: "Deposit", wit: "Tarik", swap: "Tukar Pi", ubiNet: "Yayasan UBI",
+                netTitle: "60 Rangkaian Negara & 9 Perniagaan Masa Depan", sync: "Sinkronisasi 60 Bahasa",
+                n1: "Dompet", n2: "Pindahan", n3: "Bayar", n4: "Deposit", n5: "Ganjaran", n6: "UBI", n7: "Swap", n8: "DEX", n9: "LP Stake", n10: "Kuantiti Pi",
+                agiTitle: "AGI Bini (Sokongan 60 Bahasa)", agiSub: "Panduan Ekonomi Pi", statusOk: "ONLINE",
+                msg: "\"Tuan, 60 bahasa negara telah dikonfigurasi dengan sempurna!\""
+            },
+            fil: {
+                connect: "Ikonek ang Wallet", badge: "Mainnet ng Ulsan·Gyeongju·Pohang", welcome: "Maligayang pagdating, Chairman Lee Jaewan",
+                desc: "Ang Pi economic zone at control tower ay tumatakbo gamit ang 60 wika ng mga bansa.",
+                bal: "Balanse ng Asset", ubi: "Social UBI APY", ret: "Global Profit Return", agi: "Katayuan ng AGI",
+                actions: "Mabilis na Aksyon", dep: "Magdeposito", wit: "Mag-withdraw", swap: "Pi Swap", ubiNet: "Pundasyon ng UBI",
+                netTitle: "60 Network ng Bansa at 9 Negosyo sa Hinaharap", sync: "Real-time na 60 Wika",
+                n1: "Wallet", n2: "Padala", n3: "Bayad", n4: "Deposito", n5: "Gantimpala", n6: "UBI", n7: "Swap", n8: "DEX", n9: "LP Stake", n10: "Dami ng Pi",
+                agiTitle: "AGI Bini (Suporta sa 60 Wika)", agiSub: "Gabay sa Ekonomiya ng Pi", statusOk: "ONLINE",
+                msg: "\"Sir, ang 60 wika ng bansa ay matagumpay na nai-configure!\""
+            },
+            sv: {
+                connect: "Anslut Plånbok", badge: "Ulsan·Gyeongju·Pohang Mainnet", welcome: "Välkommen, Ordförande Lee Jaewan",
+                desc: "Pi-ekonomizonen och kontrolltornet körs med 60 länder-språk i realtid.",
+                bal: "Tillgångssaldo", ubi: "Social UBI APY", ret: "Global vinståterbäring", agi: "AGI Status",
+                actions: "Snabba åtgärder", dep: "Insättning", wit: "Uttag", swap: "Pi Swap", ubiNet: "UBI Stiftelsen",
+                netTitle: "60 Landsnätverk & 9 Framtidsföretag", sync: "60 Språk Realtidssynk",
+                n1: "Plånbok", n2: "Överföring", n3: "Betala", n4: "Insättning", n5: "Belöning", n6: "UBI", n7: "Swap", n8: "DEX", n9: "LP Stake", n10: "Pi Mängd",
+                agiTitle: "AGI Bini (60 Språkstöd)", agiSub: "Pi Ekonomiguide", statusOk: "ONLINE",
+                msg: "\"Sir, alla 60 länder-språk har konfigurerats framgångsrikt!\""
+            },
+            el: {
+                connect: "Σύνδεση Πορτοφολιού", badge: "Mainnet Ουλσάν·Γκιόνγκτζου·Ποχάνγκ", welcome: "Καλώς ορίσατε, Πρόεδρε Lee Jaewan",
+                desc: "Η ζώνη οικονομίας Pi και ο πύργος ελέγχου λειτουργούν με 60 γλώσσες χωρών.",
+                bal: "Under Υπόλοιπο", ubi: "Κοινωνικό UBI APY", ret: "Παγκόσμια Απόδοση", agi: "Κατάσταση AGI",
+                actions: "Γρήγορες ενέργειες", dep: "Κατάθεση", wit: "Ανάληψη", swap: "Pi Swap", ubiNet: "Ίδρυμα UBI",
+                netTitle: "60 Δίκτυα Χωρών & 9 Μελλοντικές Επιχειρήσεις", sync: "Συγχρονισμός 60 Γλωσσών",
+                n1: "Πορτοφόλι", n2: "Μεταφορά", n3: "Πληρωμή", n4: "Κατάθεση", n5: "Αμοιβή", n6: "UBI", n7: "Swap", n8: "DEX", n9: "LP Stake", n10: "Ποσότητα Pi",
+                agiTitle: "AGI Bini (Υποστήριξη 60 Γλωσσών)", agiSub: "Οδηγός Οικονομίας Pi", statusOk: "ONLINE",
+                msg: "\"Κύριε, και οι 60 γλώσσες χωρών ρυθμίστηκαν επιτυχώς!\""
+            },
+            cs: {
+                connect: "Připojit peněženku", badge: "Ulsan·Gyeongju·Pohang Mainnet", welcome: "Vítejte, předsedo Lee Jaewan",
+                desc: "Ekonomická zóna Pi a kontrolní věž běží s 60 zemskými jazyky.",
+                bal: "Zůstatek aktiv", ubi: "Sociální UBI APY", ret: "Globální návratnost zisku", agi: "Stav AGI",
+                actions: "Rychlé akce", dep: "Vložit", wit: "Vybrat", swap: "Pi Swap", ubiNet: "Nadace UBI",
+                netTitle: "60 Státních Sítí & 9 Budoucích Podniků", sync: "Synchronizace 60 Jazyků",
+                n1: "Peněženka", n2: "Převod", n3: "Platba", n4: "Vklad", n5: "Odměna", n6: "UBI", n7: "Swap", n8: "DEX", n9: "LP Stake", n10: "Množství Pi",
+                agiTitle: "AGI Bini (Podpora 60 Jazyků)", agiSub: "Průvodce ekonomikou Pi", statusOk: "ONLINE",
+                msg: "\"Pane, všech 60 jazyků zemí bylo úspěšně nastaveno!\""
+            },
+            ro: {
+                connect: "Conectare Portofel", badge: "Mainnet Ulsan·Gyeongju·Pohang", welcome: "Bine ați venit, Președinte Lee Jaewan",
+                desc: "Zona economică Pi și turnul de control funcționează cu 60 de limbi ale țărilor.",
+                bal: "Sold Active", ubi: "UBI Social APY", ret: "Rentabilitate Globală", agi: "Stare AGI",
+                actions: "Acțiuni Rapide", dep: "Depunere", wit: "Retragere", swap: "Schimb Pi", ubiNet: "Fundația UBI",
+                netTitle: "60 Rețele de Țări & 9 Afaceri Viitoare", sync: "Sincronizare 60 Limbi",
+                n1: "Portofel", n2: "Transfer", n3: "Plată", n4: "Depozit", n5: "Recompensă", n6: "UBI", n7: "Swap", n8: "DEX", n9: "LP Stake", n10: "Cantitate Pi",
+                agiTitle: "AGI Bini (Suport 60 Limbi)", agiSub: "Ghid Economic Pi", statusOk: "ONLINE",
+                msg: "\"Domnule, toate cele 60 de limbi ale țărilor au fost configurate cu succes!\""
+            },
+            hu: {
+                connect: "Tárca Csatlakozása", badge: "Ulsan·Gyeongju·Pohang Mainnet", welcome: "Üdvözöljük, Lee Jaewan Elnök Úr",
+                desc: "A Pi gazdasági övezet és az irányítótorony 60 ország nyelvén fut valós időben.",
+                bal: "Eszközegyenleg", ubi: "Szociális UBI APY", ret: "Globális Profitmegtérülés", agi: "AGI Állapot",
+                actions: "Gyors Műveletek", dep: "Letét", wit: "Kivonás", swap: "Pi Csere", ubiNet: "UBI Alapítvány",
+                netTitle: "60 Ország Hálózata & 9 Jövőbeli Vállalkozás", sync: "60 Nyelv Szinkron",
+                n1: "Tárca", n2: "Átutalás", n3: "Fizetés", n4: "Letét", n5: "Jutalalom", n6: "UBI", n7: "Csere", n8: "DEX", n9: "LP Stake", n10: "Pi Mennyiség",
+                agiTitle: "AGI Bini (60 Nyelv Támogatás)", agiSub: "Pi Gazdasági Útmutató", statusOk: "ONLINE",
+                msg: "\"Uram, mind a 60 ország nyelve sikeresen beállításra került!\""
+            },
+            he: {
+                connect: "חיבור ארנק", badge: "רשת ראשית אולסן·ג'יאונגג'ו·פוהאנג", welcome: "ברוך הבא, היושב ראש לי ג'אה-וואן",
+                desc: "אזור הכלכלה של Pi ומגדל הבקרה פועלים עם 60 שפות מדינות בזמן אמת.",
+                bal: "יתרת נכסים", ubi: "APY UBI חברתי", ret: "החזר רווח גלובלי", agi: "מצב AGI",
+                actions: "פעולות מהירות", dep: "הפקדה", wit: "משיכה", swap: "החלפת Pi", ubiNet: "קרן UBI",
+                netTitle: "60 רשתות מדינות ו-9 עסקים עתידיים", sync: "סנכרון 60 שפות",
+                n1: "ארנק", n2: "העברה", n3: "תשלום", n4: "הפקדה", n5: "תגמול", n6: "UBI", n7: "החלפה", n8: "DEX", n9: "סטייקינג LP", n10: "כמות Pi",
+                agiTitle: "AGI ביני (תמיכה ב-60 שפות)", agiSub: "מדריך כלכלי Pi", statusOk: "מקוון",
+                msg: "\"אדוני, כל 60 שפות המדינות הוגُדרו בהצלחה!\""
+            },
+            da: {
+                connect: "Tilslut Wallet", badge: "Ulsan·Gyeongju·Pohang Mainnet", welcome: "Velkommen, Formand Lee Jaewan",
+                desc: "Pi-økonomizonen og kontroltårnet kører med 60 landesprog i realtid.",
+                bal: "Aktivaldo", ubi: "Social UBI APY", ret: "Globalt Afkast", agi: "AGI Status",
+                actions: "Hurtige handlinger", dep: "Indbetal", wit: "Udbetal", swap: "Pi Swap", ubiNet: "UBI Fonden",
+                netTitle: "60 Landenetværk & 9 Fremtidsvirksomheder", sync: "60 Sprog Synkronisering",
+                n1: "Wallet", n2: "Overfør", n3: "Betal", n4: "Indbetaling", n5: "Belønning", n6: "UBI", n7: "Swap", n8: "DEX", n9: "LP Stake", n10: "Pi Mængde",
+                agiTitle: "AGI Bini (60 Sprogstøtte)", agiSub: "Pi Økonomiguide", statusOk: "ONLINE",
+                msg: "\"Sir, alle 60 landesprog er blevet konfigureret med succes!\""
+            },
+            fi: {
+                connect: "Yhdistä Lompakko", badge: "Ulsan·Gyeongju·Pohang Mainnet", welcome: "Tervetuloa, Puheenjohtaja Lee Jaewan",
+                desc: "Pi-talousalue ja valvontatorni toimivat reaaliajassa 60 maan kielellä.",
+                bal: "Varallisuussaldo", ubi: "Sosiaalinen UBI APY", ret: "Globaali Voitto", agi: "AGI Tila",
+                actions: "Pikatoiminnot", dep: "Talleta", wit: "Kotiuta", swap: "Pi Vaihto", ubiNet: "UBI Säätiö",
+                netTitle: "60 Maaverkkoa & 9 Tulevaisuuden Yritystä", sync: "60 Kielen Synkronointi",
+                n1: "Lompakko", n2: "Siirto", n3: "Maksu", n4: "Talletus", n5: "Palkinto", n6: "UBI", n7: "Vaihto", n8: "DEX", n9: "LP Stake", n10: "Pi Määrä",
+                agiTitle: "AGI Bini (60 Kielen Tuki)", agiSub: "Pi Talousopas", statusOk: "ONLINE",
+                msg: "\"Herra, kaikki 60 maan kieltä on määritetty onnistuneesti!\""
+            },
+            no: {
+                connect: "Koble til Lommebok", badge: "Ulsan·Gyeongju·Pohang Mainnet", welcome: "Velkommen, Formann Lee Jaewan",
+                desc: "Pi-økonomisonen og kontrolltårnet kjører med 60 landsspråk i sanntid.",
+                bal: "Aktivasaldo", ubi: "Sosial UBI APY", ret: "Global Avkastning", agi: "AGI Status",
+                actions: "Raske handlinger", dep: "Innskudd", wit: "Uttak", swap: "Pi Swap", ubiNet: "UBI Stiftelsen",
+                netTitle: "60 Landsnettverk & 9 Fremtidsbedrifter", sync: "60 Språk Synkronisering",
+                n1: "Lommebok", n2: "Overføring", n3: "Betal", n4: "Innskudd", n5: "Belønning", n6: "UBI", n7: "Swap", n8: "DEX", n9: "LP Stake", n10: "Pi Mengde",
+                agiTitle: "AGI Bini (60 Språkstøtte)", agiSub: "Pi Økonomiguide", statusOk: "ONLINE",
+                msg: "\"Sir, alle 60 landsspråk er konfigurert vellykket!\""
+            },
+            sk: {
+                connect: "Pripojiť peňaženku", badge: "Ulsan·Gyeongju·Pohang Mainnet", welcome: "Vitajte, predseda Lee Jaewan",
+                desc: "Ekonomická zóna Pi a riadiaca veža fungujú v reálnom čase s 60 jazykmi krajín.",
+                bal: "Zostatok aktív", ubi: "Sociálne UBI APY", ret: "Globálna návratnosť zisku", agi: "Stav AGI",
+                actions: "Rýchle akcie", dep: "Vložiť", wit: "Vybrať", swap: "Pi Swap", ubiNet: "Nadácia UBI",
+                netTitle: "60 Štátnych Sietí & 9 Budúcich Podnikov", sync: "Synchronizácia 60 Jazykov",
+                n1: "Peňaženka", n2: "Prevod", n3: "Platba", n4: "Vklad", n5: "Odmena", n6: "UBI", n7: "Swap", n8: "DEX", n9: "LP Stake", n10: "Množstvo Pi",
+                agiTitle: "AGI Bini (Podpora 60 Jazykov)", agiSub: "Sprievodca ekonomikou Pi", statusOk: "ONLINE",
+                msg: "\"Pane, všetkých 60 jazykov krajín bolo úspešne nakonfigurovaných!\""
+            },
+            bg: {
+                connect: "Свързване на портфейл", badge: "Улсан·Кьонджу·Поханг Мрежа", welcome: "Добре дошли, председател Ли Джьо Уан",
+                desc: "Икономическата зона Pi и контролната кула работят с 60 езика на държави в реално време.",
+                bal: "Баланс на активи", ubi: "Социален UBI APY", ret: "Глобална възвръщаемост", agi: "AGI Статус",
+                actions: "Бързи действия", dep: "Депозит", wit: "Теглене", swap: "Pi Размяна", ubiNet: "UBI Фондация",
+                netTitle: "Мрежи на 60 държави и 9 бъдещи бизнеса", sync: "Синхронизиране на 60 езика",
+                n1: "Портфейл", n2: "Превод", n3: "Плащане", n4: "Депозит", n5: "Награда", n6: "UBI", n7: "Размяна", n8: "DEX", n9: "LP Стейк", n10: "Кол. Pi",
+                agiTitle: "AGI Бини (Поддръжка на 60 езика)", agiSub: "Pi Икономически гид", statusOk: "ОНЛАЙН",
+                msg: "\"Господине, всички 60 езика на държави са успешно конфигурирани!\""
+            },
+            hr: {
+                connect: "Poveži novčanik", badge: "Ulsan·Gyeongju·Pohang Mainnet", welcome: "Dobro došli, predsjedniče Lee Jaewan",
+                desc: "Pi ekonomska zona i kontrolni toranj rade sa 60 jezika zemalja u stvarnom vremenu.",
+                bal: "Stanje imovine", ubi: "Socijalni UBI APY", ret: "Globalni povrat dobiti", agi: "AGI Status",
+                actions: "Brze radnje", dep: "Polog", wit: "Isplata", swap: "Pi Swap", ubiNet: "UBI Zaklada",
+                netTitle: "Mreže 60 zemalja i 9 budućih poslova", sync: "Sinkronizacija 60 jezika",
+                n1: "Novčanik", n2: "Prijenos", n3: "Plaćanje", n4: "Polog", n5: "Nagrada", n6: "UBI", n7: "Swap", n8: "DEX", n9: "LP Stake", n10: "Količina Pi",
+                agiTitle: "AGI Bini (Podrška za 60 jezika)", agiSub: "Vodič kroz Pi ekonomiju", statusOk: "ONLINE",
+                msg: "\"Gospodine, svih 60 jezika zemalja uspješno je konfigurirano!\""
+            },
+            sr: {
+                connect: "Повежи новчаник", badge: "Улсан·Гјонгџу·Поханг Мрежа", welcome: "Добро дошли, председниче Ли Џеван",
+                desc: "Економска зона Pi и контрольний торањ раде са 60 језика земаља у реалном времену.",
+                bal: "Стање имовине", ubi: "Социјални UBI APY", ret: "Глобални повраћај добити", agi: "AGI Статус",
+                actions: "Брзо деловање", dep: "Депозит", wit: "Исплата", swap: "Pi Swap", ubiNet: "UBI Фондација",
+                netTitle: "Мреже 60 земаља и 9 будућих бизниса", sync: "Синхронизација 60 језика",
+                n1: "Новчаник", n2: "Пренос", n3: "Плаћање", n4: "Депозит", n5: "Награда", n6: "UBI", n7: "Swap", n8: "DEX", n9: "LP Stake", n10: "Количина Pi",
+                agiTitle: "AGI Бини (Подршка за 60 језика)", agiSub: "Водич кроз Pi економију", statusOk: "ONLINE",
+                msg: "\"Господине, свих 60 језика земаља је успешно конфигурисано!\""
+            },
+            lt: {
+                connect: "Prijungti piniginę", badge: "Ulsan·Gyeongju·Pohang Mainnet", welcome: "Sveiki atvykę, pirmininke Lee Jaewan",
+                desc: "„Pi“ ekonominė zona ir valdymo bokštas veikia 60 šalių kalbų realiuoju laiku.",
+                bal: "Turto likutis", ubi: "Socialinis UBI APY", ret: "Pasaulinė pelno grąža", agi: "AGI Būsena",
+                actions: "Greiti veiksmai", dep: "Indėlis", wit: "Išėmimas", swap: "Pi Mainai", ubiNet: "UBI Fondas",
+                netTitle: "60 šalių tinklai ir 9 ateities verslai", sync: "60 kalbų sinchronizavimas",
+                n1: "Piniginė", n2: "Pervedimas", n3: "Mokėjimas", n4: "Indėlis", n5: "Apdovanojimas", n6: "UBI", n7: "Mainai", n8: "DEX", n9: "LP Stake", n10: "Pi Kiekis",
+                agiTitle: "AGI Bini (60 kalbų palaikymas)", agiSub: "Pi ekonomikos gidas", statusOk: "ONLINE",
+                msg: "\"Pone, visos 60 šalių kalbos sėkmingai sukonfigūruotos!\""
+            },
+            lv: {
+                connect: "Pievienot maciņu", badge: "Ulsan·Gyeongju·Pohang Mainnet", welcome: "Laipni lūdzam, priekšsēdētāj Lee Jaewan",
+                desc: "Pi ekonomiskā zona un vadības tornis darbojas 60 valstu valodās reāllaikā.",
+                bal: "Aktīvu atlikums", ubi: "Sociālais UBI APY", ret: "Globālā peļņas atdeve", agi: "AGI Statuss",
+                actions: "Ātrās darbības", dep: "Depozīts", wit: "Izņemšana", swap: "Pi Apmaiņa", ubiNet: "UBI Fonds",
+                netTitle: "60 valstu tīkli un 9 nākotnes uzņēmumi", sync: "60 valodu sinhronizācija",
+                n1: "Maciņš", n2: "Pārskaitījums", n3: "Maksājums", n4: "Depozīts", n5: "Atlīdzība", n6: "UBI", n7: "Apmaiņa", n8: "DEX", n9: "LP Stake", n10: "Pi Daudzums",
+                agiTitle: "AGI Bini (60 valodu atbalsts)", agiSub: "Pi ekonomikas ceļvedis", statusOk: "ONLINE",
+                msg: "\"Kungs, visas 60 valstu valodas ir veiksmīgi konfigurētas!\""
+            },
+            et: {
+                connect: "Ühenda rahakott", badge: "Ulsan·Gyeongju·Pohang Mainnet", welcome: "Tere tulemast, esimees Lee Jaewan",
+                desc: "Pi majandustsoon ja juhtimistorn töötavad reaalajas 60 riigi keeles.",
+                bal: "Varade saldo", ubi: "Sotsiaalne UBI APY", ret: "Globaalne kasumitootlus", agi: "AGI Staatus",
+                actions: "Kiired toimingud", dep: "Sissemakse", wit: "Väljamakse", swap: "Pi Vahetus", ubiNet: "UBI Fond",
+                netTitle: "60 riigi võrgustikku & 9 tulevikuettevõtet", sync: "60 keele sünkroniseerimine",
+                n1: "Rahakott", n2: "Ülekanne", n3: "Makse", n4: "Sissemakse", n5: "Preemia", n6: "UBI", n7: "Vahetus", n8: "DEX", n9: "LP Stake", n10: "Pi Kogus",
+                agiTitle: "AGI Bini (60 keele tugi)", agiSub: "Pi majandusjuhend", statusOk: "ONLINE",
+                msg: "\"Härra, kõik 60 riigi keelt on edukalt seadistatud!\""
+            },
+            sl: {
+                connect: "Poveži denarnico", badge: "Ulsan·Gyeongju·Pohang Mainnet", welcome: "Dobrodošli, predsednik Lee Jaewan",
+                desc: "Ekonomsko območje Pi in nadzorni stolp delujeta v realnem času s 60 jeziki držav.",
+                bal: "Stanje sredstev", ubi: "Socialni UBI APY", ret: "Globalni donos dobička", agi: "AGI Status",
+                actions: "Hitra dejanja", dep: "Depozit", wit: "Izplacilo", swap: "Pi Zamenjava", ubiNet: "Ustanova UBI",
+                netTitle: "Omrežja 60 držav & 9 prihodnjih podjetij", sync: "Usklajevanje 60 jezikov",
+                n1: "Denarnica", n2: "Nakazilo", n3: "Plačilo", n4: "Depozit", n5: "Nagrada", n6: "UBI", n7: "Zamenjava", n8: "DEX", n9: "LP Stake", n10: "Količina Pi",
+                agiTitle: "AGI Bini (Podpora za 60 jezikov)", agiSub: "Vodnik po gospodarstvu Pi", statusOk: "ONLINE",
+                msg: "\"Gospod, vseh 60 jezikov držav je bilo uspešno nastavljenih!\""
+            },
+            sw: {
+                connect: "Unganisha Wallet", badge: "Ulsan·Gyeongju·Pohang Mainnet", welcome: "Karibu, Mwenyekiti Lee Jaewan",
+                desc: "Eneo la kiuchumi la Pi na mnara wa udhibiti linafanya kazi kwa lugha 60 za nchi kwa wakati halisi.",
+                bal: "Salio la Mali", ubi: "APY ya UBI ya Jamii", ret: "Mapato ya Faida Duniani", agi: "Hali ya AGI",
+                actions: "Hatua za Haraka", dep: "Weka", wit: "Toa", swap: "Badilisha Pi", ubiNet: "Mfuko wa UBI",
+                netTitle: "Mitandao ya Nchi 60 na Biashara 9 za Baadaye", sync: "Ulandanishi wa Lugha 60",
+                n1: "Wallet", n2: "Hamisha", n3: "Lipa", n4: "Weka", n5: "Zawadi", n6: "UBI", n7: "Badilisha", n8: "DEX", n9: "LP Stake", n10: "Kiasi cha Pi",
+                agiTitle: "AGI Bini (Usaidizi wa Lugha 60)", agiSub: "Mwongozo wa Uchumi wa Pi", statusOk: "ONLINE",
+                msg: "\"Bwana, lugha zote 60 za nchi zimesanidiwa kwa mafanikio!\""
+            },
+            am: {
+                connect: "Wallet አገናኝ", badge: "ኡልሳን·ግዮንግጁ·ፖሃንግ ሜይንኔት", welcome: "እንኳን ደህና መጡ፣ ሊ ጃዋን ሊቀመንበር",
+                desc: "የPi ኢኮኖሚ ዞን እና የቁጥጥር ማማ በ60 ሀገራት ቋንቋዎች በቀጥታ እየሰሩ ናቸው።",
+                bal: "የንብረት ቀሪ ሂሳብ", ubi: "ማህበራዊ UBI APY", ret: "ዓለም አቀፍ የትርፍ ተመላሽ", agi: "የAGI ሁኔታ",
+                actions: "ፈጣን ተግባራት", dep: "አስገባ", wit: "አውጣ", swap: "Pi ስዋፕ", ubiNet: "የUBI ፋውንዴሽን",
+                netTitle: "የ60 ሀገራት አውታረ መረቦች እና 9 የወደፊት ንግዶች", sync: "የ60 ቋንቋዎች ማመሳሰል",
+                n1: "Wallet", n2: "ማስተላለፍ", n3: "ክፍያ", n4: "ተቀማጭ", n5: "ሽልማት", n6: "UBI", n7: "ስዋፕ", n8: "DEX", n9: "LP ስቴኪንግ", n10: "የPi መጠን",
+                agiTitle: "AGI ቢኒ (የ60 ቋንቋዎች ድጋፍ)", agiSub: "የPi ኢኮኖሚ መመሪያ", statusOk: "ኦንላይን",
+                msg: "\"ክቡር ሆይ፣ የ60 ሀገራት ቋንቋዎች በተሳካ ሁኔታ ተዋቅረዋል!\""
+            },
+            yo: {
+                connect: "So Apamọ mọ", badge: "Ulsan·Gyeongju·Pohang Mainnet", welcome: "Kaabo, Alaga Lee Jaewan",
+                desc: "Agbegbe eto-aje Pi ati ile-iṣọ iṣakoso n ṣiṣẹ pẹlu awọn ede orilẹ-ede 60 ni akoko gidi.",
+                bal: "Iwọntunwọnsi", ubi: "APY UBI Awujọ", ret: "Ere Erè Agbaye", agi: "Ipo AGI",
+                actions: "Awọn iṣẹ Yiyara", dep: "Fi si", wit: "Yọ kuro", swap: "Paṣipaarọ Pi", ubiNet: "Ipilẹ UBI",
+                netTitle: "Awọn Nẹtiwọọki Orilẹ-ede 60 & Awọnowo 9 Ọjọ iwaju", sync: "Imuuṣiṣẹpọ Awọn ede 60",
+                n1: "Apamọ", n2: "Gbigbe", n3: "Isanwo", n4: "Idogo", n5: "Ẹbun", n6: "UBI", n7: "Paṣipaarọ", n8: "DEX", n9: "LP Stake", n10: "Iwọn Pi",
+                agiTitle: "AGI Bini (Atilẹyin Awọn ede 60)", agiSub: "Itọsọna Aje Pi", statusOk: "LORI AYELUJARA",
+                msg: "\"Sir, gbogbo awọn ede orilẹ-ede 60 ti ni iṣeto ni aṣeyọri!\""
+            },
+            ig: {
+                connect: "Jikọọ Wallet", badge: "Ulsan·Gyeongju·Pohang Mainnet", welcome: "Nnoo, Onye isi ala Lee Jaewan",
+                desc: "Mpaghara akụ na ụba Pi na ụlọ elu nchịkwa na-arụ ọrụ na asụsụ mba 60 n'oge n'ezie.",
+                bal: "Nkesa Akụ", ubi: "Social UBI APY", ret: "Nloghachi Uru Ụwa", agi: "Ọnọdụ AGI",
+                actions: "Omume Ngwa ngwa", dep: "Tinye ego", wit: "Wepụ ego", swap: "Gbanwee Pi", ubiNet: "Ntọala UBI",
+                netTitle: "Netwọk Mba 60 & Azụmahịa Ọdịnihu 9", sync: "Nhazi Asụsụ 60",
+                n1: "Wallet", n2: "Nufe", n3: "Kwụọ ụgwọ", n4: "Nkwụnye ego", n5: "Onyinye", n6: "UBI", n7: "Gbanwee", n8: "DEX", n9: "LP Stake", n10: "Ọnụ ọgụgụ Pi",
+                agiTitle: "AGI Bini (Nkwado Asụsụ 60)", agiSub: "Ntuziaka akụ na ụba Pi", statusOk: "ONLINE",
+                msg: "\"Sir, e haziri asụsụ mba 60 niile nke ọma!\""
+            },
+            ha: {
+                connect: "Haɗa Wallet", badge: "Ulsan·Gyeongju·Pohang Mainnet", welcome: "Barka da zuwa, Shugaba Lee Jaewan",
+                desc: "Yankin tattalin arzikin Pi da hasumiyar sarrafawa suna aiki tare da harsunan ƙasashe 60 a lokaci guda.",
+                bal: "Sauran Kudi", ubi: "Social UBI APY", ret: "Rarraba Ribar Duniya", agi: "Matsayin AGI",
+                actions: "Ayyuka Sauri", dep: "Ajiye", wit: "Cire", swap: "Canjin Pi", ubiNet: "Gidauniyar UBI",
+                netTitle: "Cibiyoyin Ƙasashe 60 & Kasuwancin Gaba 9", sync: "Daidaitawar Harsuna 60",
+                n1: "Wallet", n2: "Turawa", n3: "Biya", n4: "Ajiya", n5: "Kyauta", n6: "UBI", n7: "Canji", n8: "DEX", n9: "LP Stake", n10: "Yawan Pi",
+                agiTitle: "AGI Bini (Goyon bayan Harsuna 60)", agiSub: "Jagorar Tattalin Arzikin Pi", statusOk: "ONLINE",
+                msg: "\"Rank ya dade, an tsara dukkan harsunan ƙasashe 60 cikin nasara!\""
+            },
+            zu: {
+                connect: "Xhuma i-Wallet", badge: "I-Ulsan·Gyeongju·Pohang Mainnet", welcome: "Siyakwamukela, Usihlalo Lee Jaewan",
+                desc: "Indawo yezomnotho ye-Pi kanye nombhoshongo wokulawula kusebenza ngezilimi ezingama-60 zamazwe ngesikhathi sangempela.",
+                bal: "Ibhalansi Yempahla", ubi: "Social UBI APY", ret: "Ukubuyiselwa Kwezinzuzo Zomhlaba", agi: "Isimo se-AGI",
+                actions: "Izenzo Ezisheshayo", dep: "Faka", wit: "Khipha", swap: "Shintsha i-Pi", ubiNet: "Isisekelo se-UBI",
+                netTitle: "Amanethiwekhi Amazwe angama-60 & Amabhizinisi Ezikhathi Ezizayo angu-9", sync: "Ukuvumelanisa Izilimi ezingama-60",
+                n1: "Wallet", n2: "Dlulisela", n3: "Khokha", n4: "Idiphozithi", n5: "Umvuzo", n6: "UBI", n7: "Shintsha", n8: "DEX", n9: "LP Stake", n10: "Inani le-Pi",
+                agiTitle: "AGI Bini (Ukusekelwa Izilimi ezingama-60)", agiSub: "Umhlahlandlela Wezomnotho we-Pi", statusOk: "ONLINE",
+                msg: "\"Mnumzane, zonke izilimi ezingama-60 zamazwe zilungiselelwe ngempumelelo!\""
+            },
+            af: {
+                connect: "Verbind Beursie", badge: "Ulsan·Gyeongju·Pohang Hoofnetwerk", welcome: "Welkom, Voorsitter Lee Jaewan",
+                desc: "Die Pi-ekonomiese sone en beheertoring werk in reële tyd met 60 landstale.",
+                bal: "Batesaldo", ubi: "Sosiale UBI APY", ret: "Wêreldwye Winstewendes", agi: "AGI Status",
+                actions: "Vinnige Aksies", dep: "Deponeer", wit: "Onttrek", swap: "Pi Ruil", ubiNet: "UBI Stigting",
+                netTitle: "60 Landtenetwerke & 9 Toekomstige Besighede", sync: "60 Tale Real-time Sink",
+                n1: "Beursie", n2: "Oordrag", n3: "Betaal", n4: "Deposito", n5: "Beloning", n6: "UBI", n7: "Ruil", n8: "DEX", n9: "LP Stake", n10: "Pi Hoeveelheid",
+                agiTitle: "AGI Bini (60 Tale Ondersteuning)", agiSub: "Pi Ekonomiegids", statusOk: "ONLINE",
+                msg: "\"Meneer, al 60 landstale is suksesvol opgestel!\""
+            },
+            ne: {
+                connect: "वालेट जडान गर्नुहोस्", badge: "उल्सन·ग्यांग्जु·पोहांग मेननेट", welcome: "स्वागत छ, अध्यक्ष ली जइवान",
+                desc: "पाई आर्थिक क्षेत्र र नियन्त्रण टावर ६० देशका भाषाहरूमा वास्तविक समयमा सञ्चालन भइरहेको छ।",
+                bal: "सम्पत्ति मौज्दात", ubi: "सामाजिक UBI APY", ret: "वैश्विक नाफा फिर्ता", agi: "AGI स्थिति",
+                actions: "द्रुत कार्यहरू", dep: "जम्मा गर्नुहोस्", wit: "झिक्नुहोस्", swap: "पाई स्वाप", ubiNet: "UBI फाउन्डेसन",
+                netTitle: "६० देशका नेटवर्कहरू र ९ भविष्यका व्यवसायहरू", sync: "६० भाषा प्रत्यक्ष सिंक",
+                n1: "वालेट", n2: "ट्रान्सफर", n3: "भुक्तानी", n4: "जम्मा", n5: "पुरस्कार", n6: "UBI", n7: "स्वाप", n8: "DEX", n9: "LP स्टेक", n10: "Pi मात्रा",
+                agiTitle: "AGI बिनी (६० भाषा समर्थन)", agiSub: "पाई आर्थिक गाइड", statusOk: "अनलाइन",
+                msg: "\"श्रीमान्, सबै ६० देशका भाषाहरू सफलतापूर्वक कन्फिगर गरिएका छन्!\""
+            },
+            si: {
+                connect: "පසුම්බිය සම්බන්ධ කරන්න", badge: "උල්සාන්·ගියොංජු·පොහාං මේන්නෙට්", welcome: "සාදරයෙන් පිළිගනිමු, සභාපති ලී ජේවන්",
+                desc: "පයි ආර්ථික කලාපය සහ පාලන කුළුණ රටවල් 60 ක භාෂා සමඟ තත් ය කාලීනව ක් රියාත්මක වේ.",
+                bal: " වත්කම් ශේෂය", ubi: "සමාජ UBI APY", ret: "ගෝලීය ලාභ ප් රතිලාභය", agi: "AGI තත්ත්වය",
+                actions: "ක්ෂණික ක් රියා", dep: "තැන්පත් කරන්න", wit: "මුදල් ලබාගන්න", swap: "Pi හුවමාරුව", ubiNet: "UBI පදනම",
+                netTitle: "රටවල් 60ක ජාල සහ අනාගත ව් යාපාර 9ක්", sync: "භාෂා 60ක තත් ය කාලීන සමමුහුර්තකරණය",
+                n1: "පසුම්බිය", n2: "යැවීම", n3: "ගෙවීම", n4: "තැන්පතු", n5: "ත් යාගය", n6: "UBI", n7: "ස්වොප්", n8: "DEX", n9: "LP ස්ටේක්", n10: "Pi ප් රමාණය",
+                agiTitle: "AGI බිනි (භාෂා 60ක සහාය)", agiSub: "පයි ආර්ථික මාර්ගෝපදේශය", statusOk: "මාර්ගගතයි",
+                msg: "\"සර්, රටවල් 60ක භාෂා සියල්ල සාර්ථකව සකසා ඇත!\""
+            },
+            km: {
+                connect: "តភ្ជាប់កាបូបប្រាក់", badge: "អ៊ុលសាន់·ក្យុងជូ·ប៉ូហាំង មេនណេត", welcome: "សូមស្វាគមន៍ ប្រធានាធិបតី លី ជេវ៉ាន់",
+                desc: "តំបន់សេដ្ឋកិច្ច Pi និងប៉មបញ្ជាកំពុងដំណើរការជាមួយភាសាចំនួន ៦០ ប្រទេសក្នុងពេលជាក់ស្តែង។",
+                bal: "សមតុល្យទ្រព្យសម្បត្តិ", ubi: "សង្គម UBI APY", ret: "ផលចំណេញសកល", agi: "ស្ថានភាព AGI",
+                actions: "សកម្មភាពរហ័ស", dep: "ដាក់ប្រាក់", wit: "ដកប្រាក់", swap: "ប្តូរប្រាក់ Pi", ubiNet: "មូលនិធិ UBI",
+                netTitle: "បណ្តាញ ៦០ ប្រទេស និងអាជីវកម្មអនាគត ៩", sync: "ការធ្វើសមកាលកម្ម ៦០ ភាសា",
+                n1: "កាបូបប្រាក់", n2: "ផ្ទេរ", n3: "បង់ប្រាក់", n4: "បញ្ញើ", n5: "រង្វាន់", n6: "UBI", n7: "ប្តូរ", n8: "DEX", n9: "LP Stake", n10: "បរិមាណ Pi",
+                agiTitle: "AGI Bini (គាំទ្រ ៦០ ភាសា)", agiSub: "មគ្គុទេសក៍សេដ្ឋកិច្ច Pi", statusOk: "នៅលើបណ្តាញ",
+                msg: "\"លោកប្រធាន ភាសាចំនួន ៦០ ប្រទេសត្រូវបានកំណត់រចនាសម្ព័ន្ធដោយជោគជ័យ!\""
+            },
+            my: {
+                connect: "ပိုက်ဆံအိတ် ချိတ်ဆက်ရန်", badge: "ဥလ်ဆန်·ဂယောင်းဂျူ·ဖိုဟန်း မိန်နက်", welcome: "ကြိုဆိုပါတယ် ဥက္ကဋ္ဌ လီဂျေးဝမ်",
+                desc: "Pi စီးပွားရေးဇုန်နှင့် ထိန်းချုပ်ရေးတာဝါတိုင်သည် နိုင်ငံပေါင်း ၆၀ ၏ ဘာသာစကားများနှင့် အချိန်နှင့်တပြေးညီ လည်ပတ်နေပါသည်။",
+                bal: "ပိုင်ဆိုင်မှုလက်ကျန်", ubi: "လူမှုရေး UBI APY", ret: "ကမ္ဘာလုံးဆိုင်ရာ အမြတ်ပြန်အမ်းငွေ", agi: "AGI အခြေအနေ",
+                actions: "အမြန်လုပ်ဆောင်ချက်များ", dep: "အပ်နှံရန်", wit: "ထုတ်ယူရန်", swap: "Pi လဲလှယ်ရန်", ubiNet: "UBI ဖောင်ဒေးရှင်း",
+                netTitle: "နိုင်ငံပေါင်း ၆၀ ကွန်ရက်များနှင့် အနာဂတ်လုပ်ငန်း ၉ ခု", sync: "ဘာသာစကား ၆၀ စင့်ခ်လုပ်ခြင်း",
+                n1: "ပိုက်ဆံအိတ်", n2: "လွှဲပြောင်း", n3: "ငွေပေးချေ", n4: "အပ်ငွေ", n5: "ဆုလာဘ်", n6: "UBI", n7: "စဝပ်", n8: "DEX", n9: "LP စတိတ်", n10: "Pi ပမာဏ",
+                agiTitle: "AGI Bini (ဘာသာစကား ၆၀ ထောက်ပံ့မှု)", agiSub: "Pi စီးပွားရေးလမ်းညွှန်", statusOk: "အွန်လိုင်း",
+                msg: "\"ဆရာ၊ နိုင်ငံပေါင်း ၆၀ ၏ ဘာသာစကားများကို အောင်မြင်စွာ ထည့်သွင်းပြီးပါပြီ!\""
+            },
+            lo: {
+                connect: "ເຊື່ອມຕໍ່ກະເປົາເງິນ", badge: "ອຸລຊັນ·ກຽວຈູ·ໂພຮັງ ເມນເນັດ", welcome: "ຍິນດີຕ້ອນຮັບ ປະທານ ລີ ເຈວານ",
+                desc: "ເຂດເສດຖະກິດ Pi ແລະຫໍຄວບຄຸມກຳລັງດຳເນີນງານດ້ວຍພາສາ 60 ປະເທດແບບເວລາຈິງ.",
+                bal: "ຍອດຊັບສິນ", ubi: "ສັງຄົມ UBI APY", ret: "ຜົນຕອບແທນກຳໄລທົ່ວໂລກ", agi: "ສະຖານະ AGI",
+                actions: "ການກະທຳດ່ວນ", dep: "ຝາກເງິນ", wit: "ຖອນເງິນ", swap: "ແລກປ່ຽນ Pi", ubiNet: "ມູນິທິ UBI",
+                netTitle: "ເຄືອຂ່າຍ 60 ປະເທດ & 9 ທຸລະກິດອະນາຄົດ", sync: "ຊິງຄ໌ 60 ພາສາ",
+                n1: "ກະເປົາເງິນ", n2: "ໂອນເງິນ", n3: "ຊຳລະເງິນ", n4: "ຝາກເງິນ", n5: "ຮາງວັນ", n6: "UBI", n7: "ສະວອບ", n8: "DEX", n9: "LP ເສກ", n10: "ຈຳນວນ Pi",
+                agiTitle: "AGI Bini (ຮອງຮັບ 60 ພາສາ)", agiSub: "ຄູ່ມືເສດຖະກິດ Pi", statusOk: "ອອນລາຍ",
+                msg: "\"ທ່ານປະທານ, ພາສາ 60 ປະເທດໄດ້ຖືກຕັ້ງຄ່າສຳເລັດແລ້ວ!\""
+            },
+            mn: {
+                connect: "Хэтэвч холбох", badge: "Ульсан·Кёнжү·Пүхан Сүлжээ", welcome: "Тавтай морилно уу, Ерөнхийлөгч Ли Жэ Ван",
+                desc: "Pi эдийн засгийн бүс болон удирдлагын цамхаг нь 60 орны хэлээр бодит цаг хугацаанд ажиллаж байна.",
+                bal: "Хөрөнгийн үлдэгдэл", ubi: "Нийгмийн UBI APY", ret: "Дэлхийн ашгийн буцаалт", agi: "AGI Төлөв",
+                actions: "Шуурхай үйлдэл", dep: "Хадгалуулах", wit: "Мөнгө авах", swap: "Pi Солилцох", ubiNet: "UBI Сан",
+                netTitle: "60 орны сүлжээ ба ирээдүйн 9 бизнес", sync: "60 хэлний бодит цагийн синхрончлол",
+                n1: "Хэтэвч", n2: "Шилжүүлэг", n3: "Төлбөр", n4: "Хадгаламж", n5: "Шагнал", n6: "UBI", n7: "Солилцоо", n8: "DEX", n9: "LP Стейкинг", n10: "Pi тоо хэмжээ",
+                agiTitle: "AGI Бини (60 хэлний дэмжлэг)", agiSub: "Pi эдийн засгийн гарын авлага", statusOk: "ОНЛАЙН",
+                msg: "\"Эрхэм хүндэт ажил хэрэг амжилттай, 60 орны хэл бүрэн тохируулагдлаа!\""
+            },
+            ka: {
+                connect: "საფულის დაკავშირება", badge: "ულსანი·გიონგჯუ·პohang Mainnet", welcome: "მოგესალმებით, თავმჯდომარე ლი ჯე ვან",
+                desc: "Pi ეკონომიკური ზონა და მართვის კოშკ რეალურ დროში მუშაობს 60 ქვეყნის ენაზე.",
+                bal: "აქტივების ბალანსი", ubi: "სოციალური UBI APY", ret: "გლობალური მოგების დაბრუნება", agi: "AGI სტატუსი",
+                actions: "სწრაფი მოქმედებები", dep: "დეპოზიტი", wit: "გატანა", swap: "Pi სვოპი", ubiNet: "UBI ფონდი",
+                netTitle: "60 ქვეყნის ქსელი & 9 მომავლის ბიზნესი", sync: "60 ენის სინქრონიზაცია",
+                n1: "საფულე", n2: "გადარიცხვა", n3: "გადახდა", n4: "დეპოზიტი", n5: "ჯილდო", n6: "UBI", n7: "სვოპი", n8: "DEX", n9: "LP Staking", n10: "Pi რაოდენობა",
+                agiTitle: "AGI Bini (60 ენის მხარდაჭერა)", agiSub: "Pi ეკონომიკის გზამკვლევი", statusOk: "ონლაინ",
+                msg: "\"ბატონო, 60 ქვეყნის ენა წარმატებით დაინსტალირდა!\""
+            },
+            hy: {
+                connect: "Միացնել դրամապանակը", badge: "Ուլսան·Գյոնգջու·Պոհան Մեյննեթ", welcome: "Բարի գալուստ, նախագահ Լի Ջե Վան",
+                desc: "Pi տնտեսական գոտին և կառավարման աշտարակը աշխատում են 60 երկրների լեզուներով իրական ժամանակում:",
+                bal: "Ակտիվների մնացորդ", ubi: "Սոցիալական UBI APY", ret: "Գլոբալ շահույթի վերադարձ", agi: "AGI կարգավիճակ",
+                actions: "Արագ գործողություններ", dep: "Ավանդ", wit: "Կանխիկացում", swap: "Pi փոխանակում", ubiNet: "UBI հիմնադրամ",
+                netTitle: "60 երկրների ցանցեր և 9 ապագա բիզնեսներ", sync: "60 լեզուների համաժամացում",
+                n1: "Դրամապանակ", n2: "Փոխանցում", n3: "Վճարում", n4: "Ավանդ", n5: "Պարգև", n6: "UBI", n7: "Սվոփ", n8: "DEX", n9: "LP Stake", n10: "Pi քանակ",
+                agiTitle: "AGI Bini (60 լեզուների աջակցություն)", agiSub: "Pi տնտեսության ուղեցույց", statusOk: "ՕՆԼԱՅՆ",
+                msg: "\"Պարոն, 60 երկրների լեզուները հաջողությամբ կարգավորվել են!\""
+            },
+            az: {
+                connect: "Cüzdanı qoş", badge: "Ulsan·Gyeongju·Pohang Mainnet", welcome: "Xoş gəlmisiniz, Sədr Lee Jaewan",
+                desc: "Pi iqtisadi zonası və idarəetmə qülləsi 60 ölkənin dili ilə real vaxt rejimində işləyir.",
+                bal: "Aktiv Balansı", ubi: "Sosial UBI APY", ret: "Qlobal Mənfəət Geri Dönüşü", agi: "AGI Statusu",
+                actions: "Sürətli Əməliyyatlar", dep: "Depozit", wit: "Çıxarış", swap: "Pi Swap", ubiNet: "UBI Fondu",
+                netTitle: "60 Ölkə Şəbəkəsi və 9 Gələcək Biznes", sync: "60 Dil Sinxronizasiyası",
+                n1: "Cüzdan", n2: "Köçürmə", n3: "Ödəniş", n4: "Depozit", n5: "Mükafat", n6: "UBI", n7: "Swap", n8: "DEX", n9: "LP Stake", n10: "Pi Miqdarı",
+                agiTitle: "AGI Bini (60 Dil Dəstəyi)", agiSub: "Pi İqtisadiyyat Bələdçisi", statusOk: "ONLAYN",
+                msg: "\"Cənab, 60 ölkənin dili uğurla quraşdırıldı!\""
+            },
+            kk: {
+                connect: "Әмиянды қосу", badge: "Ульсан·Кенжү·Пхохан Желісі", welcome: "Қош келдіңіз, Төраға Ли Чжэ Ван",
+                desc: "Pi экономикалық аймағы мен басқару мнарасы 60 елдің тілімен нақты уақыт режимінде жұмыс істейді.",
+                bal: "Активтер балансы", ubi: "Әлеуметтік UBI APY", ret: "Жаһандық пайда қайтарымы", agi: "AGI Күйі",
+                actions: "Жылдам әрекеттер", dep: "Салым", wit: "Шығару", swap: "Pi Ауыстыру", ubiNet: "UBI Қоры",
+                netTitle: "60 елдің желісі және 9 болашақ бизнес", sync: "60 тілді синхрондау",
+                n1: "Әмиян", n2: "Аударым", n3: "Төлем", n4: "Салым", n5: "Сыйлық", n6: "UBI", n7: "Своп", n8: "DEX", n9: "LP Stake", n10: "Pi Мөлшері",
+                agiTitle: "AGI Бини (60 тілді қолдау)", agiSub: "Pi экономика нұсқаулығы", statusOk: "ONLINE",
+                msg: "\"Мырза, 60 елдің тілі сәтті бапталып бітті!\""
+            },
+            uz: {
+                connect: "Hamyonni ulash", badge: "Ulsan·Gyeongju·Pohang Mainnet", welcome: "Xush kelibsiz, Rais Lee Jaewan",
+                desc: "Pi iqtisodiy zonasi va boshqaruv minorasi 60 ta mamlakat tillarida real vaqt rejimida ishlamoqda.",
+                bal: "Aktivlar balansi", ubi: "Ijtimoiy UBI APY", ret: "Global foyda qaytishi", agi: "AGI Holati",
+                actions: "Tezkor amallar", dep: "Depozit", wit: "Yechish", swap: "Pi Ayirboshlash", ubiNet: "UBI Jamg'armasi",
+                netTitle: "60 ta mamlakat tarmoqlari va 9 kelajak biznesi", sync: "60 til sinxronizatsiyasi",
+                n1: "Hamyon", n2: "O'tkazma", n3: "To'lov", n4: "Depozit", n5: "Mukofot", n6: "UBI", n7: "Swap", n8: "DEX", n9: "LP Stake", n10: "Pi Miqdori",
+                agiTitle: "AGI Bini (60 ta til ko'magi)", agiSub: "Pi iqtisodiy qo'llanmasi", statusOk: "ONLAYN",
+                msg: "\"Janob, 60 ta mamlakat tillari muvaffaqiyatli sozlangan!\""
+            },
+            ur: {
+                connect: "والٹ جوڑیں", badge: "اولسان·گیونگجو·پوھانگ مین نیٹ", welcome: "خوش آمدید، چیئرمین لی جے وان",
+                desc: "Pi معاشی زون اور کنٹرول ٹاور 60 ممالک کی زبانوں کے ساتھ ریئل ٹائم میں کام کر رہے ہیں۔",
+                bal: "اثاثہ جات کا بیلنس", ubi: "سماجی UBI APY", ret: "عالمی منافع کی واپسی", agi: "AGI کی حالت",
+                actions: "فوری اقدامات", dep: "جمع کروائیں", wit: "رقم نکالیں", swap: "Pi تبادلہ", ubiNet: "UBI فاؤنڈیشن",
+                netTitle: "60 ممالک کے نیٹ ورکس اور 9 مستقبل کے کاروبار", sync: "60 زبانوں کی مطابقت",
+                n1: "والٹ", n2: "منتقلی", n3: "ادائیگی", n4: "جمع", n5: "انعام", n6: "UBI", n7: "سواپ", n8: "DEX", n9: "LP اسٹیک", n10: "Pi مقدار",
+                agiTitle: "AGI بينی (60 زبانوں کی معاونت)", agiSub: "Pi معاشی گائیڈ", statusOk: "آن لائن",
+                msg: "\"سر، تمام 60 ممالک کی زبانیں کامیابی کے ساتھ سیٹ کر دی گئی ہیں!\""
+            },
+            ps: {
+                connect: "کڅوړه وصل کړئ", badge: "اولسان·گیونګجو·پوهانگ اصلي شبکه", welcome: "ښه راغلاست، مشر لی جیو وان",
+                desc: "د Pi اقتصادي زون او کنټرول برج د 60 هیوادونو ژبو سره په ریښتیني وخت کې کار کوي.",
+                bal: "شمتمني توازن", ubi: "ټولنیز UBI APY", ret: "نړیوال ګټه راستنیدنه", agi: "AGI حالت",
+                actions: "چټک عملونه", dep: "امانت", wit: "ایستل", swap: "Pi تبادله", ubiNet: "UBI بنسټ",
+                netTitle: "د 60 هیوادونو شبکې او 9 راتلونکي سوداګرۍ", sync: "د 60 ژبو مطابقت",
+                n1: "کڅوړه", n2: "لیږد", n3: "تادیه", n4: "امانت", n5: "انعام", n6: "UBI", n7: "سواپ", n8: "DEX", n9: "LP سټیک", n10: "Pi مقدار",
+                agiTitle: "AGI بيني (د 60 ژبو ملاتړ)", agiSub: "Pi اقتصادي لارښود", statusOk: "آنلاین",
+                msg: "\"ښاغلیه، د 60 هیوادونو ټولې ژبې په بریالیتوب سره تنظیم شوې!\""
             }
         };
 
-        // 나머지 언어 코드들은 기본 영어/한국어로 자동 대응되도록 범용 폴백 설정
-        function changeLanguage(lang) {
-            const t = globalTranslations[lang] || globalTranslations['en'];
-            document.getElementById('welcomeText').innerText = t.welcome;
-            document.getElementById('descText').innerText = t.desc;
-            document.getElementById('lblAssetBal').innerText = t.assetBal;
-            document.getElementById('lblAssetQty').innerText = t.assetQty;
-            document.getElementById('lblUbi').innerText = t.ubi;
-            document.getElementById('lblFuture').innerText = t.future;
-            document.getElementById('secQuickAction').innerText = t.quickAction;
-            document.getElementById('chatHeaderTitle').innerText = t.chatTitle;
-            document.getElementById('chatResponseText').innerText = `"${t.chatDefault}"`;
-            document.getElementById('chatInput').placeholder = t.chatPlaceholder;
-            document.getElementById('sendBtn').innerText = t.send;
-            document.getElementById('modalTitle').innerText = t.modalTitle;
-            document.getElementById('modalDesc').innerText = t.modalDesc;
-            document.getElementById('confirmBtn').innerText = t.confirm;
-            document.getElementById('cancelBtn').innerText = t.cancel;
-        }
+        const langSelect = document.getElementById('lang-select');
+        langSelect.addEventListener('change', (e) => {
+            const lang = e.target.value;
+            const d = dict[lang] || {
+                ...baseKo,
+                welcome: `Welcome, Chairman Lee Jaewan (${lang.toUpperCase()})`,
+                msg: `"Sir, language switch to [${lang.toUpperCase()}] successfully applied across all 60 country nodes!"`
+            };
 
-        function sendChat() {
-            const inputVal = document.getElementById('chatInput').value;
-            if(!inputVal) return;
-            document.getElementById('chatResponseText').innerText = `AGI 삐니 응답: "${inputVal}" 요청이 60개국 언어 네트워크를 통해 완벽히 동기화 및 반영되었습니다.`;
-            document.getElementById('chatInput').value = '';
-        }
+            document.getElementById('txt-connect').innerText = d.connect;
+            document.getElementById('txt-badge').innerText = d.badge;
+            document.getElementById('txt-welcome').innerText = d.welcome;
+            document.getElementById('txt-desc').innerText = d.desc;
+            document.getElementById('lbl-bal').innerText = d.bal;
+            document.getElementById('lbl-ubi').innerText = d.ubi;
+            document.getElementById('lbl-ret').innerText = d.ret;
+            document.getElementById('lbl-agi').innerText = d.agi;
+            document.getElementById('lbl-actions').innerText = d.actions;
+            document.getElementById('btn-dep').innerText = d.dep;
+            document.getElementById('btn-wit').innerText = d.wit;
+            document.getElementById('btn-swap').innerText = d.swap;
+            document.getElementById('btn-ubi-net').innerText = d.ubiNet;
+            document.getElementById('lbl-net-title').innerText = d.netTitle;
+            document.getElementById('lbl-sync').innerText = d.sync;
+            document.getElementById('n1').innerText = d.n1;
+            document.getElementById('n2').innerText = d.n2;
+            document.getElementById('n3').innerText = d.n3;
+            document.getElementById('n4').innerText = d.n4;
+            document.getElementById('n5').innerText = d.n5;
+            document.getElementById('n6').innerText = d.n6;
+            document.getElementById('n7').innerText = d.n7;
+            document.getElementById('n8').innerText = d.n8;
+            document.getElementById('n9').innerText = d.n9;
+            document.getElementById('n10').innerText = d.n10;
+            document.getElementById('lbl-agi-title').innerText = d.agiTitle;
+            document.getElementById('lbl-agi-sub').innerText = d.agiSub;
+            document.getElementById('lbl-status-ok').innerText = d.statusOk;
+            document.getElementById('txt-msg').innerText = d.msg;
+        });
     </script>
 </body>
 </html>
