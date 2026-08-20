@@ -6,55 +6,91 @@
     <title>HK WorldBank</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { text-align: center; background-color: #0f172a; color: white; }
-        .glass { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); }
+        body { text-align: center; background-color: #0f172a; color: white; font-family: sans-serif; }
+        .glass { background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 16px; }
     </style>
 </head>
-<body class="p-4">
-    <header class="glass p-6 rounded-2xl mb-6 max-w-4xl mx-auto">
-        <h1 class="text-3xl font-bold">HK WorldBank</h1>
+<body class="p-6 flex flex-col items-center min-h-screen">
+
+    <!-- 헤더 -->
+    <header class="glass p-6 mb-6 w-full max-w-4xl shadow-lg">
+        <h1 class="text-2xl font-bold tracking-wider">HK WorldBank</h1>
     </header>
 
-    <main class="w-full max-w-4xl mx-auto space-y-6">
+    <main class="w-full max-w-4xl space-y-6">
+        
         <!-- 핵심 지표 -->
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div class="glass p-4 rounded-xl text-sm">자산 잔액<br><span class="text-blue-400 font-bold">1,000,000.00 ₩</span></div>
-            <div class="glass p-4 rounded-xl text-sm">개인 자산(Pi)<br><span class="text-yellow-400 font-bold">31.41 PI</span></div>
-            <div class="glass p-4 rounded-xl text-sm">UBI 복리(사회재단)<br><span class="text-green-400 font-bold">31.41%</span></div>
-            <div class="glass p-4 rounded-xl text-sm">AGI 삐니 상태<br><span class="text-emerald-400 font-bold">ONLINE</span></div>
-        </div>
-
-        <!-- 금융 작업 -->
-        <div class="glass p-6 rounded-2xl">
-            <h2 class="mb-4">빠른 금융 작업</h2>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <button class="bg-blue-600 p-3 rounded-lg">자금 예치</button>
-                <button class="bg-blue-600 p-3 rounded-lg">송금</button>
-                <button class="bg-blue-600 p-3 rounded-lg">수금</button>
-                <button class="bg-blue-600 p-3 rounded-lg">송금 팩스</button>
+            <div class="glass p-4">
+                <span class="text-xs text-gray-400">자산 잔액</span>
+                <div class="text-lg font-bold text-blue-400 mt-1">1,000,000.00 ₩</div>
+            </div>
+            <div class="glass p-4">
+                <span class="text-xs text-gray-400">개인 자산 (Pi)</span>
+                <div class="text-lg font-bold text-yellow-400 mt-1 flex items-center justify-center space-x-1">
+                    <span>π</span><span>31.41 PI</span>
+                </div>
+            </div>
+            <div class="glass p-4">
+                <span class="text-xs text-gray-400">UBI 복리 (사회재단)</span>
+                <div class="text-lg font-bold text-green-400 mt-1">31.41% APY</div>
+            </div>
+            <div class="glass p-4">
+                <span class="text-xs text-gray-400">AGI 삐니 상태</span>
+                <div class="text-lg font-bold text-emerald-400 mt-1">ONLINE</div>
             </div>
         </div>
 
-        <!-- 9대 미래사업 -->
-        <div class="glass p-6 rounded-2xl">
-            <h2 class="mb-4">60개국 연동망 & 9대 미래사업</h2>
+        <!-- 빠른 금융 작업 -->
+        <div class="glass p-6">
+            <h2 class="text-base font-semibold mb-4 text-gray-200">빠른 금융 작업</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                <button onclick="runProcess('자금 예치하기')" class="bg-blue-600 hover:bg-blue-500 p-3 rounded-xl text-sm font-medium transition">자금 예치하기</button>
+                <button onclick="runProcess('송금')" class="bg-blue-600 hover:bg-blue-500 p-3 rounded-xl text-sm font-medium transition">송금</button>
+                <button onclick="runProcess('수금')" class="bg-blue-600 hover:bg-blue-500 p-3 rounded-xl text-sm font-medium transition">수금</button>
+                <button onclick="runProcess('송금 팩스')" class="bg-blue-600 hover:bg-blue-500 p-3 rounded-xl text-sm font-medium transition">송금 팩스</button>
+            </div>
+        </div>
+
+        <!-- 60개국 연동망 & 9대 미래사업 -->
+        <div class="glass p-6">
+            <h2 class="text-base font-semibold mb-4 text-gray-200">60개국 분산 연동망 & 9대 미래사업</h2>
             <div class="grid grid-cols-3 md:grid-cols-5 gap-3 text-sm">
-                <button class="bg-slate-700 p-2 rounded">로봇</button>
-                <button class="bg-slate-700 p-2 rounded">광영포</button>
-                <button class="bg-slate-700 p-2 rounded">UAM</button>
-                <button class="bg-slate-700 p-2 rounded">핵융합</button>
-                <button class="bg-slate-700 p-2 rounded">LJW258</button>
+                <button onclick="runBusiness('로봇')" class="bg-slate-800 hover:bg-slate-700 border border-blue-500/30 p-3 rounded-xl">로봇</button>
+                <button onclick="runBusiness('광영포')" class="bg-slate-800 hover:bg-slate-700 border border-blue-500/30 p-3 rounded-xl">광영포</button>
+                <button onclick="runBusiness('UAM')" class="bg-slate-800 hover:bg-slate-700 border border-blue-500/30 p-3 rounded-xl">UAM</button>
+                <button onclick="runBusiness('핵융합')" class="bg-slate-800 hover:bg-slate-700 border border-blue-500/30 p-3 rounded-xl">핵융합</button>
+                <button onclick="runBusiness('LJW258 인프라')" class="bg-slate-800 hover:bg-slate-700 border border-blue-500/30 p-3 rounded-xl">LJW258</button>
             </div>
         </div>
 
         <!-- 삐니 전송 센터 -->
-        <div class="glass p-6 rounded-2xl">
-            <h2 class="mb-4">삐니 전송 및 질문</h2>
-            <div class="flex flex-col gap-3">
-                <input type="text" placeholder="삐니에게 무엇이든 물어보세요" class="p-3 rounded-lg text-black text-center">
-                <button class="bg-emerald-600 p-3 rounded-lg font-bold">전송</button>
+        <div class="glass p-6">
+            <h2 class="text-base font-semibold mb-3 text-gray-200">삐니에게 무엇이든 물어보세요</h2>
+            <div class="flex flex-col space-y-3 max-w-xl mx-auto">
+                <input id="piniInput" type="text" placeholder="질문 내용을 입력하세요" class="bg-slate-900 border border-blue-500/40 text-white p-3 rounded-xl text-center text-sm focus:outline-none">
+                <button onclick="sendPiniMessage()" class="bg-emerald-600 hover:bg-emerald-500 p-3 rounded-xl text-sm font-bold transition">전송</button>
             </div>
         </div>
+
     </main>
+
+    <script>
+        function runProcess(name) {
+            alert(name + ' 프로세스가 정상 실행되었습니다.');
+        }
+        function runBusiness(name) {
+            alert(name + ' 미래사업 모듈과 연동되었습니다.');
+        }
+        function sendPiniMessage() {
+            const val = document.getElementById('piniInput').value;
+            if(!val) {
+                alert('전송할 내용을 입력해 주세요.');
+                return;
+            }
+            alert('삐니(Pi-NI) 전송 완료: ' + val);
+            document.getElementById('piniInput').value = '';
+        }
+    </script>
 </body>
 </html>
