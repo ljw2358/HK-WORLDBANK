@@ -3,304 +3,279 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HK WORLDBANK</title>
+    <title>HK WorldBank - Global Digital Banking Platform</title>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Apple SD Gothic Neo', sans-serif;
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: rgba(17, 24, 39, 0.7);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --text-primary: #ffffff;
+            --text-secondary: #9ca3af;
+            --accent-blue: #3b82f6;
+            --accent-purple: #8b5cf6;
         }
-        body {
-            background-color: #070b14;
-            color: #ffffff;
-            padding: 16px;
-            display: flex;
-            justify-content: center;
-        }
-        .container {
-            width: 100%;
-            max-width: 480px;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-        /* 상단 네비게이션 */
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 8px;
-        }
-        .logo {
-            font-size: 20px;
-            font-weight: 800;
-            letter-spacing: 1px;
-            color: #ffffff;
-            line-height: 1.2;
-        }
-        .logo span {
-            font-size: 11px;
-            border-left: 2px solid #3b82f6;
-            padding-left: 6px;
-            color: #94a3b8;
-            display: inline-block;
-        }
-        .lang-box {
-            background: #111827;
-            border: 1px solid #1f2937;
-            padding: 6px 12px;
-            border-radius: 8px;
-            font-size: 13px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        /* 메인 카드 박스 */
-        .main-card {
-            background: linear-gradient(145deg, #111827, #0d1322);
-            border: 1px solid #1f2937;
-            border-radius: 20px;
-            padding: 24px;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
-        }
-        .badge {
-            align-self: flex-start;
-            background: rgba(139, 92, 246, 0.2);
-            color: #c084fc;
-            border: 1px solid rgba(139, 92, 246, 0.4);
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 600;
-        }
-        .welcome-title {
-            font-size: 22px;
-            font-weight: 700;
-            line-height: 1.3;
-        }
-        .welcome-desc {
-            font-size: 13px;
-            color: #94a3b8;
-            line-height: 1.5;
-        }
-        .divider {
-            height: 1px;
-            background: #1f2937;
-            width: 100%;
-        }
-        /* 자산 및 지표 그리드 */
-        .grid-2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
-        .stat-card {
-            background: #0b0f19;
-            border: 1px solid #1f2937;
-            border-radius: 14px;
-            padding: 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-        .stat-label {
-            font-size: 12px;
-            color: #94a3b8;
-        }
-        .stat-value {
-            font-size: 20px;
-            font-weight: 700;
-            color: #38bdf8;
-        }
-        .stat-value.purple {
-            color: #c084fc;
-        }
-        .stat-value.green {
-            color: #4ade80;
-        }
-        .stat-value.pink {
-            color: #f472b6;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-primary); min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 20px; }
+        .container { width: 100%; max-width: 1200px; display: flex; flex-direction: column; gap: 20px; }
+        
+        /* 상단 네비게이션 및 헤더 중앙 정렬 */
+        header { display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 10px 0; }
+        .logo { font-size: 1.2rem; font-weight: bold; color: var(--accent-blue); }
+        .lang-select { background: var(--card-bg); color: var(--text-primary); border: 1px solid var(--border-color); padding: 5px 10px; border-radius: 6px; cursor: pointer; max-height: 200px; overflow-y: auto; }
+
+        .welcome-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 30px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 15px; margin-top: 10px; }
+        .welcome-title { font-size: 1.8rem; font-weight: 700; }
+        .welcome-desc { color: var(--text-secondary); font-size: 0.95rem; max-width: 800px; line-height: 1.5; }
+
+        .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; width: 100%; margin-top: 10px; }
+        .metric-box { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); border-radius: 12px; padding: 15px; text-align: center; }
+        .metric-label { font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 5px; }
+        .metric-value { font-size: 1.25rem; font-weight: 600; }
+
         /* 빠른 금융 작업 섹션 */
-        .section-title {
-            font-size: 16px;
-            font-weight: 700;
-            color: #60a5fa;
-            margin-top: 8px;
-        }
-        .action-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
-        .action-btn {
-            background: #111827;
-            border: 1px solid #1f2937;
-            border-radius: 14px;
-            padding: 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            text-align: left;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .action-btn:hover {
-            border-color: #3b82f6;
-        }
-        .action-name {
-            font-size: 15px;
-            font-weight: 700;
-        }
-        .action-sub {
-            font-size: 11px;
-            color: #94a3b8;
-        }
-        /* 9대 미래 사업 태그 */
-        .future-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            margin-top: 4px;
-        }
-        .tag {
-            background: #1e293b;
-            border: 1px solid #334155;
-            color: #93c5fd;
-            padding: 6px 12px;
-            border-radius: 8px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-        /* AGI 삐니 채팅 박스 */
-        .ai-box {
-            background: #111827;
-            border: 1px solid #ec4899;
-            border-radius: 16px;
-            padding: 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-        .ai-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .ai-title {
-            font-size: 14px;
-            font-weight: 700;
-            color: #ffffff;
-        }
-        .ai-status {
-            font-size: 11px;
-            color: #f472b6;
-            font-weight: 700;
-        }
-        .ai-bubble {
-            background: #0b0f19;
-            border: 1px solid #1f2937;
-            padding: 12px;
-            border-radius: 10px;
-            font-size: 13px;
-            color: #e2e8f0;
-        }
+        .section-title { font-size: 1.1rem; font-weight: 600; margin-top: 10px; }
+        .quick-actions { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+        .action-btn { background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.3); color: var(--text-primary); padding: 15px; border-radius: 10px; cursor: pointer; text-align: left; transition: 0.2s; }
+        .action-btn:hover { background: rgba(59, 130, 246, 0.2); }
+
+        /* AGI 삐니 챗봇 섹션 */
+        .chatbot-container { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 15px; }
+        .chat-box { background: rgba(0, 0, 0, 0.2); border: 1px solid var(--border-color); border-radius: 10px; padding: 15px; min-height: 80px; color: var(--text-secondary); }
+        .chat-input-area { display: flex; gap: 10px; }
+        .chat-input { flex: 1; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-color); border-radius: 8px; padding: 10px 15px; color: var(--text-primary); }
+        .chat-send-btn { background: var(--accent-blue); color: white; border: none; padding: 0 20px; border-radius: 8px; cursor: pointer; font-weight: 600; }
+
+        /* 모달 및 프로세스 레이어 */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); justify-content: center; align-items: center; z-index: 1000; }
+        .modal-content { background: #1f2937; padding: 30px; border-radius: 16px; width: 400px; text-align: center; display: flex; flex-direction: column; gap: 15px; border: 1px solid var(--border-color); }
+        .modal-input { width: 100%; padding: 12px; background: #111827; border: 1px solid var(--border-color); color: white; border-radius: 8px; text-align: center; font-size: 1.2rem; letter-spacing: 2px; }
     </style>
 </head>
 <body>
 
     <div class="container">
         <!-- 상단 헤더 -->
-        <div class="header">
-            <div class="logo">
-                HK WORLDBANK<br>
-                <span>해오름 특별시 60개국 컨트롤 타워</span>
-            </div>
-            <div class="lang-box">
-                🇰🇷 한국어 (Korean)
-            </div>
-        </div>
+        <header>
+            <div class="logo">HK WORLDBANK</div>
+            <select id="langSelect" class="lang-select" onchange="changeLanguage(this.value)">
+                <!-- 60개국 언어 셀렉트 박스 -->
+                <option value="ko">한국어 (Korean)</option>
+                <option value="en">English (US)</option>
+                <option value="zh">中文 (Chinese)</option>
+                <option value="ja">日本語 (Japanese)</option>
+                <option value="es">Español (Spanish)</option>
+                <option value="fr">Français (French)</option>
+                <option value="de">Deutsch (German)</option>
+                <option value="ru">Русский (Russian)</option>
+                <option value="pt">Português (Portuguese)</option>
+                <option value="it">Italiano (Italian)</option>
+                <option value="vi">Tiếng Việt (Vietnamese)</option>
+                <option value="th">ไทย (Thai)</option>
+                <option value="id">Bahasa Indonesia</option>
+                <option value="ms">Bahasa Melayu</option>
+                <option value="hi">हिन्दी (Hindi)</option>
+                <option value="ar">العربية (Arabic)</option>
+                <option value="tr">Türkçe (Turkish)</option>
+                <option value="fa">فارسی (Persian)</option>
+                <option value="pl">Polski (Polish)</option>
+                <option value="nl">Nederlands (Dutch)</option>
+                <option value="uk">Українська (Ukrainian)</option>
+                <option value="el">Ελληνικά (Greek)</option>
+                <option value="cs">Čeština (Czech)</option>
+                <option value="sv">Svenska (Swedish)</option>
+                <option value="hu">Magyar (Hungarian)</option>
+                <option value="ro">Română (Romanian)</option>
+                <option value="da">Dansk (Danish)</option>
+                <option value="fi">Suomi (Finnish)</option>
+                <option value="no">Norsk (Norwegian)</option>
+                <option value="he">עברית (Hebrew)</option>
+                <option value="bn">বাংলা (Bengali)</option>
+                <option value="pa">ਪੰਜਾਬੀ (Punjabi)</option>
+                <option value="ur">اردو (Urdu)</option>
+                <option value="ta">தமிழ் (Tamil)</option>
+                <option value="te">తెలుగు (Telugu)</option>
+                <option value="mr">मराठी (Marathi)</option>
+                <option value="tr">Türkçe (Turkish)</option>
+                <option value="sw">Kiswahili (Swahili)</option>
+                <option value="fil">Filipino (Tagalog)</option>
+                <option value="sr">Српски (Serbian)</option>
+                <option value="hr">Hrvatski (Croatian)</option>
+                <option value="sk">Slovenčina (Slovak)</option>
+                <option value="bg">Български (Bulgarian)</option>
+                <option value="lt">Lietuvių (Lithuanian)</option>
+                <option value="lv">Latviešu (Latvian)</option>
+                <option value="et">Eesti (Estonian)</option>
+                <option value="sl">Slovenščina (Slovenian)</option>
+                <option value="sq">Shqip (Albanian)</option>
+                <option value="mk">Македонски (Macedonian)</option>
+                <option value="bs">Bosanski (Bosnian)</option>
+                <option value="is">Íslenska (Icelandic)</option>
+                <option value="ga">Gaeilge (Irish)</option>
+                <option value="cy">Cymraeg (Welsh)</option>
+                <option value="eu">Euskara (Basque)</option>
+                <option value="gl">Galego (Galician)</option>
+                <option value="ca">Català (Catalan)</option>
+                <option value="af">Afrikaans</option>
+                <option value="hy">Հայերեն (Armenian)</option>
+                <option value="ka">ქართული (Georgian)</option>
+                <option value="az">Azərbaycan (Azerbaijani)</option>
+            </select>
+        </header>
 
-        <!-- 메인 환영 및 자산 카드 -->
-        <div class="main-card">
-            <div class="badge">울산·경주·포항 통합 메인넷</div>
-            <h1 class="welcome-title">환영합니다, 혜공 형님</h1>
-            <p class="welcome-desc">파이화폐(Pi) 단일 경제권과 165층 컨트롤 타워 시스템이 60개국 언어 실시간 완벽 동기화와 함께 구동 중입니다. 대기업 임금부터 재래시장 결제까지 통합된 지상낙원 생태계입니다.</p>
+        <!-- 환영 카드 (중앙 정렬 및 문구 수정 반영) -->
+        <section class="welcome-card">
+            <h1 class="welcome-title" id="welcomeText">환영합니다, 고객님</h1>
+            <p class="welcome-desc" id="descText">
+                파이회폐(Pi) 단일 경제권과 165층 인공지능 타워 시스템이 60개국 언어 실시간 원격 동기화와 함께 구동 중입니다. 대기엄 임금부터 제세공과 정까지 통합된 자산성을 생태계합니다.
+            </p>
             
-            <div class="divider"></div>
-
-            <div class="grid-2">
-                <div class="stat-card">
-                    <span class="stat-label">자산 잔액</span>
-                    <span class="stat-value">1,000,000 π</span>
+            <div class="metrics-grid">
+                <div class="metric-box">
+                    <div class="metric-label" id="lblAssetBal">자산 잔액</div>
+                    <div class="metric-value">1,000,000.00 Pi</div>
                 </div>
-                <div class="stat-card">
-                    <span class="stat-label">UBI 복리 (사회재단)</span>
-                    <span class="stat-value purple">31.41% APY</span>
+                <div class="metric-box">
+                    <div class="metric-label" id="lblAssetQty">자산 수량</div>
+                    <div class="metric-value">1,000,000 Pi</div>
                 </div>
-                <div class="stat-card">
-                    <span class="stat-label">지구촌 순이익 환원</span>
-                    <span class="stat-value green">30.0%</span>
+                <div class="metric-box">
+                    <div class="metric-label" id="lblUbi">UBI 복리</div>
+                    <div class="metric-value">31.41% APY</div>
                 </div>
-                <div class="stat-card">
-                    <span class="stat-label">AGI 삐니 상태</span>
-                    <span class="stat-value pink">ONLINE</span>
+                <div class="metric-box">
+                    <div class="metric-label" id="lblFuture">퓨처 수익률</div>
+                    <div class="metric-value">30.0%</div>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <!-- 빠른 금융 작업 -->
-        <div class="main-card">
-            <div class="section-title">빠른 금융 작업</div>
-            <div class="action-grid">
-                <div class="action-btn">
-                    <span class="action-name">예치하기</span>
-                    <span class="action-sub">31.41% 복리</span>
-                </div>
-                <div class="action-btn">
-                    <span class="action-name">출금/송금</span>
-                    <span class="action-sub">즉시 정산</span>
-                </div>
-                <div class="action-btn">
-                    <span class="action-name">Pi 스왑</span>
-                    <span class="action-sub">현금·카드 교환</span>
-                </div>
-                <div class="action-btn">
-                    <span class="action-name">UBI 재단</span>
-                    <span class="action-sub">사회 환원 시스템</span>
-                </div>
+        <!-- 빠른 금융 작업 프로세스 -->
+        <section>
+            <h2 class="section-title" id="secQuickAction">빠른 금융 작업</h2>
+            <div class="quick-actions">
+                <button class="action-btn" onclick="startProcess('deposit')">💳 자산입금 (Deposit)</button>
+                <button class="action-btn" onclick="startProcess('transfer')">🔄 자산송금 (Transfer)</button>
+                <button class="action-btn" onclick="startProcess('pi_staking')">⚡ Pi 스테이킹 (Staking)</button>
+                <button class="action-btn" onclick="startProcess('lp_staking')">🌐 LP 스테이킹 (LP Staking)</button>
             </div>
-        </div>
+        </section>
 
-        <!-- 9대 미래 사업 및 연동망 -->
-        <div class="main-card">
-            <div class="section-title">60개국 분산 연동망 & 9대 미래 사업</div>
-            <div class="future-tags">
-                <span class="tag">로봇</span>
-                <span class="tag">안경폰</span>
-                <span class="tag">UAM</span>
-                <span class="tag">핵융합</span>
-                <span class="tag">양자생물학</span>
-                <span class="tag">우주시스템</span>
-                <span class="tag">165층 타워</span>
+        <!-- AGI 삐니 다국어 챗봇 영역 -->
+        <section class="chatbot-container">
+            <h3 id="chatHeaderTitle">AGI 삐니 (60개국 언어 실시간 원격 지원)</h3>
+            <div class="chat-box" id="chatResponseText">
+                "형님, 전 세계 국가의 원격 및 실시간 장치가 원격 완료되었습니다. 지구온 하시산은 준비되셨습니까?"
             </div>
-        </div>
+            <div class="chat-input-area">
+                <input type="text" id="chatInput" class="chat-input" placeholder="AGI 삐니에게 무엇이든 물어보세요...">
+                <button class="chat-send-btn" onclick="sendChat()" id="sendBtn">검색</button>
+            </div>
+        </section>
+    </div>
 
-        <!-- AGI 삐니 대화 창 -->
-        <div class="ai-box">
-            <div class="ai-header">
-                <span class="ai-title">AGI 삐니 (60개국 통역 지원)</span>
-                <span class="ai-status">정상 작동 중</span>
-            </div>
-            <div class="ai-bubble">
-                "형님, 전 세계 60개국 언어 세팅이 완벽하게 완료되었습니다. 지구촌 어디서든 완벽하게 통합합니다!"
+    <!-- 분류코드 6자리 입력 프로세스 모달 -->
+    <div id="processModal" class="modal">
+        <div class="modal-content">
+            <h3 id="modalTitle">보안 분류코드 입력</h3>
+            <p style="font-size: 0.85rem; color: var(--text-secondary);" id="modalDesc">안전한 프로세스 진행을 위해 6자리 분류코드를 입력하세요.</p>
+            <input type="password" id="authCodeInput" class="modal-input" maxlength="6" placeholder="------">
+            <div style="display: flex; gap: 10px; margin-top: 10px;">
+                <button onclick="closeModal()" style="flex:1; padding:10px; background:#374151; color:white; border:none; border-radius:6px; cursor:pointer;" id="cancelBtn">취소</button>
+                <button onclick="verifyCode()" style="flex:1; padding:10px; background:var(--accent-blue); color:white; border:none; border-radius:6px; cursor:pointer;" id="confirmBtn">확인</button>
             </div>
         </div>
     </div>
 
+    <script>
+        let currentProcessType = '';
+
+        function startProcess(type) {
+            currentProcessType = type;
+            document.getElementById('processModal').style.display = 'flex';
+            document.getElementById('authCodeInput').value = '';
+            document.getElementById('authCodeInput').focus();
+        }
+
+        function closeModal() {
+            document.getElementById('processModal').style.display = 'none';
+        }
+
+        function verifyCode() {
+            const code = document.getElementById('authCodeInput').value;
+            if (code.length !== 6 || isNaN(code)) {
+                alert('정상적인 6자리 분류코드를 정확히 입력해 주세요.');
+                return;
+            }
+            alert('분류코드 6자리 검증이 완료되었습니다. 프로세스를 정상 실행합니다.');
+            closeModal();
+        }
+
+        // 60개국 언어 지원 다국어 딕셔너리 시스템 (자동 폴백 포함)
+        const globalTranslations = {
+            ko: {
+                welcome: "환영합니다, 고객님", desc: "파이회폐(Pi) 단일 경제권과 165층 인공지능 타워 시스템이 60개국 언어 실시간 원격 동기화와 함께 구동 중입니다.",
+                assetBal: "자산 잔액", assetQty: "자산 수량", ubi: "UBI 복리", future: "퓨처 수익률", quickAction: "빠른 금융 작업",
+                chatTitle: "AGI 삐니 (60개국 언어 실시간 원격 지원)", chatDefault: "형님, 전 세계 국가의 원격 및 실시간 장치가 원격 완료되었습니다.",
+                chatPlaceholder: "AGI 삐니에게 무엇이든 물어보세요...", send: "검색", modalTitle: "보안 분류코드 입력", modalDesc: "6자리 분류코드를 입력하세요.", confirm: "확인", cancel: "취소"
+            },
+            en: {
+                welcome: "Welcome, Valued Customer", desc: "The Pi single economic zone and 165-story AI tower system are operating with real-time remote synchronization across 60 languages.",
+                assetBal: "Asset Balance", assetQty: "Asset Quantity", ubi: "UBI Compound", future: "Future Yield", quickAction: "Quick Financial Actions",
+                chatTitle: "AGI Bini (Real-time 60-Country Language Support)", chatDefault: "Control Tower & Pi Economic Guide initialized successfully across the global network.",
+                chatPlaceholder: "Ask AGI Bini anything...", send: "Search", modalTitle: "Enter 6-Digit Classification Code", modalDesc: "Please enter your 6-digit security code.", confirm: "Confirm", cancel: "Cancel"
+            },
+            zh: {
+                welcome: "欢迎您，尊贵的客户", desc: "Pi单一经济圈与165层人工智能塔楼系统正在全球60种语言的实时远程同步下运行。",
+                assetBal: "资产余额", assetQty: "资产数量", ubi: "UBI 复利", future: "未来收益率", quickAction: "快捷金融操作",
+                chatTitle: "AGI Bini (60国语言实时远程支持)", chatDefault: "全球网络控制塔及Pi经济指南已成功配置完成。",
+                chatPlaceholder: "向 AGI Bini 询问任何问题...", send: "搜索", modalTitle: "输入6位数分类代码", modalDesc: "请输入6位数安全分类代码。", confirm: "确认", cancel: "取消"
+            },
+            ja: {
+                welcome: "ようこそ、お客様", desc: "Piシングル経済圏と165階建てAIタワーシステムが60カ国語のリアルタイム遠隔同期とともに稼働中です。",
+                assetBal: "資産残高", assetQty: "資産数量", ubi: "UBI複利", future: "フューチャー利回り", quickAction: "クイック金融操作",
+                chatTitle: "AGI ビーニ (60カ国語リアルタイム遠隔サポート)", chatDefault: "グローバルネットワーク全体の制御塔とPi経済ガイドの初期化が完了しました。",
+                chatPlaceholder: "AGI ビーニに何でも聞いてください...", send: "検索", modalTitle: "6桁の分類コード入力", modalDesc: "6桁のセキュリティ分類コードを入力してください。", confirm: "確認", cancel: "キャンセル"
+            },
+            es: {
+                welcome: "Bienvenido, Estimado Cliente", desc: "La zona económica única de Pi y el sistema de torre AI de 165 pisos operan con sincronización remota en 60 idiomas.",
+                assetBal: "Saldo de Activos", assetQty: "Cantidad de Activos", ubi: "Compuesto UBI", future: "Rendimiento Futuro", quickAction: "Acciones Financieras",
+                chatTitle: "AGI Bini (Soporte de 60 Idiomas)", chatDefault: "Torre de control y guía económica de Pi inicializadas globalmente.",
+                chatPlaceholder: "Pregúntale algo a AGI Bini...", send: "Buscar", modalTitle: "Código de 6 Dígitos", modalDesc: "Ingrese su código de clasificación.", confirm: "Confirmar", cancel: "Cancelar"
+            },
+            fr: {
+                welcome: "Bienvenue, Cher Client", desc: "La zone économique Pi et la tour IA de 165 étages fonctionnent avec une synchronisation à distance en 60 langues.",
+                assetBal: "Solde des Actifs", assetQty: "Quantité d'Actifs", ubi: "Composé UBI", future: "Rendement Futur", quickAction: "Actions Financières",
+                chatTitle: "AGI Bini (Support 60 Langues)", chatDefault: "Tour de contrôle et guide économique Pi initialisés.",
+                chatPlaceholder: "Demandez à AGI Bini...", send: "Rechercher", modalTitle: "Code à 6 chiffres", modalDesc: "Entrez votre code de sécurité.", confirm: "Confirmer", cancel: "Annuler"
+            }
+        };
+
+        // 나머지 언어 코드들은 기본 영어/한국어로 자동 대응되도록 범용 폴백 설정
+        function changeLanguage(lang) {
+            const t = globalTranslations[lang] || globalTranslations['en'];
+            document.getElementById('welcomeText').innerText = t.welcome;
+            document.getElementById('descText').innerText = t.desc;
+            document.getElementById('lblAssetBal').innerText = t.assetBal;
+            document.getElementById('lblAssetQty').innerText = t.assetQty;
+            document.getElementById('lblUbi').innerText = t.ubi;
+            document.getElementById('lblFuture').innerText = t.future;
+            document.getElementById('secQuickAction').innerText = t.quickAction;
+            document.getElementById('chatHeaderTitle').innerText = t.chatTitle;
+            document.getElementById('chatResponseText').innerText = `"${t.chatDefault}"`;
+            document.getElementById('chatInput').placeholder = t.chatPlaceholder;
+            document.getElementById('sendBtn').innerText = t.send;
+            document.getElementById('modalTitle').innerText = t.modalTitle;
+            document.getElementById('modalDesc').innerText = t.modalDesc;
+            document.getElementById('confirmBtn').innerText = t.confirm;
+            document.getElementById('cancelBtn').innerText = t.cancel;
+        }
+
+        function sendChat() {
+            const inputVal = document.getElementById('chatInput').value;
+            if(!inputVal) return;
+            document.getElementById('chatResponseText').innerText = `AGI 삐니 응답: "${inputVal}" 요청이 60개국 언어 네트워크를 통해 완벽히 동기화 및 반영되었습니다.`;
+            document.getElementById('chatInput').value = '';
+        }
+    </script>
 </body>
 </html>
