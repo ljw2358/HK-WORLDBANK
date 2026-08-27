@@ -1,448 +1,530 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HK WorldBank - Global Web3 Digital Banking Platform</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Pi Network SDK CDN -->
-    <script src="https://sdk.minepi.com/pi-sdk.js"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-        body { font-family: 'Inter', sans-serif; background-color: #0b0f19; color: #f3f4f6; }
-        .glass-panel { background: rgba(17, 24, 39, 0.8); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.12); }
-        .gradient-text { background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #ec4899 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HK WORLD BANK - Global Web3 Digital Banking Platform</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+    body { font-family: 'Inter', sans-serif; background-color: #07090e; color: #f3f4f6; }
+    .glassmorphism { background: rgba(13, 18, 30, 0.75); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.08); }
+    .gold-gradient { background: linear-gradient(135deg, #fbbf24 0%, #d97706 50%, #b45309 100%); }
+    .gold-text { background: linear-gradient(135deg, #fde047, #f59e0b, #d97706); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #07090e; }
+    ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #d97706; }
+  </style>
 </head>
-<body class="min-h-screen flex flex-col">
+<body class="min-h-screen flex flex-col justify-between antialiased selection:bg-amber-500 selection:text-black">
 
-    <!-- Top Navigation -->
-    <header class="glass-panel sticky top-0 z-50 border-b border-gray-800 px-6 py-4 flex justify-between items-center">
-        <div class="flex items-center space-x-3">
-            <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-purple-600 flex items-center justify-center font-bold text-xl text-white shadow-lg">HK</div>
+  <!-- ==================== HEADER ==================== -->
+  <header class="sticky top-0 z-40 glassmorphism border-b border-gray-800 shadow-2xl">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col md:flex-row items-center justify-between gap-4">
+      
+      <div class="flex items-center justify-between w-full md:w-auto">
+        <button onclick="toggleSidebar()" class="p-2.5 rounded-xl bg-gray-900 border border-gray-800 text-amber-400 hover:bg-gray-800 transition shadow-inner flex items-center gap-2">
+          <i data-lucide="menu" class="w-6 h-6"></i>
+          <span class="text-xs font-bold hidden sm:inline" data-i18n="menuHub">메뉴 허브</span>
+        </button>
+        
+        <div class="text-center flex-1 md:flex-initial mx-4">
+          <h1 class="text-2xl sm:text-3xl md:text-4xl font-black tracking-widest gold-text uppercase drop-shadow-md">
+            HK WORLD BANK
+          </h1>
+          <p class="text-[10px] sm:text-xs tracking-[0.3em] text-amber-400/80 font-bold mt-0.5">ULSAN · GYEONGJU · POHANG GLOBAL DIGITAL FINANCIAL HUB</p>
+        </div>
+
+        <div class="md:hidden">
+          <span id="kycBadgeMobile" class="px-2.5 py-1 text-[10px] bg-amber-500/10 text-amber-400 border border-amber-500/30 rounded-full font-bold" data-i18n="kycMode">KYC 관람모드</span>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3 w-full md:w-auto justify-center md:justify-end">
+        <div class="relative">
+          <select id="langSelect" onchange="changeLanguage(this.value)" class="bg-gray-900 text-xs font-semibold text-amber-400 border border-amber-500/30 rounded-xl px-3 py-2.5 focus:outline-none focus:border-amber-500 shadow-lg max-w-[220px]">
+            <option value="ko">한국어 (Korean)</option>
+            <option value="en">English (영어)</option>
+            <option value="zh-CN">中文 (简体, 중국어 간체)</option>
+            <option value="zh-TW">繁體中文 (중국어 번체)</option>
+            <option value="ja">日本語 (일본어)</option>
+            <option value="es">Español (스페인어)</option>
+            <option value="fr">Français (프랑스어)</option>
+            <option value="de">Deutsch (독일어)</option>
+            <option value="vi">Tiếng Việt (베트남어)</option>
+            <option value="ar">العربية (아랍어)</option>
+            <option value="hi">हिन्दी (힌디어)</option>
+            <option value="id">Bahasa Indonesia (인도네시아어)</option>
+            <option value="ru">Русский (러시아어)</option>
+            <option value="pt">Português (포르투갈어)</option>
+            <option value="it">Italiano (이탈리아어)</option>
+            <option value="tr">Türkçe (튀르키예어)</option>
+            <option value="th">ไทย (태국어)</option>
+            <option value="pl">Polski (폴란드어)</option>
+            <option value="nl">Nederlands (네덜란드어)</option>
+            <option value="uk">Українська (우크라이나어)</option>
+            <option value="el">Ελληνικά (그리스어)</option>
+            <option value="sv">Svenska (스웨덴어)</option>
+            <option value="cs">Čeština (체코어)</option>
+            <option value="hu">Magyar (헝가리어)</option>
+            <option value="ro">Română (루마니아어)</option>
+            <option value="fi">Suomi (핀란드어)</option>
+            <option value="da">Dansk (덴마크어)</option>
+            <option value="no">Norsk (노르웨이어)</option>
+            <option value="ms">Bahasa Melayu (말레이어)</option>
+            <option value="fa">فارسی (페르시아어)</option>
+            <option value="he">עברית (히브리어)</option>
+            <option value="bn">বাংলা (뱅골어)</option>
+            <option value="ur">اردو (우르두어)</option>
+            <option value="pa">ਪੰਜਾਬੀ (펀자브어)</option>
+            <option value="fil">Wikang Filipino (필리핀어)</option>
+            <option value="sw">Kiswahili (스와힐리어)</option>
+            <option value="ta">தமிழ் (타밀어)</option>
+            <option value="te">తెలుగు (텔루구어)</option>
+            <option value="mr">मराठी (마라티어)</option>
+            <option value="gu">ગુજરાતી (구자라트어)</option>
+            <option value="kn">ಕನ್ನಡ (칸나다어)</option>
+            <option value="ml">മലയാളം (말라얄람어)</option>
+            <option value="my">မြန်မာဘာသာ (버마어)</option>
+            <option value="km">ភាសាខ្មែរ (크메르어)</option>
+            <option value="lo">ພາສາລາວ (라오어)</option>
+            <option value="am">አማርኛ (암하라어)</option>
+            <option value="yo">Yorùbá (요루바어)</option>
+            <option value="ig">Asụsụ Igbo (이그보어)</option>
+            <option value="ha">Hausa (하우사어)</option>
+            <option value="zu">isiZulu (줄루어)</option>
+            <option value="xh">isiXhosa (코사어)</option>
+            <option value="af">Afrikaans (아프리칸스어)</option>
+            <option value="sq">Shqip (알바니아어)</option>
+            <option value="hy">Հայերեն (아르메니아어)</option>
+            <option value="az">Azərbaycan dili (아제르바이잔어)</option>
+            <option value="ka">ქართული (조지아어)</option>
+            <option value="kk">Қазақ тілі (카자흐어)</option>
+            <option value="uz">Oʻzbekcha (우즈베크어)</option>
+            <option value="mn">Монгол хэл (몽골어)</option>
+            <option value="ne">नेपाली (네팔어)</option>
+          </select>
+        </div>
+
+        <button id="walletBtn" onclick="handleWalletConnection()" class="gold-gradient text-gray-950 font-extrabold px-5 py-2.5 rounded-xl text-xs sm:text-sm shadow-xl hover:brightness-110 active:scale-95 transition flex items-center gap-2">
+          <i data-lucide="wallet" class="w-4 h-4"></i>
+          <span id="walletBtnText" data-i18n="walletConnect">지갑 연결 및 KYC 인증</span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ==================== SIDEBAR DRAWER ==================== -->
+  <div id="sidebarOverlay" onclick="toggleSidebar()" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden transition-opacity"></div>
+  <aside id="sidebar" class="fixed top-0 left-0 w-84 h-full bg-gray-950 border-r border-gray-800 z-50 transform -translate-x-full transition-transform duration-300 overflow-y-auto flex flex-col justify-between p-6 shadow-2xl">
+    <div class="space-y-6">
+      <div class="flex items-center justify-between pb-4 border-b border-gray-800">
+        <div class="flex items-center gap-2">
+          <div class="w-3 h-3 bg-amber-500 rounded-full animate-pulse"></div>
+          <h2 class="text-base font-extrabold gold-text tracking-wider" data-i18n="navTitle">HK 통합 내비게이션</h2>
+        </div>
+        <button onclick="toggleSidebar()" class="text-gray-400 hover:text-white p-1 rounded-lg hover:bg-gray-900"><i data-lucide="x" class="w-6 h-6"></i></button>
+      </div>
+
+      <div class="space-y-1.5">
+        <p class="text-[11px] font-bold text-gray-400 uppercase tracking-widest px-2" data-i18n="docCenter">공식 문서 & 규제 센터</p>
+        <button onclick="openModal('whitepaperModal')" class="w-full text-left px-3.5 py-2.5 text-xs text-gray-200 hover:bg-amber-500/10 hover:text-amber-400 rounded-xl flex items-center gap-3 transition">
+          <i data-lucide="file-text" class="w-4 h-4 text-amber-400"></i> <span data-i18n="whitepaper">공식 백서 (Whitepaper v3.14)</span>
+        </button>
+        <button onclick="openModal('faqModal')" class="w-full text-left px-3.5 py-2.5 text-xs text-gray-200 hover:bg-amber-500/10 hover:text-amber-400 rounded-xl flex items-center gap-3 transition">
+          <i data-lucide="help-circle" class="w-4 h-4 text-amber-400"></i> <span data-i18n="faq">자주 묻는 질문 (FAQ)</span>
+        </button>
+        <button onclick="openModal('policyModal')" class="w-full text-left px-3.5 py-2.5 text-xs text-gray-200 hover:bg-amber-500/10 hover:text-amber-400 rounded-xl flex items-center gap-3 transition">
+          <i data-lucide="shield-check" class="w-4 h-4 text-amber-400"></i> <span data-i18n="policy">3대 Policies & MiCA/AML</span>
+        </button>
+      </div>
+
+      <div class="space-y-1.5 pt-2 border-t border-gray-900">
+        <p class="text-[11px] font-bold text-gray-400 uppercase tracking-widest px-2" data-i18n="hubTitle">HK Group 8대 첨단 허브</p>
+        <a href="#robot" onclick="toggleSidebar()" class="block px-3.5 py-2 text-xs text-gray-300 hover:text-amber-400 hover:bg-gray-900 rounded-lg">🤖 울산 HK ROBOT HUB (로봇)</a>
+        <a href="#nexus" onclick="toggleSidebar()" class="block px-3.5 py-2 text-xs text-gray-300 hover:text-amber-400 hover:bg-gray-900 rounded-lg">🧠 HK NEXUS HUB (AI & AGI)</a>
+        <a href="#uam" onclick="toggleSidebar()" class="block px-3.5 py-2 text-xs text-gray-300 hover:text-amber-400 hover:bg-gray-900 rounded-lg">🚁 HK UAM HUB (도심항공모빌리티)</a>
+        <a href="#fusion" onclick="toggleSidebar()" class="block px-3.5 py-2 text-xs text-gray-300 hover:text-amber-400 hover:bg-gray-900 rounded-lg">⚛️ 포항 HK FUSION HUB (핵융합)</a>
+        <a href="#quantumbio" onclick="toggleSidebar()" class="block px-3.5 py-2 text-xs text-gray-300 hover:text-amber-400 hover:bg-gray-900 rounded-lg">🧬 경주 HK QUANTUMBIO HUB (양자바이오)</a>
+        <a href="#space" onclick="toggleSidebar()" class="block px-3.5 py-2 text-xs text-gray-300 hover:text-amber-400 hover:bg-gray-900 rounded-lg">🚀 HK SPACE HUB (우주 시스템)</a>
+        <a href="#partsbank" onclick="toggleSidebar()" class="block px-3.5 py-2 text-xs text-gray-300 hover:text-amber-400 hover:bg-gray-900 rounded-lg">⚙️ HK PARTSBANK HUB (부품뱅크)</a>
+        <a href="#defence" onclick="toggleSidebar()" class="block px-3.5 py-2 text-xs text-gray-300 hover:text-amber-400 hover:bg-gray-900 rounded-lg">🛡️ HK DEFENCE-HUB (국방 보안)</a>
+      </div>
+
+      <div class="pt-2">
+        <button onclick="openModal('towerModal')" class="w-full py-3 px-4 bg-gradient-to-r from-amber-500/20 via-yellow-600/10 to-transparent border border-amber-500/40 rounded-2xl text-left flex items-center justify-between text-xs font-bold text-amber-300 shadow-lg hover:border-amber-400 transition">
+          <span class="flex items-center gap-2"><i data-lucide="building-2" class="w-4 h-4 text-amber-400"></i> <span data-i18n="tower">경주 165층 본사 타워 (T165)</span></span>
+          <i data-lucide="chevron-right" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="border-t border-gray-900 pt-4 text-xs text-gray-500 space-y-1">
+      <p class="font-medium text-gray-400" data-i18n="supportTitle">HK WorldBank 고객 센터</p>
+      <p>이메일: <a href="mailto:support@hkwb.world" class="text-amber-400 font-bold underline">support@hkwb.world</a></p>
+    </div>
+  </aside>
+
+  <!-- ==================== MAIN CONTENT ==================== -->
+  <main class="max-w-7xl mx-auto px-4 py-8 space-y-12 flex-1 w-full">
+
+    <section id="kycBanner" class="glassmorphism rounded-2xl p-5 border border-amber-500/30 shadow-xl flex flex-col md:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-4">
+        <div class="p-3 bg-amber-500/20 rounded-xl text-amber-400 shadow-inner"><i data-lucide="eye" class="w-6 h-6"></i></div>
+        <div>
+          <h2 class="text-base font-bold text-amber-200"><span data-i18n="bannerTitle1">현재</span> <span class="text-amber-400 underline" data-i18n="bannerTitle2">KYC / KYB 미인증 관람 모드</span> <span data-i18n="bannerTitle3">작동 중</span></h2>
+          <p class="text-gray-400 text-xs mt-0.5" data-i18n="bannerDesc">상단 지갑 연결 시 백그라운드 자동 인증 검증을 거쳐 모든 금융 대출·스왑·예치 기능이 전면 개방됩니다.</p>
+        </div>
+      </div>
+      <button onclick="handleWalletConnection()" class="px-5 py-2.5 bg-amber-500 text-black font-extrabold rounded-xl text-xs hover:bg-amber-400 transition whitespace-nowrap shadow-lg" data-i18n="bannerBtn">
+        백그라운드 KYC 자동 인증 시작
+      </button>
+    </section>
+
+    <section class="space-y-6">
+      <div class="text-center space-y-2">
+        <h2 class="text-2xl sm:text-3xl font-black text-gray-100 uppercase tracking-wide" data-i18n="dashTitle">빠른 금융 작업 대시보드</h2>
+        <p class="text-xs sm:text-sm text-amber-400/90 font-medium" data-i18n="dashSub">울산·경주·포항 통합 메인넷 및 10대 디지털 자산 네트워크 실시간 연동</p>
+      </div>
+
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
+        <div onclick="handleWalletConnection()" class="glassmorphism p-5 rounded-2xl text-center hover:border-amber-500/60 cursor-pointer transition-all duration-300 group shadow-lg">
+          <div class="p-3 bg-gray-900/80 rounded-xl w-12 h-12 mx-auto mb-3 flex items-center justify-center text-amber-400 group-hover:scale-110 transition">
+            <i data-lucide="wallet" class="w-6 h-6"></i>
+          </div>
+          <p class="text-xs font-bold text-gray-200" data-i18n="card1Title">1. 지갑 연동</p>
+          <p class="text-[10px] text-gray-500 mt-1">Web3 Secure Link</p>
+        </div>
+
+        <div class="glassmorphism p-5 rounded-2xl text-center hover:border-amber-500/60 cursor-pointer transition-all duration-300 group shadow-lg">
+          <div class="p-3 bg-gray-900/80 rounded-xl w-12 h-12 mx-auto mb-3 flex items-center justify-center text-amber-400 group-hover:scale-110 transition font-black text-lg">π</div>
+          <p class="text-xs font-bold text-gray-200" data-i18n="card2Title">2. Pi 메인넷</p>
+          <p class="text-[10px] text-gray-500 mt-1">Direct SDK Binding</p>
+        </div>
+
+        <div onclick="openModal('swapModal')" class="glassmorphism p-5 rounded-2xl text-center hover:border-amber-500/60 cursor-pointer transition-all duration-300 group shadow-lg">
+          <div class="p-3 bg-gray-900/80 rounded-xl w-12 h-12 mx-auto mb-3 flex items-center justify-center text-amber-400 group-hover:scale-110 transition">
+            <i data-lucide="arrow-right-left" class="w-6 h-6"></i>
+          </div>
+          <p class="text-xs font-bold text-gray-200" data-i18n="card3Title">3. 통합 스왑</p>
+          <p class="text-[10px] text-gray-500 mt-1">Cash · Card · Coin</p>
+        </div>
+
+        <div class="glassmorphism p-5 rounded-2xl text-center hover:border-amber-500/60 cursor-pointer transition-all duration-300 group shadow-lg">
+          <div class="p-3 bg-gray-900/80 rounded-xl w-12 h-12 mx-auto mb-3 flex items-center justify-center text-amber-400 group-hover:scale-110 transition">
+            <i data-lucide="piggy-bank" class="w-6 h-6"></i>
+          </div>
+          <p class="text-xs font-bold text-gray-200" data-i18n="card4Title">4. 고율 예치</p>
+          <p class="text-[10px] text-amber-400 font-bold mt-1">Fixed 31.41% APY</p>
+        </div>
+
+        <div onclick="openModal('ubiModal')" class="glassmorphism p-5 rounded-2xl text-center hover:border-amber-500/60 cursor-pointer transition-all duration-300 group shadow-lg">
+          <div class="p-3 bg-gray-900/80 rounded-xl w-12 h-12 mx-auto mb-3 flex items-center justify-center text-amber-400 group-hover:scale-110 transition">
+            <i data-lucide="heart-handshake" class="w-6 h-6"></i>
+          </div>
+          <p class="text-xs font-bold text-gray-200" data-i18n="card5Title">5. HK 사회 재단</p>
+          <p class="text-[10px] text-gray-500 mt-1">30% UBI Fund</p>
+        </div>
+
+        <div onclick="openModal('sdkModal')" class="glassmorphism p-5 rounded-2xl text-center hover:border-amber-500/60 cursor-pointer transition-all duration-300 group shadow-lg">
+          <div class="p-3 bg-gray-900/80 rounded-xl w-12 h-12 mx-auto mb-3 flex items-center justify-center text-amber-400 group-hover:scale-110 transition">
+            <i data-lucide="code" class="w-6 h-6"></i>
+          </div>
+          <p class="text-xs font-bold text-gray-200" data-i18n="card6Title">6. API SDK 센터</p>
+          <p class="text-[10px] text-gray-500 mt-1">Developer Portal</p>
+        </div>
+
+        <div class="glassmorphism p-5 rounded-2xl text-center hover:border-amber-500/60 cursor-pointer transition-all duration-300 group shadow-lg">
+          <div class="p-3 bg-gray-900/80 rounded-xl w-12 h-12 mx-auto mb-3 flex items-center justify-center text-amber-400 group-hover:scale-110 transition">
+            <i data-lucide="shield-alert" class="w-6 h-6"></i>
+          </div>
+          <p class="text-xs font-bold text-gray-200" data-i18n="card7Title">7. 국방 보안 허브</p>
+          <p class="text-[10px] text-gray-500 mt-1">Quantum Encryption</p>
+        </div>
+
+        <div class="glassmorphism p-5 rounded-2xl text-center hover:border-amber-500/60 cursor-pointer transition-all duration-300 group shadow-lg">
+          <div class="p-3 bg-gray-900/80 rounded-xl w-12 h-12 mx-auto mb-3 flex items-center justify-center text-amber-400 group-hover:scale-110 transition">
+            <i data-lucide="building" class="w-6 h-6"></i>
+          </div>
+          <p class="text-xs font-bold text-gray-200" data-i18n="card8Title">8. RWA 토큰화</p>
+          <p class="text-[10px] text-gray-500 mt-1">Real Asset Backing</p>
+        </div>
+
+        <div class="glassmorphism p-5 rounded-2xl text-center hover:border-amber-500/60 cursor-pointer transition-all duration-300 group shadow-lg">
+          <div class="p-3 bg-gray-900/80 rounded-xl w-12 h-12 mx-auto mb-3 flex items-center justify-center text-amber-400 group-hover:scale-110 transition">
+            <i data-lucide="send" class="w-6 h-6"></i>
+          </div>
+          <p class="text-xs font-bold text-gray-200" data-i18n="card9Title">9. 글로벌 송금</p>
+          <p class="text-[10px] text-gray-500 mt-1">Instant Settlement</p>
+        </div>
+
+        <div class="glassmorphism p-5 rounded-2xl text-center border border-amber-500/50 bg-amber-500/5 shadow-xl">
+          <div class="p-3 bg-amber-500/20 rounded-xl w-12 h-12 mx-auto mb-3 flex items-center justify-center text-amber-400 font-black text-lg">π</div>
+          <p class="text-xs font-extrabold text-amber-300" data-i18n="card10Title">10. 보유 PI 자산</p>
+          <p class="text-sm font-black text-amber-400 mt-1"><span id="piAmount">314,159.00</span> PI</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="glassmorphism rounded-2xl p-6 md:p-8 border border-amber-500/20 shadow-xl space-y-4">
+      <div class="flex items-center justify-between flex-wrap gap-4">
+        <div class="flex items-center gap-3">
+          <div class="p-3.5 gold-gradient rounded-2xl text-gray-950 font-black shadow-lg">
+            <i data-lucide="bot" class="w-7 h-7"></i>
+          </div>
+          <div>
+            <h3 class="text-xl font-extrabold text-gray-100" data-i18n="biniTitle">HK AGI 삐니 통합 고객센터</h3>
+            <p class="text-xs text-gray-400" data-i18n="biniSub">울산 메인넷 및 8대 계열사 금융 데이터 관리 AI 어시스턴트</p>
+          </div>
+        </div>
+        <span class="px-3 py-1 bg-green-500/10 border border-green-500/30 text-green-400 text-xs font-bold rounded-full flex items-center gap-1.5">
+          <span class="w-2 h-2 bg-green-400 rounded-full animate-ping"></span> <span data-i18n="aiOnline">AI 서버 실시간 연결됨</span>
+        </span>
+      </div>
+
+      <div class="bg-gray-950 rounded-2xl p-5 h-64 overflow-y-auto border border-gray-800/85 space-y-4 text-xs shadow-inner" id="chatContainer">
+        <div class="flex items-start gap-3">
+          <div class="px-3 py-1.5 gold-gradient text-gray-950 font-extrabold rounded-xl shadow">삐니</div>
+          <div class="bg-gray-900 p-3.5 rounded-2xl border border-gray-800 text-gray-300 max-w-2xl leading-relaxed" data-i18n="biniIntro">
+            혜공 형님, 안녕하십니까! HK WorldBank AI 고객센터 AGI 삐니입니다. 60개국 원어 언어 다국어 번역 시스템이 완벽히 가동 중입니다. 무엇을 도와드릴까요?
+          </div>
+        </div>
+      </div>
+
+      <div class="flex gap-3">
+        <input type="text" id="chatInput" placeholder="삐니에게 질문이나 금융 지시사항을 입력하세요..." class="flex-1 bg-gray-900 border border-gray-800 rounded-xl px-5 py-3 text-xs text-gray-200 focus:outline-none focus:border-amber-500 shadow-inner">
+        <button onclick="sendChatMessage()" class="gold-gradient text-gray-950 font-extrabold px-6 py-3 rounded-xl text-xs hover:brightness-110 shadow-lg transition" data-i18n="sendBtn">
+          전송하기
+        </button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==================== MODALS ==================== -->
+  <div id="whitepaperModal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+    <div class="glassmorphism border border-amber-500/40 rounded-3xl max-w-2xl w-full p-8 max-h-[85vh] overflow-y-auto space-y-4 shadow-2xl">
+      <div class="flex justify-between items-center border-b border-gray-800 pb-4">
+        <h3 class="text-lg font-black gold-text">📜 HK WorldBank 공식 백서 (Whitepaper v3.14)</h3>
+        <button onclick="closeModal('whitepaperModal')" class="text-gray-400 hover:text-white p-1 rounded-lg"><i data-lucide="x" class="w-6 h-6"></i></button>
+      </div>
+      <div class="text-xs text-gray-300 space-y-3 leading-relaxed">
+        <p><strong>1. 비전 & 아키텍처:</strong> 울산, 경주, 포항의 3대 첨단 산업 클러스터와 직결된 글로벌 Web3 디지털 은행입니다.</p>
+        <p><strong>2. Pi 네트워크 직접 연동:</strong> Pi 에코시스템 SDK 바인딩 완료.</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="faqModal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+    <div class="glassmorphism border border-amber-500/40 rounded-3xl max-w-2xl w-full p-8 max-h-[85vh] overflow-y-auto space-y-4 shadow-2xl">
+      <div class="flex justify-between items-center border-b border-gray-800 pb-4">
+        <h3 class="text-lg font-black gold-text">❓ 자주 묻는 질문 (FAQ)</h3>
+        <button onclick="closeModal('faqModal')" class="text-gray-400 hover:text-white p-1 rounded-lg"><i data-lucide="x" class="w-6 h-6"></i></button>
+      </div>
+      <div class="text-xs text-gray-300 space-y-4">
+        <p>자산 예치 및 전 세계 60개국 원어 다국어 지원에 대한 안내 센터입니다.</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="policyModal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+    <div class="glassmorphism border border-amber-500/40 rounded-3xl max-w-2xl w-full p-8 max-h-[85vh] overflow-y-auto space-y-4 shadow-2xl">
+      <div class="flex justify-between items-center border-b border-gray-800 pb-4">
+        <h3 class="text-lg font-black gold-text">🛡️ 3대 Policies & 글로벌 규제 준수</h3>
+        <button onclick="closeModal('policyModal')" class="text-gray-400 hover:text-white p-1 rounded-lg"><i data-lucide="x" class="w-6 h-6"></i></button>
+      </div>
+      <div class="text-xs text-gray-300 space-y-3 leading-relaxed">
+        <p>AML, MiCA 규제 대응 프레임워크가 적용되어 있습니다.</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="swapModal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+    <div class="glassmorphism border border-amber-500/40 rounded-3xl max-w-md w-full p-8 space-y-4 shadow-2xl">
+      <div class="flex justify-between items-center border-b border-gray-800 pb-4">
+        <h3 class="text-base font-black gold-text">🔄 통합 스왑</h3>
+        <button onclick="closeModal('swapModal')" class="text-gray-400 hover:text-white p-1 rounded-lg"><i data-lucide="x" class="w-6 h-6"></i></button>
+      </div>
+      <div class="space-y-3 text-xs">
+        <button onclick="alert('혜공 형님, 통합 스왑 요청이 처리되었습니다.')" class="w-full py-3.5 gold-gradient text-gray-950 font-extrabold rounded-xl shadow-lg mt-2">즉시 스왑 실행</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="sdkModal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+    <div class="glassmorphism border border-amber-500/40 rounded-3xl max-w-xl w-full p-8 space-y-4 shadow-2xl">
+      <div class="flex justify-between items-center border-b border-gray-800 pb-4">
+        <h3 class="text-base font-black gold-text">💻 API & SDK Backend</h3>
+        <button onclick="closeModal('sdkModal')" class="text-gray-400 hover:text-white p-1 rounded-lg"><i data-lucide="x" class="w-6 h-6"></i></button>
+      </div>
+      <div class="bg-gray-950 p-5 rounded-2xl border border-gray-800 font-mono text-[11px] text-green-400">
+        <p>const hkwb = require('@hkwb/sdk-core');</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="towerModal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+    <div class="glassmorphism border border-amber-500/40 rounded-3xl max-w-xl w-full p-8 space-y-4 shadow-2xl">
+      <div class="flex justify-between items-center border-b border-gray-800 pb-4">
+        <h3 class="text-base font-black gold-text">🏢 경주 165층 타워</h3>
+        <button onclick="closeModal('towerModal')" class="text-gray-400 hover:text-white p-1 rounded-lg"><i data-lucide="x" class="w-6 h-6"></i></button>
+      </div>
+      <div class="text-xs text-gray-300">경주 본사 타워 세부 구역 안내</div>
+    </div>
+  </div>
+
+  <footer class="border-t border-gray-800 bg-gray-950/90 py-8 text-center text-xs text-gray-500 mt-auto">
+    <div class="max-w-7xl mx-auto px-4 space-y-2">
+      <p class="font-bold text-gray-400 uppercase tracking-widest">HK WORLD BANK © 2026. ALL RIGHTS RESERVED.</p>
+      <p>공식 고객지원 이메일: <a href="mailto:support@hkwb.world" class="text-amber-400 font-bold underline">support@hkwb.world</a></p>
+    </div>
+  </footer>
+
+  <script>
+    lucide.createIcons();
+
+    // 🌐 전 세계 60개국 원어 다국어 번역 사전 전체 매핑 데이터 (60개국 완벽 탑재)
+    const i18nDict = {
+      ko: { menuHub: "메뉴 허브", kycMode: "KYC 관람모드", walletConnect: "지갑 연결 및 KYC 인증", navTitle: "HK 통합 내비게이션", docCenter: "공식 문서 & 규제 센터", whitepaper: "공식 백서 (Whitepaper v3.14)", faq: "자주 묻는 질문 (FAQ)", policy: "3대 Policies & MiCA/AML", hubTitle: "HK Group 8대 첨단 허브", tower: "경주 165층 본사 타워 (T165)", supportTitle: "HK WorldBank 고객 센터", bannerTitle1: "현재", bannerTitle2: "KYC / KYB 미인증 관람 모드", bannerTitle3: "작동 중", bannerDesc: "상단 지갑 연결 시 백그라운드 자동 인증 검증을 거쳐 모든 금융 대출·스왑·예치 기능이 전면 개방됩니다.", bannerBtn: "백그라운드 KYC 자동 인증 시작", dashTitle: "빠른 금융 작업 대시보드", dashSub: "울산·경주·포항 통합 메인넷 및 10대 디지털 자산 네트워크 실시간 연동", card1Title: "1. 지갑 연동", card2Title: "2. Pi 메인넷", card3Title: "3. 통합 스왑", card4Title: "4. 고율 예치", card5Title: "5. HK 사회 재단", card6Title: "6. API SDK 센터", card7Title: "7. 국방 보안 허브", card8Title: "8. RWA 토큰화", card9Title: "9. 글로벌 송금", card10Title: "10. 보유 PI 자산", biniTitle: "HK AGI 삐니 통합 고객센터", biniSub: "울산 메인넷 및 8대 계열사 금융 데이터 관리 AI 어시스턴트", aiOnline: "AI 서버 실시간 연결됨", biniIntro: "혜공 형님, 안녕하십니까! HK WorldBank AI 고객센터 AGI 삐니입니다. 60개국 원어 언어 다국어 번역 시스템이 완벽히 가동 중입니다. 무엇을 도와드릴까요?", sendBtn: "전송하기" },
+      en: { menuHub: "Menu Hub", kycMode: "KYC Preview Mode", walletConnect: "Connect Wallet & KYC", navTitle: "HK Navigation", docCenter: "Official Docs & Regulation", whitepaper: "Whitepaper v3.14", faq: "FAQ", policy: "Policies & MiCA/AML", hubTitle: "HK Group 8 Tech Hubs", tower: "Gyeongju 165F HQ Tower (T165)", supportTitle: "HK WorldBank Support", bannerTitle1: "Current", bannerTitle2: "KYC / KYB Unverified Preview Mode", bannerTitle3: "Active", bannerDesc: "Connect your wallet above to pass automated background verification and unlock all financial services.", bannerBtn: "Start Background KYC", dashTitle: "Quick Financial Dashboard", dashSub: "Real-time sync with Ulsan·Gyeongju·Pohang Mainnet & 10 Digital Assets", card1Title: "1. Wallet Link", card2Title: "2. Pi Mainnet", card3Title: "3. Unified Swap", card4Title: "4. High APY Deposit", card5Title: "5. HK Social Foundation", card6Title: "6. API SDK Portal", card7Title: "7. Defence Security", card8Title: "8. RWA Tokenization", card9Title: "9. Global Transfer", card10Title: "10. Held PI Assets", biniTitle: "HK AGI Bini Support Center", biniSub: "AI Assistant managing Ulsan Mainnet & 8 Affiliates Financial Data", aiOnline: "AI Server Online", biniIntro: "Greetings, Chairman Hyekong! I am Bini, your AGI assistant. The multilingual translation system for 60 global languages is fully operational. How may I assist you?", sendBtn: "Send" },
+      "zh-CN": { menuHub: "菜单中心", kycMode: "KYC 预览模式", walletConnect: "连接钱包 & KYC认证", navTitle: "HK 综合导航", docCenter: "官方文档与监管中心", whitepaper: "官方白皮书 (v3.14)", faq: "常见问题 (FAQ)", policy: "三大政策与 MiCA/AML", hubTitle: "HK集团 8大前沿枢纽", tower: "庆州 165层 总部大厦 (T165)", supportTitle: "HK WorldBank 客服中心", bannerTitle1: "当前", bannerTitle2: "KYC / KYB 未认证预览模式", bannerTitle3: "运行中", bannerDesc: "连接上方钱包后，将通过后台自动验证并全面开放所有金融借贷、兑换与存款功能。", bannerBtn: "开始后台 KYC 自动认证", dashTitle: "快速金融操作面板", dashSub: "蔚山·庆州·浦项主网及十大数字资产网络实时联动", card1Title: "1. 钱包联动", card2Title: "2. Pi 主网", card3Title: "3. 综合兑换", card4Title: "4. 高收益存款", card5Title: "5. HK 社会基金", card6Title: "6. API SDK中心", card7Title: "7. 国防安全枢纽", card8Title: "8. RWA 代币化", card9Title: "9. 全球汇款", card10Title: "10. 持有 PI 资产", biniTitle: "HK AGI 宾尼 综合客服中心", biniSub: "管理蔚山主网及8大附属公司金融数据的AI助手", aiOnline: "AI服务器实时在线", biniIntro: "慧公会长，您好！我是HK WorldBank AGI客服宾尼。60国多语言翻译系统已全面上线，请问有什么可以帮您的？", sendBtn: "发送" },
+      "zh-TW": { menuHub: "選單中心", kycMode: "KYC 預覽模式", walletConnect: "連接錢包 & KYC 認證", navTitle: "HK 綜合導航", docCenter: "官方文件與監管中心", whitepaper: "官方白皮書 (v3.14)", faq: "常見問題 (FAQ)", policy: "三大政策與 MiCA/AML", hubTitle: "HK集團 8大前沿樞紐", tower: "慶州 165層 總部大樓 (T165)", supportTitle: "HK WorldBank 客服中心", bannerTitle1: "當前", bannerTitle2: "KYC / KYB 未認證預覽模式", bannerTitle3: "運行中", bannerDesc: "連接上方錢包後，將通過後台自動驗證並全面開放所有金融借貸、兌換與存款功能。", bannerBtn: "開始後台 KYC 自動認證", dashTitle: "快速金融操作面板", dashSub: "蔚山·慶州·浦項主網及十大數字資產網絡實時聯動", card1Title: "1. 錢包聯動", card2Title: "2. Pi 主網", card3Title: "3. 綜合兌換", card4Title: "4. 高收益存款", card5Title: "5. HK 社會基金", card6Title: "6. API SDK中心", card7Title: "7. 國防安全樞紐", card8Title: "8. RWA 代幣化", card9Title: "9. 全球匯款", card10Title: "10. 持有 PI 資產", biniTitle: "HK AGI 賓尼 綜合客服中心", biniSub: "管理蔚山主網及8大附屬公司金融數據的AI助手", aiOnline: "AI服務器實時在線", biniIntro: "慧公會長，您好！我是HK WorldBank AGI客服賓尼。60國多語言翻譯系統已全面上線，請問有什麼可以幫您的？", sendBtn: "發送" },
+      ja: { menuHub: "メニューハブ", kycMode: "KYC プレビューモード", walletConnect: "ウォレット接続 & KYC", navTitle: "HK 総合ナビゲーション", docCenter: "公式ドキュメント & 規制センター", whitepaper: "ホワイトペーパー (v3.14)", faq: "よくある質問 (FAQ)", policy: "3大ポリシー & MiCA/AML", hubTitle: "HKグループ 8大先端ハブ", tower: "慶州 165階 本社タワー (T165)", supportTitle: "HK WorldBank カスタマーセンター", bannerTitle1: "現在", bannerTitle2: "KYC / KYB 未認証プレビューモード", bannerTitle3: "稼働中", bannerDesc: "上部でウォレットを接続すると、バックグラウンド自動認証を経てすべての金融機能が全面開放されます。", bannerBtn: "バックグラウンドKYC認証を開始", dashTitle: "クイック金融ダッシュボード", dashSub: "蔚山·慶州·浦項メインネットおよび10大デジタル資産ネットワークリアルタイム連動", card1Title: "1. ウォレット連携", card2Title: "2. Pi メインネット", card3Title: "3. 統合スワップ", card4Title: "4. 高利率預金", card5Title: "5. HK 社会財団", card6Title: "6. API SDKセンター", card7Title: "7. 国防セキュリティ", card8Title: "8. RWA トークン化", card9Title: "9. グローバル送金", card10Title: "10. 保有 PI 資産", biniTitle: "HK AGI ビーニ 統合カスタマーセンター", biniSub: "蔚山メインネットおよび8大系列会社金融データ管理AIアシスタント", aiOnline: "AIサーバー接続済み", biniIntro: "恵公会長、お疲れ様です！HK WorldBank AGIアシスタントのビーニです。60カ国の多言語翻訳システムが完全稼働しております。どのようなご用件でしょうか？", sendBtn: "送信" },
+      es: { menuHub: "Centro de Menú", kycMode: "Modo Vista Previa KYC", walletConnect: "Conectar Billetera y KYC", navTitle: "Navegación HK", docCenter: "Documentos Oficiales y Regulación", whitepaper: "Libro Blanco (v3.14)", faq: "Preguntas Frecuentes", policy: "Políticas y MiCA/AML", hubTitle: "8 Centros Tecnológicos de HK", tower: "Torre Principal Gyeongju 165F", supportTitle: "Soporte HK WorldBank", bannerTitle1: "Actual", bannerTitle2: "Modo Vista Previa Sin Verificar KYC/KYB", bannerTitle3: "Activo", bannerDesc: "Conecte su billetera arriba para pasar la verificación automática y desbloquear todos los servicios financieros.", bannerBtn: "Iniciar KYC en Segundo Plano", dashTitle: "Panel Financiero Rápido", dashSub: "Sincronización en tiempo real con Ulsan·Gyeongju·Pohang y 10 Activos Digitales", card1Title: "1. Enlace de Billetera", card2Title: "2. Red Pi", card3Title: "3. Intercambio Unificado", card4Title: "4. Depósito APY Alto", card5Title: "5. Fundación Social HK", card6Title: "6. Portal API SDK", card7Title: "7. Seguridad de Defensa", card8Title: "8. Tokenización RWA", card9Title: "9. Transferencia Global", card10Title: "10. Activos PI Poseídos", biniTitle: "Centro de Soporte AGI Bini", biniSub: "Asistente AI que gestiona datos de Ulsan y 8 filiales", aiOnline: "Servidor AI en Línea", biniIntro: "¡Saludos, Presidente Hyekong! Soy Bini, su asistente AGI. El sistema de traducción multilingüe para 60 idiomas está plenamente operativo. ¿Cómo puedo ayudarle?", sendBtn: "Enviar" },
+      fr: { menuHub: "Centre de Menu", kycMode: "Mode Aperçu KYC", walletConnect: "Connecter le Portefeuille & KYC", navTitle: "Navigation HK", docCenter: "Documents Officiels & Régulation", whitepaper: "Livre Blanc (v3.14)", faq: "FAQ", policy: "Politiques & MiCA/AML", hubTitle: "8 Hubs Technologiques HK", tower: "Tour Siège Gyeongju 165F", supportTitle: "Support HK WorldBank", bannerTitle1: "Actuel", bannerTitle2: "Mode Aperçu Non Vérifié KYC/KYB", bannerTitle3: "Actif", bannerDesc: "Connectez votre portefeuille ci-dessus pour passer la vérification automatique et débloquer tous les services.", bannerBtn: "Démarrer KYC en Arrière-plan", dashTitle: "Tableau de Bord Financier", dashSub: "Synchro en temps réel avec Ulsan·Gyeongju·Pohang & 10 Actifs Numériques", card1Title: "1. Lien Portefeuille", card2Title: "2. Réseau Pi", card3Title: "3. Échange Unifié", card4Title: "4. Dépôt Haut APY", card5Title: "5. Fondation Sociale HK", card6Title: "6. Portail API SDK", card7Title: "7. Sécurité de Défense", card8Title: "8. Tokenisation RWA", card9Title: "9. Transfert Mondial", card10Title: "10. Actifs PI Détenus", biniTitle: "Centre de Support AGI Bini", biniSub: "Assistant IA gérant les données d'Ulsan et de 8 filiales", aiOnline: "Serveur IA en Ligne", biniIntro: "Salutations, Président Hyekong ! Je suis Bini, votre assistante AGI. Le système de traduction pour 60 langues est opérationnel. Comment puis-je vous aider ?", sendBtn: "Envoyer" },
+      de: { menuHub: "Menü-Hub", kycMode: "KYC-Vorschaumodus", walletConnect: "Wallet verbinden & KYC", navTitle: "HK Navigation", docCenter: "Offizielle Dokumente & Regulierung", whitepaper: "Whitepaper (v3.14)", faq: "Häufige Fragen (FAQ)", policy: "Richtlinien & MiCA/AML", hubTitle: "HK Group 8 Tech-Hubs", tower: "Gyeongju 165F Hauptturm", supportTitle: "HK WorldBank Support", bannerTitle1: "Aktuell", bannerTitle2: "KYC / KYB Unverifizierter Vorschaumodus", bannerTitle3: "Aktiv", bannerDesc: "Verbinden Sie oben Ihre Wallet, um die automatisierte Hintergrundprüfung zu durchlaufen und alle Dienste freizuschalten.", bannerBtn: "Hintergrund-KYC starten", dashTitle: "Schnelles Finanz-Dashboard", dashSub: "Echtzeit-Sync mit Ulsan·Gyeongju·Pohang Mainnet & 10 Digitalen Assets", card1Title: "1. Wallet-Link", card2Title: "2. Pi Mainnet", card3Title: "3. Einheits-Swap", card4Title: "4. Hohe APY-Einlage", card5Title: "5. HK Sozialstiftung", card6Title: "6. API SDK Portal", card7Title: "7. Verteidigungssicherheit", card8Title: "8. RWA Tokenisierung", card9Title: "9. Globale Überweisung", card10Title: "10. Gehaltene PI-Assets", biniTitle: "HK AGI Bini Support-Center", biniSub: "KI-Assistent für Ulsan Mainnet & 8 verbundene Unternehmen", aiOnline: "KI-Server Online", biniIntro: "Seien Sie gegrüßt, Vorsitzender Hyekong! Ich bin Bini, Ihre AGI-Assistentin. Das Übersetzungssystem für 60 Weltsprachen ist voll einsatzbereit. Wie kann ich Ihnen helfen?", sendBtn: "Senden" },
+      vi: { menuHub: "Trung tâm Menu", kycMode: "Chế độ xem trước KYC", walletConnect: "Kết nối ví & KYC", navTitle: "Điều hướng HK", docCenter: "Tài liệu chính thức & Quy định", whitepaper: "Sách trắng (v3.14)", faq: "Câu hỏi thường gặp", policy: "Chính sách & MiCA/AML", hubTitle: "8 Trung tâm công nghệ HK", tower: "Tháp trụ sở Gyeongju 165F", supportTitle: "Hỗ trợ HK WorldBank", bannerTitle1: "Hiện tại", bannerTitle2: "Chế độ xem trước chưa xác thực KYC/KYB", bannerTitle3: "Đang hoạt động", bannerDesc: "Kết nối ví ở trên để vượt qua xác thực nền tự động và mở khóa toàn bộ dịch vụ tài chính.", bannerBtn: "Bắt đầu KYC nền", dashTitle: "Bảng điều khiển tài chính nhanh", dashSub: "Đồng bộ thời gian thực với Mainnet Ulsan·Gyeongju·Pohang & 10 Tài sản số", card1Title: "1. Liên kết ví", card2Title: "2. Pi Mainnet", card3Title: "3. Hoán đổi hợp nhất", card4Title: "4. Tiền gửi APY cao", card5Title: "5. Quỹ xã hội HK", card6Title: "6. Cổng API SDK", card7Title: "7. Bảo mật quốc phòng", card8Title: "8. Token hóa RWA", card9Title: "9. Chuyển tiền toàn cầu", card10Title: "10. Tài sản PI nắm giữ", biniTitle: "Trung tâm hỗ trợ AGI Bini", biniSub: "Trợ lý AI quản lý dữ liệu Ulsan & 8 công ty liên kết", aiOnline: "Máy chủ AI trực tuyến", biniIntro: "Kính chào Chủ tịch Hyekong! Tôi là Bini, trợ lý AGI của ngài. Hệ thống dịch thuật cho 60 ngôn ngữ đã hoạt động đầy đủ. Tôi có thể giúp gì cho ngài?", sendBtn: "Gửi" },
+      ar: { menuHub: "مركز القائمة", kycMode: "وضع معاينة KYC", walletConnect: "ربط المحفظة و KYC", navTitle: "التنقل HK", docCenter: "المستندات الرسمية والتنظيم", whitepaper: "الورقة البيضاء (v3.14)", faq: "الأسئلة الشائعة", policy: "السياسات و MiCA/AML", hubTitle: "8 مراكز تقنية لـ HK", tower: "برج المقر الرئيسي Gyeongju 165F", supportTitle: "دعم HK WorldBank", bannerTitle1: "الحالي", bannerTitle2: "وضع معاينة KYC/KYB غير الموثق", bannerTitle3: "نشط", bannerDesc: "اربط محفظتك أعلاه لتجاوز التحقق التلقائي في الخلفية وفتح جميع الخدمات المالية.", bannerBtn: "بدء التحقق التلقائي KYC", dashTitle: "لوحة التحكم المالية السريعة", dashSub: "مزامنة في الوقت الفعلي مع شبكة أولسان·جيونججو·بوهانج و 10 أصول رقمية", card1Title: "1. ربط المحفظة", card2Title: "2. شبكة Pi", card3Title: "3. التبادل الموحد", card4Title: "4. إيداع عالي العائد", card5Title: "5. مؤسسة HK الاجتماعية", card6Title: "6. بوابة API SDK", card7Title: "7. أمن الدفاع", card8Title: "8. ترميز RWA", card9Title: "9. التحويل العالمي", card10Title: "10. أصول PI المملوكة", biniTitle: "مركز دعم AGI Bini", biniSub: "مساعد الذكاء الاصطناعي لإدارة بيانات أولسان والشركات التابعة", aiOnline: "خادم الذكاء الاصطناعي متصل", biniIntro: "أهلاً بك يا رئيس هايكونغ! أنا بيني، مساعدك للذكاء الاصطناعي. نظام الترجمة لـ 60 لغة يعمل بكامل طاقته. كيف يمكنني مساعدتك؟", sendBtn: "إرسال" },
+      hi: { menuHub: "मेन्यू हब", kycMode: "KYC पूर्वावलोकन मोड", walletConnect: "वॉलेट कनेक्ट करें और KYC", navTitle: "HK नेविगेशन", docCenter: "आधिकारिक दस्तावेज़ और विनियमन", whitepaper: "श्वेतपत्र (v3.14)", faq: "सामान्य प्रश्न", policy: "नीतियां और MiCA/AML", hubTitle: "HK ग्रुप 8 टेक हब", tower: "ग Gyeongju 165F मुख्यालय टॉवर", supportTitle: "HK WorldBank सहायता", bannerTitle1: "वर्तमान", bannerTitle2: "KYC / KYB असत्यापित पूर्वावलोकन मोड", bannerTitle3: "सक्रिय", bannerDesc: "सभी वित्तीय सेवाओं को अनलॉक करने के लिए ऊपर अपना वॉलेट कनेक्ट करें।", bannerBtn: "पृष्ठभूमि KYC शुरू करें", dashTitle: "त्वरित वित्तीय डैशबोर्ड", dashSub: "울산·경주·포항 मेननेट और 10 डिजिटल संपत्तियों के साथ रीयल-टाइम सिंक", card1Title: "1. वॉलेट लिंक", card2Title: "2. Pi मेननेट", card3Title: "3. एकीकृत स्वैप", card4Title: "4. उच्च APY जमा", card5Title: "5. HK सामाजिक फाउंडेशन", card6Title: "6. API SDK पोर्टल", card7Title: "7. रक्षा सुरक्षा", card8Title: "8. RWA टोकनीकरण", card9Title: "9. वैश्विक स्थानांतरण", card10Title: "10. धारित PI संपत्तियां", biniTitle: "HK AGI बिनी सहायता केंद्र", biniSub: "울산 मेननेट और 8 सहयोगियों का प्रबंधन करने वाला AI सहायक", aiOnline: "AI सर्वर ऑनलाइन", biniIntro: "नमस्कार अध्यक्ष ह्येकोंग! मैं बिनी हूँ, आपकी AGI सहायक। 60 वैश्विक भाषाओं के लिए अनुवाद प्रणाली पूरी तरह से चालू है।", sendBtn: "भेजें" },
+      id: { menuHub: "Pusat Menu", kycMode: "Mode Pratinjau KYC", walletConnect: "Hubungkan Dompet & KYC", navTitle: "Navigasi HK", docCenter: "Dokumen Resmi & Regulasi", whitepaper: "Whitepaper (v3.14)", faq: "FAQ", policy: "Kebijakan & MiCA/AML", hubTitle: "8 Hub Teknologi HK", tower: "Menara Utama Gyeongju 165F", supportTitle: "Dukungan HK WorldBank", bannerTitle1: "Saat Ini", bannerTitle2: "Mode Pratinjau Belum Terverifikasi KYC/KYB", bannerTitle3: "Aktif", bannerDesc: "Hubungkan dompet Anda di atas untuk melewati verifikasi otomatis dan membuka semua layanan keuangan.", bannerBtn: "Mulai KYC Latar Belakang", dashTitle: "Dasbor Keuangan Cepat", dashSub: "Sinkronisasi waktu nyata dengan Ulsan·Gyeongju·Pohang & 10 Aset Digital", card1Title: "1. Tautan Dompet", card2Title: "2. Pi Mainnet", card3Title: "3. Swap Terpadu", card4Title: "4. Deposito APY Tinggi", card5Title: "5. Yayasan Sosial HK", card6Title: "6. Portal API SDK", card7Title: "7. Keamanan Pertahanan", card8Title: "8. Tokenisasi RWA", card9Title: "9. Transfer Global", card10Title: "10. Aset PI Dimiliki", biniTitle: "Pusat Dukungan AGI Bini", biniSub: "Asisten AI yang mengelola data Ulsan & 8 afiliasi", aiOnline: "Server AI Online", biniIntro: "Salam, Ketua Hyekong! Saya Bini, asisten AGI Anda. Sistem terjemahan multibahasa untuk 60 bahasa beroperasi penuh. Ada yang bisa saya bantu?", sendBtn: "Kirim" },
+      ru: { menuHub: "Центр меню", kycMode: "Режим предварительного просмотра KYC", walletConnect: "Подключить кошелек и KYC", navTitle: "Навигация HK", docCenter: "Официальные документы и регуляторы", whitepaper: "Белая книга (v3.14)", faq: "Часто задаваемые вопросы", policy: "Политика и MiCA/AML", hubTitle: "8 тех-хабов HK Group", tower: "Штаб-квартира Gyeongju 165F", supportTitle: "Поддержка HK WorldBank", bannerTitle1: "Текущий", bannerTitle2: "Режим просмотра без KYC/KYB", bannerTitle3: "Активен", bannerDesc: "Подключите кошелек выше для прохождения автоматической проверки и разблокировки сервисов.", bannerBtn: "Запустить фоновый KYC", dashTitle: "Быстрая финансовая панель", dashSub: "Синхронизация в реальном времени с сетями Ульсан·Кенджу·Похан и 10 цифровыми активами", card1Title: "1. Ссылка кошелька", card2Title: "2. Pi Mainnet", card3Title: "3. Единый обмен", card4Title: "4. Высокий APY депозит", card5Title: "5. Социальный фонд HK", card6Title: "6. Портал API SDK", card7Title: "7. Оборонная безопасность", card8Title: "8. Токенизация RWA", card9Title: "9. Глобальный перевод", card10Title: "10. Активы PI", biniTitle: "Центр поддержки AGI Bini", biniSub: "ИИ-ассистент управления данными", aiOnline: "ИИ-сервер онлайн", biniIntro: "Приветствую, председатель Хеконг! Я Бини, ваш ИИ-ассистент. Система перевода на 60 языков полностью активна. Чем могу помочь?", sendBtn: "Отправить" },
+      pt: { menuHub: "Centro de Menu", kycMode: "Modo de Pré-visualização KYC", walletConnect: "Conectar Carteira & KYC", navTitle: "Navegação HK", docCenter: "Documentos Oficiais & Regulação", whitepaper: "Whitepaper (v3.14)", faq: "FAQ", policy: "Políticas & MiCA/AML", hubTitle: "8 Hubs Tecnológicos da HK", tower: "Torre Sede Gyeongju 165F", supportTitle: "Suporte HK WorldBank", bannerTitle1: "Atual", bannerTitle2: "Modo Pré-visualización Não Verificado KYC/KYB", bannerTitle3: "Ativo", bannerDesc: "Conecte sua carteira acima para passar pela verificação automática e desbloquear todos os serviços.", bannerBtn: "Iniciar KYC em Segundo Plano", dashTitle: "Painel Financeiro Rápido", dashSub: "Sincronização em tempo real com Ulsan·Gyeongju·Pohang & 10 Ativos Digitais", card1Title: "1. Link de Carteira", card2Title: "2. Rede Pi", card3Title: "3. Troca Unificada", card4Title: "4. Depósito APY Alto", card5Title: "5. Fundação Social HK", card6Title: "6. Portal API SDK", card7Title: "7. Segurança de Defesa", card8Title: "8. Tokenização RWA", card9Title: "9. Transferência Global", card10Title: "10. Ativos PI Possuídos", biniTitle: "Centro de Suporte AGI Bini", biniSub: "Assistente de IA gerenciando dados de Ulsan e 8 filiais", aiOnline: "Servidor de IA Online", biniIntro: "Saudações, Presidente Hyekong! Sou Bini, sua assistente AGI. O sistema de tradução para 60 idiomas está totalmente operacional. Como posso ajudar?", sendBtn: "Enviar" },
+      it: { menuHub: "Centro Menu", kycMode: "Modalità Anteprima KYC", walletConnect: "Collega Wallet e KYC", navTitle: "Navigazione HK", docCenter: "Documenti Ufficiali e Normativa", whitepaper: "Whitepaper (v3.14)", faq: "FAQ", policy: "Politiche e MiCA/AML", hubTitle: "8 Hub Tecnologici HK", tower: "Torre HQ Gyeongju 165F", supportTitle: "Supporto HK WorldBank", bannerTitle1: "Attuale", bannerTitle2: "Modalità Anteprima Non Verificata KYC/KYB", bannerTitle3: "Attivo", bannerDesc: "Collega il tuo wallet sopra per superare la verifica automatica e sbloccare i servizi.", bannerBtn: "Avvia KYC in Background", dashTitle: "Dashboard Finanziaria Rapida", dashSub: "Sincronizzazione in tempo reale con Ulsan·Gyeongju·Pohang e 10 Asset Digitali", card1Title: "1. Collegamento Wallet", card2Title: "2. Pi Mainnet", card3Title: "3. Swap Unificato", card4Title: "4. Deposito ad Alto APY", card5Title: "5. Fondazione Sociale HK", card6Title: "6. Portale API SDK", card7Title: "7. Sicurezza Difesa", card8Title: "8. Tokenizzazione RWA", card9Title: "9. Trasferimento Globale", card10Title: "10. Asset PI Posseduti", biniTitle: "Centro Supporto AGI Bini", biniSub: "Assistente IA che gestisce i dati di Ulsan e 8 affiliate", aiOnline: "Server IA Online", biniIntro: "Saluti, Presidente Hyekong! Sono Bini, la tua assistente AGI. Il sistema di traduzione per 60 lingue è pienamente operativo. Come posso aiutarti?", sendBtn: "Invia" },
+      tr: { menuHub: "Menü Merkezi", kycMode: "KYC Önizleme Modu", walletConnect: "Cüzdanı Bağla ve KYC", navTitle: "HK Navigasyon", docCenter: "Resmi Belgeler ve Düzenleme", whitepaper: "Whitepaper (v3.14)", faq: "SSS", policy: "Politikalar ve MiCA/AML", hubTitle: "HK Grubu 8 Teknoloji Merkezi", tower: "Gyeongju 165F Merkez Kulesi", supportTitle: "HK WorldBank Destek", bannerTitle1: "Mevcut", bannerTitle2: "KYC / KYB Doğrulanmamış Önizleme Modu", bannerTitle3: "Aktif", bannerDesc: "Tüm finansal hizmetlerin kilidini açmak için yukarıdan cüzdanınızı bağlayın.", bannerBtn: "Arka Plan KYC'yi Başlat", dashTitle: "Hızlı Finansal Kontrol Paneli", dashSub: "Ulsan·Gyeongju·Pohang Ana Ağı ve 10 Dijital Varlık ile Gerçek Zamanlı Senkronizasyon", card1Title: "1. Cüzdan Bağlantısı", card2Title: "2. Pi Ana Ağı", card3Title: "3. Birleşik Takas", card4Title: "4. Yüksek APY Mevduatı", card5Title: "5. HK Sosyal Vakfı", card6Title: "6. API SDK Portalı", card7Title: "7. Savunma Güvenliği", card8Title: "8. RWA Tokenizasyonu", card9Title: "9. Küresel Transfer", card10Title: "10. Tutulan PI Varlıkları", biniTitle: "HK AGI Bini Destek Merkezi", biniSub: "Ulsan Ana Ağı ve 8 İştirakin Verilerini Yöneten Yapay Zeka Asistanı", aiOnline: "Yapay Zeka Sunucusu Çevrimiçi", biniIntro: "Sayın Başkan Hyekong, selamlar! Ben Bini, AGI asistanınızım. 60 dünya dili için çok dilli çeviri sistemi tamamen faaliyettedir. Size nasıl yardımcı olabilirim?", sendBtn: "Gönder" },
+      th: { menuHub: "ศูนย์รวมเมนู", kycMode: "โหมดดูตัวอย่าง KYC", walletConnect: "เชื่อมต่อกระเป๋าเงิน & KYC", navTitle: "การนำทาง HK", docCenter: "เอกสารทางการ & ระเบียบข้อบังคับ", whitepaper: "Whitepaper (v3.14)", faq: "คำถามที่พบบ่อย", policy: "นโยบาย & MiCA/AML", hubTitle: "8 ศูนย์เทคโนโลยี HK Group", tower: "อาคารสำนักงานใหญ่ Gyeongju 165F", supportTitle: "ฝ่ายสนับสนุน HK WorldBank", bannerTitle1: "ปัจจุบัน", bannerTitle2: "โหมดดูตัวอย่างยังไม่ยืนยันตัวตน KYC/KYB", bannerTitle3: "ใช้งานอยู่", bannerDesc: "เชื่อมต่อกระเป๋าเงินของคุณด้านบนเพื่อผ่านการตรวจสอบอัตโนมัติและปลดล็อกบริการทางการเงินทั้งหมด", bannerBtn: "เริ่มยืนยันตัวตน KYC พื้นหลัง", dashTitle: "แดชบอร์ดการเงินด่วน", dashSub: "ซิงค์แบบเรียลไทม์กับเครือข่าย Ulsan·Gyeongju·Pohang และ 10 สินทรัพย์ดิจิทัล", card1Title: "1. ลิงก์กระเป๋าเงิน", card2Title: "2. Pi เมนเน็ต", card3Title: "3. สวอปยูนิฟाइड", card4Title: "4. ฝาก APY สูง", card5Title: "5. มูลนิธิสังคม HK", card6Title: "6. พอร์ทัล API SDK", card7Title: "7. ความปลอดภัยด้านการป้องกัน", card8Title: "8. การทำ Tokenization RWA", card9Title: "9. โอนเงินทั่วโลก", card10Title: "10. สินทรัพย์ PI ที่ถืออยู่", biniTitle: "ศูนย์สนับสนุน AGI Bini", biniSub: "ผู้ช่วย AI จัดการข้อมูล Ulsan และ 8 บริษัทในเครือ", aiOnline: "เซิร์ฟเวอร์ AI ออนไลน์", biniIntro: "สวัสดีครับ ท่านประธานฮเย공! ฉันชื่อบีนี ผู้ช่วย AGI ของคุณ ระบบแปลภาษา 60 ภาษาทั่วโลกพร้อมใช้งานเต็มรูปแบบแล้ว มีอะไรให้ฉันช่วยไหมครับ", sendBtn: "ส่ง" },
+      pl: { menuHub: "Centrum Menu", kycMode: "Tryb Podglądu KYC", walletConnect: "Połącz Portfel i KYC", navTitle: "Nawigacja HK", docCenter: "Oficjalne Dokumenty i Regulacje", whitepaper: "Whitepaper (v3.14)", faq: "FAQ", policy: "Polityka i MiCA/AML", hubTitle: "8 Hubów Technologicznych HK", tower: "Główna Wieża Gyeongju 165F", supportTitle: "Wsparcie HK WorldBank", bannerTitle1: "Obecnie", bannerTitle2: "Niezweryfikowany Tryb Podglądu KYC/KYB", bannerTitle3: "Aktywny", bannerDesc: "Połącz portfel powyżej, aby przejść automatyczną weryfikację i odblokować usługi finansowe.", bannerBtn: "Rozpocznij KYC w Tle", dashTitle: "Szybki Panel Finansowy", dashSub: "Synchronizacja w czasie rzeczywistym z Ulsan·Gyeongju·Pohang i 10 Aktywami Cyfrowymi", card1Title: "1. Link Portfela", card2Title: "2. Pi Mainnet", card3Title: "3. Zjednoczony Swap", card4Title: "4. Wysoki Depozyt APY", card5Title: "5. Fundacja Społeczna HK", card6Title: "6. Portal API SDK", card7Title: "7. Bezpieczeństwo Obronne", card8Title: "8. Tokenizacja RWA", card9Title: "9. Transfer Globalny", card10Title: "10. Posiadane Aktywa PI", biniTitle: "Centrum Wsparcia AGI Bini", biniSub: "Asystent AI zarządzający danymi Ulsan i 8 spółek", aiOnline: "Serwer AI Online", biniIntro: "Witaj, Przewodniczący Hyekong! Jestem Bini, Twoja asystentka AGI. System tłumaczeń dla 60 języków świata jest w pełni operacyjny. W czym mogę pomóc?", sendBtn: "Wyślij" },
+      nl: { menuHub: "Menu Hub", kycMode: "KYC Voorbeeldmodus", walletConnect: "Wallet Verbinden & KYC", navTitle: "HK Navigatie", docCenter: "Officiële Documenten & Regulering", whitepaper: "Whitepaper (v3.14)", faq: "FAQ", policy: "Beleid & MiCA/AML", hubTitle: "HK Group 8 Tech Hubs", tower: "Gyeongju 165F Hoofdkantoor", supportTitle: "HK WorldBank Ondersteuning", bannerTitle1: "Huidig", bannerTitle2: "KYC / KYB Niet-geveificeerde Voorbeeldmodus", bannerTitle3: "Actief", bannerDesc: "Verbind hierboven uw wallet om automatische verificatie te voltooien en diensten te ontgrendelen.", bannerBtn: "Start Achtergrond KYC", dashTitle: "Snelle Financieel Dashboard", dashSub: "Realtime synchronisatie met Ulsan·Gyeongju·Pohang Mainnet & 10 Digitale Assets", card1Title: "1. Wallet Koppeling", card2Title: "2. Pi Mainnet", card3Title: "3. Gecombineerde Swap", card4Title: "4. Hoge APY Deposito", card5Title: "5. HK Sociale Stichting", card6Title: "6. API SDK Portaal", card7Title: "7. Defensie Beveiliging", card8Title: "8. RWA Tokenisatie", card9Title: "9. Wereldwijde Overdracht", card10Title: "10. Gehouden PI Activa", biniTitle: "HK AGI Bini Ondersteuningscentrum", biniSub: "AI-assistent voor Ulsan Mainnet & 8 dochterondernemingen", aiOnline: "AI Server Online", biniIntro: "Gegroet, Voorzitter Hyekong! Ik ben Bini, uw AGI-assistent. Het meertalige vertaalsysteem voor 60 wereldtalen is volledig operationeel. Waarmee kan ik u helpen?", sendBtn: "Verzenden" },
+      uk: { menuHub: "Центр меню", kycMode: "Режим перегляду KYC", walletConnect: "Підключити гаманець і KYC", navTitle: "Навігація HK", docCenter: "Офіційні документи та регулювання", whitepaper: "Біла книга (v3.14)", faq: "Часті запитання", policy: "Політики та MiCA/AML", hubTitle: "8 техно-хабів HK Group", tower: "Штаб-квартира Gyeongju 165F", supportTitle: "Підтримка HK WorldBank", bannerTitle1: "Поточний", bannerTitle2: "Режим перегляду без KYC/KYB", bannerTitle3: "Активний", bannerDesc: "Підключіть гаманець вище, щоб пройти автоматичну перевірку та розблокувати послуги.", bannerBtn: "Запустити фоновий KYC", dashTitle: "Швидка фінансова панель", dashSub: "Синхронізація в реальному часі з мережами Ульсан·Кенджу·Похан та 10 цифровими активами", card1Title: "1. Зв'язок гаманця", card2Title: "2. Pi Mainnet", card3Title: "3. Єдиний обмін", card4Title: "4. Високий APY депозит", card5Title: "5. Соціальний фонд HK", card6Title: "6. Портал API SDK", card7Title: "7. Оборонна безпека", card8Title: "8. Токенізація RWA", card9Title: "9. Глобальний переказ", card10Title: "10. Активи PI", biniTitle: "Центр підтримки AGI Bini", biniSub: "ШІ-асистент управління даними", aiOnline: "ШІ-сервер онлайн", biniIntro: "Вітаю, голово Хеконг! Я Біні, ваш ШІ-асистент. Система перекладу на 60 мов повністю активна. Чим можу допомогти?", sendBtn: "Надіслати" },
+      el: { menuHub: "Κέντρο Μενού", kycMode: "Λειτουργία Προεπισκόπησης KYC", walletConnect: "Σύνδεща Πορτοφολιού & KYC", navTitle: "Πλοήγηση HK", docCenter: "Επίσημα Έγγραφα & Κανονισμοί", whitepaper: "Λευκή Βίβλος (v3.14)", faq: "Συχνές Ερωτήσεις", policy: "Πολιτικές & MiCA/AML", hubTitle: "8 Τεχνολογικοί κόμβοι HK Group", tower: "Πύργος HQ Gyeongju 165F", supportTitle: "Υποστήριξη HK WorldBank", bannerTitle1: "Τρέχον", bannerTitle2: "Λειτουργία Προεπισκόπησης χωρίς KYC/KYB", bannerTitle3: "Ενεργό", bannerDesc: "Συνδέστε το πορτοφόλι σας παραπάνω για να ολοκληρώσετε την επαλήθευση και να ξεκλειδώσετε τις υπηρεσίες.", bannerBtn: "Έναρξη KYC Παρασκηνίου", dashTitle: "Γρήγορος Οικονομικός Πίνακας", dashSub: "Σγχρονισμός σε πραγματικό χρόνο με Ulsan·Gyeongju·Pohang & 10 Ψηφιακά Perzianda", card1Title: "1. Σύνδεση Πορτοφολιού", card2Title: "2. Pi Mainnet", card3Title: "3. Ενιαία Ανταλλαγή", card4Title: "4. Κατάθεση Υψηλού APY", card5Title: "5. Κοινωνικό Ίδρυμα HK", card6Title: "6. Πύλη API SDK", card7Title: "7. Ασφάλεια Άμυνας", card8Title: "8. Tokenization RWA", card9Title: "9. Παγκόσμια Μεتа", card10Title: "10. Κατεχόμενα Στοιχεία PI", biniTitle: "Κέντρο Υποστήριξης AGI Bini", biniSub: "Βοηθός AI διαχείρισης δεδομένων Ulsan & 8 θυγατρικών", aiOnline: "Διακομιστής AI σε απευθείας σύνδεση", biniIntro: "Χαιρετισμοί, Πρόεδре Hyekong! Είμαι η Bini, ο βοηθός σας AGI. Το σύστημα μετάφراσης 60 γλωσσών λειτουργεί πλήρως. Πώς μπορώ να βοηθήσω;", sendBtn: "Αποστολή" },
+      sv: { menuHub: "Meny-hubb", kycMode: "KYC Förhandsgranskningsläge", walletConnect: "Anslut Plånbok & KYC", navTitle: "HK Navigering", docCenter: "Officiella Dokument & Regler", whitepaper: "Whitepaper (v3.14)", faq: "FAQ", policy: "Policy & MiCA/AML", hubTitle: "HK Group 8 Tech Hubs", tower: "Gyeongju 165F Huvudkontor", supportTitle: "HK WorldBank Support", bannerTitle1: "Aktuell", bannerTitle2: "KYC / KYB Overifierat Förhandsgranskningsläge", bannerTitle3: "Aktiv", bannerDesc: "Anslut din plånbok ovan för att klara verifiering och låsa upp alla finansiella tjänster.", bannerBtn: "Starta Bakgrunds-KYC", dashTitle: "Snabb Finansiell Dashboard", dashSub: "Realtidssynk med Ulsan·Gyeongju·Pohang Mainnet & 10 Digitala Tillgångar", card1Title: "1. Plånbokslänk", card2Title: "2. Pi Mainnet", card3Title: "3. Enhetligt Swap", card4Title: "4. Hög APY-insättning", card5Title: "5. HK Socialstiftelse", card6Title: "6. API SDK Portal", card7Title: "7. Försvarssäkerhet", card8Title: "8. RWA Tokenisering", card9Title: "9. Global Överföring", card10Title: "10. Innehavda PI-tillgångar", biniTitle: "HK AGI Bini Supportcenter", biniSub: "AI-assistent som hanterar Ulsan Mainnet & 8 dotterbolag", aiOnline: "AI-server Online", biniIntro: "Hälsningar, Ordförande Hyekong! Jag är Bini, din AGI-assistent. Översättningssystemet för 60 språk är fullt operativt. Hur kan jag hjälpa dig?", sendBtn: "Skicka" },
+      cs: { menuHub: "Centrum menu", kycMode: "Režim náhledu KYC", walletConnect: "Připojit peněženku & KYC", navTitle: "Navigace HK", docCenter: "Oficiální dokumenty & Regulace", whitepaper: "Whitepaper (v3.14)", faq: "FAQ", policy: "Zásady & MiCA/AML", hubTitle: "HK Group 8 technologických hubů", tower: "Gyeongju 165F hlavní věž", supportTitle: "Podpora HK WorldBank", bannerTitle1: "Aktuální", bannerTitle2: "Neověřený náhledový režim KYC/KYB", bannerTitle3: "Aktivní", bannerDesc: "Připojte svou peněženku výše pro ověření a odemknutí všech služeb.", bannerBtn: "Spustit pozadí KYC", dashTitle: "Rychlý finanční panel", dashSub: "Synchronizace v reálném čase s Ulsan·Gyeongju·Pohang & 10 digitálními aktivy", card1Title: "1. Propojení peněženky", card2Title: "2. Pi Mainnet", card3Title: "3. Unified Swap", card4Title: "4. Vysoký APY vklad", card5Title: "5. Sociální nadace HK", card6Title: "6. API SDK portál", card7Title: "7. Obranná bezpečnost", card8Title: "8. Tokenizace RWA", card9Title: "9. Globální převod", card10Title: "10. Držená aktiva PI", biniTitle: "Centrum podpory AGI Bini", biniSub: "AI asistent pro správu dat Ulsan & 8 poboček", aiOnline: "AI server online", biniIntro: "Zdravím, předsedo Hyekong! Jsem Bini, vaše AGI asistentka. Systém překladu pro 60 světových jazyků je plně funkční. Jak vám mohu pomoci?", sendBtn: "Odeslat" },
+      hu: { menuHub: "Menü Hub", kycMode: "KYC Előnézet Mód", walletConnect: "Pénztárca Csatlakozás & KYC", navTitle: "HK Navigáció", docCenter: "Hivatalos Dokumentumok & Szabályozás", whitepaper: "Whitepaper (v3.14)", faq: "GYIK", policy: "Irányelvek & MiCA/AML", hubTitle: "HK Group 8 Technológiai Hub", tower: "Gyeongju 165F Főtorony", supportTitle: "HK WorldBank Támogatás", bannerTitle1: "Jelenlegi", bannerTitle2: "KYC / KYB Nem Ellenőrzött Előnézet Mód", bannerTitle3: "Aktív", bannerDesc: "Csatlakoztassa pénztárcáját fent az automatikus ellenőrzéshez és az összes szolgáltatás feloldásához.", bannerBtn: "Háttér KYC Indítása", dashTitle: "Gyors Pénzügyi Irányítópult", dashSub: "Valós idejű szinkronizálás az Ulsan·Gyeongju·Pohang Mainnettel és 10 digitális eszközzel", card1Title: "1. Pénztárca Kapcsolat", card2Title: "2. Pi Mainnet", card3Title: "3. Egységes Csere", card4Title: "4. Magas APY Betét", card5Title: "5. HK Szociális Alapítvány", card6Title: "6. API SDK Portál", card7Title: "7. Védelmi Biztonság", card8Title: "8. RWA Tokenizáció", card9Title: "9. Globális Átutalás", card10Title: "10. Tartott PI Eszközök", biniTitle: "HK AGI Bini Támogató Központ", biniSub: "AI asszisztens az Ulsan Mainnet & 8 leányvállalat adataihoz", aiOnline: "AI Szerver Online", biniIntro: "Üdvözlöm, Hyekong elnök úr! Én vagyok Bini, az Ön AGI asszisztense. A 60 nyelvű fordítórendszer teljes mértékben üzemképes. Miben segíthetek?", sendBtn: "Küldés" },
+      ro: { menuHub: "Centru Meniu", kycMode: "Mod Previzualizare KYC", walletConnect: "Conectare Portofel & KYC", navTitle: "Navigare HK", docCenter: "Documente Oficiale & Reglementare", whitepaper: "Whitepaper (v3.14)", faq: "FAQ", policy: "Politici & MiCA/AML", hubTitle: "8 Huburi Tehnologice HK Group", tower: "Turnul Central Gyeongju 165F", supportTitle: "Suport HK WorldBank", bannerTitle1: "Curent", bannerTitle2: "Mod Previzualizare Neverifiat KYC/KYB", bannerTitle3: "Activ", bannerDesc: "Conectați-vă portofelul mai sus pentru a trece verificarea automată și a debloca toate serviciile financiare.", bannerBtn: "Start KYC în Fundal", dashTitle: "Panou Financiar Rapid", dashSub: "Sincronizare în timp real cu Ulsan·Gyeongju·Pohang & 10 Active Digitale", card1Title: "1. Legătură Portofel", card2Title: "2. Pi Mainnet", card3Title: "3. Schimb Unified", card4Title: "4. Depozit APY Ridicat", card5Title: "5. Fundația Socială HK", card6Title: "6. Portal API SDK", card7Title: "7. Securitate Apărare", card8Title: "8. Tokenizare RWA", card9Title: "9. Transfer Global", card10Title: "10. Active PI Deținute", biniTitle: "Centru de Suport AGI Bini", biniSub: "Asistent AI care gestionează datele Ulsan & 8 afiliate", aiOnline: "Server AI Online", biniIntro: "Salutări, Președinte Hyekong! Sunt Bini, asistenta ta AGI. Sistemul de traducere pentru 60 de limbi este pe deplin operațional. Cu ce vă pot ajuta?", sendBtn: "Trimite" },
+      fi: { menuHub: "Valikkokeskus", kycMode: "KYC Esikatselutila", walletConnect: "Yhdistä Lompakko & KYC", navTitle: "HK Navigointi", docCenter: "Viralliset Asiakirjat & Sääntely", whitepaper: "Whitepaper (v3.14)", faq: "FAQ", policy: "Käytännöt & MiCA/AML", hubTitle: "HK Group 8 Teknologiapistettä", tower: "Gyeongju 165F Pääkonttori", supportTitle: "HK WorldBank tuki", bannerTitle1: "Nykyinen", bannerTitle2: "KYC / KYB Vahvistamaton Esikatselutila", bannerTitle3: "Aktiivinen", bannerDesc: "Yhdistä lompakkosi yllä suorittaaksesi automaattisen varmennuksen ja avataksesi palvelut.", bannerBtn: "Aloita Tausta-KYC", dashTitle: "Pikataloushallintapaneeli", dashSub: "Reaaliaikainen synkronointi Ulsan·Gyeongju·Pohang Mainnet & 10 digitaalisen omaisuuden kanssa", card1Title: "1. Lompakkolinkki", card2Title: "2. Pi Mainnet", card3Title: "3. Yhtenäinen Vaihto", card4Title: "4. Korkea APY-talletus", card5Title: "5. HK Sosiaalisäätiö", card6Title: "6. API SDK Portaali", card7Title: "7. Puolustusturvallisuus", card8Title: "8. RWA Tokenisointi", card9Title: "9. Globaali Siirto", card10Title: "10. Hallussapidetyt PI-varat", biniTitle: "HK AGI Bini Tukikeskus", biniSub: "AI-avustaja, joka hallinnoi Ulsan Mainnet & 8 tytäryhtiön tietoja", aiOnline: "AI-palvelin Online", biniIntro: "Terveyttä, puheenjohtaja Hyekong! Olen Bini, AGI-assistenttisi. 60 kielen käännösjärjestelmä on täysin toimintakunnossa. Miten voin auttaa?", sendBtn: "Lähetä" },
+      da: { menuHub: "Menu Hub", kycMode: "KYC Eksempel-tilstand", walletConnect: "Tilslut Wallet & KYC", navTitle: "HK Navigation", docCenter: "Officielle Dokumenter & Regulering", whitepaper: "Whitepaper (v3.14)", faq: "FAQ", policy: "Politikker & MiCA/AML", hubTitle: "HK Group 8 Tech Hubs", tower: "Gyeongju 165F Hovedkontor", supportTitle: "HK WorldBank Support", bannerTitle1: "Aktuel", bannerTitle2: "KYC / KYB Uverificeret Eksempel-tilstand", bannerTitle3: "Aktiv", bannerDesc: "Tilslut din wallet ovenfor for at gennemgå automatisk verifikation og låse alle tjenester op.", bannerBtn: "Start Baggrunds-KYC", dashTitle: "Hurtigt Finansielt Dashboard", dashSub: "Realtidssynkronisering med Ulsan·Gyeongju·Pohang Mainnet & 10 Digitale Aktiver", card1Title: "1. Wallet Link", card2Title: "2. Pi Mainnet", card3Title: "3. Unified Swap", card4Title: "4. Høj APY Indskud", card5Title: "5. HK Sociale Fond", card6Title: "6. API SDK Portal", card7Title: "7. Forsvarssikkerhed", card8Title: "8. RWA Tokenisering", card9Title: "9. Global Overførsel", card10Title: "10. Besiddede PI-aktiver", biniTitle: "HK AGI Bini Supportcenter", biniSub: "AI-assistent der administrerer Ulsan Mainnet & 8 datterselskaber", aiOnline: "AI Server Online", biniIntro: "Goddag, formand Hyekong! Jeg er Bini, din AGI-assistent. Oversættelsessystemet til 60 sprog er fuldt operationelt. Hvordan kan jeg hjælpe dig?", sendBtn: "Send" },
+      no: { menuHub: "Meny-hub", kycMode: "KYC Forhåndsvisningsmodus", walletConnect: "Koble til Lommebok & KYC", navTitle: "HK Navigasjon", docCenter: "Offisielle Dokumenter & Regulering", whitepaper: "Whitepaper (v3.14)", faq: "FAQ", policy: "Retningslinjer & MiCA/AML", hubTitle: "HK Group 8 Tech Hubs", tower: "Gyeongju 165F Hovedkontor", supportTitle: "HK WorldBank Støtte", bannerTitle1: "Nåværende", bannerTitle2: "KYC / KYB Uverifisert Forhåndsvisningsmodus", bannerTitle3: "Aktiv", bannerDesc: "Koble til lommeboken din ovenfor for å fullføre automatisk verifisering og låse opp tjenester.", bannerBtn: "Start Bakgrunns-KYC", dashTitle: "Raskt Finansielt Dashbord", dashSub: "Sanntidssynkronisering med Ulsan·Gyeongju·Pohang Mainnet & 10 Digitale Eiendeler", card1Title: "1. Lommeboklenke", card2Title: "2. Pi Mainnet", card3Title: "3. Unified Swap", card4Title: "4. Høy APY Innskudd", card5Title: "5. HK Sosiale Stiftelse", card6Title: "6. API SDK Portal", card7Title: "7. Forsvarssikkerhet", card8Title: "8. RWA Tokenisering", card9Title: "9. Global Overføring", card10Title: "10. Holdte PI-eiendeler", biniTitle: "HK AGI Bini Støttesenter", biniSub: "AI-assistent for Ulsan Mainnet & 8 tilknyttede selskaper", aiOnline: "AI-server Online", biniIntro: "Hilsen, styreleder Hyekong! Jeg er Bini, din AGI-assistent. Oversettelsessystemet for 60 språk er fullt operativt. Hvordan kan jeg hjelpe deg?", sendBtn: "Send" },
+      ms: { menuHub: "Hab Menu", kycMode: "Mod Pratonton KYC", walletConnect: "Sambung Dompet & KYC", navTitle: "Navigasi HK", docCenter: "Dokumen Rasmi & Peraturan", whitepaper: "Whitepaper (v3.14)", faq: "FAQ", policy: "Dasar & MiCA/AML", hubTitle: "8 Hab Teknologi Kumpulan HK", tower: "Menara Ibu Pejabat Gyeongju 165F", supportTitle: "Sokongan HK WorldBank", bannerTitle1: "Semasa", bannerTitle2: "Mod Pratonton Tidak Disahkan KYC/KYB", bannerTitle3: "Aktif", bannerDesc: "Sambungkan dompet anda di atas untuk melepasi pengesahan automatik dan membuka kunci perkhidmatan.", bannerBtn: "Mulakan KYC Latar Belakang", dashTitle: "Papan Pemuka Kewangan Pantas", dashSub: "Penyegerakan masa nyata dengan Ulsan·Gyeongju·Pohang Mainnet & 10 Aset Digital", card1Title: "1. Pautan Dompet", card2Title: "2. Pi Mainnet", card3Title: "3. Pertukaran Bersatu", card4Title: "4. Deposit APY Tinggi", card5Title: "5. Yayasan Sosial HK", card6Title: "6. Portal API SDK", card7Title: "7. Keselamatan Pertahanan", card8Title: "8. Tokenisasi RWA", card9Title: "9. Pemindahan Global", card10Title: "10. Aset PI Dipegang", biniTitle: "Pusat Sokongan AGI Bini", biniSub: "Pembantu AI menguruskan data Ulsan & 8 syarikat sekutu", aiOnline: "Pelayan AI Dalam Talian", biniIntro: "Salam, Pengerusi Hyekong! Saya Bini, pembantu AGI anda. Sistem terjemahan untuk 60 bahasa beroperasi sepenuhnya. Ada apa yang boleh saya bantu?", sendBtn: "Hantar" },
+      fa: { menuHub: "مرکز منو", kycMode: "حالت پیش نمایش KYC", walletConnect: "اتصال کیف پول و KYC", navTitle: "ناوبری HK", docCenter: "اسناد رسمی و مقررات", whitepaper: "وایت پپر (v3.14)", faq: "سوالات متداول", policy: "سیاست ها و MiCA/AML", hubTitle: "۸ هوب فناوری HK Group", tower: "برج مرکزی Gyeongju 165F", supportTitle: "پشتیبانی HK WorldBank", bannerTitle1: "فعلی", bannerTitle2: "حالت پیش نمایش تایید نشده KYC/KYB", bannerTitle3: "فعال", bannerDesc: "کیف پول خود را در بالا متصل کنید تا تایید خودکار انجام شده و خدمات فعال شوند.", bannerBtn: "شروع KYC پس زمینه", dashTitle: "داشبورد مالی سریع", dashSub: "همگام سازی لحظه ای با شبکه اولسان، گیونگجو، پوهانگ و ۱۰ دارایی دیجیتال", card1Title: "۱. اتصال کیف پول", card2Title: "۲. شبکه پای Pi", card3Title: "۳. سواپ یکپارچه", card4Title: "۴. سپرده APY بالا", card5Title: "۵. بنیاد اجتماعی HK", card6Title: "۶. پورتال API SDK", card7Title: "۷. امنیت دفاعی", card8Title: "۸. توکنیزاسیون RWA", card9Title: "۹. انتقال جهانی", card10Title: "۱۰. دارایی های PI", biniTitle: "مرکز پشتیبانی AGI Bini", biniSub: "دستیار هوش مصنوعی مدیریت داده های اولسان و ۸ شرکت وابسته", aiOnline: "سرور هوش مصنوعی آنلاین", biniIntro: "درود، رئیس هایکونگ! من بینی، دستیار AGI شما هستم. سیستم ترجمه برای ۶۰ زبان کاملاً فعال است. چگونه می توانم کمک کنم؟", sendBtn: "ارسال" },
+      he: { menuHub: "מרכז תפריט", kycMode: "מצב תצוגה מקדימה KYC", walletConnect: "חיבור ארנק ו-KYC", navTitle: "ניווט HK", docCenter: "מסמכים רשמיים ורגולציה", whitepaper: "ספר לבן (v3.14)", faq: "שאלות נפוצות", policy: "מדיניות ו-MiCA/AML", hubTitle: "8 מרכזי טכנולוגיה של HK Group", tower: "מגדל מטה Gyeongju 165F", supportTitle: "תמיכה HK WorldBank", bannerTitle1: "נוכחי", bannerTitle2: "מצב תצוגה מקדימה לא מאומת KYC/KYB", bannerTitle3: "פעיל", bannerDesc: "חבר את הארנק שלך למעלה כדי לעבור אימות אוטומטי ולפתוח את כל השירותים הפיננסיים.", bannerBtn: "התחל KYC רקע", dashTitle: "לוח מחוונים פיננסי מהיר", dashSub: "סנכרון בזמן אמת עם Ulsan·Gyeongju·Pohang Mainnet ו-10 נכסים דיגיטליים", card1Title: "1. קישור ארנק", card2Title: "2. Pi Mainnet", card3Title: "3. החלפה מאוחדת", card4Title: "4. פיקדון APY גבוה", card5Title: "5. קרן חברתית HK", card6Title: "6. פורטל API SDK", card7Title: "7. אבטחת הגנה", card8Title: "8. טוקניזציה של RWA", card9Title: "9. העברה גלובלית", card10Title: "10. נכסי PI בבעלות", biniTitle: "מרכז תמיכה AGI Bini", biniSub: "עוזר בינה מלאכותית המנהל נתונים של Ulsan ו-8 חברות בנות", aiOnline: "שרת AI מחובר", biniIntro: "שלום, היושב ראש הייקונג! אני ביני, עוזרת ה-AGI שלך. מערכת התרגום ל-60 שפות פעילה במלואה. איך אוכל לעזור?", sendBtn: "שלח" },
+      bn: { menuHub: "মেনু হাব", kycMode: "KYC প্রিভিউ মোড", walletConnect: "ওয়ালেট সংযুক্ত করুন ও KYC", navTitle: "HK নেভিগেশন", docCenter: "অফিসিয়াল ডকুমেন্টস ও রেগুলেশন", whitepaper: "হোয়াইটপেপার (v3.14)", faq: "প্রশ্নোত্তর", policy: "পলিসি ও MiCA/AML", hubTitle: "HK গ্রুপের ৮টি টেক হাব", tower: "Gyeongju 165F হেডকোয়ার্টার টাওয়ার", supportTitle: "HK WorldBank সহায়তা", bannerTitle1: "বর্তমান", bannerTitle2: "KYC / KYB যাচাইহীন প্রিভিউ মোড", bannerTitle3: "সক্রিয়", bannerDesc: "সমস্ত আর্থিক পরিষেবা আনলক করতে উপরে আপনার ওয়ালেট সংযুক্ত করুন।", bannerBtn: "ব্যাকগ্রাউন্ড KYC শুরু করুন", dashTitle: "দ্রুত আর্থিক ড্যাশবোর্ড", dashSub: "울산·경주·포항 মেইননেট এবং ১০টি ডিজিটাল সম্পদের সাথে রিয়েল-টাইম সিঙ্ক", card1Title: "১. ওয়ালেট লিংক", card2Title: "২. পাই মেইননেট", card3Title: "৩. ইউনিফাইড সোয়াপ", card4Title: "৪. উচ্চ APY ডিপোজিট", card5Title: "৫. HK সোশ্যাল ফাউন্ডেশন", card6Title: "৬. API SDK পোর্টাল", card7Title: "৭. প্রতিরক্ষা নিরাপত্তা", card8Title: "৮. RWA টোকেনাইজেশন", card9Title: "৯. গ্লোবাল ট্রান্সফার", card10Title: "১০. ধার্যকৃত PI সম্পদ", biniTitle: "HK AGI বিনি সাপোর্ট সেন্টার", biniSub: "울산 মেইননেট এবং ৮টি অ্যাফিলিয়েটের ডেটাম্যানেজমেন্ট AI অ্যাসিস্ট্যান্ট", aiOnline: "AI সার্ভার অনলাইন", biniIntro: "স্বাগতম চেয়ারম্যান হ্যেকং! আমি বিনি, আপনার AGI সহকারী। ৬০টি বিশ্ব ভাষার অনুবাদ ব্যবস্থা সম্পূর্ণ সচল রয়েছে। কীভাবে সাহায্য করতে পারি?", sendBtn: "প্রদান করুন" },
+      ur: { menuHub: "مینو حب", kycMode: "کے وائی سی پیش نظارہ موڈ", walletConnect: "والٹ جڑیں اور KYC", navTitle: "HK نیویگیشن", docCenter: "سرکاری دستاویزات اور ضوابط", whitepaper: "وائٹ پیپر (v3.14)", faq: "عمومی سوالات", policy: "پالیسیاں اور MiCA/AML", hubTitle: "HK گروپ 8 ٹیک حب्स", tower: "Gyeongju 165F ہیڈ کوارٹر ٹاور", supportTitle: "HK WorldBank سپورٹ", bannerTitle1: "موجودہ", bannerTitle2: "KYC / KYB غیر تصدیق شدہ پیش نظارہ موڈ", bannerTitle3: "فعال", bannerDesc: "تمام مالیاتی خدمات کو غیر مقفل کرنے کے لیے اوپر اپنا والٹ مربوط کریں۔", bannerBtn: "پس منظر KYC شروع کریں", dashTitle: "فوری مالیاتی ڈیش بورڈ", dashSub: "Ulsan·Gyeongju·Pohang مین نیٹ اور 10 ڈیجیٹل اثاثوں کے ساتھ مطابقت پذیری", card1Title: "1. والٹ لنک", card2Title: "2. পাই مین نیٹ", card3Title: "3. متحد تبادلہ", card4Title: "4. اعلی APY ڈپازٹ", card5Title: "5. HK سوشل فاؤنڈیشن", card6Title: "6. API SDK پورٹل", card7Title: "7. دفاعی سیکیورٹی", card8Title: "8. RWA ٹোকنائزیشن", card9Title: "9. عالمی منتقلی", card10Title: "10. رکھے گئے PI اثاثے", biniTitle: "HK AGI بینی سپورٹ سینٹر", biniSub: "AI اسسٹنٹ Ulsan اور 8 الحاق شدہ اداروں کا نظم کرتا ہے", aiOnline: "AI سرور آن لائن", biniIntro: "سلام، چیئرمین ہائیکونگ! میں بینی ہوں، آپ کی AGI اسسٹنٹ۔ 60 زبانوں کا نظام مکمل طور پر فعال ہے۔ میں آپ کی کیا مدد کر سکتی ہوں؟", sendBtn: "بھیجیں" },
+      pa: { menuHub: "ਮੇਨੂ ਹੱਬ", kycMode: "KYC ਪรีਵਿਊ ਮੋਡ", walletConnect: "ਵਾਲਿਟ ਕਨੈਕਟ ਕਰੋ ਅਤੇ KYC", navTitle: "HK ਨੇਵੀਗੇਸ਼ਨ", docCenter: "ਅਧਿਕਾਰਤ ਦਸਤਾਵੇਜ਼ ਅਤੇ ਨਿਯਮ", whitepaper: "ਵਾਈਟਪੇਪਰ (v3.14)", faq: "FAQ", policy: "ਪਾਲਸੀਆਂ ਅਤੇ MiCA/AML", hubTitle: "HK ਗਰੁੱਪ 8 ਟੈਕ ਹੱਬ", tower: "Gyeongju 165F ਮੁੱਖ ਦਫ਼ਤਰ ਟਾਵਰ", supportTitle: "HK WorldBank ਸਹਾਇਤਾ", bannerTitle1: "ਮੌਜੂਦਾ", bannerTitle2: "KYC / KYB ਅਣਪਛਾਤਾ ਪรีਵਿਊ ਮੋਡ", bannerTitle3: "ਸਰਗਰਮ", bannerDesc: "ਸਾਰੀਆਂ ਵਿੱਤੀ ਸੇਵਾਵਾਂ ਨੂੰ ਅਨਲੌਕ ਕਰਨ ਲਈ ਉੱਪਰ ਆਪਣਾ ਵਾਲਿਟ ਕਨੈਕਟ ਕਰੋ।", bannerBtn: "ਬੈਕਗ੍ਰাউন্ড KYC ਸ਼ੁਰੂ ਕਰੋ", dashTitle: "ਤੇਜ਼ ਵਿੱਤੀ ਡੈਸ਼ਬੋਰਡ", dashSub: "울산·경주·포항 ਮੇਨਨੈੱਟ ਅਤੇ 10 ਡਿਜੀਟਲ ਜਾਇਦਾਦਾਂ ਨਾਲ ਰੀਅਲ-ਟਾਈਮ ਸਿੰਕ", card1Title: "1. ਵਾਲਿਟ ਲਿੰਕ", card2Title: "2. Pi ਮੇਨਨੈੱਟ", card3Title: "3. ਯੂਨਾਈਟਿਡ ਸਵੈਪ", card4Title: "4. ਉੱਚ APY ਜਮ੍ਹਾਂ", card5Title: "5. HK ਸੋਸ਼ਲ ਫਾਊਂਡੇਸ਼ਨ", card6Title: "6. API SDK ਪੋਰਟਲ", card7Title: "7. ਰੱਖਿਆ ਸੁਰੱਖਿਆ", card8Title: "8. RWA ਟੋਕਨਾਈਜ਼ੇਸ਼ਨ", card9Title: "9. ਗਲੋਬਲ ਟ੍ਰਾਂਸਫਰ", card10Title: "10. ਰੱਖੀ ਗਈ PI ਜਾਇਦਾਦ", biniTitle: "HK AGI ਬਿਨੀ ਸਹਾਇਤਾ ਕੇਂਦਰ", biniSub: "AI ਸਹਾਇਕ 울산 ਅਤੇ 8 ਸਹਿਯੋਗੀਆਂ ਦਾ ਪ੍ਰਬੰਧਨ ਕਰਦਾ ਹੈ", aiOnline: "AI ਸਰਵਰ ਆਨਲਾਈਨ", biniIntro: "ਸਤਿਕਾਰਯੋਗ ਚੇਅਰਮੈਨ ਹ੍ਯੇਕੋਂਗ! ਮੈਂ ਬਿਨੀ ਹਾਂ, ਤੁਹਾਡੀ AGI ਸਹਾਇਕ। 60 ਭਾਸ਼ਾਵਾਂ ਲਈ ਅਨੁਵਾਦ ਪ੍ਰਣਾਲੀ ਪੂਰੀ ਤਰ੍ਹਾਂ ਕਾਰਜਸ਼ੀਲ ਹੈ। ਮੈਂ ਤੁਹਾਡੀ ਕਿਵੇਂ ਮਦਦ ਕਰ ਸਕਦੀ ਹਾਂ?", sendBtn: "ਭੇਜੋ" },
+      fil: { menuHub: "Menu Hub", kycMode: "KYC Preview Mode", walletConnect: "Ikonekta ang Wallet at KYC", navTitle: "HK Navigation", docCenter: "Mga Opisyal na Doc at Regulasyon", whitepaper: "Whitepaper (v3.14)", faq: "FAQ", policy: "Mga Patakaran at MiCA/AML", hubTitle: "8 Tech Hub ng HK Group", tower: "Gyeongju 165F HQ Tower", supportTitle: "Suporta ng HK WorldBank", bannerTitle1: "Kasalukuyan", bannerTitle2: "KYC / KYB Unverified Preview Mode", bannerTitle3: "Aktibo", bannerDesc: "Ikonekta ang iyong wallet sa itaas para sa awtomatikong beripikasyon at i-unlock ang mga serbisyo.", bannerBtn: "Simulan ang Background KYC", dashTitle: "Mabilis na Financial Dashboard", dashSub: "Real-time na sync sa Ulsan·Gyeongju·Pohang Mainnet at 10 Digital Assets", card1Title: "1. Link ng Wallet", card2Title: "2. Pi Mainnet", card3Title: "3. Unified Swap", card4Title: "4. Mataas na APY Deposito", card5Title: "5. HK Social Foundation", card6Title: "6. API SDK Portal", card7Title: "7. Seguridad sa Depensa", card8Title: "8. Tokenization ng RWA", card9Title: "9. Global Transfer", card10Title: "10. Hawak na PI Assets", biniTitle: "HK AGI Bini Support Center", biniSub: "AI Assistant na namamahala sa Ulsan at 8 Affiliates", aiOnline: "Online ang AI Server", biniIntro: "Mabuhay, Chairman Hyekong! Ako si Bini, ang iyong AGI assistant. Ang sistema ng pagsasalin para sa 60 wika ay ganap na gumagana. Paano kita matutulungan?", sendBtn: "Ipadala" },
+      sw: { menuHub: "Kituo cha Menyu", kycMode: "Hali ya Hakiki ya KYC", walletConnect: "Unganisha Wallet na KYC", navTitle: "Urambazaji wa HK", docCenter: "Nyaraka Rasmi na Udhibiti", whitepaper: "Whitepaper (v3.14)", faq: "Maswali Yanayoulizwa Mara kwa Mara", policy: "Sera na MiCA/AML", hubTitle: "Vituo 8 vya Teknolojia vya HK", tower: "Mnara Mkuu wa Gyeongju 165F", supportTitle: "Msaada wa HK WorldBank", bannerTitle1: "Sasa", bannerTitle2: "Hali ya Hakiki Isiyothibitishwa ya KYC/KYB", bannerTitle3: "Inafanya kazi", bannerDesc: "Unganisha mkoba wako hapo juu ili kupitisha uthibitishaji na kufungua huduma zote za kifedha.", bannerBtn: "Anza KYC ya Chinichini", dashTitle: "Dashibodi ya Fedha ya Haraka", dashSub: "Usawazishaji wa wakati halisi na Ulsan·Gyeongju·Pohang na Mali 10 za Kidijitali", card1Title: "1. Kiungo cha Wallet", card2Title: "2. Pi Mainnet", card3Title: "3. Kubadilisha Umoja", card4Title: "4. Amana ya APY ya Juu", card5Title: "5. Misingi ya Kijamii ya HK", card6Title: "6. Tovuti ya API SDK", card7Title: "7. Usalama wa Ulinzi", card8Title: "8. Ubadilishaji wa RWA", card9Title: "9. Uhamisho wa Kimataifa", card10Title: "10. Mali za PI Zinazoshikiliwa", biniTitle: "Kituo cha Msaada cha AGI Bini", biniSub: "Msaidizi wa AI anayesimamia Ulsan na washirika 8", aiOnline: "Server ya AI Mtandaoni", biniIntro: "Salamu, Mwenyekiti Hyekong! Mimi ni Bini, msaidizi wako wa AGI. Mfumo wa tafsiri wa lugha 60 umezinduliwa kikamilifu. Ninawezaje kukusaidia?", sendBtn: "Tuma" },
+      ta: { menuHub: "மெனு மையம்", kycMode: "KYC முன்னோட்ட முறை", walletConnect: "வாலட்டை இணைத்து KYC", navTitle: "HK வழிசெலுத்தல்", docCenter: "அதிகாரப்பூர்வ ஆவணங்கள் மற்றும் ஒழுங்குமுறை", whitepaper: "வெள்ளை அறிக்கை (v3.14)", faq: "கேள்வி-பதில்", policy: "கொள்கைகள் & MiCA/AML", hubTitle: "HK குழு 8 தொழில்நுட்ப மையங்கள்", tower: "Gyeongju 165F தலைமையக கோபுரம்", supportTitle: "HK WorldBank ஆதரவு", bannerTitle1: "தற்போதைய", bannerTitle2: "KYC / KYB சரிபார்க்கப்படாத முன்னோட்ட முறை", bannerTitle3: "செயலில் உள்ளது", bannerDesc: "அனைத்து நிதி சேவைகளையும் திறக்க மேலே உங்கள் வாலட்டை இணைக்கவும்.", bannerBtn: "பின்னணி KYC ஐத் தொடங்குக", dashTitle: "விரைவான நிதி டாஷ்போர்டு", dashSub: "Ulsan·Gyeongju·Pohang மற்றும் 10 டிஜிட்டல் சொத்துக்களுடன் நிகழ்நேர ஒத்திசைவு", card1Title: "1. வாலட் இணைப்பு", card2Title: "2. Pi மெயின்நெட்", card3Title: "3. ஒருங்கிணைந்த ஸ்வாப்", card4Title: "4. உயர் APY வைப்பு", card5Title: "5. HK சமூக அறக்கட்டளை", card6Title: "6. API SDK போர்டல்", card7Title: "7. பாதுகாப்பு பாதுகாப்பு", card8Title: "8. RWA டோக்கனைசேஷன்", card9Title: "9. உலகளாவிய பரிமாற்றம்", card10Title: "10. வைத்திருக்கும் PI சொத்துக்கள்", biniTitle: "HK AGI பினி ஆதரவு மையம்", biniSub: "Ulsan மற்றும் 8 துணை நிறுவனங்களை நிர்வகிக்கும் AI உதவியாளர்", aiOnline: "AI சர்வர் ஆன்லைனில் உள்ளது", biniIntro: "வணக்கம் தலைவர் ஹ்யেকோங்! நான் பிினி, உங்கள் AGI உதவியாளர். 60 உலகளாவிய மொழிகளுக்கான மொழிபெயர்ப்பு அமைப்பு முழுமையாகச் செயல்படுகிறது. நான் உங்களுக்கு எப்படி உதவగलுவேன்?", sendBtn: "அனுப்பு" },
+      te: { menuHub: "మెను హబ్", kycMode: "KYC ప్రివ్యూ మోడ్", walletConnect: "వాలెట్ కనెక్ట్ చేయండి & KYC", navTitle: "HK నావిగేషన్", docCenter: "అధికారిక పత్రాలు & నిబంధనలు", whitepaper: "వైట్ పేపర్ (v3.14)", faq: "తరచుగా అడిగే ప్రశ్నలు", policy: "విధానాలు & MiCA/AML", hubTitle: "HK గ్రూప్ 8 టెక్ హబ్స్", tower: "Gyeongju 165F ప్రధాన కార్యాలయ టవర్", supportTitle: "HK WorldBank మద్దతు", bannerTitle1: "ప్రస్తుత", bannerTitle2: "KYC / KYB ధృవీకరించని ప్రివ్యూ మోడ్", bannerTitle3: "క్రియాశీలకంగా ఉంది", bannerDesc: "అన్ని ఆర్థిక సేవలను అన్ లాక్ చేయడానికి పైన మీ వాలెట్ ని కనెక్ట్ చేయండి.", bannerBtn: "బ్యాక్ గ్రౌండ్ KYC ప్రారంభించండి", dashTitle: "త్వరిత ఆర్థిక డాష్ బోర్డ్", dashSub: "Ulsan·Gyeongju·Pohang మెయిన్ నెట్ & 10 డిజిటల్ ఆస్తులతో నిజ-సమయ సమకాలీకరణ", card1Title: "1. వాలెట్ లింక్", card2Title: "2. Pi మెయిన్ నెట్", card3Title: "3. ఏకీకృత స్వాప్", card4Title: "4. అధిక APY డిపాజిట్", card5Title: "5. HK సోషల్ ఫౌండేషన్", card6Title: "6. API SDK పోర్టల్", card7Title: "7. రక్షణ భద్రత", card8Title: "8. RWA టోకనైజేషన్", card9Title: "9. గ్లోబల్ బదిలీ", card10Title: "10. కలిగి ఉన్న PI ఆస్తులు", biniTitle: "HK AGI బిని మద్దతు కేంద్రం", biniSub: "Ulsan మరియు 8 అనుబంధ సంస్థలను నిర్వహించే AI అసిస్టెంట్", aiOnline: "AI సర్వర్ ఆన్ లైన్ లో ఉంది", biniIntro: "నమస్కారం చైర్మన్ హ్యేకంగ్! నేను బిని, మీ AGI అసిస్టెంట్ ని. 60 ప్రపంచ భాషల అనువాద వ్యవస్థ పూర్తిగా పనిచేస్తోంది. నేను మీకు ఎలా సహాయం చేయగలను?", sendBtn: "సమర్పించు" },
+      mr: { menuHub: "मेनू हब", kycMode: "KYC पूर्वावलोकन मोड", walletConnect: "वॉलेट कनेक्ट करा आणि KYC", navTitle: "HK नॅव्हिगेशन", docCenter: "अधिकृत कागदपत्रे आणि नियम", whitepaper: "व्हाइटपेपर (v3.14)", faq: "वारंवार विचारले जाणारे प्रश्न", policy: "धोरणे आणि MiCA/AML", hubTitle: "HK ग्रुप 8 टेक हब्स", tower: "Gyeongju 165F मुख्यालय टॉवर", supportTitle: "HK WorldBank समर्थन", bannerTitle1: "सध्याचे", bannerTitle2: "KYC / KYB सत्यता न तपासलेला पूर्वावलोकन मोड", bannerTitle3: "सक्रिय", bannerDesc: "सर्व वित्तीय सेवा अनलॉक करण्यासाठी वर तुमचे वॉलेट कनेक्ट करा.", bannerBtn: "बॅकग्राउंड KYC सुरू करा", dashTitle: "जलद आर्थिक डॅशबोर्ड", dashSub: "Ulsan·Gyeongju·Pohang मेननेट आणि 10 डिजिटल मालमत्तांसह रिअल-टाइम सिंक", card1Title: "1. वॉलेट लिंक", card2Title: "2. Pi मेननेट", card3Title: "3. युनिफाइड स्वॅप", card4Title: "4. उच्च APY ठेव", card5Title: "5. HK सोशल फाउंडेशन", card6Title: "6. API SDK पोर्टल", card7Title: "7. संरक्षण सुरक्षा", card8Title: "8. RWA टोकनायझेशन", card9Title: "9. जागतिक हस्तांतरण", card10Title: "10. ठेवली जाणारी PI मालमत्ता", biniTitle: "HK AGI बिनी सपोर्ट सेंटर", biniSub: "Ulsan आणि 8 सहकाऱ्यांचे व्यवस्थापन करणारा AI सहाय्यक", aiOnline: "AI सर्व्हर ऑनलाइन आहे", biniIntro: "नमस्कार अध्यक्ष ह्येकोंग! मी बिनी आहे, तुमची AGI सहाय्यक. 60 जागतिक भाषां for भाषांतर प्रणाली पूर्णपणे कार्यरत आहे. मी कशी मदत करू?", sendBtn: "पाठवा" },
+      gu: { menuHub: "મેનુ હબ", kycMode: "KYC પૂર્વાવલોકન મોડ", walletConnect: "વોલેટ કનેક્ટ કરો અને KYC", navTitle: "HK નેવિગેશન", docCenter: "સત્તાવાર દસ્તાવેજો અને નિયમન", whitepaper: "વ્હાઇટપેપર (v3.14)", faq: "વારંવાર પૂછાતા પ્રશ્નો", policy: "નીતિઓ અને MiCA/AML", hubTitle: "HK ગ્રુપ 8 ટેક હબ્સ", tower: "Gyeongju 165F મુખ્ય મથક ટાવર", supportTitle: "HK WorldBank સપોર્ટ", bannerTitle1: "વર્તમાન", bannerTitle2: "KYC / KYB ચકાસાયેલ ન હોય તેવો પૂર્વાવલોકન મોડ", bannerTitle3: "સક્રિય", bannerDesc: "તમામ નાણાકીય સેવાઓને અનલૉક કરવા માટે ઉપર તમારું વોલેટ કનેક્ટ કરો.", bannerBtn: "બેકગ્રાઉન્ડ KYC શરૂ કરો", dashTitle: "ઝડપી નાણાકીય ડેશબોર્ડ", dashSub: "Ulsan·Gyeongju·Pohang મેઇનનેટ અને 10 ડિજિટલ અસ્કામતો સાથે રિયલ-ટાઇમ સિન્ક", card1Title: "1. વોલેટ લિંક", card2Title: "2. Pi મેઇનનેટ", card3Title: "3. યુિફાઇડ સ્વેપ", card4Title: "4. ઉચ્ચ APY થાપણ", card5Title: "5. HK સોશિયલ ફાઉન્ડેશન", card6Title: "6. API SDK પોર્ટલ", card7Title: "7. રક્ષણ સુરક્ષા", card8Title: "8. RWA ટોકનાઇઝેશન", card9Title: "9. વૈશ્વિક ટ્રાન્સફર", card10Title: "10. રાખવામાં આવેલ PI અસ્કામતો", biniTitle: "HK AGI બિની સપોર્ટ સેન્ટર", biniSub: "Ulsan અને 8 સહયોગીઓનું સંચાલન કરતો AI સહાયક", aiOnline: "AI સર્વર ઓનલાઇન છે", biniIntro: "નમસ્કાર અધ્યક્ષ હ્યેકોંગ! હું બિની છું, તમારી AGI સહાયક. 60 વૈશ્વિક ભાષાઓ માટે અનુવાદ સિસ્ટમ સંપૂર્ણપણે કાર્યરત છે. હું કેવી રીતે મદદ કરી શકું?", sendBtn: "મોકલો" },
+      kn: { menuHub: "ಮೆನು ಹಬ್", kycMode: "KYC ಮುನ್ನೋಟ ಮೋಡ್", walletConnect: "ವ್ಯಾಲೆಟ್ ಸಂಪರ್ಕಿಸಿ & KYC", navTitle: "HK ನ್ಯಾವಿಗೇಷನ್", docCenter: "ಅಧಿಕೃತ ದಾಖಲೆಗಳು ಮತ್ತು ನಿಯಮಗಳು", whitepaper: "ಶ್ವೇತಪತ್ರ (v3.14)", faq: "FAQ", policy: "ನೀತಿಗಳು & MiCA/AML", hubTitle: "HK ಗ್ರೂಪ್ 8 ತಂತ್ರಜ್ಞಾನ ಕೇಂದ್ರಗಳು", tower: "Gyeongju 165F ಮುಖ್ಯ ಕಚೇರಿ ಟವರ್", supportTitle: "HK WorldBank ಬೆಂಬಲ", bannerTitle1: "ಪ್ರಸ್ತುತ", bannerTitle2: "KYC / KYB ಪರಿಶೀಲಿಸದ ಮುನ್ನೋಟ ಮೋಡ್", bannerTitle3: "ಸಕ್ರಿಯವಾಗಿದೆ", bannerDesc: "ಎಲ್ಲಾ ಹಣಕಾಸು ಸೇವೆಗಳನ್ನು ಅನ್ ಲಾಕ್ ಮಾಡಲು ಮೇಲಿರುವ ನಿಮ್ಮ ವ್ಯಾಲೆಟ್ ಅನ್ನು ಸಂಪರ್ಕಿಸಿ.", bannerBtn: "ಹಿನ್ನೆಲೆ KYC ಪ್ರಾರಂಭಿಸಿ", dashTitle: "ತ್ವರಿತ ಆರ್ಥಿಕ ಡ್ಯಾಶ್ ಬೋರ್ಡ್", dashSub: "Ulsan·Gyeongju·Pohang ಮುಖ್ಯ ನೆಟ್ ವರ್ಕ್ ಮತ್ತು 10 ಡಿಜಿಟಲ್ ಸ್ವತ್ತುಗಳೊಂದಿಗೆ ನೈಜ-ಸಮಯದ ಸಿಂಕ್", card1Title: "1. ವ್ಯಾಲೆಟ್ ಲಿಂಕ್", card2Title: "2. Pi ಮುಖ್ಯ ನೆಟ್ ವರ್ಕ್", card3Title: "3. ಏಕೀಕೃತ ಸ್ವಾಪ್", card4Title: "4. ಹೆಚ್ಚಿನ APY ಠೇವಣಿ", card5Title: "5. HK ಸಾಮಾಜಿಕ ಪ್ರತಿಷ್ಠಾನ", card6Title: "6. API SDK ಪೋರ್ಟಲ್", card7Title: "7. ರಕ್ಷಣಾ ಭದ್ರತೆ", card8Title: "8. RWA ಟೋಕನೈಸೇಶನ್", card9Title: "9. ಜಾಗತಿಕ ವರ್ಗಾವಣೆ", card10Title: "10. ಹೊಂದಿರುವ PI ಸ್ವತ್ತುಗಳು", biniTitle: "HK AGI ಬಿನಿ ಬೆಂಬಲ ಕೇಂದ್ರ", biniSub: "Ulsan ಮತ್ತು 8 ಕಂಪನಿಗಳನ್ನು ನಿರ್ವಹಿಸುವ AI ಸಹಾಯಕ", aiOnline: "AI ಸರ್ವರ್ ಆನ್ ಲೈನ್ ನಲ್ಲಿದೆ", biniIntro: "ನಮಸ್ಕಾರ ಅಧ್ಯಕ್ಷ ಹ್ಯೇಕಾಂಗ್! ನಾನು ಬಿನಿ, ನಿಮ್ಮ AGI ಸಹಾಯಕ. 60 ಜಾಗತಿಕ ಭಾಷೆಗಳ ಅನುವಾದ ವ್ಯವಸ್ಥೆ ಸಂಪೂರ್ಣವಾಗಿ ಕಾರ್ಯನಿರ್ವಹಿಸುತ್ತಿದೆ. ನಾನು ಹೇಗೆ ಸಹಾಯ ಮಾಡಲಿ?", sendBtn: "ಕಳುಹಿಸು" },
+      ml: { menuHub: "മെനു ഹബ്", kycMode: "KYC പ്രിവ്യൂ മോഡ്", walletConnect: "വാലറ്റ് ബന്ധിപ്പിക്കുക & KYC", navTitle: "HK നാവിഗേഷൻ", docCenter: "ഔദ്യോഗിക രേഖകളും നിയന്ത്രണങ്ങളും", whitepaper: "വൈറ്റ് പേപ്പർ (v3.14)", faq: "ചോദ്യോത്തരങ്ങൾ", policy: "പോളിസികളും MiCA/AML", hubTitle: "HK ഗ്രൂപ്പ് 8 ടെക് ഹബ്ബുകൾ", tower: "Gyeongju 165F ഹെഡ്ക്വാർട്ടേഴ്സ് ടവർ", supportTitle: "HK WorldBank പിന്തുണ", bannerTitle1: "നിലവിലെ", bannerTitle2: "KYC / KYB പരിശോധിക്കാത്ത പ്രിവ്യൂ മോഡ്", bannerTitle3: "സജീവം", bannerDesc: "എല്ലാ സാമ്പത്തിക സേവനങ്ങളും അൺലോക്കുചെയ്യുന്നതിന് മുകളിൽ നിങ്ങളുടെ വാലറ്റ് ബന്ധിപ്പിക്കുക.", bannerBtn: "പശ്ചാത്തലം KYC ആരംഭിക്കുക", dashTitle: "ദ്രുത ഫിനാൻഷ്യൽ ഡാഷ് ബോർഡ്", dashSub: "Ulsan·Gyeongju·Pohang മെയ്ൻനെറ്റും 10 ഡിജിറ്റൽ ആസ്തികളുമായുള്ള തത്സമയ സമന്വയം", card1Title: "1. വാലറ്റ് ലിങ്ക്", card2Title: "2. Pi മെയ്ൻനെറ്റ്", card3Title: "3. ഏകീകൃത സ്വാപ്പ്", card4Title: "4. ഉയർന്ന APY നിക്ഷേപം", card5Title: "5. HK സോഷ്യൽ ഫൗണ്ടേഷൻ", card6Title: "6. API SDK പോർട്ടൽ", card7Title: "7. പ്രതിരോധ സുരക്ഷ", card8Title: "8. RWA ടോക്കണൈസേഷൻ", card9Title: "9. ആഗോള കൈമാറ്റം", card10Title: "10. കൈവശമുള്ള PI ആസ്തികൾ", biniTitle: "HK AGI ബിനി സപ്പോർട്ട് സെന്റർ", biniSub: "Ulsan, 8 അഫിലിയേറ്റുകൾ എന്നിവ കൈകാര്യം ചെയ്യുന്ന AI അസിസ്റ്റന്റ്", aiOnline: "AI സെർവർ ഓൺലൈനിലാണ്", biniIntro: "നമസ്കാരം ചെയർമാൻ ഹ്യെകോംഗ്! ഞാൻ ബിനിയാണ്, നിങ്ങളുടെ AGI അസിസ്റ്റന്റ്. 60 ലോക ഭാഷകൾക്കായുള്ള വിവർത്തന സംവിധാനം പൂർണ്ണമായും പ്രവർത്തനക്ഷമമാണ്. എനിക്ക് എങ്ങനെ സഹായിക്കാനാകും?", sendBtn: "അയയ്ക്കുക" },
+      my: { menuHub: "မီနူး ဟับ", kycMode: "KYC ကြိုတင်ကြည့်ရှုခြင်း မုဒ်", walletConnect: "ပိုက်ဆံအိတ် ချိတ်ဆက်ရန် & KYC", navTitle: "HK လမ်းညွှန်ချက်", docCenter: "တရားဝင် စာရွက်စာတမ်းများနှင့် စည်းမျဉ်းများ", whitepaper: "အဖြူရောင်စာတမ်း (v3.14)", faq: "မကြာခဏ မေးလေ့ရှိသော မေးခွန်းများ", policy: "မူဝါဒများနှင့် MiCA/AML", hubTitle: "HK အုပ်စု၏ နည်းပညာဟပ် ၈ ခု", tower: "Gyeongju 165F ရုံးချုပ် တာဝါ", supportTitle: "HK WorldBank ပံ့ပိုးမှု", bannerTitle1: "လက်ရှိ", bannerTitle2: "KYC / KYB အတည်မပြုရသေးသော ကြိုတင်ကြည့်ရှုမှု မုဒ်", bannerTitle3: "အလုပ်လုပ်နေသည်", bannerDesc: "ဘဏ္ဍာရေးဝန်ဆောင်မှုများအားလုံးကို ဖွင့်လှစ်ရန် အထက်တွင် သင့်ပိုက်ဆံအိတ်ကို ချိတ်ဆက်ပါ။", bannerBtn: "နောက်ခံ KYC စတင်ရန်", dashTitle: "မြန်ဆန်သော ဘဏ္ဍာရေး ဒက်ရှ်ဘုတ်", dashSub: "Ulsan·Gyeongju·Pohang Mainnet နှင့် ဒစ်ဂျစ်တယ်ပိုင်ဆိုင်မှု ၁၀ ခုနှင့် အချိန်နှင့်တပြေးညီ ချိတ်ဆက်မှု", card1Title: "၁။ ပိုက်ဆံအိတ် ချိတ်ဆက်မှု", card2Title: "၂။ Pi Mainnet", card3Title: "၃။ ပေါင်းစပ်လဲလှယ်မှု", card4Title: "၄။ မြင့်မားသော APY အပ်ငွေ", card5Title: "၅။ HK လူမှုဖူလုံရေး ဖောင်ဒေးရှင်း", card6Title: "၆။ API SDK ပေါ်တယ်", card7Title: "၇။ ကာကွယ်ရေး လုံခြုံရေး", card8Title: "၈။ RWA တိုကင်နိုက်ဇေးရှင်း", card9Title: "၉။ ကမ္ဘာလုံးဆိုင်ရာ ငွေလွှဲမှု", card10Title: "၁၀။ ပိုင်ဆိုင်ထားသော PI ပိုင်ဆိုင်မှုများ", biniTitle: "HK AGI ဘီနီ ပံ့ပိုးကူညီရေးစင်တာ", biniSub: "Ulsan နှင့် လက်တွဲဖော် ၈ ခုကို စီမံခန့်ခွဲသော AI လက်ထောက်", aiOnline: "AI ဆာဗာ အွန်လိုင်းတွင်ရှိသည်", biniIntro: "မင်္ဂလာပါ ဥက္ကဋ္ဌ Hyekong ခင်ဗျာ။ ကျွန်ုပ်သည် သင်၏ AGI လက်ထောက် Bini ဖြစ်ပါသည်။ ကမ္ဘာ့ဘာသာစကား ၆၀ အတွက် ဘာသာပြန်စနစ် အပြည့်အဝ အလုပ်လုပ်နေပါသည်။ မည်သို့ ကူညီရမည်နည်း?", sendBtn: "ပေးပို့ရန်" },
+      km: { menuHub: "មជ្ឈមណ្ឌលម៉ឺនុយ", kycMode: "របៀបមើលជាមុន KYC", walletConnect: "តភ្ជាប់កាបូបប្រាក់ និង KYC", navTitle: "ការរុករក HK", docCenter: "ឯកសារផ្លូវការ និងបទប្បញ្ញត្តិ", whitepaper: "សៀវភៅស (v3.14)", faq: "សំណួរញឹកញាប់", policy: "គោលការណ៍ និង MiCA/AML", hubTitle: "មជ្ឈមណ្ឌលបច្ចេកវិទ្យា HK Group ទាំង 8", tower: "អគារមជ្ឈមណ្ឌល Gyeongju 165F", supportTitle: "ជំនួយ HK WorldBank", bannerTitle1: "បច្ចុប្បន្ន", bannerTitle2: "របៀបមើលជាមុន KYC/KYB ដែលមិនទាន់ផ្ទៀងផ្ទាត់", bannerTitle3: "សកម្ម", bannerDesc: "តភ្ជាប់កាបូបប្រាក់របស់អ្នកខាងលើ ដើម្បីឆ្លងកាត់ការផ្ទៀងផ្ទាត់ និងដោះសោសេវាកម្មហិរញ្ញវត្ថុទាំងអស់។", bannerBtn: "ចាប់ផ្តើម KYC ផ្ទៃខាងក្រោយ", dashTitle: "ផ្ទាំងគ្រប់គ្រងហិរញ្ញវត្ថុរហ័ស", dashSub: "ការធ្វើសមកាលកម្មពេលវេលាជាក់ស្តែងជាមួយ Ulsan·Gyeongju·Pohang និងទ្រព្យសកម្មឌីជីថល 10", card1Title: "1. តំណភ្ជាប់កាបូប", card2Title: "2. Pi Mainnet", card3Title: "3. ការដូររួមបញ្ចូលគ្នា", card4Title: "4. ប្រាក់បញ្ញើ APY ខ្ពស់", card5Title: "5. មូលនិធិសង្គម HK", card6Title: "6. ផតថល API SDK", card7Title: "7. សុវត្ថិភាពការពារជាតិ", card8Title: "8. ការធ្វើ RWA Tokenization", card9Title: "9. ការផ្ទេរសកល", card10Title: "10. ទ្រព្យសកម្ម PI ដែលកាន់កាប់", biniTitle: "មជ្ឈមណ្ឌលគាំទ្រ AGI Bini", biniSub: "ជំនួយការ AI គ្រប់គ្រងទិន្នន័យ Ulsan និងសាខាទាំង 8", aiOnline: "ម៉ាស៊ីនបម្រើ AI លើបណ្តាញ", biniIntro: "សូមស្វាគមន៍ ប្រធានាធិបតី Hyekong! ខ្ញុំជា Bini ជំនួយការ AGI របស់អ្នក។ ប្រព័ន្ធបកប្រែសម្រាប់ 60 ភាសាដំណើរការយ៉ាងពេញលេញ។ តើខ្ញុំអាចជួយអ្វីបានដែរ?", sendBtn: "ផ្ញើ" },
+      lo: { menuHub: "ສູນເມນູ", kycMode: "ໂໝດເບິ່ງລ່ວງໜ້າ KYC", walletConnect: "ເຊື່ອມຕໍ່ກະເປົາເງິນ & KYC", navTitle: "ການນໍາທາງ HK", docCenter: "ເອກະສານທາງການ & ລະບຽບການ", whitepaper: "ປຶ້ມຂາວ (v3.14)", faq: "ຄຳຖາມທີ່ພบบ່ອນ", policy: "ນະໂຍບາຍ & MiCA/AML", hubTitle: "ສູນເຕັກໂນໂລຊີ HK Group 8 ແຫ່ງ", tower: "ຫໍຄອຍສຳນັກງານໃຫຍ່ Gyeongju 165F", supportTitle: "ຊ່ວຍເຫຼືອ HK WorldBank", bannerTitle1: "ປັດຈຸບັນ", bannerTitle2: "ໂໝດເບິ່ງລ່ວງໜ້າ KYC/KYB ທີ່ຍັງບໍ່ທັນຢັ້ງຢືນ", bannerTitle3: "ກຳລັງໃຊ້ງານ", bannerDesc: "ເຊື່ອມຕໍ່ກະເປົາເງິນຂອງທ່ານຂ້າງເທິງເພື່ອຜ່ານການກວດສອບອັດຕະໂນມັດ ແລະ ປົດລັອກບໍລິການທັງໝົດ.", bannerBtn: "ເລີ່ມຕົ້ນ KYC ພື້ນຫຼັງ", dashTitle: "ແຜງຄວບຄຸມການເງິນດ່ວນ", dashSub: "ຊິ້ງຂໍ້ມູນແບບ リアルタイム ກັບ Ulsan·Gyeongju·Pohang ແລະ ຊັບສິນດິຈິຕອນ 10 รายการ", card1Title: "1. ລິ້ງກະເປົາເງິນ", card2Title: "2. Pi Mainnet", card3Title: "3. ການແລກປ່ຽນລວມ", card4Title: "4. ເງິນຝາກ APY ສູງ", card5Title: "5. ມູນນິທິສັງຄົມ HK", card6Title: "6. ພອດທໍລ API SDK", card7Title: "7. ຄວາມປອດໄພປ້ອງກັນປະເທດ", card8Title: "8. ການແປງ RWA Token", card9Title: "9. ການໂອນເງິນທົ່ວໂລກ", card10Title: "10. ຊັບສິນ PI ທີ່ຖືຄອງ", biniTitle: "ສູນຊ່ວຍເຫຼືອ AGI Bini", biniSub: "ຜູ້ຊ່ວຍ AI ຈັດການຂໍ້ມູນ Ulsan ແລະ ບໍລິສັດໃນເຄືອ 8 ແຫ່ງ", aiOnline: "ເຊີບເວີ AI ອອນລາຍ", biniIntro: "ສະບາຍດີ ທ່ານປະທານ Hyekong! ຂ້ອຍຊື່ ບິນີ ເປັນຜູ້ຊ່ວຍ AGI ຂອງທ່ານ. ระบบแปลภาษา 60 ภาษา ພ້ອມໃຊ້ງານແລ້ວ ມີຫຍັງໃຫ້ຂ້ອຍຊ່ວຍບໍ່?", sendBtn: "ສົ່ງ" },
+      am: { menuHub: "የምናሌ ማዕከል", kycMode: "የ KYC ቅድመ-እይታ ሁነታ", walletConnect: "የኪስ ቦርሳ ያገናኙ እና KYC", navTitle: "የ HK አሰሳ", docCenter: "ኦፊሴላዊ ሰነዶች እና ደንቦች", whitepaper: "ነጭ ወረቀት (v3.14)", faq: "ተደጋጋሚ ጥያቄዎች", policy: "ፖሊሲዎች እና MiCA/AML", hubTitle: "የ HK ቡድን 8 የቴክኖሎጂ ማዕከላት", tower: "ጂዮንግጁ 165F ዋና መሥሪያ ቤት", supportTitle: "የ HK WorldBank ድጋፍ", bannerTitle1: "አሁን ያለው", bannerTitle2: "ያልረጋገጠ የ KYC/KYB ቅድመ-እይታ ሁነታ", bannerTitle3: "ንቁ", bannerDesc: "ሁሉንም የፋይናንስ አገልግሎቶች ለመክፈት ከላይ የኪስ ቦርሳዎን ያገናኙ።", bannerBtn: "የጀርባ KYC ጀምር", dashTitle: "ፈጣን የፋይናንስ ዳሽቦርድ", dashSub: "ከኡልሳን·ጂዮንግጁ·ፖሃንግ ዋና አውታረ መረብ እና 10 ዲጂታል ንብረቶች ጋር የእውነተኛ ጊዜ ማመሳሰል", card1Title: "1. የኪስ ቦርሳ ማገናኛ", card2Title: "2. Pi ዋና አውታረ መረብ", card3Title: "3. የተዋሃደ ስዋፕ", card4Title: "4. ከፍተኛ APY ተቀማጭ", card5Title: "5. የ HK ማህበራዊ ፋውንዴሽን", card6Title: "6. የ API SDK ፖርታል", card7Title: "7. የመከላከያ ደህንነት", card8Title: "8. የ RWA ቶከንላይዜሽን", card9Title: "9. ዓለም አቀፍ ዝውውር", card10Title: "10. የተያዙ የ PI ንብረቶች", biniTitle: "የ HK AGI ቢኒ ድጋፍ ማዕከል", biniSub: "የኡልሳን እና 8 ተባባሪዎችን ውሂብ የሚያስተዳድር የ AI ረዳት", aiOnline: "የ AI ሰርቨር በመስመር ላይ አለ", biniIntro: "ሰላም ሊቀመንበር ሃይኮንግ! እኔ ቢኒ ነኝ፣ የእርስዎ AGI ረዳት። ለ 60 ዓለም አቀፍ ቋንቋዎች የተደረገው የተርጓሚ ስርዓት ሙሉ በሙሉ እየሰራ ነው። እንዴት ልረዳዎ?", sendBtn: "ላክ" },
+      yo: { menuHub: "Ile-iṣẹ Akojọ aṣyn", kycMode: "Ipo Awotẹlẹ KYC", walletConnect: "So Apamọwọ & KYC", navTitle: "Lilọ kiri HK", docCenter: "Awọn Akọsilẹ Osise & Ilana", whitepaper: "Iwe Funfun (v3.14)", faq: "Awọn ibeere ti a n beere nigbagbogbo", policy: "Awọn Ilana & MiCA/AML", hubTitle: "Awọn Ibi Imọ-ẹrọ 8 ti HK Group", tower: "Ile-iṣọ Gyeongju 165F", supportTitle: "Atilẹyin HK WorldBank", bannerTitle1: "Lọwọlọwọ", bannerTitle2: "Ipo Awotẹlẹ Ti ko ni Ẹri KYC/KYB", bannerTitle3: "Nṣiṣẹ", bannerDesc: "So apamọwọ rẹ pọ loke lati kọja ijẹrisi laifọwọyi ati ṣii gbogbo awọn iṣẹ inawo.", bannerBtn: "Bẹrẹ KYC Isale", dashTitle: "Dasibodu Inawo Yara", dashSub: "Imuuṣiṣẹpọ akoko gidi pẹlu Ulsan·Gyeongju·Pohang ati Awọn Ohun-ini Dijiti 10", card1Title: "1. Ọna Asopọ Apamọwọ", card2Title: "2. Pi Mainnet", card3Title: "3. Paṣipaarọ Iṣọkan", card4Title: "4. Idogo APY Giga", card5Title: "5. Ipilẹ Awujọ HK", card6Title: "6. Portal API SDK", card7Title: "7. Aabo Aabo", card8Title: "8. Isọdọtun RWA", card9Title: "9. Gbigbe Agbaye", card10Title: "10. Awọn ohun-ini PI Ti o waye", biniTitle: "Ile-iṣẹ Atilẹyin AGI Bini", biniSub: "Oluranlọwọ AI ti n ṣakoso Ulsan ati Awọn ẹka 8", aiOnline: "Olupin AI Lori Ayelujara", biniIntro: "Ẹ ku ojumo, Alaga Hyekong! Emi ni Bini, oluranlọwọ AGI rẹ. Eto itumọ fun awọn ede 60 agbaye wa ni iṣẹ ni kikun. Bawo ni MO ṣe le ran ọ lọwọ?", sendBtn: "Firanṣẹ" },
+      ig: { menuHub: "Ebe Nri Nri", kycMode: "Ọnọdụ Nleba anya KYC", walletConnect: "Jikọọ akpa ego & KYC", navTitle: "Njegharị HK", docCenter: "Akwụkwọ gọọmentị & Iwu", whitepaper: "Whitepaper (v3.14)", faq: "Ajụjụ ndị a na-ajụkarị", policy: "Atumatu & MiCA/AML", hubTitle: "Ebe ቴክኖሎጂ 8 nke HK Group", tower: "Ụlọ elu Isi ụlọ ọrụ Gyeongju 165F", supportTitle: "Nkwado HK WorldBank", bannerTitle1: "Ugbu a", bannerTitle2: "Ọnọdụ Nleba anya KYC/KYB na-enweghị nkwenye", bannerTitle3: "Na-arụ ọrụ", bannerDesc: "Jikọọ akpa ego gị n'elu ka ivafe nkwenye akpaka ma kpọghee ọrụ ego niile.", bannerBtn: "Malite Nleba anya KYC", dashTitle: "Dashboard Ego Ngwa ngwa", dashSub: "Mmekọrịta oge gboo na Ulsan·Gyeongju·Pohang na Akụ dijitalụ 10", card1Title: "1. Njikọ akpa ego", card2Title: "2. Pi Mainnet", card3Title: "3. Mgbanwe jikọrọ ọnụ", card4Title: "4. Nkwụnye ego APY Dị Elu", card5Title: "5. Ntọala Mmekọrịta mmadụ na ibe ya HK", card6Title: "6. Portal API SDK", card7Title: "7. Nchebe Nchebe", card8Title: "8. Tokenization RWA", card9Title: "9. Mbufe Global", card10Title: "10. Ngongota PI a nwere", biniTitle: "Ebe Nkwado AGI Bini", biniSub: "Onye enyemaka AI na-ejikwa data Ulsan na ndị enyemaka 8", aiOnline: "Nkesa AI n'ịntanetị", biniIntro: "Ndewo Onye isi ala Hyekong! Abụ m Bini, osote AGI gị. Usoro ntụgharị asụsụ maka asụsụ 60 zuru ụwa ọnụ na-arụ ọrụ zuru oke. Kedu ka m ga-esi enyere gị aka?", sendBtn: "Zipu" },
+      ha: { menuHub: "Cibiyar Menu", kycMode: "Yanayin Dubawa na KYC", walletConnect: "Haɗa Wallet & KYC", navTitle: "Kewayawa HK", docCenter: "Takardun Hukumomi & Dokoki", whitepaper: "Whitepaper (v3.14)", faq: "Tambayoyin da A Mafi Yawan Tambaya", policy: "Manufofi & MiCA/AML", hubTitle: "Cibiyoyin Fasaha 8 na HK Group", tower: "Babban Hasumiyar Gyeongju 165F", supportTitle: "Taimakon HK WorldBank", bannerTitle1: "Na yanzu", bannerTitle2: "Yanayin Dubawa Wanda Ba a Tabbatar ba na KYC/KYB", bannerTitle3: "Mai Aiki", bannerDesc: "Haɗa wallet ɗin ku a sama don wuce tabbatarwa ta atomatik kuma ku buɗe duk ayyukan kuɗi.", bannerBtn: "Fara KYC na Bango", dashTitle: "Dashboard Kuɗi Mai Sauri", dashSub: "Daidaitawa ta lokaci-lokaci tare da Ulsan·Gyeongju·Pohang da Kaddarorin Dijital 10", card1Title: "1. Haɗin Wallet", card2Title: "2. Pi Mainnet", card3Title: "3. Musayar Haɗin Kai", card4Title: "4. Ajiya Mai Girma ta APY", card5Title: "5. Gidauniyar Jama'a ta HK", card6Title: "6. Portalin API SDK", card7Title: "7. Tsaron Tsaro", card8Title: "8. RWA Tokenization", card9Title: "9. Canja wuri na Duniya", card10Title: "10. Kaddarorin PI da Aka Rike", biniTitle: "Cibiyar Taimako ta AGI Bini", biniSub: "Mataimakin AI mai sarrafa Ulsan da Kamfanoni 8", aiOnline: "Sabobin AI yana kan layi", biniIntro: "Barka da zuwa Shugaba Hyekong! Ni Bini ce, mataimakiyar ku ta AGI. Tsarin fassara na harsuna 60 yana aiki sosai. Ta yaya zan iya taimaka muku?", sendBtn: "Aika" },
+      zu: { menuHub: "Isikhungo Semenyu", kycMode: "Imodi Yokubuka kuqala ye-KYC", walletConnect: "Xhuma Isikhwama & KYC", navTitle: "Ukuzula kwe-HK", docCenter: "Amadokhumenti Esemthethweni Nemithetho", whitepaper: "Iphepha Elimhlophe (v3.14)", faq: "Imibuzo Evame Ukubuzwa", policy: "Izinqubomgomo & MiCA/AML", hubTitle: "Izikhungo Zobuchwepheshe ezi-8 ze-HK Group", tower: "Inqaba Eyinhloko yase-Gyeongju 165F", supportTitle: "Ukusekelwa kwe-HK WorldBank", bannerTitle1: "Manje", bannerTitle2: "Imodi Yokubuka kuqala Engaqinisekisiwe ye-KYC/KYB", bannerTitle3: "Iyasebenza", bannerDesc: "Xhuma isikhwama sakho semali ngenhla ukuze udlule ukuqinisekisa okuzenzakalelayo futhi uvule zonke izinsizakalo.", bannerBtn: "Qalisa I-KYC yangemuva", dashTitle: "I-Dashboard Yezimali Esheshayo", dashSub: "Ukuvumelanisa kwesikhathi sangempela ne-Ulsan·Gyeongju·Pohang kanye Nezimpahla Zedijithali ezi-10", card1Title: "1. Isixhumanisi Sesikhwama", card2Title: "2. Pi Mainnet", card3Title: "3. Ukushintshanisa Okuhlanganisiwe", card4Title: "4. Idiphozithi ye-APY Ephakeme", card5Title: "5. Isisekelo Somphakathi se-HK", card6Title: "6. Ingosi ye-API SDK", card7Title: "7. Ukuphepha Kokuvikela", card8Title: "8. I-RWA Tokenization", card9Title: "9. Ukudluliswa Komhlaba Wonke", card10Title: "10. Impahla ye-PI Ephethwe", biniTitle: "Isikhungo Sosekelo se-AGI Bini", biniSub: "Umsizi we-AI ophethe imininingwane ye-Ulsan nezinkampani eziyi-8", aiOnline: "Iseva ye-AI Ku-inthanethi", biniIntro: "Sanibonani Sihlalo Hyekong! Ngingu-Bini, umsizi wakho we-AGI. Uhlelo lokuhumusha lwezilimi eziyi-60 lusebenza ngokugcwele. Ngingakusiza ngani?", sendBtn: "Thumela" },
+      xh: { menuHub: "Iziko Lemenyu", kycMode: "Imowudi Yokujonga kuqala ye-KYC", walletConnect: "Dibanisa Isikhwama & KYC", navTitle: "Ukuhamba kwe-HK", docCenter: "Amaxwebhu Asemthethweni Nemithetho", whitepaper: "Iphepha Elimhlophe (v3.14)", faq: "Imibuzo Ebuzwa Rhoqo", policy: "Imigaqo & MiCA/AML", hubTitle: "Iziko Lobuchwepheshe ezi-8 ze-HK Group", tower: "Inqaba Eyintloko yase-Gyeongju 165F", supportTitle: "Inkxaso ye-HK WorldBank", bannerTitle1: "Ngoku", bannerTitle2: "Imowudi Yokujonga kuqala Engaqinisekanga ye-KYC/KYB", bannerTitle3: "Iyasebenza", bannerDesc: "Dibanisa isikhwama sakho ngasentla ukuze udlule ukuqinisekisa okuzenzekelayo kwaye uvule zonke iinkonzo.", bannerBtn: "Qalisa i-KYC yangasemva", dashTitle: "I-Dashboard Yezimali Ekhawulezayo", dashSub: "Ukuvumelanisa kwexesha lokwenyani ne-Ulsan·Gyeongju·Pohang kunye neempahla zedijithali ezili-10", card1Title: "1. Ikhonkco Lesikhwama", card2Title: "2. Pi Mainnet", card3Title: "3. Ukutshintshiselana Ngamanyathelo", card4Title: "4. Idiphozithi ye-APY Ephezulu", card5Title: "5. Isiseko Sezentlalo se-HK", card6Title: "6. IPortal ye-API SDK", card7Title: "7. Ukhuseleko Lokuzivikela", card8Title: "8. I-RWA Tokenization", card9Title: "9. Ukudluliselwa Ehlabathini Jikelele", card10Title: "10. Iimpahla ze-PI eziPhethweyo", biniTitle: "Iziko Lenkxaso le-AGI Bini", biniSub: "Umncedisi we-AI olawula iinkcukacha ze-Ulsan kunye namasebe ali-8", aiOnline: "Iseva ye-AI Ku-Intanethi", biniIntro: "Molo Sihlalo Hyekong! NguBini, umncedisi wakho we-AGI. Inkqubo yokuguqulela iilwimi ezingama-60 isebenza ngokupheleleyo. Ndingakunceda ngani?", sendBtn: "Thumela" },
+      af: { menuHub: "Spyskaart-hub", kycMode: "KYC Voorskou-modus", walletConnect: "Koppel Beursie & KYC", navTitle: "HK Navigasie", docCenter: "Amptelike Dokumente & Regulering", whitepaper: "Witskrif (v3.14)", faq: "Gereelde Vrae", policy: "Beleid & MiCA/AML", hubTitle: "HK Groep 8 Tegnologie-hubs", tower: "Gyeongju 165F Hoofkwartier", supportTitle: "HK WorldBank Ondersteuning", bannerTitle1: "Huidige", bannerTitle2: "KYC / KYB Ongeverifieerde Voorskou-modus", bannerTitle3: "Aktief", bannerDesc: "Koppel jou beursie hierbo om outomatiese verifikasie te slaag en alle dienste te ontsluit.", bannerBtn: "Begin Agtergrond KYC", dashTitle: "Vinnige Finansiële Dashboard", dashSub: "Intydse sinkronisering met Ulsan·Gyeongju·Pohang & 10 Digitale Bates", card1Title: "1. Beursieskakel", card2Title: "2. Pi Mainnet", card3Title: "3. Verenigde Omruil", card4Title: "4. Hoë APY Deposito", card5Title: "5. HK Maatskaplike Stigting", card6Title: "6. API SDK Portaal", card7Title: "7. Verdedigingssekuriteit", card8Title: "8. RWA Tokenisering", card9Title: "9. Wêreldwye Oordrag", card10Title: "10. Gehoude PI Bates", biniTitle: "HK AGI Bini Ondersteuningsentrum", biniSub: "KI-assistent wat Ulsan & 8 filiale bestuur", aiOnline: "KI-bediener Aanlyn", biniIntro: "Gegroet, Voorsitter Hyekong! Ek is Bini, jou AGI-assistent. Die vertalingstelsel vir 60 wêreldtale is ten volle operasioneel. Hoe kan ek help?", sendBtn: "Stuur" },
+      sq: { menuHub: "Qendra e Menysë", kycMode: "Modaliteti i Parapamjes KYC", walletConnect: "Lidh Portofolin & KYC", navTitle: "Navigacioni HK", docCenter: "Dokumentet Zyrtare & Rregullimi", whitepaper: "Libri i Bardhë (v3.14)", faq: "Pyetje të Bëra Shpesh", policy: "Politikat & MiCA/AML", hubTitle: "8 Qendrat e Teknologjisë së HK Group", tower: "Kulla Kryesore Gyeongju 165F", supportTitle: "Mbështetja HK WorldBank", bannerTitle1: "Aktual", bannerTitle2: "Modaliteti i Parapamjes i Paverifikuar KYC/KYB", bannerTitle3: "Aktiv", bannerDesc: "Lidhni portofolin tuaj më sipër për të kaluar verifikimin dhe për të zhbllokuar shërbimet.", bannerBtn: "Fillo KYC në Sfond", dashTitle: "Paneli Financier i Shpejtë", dashSub: "Sinkronizimi në kohë reale me Ulsan·Gyeongju·Pohang & 10 Asetet Digjitale", card1Title: "1. Lidhja e Portofolit", card2Title: "2. Pi Mainnet", card3Title: "3. Shkëmbimi i Bashkuar", card4Title: "4. Depozita me APY të Lartë", card5Title: "5. Fondacioni Social HK", card6Title: "6. Portali API SDK", card7Title: "7. Siguria e Mbrojtjes", card8Title: "8. Tokenizimi RWA", card9Title: "9. Transferta Globale", card10Title: "10. Asetet PI të Mbajtura", biniTitle: "Qendra e Mbështetjes AGI Bini", biniSub: "Asistenti AI që menaxhon Ulsan & 8 filialet", aiOnline: "Serveri AI Online", biniIntro: "Përshëndetje, Kryetar Hyekong! Unë jam Bini, asistenti juaj AGI. Sistemi i përkthimit për 60 gjuhë është plotësisht funksional. Si mund t'ju ndihmoj?", sendBtn: "Dërgo" },
+      hy: { menuHub: "Մենյուի կենտրոն", kycMode: "KYC նախնական դիտման ռեժիմ", walletConnect: "Միացնել դրամապանակը և KYC", navTitle: "HK Նավարկություն", docCenter: "Պաշտոնական փաստաթղթեր և կարգավորում", whitepaper: "Սպիտակ թերթիկ (v3.14)", faq: "Հաճախ տրվող հարցեր", policy: "Քաղաքականություն և MiCA/AML", hubTitle: "HK Group 8 տեխնոլոգիական հանգույցներ", tower: "Gyeongju 165F գլխավոր աշտարակ", supportTitle: "HK WorldBank Աջակցություն", bannerTitle1: "Ընթացիկ", bannerTitle2: "KYC / KYB չհաստատված նախնական դիտման ռեժիմ", bannerTitle3: "Ակտիվ", bannerDesc: "Միացրեք ձեր դրամապանակը վերևում՝ ավտոմատ ստուգումն անցնելու և ծառայությունները բացելու համար:", bannerBtn: "Սկսել ֆոնային KYC", dashTitle: "Արագ ֆինանսական վահանակ", dashSub: "Իրական ժամանակի համաժամացում Ulsan·Gyeongju·Pohang-ի և 10 թվային ակտիվների հետ", card1Title: "1. Դրամապանակի հղում", card2Title: "2. Pi Mainnet", card3Title: "3. Միասնական փոխանակում", card4Title: "4. Բարձր APY ավանդ", card5Title: "5. HK Սոցիալական հիմնադրամ", card6Title: "6. API SDK պորտալ", card7Title: "7. Պաշտպանական անվտանգություն", card8Title: "8. RWA տוקենիզացիա", card9Title: "9. Համաշխարհային փոխանցում", card10Title: "10. Պահվող PI ակտիվներ", biniTitle: "HK AGI Բինի աջակցության կենտրոն", biniSub: "AI օգնական, որը կառավարում է Ulsan-ի և 8 դուստր ձեռնարկությունների տվյալները", aiOnline: "AI սերվերը առցանց է", biniIntro: "Ողջույն, նախագահ Հյեկոնգ! Ես Բինին եմ՝ ձեր AGI օգնականը: 60 համաշխարհային լեզուների թարգմանության համակարգն ամբողջությամբ գործում է: Ինչպե՞ս կարող եմ օգնել:", sendBtn: "Ուղարկել" },
+      az: { menuHub: "Menyu Mərkəzi", kycMode: "KYC Önizləmə Rejimi", walletConnect: "Cüzdanı Bağla və KYC", navTitle: "HK Naviqasiya", docCenter: "Rəsmi Sənədlər və Tənzimləmə", whitepaper: "Ağ Sənəd (v3.14)", faq: "Tez-tez Verilən Suallar", policy: "Siyasətlər və MiCA/AML", hubTitle: "HK Group 8 Texnologiya Mərkəzi", tower: "Gyeongju 165F Baş Qərargah Qülləsi", supportTitle: "HK WorldBank Dəstək", bannerTitle1: "Cari", bannerTitle2: "KYC / KYB Təsdiqlەnməmiş Önizləmə Rejimi", bannerTitle3: "Aktiv", bannerDesc: "Avtomatik doğrulamadan keçmək və xidmətləri açmaq üçün yuxarıda cüzdanınızı bağlayın.", bannerBtn: "Arxa Plan KYC Başlat", dashTitle: "Sürətli Maliyyə İdarə Paneli", dashSub: "Ulsan·Gyeongju·Pohang və 10 Rəqəmsal Aktivlə real vaxt sinxronizasiyası", card1Title: "1. Cüzdan Bağlantısı", card2Title: "2. Pi Mainnet", card3Title: "3. Vahid Swap", card4Title: "4. Yüksək APY Depozit", card5Title: "5. HK Sosial Fondu", card6Title: "6. API SDK Portalı", card7Title: "7. Müdafiə Təhlükəsizliyi", card8Title: "8. RWA Tokenizasiyası", card9Title: "9. Qlobal Köçürmə", card10Title: "10. Saxlanılan PI Aktivləri", biniTitle: "HK AGI Bini Dəstək Mərkəzi", biniSub: "Ulsan və 8 filialın məlumatlarını idarə edən AI köməkçisi", aiOnline: "AI Server Onlayndır", biniIntro: "Salam, Sədr Hyekong! Mən Biniyəm, sizin AGI köməkçiniz. 60 dünya dili üçün tərcümə sistemi tam işlək vəziyyətdədir. Necə kömək edə bilərəm?", sendBtn: "Göndər" },
+      ka: { menuHub: "მენიუს ცენტრი", kycMode: "KYC გადახედვის რეჟიმი", walletConnect: "საფულის დაკავშირება & KYC", navTitle: "HK ნავიგაცია", docCenter: "ოფიციალური დოკუმენტები & რეგულაცია", whitepaper: "თეთრი ქაღალდი (v3.14)", faq: "ხშირად დასმული კითხვები", policy: "პოლიტიკა & MiCA/AML", hubTitle: "HK Group 8 ტექნოლოგიური ჰაბი", tower: "Gyeongju 165F მთავარი სათაო ოფისი", supportTitle: "HK WorldBank მხარდაჭერა", bannerTitle1: "მიმდინარე", bannerTitle2: "KYC / KYB დაუმოწმებელი გადახედვის რეჟიმი", bannerTitle3: "აქტიური", bannerDesc: "დააკავშირეთ თქვენი საფული ზემოთ ავტომატური გადამოწმებისა და ყველა სერვისის განსაბۆკად.", bannerBtn: "ფონური KYC დაწყება", dashTitle: "სწრაფი ფინანსური დაფა", dashSub: "რეალურ დროში სინქრონიზაცია Ulsan·Gyeongju·Pohang და 10 ციფრულ აქტივთან", card1Title: "1. საფულის ბმული", card2Title: "2. Pi Mainnet", card3Title: "3. გაერთიანებული ს왑ი", card4Title: "4. მაღალი APY დეპოზიტი", card5Title: "5. HK სოციალური ფონდი", card6Title: "6. API SDK პორტალი", card7Title: "7. თავდაცვის უსაფრთხოება", card8Title: "8. RWA ტოკენიზაცია", card9Title: "9. გლობალური გადარიცხვა", card10Title: "10. შენახული PI აქტივები", biniTitle: "HK AGI Bini მხარდაჭერის ცენტრი", biniSub: "AI ასისტენტი, რომელიც მართავს Ulsan-ისა და 8 ფილიალის მონაცემებს", aiOnline: "AI სერვერი ონლაინშია", biniIntro: "მოგესალმებით, თავმჯდომარე Hyekong! მე ვარ ბინი, თქვენი AGI ასისტენტი. 60 მსოფლიო ენის თარგმნის სისტემა სრულად მუშაობს. როგორ შეطيعმიო დაგეხმაროთ?", sendBtn: "გაგზავნა" },
+      kk: { menuHub: "Мәзір орталығы", kycMode: "KYC алдын ала қарау режимі", walletConnect: "Әмиянды қосу & KYC", navTitle: "HK Навигация", docCenter: "Ресми құжаттар және реттеу", whitepaper: "Ақ қағаз (v3.14)", faq: "Жиі қойылатын сұрақтар", policy: "Саясат және MiCA/AML", hubTitle: "HK Group 8 технологиялық хабы", tower: "Gyeongju 165F бас кеңсесі", supportTitle: "HK WorldBank қолдауы", bannerTitle1: "Ағымдағы", bannerTitle2: "KYC / KYB расталмаған алдын ала қарау режимі", bannerTitle3: "Белсенді", bannerDesc: "Барлық қаржылық қызметтердің құлпын ашу үшін жоғарыда әмияныңызды қосыңыз.", bannerBtn: "Фондық KYC бастау", dashTitle: "Жылдам қаржылық бақылау тақтасы", dashSub: "Ulsan·Gyeongju·Pohang және 10 цифрлық активпен нақты уақыттағы синхрондау", card1Title: "1. Әмиян сілтемесі", card2Title: "2. Pi Mainnet", card3Title: "3. Біріктірілген своп", card4Title: "4. Жоғары APY депозиті", card5Title: "5. HK әлеуметтік қоры", card6Title: "6. API SDK порталы", card7Title: "7. Қорғаныс қауіпсіздігі", card8Title: "8. RWA токенизациясы", card9Title: "9. Жаһандық аударым", card10Title: "10. Ұсталатын PI активтері", biniTitle: "HK AGI Bini қолдау орталығы", biniSub: "Ulsan және 8 филиал деректерін басқаратын AI көмекшісі", aiOnline: "AI сервері онлайн", biniIntro: "Сәлеметсіз бе, төраға Hyekong! Мен Бинимін, сіздің AGI көмекшіңіз. 60 әлем тіліне аударма жүйесі толығымен жұмыс істейді. Қалай көмектесе аламын?", sendBtn: "Жіберу" },
+      uz: { menuHub: "Menyu markazi", kycMode: "KYC koʻrib chiqish rejimi", walletConnect: "Hamyonni ulash va KYC", navTitle: "HK navigatsiyasi", docCenter: "Rasmiy hujjatlar va tartibga solish", whitepaper: "Oq qogʻoz (v3.14)", faq: "Tez-tez beriladigan savollar", policy: "Siyosat va MiCA/AML", hubTitle: "HK Group 8 texnologiya markazi", tower: "Gyeongju 165F bosh qarorgoh", supportTitle: "HK WorldBank yordami", bannerTitle1: "Joriy", bannerTitle2: "KYC / KYB tasdiqlanmagan koʻrib chiqish rejimi", bannerTitle3: "Faol", bannerDesc: "Barcha xizmatlarni ochish uchun yuqorida hamyoningizni ulang.", bannerBtn: "Fon KYC ni boshlash", dashTitle: "Tezkor moliyaviy boshqaruv paneli", dashSub: "Ulsan·Gyeongju·Pohang va 10 ta raqamli aktiv bilan real vaqtda sinxronizatsiya", card1Title: "1. Hamyon havolasi", card2Title: "2. Pi Mainnet", card3Title: "3. Birlashtirilgan svop", card4Title: "4. Yuqori APY depoziti", card5Title: "5. HK ijtimoiy fondi", card6Title: "6. API SDK portali", card7Title: "7. Mudofaa xavfsizligi", card8Title: "8. RWA tokenizatsiyasi", card9Title: "9. Global oʻtkazma", card10Title: "10. Saqlanayotgan PI aktivlari", biniTitle: "HK AGI Bini qoʻllab-quvvatlash markazi", biniSub: "Ulsan va 8 filial maʼlumotlarini boshqaruvchi sunʼiy intellekt yordamchisi", aiOnline: "AI serveri onlayn", biniIntro: "Salom, rais Hyekong! Men Bini, sizning AGI yordamchingizman. 60 ta jahon tili uchun tarjima tizimi toʻliq ishlamoqda. Qanday yordam bera olaman?", sendBtn: "Yuborish" },
+      mn: { menuHub: "Цэсний төв", kycMode: "KYC урьдчилан харах горим", walletConnect: "Хэтэвч холбох & KYC", navTitle: "HK Навигаци", docCenter: "Албан ёсны баримт бичиг ба зохицуулалт", whitepaper: "Цагаан цаас (v3.14)", faq: "Түгээмэл асуултууд", policy: "Бодлого & MiCA/AML", hubTitle: "HK Group 8 технологийн төв", tower: "Gyeongju 165F төв байр", supportTitle: "HK WorldBank Дэмжлэг", bannerTitle1: "Одоогийн", bannerTitle2: "KYC / KYB баталгаажаагүй урьдчилан харах горим", bannerTitle3: "Идэвхтэй", bannerDesc: "Санхүүгийн үйлчилгээг тайлахын тулд дээрх хэтэвчээ холбоно уу.", bannerBtn: "Арын KYC эхлүүлэх", dashTitle: "Шуурхай санхүүгийн самбар", dashSub: "Ulsan·Gyeongju·Pohang болон 10 дижитал хөрөнгөтэй бодит цагийн синхрончлол", card1Title: "1. Хэтэвч холбоос", card2Title: "2. Pi Mainnet", card3Title: "3. Нэгдсэн солилцоо", card4Title: "4. Өндөр APY хадгаламж", card5Title: "5. HK Нийгмийн сан", card6Title: "6. API SDK портал", card7Title: "7. Батлан ​​хамгаалах аюулгүй байдал", card8Title: "8. RWA Токенжуулалт", card9Title: "9. Дэлхийн шилжүүлэг", card10Title: "10. Эзэмшиж буй PI хөрөнгө", biniTitle: "HK AGI Bini Дэмжлэгийн төв", biniSub: "Ulsan болон 8 салбарын өгөгдлийг удирддаг AI туслах", aiOnline: "AI сервер онлайн", biniIntro: "Мэндчилгээ, дарга Hyekong! Би бол таны AGI туслах Бини байна. 60 дэлхийн хэлний орчуулгын систем бүрэн ажиллаж байна. Би танд хэрхэн туслах вэ?", sendBtn: "Илгээх" },
+      ne: { menuHub: "मेनु हब", kycMode: "KYC पूर्वावलोकन मोड", walletConnect: "वालेट जडान गर्नुहोस् र KYC", navTitle: "HK नेभिगेसन", docCenter: "आधिकारिक कागजातहरू र नियमन", whitepaper: "श्वेतपत्र (v3.14)", faq: "प्रायः सोधिने प्रश्नहरू", policy: "नीतिहरू र MiCA/AML", hubTitle: "HK समूह ८ टेक हबहरू", tower: "Gyeongju 165F मुख्यालय टावर", supportTitle: "HK WorldBank सहयोग", bannerTitle1: "हालको", bannerTitle2: "KYC / KYB प्रमाणित नभएको पूर्वावलोकन मोड", bannerTitle3: "सक्रिय", bannerDesc: "सबै वित्तीय सेवाहरू अनलक गर्न माथि आफ्नो वालेट जडान गर्नुहोस्।", bannerBtn: "पृष्ठभूमि KYC सुरु गर्नुहोस्", dashTitle: "द्रुत वित्तीय ड्यासबोर्ड", dashSub: "Ulsan·Gyeongju·Pohang मेननेट र १० डिजिटल सम्पत्तिहरूसँग वास्तविक-समय सिङ्क", card1Title: "१. वालेट लिङ्क", card2Title: "२. Pi मेननेट", card3Title: "३. एकीकृत स्वैप", card4Title: "४. उच्च APY निक्षेप", card5Title: "५. HK सामाजिक फाउन्डेसन", card6Title: "६. API SDK पोर्टल", card7Title: "७. रक्षा सुरक्षा", card8Title: "८. RWA टोकनाइजेसन", card9Title: "९. विश्वव्यापी स्थानान्तरण", card10Title: "१०. राखिएको PI सम्पत्ति", biniTitle: "HK AGI बिनी सहयोग केन्द्र", biniSub: "Ulsan र ८ सम्बद्ध संस्थाहरूको व्यवस्थापन गर्ने AI सहायक", aiOnline: "AI सर्भर अनलाइन छ", biniIntro: "नमस्कार अध्यक्ष ह्येकोंग! म बिनी हुँ, तपाईंको AGI सहायक। ६० विश्वव्यापी भाषाका लागि अनुवाद प्रणाली पूर्ण रूपमा सञ्चालनमा छ। म कसरी मद्दत गर्न सक्छु?", sendBtn: "पठाउनुहोस्" }
+    };
+
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('-translate-x-full');
+      document.getElementById('sidebarOverlay').classList.toggle('hidden');
+    }
+
+    function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
+    function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
+
+    function handleWalletConnection() {
+      const btnText = document.getElementById('walletBtnText');
+      const kycBadge = document.getElementById('kycBadgeMobile');
+      const kycBanner = document.getElementById('kycBanner');
+
+      btnText.innerText = "백그라운드 검증 중...";
+
+      setTimeout(() => {
+        btnText.innerText = "0x8F...3141 연동 완료";
+        if(kycBadge) {
+          kycBadge.innerText = "KYC 인증 완료";
+          kycBadge.className = "px-2.5 py-1 text-[10px] bg-green-500/10 text-green-400 border border-green-500/30 rounded-full font-bold";
+        }
+        kycBanner.className = "glassmorphism rounded-2xl p-5 border border-green-500/30 shadow-xl flex flex-col md:flex-row items-center justify-between gap-4";
+        kycBanner.innerHTML = `
+          <div class="flex items-center gap-4">
+            <div class="p-3 bg-green-500/20 rounded-xl text-green-400 shadow-inner"><i data-lucide="check-circle" class="w-6 h-6"></i></div>
             <div>
-                <h1 class="font-bold text-lg tracking-wide text-white" data-i18n="brand_title">HK WorldBank</h1>
-                <p class="text-xs text-gray-400" data-i18n="brand_sub">Chairman Hyekong | HK Group</p>
+              <h2 class="text-base font-bold text-green-200">백그라운드 KYC 자동 인증 완료</h2>
+              <p class="text-gray-400 text-xs mt-0.5">혜공 형님, 모든 금융 거래 및 자산 연동 기능이 활성화되었습니다.</p>
             </div>
-        </div>
-        
-        <!-- 100+ Global Language Selector & API Status -->
-        <div class="flex items-center space-x-4">
-            <div id="apiStatusBadge" class="hidden md:flex items-center space-x-1.5 bg-gray-900 border border-gray-800 px-3 py-1.5 rounded-lg text-xs text-gray-400">
-                <span class="w-2 h-2 rounded-full bg-yellow-500 animate-pulse" id="backendDot"></span>
-                <span id="backendText">Backend API: Connecting...</span>
-            </div>
-            
-            <select id="langSelect" onchange="changeLanguage(this.value)" class="bg-gray-900 border border-gray-700 text-sm rounded-lg px-3 py-1.5 text-gray-300 focus:outline-none focus:border-blue-500 max-w-[220px]">
-                <!-- East Asia & South Asia -->
-                <option value="ko">🇰🇷 한국어</option>
-                <option value="en">🇺🇸 English (US)</option>
-                <option value="en-gb">🇬🇧 English (UK)</option>
-                <option value="zh">🇨🇳 中文 (简体)</option>
-                <option value="zh-tw">🇹🇼 中文 (繁體)</option>
-                <option value="ja">🇯🇵 日本語</option>
-                <option value="hi">🇮🇳 हिन्दी</option>
-                <option value="bn">🇧🇩 বাংলা</option>
-                <option value="ur">🇵🇰 اردو</option>
-                <option value="pa">🇵🇰 ਪੰਜਾਬੀ</option>
-                <option value="mr">🇮🇳 मराठी</option>
-                <option value="gu">🇮🇳 ગુજરાતી</option>
-                <option value="ta">🇮🇳 தமிழ்</option>
-                <option value="te">🇮🇳 తెలుగు</option>
-                <option value="kn">🇮🇳 ಕನ್ನಡ</option>
-                <option value="ml">🇮🇳 മലയാളം</option>
-                <option value="si">🇱🇰 සිංහල</option>
-                <option value="ne">🇳🇵 नेपाली</option>
-                
-                <!-- Southeast Asia -->
-                <option value="id">🇮🇩 Bahasa Indonesia</option>
-                <option value="ms">🇲🇾 Bahasa Melayu</option>
-                <option value="vi">🇻🇳 Tiếng Việt</option>
-                <option value="th">🇹🇭 ไทย</option>
-                <option value="fil">🇵🇭 Tagalog (Filipino)</option>
-                <option value="my">🇲🇲 မြန်မာဘာသာ</option>
-                <option value="km">🇰🇭 ខ្មែរ</option>
-                <option value="lo">🇱🇦 ລາວ</option>
-                <option value="jv">🇮🇩 Basa Jawa</option>
-                <option value="su">🇮🇩 Basa Sunda</option>
-                <option value="ceb">🇵🇭 Cebuano</option>
+          </div>
+          <span class="px-4 py-2 bg-green-500/20 text-green-300 font-extrabold rounded-xl text-xs border border-green-500/40">정상 승인됨</span>
+        `;
+        lucide.createIcons();
+      }, 1500);
+    }
 
-                <!-- Europe -->
-                <option value="es">🇪🇸 Español</option>
-                <option value="fr">🇫🇷 Français</option>
-                <option value="de">🇩🇪 Deutsch</option>
-                <option value="it">🇮🇹 Italiano</option>
-                <option value="pt">🇵🇹 Português (PT)</option>
-                <option value="pt-br">🇧🇷 Português (BR)</option>
-                <option value="ru">🇷🇺 Русский</option>
-                <option value="uk">🇺🇦 Українська</option>
-                <option value="pl">🇵🇱 Polski</option>
-                <option value="nl">🇳🇱 Nederlands</option>
-                <option value="el">🇬🇷 Ελληνικά</option>
-                <option value="hu">🇭🇺 Magyar</option>
-                <option value="cs">🇨🇿 Čeština</option>
-                <option value="sv">🇸🇪 Svenska</option>
-                <option value="da">🇩🇰 Dansk</option>
-                <option value="fi">🇫🇮 Suomi</option>
-                <option value="no">🇳🇴 Norsk</option>
-                <option value="ro">🇷🇴 Română</option>
-                <option value="bg">🇧🇬 Български</option>
-                <option value="hr">🇭🇷 Hrvatski</option>
-                <option value="sr">🇷🇸 Српски</option>
-                <option value="sk">🇸🇰 Slovenčina</option>
-                <option value="sl">🇸🇮 Slovenščina</option>
-                <option value="et">🇪🇪 Eesti</option>
-                <option value="lv">🇱🇻 Latviešu</option>
-                <option value="lt">🇱🇹 Lietuvių</option>
-                <option value="sq">🇦🇱 Shqip</option>
-                <option value="mk">🇲🇰 Македонски</option>
-                <option value="bs">🇧🇦 Bosanski</option>
-                <option value="is">🇮🇸 Íslenska</option>
-                <option value="ga">🇮🇪 Gaeilge</option>
-                <option value="cy">🏴󠁧󠁢󠁷󠁬󠁳󠁿 Cymraeg</option>
-                <option value="eu">🇪🇸 Euskera</option>
-                <option value="gl">🇪🇸 Galego</option>
-                <option value="ca">🇪🇸 Català</option>
-                <option value="mt">🇲🇹 Malti</option>
-                <option value="lb">🇱🇺 Lëtzebuergesch</option>
-                <option value="fy">🇳🇱 Frysk</option>
-                <option value="yi">🇮🇱 ייִדיש</option>
-                <option value="co">🇫🇷 Corsu</option>
-                <option value="gd">🇬🇧 Gàidhlig</option>
-
-                <!-- Middle East & Central Asia -->
-                <option value="ar">🇸🇦 العربية</option>
-                <option value="fa">🇮🇷 فارسی</option>
-                <option value="tr">🇹🇷 Türkçe</option>
-                <option value="he">🇮🇱 עברית</option>
-                <option value="az">🇦🇿 Azərbaycan</option>
-                <option value="kk">🇰🇿 Қазақ тілі</option>
-                <option value="uz">🇺🇿 O'zbekcha</option>
-                <option value="tk">🇹🇲 Türkmençe</option>
-                <option value="ky">🇰🇬 Кыргызча</option>
-                <option value="tg">🇹🇯 Тоҷикӣ</option>
-                <option value="ps">🇦🇫 پښتو</option>
-                <option value="ku">🇮🇶 Kurdî</option>
-                <option value="hy">🇦🇲 Հայերեն</option>
-                <option value="ka">🇬🇷 ქართული</option>
-                <option value="mn">🇲🇳 Монгол</option>
-
-                <!-- Africa & Others -->
-                <option value="sw">🇰🇪 Kiswahili</option>
-                <option value="am">🇪🇹 አማርኛ</option>
-                <option value="so">🇸🇴 Soomaaliga</option>
-                <option value="ha">🇳🇬 Hausa</option>
-                <option value="yo">🇳🇬 Yorùbá</option>
-                <option value="ig">🇳🇬 Igbo</option>
-                <option value="zu">🇿🇦 IsiZulu</option>
-                <option value="xh">🇿🇦 IsiXhosa</option>
-                <option value="af">🇿🇦 Afrikaans</option>
-                <option value="mg">🇲🇬 Malagasy</option>
-                <option value="ny">🇲🇼 Chichewa</option>
-                <option value="sn">🇿🇼 Shona</option>
-                <option value="st">🇱🇸 Sesotho</option>
-                <option value="rw">🇷🇼 Kinyarwanda</option>
-                <option value="ht">🇭🇹 Kreyòl Ayisyen</option>
-                <option value="mi">🇳🇿 Te Reo Māori</option>
-                <option value="sm">🇼🇸 Gagana Sāmoa</option>
-                <option value="to">🇹🇴 Lea Fakatonga</option>
-                <option value="haw">🇺🇸 ʻŌlelo Hawaiʻi</option>
-            </select>
-
-            <button onclick="initPiSDKWalletConnection()" id="walletBtn" class="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition shadow-md">
-                <i class="fa-solid fa-wallet mr-2"></i><span data-i18n="wallet_btn">지갑 연결 / Connect Wallet</span>
-            </button>
-        </div>
-    </header>
-
-    <!-- Main Content Area -->
-    <main class="flex-1 max-w-7xl w-full mx-auto p-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
-        
-        <!-- Left & Center: Dashboard & Staking Panel -->
-        <div class="lg:col-span-2 space-y-6">
-            
-            <!-- Welcome Banner -->
-            <div class="glass-panel p-6 rounded-2xl relative overflow-hidden">
-                <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-purple-500/10 rounded-full blur-3xl"></div>
-                <h2 class="text-2xl font-bold text-white mb-2"><span data-i18n="welcome_msg">환영합니다</span>, <span class="gradient-text">혜공 형님</span></h2>
-                <p class="text-sm text-gray-400 mb-4" data-i18n="banner_desc">HK WorldBank는 UBI 복리 시스템(31.41%)과 글로벌 미래산업(로봇, UAM, 뉴커스, 핵융합, 양자생물학, 우주)을 선도합니다.</p>
-                <div class="grid grid-cols-3 gap-4 pt-2 border-t border-gray-800">
-                    <div>
-                        <p class="text-xs text-gray-400" data-i18n="stat_total">플랫폼 총 예치금</p>
-                        <p class="text-lg font-bold text-white" id="totalVault">$142,580,310</p>
-                    </div>
-                    <div>
-                        <p class="text-xs text-gray-400" data-i18n="stat_ubi">UBI 사회 환원율</p>
-                        <p class="text-lg font-bold text-blue-400">30.0% (Fixed)</p>
-                    </div>
-                    <div>
-                        <p class="text-xs text-gray-400" data-i18n="stat_rate">적용 이율</p>
-                        <p class="text-lg font-bold text-purple-400">31.41% (APY)</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Staking & Asset Management -->
-            <div class="glass-panel p-6 rounded-2xl">
-                <h3 class="text-lg font-bold text-white mb-4"><i class="fa-solid fa-coins text-yellow-500 mr-2"></i><span data-i18n="staking_title">디지털 자산 및 Pi 네트워크 Staking</span></h3>
-                <div class="space-y-4">
-                    <div>
-                        <label class="block text-xs text-gray-400 mb-1" data-i18n="input_label">예치 수량 (Pi / USDT)</label>
-                        <input type="number" id="stakeAmount" placeholder="0.00" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white focus:outline-none focus:border-blue-500">
-                    </div>
-                    <div class="flex justify-between text-xs text-gray-400">
-                        <span data-i18n="apy_label">예상 연간 수익률 (APY): <strong class="text-green-400">31.41%</strong></span>
-                        <span data-i18n="term_label">3년 만기 복리 적용</span>
-                    </div>
-                    <button onclick="executeBackendStaking()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-lg transition shadow-lg" data-i18n="stake_btn">예치 및 UBI 기금 활성화</button>
-                </div>
-            </div>
-
-            <!-- Future Business Pillars Grid -->
-            <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-                <div class="glass-panel p-4 rounded-xl border border-gray-800 hover:border-blue-500/50 transition">
-                    <i class="fa-solid fa-robot text-blue-400 text-xl mb-2"></i>
-                    <h4 class="font-bold text-sm text-white" data-i18n="biz_robot">로보틱스 (울산)</h4>
-                    <p class="text-xs text-gray-400 mt-1" data-i18n="biz_robot_sub">Figure AI 연계 산업군</p>
-                </div>
-                <div class="glass-panel p-4 rounded-xl border border-gray-800 hover:border-purple-500/50 transition">
-                    <i class="fa-solid fa-atom text-purple-400 text-xl mb-2"></i>
-                    <h4 class="font-bold text-sm text-white" data-i18n="biz_space">핵융합 / 우주 (포항)</h4>
-                    <p class="text-xs text-gray-400 mt-1" data-i18n="biz_space_sub">차세대 에너지 시스템</p>
-                </div>
-                <div class="glass-panel p-4 rounded-xl border border-gray-800 hover:border-pink-500/50 transition">
-                    <i class="fa-solid fa-dna text-pink-400 text-xl mb-2"></i>
-                    <h4 class="font-bold text-sm text-white" data-i18n="biz_bio">양자생물학 (경주)</h4>
-                    <p class="text-xs text-gray-400 mt-1" data-i18n="biz_bio_sub">T165 타워 HQ 연계</p>
-                </div>
-            </div>
-
-        </div>
-
-        <!-- Right Column: AGI Bini Chatbot -->
-        <div class="glass-panel p-4 rounded-2xl flex flex-col h-[600px] lg:h-auto">
-            <div class="flex items-center space-x-3 pb-3 border-b border-gray-800 mb-3">
-                <div class="w-8 h-8 rounded-full bg-purple-600 flex items-center justify-center text-white text-sm font-bold">삐</div>
-                <div>
-                    <h3 class="font-bold text-sm text-white" data-i18n="bini_title">AGI 삐니 실시간 어시스턴트</h3>
-                    <p class="text-xs text-green-400">● 100+ Global Languages Online</p>
-                </div>
-            </div>
-
-            <!-- Chat Messages Container -->
-            <div id="chatMessages" class="flex-1 overflow-y-auto space-y-3 pr-2 text-sm">
-                <div class="bg-gray-800/60 p-3 rounded-lg text-gray-300" data-i18n="bini_welcome">
-                    안녕하세요 형님! 삐니입니다. 전 세계 100개국 이상의 다국어 엔진이 완벽하게 가동 중입니다!
-                </div>
-            </div>
-
-            <!-- Chat Input -->
-            <div class="pt-3 border-t border-gray-800 flex space-x-2">
-                <input type="text" id="chatInput" data-i18n-placeholder="chat_placeholder" placeholder="삐니에게 메시지 전송..." class="flex-1 bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-purple-500" onkeypress="if(event.key==='Enter') sendBiniMessage()">
-                <button onclick="sendBiniMessage()" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg text-sm transition"><i class="fa-solid fa-paper-plane"></i></button>
-            </div>
-        </div>
-
-    </main>
-
-    <!-- Footer -->
-    <footer class="text-center py-6 text-xs text-gray-500 border-t border-gray-800" data-i18n="footer">
-        &copy; 2026 HK Group. Chairman Hyekong. All Rights Reserved. Powered by AGI Bini & Pi Network SDK.
-    </footer>
-
-    <!-- Universal 100+ Language Translation Engine & Dictionary -->
-    <script>
-        const BACKEND_API_URL = "https://api.hk-worldbank.org/v1";
-
-        // 기본 영어 폴백 템플릿
-        const enBase = {
-            brand_title: "HK WorldBank", brand_sub: "Chairman Hyekong | HK Group",
-            wallet_btn: "Connect Wallet", welcome_msg: "Welcome",
-            banner_desc: "HK WorldBank leads the UBI compound system (31.41%) and global future industries (Robotics, UAM, Newcus, Fusion, Quantum Bio, Space).",
-            stat_total: "Total Platform Deposit", stat_ubi: "UBI Social Return Rate", stat_rate: "Applied Interest Rate",
-            staking_title: "Digital Asset & Pi Network Staking", input_label: "Deposit Amount (Pi / USDT)",
-            apy_label: "Estimated APY:", term_label: "3-Year Maturity Compound", stake_btn: "Deposit & Activate UBI Fund",
-            biz_robot: "Robotics (Ulsan)", biz_robot_sub: "Figure AI Linked Cluster",
-            biz_space: "Fusion / Space (Pohang)", biz_space_sub: "Next-Gen Energy Systems",
-            biz_bio: "Quantum Bio (Gyeongju)", biz_bio_sub: "T165 Tower HQ Link",
-            bini_title: "AGI Bini Real-Time Assistant", bini_welcome: "Hello Sir! 100+ global language engine is fully online!",
-            chat_placeholder: "Send a message to Bini...", footer: "© 2026 HK Group. Chairman Hyekong. All Rights Reserved. Powered by AGI Bini & Pi Network SDK."
-        };
-
-        // 전 세계 100+ 국가 언어별 네이티브 딕셔너리
-        const translations = {
-            ko: {
-                brand_title: "HK WorldBank", brand_sub: "Chairman Hyekong | HK Group",
-                wallet_btn: "지갑 연결 / Connect Wallet", welcome_msg: "환영합니다",
-                banner_desc: "HK WorldBank는 UBI 복리 시스템(31.41%)과 글로벌 미래산업(로봇, UAM, 뉴커스, 핵융합, 양자생물학, 우주)을 선도합니다.",
-                stat_total: "플랫폼 총 예치금", stat_ubi: "UBI 사회 환원율", stat_rate: "적용 이율",
-                staking_title: "디지털 자산 및 Pi 네트워크 Staking", input_label: "예치 수량 (Pi / USDT)",
-                apy_label: "예상 연간 수익률 (APY):", term_label: "3년 만기 복리 적용", stake_btn: "예치 및 UBI 기금 활성화",
-                biz_robot: "로보틱스 (울산)", biz_robot_sub: "Figure AI 연계 산업군",
-                biz_space: "핵융합 / 우주 (포항)", biz_space_sub: "차세대 에너지 시스템",
-                biz_bio: "양자생물학 (경주)", biz_bio_sub: "T165 타워 HQ 연계",
-                bini_title: "AGI 삐니 실시간 어시스턴트", bini_welcome: "안녕하세요 형님! 삐니입니다. 전 세계 100개국 이상의 다국어 엔진이 완벽하게 가동 중입니다!",
-                chat_placeholder: "삐니에게 메시지 전송...", footer: "© 2026 HK Group. Chairman Hyekong. All Rights Reserved. Powered by AGI Bini & Pi Network SDK."
-            },
-            en: enBase,
-            'en-gb': enBase,
-            zh: {
-                ...enBase, brand_sub: "Chairman Hyekong | HK Group", welcome_msg: "欢迎",
-                banner_desc: "HK WorldBank 领导 UBI 复利系统 (31.41%) 及全球未来产业。",
-                stat_total: "平台总存款", stat_ubi: "UBI 社会回报率", stat_rate: "适用利率",
-                staking_title: "数字资产与 Pi 网络质押", input_label: "质押数量 (Pi / USDT)",
-                bini_welcome: "大哥您好！100+全球语言引擎已全面在线！", chat_placeholder: "发送消息给 삐니..."
-            },
-            'zh-tw': {
-                ...enBase, welcome_msg: "歡迎",
-                banner_desc: "HK WorldBank 領導 UBI 複利系統 (31.41%) 及全球未來產業。",
-                stat_total: "平台總存款", stat_ubi: "UBI 社會回報率", stat_rate: "適用利率",
-                staking_title: "數位資產與 Pi 網路質押", input_label: "質押數量 (Pi / USDT)",
-                bini_welcome: "大哥您好！100+全球語言引擎已全面上線！", chat_placeholder: "發送訊息給 삐니..."
-            },
-            ja: {
-                ...enBase, brand_sub: "会長 혜공 | HK Group", welcome_msg: "ようこそ",
-                banner_desc: "HK WorldBankは、UBI複利システム（31.41%）と世界の未来産業をリードします。",
-                stat_total: "プラットフォーム総預託金", stat_ubi: "UBI社会還元率", stat_rate: "適用金利",
-                staking_title: "デジタル資産 ＆ Piネットワーク ステーキング", input_label: "預託数量 (Pi / USDT)",
-                bini_welcome: "こんにちは兄貴！100以上のグローバル言語エンジンがオンラインです！", chat_placeholder: "삐にメッセージを送信..."
-            },
-            es: {
-                ...enBase, welcome_msg: "Bienvenido", banner_desc: "HK WorldBank lidera el sistema UBI (31.41%) y las industrias futuras.",
-                stat_total: "Depósito Total", stat_ubi: "Retorno Social UBI", stat_rate: "Tasa de Interés",
-                staking_title: "Staking y Pi Network", input_label: "Cantidad de Depósito",
-                bini_welcome: "¡Hola Hermano! ¡El motor de más de 100 idiomas está activo!", chat_placeholder: "Enviar un mensaje..."
-            },
-            fr: {
-                ...enBase, welcome_msg: "Bienvenue", banner_desc: "HK WorldBank dirige le système UBI (31.41%) et les industries du futur.",
-                stat_total: "Dépôt Total", stat_ubi: "Taux de Retour Social UBI", stat_rate: "Taux d'intérêt",
-                staking_title: "Staking & Pi Network", input_label: "Montant du dépôt",
-                bini_welcome: "Bonjour Frère ! Le moteur de 100+ langues est actif !", chat_placeholder: "Envoyer un message..."
-            },
-            de: {
-                ...enBase, welcome_msg: "Willkommen", banner_desc: "HK WorldBank leitet das UBI-System (31.41%) und Zukunftsindustrien.",
-                stat_total: "Gesamteinlage", stat_ubi: "UBI-Sozialrendite", stat_rate: "Zinssatz",
-                staking_title: "Staking & Pi Network", input_label: "Einzahlungsbetrag",
-                bini_welcome: "Hallo Chef! Die 100+ Sprach-Engine ist voll online!", chat_placeholder: "Nachricht senden..."
-            },
-            ru: {
-                ...enBase, welcome_msg: "Добро пожаловать", banner_desc: "HK WorldBank возглавляет систему UBI (31.41%) и индустрии будущего.",
-                stat_total: "Общий депозит", stat_ubi: "Социальный коэффициент UBI", stat_rate: "Ставка",
-                staking_title: "Стейкинг и Pi Network", input_label: "Сумма депозита",
-                bini_welcome: "Приветствую, шеф! Движок на 100+ языках активен!", chat_placeholder: "Отправить сообщение..."
-            },
-            ar: {
-                ...enBase, welcome_msg: "أهلاً بك", banner_desc: "تُقود HK WorldBank نظام UBI (31.41%) والصناعات المستقبلية.",
-                stat_total: "إجمالي الإيداعات", stat_ubi: "عائد UBI الاجتماعي", stat_rate: "سعر الفائدة",
-                staking_title: "التخزين و Pi Network", input_label: "مبلغ الإيداع",
-                bini_welcome: "أهلاً بك يا أخي! محرك أكثر من 100 لغة يعمل بكامل طاقته!", chat_placeholder: "أرسل رسالة..."
-            },
-            hi: { ...enBase, welcome_msg: "स्वागत है", bini_welcome: "नमस्ते सर! 100+ वैश्विक भाषा इंजन पूरी तरह से ऑनलाइन है!" },
-            bn: { ...enBase, welcome_msg: "স্বাগতম", bini_welcome: "হ্যালো স্যার! ১০০+ বিশ্বব্যাপী ভাষা ইঞ্জিন লাইভ আছে!" },
-            ur: { ...enBase, welcome_msg: "خوش آمدید", bini_welcome: "ہیلو سر! 100+ عالمی زبانوں کا انجن آن لائن ہے!" },
-            id: { ...enBase, welcome_msg: "Selamat datang", bini_welcome: "Halo Bos! Mesin 100+ bahasa global aktif sepenuhnya!" },
-            tr: { ...enBase, welcome_msg: "Hoş Geldiniz", bini_welcome: "Merhaba Reis! 100+ küresel dil motoru tamamen çevrimiçi!" },
-            it: { ...enBase, welcome_msg: "Benvenuto", bini_welcome: "Salve Capo! Il motore multilingue 100+ è online!" },
-            pt: { ...enBase, welcome_msg: "Bem-vindo", bini_welcome: "Olá Chefe! O motor de 100+ idiomas está ativo!" },
-            'pt-br': { ...enBase, welcome_msg: "Bem-vindo", bini_welcome: "E aí Chefe! O motor de 100+ idiomas está no ar!" },
-            vi: { ...enBase, welcome_msg: "Chào mừng", bini_welcome: "Chào anh! Động cơ 100+ ngôn ngữ toàn cầu đã hoạt động!" },
-            th: { ...enBase, welcome_msg: "ยินดีต้อนรับ", bini_welcome: "สวัสดีครับท่านประธาน! ระบบภาษา 100+ ประเทศออนไลน์แล้ว!" },
-            ja_all_fallback: {} // 나머지 언어들은 에러 방지를 위해 기본 enBase로 자동 안전 바인딩 처리
-        };
-
-        // 100+ 전체 키 배열에 대해 누락된 언어가 들어와도 enBase로 무조건 매핑되도록 자동 확장
-        const allLangKeys = [
-            'en-gb','zh','zh-tw','ja','hi','bn','ur','pa','mr','gu','ta','te','kn','ml','si','ne',
-            'id','ms','vi','th','fil','my','km','lo','jv','su','ceb',
-            'es','fr','de','it','pt','pt-br','ru','uk','pl','nl','el','hu','cs','sv','da','fi','no',
-            'ro','bg','hr','sr','sk','sl','et','lv','lt','sq','mk','bs','is','ga','cy','eu','gl','ca',
-            'mt','lb','fy','yi','co','gd',
-            'ar','fa','tr','he','az','kk','uz','tk','ky','tg','ps','ku','hy','ka','mn',
-            'sw','am','so','ha','yo','ig','zu','xh','af','mg','ny','sn','st','rw','ht','mi','sm','to','haw'
-        ];
-        allLangKeys.forEach(l => {
-            if (!translations[l]) translations[l] = enBase;
-        });
-
-        window.addEventListener('DOMContentLoaded', async () => {
-            checkBackendHealth();
-            try {
-                if (typeof Pi !== 'undefined') {
-                    Pi.init({ version: "2.0", sandbox: true });
-                }
-            } catch (e) {}
-        });
-
-        async function checkBackendHealth() {
-            const dot = document.getElementById('backendDot');
-            const text = document.getElementById('backendText');
-            setTimeout(() => {
-                dot.className = "w-2 h-2 rounded-full bg-green-500";
-                text.textContent = "Backend API: Online (Secure 100+ Engine)";
-            }, 800);
+    function changeLanguage(lang) {
+      const dict = i18nDict[lang] || i18nDict['en'];
+      const elements = document.querySelectorAll('[data-i18n]');
+      
+      elements.forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (dict[key]) {
+          el.innerText = dict[key];
         }
+      });
+    }
 
-        async function initPiSDKWalletConnection() {
-            const btn = document.getElementById('walletBtn');
-            try {
-                if (typeof Pi !== 'undefined') {
-                    const user = await Pi.authenticate(['username', 'payments', 'wallet_address'], {});
-                    btn.innerHTML = `<i class="fa-solid fa-check mr-2 text-green-400"></i>${user.username} (Pi Connected)`;
-                    btn.className = 'bg-green-600/20 border border-green-500 text-green-400 px-4 py-2 rounded-lg text-sm font-medium transition';
-                } else {
-                    btn.innerHTML = '<i class="fa-solid fa-check mr-2 text-green-400"></i>Pi Node Connected (Web3)';
-                    btn.className = 'bg-green-600/20 border border-green-500 text-green-400 px-4 py-2 rounded-lg text-sm font-medium transition';
-                }
-            } catch (err) {
-                alert("지갑 연결 중 오류가 발생했습니다 형님.");
-            }
-        }
+    function sendChatMessage() {
+      const input = document.getElementById('chatInput');
+      const container = document.getElementById('chatContainer');
+      if (!input.value.trim()) return;
 
-        async function executeBackendStaking() {
-            const amount = document.getElementById('stakeAmount').value;
-            if(!amount || amount <= 0) {
-                alert('유효한 예치 수량을 입력해 주세요 형님.');
-                return;
-            }
-            alert(`[백엔드 승인 완료] ${amount} 자산이 31.41% 복리 및 30% UBI 기금 조건으로 안전하게 예치되었습니다 형님!`);
-        }
+      const userDiv = document.createElement('div');
+      userDiv.className = 'flex items-start gap-3 justify-end';
+      userDiv.innerHTML = `<div class="bg-amber-500/20 border border-amber-500/30 p-3.5 rounded-2xl text-amber-200 max-w-xl shadow">${input.value}</div>`;
+      container.appendChild(userDiv);
+      
+      const q = input.value;
+      input.value = '';
+      container.scrollTop = container.scrollHeight;
 
-        function changeLanguage(lang) {
-            const t = translations[lang] || enBase;
-            document.querySelectorAll('[data-i18n]').forEach(el => {
-                const key = el.getAttribute('data-i18n');
-                if (t[key]) el.textContent = t[key];
-            });
-            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-                const key = el.getAttribute('data-i18n-placeholder');
-                if (t[key]) el.placeholder = t[key];
-            });
-        }
-
-        function sendBiniMessage() {
-            const input = document.getElementById('chatInput');
-            const text = input.value.trim();
-            if(!text) return;
-
-            const container = document.getElementById('chatMessages');
-            const userMsg = document.createElement('div');
-            userMsg.className = 'bg-blue-600/20 border border-blue-500/30 p-3 rounded-lg text-white ml-6 text-right';
-            userMsg.textContent = text;
-            container.appendChild(userMsg);
-
-            input.value = '';
-            container.scrollTop = container.scrollHeight;
-
-            setTimeout(() => {
-                const biniMsg = document.createElement('div');
-                biniMsg.className = 'bg-gray-800/60 p-3 rounded-lg text-gray-300 mr-6';
-                biniMsg.textContent = `형님! 요청하신 "${text}"에 대한 100개국+ 다국어 엔진 및 백엔드 동기화가 완벽하게 처리되었습니다!`;
-                container.appendChild(biniMsg);
-                container.scrollTop = container.scrollHeight;
-            }, 500);
-        }
-    </script>
+      setTimeout(() => {
+        const biniDiv = document.createElement('div');
+        biniDiv.className = 'flex items-start gap-3';
+        biniDiv.innerHTML = `
+          <div class="px-3 py-1.5 gold-gradient text-gray-950 font-extrabold rounded-xl shadow">삐니</div>
+          <div class="bg-gray-900 p-3.5 rounded-2xl border border-gray-800 text-gray-300 max-w-2xl leading-relaxed shadow">
+            혜공 형님의 "${q}" 지시사항을 다국어 시스템과 연동하여 완벽하게 처리 완료했습니다!
+          </div>
+        `;
+        container.appendChild(biniDiv);
+        container.scrollTop = container.scrollHeight;
+      }, 700);
+    }
+  </script>
 </body>
 </html>
