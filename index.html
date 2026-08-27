@@ -3,527 +3,209 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HK WorldBank - 해오름 특별시 글로벌 컨트롤 타워 (60개국 언어 뼈속까지 완벽 동기화)</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <title>HK WorldBank - T165 Control Tower</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;600;800&display=swap');
-        body { font-family: 'Pretendard', sans-serif; background-color: #030712; color: #f3f4f6; }
-        .glass { background: rgba(17, 24, 39, 0.85); backdrop-filter: blur(12px); border: 1px solid rgba(59, 130, 246, 0.2); }
-        .modal { display: none; position: fixed; inset: 0; z-index: 100; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); align-items: center; justify-content: center; }
-        .modal.active { display: flex; }
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #131b2e;
+            --card-border: #1e293b;
+            --text-main: #f8fafc;
+            --text-sub: #94a3b8;
+            --accent-green: #10b981;
+            --accent-pink: #ec4899;
+            --accent-purple: #8b5cf6;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            padding: 16px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* 삼선 네비게이션 및 핵심 분할선 스타일 */
+        .nav-divider {
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(to right, var(--accent-purple), var(--accent-pink), transparent);
+            margin: 10px 0;
+        }
+
+        /* Header / Top Bar */
+        .top-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 20px;
+            border-radius: 12px;
+        }
+
+        .brand-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--text-main);
+        }
+
+        /* 3-Tier Grid System (삼선 메인 그리드) */
+        .grid-tier {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            transition: transform 0.2s ease;
+        }
+
+        .card:hover {
+            border-color: var(--accent-purple);
+        }
+
+        .card-title {
+            font-size: 0.9rem;
+            color: var(--text-sub);
+        }
+
+        .card-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        /* 9대 미래 사업 및 허브 버튼 영역 */
+        .hub-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 10px;
+        }
+
+        .hub-btn {
+            background: #1e1b4b;
+            border: 1px solid #312e81;
+            color: var(--text-main);
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 0.85rem;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .hub-btn:hover {
+            background: #312e81;
+        }
+
+        /* AGI 삐니 대화 섹션 */
+        .chat-section {
+            background: var(--card-bg);
+            border: 1px solid var(--accent-pink);
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .chat-box {
+            background: #090d16;
+            padding: 14px;
+            border-radius: 8px;
+            color: var(--accent-pink);
+            font-size: 0.95rem;
+        }
+
+        /* 반응형 모바일 최적화 (삼선 정렬 유지) */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            .card-value {
+                font-size: 1.4rem;
+            }
+            .hub-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
     </style>
 </head>
-<body class="min-h-screen flex flex-col">
+<body>
 
-    <!-- 상단 네비게이션 (HK 로고 및 스마트폰 자동 언어 배치 적용) -->
-    <header class="glass sticky top-0 z-50 px-6 py-4 flex items-center justify-between border-b border-blue-900/50">
-        <div class="flex items-center space-x-3">
-            <!-- HK 그룹 심볼 로고 -->
-            <div class="w-10 h-10 bg-gradient-to-tr from-blue-600 via-indigo-600 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-500/30 border border-blue-400/30">
-                <span class="text-white font-black text-base tracking-tighter">HK</span>
+    <div class="container">
+        <!-- 첫 번째 선 (Top Header) -->
+        <div class="top-header">
+            <div class="brand-title">HK WORLDBANK</div>
+            <div style="color: var(--accent-green); font-weight: bold;">ONLINE (API/SDK Ready)</div>
+        </div>
+        <div class="nav-divider"></div>
+
+        <!-- 두 번째 선 (Core Stats Grid) -->
+        <div class="grid-tier">
+            <div class="card">
+                <div class="card-title">자산 잔액</div>
+                <div class="card-value" style="color: #60a5fa;">1,000,000.00 π</div>
             </div>
-            <div>
-                <span class="text-lg font-black tracking-wider text-white block leading-tight">HK WORLDBANK</span>
-                <span id="txt-nav-badge" class="text-[10px] text-blue-400 font-semibold">해오름 특별시 60개국 글로벌 컨트롤 타워</span>
+            <div class="card">
+                <div class="card-title">UBI 복리 (사회재단 APY)</div>
+                <div class="card-value" style="color: var(--accent-green);">31.41%</div>
+            </div>
+            <div class="card">
+                <div class="card-title">지구촌 순이익 환원</div>
+                <div class="card-value" style="color: var(--accent-pink);">30.0%</div>
             </div>
         </div>
-        <div class="flex items-center space-x-3">
-            <!-- 60개국 언어 드롭다운 (스마트폰 접속 시 기기 언어 자동 감지 및 배치) -->
-            <select id="lang-select" class="bg-gray-900 border border-blue-800 text-blue-300 text-xs rounded-lg px-3 py-2 focus:outline-none max-w-[220px]">
-                <option value="ko">🇰🇷 한국어 (Korean)</option>
-                <option value="en">🇺🇸 English (US)</option>
-                <option value="zh">🇨🇳 中文 (Chinese)</option>
-                <option value="ja">🇯🇵 日本語 (Japanese)</option>
-                <option value="vi">🇻🇳 Tiếng Việt (Vietnamese)</option>
-                <option value="es">🇪🇸 Español (Spanish)</option>
-                <option value="fr">🇫🇷 Français (French)</option>
-                <option value="de">🇩🇪 Deutsch (German)</option>
-                <option value="ru">🇷🇺 Русский (Russian)</option>
-                <option value="ar">🇸🇦 العربية (Arabic)</option>
-                <option value="hi">🇮🇳 हिन्दी (Hindi)</option>
-                <option value="bn">🇧🇩 বাংলা (Bengali)</option>
-                <option value="pt">🇵🇹 Português (Portuguese)</option>
-                <option value="id">🇮🇩 Bahasa Indonesia (Indonesian)</option>
-                <option value="tr">🇹🇷 Türkçe (Turkish)</option>
-                <option value="it">🇮🇹 Italiano (Italian)</option>
-                <option value="pl">🇵🇱 Polski (Polish)</option>
-                <option value="uk">🇺🇦 Українська (Ukrainian)</option>
-                <option value="nl">🇳🇱 Nederlands (Dutch)</option>
-                <option value="th">🇹🇭 ไทย (Thai)</option>
-                <option value="fa">🇮🇷 فارسی (Persian)</option>
-                <option value="ms">🇲🇾 Bahasa Melayu (Malay)</option>
-                <option value="fil">🇵🇭 Filipino (Tagalog)</option>
-                <option value="sv">🇸🇪 Svenska (Swedish)</option>
-                <option value="el">🇬🇷 Ελληνικά (Greek)</option>
-                <option value="cs">🇨🇿 Čeština (Czech)</option>
-                <option value="ro">🇷🇴 Română (Romanian)</option>
-                <option value="hu">🇭🇺 Magyar (Hungarian)</option>
-                <option value="he">🇮🇱 עברית (Hebrew)</option>
-                <option value="da">🇩🇰 Dansk (Danish)</option>
-                <option value="fi">🇫🇮 Suomi (Finnish)</option>
-                <option value="no">🇳🇴 Norsk (Norwegian)</option>
-                <option value="sk">🇸🇰 Slovenčina (Slovak)</option>
-                <option value="bg">🇧🇬 Български (Bulgarian)</option>
-                <option value="hr">🇭🇷 Hrvatski (Croatian)</option>
-                <option value="sr">🇷🇸 Српски (Serbian)</option>
-                <option value="lt">🇱🇹 Lietuvių (Lithuanian)</option>
-                <option value="lv">🇱🇻 Latviešu (Latvian)</option>
-                <option value="et">🇪🇪 Eesti (Estonian)</option>
-                <option value="sl">🇸🇮 Slovenščina (Slovenian)</option>
-                <option value="sw">🇰🇪 Kiswahili (Swahili)</option>
-                <option value="am">🇪🇹 አማርኛ (Amharic)</option>
-                <option value="yo">🇳🇬 Yorùbá (Yoruba)</option>
-                <option value="ig">🇳🇬 Igbo (Igbo)</option>
-                <option value="ha">🇳🇬 Hausa (Hausa)</option>
-                <option value="zu">🇿🇦 IsiZulu (Zulu)</option>
-                <option value="af">🇿🇦 Afrikaans (Afrikaans)</option>
-                <option value="ne">🇳🇵 नेपाली (Nepali)</option>
-                <option value="si">🇱🇰 සිංහල (Sinhala)</option>
-                <option value="km">🇰🇭 ខ្មែរ (Khmer)</option>
-                <option value="my">🇲🇲 မြန်မာ (Burmese)</option>
-                <option value="lo">🇱🇦 ລາວ (Lao)</option>
-                <option value="mn">🇲🇳 Монгол (Mongolian)</option>
-                <option value="ka">🇬🇪 ქართული (Georgian)</option>
-                <option value="hy">🇦🇲 Հայերեն (Armenian)</option>
-                <option value="az">🇦🇿 Azərbaycanca (Azerbaijani)</option>
-                <option value="kk">🇰🇿 Қазақша (Kazakh)</option>
-                <option value="uz">🇺🇿 Oʻzbekcha (Uzbek)</option>
-                <option value="ur">🇵🇰 اردو (Urdu)</option>
-                <option value="ps">🇦🇫 پښتو (Pashto)</option>
-            </select>
-            <button onclick="connectWallet()" class="bg-blue-600 hover:bg-blue-500 text-white font-bold px-4 py-2 rounded-xl text-sm transition">
-                <i class="fa-solid fa-wallet mr-1.5"></i> <span id="txt-connect">지갑 연결</span>
-            </button>
-        </div>
-    </header>
+        <div class="nav-divider"></div>
 
-    <!-- 메인 대시보드 -->
-    <main class="flex-1 max-w-7xl w-full mx-auto p-6 space-y-6">
-       
-        <!-- 환영 배너 및 주요 지표 -->
-        <div class="glass p-8 rounded-3xl relative overflow-hidden">
-            <div class="absolute right-0 top-0 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none"></div>
-            <span id="txt-badge" class="px-3 py-1 bg-purple-900/60 text-purple-300 text-xs font-semibold rounded-full border border-purple-700">울산·경주·포항 통합 메인넷 (T165 컨트롤 타워)</span>
-            <h1 id="txt-welcome" class="text-3xl font-black mt-4 text-white">환영합니다, 혜공 형님</h1>
-            <p id="txt-desc" class="text-gray-400 mt-2 text-sm max-w-3xl leading-relaxed">
-                파이화폐(Pi) 단일 경제권과 165층 컨트롤 타워 시스템이 60개국 언어 실시간 완벽 동기화 및 글로벌 규제(AML, MiCA, CLARITY 등) 준수 체계와 함께 강력하게 구동 중입니다.
-            </p>
-
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8 pt-6 border-t border-gray-800">
-                <div class="bg-gray-900/60 p-4 rounded-2xl border border-gray-800">
-                    <span class="text-xs text-gray-400" id="lbl-bal">자산 잔액</span>
-                    <div class="text-xl font-black text-blue-400 mt-1" id="asset-display">1,000,000.00 <span class="text-xs text-yellow-400">π</span></div>
-                </div>
-                <div class="bg-gray-900/60 p-4 rounded-2xl border border-gray-800">
-                    <span class="text-xs text-gray-400" id="lbl-ubi">UBI 복리 (사회 재단)</span>
-                    <div class="text-xl font-black text-purple-400 mt-1">31.41% <span class="text-xs text-gray-400">APY</span></div>
-                </div>
-                <div class="bg-gray-900/60 p-4 rounded-2xl border border-gray-800">
-                    <span class="text-xs text-gray-400" id="lbl-ret">지구촌 순이익 환원</span>
-                    <div class="text-xl font-black text-green-400 mt-1">30.0%</div>
-                </div>
-                <div class="bg-gray-900/60 p-4 rounded-2xl border border-gray-800">
-                    <span class="text-xs text-gray-400" id="lbl-agi">AGI 삐니 상태</span>
-                    <div class="text-xl font-black text-pink-400 mt-1 flex items-center space-x-1.5"><span class="w-2 h-2 bg-pink-500 rounded-full animate-ping"></span><span>ONLINE (API/SDK Ready)</span></div>
-                </div>
+        <!-- 세 번째 선 (9대 미래 사업 허브) -->
+        <div class="card">
+            <div class="card-title" style="font-weight: bold; font-size: 1rem; color: var(--text-main);">10대 연동망 & 9대 미래 사업 허브 (T165)</div>
+            <div class="hub-grid">
+                <div class="hub-btn">🤖 로봇 (Ulsan)</div>
+                <div class="hub-btn">👓 안경폰(NEXUS)</div>
+                <div class="hub-btn">✈️ UAM</div>
+                <div class="hub-btn">⚡ 핵융합</div>
+                <div class="hub-btn">🧬 양자생물학 (Gyeongju)</div>
+                <div class="hub-btn">🚀 우주시스템 (Pohang)</div>
+                <div class="hub-btn">⚙️ 부품뱅크</div>
+                <div class="hub-btn">🛡️ 방산허브</div>
+                <div class="hub-btn">🏢 T165 타워</div>
             </div>
         </div>
 
-        <!-- 3단 메뉴 시스템: 백서, FAQ, 3대 정책, 글로벌 규제 -->
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <button onclick="openModal('modal-whitepaper')" class="glass p-4 rounded-2xl text-left hover:border-blue-500 transition group">
-                <div class="text-blue-400 font-bold text-sm mb-1"><i class="fa-solid fa-book mr-2"></i><span id="m-wp">4. 백서 (Whitepaper)</span></div>
-                <div class="text-[11px] text-gray-400 group-hover:text-gray-300" id="m-wp-sub">3단계 심층 아키텍처 및 비전</div>
-            </button>
-            <button onclick="openModal('modal-faq')" class="glass p-4 rounded-2xl text-left hover:border-blue-500 transition group">
-                <div class="text-purple-400 font-bold text-sm mb-1"><i class="fa-solid fa-circle-question mr-2"></i><span id="m-faq">5. FAQ (자주 묻는 질문)</span></div>
-                <div class="text-[11px] text-gray-400 group-hover:text-gray-300" id="m-faq-sub">3단계 질의응답 및 가이드</div>
-            </button>
-            <button onclick="openModal('modal-policy')" class="glass p-4 rounded-2xl text-left hover:border-blue-500 transition group">
-                <div class="text-green-400 font-bold text-sm mb-1"><i class="fa-solid fa-shield-halved mr-2"></i><span id="m-policy">6. 3대 POLICIES (운영 정책)</span></div>
-                <div class="text-[11px] text-gray-400 group-hover:text-gray-300" id="m-policy-sub">보안·투명성·사회환원 3중 체계</div>
-            </button>
-            <button onclick="openModal('modal-compliance')" class="glass p-4 rounded-2xl text-left hover:border-blue-500 transition group">
-                <div class="text-pink-400 font-bold text-sm mb-1"><i class="fa-solid fa-globe mr-2"></i><span id="m-comp">7. 글로벌 규제 컴플라이언스</span></div>
-                <div class="text-[11px] text-gray-400 group-hover:text-gray-300" id="m-comp-sub">AML, MiCA, CLARITY 및 10개국 법령</div>
-            </button>
-        </div>
-
-        <!-- 핵심 기능 및 연동망 -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-           
-            <!-- 금융 작업 -->
-            <div class="glass p-6 rounded-3xl space-y-4 flex flex-col justify-between">
-                <div>
-                    <h3 class="text-sm font-bold text-blue-400 uppercase tracking-widest mb-4" id="lbl-actions">빠른 금융 작업 (API·SDK 연동)</h3>
-                    <div class="grid grid-cols-2 gap-3">
-                        <button onclick="executeAction('deposit')" class="bg-blue-600/25 hover:bg-blue-600/40 border border-blue-500/40 p-3 rounded-2xl text-left transition">
-                            <i class="fa-solid fa-vault text-blue-400 text-base mb-1 block"></i>
-                            <div class="font-bold text-xs" id="btn-dep">예치하기</div>
-                            <div class="text-[9px] text-gray-400">31.41% 복리</div>
-                        </button>
-                        <button onclick="executeAction('withdraw')" class="bg-green-600/25 hover:bg-green-600/40 border border-green-500/40 p-3 rounded-2xl text-left transition">
-                            <i class="fa-solid fa-arrow-right-arrow-left text-green-400 text-base mb-1 block"></i>
-                            <div class="font-bold text-xs" id="btn-wit">출금/송금</div>
-                            <div class="text-[9px] text-gray-400">즉시 정산</div>
-                        </button>
-                        <button onclick="executeAction('swap')" class="bg-purple-600/25 hover:bg-purple-600/40 border border-purple-500/40 p-3 rounded-2xl text-left transition">
-                            <i class="fa-solid fa-coins text-purple-400 text-base mb-1 block"></i>
-                            <div class="font-bold text-xs" id="btn-swap">Pi 스왑</div>
-                            <div class="text-[9px] text-gray-400">현금·카드·타코인 교환</div>
-                        </button>
-                        <button onclick="executeAction('ubi')" class="bg-pink-600/25 hover:bg-pink-600/40 border border-pink-500/40 p-3 rounded-2xl text-left transition">
-                            <i class="fa-solid fa-hand-holding-heart text-pink-400 text-base mb-1 block"></i>
-                            <div class="font-bold text-xs" id="btn-ubi-net">UBI 재단</div>
-                            <div class="text-[9px] text-gray-400">지자체 협력 지급</div>
-                        </button>
-                    </div>
-                </div>
-                <div class="text-[10px] text-gray-500 pt-2 border-t border-gray-800 flex justify-between items-center">
-                    <span>Support: support@hkwb.world</span>
-                    <div>유튜브: <span class="text-blue-400">@Hyekong2026</span> | 틱톡: <span class="text-pink-400">@hyekong2025</span></div>
-                </div>
+        <!-- AGI 삐니 대화 상자 -->
+        <div class="chat-section">
+            <div style="font-weight: bold; display: flex; justify-content: space-between; align-items: center;">
+                <span>AGI 삐니 (60개국 언어 실시간 통역 지원)</span>
+                <span style="font-size: 0.8rem; color: var(--accent-green);">정상 작동 중</span>
             </div>
-
-            <!-- 10대 연동망 및 9대 미래 사업 허브 -->
-            <div class="glass p-6 rounded-3xl space-y-4 md:col-span-2 flex flex-col justify-between">
-                <div>
-                    <div class="flex justify-between items-center mb-3">
-                        <h3 class="text-sm font-bold text-blue-400 uppercase tracking-widest" id="lbl-net-title">10대 연동망 & 9대 미래 사업 허브 (T165)</h3>
-                        <span class="text-[10px] text-green-400 bg-green-950 px-2 py-0.5 rounded border border-green-800" id="lbl-sync">60개국 언어 실시간 동기화</span>
-                    </div>
-                    <div class="grid grid-cols-2 lg:grid-cols-5 gap-2 text-xs mb-4">
-                        <div class="bg-gray-900/60 p-2.5 rounded-xl border border-blue-900/30 text-center"><i class="fa-solid fa-wallet text-blue-400 mb-1 block"></i><span id="n1">지갑연결</span></div>
-                        <div class="bg-gray-900/60 p-2.5 rounded-xl border border-blue-900/30 text-center"><i class="fa-solid fa-paper-plane text-purple-400 mb-1 block"></i><span id="n2">송금</span></div>
-                        <div class="bg-gray-900/60 p-2.5 rounded-xl border border-blue-900/30 text-center"><i class="fa-solid fa-credit-card text-green-400 mb-1 block"></i><span id="n3">결제</span></div>
-                        <div class="bg-gray-900/60 p-2.5 rounded-xl border border-blue-900/30 text-center"><i class="fa-solid fa-vault text-yellow-400 mb-1 block"></i><span id="n4">예치</span></div>
-                        <div class="bg-gray-900/60 p-2.5 rounded-xl border border-blue-900/30 text-center"><i class="fa-solid fa-gift text-pink-400 mb-1 block"></i><span id="n5">보상</span></div>
-                        <div class="bg-gray-900/60 p-2.5 rounded-xl border border-blue-900/30 text-center"><i class="fa-solid fa-hand-holding-heart text-red-400 mb-1 block"></i><span id="n6">기본소득</span></div>
-                        <div class="bg-gray-900/60 p-2.5 rounded-xl border border-blue-900/30 text-center"><i class="fa-solid fa-rotate text-indigo-400 mb-1 block"></i><span id="n7">스왑</span></div>
-                        <div class="bg-gray-900/60 p-2.5 rounded-xl border border-blue-900/30 text-center"><i class="fa-solid fa-chart-line text-teal-400 mb-1 block"></i><span id="n8">DEX 스왑</span></div>
-                        <div class="bg-gray-900/60 p-2.5 rounded-xl border border-blue-900/30 text-center"><i class="fa-solid fa-layer-group text-orange-400 mb-1 block"></i><span id="n9">LP 스테이킹</span></div>
-                        <div class="bg-gray-900/60 p-2.5 rounded-xl border border-blue-900/30 text-center"><i class="fa-solid fa-pi text-yellow-500 mb-1 block"></i><span id="n10">PI 수량</span></div>
-                    </div>
-                </div>
-                <div class="flex flex-wrap gap-1.5 text-[10px] text-gray-300 pt-3 border-t border-gray-800">
-                    <a href="https://ljw2358.github.io/HK-ROBOT" target="_blank" class="px-2.5 py-1 bg-blue-950 hover:bg-blue-900 rounded border border-blue-800 transition">🤖 로봇</a>
-                    <a href="https://ljw2358.github.io/HK-NEXUS" target="_blank" class="px-2.5 py-1 bg-blue-950 hover:bg-blue-900 rounded border border-blue-800 transition">👓 안경폰(NEXUS)</a>
-                    <a href="https://ljw2358.github.io/HK-UAM" target="_blank" class="px-2.5 py-1 bg-blue-950 hover:bg-blue-900 rounded border border-blue-800 transition">🛸 UAM</a>
-                    <a href="https://ljw2358.github.io/HK-FUSION" target="_blank" class="px-2.5 py-1 bg-blue-950 hover:bg-blue-900 rounded border border-blue-800 transition">⚡ 핵융합</a>
-                    <a href="https://ljw2358.github.io/QUANTUMBIO" target="_blank" class="px-2.5 py-1 bg-blue-950 hover:bg-blue-900 rounded border border-blue-800 transition">🧬 양자생물학</a>
-                    <a href="https://ljw2358.github.io/HK-SPACE" target="_blank" class="px-2.5 py-1 bg-blue-950 hover:bg-blue-900 rounded border border-blue-800 transition">🚀 우주시스템</a>
-                    <a href="https://ljw2358.github.io/PARTSBANK" target="_blank" class="px-2.5 py-1 bg-blue-950 hover:bg-blue-900 rounded border border-blue-800 transition">⚙️ 부품뱅크</a>
-                    <a href="https://ljw2358.github.io/DEFENCE-HUB" target="_blank" class="px-2.5 py-1 bg-blue-950 hover:bg-blue-900 rounded border border-blue-800 transition">🛡️ 방산허브</a>
-                    <span class="px-2.5 py-1 bg-purple-950 text-purple-300 rounded border border-purple-800">🏢 T165 타워 (UN기구·7성호텔·CTO)</span>
-                </div>
-            </div>
-
-        </div>
-
-        <!-- AGI 삐니 고객센터 챗 -->
-        <div class="glass p-6 rounded-3xl border border-pink-500/30">
-            <div class="flex items-center justify-between mb-3">
-                <div class="flex items-center space-x-3">
-                    <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-pink-500 to-purple-600 flex items-center justify-center font-bold text-xs text-white">삐니</div>
-                    <div>
-                        <h4 class="font-bold text-sm text-white" id="lbl-agi-title">AGI 삐니 (60개국 언어 실시간 통역 지원)</h4>
-                        <p class="text-[11px] text-gray-400" id="lbl-agi-sub">해오름 특별시 & 파이 경제권 안내</p>
-                    </div>
-                </div>
-                <span class="text-xs text-pink-400 font-bold" id="lbl-status-ok">정상 작동 중 (API/SDK Backend)</span>
-            </div>
-            <div class="bg-gray-900/90 p-3 rounded-xl border border-gray-800 text-xs text-gray-300 mb-3" id="txt-msg">
+            <div class="chat-box">
                 "형님, 전 세계 60개국 언어와 AML, MiCA, CLARITY 규제 준수 모듈이 백엔드 SDK에 완벽히 연동되었습니다!"
             </div>
-            <div class="flex space-x-2">
-                <input type="text" id="chat-input" placeholder="AGI 삐니에게 무엇이든 물어보세요..." class="flex-1 bg-gray-900 border border-gray-800 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-pink-500 text-white">
-                <button onclick="sendChatMessage()" class="bg-gradient-to-r from-pink-600 to-purple-600 text-white px-4 py-2 rounded-xl text-xs font-bold transition">전송</button>
-            </div>
-        </div>
-
-    </main>
-
-    <!-- 모달 팝업 창들 -->
-    <div id="modal-whitepaper" class="modal">
-        <div class="glass max-w-2xl w-full p-6 rounded-3xl border border-blue-500/40 relative">
-            <button onclick="closeModal('modal-whitepaper')" class="absolute right-4 top-4 text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
-            <h3 id="m-wp-title" class="text-lg font-bold text-blue-400 mb-3"><i class="fa-solid fa-book mr-2"></i>HK WorldBank 백서</h3>
-            <div class="space-y-3 text-xs text-gray-300 max-h-[60vh] overflow-y-auto pr-2">
-                <div class="p-3 bg-gray-900/80 rounded-xl border border-gray-800">
-                    <strong id="wp-t1" class="text-blue-300 block mb-1">1선: 파이화폐(Pi) 단일 경제권 구축 아키텍처</strong>
-                    <p id="wp-d1">전 세계 60개국 언어 실시간 동기화 엔진과 연동되어 개인 간 송금, 재래시장 결제, 대기업 임금 정산까지 단일 화폐로 완벽히 수용하는 초고속 분산 메인넷 구조.</p>
-                </div>
-                <div class="p-3 bg-gray-900/80 rounded-xl border border-gray-800">
-                    <strong id="wp-t2" class="text-blue-300 block mb-1">2선: 165층 컨트롤 타워 및 9대 미래 사업 융합</strong>
-                    <p id="wp-d2">울산·경주·포항 메인 산업 클러스터와 165층 T165 타워 간의 실시간 자본 흐름 제어.</p>
-                </div>
-                <div class="p-3 bg-gray-900/80 rounded-xl border border-gray-800">
-                    <strong id="wp-t3" class="text-blue-300 block mb-1">3선: 글로벌 UBI 및 순이익 30% 지구촌 환원 모델</strong>
-                    <p id="wp-d3">플랫폼 순이익의 30%를 글로벌 사회 재단과 연계하여 빈곤 지역에 투명하게 분배.</p>
-                </div>
-            </div>
         </div>
     </div>
 
-    <div id="modal-faq" class="modal">
-        <div class="glass max-w-2xl w-full p-6 rounded-3xl border border-purple-500/40 relative">
-            <button onclick="closeModal('modal-faq')" class="absolute right-4 top-4 text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
-            <h3 id="m-faq-title" class="text-lg font-bold text-purple-400 mb-3"><i class="fa-solid fa-circle-question mr-2"></i>자주 묻는 질문 (FAQ)</h3>
-            <div class="space-y-3 text-xs text-gray-300 max-h-[60vh] overflow-y-auto pr-2">
-                <div class="p-3 bg-gray-900/80 rounded-xl border border-gray-800">
-                    <strong id="fq-t1" class="text-purple-300 block mb-1">Q1. KYC / KYB 인증을 받지 않으면 어떻게 되나요?</strong>
-                    <p id="fq-d1">A. 인증을 완료하지 않은 사용자는 구경만 가능하며, 지갑 연동 시 백그라운드 자동 검증을 거칩니다.</p>
-                </div>
-                <div class="p-3 bg-gray-900/80 rounded-xl border border-gray-800">
-                    <strong id="fq-t2" class="text-purple-300 block mb-1">Q2. 현금, 카드, 타코인으로 Pi 코인을 구매할 수 있나요?</strong>
-                    <p id="fq-d2">A. 네, 스왑 및 결제 API/SDK 게이트웨이를 통해 현금, 신용카드, 외부 디지털 자산으로 Pi 매수가 가능합니다.</p>
-                </div>
-                <div class="p-3 bg-gray-900/80 rounded-xl border border-gray-800">
-                    <strong id="fq-t3" class="text-purple-300 block mb-1">Q3. 60개국 언어와 글로벌 규제는 어떻게 준수되나요?</strong>
-                    <p id="fq-d3">A. 프론트엔드 드롭다운으로 60개국 언어가 동기화되며 백엔드 SDK에서 AML, MiCA, CLARITY 규제를 필터링합니다.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="modal-policy" class="modal">
-        <div class="glass max-w-2xl w-full p-6 rounded-3xl border border-green-500/40 relative">
-            <button onclick="closeModal('modal-policy')" class="absolute right-4 top-4 text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
-            <h3 id="m-pol-title" class="text-lg font-bold text-green-400 mb-3"><i class="fa-solid fa-shield-halved mr-2"></i>3대 POLICIES (운영 정책)</h3>
-            <div class="space-y-3 text-xs text-gray-300 max-h-[60vh] overflow-y-auto pr-2">
-                <div class="p-3 bg-gray-900/80 rounded-xl border border-gray-800">
-                    <strong id="pl-t1" class="text-green-300 block mb-1">제1정책: 철저한 보안 및 자금세탁방지 (AML) 준수</strong>
-                    <p id="pl-d1">모든 금융 거래는 백그라운드 자동 KYC와 연동되어 이상 거래를 차단합니다.</p>
-                </div>
-                <div class="p-3 bg-gray-900/80 rounded-xl border border-gray-800">
-                    <strong id="pl-t2" class="text-green-300 block mb-1">제2정책: 투명한 재단 수익 배분 및 UBI 보장</strong>
-                    <p id="pl-d2">플랫폼 순이익의 30%를 지구촌 복지 인프라와 지자체 협력 UBI 모델에 할당합니다.</p>
-                </div>
-                <div class="p-3 bg-gray-900/80 rounded-xl border border-gray-800">
-                    <strong id="pl-t3" class="text-green-300 block mb-1">제3정책: 글로벌 상생 및 오픈 API/SDK 에코시스템</strong>
-                    <p id="pl-d3">60개국 사용자 모두가 언어 장벽 없이 접근하도록 개발자 API 환경을 제공합니다.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="modal-compliance" class="modal">
-        <div class="glass max-w-2xl w-full p-6 rounded-3xl border border-pink-500/40 relative">
-            <button onclick="closeModal('modal-compliance')" class="absolute right-4 top-4 text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
-            <h3 id="m-com-title" class="text-lg font-bold text-pink-400 mb-3"><i class="fa-solid fa-globe mr-2"></i>글로벌 규제 컴플라이언스</h3>
-            <div class="space-y-3 text-xs text-gray-300 max-h-[60vh] overflow-y-auto pr-2">
-                <div class="p-3 bg-gray-900/80 rounded-xl border border-gray-800">
-                    <strong id="cm-t1" class="text-pink-300 block mb-1">핵심 국제 법령 표준</strong>
-                    <p id="cm-d1">• AML: FATF 기준 모니터링<br>• MiCA: EU 통합 준수<br>• CLARITY: 미국 디지털 자산 투명성 보장</p>
-                </div>
-                <div class="p-3 bg-gray-900/80 rounded-xl border border-gray-800">
-                    <strong id="cm-t2" class="text-pink-300 block mb-1">10개국 디지털 자산법 완벽 통과 설계</strong>
-                    <p id="cm-d2">🇰🇷 한국, 🇯🇵 일본, 🇹🇭 태국, 🇻🇳 베트남, 🇮🇳 인도, 🇧🇷 브라질, 🇳🇬 나이지리아, 🇵🇭 필리핀 규제 완벽 호환</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        function openModal(id) { document.getElementById(id).classList.add('active'); }
-        function closeModal(id) { document.getElementById(id).classList.remove('active'); }
-
-        let isKycPassed = false;
-        function connectWallet() {
-            setTimeout(() => {
-                isKycPassed = true;
-                alert("백그라운드에서 KYC/KYB 인증이 성공적으로 확인되었습니다! 대시보드 모든 기능이 활성화됩니다.");
-                document.getElementById('asset-display').innerHTML = "1,000,000.00 <span class='text-xs text-yellow-400'>π</span> (Verified)";
-            }, 500);
-        }
-
-        function executeAction(type) {
-            if (!isKycPassed) {
-                alert("⚠️ [안내] KYC/KYB 인증이 확인되지 않아 현재 '구경만 가능(View-Only)'합니다. 지갑 연결 버튼을 눌러 백그라운드 인증을 완료해주세요.");
-                return;
-            }
-            if(type === 'deposit') alert("예치 API가 호출되었습니다. 31.41% 복리 예치가 적용됩니다.");
-            else if(type === 'withdraw') alert("출금/송금 SDK 백엔드 요청이 정상 접수되었습니다.");
-            else if(type === 'swap') alert("현금·카드·타코인 스왑 게이트웨이가 활성화되었습니다. Pi 코인 매수가 가능합니다.");
-            else if(type === 'ubi') alert("HK 사회 재단 UBI 지자체 협력 지급 프로세스가 실행되었습니다.");
-        }
-
-        function sendChatMessage() {
-            const input = document.getElementById('chat-input');
-            if(input.value.trim() !== "") {
-                alert("AGI 삐니(API/SDK Backend): \"" + input.value + "\" 지시사항이 60개국 언어 컨트롤 타워에 접수되었습니다!");
-                input.value = "";
-            }
-        }
-
-        // 60개국 완벽 번역 데이터베이스 (모든 주요 국가 언어 탑재)
-        const dict = {
-            ko: {
-                navBadge: "해오름 특별시 60개국 언어 컨트롤 타워", connect: "지갑 연결", badge: "울산·경주·포항 통합 메인넷 (T165 컨트롤 타워)", welcome: "환영합니다, 혜공 형님",
-                desc: "파이화폐(Pi) 단일 경제권과 165층 컨트롤 타워 시스템이 60개국 언어 실시간 완벽 동기화 및 글로벌 규제(AML, MiCA, CLARITY 등) 준수 체계와 함께 강력하게 구동 중입니다.",
-                bal: "자산 잔액", ubi: "UBI 복리 (사회 재단)", ret: "지구촌 순이익 환원", agi: "AGI 삐니 상태",
-                actions: "빠른 금융 작업 (API·SDK 연동)", dep: "예치하기", wit: "출금/송금", swap: "Pi 스왑", ubiNet: "UBI 재단",
-                netTitle: "10대 연동망 & 9대 미래 사업 허브 (T165)", sync: "60개국 언어 실시간 동기화",
-                n1: "지갑연결", n2: "송금", n3: "결제", n4: "예치", n5: "보상", n6: "기본소득", n7: "스왑", n8: "DEX 스왑", n9: "LP 스테이킹", n10: "PI 수량",
-                agiTitle: "AGI 삐니 (60개국 언어 실시간 통역 지원)", agiSub: "해오름 특별시 & 파이 경제권 안내", statusOk: "정상 작동 중 (API/SDK Backend)",
-                msg: "\"형님, 전 세계 60개국 언어와 AML, MiCA, CLARITY 규제 준수 모듈이 백엔드 SDK에 완벽히 연동되었습니다!\"",
-                mwp: "4. 백서 (Whitepaper)", mwpSub: "3단계 심층 아키텍처 및 비전", mfaq: "5. FAQ (자주 묻는 질문)", mfaqSub: "3단계 질의응답 및 가이드",
-                mpolicy: "6. 3대 POLICIES (운영 정책)", mpolicySub: "보안·투명성·사회환원 3중 체계", mcomp: "7. 글로벌 규제 컴플라이언스", mcompSub: "AML, MiCA, CLARITY 및 10개국 법령",
-                mwpTitle: "HK WorldBank 백서 (Whitepaper - 3선 체계)", wpT1: "1선: 파이화폐(Pi) 단일 경제권 구축 아키텍처", wpD1: "전 세계 60개국 언어 실시간 동기화 엔진과 연동되어 개인 간 송금, 재래시장 결제, 대기업 임금 정산까지 단일 화폐로 완벽히 수용하는 초고속 분산 메인넷 구조.",
-                wpT2: "2선: 165층 컨트롤 타워 및 9대 미래 사업 융합", wpD2: "울산·경주·포항 메인 산업 클러스터와 165층 T165 타워 간의 실시간 자본 흐름 제어.",
-                wpT3: "3선: 글로벌 UBI 및 순이익 30% 지구촌 환원 모델", wpD3: "플랫폼 순이익의 30%를 글로벌 사회 재단과 연계하여 빈곤 지역에 투명하게 분배.",
-                mfaqTitle: "자주 묻는 질문 (FAQ)", fqT1: "Q1. KYC / KYB 인증을 받지 않으면 어떻게 되나요?", fqD1: "A. 인증을 완료하지 않은 사용자는 구경만 가능하며, 지갑 연동 시 백그라운드 자동 검증을 거칩니다.",
-                fqT2: "Q2. 현금, 카드, 타코인으로 Pi 코인을 구매할 수 있나요?", fqD2: "A. 네, 스왑 및 결제 API/SDK 게이트웨이를 통해 현금, 신용카드, 외부 디지털 자산으로 Pi 매수가 가능합니다.",
-                fqT3: "Q3. 60개국 언어와 글로벌 규제는 어떻게 준수되나요?", fqD3: "A. 프론트엔드 드롭다운으로 60개국 언어가 동기화되며 백엔드 SDK에서 AML, MiCA, CLARITY 규제를 필터링합니다.",
-                mpolTitle: "3대 POLICIES (운영 정책)", plT1: "제1정책: 철저한 보안 및 자금세탁방지 (AML) 준수", plD1: "모든 금융 거래는 백그라운드 자동 KYC와 연동되어 이상 거래를 차단합니다.",
-                plT2: "제2정책: 투명한 재단 수익 배분 및 UBI 보장", plD2: "플랫폼 순이익의 30%를 지구촌 복지 인프라와 지자체 협력 UBI 모델에 할당합니다.",
-                plT3: "제3정책: 글로벌 상생 및 오픈 API/SDK 에코시스템", plD3: "60개국 사용자 모두가 언어 장벽 없이 접근하도록 개발자 API 환경을 제공합니다.",
-                mcomTitle: "글로벌 규제 컴플라이언스", cmT1: "핵심 국제 법령 표준", cmD1: "• AML: FATF 기준 모니터링<br>• MiCA: EU 통합 준수<br>• CLARITY: 미국 디지털 자산 투명성 보장",
-                cmT2: "10개국 디지털 자산법 완벽 통과 설계", cmD2: "🇰🇷 한국, 🇯🇵 일본, 🇹🇭 태국, 🇻🇳 베트남, 🇮🇳 인도, 🇧🇷 브라질, 🇳🇬 나이지리아, 🇵🇭 필리핀 규제 완벽 호환"
-            },
-            en: {
-                navBadge: "Haeoreum Special City 60-Lang Control Tower", connect: "Connect Wallet", badge: "Ulsan·Gyeongju·Pohang Mainnet (T165)", welcome: "Welcome, Chairman Hyekong",
-                desc: "The single Pi economic zone and 165-floor control tower system run with real-time sync across 60 languages and global compliance (AML, MiCA, CLARITY).",
-                bal: "Asset Balance", ubi: "Social UBI APY", ret: "Global Profit Return", agi: "AGI Bini Status",
-                actions: "Quick Actions (API/SDK)", dep: "Deposit", wit: "Withdraw", swap: "Pi Swap", ubiNet: "UBI Foundation",
-                netTitle: "Top 10 Networks & 9 Future Businesses (T165)", sync: "60 Lang Real-Time Sync",
-                n1: "Wallet", n2: "Transfer", n3: "Pay", n4: "Deposit", n5: "Reward", n6: "UBI", n7: "Swap", n8: "DEX", n9: "LP Stake", n10: "Pi Qty",
-                agiTitle: "AGI Bini (60 Language Support)", agiSub: "Control Tower & Pi Economic Guide", statusOk: "ONLINE (API/SDK Backend)",
-                msg: "\"Sir, all 60 languages and compliance modules (AML, MiCA, CLARITY) are fully integrated into the backend SDK!\"",
-                mwp: "4. Whitepaper", mwpSub: "3-Tier Deep Architecture & Vision", mfaq: "5. FAQ", mfaqSub: "3-Tier Q&A & Guide",
-                mpolicy: "6. 3 POLICIES", mpolicySub: "Security, Transparency & Welfare", mcomp: "7. Global Compliance", mcompSub: "AML, MiCA, CLARITY & 10 Nations",
-                mwpTitle: "HK WorldBank Whitepaper", wpT1: "Tier 1: Pi Single Economic Zone Architecture", wpD1: "High-speed decentralized mainnet synced with 60 languages for global P2P and retail settlements.",
-                wpT2: "Tier 2: 165-Floor Control Tower & 9 Future Businesses", wpD2: "Real-time capital flow control between industrial clusters and T165.",
-                wpT3: "Tier 3: Global UBI & 30% Profit Redistribution", wpD3: "Transparent allocation of 30% net profit to global welfare.",
-                mfaqTitle: "Frequently Asked Questions", fqT1: "Q1. What happens without KYC/KYB?", fqD1: "A. Users without verification are in View-Only mode until background verification succeeds upon wallet connection.",
-                fqT2: "Q2. Can I buy Pi with Fiat, Cards, or Other Coins?", fqD2: "A. Yes, through integrated swap and payment gateways for instant Pi acquisition.",
-                fqT3: "Q3. How are 60 languages and global regulations met?", fqD3: "A. Real-time frontend sync for 60 languages with backend SDK filtering for AML, MiCA, and CLARITY.",
-                mpolTitle: "3 POLICIES", plT1: "Policy 1: Strict Security & AML Compliance", plD1: "All transactions are monitored via automated background KYC.",
-                plT2: "Policy 2: Transparent Revenue Distribution & UBI", plD2: "30% of platform net profits allocated to global welfare infrastructure.",
-                plT3: "Policy 3: Global Harmony & Open API/SDK Ecosystem", plD3: "Ensuring equal access for users across all 60 nations.",
-                mcomTitle: "Global Compliance & Regulations", cmT1: "Core International Standards", cmD1: "• AML: FATF standards monitoring<br>• MiCA: EU unified compliance<br>• CLARITY: US asset transparency",
-                cmT2: "10-Nation Digital Asset Laws Support", cmD2: "🇰🇷 South Korea, 🇯🇵 Japan, 🇹🇭 Thailand, 🇻🇳 Vietnam, 🇮🇳 India, 🇧🇷 Brazil, 🇳🇬 Nigeria, 🇵🇭 Philippines compliance ready"
-            },
-            zh: {
-                navBadge: "日出特别市 60国语言控制塔", connect: "连接钱包", badge: "蔚山·庆州·浦项 主网 (T165)", welcome: "欢迎，慧恭会长",
-                desc: "Pi币单一经济圈与165层控制塔系统正在以60国语言实时同步及全球合规（AML、MiCA、CLARITY）强劲运行。",
-                bal: "资产余额", ubi: "社会基本收入 (UBI)", ret: "全球利润返还", agi: "AGI 状态",
-                actions: "快捷金融操作 (API/SDK)", dep: "存款", wit: "提款/转账", swap: "Pi 兑换", ubiNet: "UBI 基金会",
-                netTitle: "十佳分布式网络与九大未来产业 (T165)", sync: "六十国语言实时同步",
-                n1: "连接钱包", n2: "转账", n3: "支付", n4: "存款", n5: "奖励", n6: "基本收入", n7: "兑换", n8: "DEX兑换", n9: "LP质押", n10: "Pi数量",
-                agiTitle: "AGI 삐니 (六十国语言实时支持)", agiSub: "海鸥特区与Pi经济指南", statusOk: "在线 (API/SDK后端)",
-                msg: "\"会长，全球60国语言及AML、MiCA、CLARITY合规模块已在后端SDK完美同步！\"",
-                mwp: "4. 白皮书", mwpSub: "三级深度架构与愿景", mfaq: "5. FAQ", mfaqSub: "三级问答与指南",
-                mpolicy: "6. 三大政策", mpolicySub: "安全、透明与社会回报", mcomp: "7. 全球合规", mcompSub: "AML、MiCA、CLARITY及10国法律",
-                mwpTitle: "HK WorldBank 白皮书", wpT1: "第一层：Pi单一经济圈架构", wpD1: "通过60国语言实时同步引擎，完美支持全球P2P与零售结算。",
-                wpT2: "第二层：165层控制塔与九大未来产业", wpD2: "实现产业集群与T165大厦间的实时资金流控制。",
-                wpT3: "第三层：全球UBI与30%利润回馈", wpD3: "将平台净利润的30%透明分配至全球社会福利基金。",
-                mfaqTitle: "常见问题解答", fqT1: "Q1. 未通过KYC认证会怎样？", fqD1: "A. 未认证用户处于仅浏览模式，连接钱包时后台自动验证。",
-                fqT2: "Q2. 可以用现金或信用卡购买Pi币吗？", fqD2: "A. 可以，通过内置的支付与兑换网关实现即时购买。",
-                fqT3: "Q3. 如何遵守60国语言与全球监管？", fqD3: "A. 前端实时同步60国语言，后端SDK内置AML、MiCA、CLARITY过滤。",
-                mpolTitle: "三大运营政策", plT1: "政策一：严格安全与AML合规", plD1: "所有交易均通过后台自动KYC进行监控。",
-                plT2: "政策二：透明利润分配与UBI保障", plD2: "将30%净利润投入全球福利基础设施。",
-                plT3: "政策三：全球共赢与开放API/SDK生态", plD3: "确保60国用户无语言障碍平等访问。",
-                mcomTitle: "全球合规与监管标准", cmT1: "核心国际标准", cmD1: "• AML: FATF标准监控<br>• MiCA: 欧盟统一合规<br>• CLARITY: 美国资产透明度",
-                cmT2: "十国数字资产法完美支持", cmD2: "韩国、日本、泰国、越南、印度、巴西、尼日利亚、菲律宾等法规全兼容"
-            },
-            ja: {
-                navBadge: "日の出特別市 60カ国語コントロールタワー", connect: "ウォレット接続", badge: "蔚山・慶州・浦項 メインネット (T165)", welcome: "ようこそ、ヘゴン会長",
-                desc: "Pi通貨単一経済圏と165階コントロールタワーが60カ国語のリアルタイム同期およびグローバル規制(AML, MiCA, CLARITY)遵守体制で稼働中。",
-                bal: "資産残高", ubi: "社会的UBI複利", ret: "地球村利益還元", agi: "AGIステータス",
-                actions: "クイック金融 (API/SDK)", dep: "預金", wit: "出金/送金", swap: "Piスワップ", ubiNet: "UBI財団",
-                netTitle: "10大連動網 & 9大未来事業ハブ (T165)", sync: "60カ国語リアルタイム同期",
-                n1: "ウォレット", n2: "送金", n3: "決済", n4: "預金", n5: "報酬", n6: "UBI", n7: "スワップ", n8: "DEX", n9: "LPステーキング", n10: "Pi数量",
-                agiTitle: "AGI 삐니 (60カ国語リアルタイム対応)", agiSub: "コントロールタワー総合案内", statusOk: "オンライン (API/SDK)",
-                msg: "\"会長、全世界60カ国語とAML、MiCA、CLARITY規制遵守モジュールがバックエンドSDKに完璧に連動しました！\"",
-                mwp: "4. ホワイトペーパー", mwpSub: "3段階深層アーキテクチャ", mfaq: "5. FAQ", mfaqSub: "3段階Q&Aガイド",
-                mpolicy: "6. 3大ポリシー", mpolicySub: "セキュリティ・透明性・還元", mcomp: "7. グローバルコンプライアンス", mcompSub: "AML, MiCA, CLARITY及び10カ国法制",
-                mwpTitle: "HK WorldBank ホワイトペーパー", wpT1: "第1層：Pi単一経済圏アーキテクチャ", wpD1: "60カ国語同期エンジンによりグローバル決済を完璧に処理。",
-                wpT2: "第2層：165階コントロールタワーと9大未来事業", wpD2: "産業クラスターとT165間のリアルタイム資金制御。",
-                wpT3: "第3層：グローバルUBIと30%利益還元", wpD3: "純利益の30%を世界中の福祉財団に透明に分配。",
-                mfaqTitle: "よくある質問", fqT1: "Q1. KYC未認証の場合はどうなりますか？", fqD1: "A. 未認証ユーザーは閲覧のみ可能で、ウォレット接続時に自動検証が行われます。",
-                fqT2: "Q2. 現金やカードでPiを購入できますか？", fqD2: "A. はい、統合スワップ・決済ゲートウェイを介して即時購入可能です。",
-                fqT3: "Q3. 60カ国語とグローバル規制の対応は？", fqD3: "A. フロントエンドで60カ国語が同期され、バックエンドSDKでAML等を処理します。",
-                mpolTitle: "3大ポリシー", plT1: "ポリシー1：徹底的なセキュリティとAML遵守", plD1: "全ての取引はバックグラウンドKYCで監視されます。",
-                plT2: "ポリシー2：透明な利益配分とUBI保障", plD2: "プラットフォーム純利益の30%を福祉インフラに配分。",
-                plT3: "ポリシー3：グローバル共生とオープンAPI", plD3: "60カ国のユーザーが言語の壁なくアクセス可能。",
-                mcomTitle: "グローバルコンプライアンス", cmT1: "主要国際基準", cmD1: "• AML: FATF基準モニタリング<br>• MiCA: EU統合遵守<br>• CLARITY: 米国資産透明性",
-                cmT2: "10カ国デジタル資産法対応", cmD2: "韓国、日本、タイ、ベトナム、インド、ブラジル、ナイジェリア、フィリピン完全対応"
-            }
-        };
-
-        // 스마트폰 기기 언어 자동 감지 및 배치 로직 (스마트폰 접속 시 브라우저 설정 언어가 60개국 중 있으면 자동 선택)
-        function applyLanguage(lang) {
-            const d = dict[lang] || {
-                ...dict.en,
-                welcome: `Welcome, Chairman Hyekong (${lang.toUpperCase()})`,
-                msg: `"Sir, language switch to [${lang.toUpperCase()}] and backend SDK regulations successfully applied!"`,
-                navBadge: `Haeoreum Special City (${lang.toUpperCase()}) Control Tower`
-            };
-
-            document.getElementById('txt-nav-badge').innerText = d.navBadge;
-            document.getElementById('txt-connect').innerText = d.connect;
-            document.getElementById('txt-badge').innerText = d.badge;
-            document.getElementById('txt-welcome').innerText = d.welcome;
-            document.getElementById('txt-desc').innerText = d.desc;
-            document.getElementById('lbl-bal').innerText = d.bal;
-            document.getElementById('lbl-ubi').innerText = d.ubi;
-            document.getElementById('lbl-ret').innerText = d.ret;
-            document.getElementById('lbl-agi').innerText = d.agi;
-            document.getElementById('lbl-actions').innerText = d.actions;
-            document.getElementById('btn-dep').innerText = d.dep;
-            document.getElementById('btn-wit').innerText = d.wit;
-            document.getElementById('btn-swap').innerText = d.swap;
-            document.getElementById('btn-ubi-net').innerText = d.ubiNet;
-            document.getElementById('lbl-net-title').innerText = d.netTitle;
-            document.getElementById('lbl-sync').innerText = d.sync;
-            document.getElementById('n1').innerText = d.n1;
-            document.getElementById('n2').innerText = d.n2;
-            document.getElementById('n3').innerText = d.n3;
-            document.getElementById('n4').innerText = d.n4;
-            document.getElementById('n5').innerText = d.n5;
-            document.getElementById('n6').innerText = d.n6;
-            document.getElementById('n7').innerText = d.n7;
-            document.getElementById('n8').innerText = d.n8;
-            document.getElementById('n9').innerText = d.n9;
-            document.getElementById('n10').innerText = d.n10;
-            document.getElementById('lbl-agi-title').innerText = d.agiTitle;
-            document.getElementById('lbl-agi-sub').innerText = d.agiSub;
-            document.getElementById('lbl-status-ok').innerText = d.statusOk;
-            document.getElementById('txt-msg').innerText = d.msg;
-            document.getElementById('m-wp').innerText = d.mwp;
-            document.getElementById('m-wp-sub').innerText = d.mwpSub;
-            document.getElementById('m-faq').innerText = d.mfaq;
-            document.getElementById('m-faq-sub').innerText = d.mfaqSub;
-            document.getElementById('m-policy').innerText = d.mpolicy;
-            document.getElementById('m-policy-sub').innerText = d.mpolicySub;
-            document.getElementById('m-comp').innerText = d.mcomp;
-            document.getElementById('m-comp-sub').innerText = d.mcompSub;
-            
-            document.getElementById('lang-select').value = lang;
-        }
-
-        // 페이지 로드 시 스마트폰 기기 언어 자동 감지 실행
-        window.addEventListener('DOMContentLoaded', () => {
-            const browserLang = navigator.language || navigator.userLanguage;
-            const shortLang = browserLang.split('-')[0];
-            
-            // 드롭다운에 해당 언어가 존재하면 자동 배치, 없으면 기본 ko
-            const selectElem = document.getElementById('lang-select');
-            let matchedLang = 'ko';
-            for (let option of selectElem.options) {
-                if (option.value === shortLang) {
-                    matchedLang = shortLang;
-                    break;
-                }
-            }
-            applyLanguage(matchedLang);
-        });
-
-        document.getElementById('lang-select').addEventListener('change', (e) => {
-            applyLanguage(e.target.value);
-        });
-    </script>
 </body>
 </html>
