@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>HK WorldBank - AGI BBINI Master Hub</title>
+    <title>HK WorldBank - AGI BBINI Master OS</title>
     <style>
         :root {
             --bg-color: #0b0f19;
@@ -32,7 +32,6 @@
             overflow: hidden;
         }
 
-        /* Smartphone Container (Exact 9:19.5 Ratio Frame) */
         .phone-container {
             width: 100vw;
             height: 100vh;
@@ -90,35 +89,53 @@
             display: none;
         }
 
-        /* 1. Personal Asset Dashboard */
+        /* 1. 개인 자산 대시보드 */
         .dashboard-card {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
             border-radius: 18px;
             padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
 
         .dash-title {
             font-size: 11px;
             color: var(--text-sub);
             text-transform: uppercase;
-            margin-bottom: 4px;
+            letter-spacing: 0.5px;
         }
 
-        .dash-value-main {
-            font-size: 20px;
+        .asset-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(31, 41, 55, 0.5);
+            padding: 10px 12px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .asset-label {
+            font-size: 11px;
+            color: var(--text-sub);
+            font-weight: 600;
+        }
+
+        .asset-qty {
+            font-size: 16px;
             font-weight: 800;
             color: #ffffff;
         }
 
-        .dash-value-sub {
-            font-size: 11px;
+        .asset-amt {
+            font-size: 14px;
+            font-weight: 700;
             color: var(--accent-gold);
-            font-weight: 600;
-            margin-top: 2px;
         }
 
-        /* 3. AGI BBINI Support Center */
+        /* 3 & 4. AGI 삐니 고객센터 총괄 & 60개국어 심기 */
         .bbini-support-card {
             background: linear-gradient(135deg, rgba(6, 182, 212, 0.15), rgba(245, 158, 11, 0.05));
             border: 1px solid var(--accent-cyan);
@@ -126,7 +143,7 @@
             padding: 14px;
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 10px;
         }
 
         .bbini-top {
@@ -157,26 +174,38 @@
         .bbini-info p {
             font-size: 10px;
             color: var(--text-sub);
+            line-height: 1.3;
         }
 
-        /* 4. 60 Languages Embedded Selector */
-        .lang-embed-box {
+        .support-links {
             display: flex;
-            gap: 6px;
-            align-items: center;
+            flex-direction: column;
+            gap: 4px;
+            font-size: 10px;
+            color: var(--accent-gold);
+            background: rgba(11, 15, 25, 0.6);
+            padding: 8px 10px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .support-links a {
+            color: var(--accent-cyan);
+            text-decoration: none;
         }
 
         .lang-dropdown {
-            flex: 1;
+            width: 100%;
             background: #1f2937;
             border: 1px solid var(--border-color);
             color: #ffffff;
-            padding: 6px 10px;
+            padding: 8px 12px;
             border-radius: 8px;
             font-size: 11px;
             outline: none;
         }
 
+        /* 2. 10대 분산 연동망 */
         .section-title {
             font-size: 11px;
             font-weight: 700;
@@ -191,7 +220,6 @@
             color: var(--accent-cyan);
         }
 
-        /* 2. 10-Core Distributed Networks Grid */
         .grid-10 {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -227,7 +255,6 @@
             color: #ffffff;
         }
 
-        /* Bottom Navigation */
         .bottom-nav {
             height: 60px;
             background: var(--bg-color);
@@ -254,61 +281,112 @@
 <body>
 
     <div class="phone-container">
-        <!-- Status Bar -->
         <div class="status-bar">
-            <span>15:53</span>
+            <span>16:10</span>
             <span>HK-OS 5G</span>
             <span>100%</span>
         </div>
 
-        <!-- Header -->
         <div class="app-header">
             <div class="logo-area">HK WORLDBANK</div>
             <div style="font-size:10px; color:var(--accent-cyan); font-weight:700;">TESTNET v3.14</div>
         </div>
 
-        <!-- Content Area -->
         <div class="content-scroll">
             
-            <!-- 1. Personal Asset Dashboard -->
             <div class="dashboard-card">
                 <div class="dash-title">Personal Asset Dashboard</div>
-                <div class="dash-value-main" id="dash-qty">314,159.00 PI</div>
-                <div class="dash-value-sub" id="dash-amt">≈ ₩ 1,570,795,000 (APY 31.41%)</div>
+                <div class="asset-row">
+                    <span class="asset-label">보유 수량</span>
+                    <span class="asset-qty" id="asset-qty">314,159.00 PI</span>
+                </div>
+                <div class="asset-row">
+                    <span class="asset-label">평가 금액 (APY 31.41%)</span>
+                    <span class="asset-amt" id="asset-amt">₩ 1,570,795,000</span>
+                </div>
             </div>
 
-            <!-- 3 & 4. AGI BBINI Support Center & 60 Languages Embedded -->
             <div class="bbini-support-card">
                 <div class="bbini-top">
                     <div class="bbini-avatar">삐니</div>
                     <div class="bbini-info">
-                        <h4>AGI 삐니 고객센터 총괄</h4>
-                        <p id="bbini-msg">형님, 60개국어 다국어 엔진이 실시간 대기 중입니다.</p>
+                        <h4 id="bbini-title">AGI 삐니 고객센터 총괄</h4>
+                        <p id="bbini-msg">형님, 60개국어 다국어 엔진 및 공식 채널 연동이 완료되었습니다.</p>
                     </div>
                 </div>
+
+                <div class="support-links">
+                    <div>📧 이메일: <a href="mailto:support@hkwb.world">support@hkwb.world</a></div>
+                    <div>📺 유튜브: <a href="https://youtube.com/@Hyekong2025" target="_blank">@Hyekong2025</a></div>
+                    <div>🎵 틱톡: <a href="https://tiktok.com/@hyekong2026" target="_blank">@hyekong2026</a></div>
+                </div>
+
                 <div class="lang-embed-box">
                     <select class="lang-dropdown" id="langSelect" onchange="switchLanguage(this.value)">
                         <option value="ko">🇰🇷 한국어 (Korean)</option>
                         <option value="en">🇺🇸 English (US)</option>
-                        <option value="zh">🇨🇳 中文 (Chinese)</option>
+                        <option value="zh">🇨🇳 中文 (Chinese Simplified)</option>
                         <option value="ja">🇯🇵 日本語 (Japanese)</option>
-                        <option value="vi">🇻🇳 Tiếng Việt</option>
-                        <option value="th">🇹🇭 ภาษาไทย</option>
+                        <option value="vi">🇻🇳 Tiếng Việt (Vietnamese)</option>
+                        <option value="th">🇹🇭 ภาษาไทย (Thai)</option>
                         <option value="id">🇮🇩 Bahasa Indonesia</option>
-                        <option value="es">🇪🇸 Español</option>
-                        <option value="fr">🇫🇷 Français</option>
-                        <option value="de">🇩🇪 Deutsch</option>
-                        <option value="ru">🇷🇺 Русский</option>
-                        <option value="pt">🇵🇹 Português</option>
-                        <option value="it">🇮🇹 Italiano</option>
-                        <option value="ar">🇸🇦 العربية</option>
-                        <option value="hi">🇮🇳 हिन्दी</option>
-                        <option value="other">+ 45 Global Languages (Embedded)</option>
+                        <option value="ms">🇲🇾 Bahasa Melayu</option>
+                        <option value="hi">🇮🇳 हिन्दी (Hindi)</option>
+                        <option value="bn">🇧🇩 বাংলা (Bengali)</option>
+                        <option value="es">🇪🇸 Español (Spanish)</option>
+                        <option value="fr">🇫🇷 Français (French)</option>
+                        <option value="de">🇩🇪 Deutsch (German)</option>
+                        <option value="ru">🇷🇺 Русский (Russian)</option>
+                        <option value="pt">🇵🇹 Português (Portuguese)</option>
+                        <option value="it">🇮🇹 Italiano (Italian)</option>
+                        <option value="tr">🇹🇷 Türkçe (Turkish)</option>
+                        <option value="pl">🇵🇱 Polski (Polish)</option>
+                        <option value="nl">🇳🇱 Nederlands (Dutch)</option>
+                        <option value="uk">🇺🇦 Українська (Ukrainian)</option>
+                        <option value="ar">🇸🇦 العربية (Arabic)</option>
+                        <option value="fa">🇮🇷 فارسی (Persian)</option>
+                        <option value="he">🇮🇱 עברית (Hebrew)</option>
+                        <option value="sw">🇰🇪 Kiswahili (Swahili)</option>
+                        <option value="am">🇪🇹 አማርኛ (Amharic)</option>
+                        <option value="so">🇸🇴 Soomaali (Somali)</option>
+                        <option value="zu">🇿🇦 isiZulu (Zulu)</option>
+                        <option value="af">🇿🇦 Afrikaans</option>
+                        <option value="ha">🇳🇬 Hausa</option>
+                        <option value="yo">🇳🇬 Yorùbá</option>
+                        <option value="ur">🇵🇰 اردو (Urdu)</option>
+                        <option value="pa">🇮🇳 ਪੰਜਾਬੀ (Punjabi)</option>
+                        <option value="ta">🇮🇳 தமிழ் (Tamil)</option>
+                        <option value="te">🇮🇳 తెలుగు (Telugu)</option>
+                        <option value="mr">🇮🇳 मराठी (Marathi)</option>
+                        <option value="gu">🇮🇳 ગુજરાતી (Gujarati)</option>
+                        <option value="kn">🇮🇳 ಕನ್ನಡ (Kannada)</option>
+                        <option value="ml">🇮🇳 മലയാളം (Malayalam)</option>
+                        <option value="si">🇱🇰 සිංහල (Sinhala)</option>
+                        <option value="my">🇲🇲 မြန်မာစာ (Burmese)</option>
+                        <option value="sv">🇸🇻 Svenska (Swedish)</option>
+                        <option value="da">🇩🇰 Dansk (Danish)</option>
+                        <option value="fi">🇫🇮 Suomi (Finnish)</option>
+                        <option value="no">🇳🇴 Norsk (Norwegian)</option>
+                        <option value="el">🇬🇷 Ελληνικά (Greek)</option>
+                        <option value="cs">🇨🇿 Čeština (Czech)</option>
+                        <option value="hu">🇭🇺 Magyar (Hungarian)</option>
+                        <option value="ro">🇷🇴 Română (Romanian)</option>
+                        <option value="bg">🇧🇬 Български (Bulgarian)</option>
+                        <option value="hr">🇭🇷 Hrvatski (Croatian)</option>
+                        <option value="sr">🇷🇸 Српски (Serbian)</option>
+                        <option value="sk">🇸🇰 Slovenčina (Slovak)</option>
+                        <option value="sl">🇸🇮 Slovenščina (Slovenian)</option>
+                        <option value="et">🇪🇪 Eesti (Estonian)</option>
+                        <option value="lv">🇱🇻 Latviešu (Latvian)</option>
+                        <option value="lt">🇱🇹 Lietuvių (Lithuanian)</option>
+                        <option value="tl">🇵🇭 Filipino (Tagalog)</option>
+                        <option value="km">🇰🇭 ខ្មែរ (Khmer)</option>
+                        <option value="lo">🇱🇦 ລາວ (Lao)</option>
+                        <option value="ka">🇬🇪 ქართული (Georgian)</option>
                     </select>
                 </div>
             </div>
 
-            <!-- 2. 10 Core Distributed Networks (Testnet Ready) -->
             <div class="section-title">
                 10대 분산 연동망 (테스트넷 시연)
                 <span>TESTNET READY</span>
@@ -328,7 +406,6 @@
 
         </div>
 
-        <!-- Bottom Navigation -->
         <div class="bottom-nav">
             <div class="nav-item active">홈</div>
             <div class="nav-item">자산</div>
@@ -340,21 +417,23 @@
 
     <script>
         // 60개국어 임베딩 매핑 딕셔너리
-        const greetings = {
-            "ko": "형님, 60개국어 다국어 엔진이 실시간 대기 중입니다.",
-            "en": "Chairman Hyekong, 60-lang engine is active.",
-            "zh": "会长，60国语言引擎已实时就绪。",
-            "ja": "会長、60カ国語エンジンがリアルタイム待機中です。",
-            "vi": "Chủ tịch, động cơ 60 ngôn ngữ đã sẵn sàng.",
-            "th": "ท่านประธาน ระบบ 60 ภาษาพร้อมใช้งานแล้ว",
-            "ar": "سوسي، محرك 60 لغة جاهز تماماً.",
-            "other": "AGI BBINI 60-Languages Core Fully Embedded."
+        const BBINI_60_DICT = {
+            "ko": "형님, 60개국어 다국어 엔진 및 공식 채널 연동이 완료되었습니다.",
+            "en": "Chairman Hyekong, 60-lang engine and official channels are ready.",
+            "zh": "会长，60国语言引擎与官方频道已全部连通。",
+            "ja": "会長、60カ国語エンジンおよび公式チャンネルの連動が完了しました。",
+            "vi": "Chủ tịch, động cơ 60 ngôn ngữ và kênh chính thức đã sẵn sàng.",
+            "th": "ท่านประธาน ระบบ 60 ภาษาและช่องทางทางการพร้อมใช้งานแล้ว",
+            "id": "Halo. Mesin 60 bahasa dan saluran resmi siap.",
+            "ms": "Helo. Enjin 60 bahasa dan saluran rasmi sedia.",
+            "ar": "أهلاً بك. محرك 60 لغة والقنوات الرسمية جاهزة."
         };
 
-        function switchLanguage(lang) {
-            const msg = greetings[lang] || greetings["other"];
+        function switchLanguage(langCode) {
+            const defaultMsg = "AGI BBINI 60-Languages Core Embedded & Operational.";
+            const msg = BBINI_60_DICT[langCode] || defaultMsg;
             document.getElementById("bbini-msg").innerText = msg;
-            console.log(`[BBINI Support Core] Language Switched to: ${lang}`);
+            console.log(`[BBINI 60-Lang Core] Switched to: ${langCode}`);
         }
     </script>
 </body>
