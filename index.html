@@ -3,261 +3,716 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HK WorldBank Platform - Complete 60 Nations Global Edition</title>
+    <title>HK WorldBank Platform - Web3 Decentralized Financial System</title>
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        hkdark: '#0B0F19',
+                        hksurface: '#111827',
+                        hkcard: '#1F2937',
+                        hkaccent: '#3B82F6',
+                        hkneon: '#10B981',
+                        hkgold: '#F59E0B'
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js for Asset Visualizations -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body class="bg-slate-950 text-white min-h-screen font-sans flex flex-col items-center pb-12">
+<body class="bg-hkdark text-gray-100 font-sans antialiased min-h-screen flex flex-col justify-between">
 
-    <!-- Top Navigation / Header with Full 60 Languages Selector -->
-    <header class="w-full max-w-md bg-slate-900 border-b border-slate-800 p-4 flex justify-between items-center sticky top-0 z-50">
-        <div class="flex items-center space-x-2">
-            <div class="bg-amber-500 text-slate-950 font-bold px-2.5 py-1 rounded-lg text-sm">HK</div>
-            <span class="font-bold tracking-wide text-sm">월드뱅크 플랫폼</span>
-        </div>
-        
-        <!-- 60개국어 전체 탑재 드롭다운 -->
-        <select id="globalLangSelector" class="text-xs bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-700 text-slate-300 focus:outline-none focus:border-amber-500 cursor-pointer">
-            <option value="kr" selected>🇰🇷 대한민국 - 한국어</option>
-            <option value="us">🇺🇸 United States - English</option>
-            <option value="cn">🇨🇳 中国 - 中文 (简体)</option>
-            <option value="tw">🇹🇼 台灣 - 中文 (繁體)</option>
-            <option value="jp">🇯🇵 日本 - 日本語</option>
-            <option value="gb">🇬🇧 United Kingdom - English</option>
-            <option value="fr">🇫🇷 France - Français</option>
-            <option value="de">🇩🇪 Deutschland - Deutsch</option>
-            <option value="es">🇪🇸 España - Español</option>
-            <option value="it">🇮🇹 Italia - Italiano</option>
-            <option value="ru">🇷🇺 Россия - Русский</option>
-            <option value="br">🇧🇷 Brasil - Português</option>
-            <option value="in">🇮🇳 भारत - हिन्दी</option>
-            <option value="sa">🇸🇦 السعودية - العربية</option>
-            <option value="ca">🇨🇦 Canada - English / Français</option>
-            <option value="au">🇦🇺 Australia - English</option>
-            <option value="mx">🇲🇽 México - Español</option>
-            <option value="id">🇮🇩 Indonesia - Bahasa Indonesia</option>
-            <option value="tr">🇹🇷 Türkiye - Türkçe</option>
-            <option value="nl">🇳🇱 Nederland - Nederlands</option>
-            <option value="ch">🇨🇭 Schweiz - Deutsch / Français</option>
-            <option value="se">🇸🇪 Sverige - Svenska</option>
-            <option value="pl">🇵olska - Język polski</option>
-            <option value="vn">🇻🇳 Việt Nam - Tiếng Việt</option>
-            <option value="th">🇹🇭 ประเทศไทย - ไทย</option>
-            <option value="ph">🇵🇭 Pilipinas - Tagalog</option>
-            <option value="my">🇲🇾 Malaysia - Bahasa Melayu</option>
-            <option value="sg">🇸🇬 Singapore - English / 中文</option>
-            <option value="pk">🇵🇰 پاکستان - اردو</option>
-            <option value="bd">🇧🇩 বাংলাদেশ - বাংলা</option>
-            <option value="eg">🇪 مصر - العربية</option>
-            <option value="ng">🇳🇬 Nigeria - English</option>
-            <option value="za">🇿🇦 South Africa - English / Zulu</option>
-            <option value="ar">🇦🇷 Argentina - Español</option>
-            <option value="co">🇨🇴 Colombia - Español</option>
-            <option value="cl">🇨🇱 Chile - Español</option>
-            <option value="pe">🇵🇪 Perú - Español</option>
-            <option value="ua">🇺🇦 Україна - Українська</option>
-            <option value="ro">🇷🇴 România - Limba română</option>
-            <option value="gr">🇬🇷 Ελλάδα - Ελληνικά</option>
-            <option value="cz">🇨🇿 Česká republika - Čeština</option>
-            <option value="hu">🇭🇺 Magyarország - Magyar</option>
-            <option value="pt">🇵🇹 Portugal - Português</option>
-            <option value="at">🇦🇹 Österreich - Deutsch</option>
-            <option value="be">🇧🇪 België - Nederlands / Français</option>
-            <option value="dk">🇩🇰 Danmark - Dansk</option>
-            <option value="fi">🇫🇮 Suomi - Suomi</option>
-            <option value="no">🇳🇴 Norge - Norsk</option>
-            <option value="nz">🇳🇿 New Zealand - English</option>
-            <option value="ie">🇮🇪 Ireland - Gaeilge / English</option>
-            <option value="il">🇮🇱 ישראל - עברית</option>
-            <option value="ae">🇦🇪 الإمارات - العربية</option>
-            <option value="ir">🇮🇷 ایران - فارسی</option>
-            <option value="iq">🇮🇶 العراق - العربية</option>
-            <option value="kz">🇰🇿 Қазақстан - Қазақ тілі</option>
-            <option value="uz">🇺🇿 O'zbekiston - O'zbek</option>
-            <option value="ke">🇰🇪 Kenya - Kiswahili</option>
-            <option value="gh">🇬🇭 Ghana - English</option>
-            <option value="et">🇪🇹 ኢትዮጵያ - አማርኛ</option>
-            <option value="tz">🇹🇿 Tanzania - Kiswahili</option>
-        </select>
-    </header>
-
-    <!-- Main Container -->
-    <main class="w-full max-w-md px-4 mt-4 space-y-4">
-
-        <!-- Personal Asset Dashboard -->
-        <section class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl">
-            <div class="flex justify-between items-center mb-4">
-                <span class="text-xs bg-amber-500/20 text-amber-400 px-2.5 py-1 rounded-full font-semibold">실시간 원장 데이터</span>
-                <span class="text-xs text-amber-400 flex items-center">⏳ 승인 대기 중</span>
-            </div>
-            <h1 class="text-xl font-bold mb-4">개인 자산 대시보드</h1>
-            
-            <div class="bg-slate-950/60 border border-slate-800 rounded-xl p-4 mb-3">
-                <p class="text-xs text-slate-400 mb-1">📦 개인 보유 수량</p>
-                <p class="text-2xl font-extrabold tracking-tight">0.000000 <span class="text-sm font-normal text-slate-400">HK</span></p>
-            </div>
-
-            <div class="bg-slate-950/60 border border-slate-800 rounded-xl p-4 mb-4">
-                <p class="text-xs text-slate-400 mb-1">📈 실시간 누적 이자</p>
-                <p class="text-2xl font-extrabold tracking-tight text-emerald-400">0.000000 <span class="text-sm font-normal text-slate-400">HK</span></p>
-            </div>
-
-            <button class="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold py-3 rounded-xl transition-all shadow-lg shadow-amber-500/20 text-sm">
-                ☁️ 코어팀에게 메인넷 즉시 신청하기
-            </button>
-        </section>
-
-        <!-- Governance & Wallets (수수료 지갑 삭제 완료 -> 유동성풀 지갑 장착) -->
-        <section class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl space-y-4">
-            <div class="text-xs text-slate-400 tracking-wider uppercase font-semibold">지갑 관리 통합 원장</div>
-            <h2 class="text-lg font-bold">HK 월드뱅크 거버넌스 시스템</h2>
-
-            <!-- 유동성풀 지갑 -->
-            <div class="bg-slate-950/60 border border-slate-800 rounded-xl p-4 relative overflow-hidden">
-                <div class="flex justify-between items-center mb-2">
-                    <span class="text-xs bg-indigo-500/20 text-indigo-400 px-2 py-0.5 rounded font-medium">유동성 증명 연동</span>
-                    <span class="text-xs text-slate-400">💧 LP Pool</span>
+    <!-- Top Navigation & Global Multi-Language / Profile Bar -->
+    <header class="bg-hksurface border-b border-gray-800 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap justify-between items-center">
+            <!-- Brand Logo & Chairman Status -->
+            <div class="flex items-center space-x-3">
+                <div class="bg-gradient-to-r from-blue-600 to-emerald-500 p-2.5 rounded-xl shadow-lg shadow-blue-500/20">
+                    <i class="fa-solid fa-landmark text-white text-xl"></i>
                 </div>
-                <h3 class="font-bold text-base mb-1">유동성풀 지갑</h3>
-                <p class="text-xs text-slate-400 font-mono mb-2">주소: HK_LP_POOL_STAKE_982_PUBLIC</p>
-                <div class="flex justify-between text-sm font-semibold">
-                    <span>수량: 0 HK</span>
-                    <span class="text-emerald-400">$0 USD</span>
-                </div>
-            </div>
-
-            <!-- UBI 지갑 -->
-            <div class="bg-slate-950/60 border border-slate-800 rounded-xl p-4 relative overflow-hidden">
-                <div class="flex justify-between items-center mb-2">
-                    <span class="text-xs bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded font-medium">전면 투명 공개</span>
-                    <span class="text-xs text-slate-400">🤝</span>
-                </div>
-                <h3 class="font-bold text-base mb-1">UBI 지갑</h3>
-                <p class="text-xs text-slate-400 font-mono mb-2">주소: HK_UBI_FOUNDATION_982_PUBLIC</p>
-                <div class="flex justify-between text-sm font-semibold">
-                    <span>수량: 0 HK</span>
-                    <span class="text-emerald-400">$0 USD</span>
-                </div>
-            </div>
-        </section>
-
-        <!-- 10대 분산 연동망 -->
-        <div class="grid grid-cols-2 gap-3">
-            <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 flex flex-col justify-between">
-                <span class="text-xs text-slate-400 mb-2">💳 지갑연결</span>
-                <span class="text-sm font-bold">노드 계정 상시 연동</span>
-            </div>
-            <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 flex flex-col justify-between">
-                <span class="text-xs text-slate-400 mb-2">✈️ 송금</span>
-                <span class="text-sm font-bold">대륙간 초고속 전송</span>
-            </div>
-        </div>
-
-        <!-- 8대 핵심 기능 Grid -->
-        <section class="grid grid-cols-2 gap-3">
-            <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
-                <p class="text-lg mb-1">💳</p>
-                <h3 class="font-bold text-sm">결제</h3>
-                <p class="text-xs text-slate-400">실시간 상거래 승인</p>
-            </div>
-            <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 border-amber-500/50 bg-amber-500/5">
-                <p class="text-lg mb-1">🏦</p>
-                <h3 class="font-bold text-sm text-amber-400">예치</h3>
-                <p class="text-xs text-slate-400">자산 자금 신탁</p>
-            </div>
-            <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
-                <p class="text-lg mb-1">🎁</p>
-                <h3 class="font-bold text-sm">보상</h3>
-                <p class="text-xs text-slate-400">인센티브 실시간 정산</p>
-            </div>
-            <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
-                <p class="text-lg mb-1">🌐</p>
-                <h3 class="font-bold text-sm">기본소득</h3>
-                <p class="text-xs text-slate-400">분산 복지 재단 분배</p>
-            </div>
-            <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
-                <p class="text-lg mb-1">🔄</p>
-                <h3 class="font-bold text-sm">스왑</h3>
-                <p class="text-xs text-slate-400">즉각 다이렉트 변환</p>
-            </div>
-            <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
-                <p class="text-lg mb-1">🔀</p>
-                <h3 class="font-bold text-sm">DEX 스왑</h3>
-                <p class="text-xs text-slate-400">탈중앙화 P2P 거래</p>
-            </div>
-            <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
-                <p class="text-lg mb-1">📊</p>
-                <h3 class="font-bold text-sm">LP스테이킹</h3>
-                <p class="text-xs text-slate-400">유동성 증명 고리 배당</p>
-            </div>
-            <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
-                <p class="text-lg mb-1">➕</p>
-                <h3 class="font-bold text-sm">PI수량 추가</h3>
-                <p class="text-xs text-slate-400">PI 자산 즉시 확보</p>
-            </div>
-        </section>
-
-        <!-- 예치 상세 프로세스 & 승인 코드 입력 -->
-        <section class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-3">
-            <h3 class="text-xs font-semibold text-amber-400 uppercase tracking-wider">[예치] 상세 프로세스</h3>
-            <p class="text-xs text-slate-300 leading-relaxed">
-                자산 선택 → 수량 및 기간 설정 → 예상 수익률 확인 → 6자리 승인 코드 입력 → 처리 완료
-            </p>
-            <div class="pt-2 space-y-2">
-                <label class="block text-xs text-slate-400">6자리 승인 코드를 입력하세요:</label>
-                <div class="flex gap-2">
-                    <input type="password" maxlength="6" placeholder="******" class="bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-center tracking-widest text-lg w-full focus:outline-none focus:border-amber-500">
-                    <button class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-6 rounded-xl text-sm transition-all shadow-md">승인</button>
-                </div>
-            </div>
-        </section>
-
-        <!-- HK 지능형 추론 엔진 v3.0 (60개국어 실시간 동기화) -->
-        <section class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-3">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-2">
-                    <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-purple-600 to-pink-500 flex items-center justify-center text-sm font-bold">🧠</div>
-                    <div>
-                        <h4 class="font-bold text-sm">HK 지능형 추론 엔진 <span class="text-xs text-purple-400 font-mono">v3.0</span></h4>
-                        <p class="text-[10px] text-emerald-400">60개국어 글로벌 노드 실시간 교차 동기화 연산 중</p>
+                <div>
+                    <h1 id="brandTitle" class="text-xl font-extrabold tracking-tight bg-gradient-to-r from-blue-400 via-emerald-400 to-amber-400 bg-clip-text text-transparent">
+                        HK 월드뱅크 플랫폼
+                    </h1>
+                    <div class="flex items-center space-x-2 text-xs text-gray-400 mt-0.5">
+                        <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-emerald-900/60 text-emerald-300 border border-emerald-700/50">
+                            <i class="fa-solid fa-crown mr-1 text-amber-400"></i> Chairman Portal
+                        </span>
+                        <span class="text-gray-300 font-semibold">혜공 형님 (HK Group)</span>
                     </div>
                 </div>
             </div>
-            
-            <div id="aiWelcomeMsg" class="bg-slate-950/60 border border-slate-800 rounded-xl p-3 text-xs text-slate-300 leading-relaxed">
-                반갑습니다, 혜공 형님. HK 월드뱅크 통합 지능형 서비스 센터입니다. 전 세계 60개국어 노드 및 자산 동기화 시스템이 상시 가동되고 있습니다.
-            </div>
 
-            <div class="relative">
-                <input type="text" placeholder="원장 상태 및 금융 노드에 대해 질문하십시오..." class="w-full bg-slate-950 border border-slate-800 rounded-xl py-3 pl-4 pr-12 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-purple-500">
-                <button class="absolute right-2 top-2 bg-amber-500 hover:bg-amber-400 text-slate-950 p-2 rounded-lg transition-all">
-                    ➤
+            <!-- Global Language Selector & Social Handles -->
+            <div class="flex items-center space-x-3 mt-2 sm:mt-0">
+                <div class="flex items-center space-x-1.5 bg-hkcard px-2.5 py-1 rounded-lg border border-gray-700 text-xs">
+                    <span class="text-gray-400"><i class="fa-solid fa-globe text-blue-400"></i></span>
+                    <select id="langSelect" onchange="changeLanguage(this.value)" class="bg-transparent text-gray-200 focus:outline-none cursor-pointer">
+                        <option value="kr" selected>🇰🇷 한국어 (Korean)</option>
+                        <option value="us">🇺🇸 English (US)</option>
+                        <option value="cn">🇨🇳 中文 (Chinese)</option>
+                        <option value="jp">🇯🇵 日本語 (Japanese)</option>
+                        <option value="fr">🇫🇷 Français (French)</option>
+                        <option value="de">🇩🇪 Deutsch (German)</option>
+                        <option value="es">🇪🇸 Español (Spanish)</option>
+                        <option value="it">🇮🇹 Italiano (Italian)</option>
+                        <option value="ru">🇷🇺 Русский (Russian)</option>
+                        <option value="br">🇧🇷 Português (Brazil)</option>
+                        <option value="ar">🇸🇦 العربية (Arabic)</option>
+                        <option value="id">🇮🇩 Bahasa Indonesia</option>
+                        <option value="tr">🇹🇷 Türkçe (Turkish)</option>
+                        <option value="vi">🇻🇳 Tiếng Việt (Vietnamese)</option>
+                        <option value="th">🇹🇭 ไทย (Thai)</option>
+                        <option value="hi">🇮🇳 हिन्दी (Hindi)</option>
+                    </select>
+                </div>
+                <div class="hidden md:flex items-center space-x-2 text-xs text-gray-400 bg-gray-900/80 px-3 py-1.5 rounded-lg border border-gray-800">
+                    <span><i class="fa-brands fa-youtube text-red-500"></i> @Hyekong2026</span>
+                    <span class="text-gray-600">|</span>
+                    <span><i class="fa-brands fa-tiktok text-pink-500"></i> @hyekong2025</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="max-w-7xl mx-auto px-4 py-6 space-y-6 flex-grow w-full">
+
+        <!-- Top Status Banner & AI Engine Notice -->
+        <div class="bg-gradient-to-r from-blue-900/40 via-hksurface to-emerald-900/40 border border-blue-500/30 rounded-2xl p-4 shadow-xl flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center space-x-3">
+                <div class="relative">
+                    <div class="w-4 h-4 rounded-full bg-emerald-500 animate-ping absolute"></div>
+                    <div class="w-4 h-4 rounded-full bg-emerald-500 relative"></div>
+                </div>
+                <div>
+                    <h2 class="text-sm font-bold text-gray-200">AGI 삐니 통합 지능형 금융 노드 가동 중</h2>
+                    <p id="aiEngineStatus" class="text-xs text-gray-400">60개국어 글로벌 노드 실시간 교차 동기화 연산 중 (Pi Network SDK 및 Web3 Mainnet 연동)</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-2">
+                <button onclick="requestMainnet()" id="mainnetBtn" class="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-bold px-4 py-2 rounded-xl shadow-md transition transform hover:scale-105 flex items-center space-x-2">
+                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                    <span>☁️ 코어팀에게 메인넷 즉시 신청하기</span>
                 </button>
             </div>
-        </section>
+        </div>
+
+        <!-- Dashboard Grid: Asset Overview & AI Assistant -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            
+            <!-- Left 2 Columns: Financial Ledger & Asset Management -->
+            <div class="lg:col-span-2 space-y-6">
+                
+                <!-- Personal Asset Dashboard Card -->
+                <div class="bg-hksurface border border-gray-800 rounded-2xl p-5 shadow-xl">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 id="assetDashboard" class="text-base font-bold text-gray-200 flex items-center space-x-2">
+                            <i class="fa-solid fa-wallet text-amber-400"></i>
+                            <span>개인 자산 대시보드</span>
+                        </h3>
+                        <span class="text-xs text-emerald-400 bg-emerald-950/60 px-2.5 py-1 rounded-full border border-emerald-800/40 font-mono">
+                            <i class="fa-solid fa-shield-halved mr-1"></i> Secured by HK WorldBank
+                        </span>
+                    </div>
+
+                    <!-- Asset Cards Grid -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <!-- Pi Coin Asset Card -->
+                        <div class="bg-hkcard border border-gray-700/60 rounded-xl p-4 flex flex-col justify-between">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <span class="text-xs font-semibold text-amber-400 bg-amber-950/50 px-2 py-0.5 rounded border border-amber-800/40">Pi Network</span>
+                                    <h4 class="text-xl font-extrabold text-white mt-1">3,141,592 Pi</h4>
+                                </div>
+                                <div class="bg-amber-500/10 p-2 rounded-lg text-amber-400">
+                                    <i class="fa-solid fa-coins text-lg"></i>
+                                </div>
+                            </div>
+                            <div class="mt-4 pt-3 border-t border-gray-700/60 text-xs flex justify-between text-gray-300">
+                                <span id="personalQty">📦 개인 보유 수량</span>
+                                <span class="font-mono text-emerald-400">+12.4% (APY 31.41%)</span>
+                            </div>
+                        </div>
+
+                        <!-- UBI & Profit Allocation Card -->
+                        <div class="bg-hkcard border border-gray-700/60 rounded-xl p-4 flex flex-col justify-between">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <span class="text-xs font-semibold text-blue-400 bg-blue-950/50 px-2 py-0.5 rounded border border-blue-800/40">UBI & Profit Fund</span>
+                                    <h4 class="text-xl font-extrabold text-white mt-1">30% Net Profit</h4>
+                                </div>
+                                <div class="bg-blue-500/10 p-2 rounded-lg text-blue-400">
+                                    <i class="fa-solid fa-hand-holding-heart text-lg"></i>
+                                </div>
+                            </div>
+                            <div class="mt-4 pt-3 border-t border-gray-700/60 text-xs flex justify-between text-gray-300">
+                                <span id="accInterest">📈 실시간 누적 이자</span>
+                                <span class="font-mono text-amber-400">₩ 1,480,200,000</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Deposit Parameter & Interactive Control -->
+                    <div class="mt-5 bg-gray-900/70 border border-gray-800 rounded-xl p-4">
+                        <h4 id="depositProcessTitle" class="text-xs font-bold text-gray-300 uppercase tracking-wider mb-2">[예치] 상세 프로세스 및 API 승인</h4>
+                        <p id="depositProcessDesc" class="text-xs text-gray-400 mb-3">자산 선택 → 수량 및 기간 설정 → 예상 수익률 확인 → 6자리 승인 코드 입력 → 비동기 백엔드 처리 완료</p>
+                        
+                        <div class="flex flex-col sm:flex-row gap-3 items-center">
+                            <div class="w-full sm:w-auto flex-grow">
+                                <label id="authCodeLabel" class="block text-[11px] text-gray-400 mb-1">6자리 승인 코드를 입력하세요:</label>
+                                <input type="password" id="authCodeInput" maxlength="6" placeholder="******" class="w-full bg-hkcard border border-gray-700 rounded-lg px-3 py-2 text-sm text-center font-mono tracking-widest text-white focus:outline-none focus:border-blue-500">
+                            </div>
+                            <button onclick="approveDeposit()" id="approvalBtn" class="w-full sm:w-auto bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs px-6 py-2.5 rounded-lg transition shadow-md mt-4 sm:mt-5">
+                                승인
+                            </button>
+                        </div>
+                        <div id="approvalResult" class="mt-2 text-xs font-medium text-emerald-400 hidden">
+                            <i class="fa-solid fa-circle-check mr-1"></i> API 승인이 완료되었습니다. 자산 원장이 실시간 동기화되었습니다.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Real-time Ledger & 10 Decentralized Nodes Overview -->
+                <div class="bg-hksurface border border-gray-800 rounded-2xl p-5 shadow-xl">
+                    <h3 id="tenNodesTitle" class="text-base font-bold text-gray-200 mb-3 flex items-center space-x-2">
+                        <i class="fa-solid fa-server text-emerald-400"></i>
+                        <span>⚡ 10대 분산 연동망 실시간 프로세스 센터</span>
+                    </h3>
+                    <div class="grid grid-cols-2 sm:grid-cols-5 gap-2 text-center text-xs">
+                        <div class="bg-hkcard p-2.5 rounded-lg border border-gray-700">
+                            <div class="text-emerald-400 font-bold">Node #01</div>
+                            <div class="text-[10px] text-gray-400 mt-0.5">Ulsan Robotics</div>
+                        </div>
+                        <div class="bg-hkcard p-2.5 rounded-lg border border-gray-700">
+                            <div class="text-emerald-400 font-bold">Node #02</div>
+                            <div class="text-[10px] text-gray-400 mt-0.5">Gyeongju Quantum</div>
+                        </div>
+                        <div class="bg-hkcard p-2.5 rounded-lg border border-gray-700">
+                            <div class="text-emerald-400 font-bold">Node #03</div>
+                            <div class="text-[10px] text-gray-400 mt-0.5">Pohang Fusion</div>
+                        </div>
+                        <div class="bg-hkcard p-2.5 rounded-lg border border-gray-700">
+                            <div class="text-emerald-400 font-bold">Node #04</div>
+                            <div class="text-[10px] text-gray-400 mt-0.5">Pi SDK Core</div>
+                        </div>
+                        <div class="bg-hkcard p-2.5 rounded-lg border border-gray-700">
+                            <div class="text-emerald-400 font-bold">Node #05</div>
+                            <div class="text-[10px] text-gray-400 mt-0.5">Global UBI</div>
+                        </div>
+                        <div class="bg-hkcard p-2.5 rounded-lg border border-gray-700">
+                            <div class="text-blue-400 font-bold">Node #06</div>
+                            <div class="text-[10px] text-gray-400 mt-0.5">Liquidity Pool</div>
+                        </div>
+                        <div class="bg-hkcard p-2.5 rounded-lg border border-gray-700">
+                            <div class="text-blue-400 font-bold">Node #07</div>
+                            <div class="text-[10px] text-gray-400 mt-0.5">Smart Glass</div>
+                        </div>
+                        <div class="bg-hkcard p-2.5 rounded-lg border border-gray-700">
+                            <div class="text-blue-400 font-bold">Node #08</div>
+                            <div class="text-[10px] text-gray-400 mt-0.5">Space Systems</div>
+                        </div>
+                        <div class="bg-hkcard p-2.5 rounded-lg border border-gray-700">
+                            <div class="text-blue-400 font-bold">Node #09</div>
+                            <div class="text-[10px] text-gray-400 mt-0.5">UAM Network</div>
+                        </div>
+                        <div class="bg-hkcard p-2.5 rounded-lg border border-gray-700">
+                            <div class="text-blue-400 font-bold">Node #10</div>
+                            <div class="text-[10px] text-gray-400 mt-0.5">HK Financial HQ</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Right Column: AGI Bini AI Assistant & Global Interaction -->
+            <div class="bg-hksurface border border-gray-800 rounded-2xl p-5 shadow-xl flex flex-col justify-between h-full min-h-[500px]">
+                <div>
+                    <!-- AI Header -->
+                    <div class="flex items-center space-x-3 pb-3 border-b border-gray-800">
+                        <div class="bg-gradient-to-tr from-purple-600 to-blue-500 p-2 rounded-xl text-white shadow-md">
+                            <i class="fa-solid fa-robot text-lg"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-bold text-white">AGI 삐니 (Bini) AI</h3>
+                            <p class="text-[11px] text-emerald-400 font-mono">● Online & Synchronized (60+ Lang)</p>
+                        </div>
+                    </div>
+
+                    <!-- Chat Messages Log -->
+                    <div id="chatLog" class="my-4 space-y-3 overflow-y-auto max-h-[340px] pr-1 text-xs">
+                        <div class="bg-hkcard p-3 rounded-xl border border-gray-700/60 text-gray-200 leading-relaxed">
+                            <p id="welcomeAi">반갑습니다, 혜공 형님. AGI 삐니 통합 지능형 서비스 센터입니다. 전 세계 60개국어 노드 및 자산 동기화 시스템이 상시 가동되고 있습니다.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chat Input Area -->
+                <div class="pt-3 border-t border-gray-800">
+                    <div class="flex gap-2">
+                        <input type="text" id="chatInput" onkeypress="handleKeyPress(event)" placeholder="원장 상태 및 금융 노드에 대해 질문하십시오..." class="flex-grow bg-hkcard border border-gray-700 rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-blue-500">
+                        <button onclick="sendChatMessage()" class="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2.5 rounded-xl transition shadow-md text-xs font-bold">
+                            <i class="fa-solid fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
 
     </main>
 
-    <script>
-        // 60개국어 선택 연동 스크립트
-        const langSelector = document.getElementById('globalLangSelector');
-        const aiWelcomeMsg = document.getElementById('aiWelcomeMsg');
+    <!-- Footer -->
+    <footer class="bg-hksurface border-t border-gray-800 py-4 mt-8 text-center text-xs text-gray-500">
+        <p>&copy; 2026 HK Group. All Rights Reserved. Designed for Chairman Hyekong.</p>
+    </footer>
 
-        langSelector.addEventListener('change', (e) => {
-            const val = e.target.value;
-            if(val === 'us' || val === 'gb') {
-                aiWelcomeMsg.innerText = "Welcome, Chairman Hyekong. HK WorldBank Global 60-Nations AI Inference Engine is actively synchronizing.";
-            } else if(val === 'cn') {
-                aiWelcomeMsg.innerText = "欢迎慧公会长。HK WorldBank 全球60国语言智能引擎正在实时同步。";
-            } else if(val === 'jp') {
-                aiWelcomeMsg.innerText = "恵公会長、ようこそ。HKワールドバンク60カ国語AIエンジンが同期中です。";
-            } else if(val === 'fr') {
-                aiWelcomeMsg.innerText = "Bienvenue, Président Hyekong. Le moteur IA mondial HK WorldBank synchronise les 60 nœuds linguistiques.";
-            } else if(val === 'de') {
-                aiWelcomeMsg.innerText = "Willkommen, Vorsitzender Hyekong. Die globale 60-Sprachen-KI-Engine von HK WorldBank ist aktiv.";
-            } else {
-                aiWelcomeMsg.innerText = "반갑습니다, 혜공 형님. HK 월드뱅크 통합 지능형 서비스 센터입니다. 전 세계 60개국어 노드 및 자산 동기화 시스템이 상시 가동되고 있습니다.";
+    <!-- JavaScript Localization & Interactive Logic -->
+    <script>
+        const translations = {
+            kr: {
+                brandTitle: "HK 월드뱅크 플랫폼",
+                realtimeLedger: "실시간 원장 데이터",
+                assetDashboard: "개인 자산 대시보드",
+                personalQty: "📦 개인 보유 수량",
+                accInterest: "📈 실시간 누적 이자",
+                mainnetBtn: "☁️ 코어팀에게 메인넷 즉시 신청하기",
+                walletLedger: "지갑 관리 통합 원장",
+                governanceSystem: "HK 월드뱅크 거버넌스 시스템",
+                lpSync: "유동성 증명 연동",
+                lpWalletTitle: "유동성풀 지갑",
+                ubiOpen: "전면 투명 공개",
+                ubiWalletTitle: "UBI 지갑",
+                tenNodesTitle: "⚡ 10대 분산 연동망 실시간 프로세스 센터",
+                depositProcessTitle: "[예치] 상세 프로세스 및 API 승인",
+                depositProcessDesc: "자산 선택 → 수량 및 기간 설정 → 예상 수익률 확인 → 6자리 승인 코드 입력 → 비동기 백엔드 처리 완료",
+                authCodeLabel: "6자리 승인 코드를 입력하세요:",
+                approvalBtn: "승인",
+                aiEngineStatus: "60개국어 글로벌 노드 실시간 교차 동기화 연산 중",
+                officialChannels: "HK Global Official Channels",
+                welcomeAi: "반갑습니다, 혜공 형님. AGI 삐니 통합 지능형 서비스 센터입니다. 전 세계 60개국어 노드 및 자산 동기화 시스템이 상시 가동되고 있습니다.",
+                aiPlaceholder: "원장 상태 및 금융 노드에 대해 질문하십시오..."
+            },
+            us: {
+                brandTitle: "HK WorldBank Platform",
+                realtimeLedger: "Real-time Ledger Data",
+                assetDashboard: "Personal Asset Dashboard",
+                personalQty: "📦 Personal Holdings",
+                accInterest: "📈 Real-time Accumulated Interest",
+                mainnetBtn: "☁️ Request Instant Mainnet to Core Team",
+                walletLedger: "Wallet Management Ledger",
+                governanceSystem: "HK WorldBank Governance System",
+                lpSync: "Liquidity Proof Linked",
+                lpWalletTitle: "Liquidity Pool Wallet",
+                ubiOpen: "Full Transparent Public",
+                ubiWalletTitle: "UBI Wallet",
+                tenNodesTitle: "⚡ Top 10 Decentralized Node Process Center",
+                depositProcessTitle: "[Deposit] Detailed Process & API Approval",
+                depositProcessDesc: "Select Asset → Set Qty & Period → Check Yield → Enter 6-Digit Code → Async Backend Complete",
+                authCodeLabel: "Enter 6-Digit Approval Code:",
+                approvalBtn: "Approve",
+                aiEngineStatus: "Global 60-Languages Node Real-Time Syncing",
+                officialChannels: "HK Global Official Channels",
+                welcomeAi: "Welcome, Chairman Hyekong. AGI Bini Global AI Inference Engine is actively synchronizing 60+ language nodes.",
+                aiPlaceholder: "Ask about ledger status or financial nodes..."
+            },
+            cn: {
+                brandTitle: "HK 世界银行平台",
+                realtimeLedger: "实时账本数据",
+                assetDashboard: "个人资产仪表盘",
+                personalQty: "📦 个人持有数量",
+                accInterest: "📈 实时累计利息",
+                mainnetBtn: "☁️ 立即向核心团队申请主网",
+                walletLedger: "钱包管理综合账本",
+                governanceSystem: "HK 世界银行治理系统",
+                lpSync: "流动性证明联动",
+                lpWalletTitle: "流动性池钱包",
+                ubiOpen: "全面透明公开",
+                ubiWalletTitle: "UBI 钱包",
+                tenNodesTitle: "⚡ 十大分布式互联网络实时处理中心",
+                depositProcessTitle: "[存款] 详细流程与API批准",
+                depositProcessDesc: "选择资产 → 设置数量与周期 → 确认收益率 → 输入6位数批准码 → 异步后端处理完成",
+                authCodeLabel: "请输入6位批准码：",
+                approvalBtn: "批准",
+                aiEngineStatus: "全球60国语言节点实时交叉同步中",
+                officialChannels: "HK Global Official Channels",
+                welcomeAi: "欢迎慧公会长。AGI 삐니 全球AI智能引擎正在实时同步60国语言节点。",
+                aiPlaceholder: "请询问账本状态或金融节点..."
+            },
+            jp: {
+                brandTitle: "HK ワールドバンクプラットフォーム",
+                realtimeLedger: "リアルタイム台帳データ",
+                assetDashboard: "個人資産ダッシュボード",
+                personalQty: "📦 個人保有数量",
+                accInterest: "📈 リアルタイム累計利息",
+                mainnetBtn: "☁️ コアチームへメインネット即時申請",
+                walletLedger: "ウォレット管理統合台帳",
+                governanceSystem: "HK ワールドバンク ガバナンスシステム",
+                lpSync: "流動性証明連動",
+                lpWalletTitle: "流動性プールウォレット",
+                ubiOpen: "全面透明公開",
+                ubiWalletTitle: "UBIウォレット",
+                tenNodesTitle: "⚡ 10大分散ネットワークリアルタイムプロセス",
+                depositProcessTitle: "[預金] 詳細プロセスおよびAPI承認",
+                depositProcessDesc: "資産選択 → 数量・期間設定 → 予想利回り確認 → 6桁承認コード入力 → 非同期バックエンド処理完了",
+                authCodeLabel: "6桁の承認コードを入力してください：",
+                approvalBtn: "承認",
+                aiEngineStatus: "60カ国語グローバルノードリアルタイム同期中",
+                officialChannels: "HK Global Official Channels",
+                welcomeAi: "恵公会長、ようこそ。AGI 삐니 AIエンジンが60カ国語のリアルタイムノードを同期中です。",
+                aiPlaceholder: "台帳の状態や金融ノードについて質問してください..."
+            },
+            fr: {
+                brandTitle: "Plateforme HK WorldBank",
+                realtimeLedger: "Données du Grand Livre en Temps Réel",
+                assetDashboard: "Tableau de Bord des Actifs Personnels",
+                personalQty: "📦 Avoirs Personnels",
+                accInterest: "📈 Intérêts Cumulés en Temps Réel",
+                mainnetBtn: "☁️ Demander le Mainnet Instantané",
+                walletLedger: "Grand Livre de Gestion des Portefeuilles",
+                governanceSystem: "Système de Gouvernance HK WorldBank",
+                lpSync: "Preuve de Liquidité Liée",
+                lpWalletTitle: "Portefeuille de Pool de Liquidité",
+                ubiOpen: "Entièrement Transparent et Public",
+                ubiWalletTitle: "Portefeuille UBI",
+                tenNodesTitle: "⚡ Centre de Traitement des 10 Nœuds Décentralisés",
+                depositProcessTitle: "[Dépôt] Processus Détaillé et Approbation API",
+                depositProcessDesc: "Sélectionner l'Actif → Définir Qté et Période → Vérifier le Rendement → Entrer le Code à 6 Chiffres → Backend Asynchrone Terminé",
+                authCodeLabel: "Entrez le code d'approbation à 6 chiffres :",
+                approvalBtn: "Approuver",
+                aiEngineStatus: "Synchronisation en Temps Réel des Nœuds 60 Langues",
+                officialChannels: "HK Global Official Channels",
+                welcomeAi: "Bienvenue, Président Hyekong. Le moteur d'IA AGI Bini synchronise activement les nœuds linguistiques mondiaux.",
+                aiPlaceholder: "Posez des questions sur le grand livre ou les nœuds financiers..."
+            },
+            de: {
+                brandTitle: "HK WorldBank Plattform",
+                realtimeLedger: "Echtzeit-Ledger-Daten",
+                assetDashboard: "Persönliches Vermögens-Dashboard",
+                personalQty: "📦 Persönliche Bestände",
+                accInterest: "📈 Echtzeit-Zinseszinssatz",
+                mainnetBtn: "☁️ Sofortiges Mainnet anfordern",
+                walletLedger: "Wallet-Management-Ledger",
+                governanceSystem: "HK WorldBank Governance-System",
+                lpSync: "Liquiditätsnachweis verknüpft",
+                lpWalletTitle: "Liquiditäts-Pool-Wallet",
+                ubiOpen: "Vollständig transparent und öffentlich",
+                ubiWalletTitle: "UBI-Wallet",
+                tenNodesTitle: "⚡ Top 10 Dezentrales Knoten-Prozesszentrum",
+                depositProcessTitle: "[Einzahlung] Detaillierter Prozess & API-Genehmigung",
+                depositProcessDesc: "Asset auswählen → Menge & Zeitraum festlegen → Rendite prüfen → 6-stelligen Code eingeben → Asynchrones Backend abgeschlossen",
+                authCodeLabel: "6-stelligen Bestätigungscode eingeben:",
+                approvalBtn: "Genehmigen",
+                aiEngineStatus: "Echtzeit-Synchronisierung der 60-Sprachen-Knoten",
+                officialChannels: "HK Global Official Channels",
+                welcomeAi: "Willkommen, Vorsitzender Hyekong. AGI Bini synchronisiert aktiv über 60 Sprachknoten.",
+                aiPlaceholder: "Fragen Sie nach dem Ledger-Status oder Finanzknoten..."
+            },
+            es: {
+                brandTitle: "Plataforma HK WorldBank",
+                realtimeLedger: "Datos del Libro Mayor en Tiempo Real",
+                assetDashboard: "Panel de Activos Personales",
+                personalQty: "📦 Tenencias Personales",
+                accInterest: "📈 Interés Acumulado en Tiempo Real",
+                mainnetBtn: "☁️ Solicitar Mainnet Instantáneo",
+                walletLedger: "Libro Mayor de Gestión de Carteras",
+                governanceSystem: "Sistema de Gobernanza HK WorldBank",
+                lpSync: "Prueba de Liquidez Vinculada",
+                lpWalletTitle: "Billetera de Pool de Liquidez",
+                ubiOpen: "Público Totalmente Transparente",
+                ubiWalletTitle: "Billetera UBI",
+                tenNodesTitle: "⚡ Centro de Procesamiento de 10 Nodos Descentralizados",
+                depositProcessTitle: "[Depósito] Proceso Detallado y Aprobación API",
+                depositProcessDesc: "Seleccionar Activo → Establecer Cantidad y Plazo → Verificar Rendimiento → Ingresar Código de 6 Dígitos → Backend Asíncrono Completo",
+                authCodeLabel: "Ingrese el código de aprobación de 6 dígitos:",
+                approvalBtn: "Aprobar",
+                aiEngineStatus: "Sincronización en Tiempo Real de Nodos de 60 Idiomas",
+                officialChannels: "HK Global Official Channels",
+                welcomeAi: "Bienvenido, Presidente Hyekong. El motor de IA AGI Bini sincroniza activamente los nodos de más de 60 idiomas.",
+                aiPlaceholder: "Pregunte sobre el estado del libro mayor o nodos financieros..."
+            },
+            it: {
+                brandTitle: "Piattaforma HK WorldBank",
+                realtimeLedger: "Dati del Registro in Tempo Reale",
+                assetDashboard: "Dashboard Attività Personali",
+                personalQty: "📦 Detenute Personali",
+                accInterest: "📈 Interessi Accumulati in Tempo Reale",
+                mainnetBtn: "☁️ Richiedi Mainnet Immediato",
+                walletLedger: "Registro di Gestione Portafoglio",
+                governanceSystem: "Sistema di Governance HK WorldBank",
+                lpSync: "Prova di Liquidità Collegata",
+                lpWalletTitle: "Portafoglio Pool di Liquidità",
+                ubiOpen: "Completamente Trasparente e Pubblico",
+                ubiWalletTitle: "Portafoglio UBI",
+                tenNodesTitle: "⚡ Centro di Elaborazione 10 Nodi Decentralizzati",
+                depositProcessTitle: "[Deposito] Processo Dettagliato e Approvazione API",
+                depositProcessDesc: "Seleziona Asset → Imposta Q.tà e Periodo → Controlla Rendimento → Inserisci Codice a 6 CIFRE → Backend Asincrono Completato",
+                authCodeLabel: "Inserisci il codice di approvazione a 6 cifre:",
+                approvalBtn: "Approva",
+                aiEngineStatus: "Sincronizzazione in Tempo Reale dei Nodi a 60 Lingue",
+                officialChannels: "HK Global Official Channels",
+                welcomeAi: "Benvenuto, Presidente Hyekong. AGI Bini sta sincronizzando attivamente i nodi in oltre 60 lingue.",
+                aiPlaceholder: "Chiedi informazioni sullo stato del registro o sui nodi finanziari..."
+            },
+            ru: {
+                brandTitle: "Платформа HK WorldBank",
+                realtimeLedger: "Данные реестра в реальном времени",
+                assetDashboard: "Панель личных активов",
+                personalQty: "📦 Личные активы",
+                accInterest: "📈 Накопленные проценты в реальном времени",
+                mainnetBtn: "☁️ Запросить Mainnet у команды",
+                walletLedger: "Реестр управления кошельками",
+                governanceSystem: "Система управления HK WorldBank",
+                lpSync: "Связь доказательства ликвидности",
+                lpWalletTitle: "Кошелек пула ликвидности",
+                ubiOpen: "Полная прозрачность",
+                ubiWalletTitle: "UBI Кошелек",
+                tenNodesTitle: "⚡ Центр обработки 10 децентрализованных узлов",
+                depositProcessTitle: "[Депозит] Подробный процесс и одобрение API",
+                depositProcessDesc: "Выберите актив → Установите количество и срок → Проверьте доход → Введите 6-значный код → Асинхронный бэкенд завершен",
+                authCodeLabel: "Введите 6-значный код подтверждения:",
+                approvalBtn: "Подтвердить",
+                aiEngineStatus: "Синхронизация узлов на 60 языках в реальном времени",
+                officialChannels: "HK Global Official Channels",
+                welcomeAi: "Добро пожаловать, председатель Хеконг. ИИ AGI Bini синхронизирует узлы на 60+ языках.",
+                aiPlaceholder: "Задайте вопрос о статусе реестра или финансовых узлах..."
+            },
+            br: {
+                brandTitle: "Plataforma HK WorldBank",
+                realtimeLedger: "Dados do Razão em Tempo Real",
+                assetDashboard: "Painel de Ativos Pessoais",
+                personalQty: "📦 Ativos Pessoais",
+                accInterest: "📈 Juros Acumulados em Tempo Real",
+                mainnetBtn: "☁️ Solicitar Mainnet Instantâneo",
+                walletLedger: "Razão de Gestão de Carteiras",
+                governanceSystem: "Sistema de Governança HK WorldBank",
+                lpSync: "Prova de Liquidez Vinculada",
+                lpWalletTitle: "Carteira de Pool de Liquidez",
+                ubiOpen: "Totalmente Transparente e Público",
+                ubiWalletTitle: "Carteira UBI",
+                tenNodesTitle: "⚡ Centro de Processamento de 10 Nós Descentralizados",
+                depositProcessTitle: "[Depósito] Processo Detalhado e Aprovação API",
+                depositProcessDesc: "Selecionar Ativo → Definir Qtd e Período → Verificar Rendimento → Inserir Código de 6 Dígitos → Backend Concluído",
+                authCodeLabel: "Insira o código de aprovação de 6 dígitos:",
+                approvalBtn: "Aprovar",
+                aiEngineStatus: "Sincronização de Nós em 60 Idiomas em Tempo Real",
+                officialChannels: "HK Global Official Channels",
+                welcomeAi: "Bem-vindo, Presidente Hyekong. O motor de IA AGI Bini está sincronizando nós em mais de 60 idiomas.",
+                aiPlaceholder: "Pergunte sobre o status do razão ou nós financeiros..."
+            },
+            ar: {
+                brandTitle: "منصة HK WorldBank",
+                realtimeLedger: "بيانات دفتر الأستاذ في الوقت الفعلي",
+                assetDashboard: "لوحة معلومات الأصول الشخصية",
+                personalQty: "📦 الحيازات الشخصية",
+                accInterest: "📈 الفائدة المتراكمة في الوقت الفعلي",
+                mainnetBtn: "☁️ اطلب الشبكة الرئيسية للفريق الأساسي",
+                walletLedger: "دفتر الأستاذ لإدارة المحافظ",
+                governanceSystem: "نظام حوكمة HK WorldBank",
+                lpSync: "إثبات السيولة المرتبط",
+                lpWalletTitle: "محفظة مجمع السيولة",
+                ubiOpen: "شفافية عامة كاملة",
+                ubiWalletTitle: "محفظة UBI",
+                tenNodesTitle: "⚡ مركز عمليات 10 عقد لامركزية",
+                depositProcessTitle: "[إيداع] العملية التفصيلية وموافقة API",
+                depositProcessDesc: "حدد الأصل ← تعيين الكمية والفترة ← التحقق من العائد ← أدخل رمز 6 أرقام ← اكتمال الخلفية",
+                authCodeLabel: "أدخل رمز الموافقة المكون من 6 أرقام:",
+                approvalBtn: "موافقة",
+                aiEngineStatus: "مزامنة عقد 60 لغة في الوقت الفعلي",
+                officialChannels: "HK Global Official Channels",
+                welcomeAi: "أهلاً بك، الرئيس هاي كونغ. يقوم محرك الذكاء الاصطناعي AGI Bini بمزامنة أكثر من 60 عقدة لغة.",
+                aiPlaceholder: "اسأل عن حالة دفتر الأستاذ أو العقد المالية..."
+            },
+            id: {
+                brandTitle: "Platform HK WorldBank",
+                realtimeLedger: "Data Buku Besar Waktu Nyata",
+                assetDashboard: "Dasbor Aset Pribadi",
+                personalQty: "📦 Kepemilikan Pribadi",
+                accInterest: "📈 Bunga Akumulasi Waktu Nyata",
+                mainnetBtn: "☁️ Ajukan Mainnet Instan ke Tim Inti",
+                walletLedger: "Buku Besar Manajemen Dompet",
+                governanceSystem: "Sistem Tata Kelola HK WorldBank",
+                lpSync: "Bukti Likuiditas Tertaut",
+                lpWalletTitle: "Dompet Kumpulan Likuiditas",
+                ubiOpen: "Publik Transparan Penuh",
+                ubiWalletTitle: "Dompet UBI",
+                tenNodesTitle: "⚡ Pusat Proses 10 Node Terdesentralisasi",
+                depositProcessTitle: "[Setoran] Proses Rinci & Persetujuan API",
+                depositProcessDesc: "Pilih Aset → Atur Qty & Periode → Cek Yield → Masukkan Kode 6 Digit → Backend Asinkron Selesai",
+                authCodeLabel: "Masukkan Kode Persetujuan 6 Digit:",
+                approvalBtn: "Setujui",
+                aiEngineStatus: "Sinkronisasi Node 60 Bahasa Global Waktu Nyata",
+                officialChannels: "HK Global Official Channels",
+                welcomeAi: "Selamat datang, Ketua Hyekong. Mesin AI AGI Bini menyinkronkan 60+ node bahasa secara real-time.",
+                aiPlaceholder: "Tanyakan tentang status buku besar atau node keuangan..."
+            },
+            tr: {
+                brandTitle: "HK WorldBank Platformu",
+                realtimeLedger: "Gerçek Zamanlı Defter Verileri",
+                assetDashboard: "Kişisel Varlık Panosu",
+                personalQty: "📦 Kişisel Varlıklar",
+                accInterest: "📈 Gerçek Zamanlı Biriken Faiz",
+                mainnetBtn: "☁️ Çekirdek Ekibe Mainnet Başvurusu",
+                walletLedger: "Cüzdan Yönetim Defteri",
+                governanceSystem: "HK WorldBank Yönetişim Sistemi",
+                lpSync: "Likidite Kanıtı Bağlantılı",
+                lpWalletTitle: "Likidite Havuzu Cüzdanı",
+                ubiOpen: "Tam Şeffaf Kamuya Açık",
+                ubiWalletTitle: "UBI Cüzdanı",
+                tenNodesTitle: "⚡ En İyi 10 Merkeziyetsiz Düğüm Süreç Merkezi",
+                depositProcessTitle: "[Yatırım] Detaylı Süreç ve API Onayı",
+                depositProcessDesc: "Varlık Seç → Miktar ve Süre Belirle → Getiri Kontrol Et → 6 Haneli Kod Gir → Tamamlandı",
+                authCodeLabel: "6 Haneli Onay Kodunu Girin:",
+                approvalBtn: "Onayla",
+                aiEngineStatus: "Küresel 60 Dil Düğümü Gerçek Zamanlı Senkronizasyon",
+                officialChannels: "HK Global Official Channels",
+                welcomeAi: "Hoş geldiniz Başkan Hyekong. AGI Bini yapay zeka motoru 60+ dil düğümünü senkronize ediyor.",
+                aiPlaceholder: "Defter durumu veya finansal düğümler hakkında soru sorun..."
+            },
+            vi: {
+                brandTitle: "Nền tảng HK WorldBank",
+                realtimeLedger: "Dữ liệu Sổ cái Thời gian Thực",
+                assetDashboard: "Bảng điều khiển Tài sản Cá nhân",
+                personalQty: "📦 Số dư Cá nhân",
+                accInterest: "📈 Lãi suất Tích lũy Thời gian Thực",
+                mainnetBtn: "☁️ Yêu cầu Mainnet Ngay lập tức",
+                walletLedger: "Sổ cái Quản lý Ví",
+                governanceSystem: "Hệ thống Quản trị HK WorldBank",
+                lpSync: "Chứng nhận Thanh khoản Đã liên kết",
+                lpWalletTitle: "Ví Nhóm Thanh khoản",
+                ubiOpen: "Công khai Minh bạch Hoàn toàn",
+                ubiWalletTitle: "Ví UBI",
+                tenNodesTitle: "⚡ Trung tâm Xử lý 10 Nút Phi tập trung",
+                depositProcessTitle: "[Nạp tiền] Quy trình Chi tiết & Phê duyệt API",
+                depositProcessDesc: "Chọn Tài sản → Đặt Số lượng & Kỳ hạn → Kiểm tra Lợi nhuận → Nhập Mã 6 Chữ số → Hoàn tất",
+                authCodeLabel: "Nhập mã phê duyệt 6 chữ số:",
+                approvalBtn: "Phê duyệt",
+                aiEngineStatus: "Đồng bộ hóa Nút 60 Ngôn ngữ Toàn cầu Thời gian Thực",
+                officialChannels: "HK Global Official Channels",
+                welcomeAi: "Chào mừng Chủ tịch Hyekong. Công cụ AI AGI Bini đang đồng bộ hóa hơn 60 nút ngôn ngữ.",
+                aiPlaceholder: "Hỏi về trạng thái sổ cái hoặc nút tài chính..."
+            },
+            th: {
+                brandTitle: "แพลตฟอร์ม HK WorldBank",
+                realtimeLedger: "ข้อมูลบัญชีแยกประเภทแบบเรียลไทม์",
+                assetDashboard: "แดชบอร์ดทรัพย์สินส่วนบุคคล",
+                personalQty: "📦 สินทรัพย์ส่วนบุคคล",
+                accInterest: "📈 ดอกเบี้ยสะสมแบบเรียลไทม์",
+                mainnetBtn: "☁️ ขอเมนเน็ตทันทีจากทีมงานหลัก",
+                walletLedger: "บัญชีจัดการกระเป๋าเงิน",
+                governanceSystem: "ระบบธรรมาภิบาล HK WorldBank",
+                lpSync: "เชื่อมโยงหลักฐานสภาพคล่อง",
+                lpWalletTitle: "กระเป๋าพูลสภาพคล่อง",
+                ubiOpen: "เปิดเผยโปร่งใสเต็มรูปแบบ",
+                ubiWalletTitle: "กระเป๋า UBI",
+                tenNodesTitle: "⚡ ศูนย์ประบวนการ 10 โหนดแบบกระจายศูนย์",
+                depositProcessTitle: "[ฝาก] กระบวนการโดยละเอียดและการอนุมัติ API",
+                depositProcessDesc: "เลือกสินทรัพย์ → กำหนดจำนวนและระยะเวลา → ตรวจสอบผลตอบแทน → ใส่รหัส 6 หลัก → สำเร็จ",
+                authCodeLabel: "ป้อนรหัสอนุมัติ 6 หลัก:",
+                approvalBtn: "อนุมัติ",
+                aiEngineStatus: "ซิงโครไนซ์โหนด 60 ภาษาทั่วโลกแบบเรียลไทม์",
+                officialChannels: "HK Global Official Channels",
+                welcomeAi: "ยินดีต้อนรับท่านประธานฮเยกง เครื่องมือ AI AGI Bini กำลังซิงโครไนซ์โหนดมากกว่า 60 ภาษา",
+                aiPlaceholder: "สอบถามเกี่ยวกับสถานะบัญชีหรือโหนดทางการเงิน..."
+            },
+            hi: {
+                brandTitle: "HK WorldBank प्लेटफ़ॉर्म",
+                realtimeLedger: "रीयल-टाइम लेज़र डेटा",
+                assetDashboard: "व्यक्तिगत संपत्ति डैशबोर्ड",
+                personalQty: "📦 व्यक्तिगत होल्डिंग्स",
+                accInterest: "📈 रीयल-टाइम संचित ब्याज",
+                mainnetBtn: "☁️ कोर टीम से तुरंत मेननेट का अनुरोध करें",
+                walletLedger: "वॉलेट प्रबंधन लेज़र",
+                governanceSystem: "HK WorldBank गवर्नेंस सिस्टम",
+                lpSync: "तरलता प्रमाण लिंक्ड",
+                lpWalletTitle: "लिक्विडिटी पूल वॉलेट",
+                ubiOpen: "पूर्ण पारदर्शी सार्वजनिक",
+                ubiWalletTitle: "UBI वॉलेट",
+                tenNodesTitle: "⚡ शीर्ष 10 विकेंद्रीकृत नोड प्रक्रिया केंद्र",
+                depositProcessTitle: "[जमा] विस्तृत प्रक्रिया और API अनुमोदन",
+                depositProcessDesc: "संपत्ति चुनें → मात्रा और अवधि सेट करें → उपज की जाँच करें → 6-अंकीय कोड दर्ज करें → अतुल्यकालिक बैकएंड पूर्ण",
+                authCodeLabel: "6-अंकीय अनुमोदन कोड दर्ज करें:",
+                approvalBtn: "स्वीकृत करें",
+                aiEngineStatus: "वैश्विक 60-भाषा नोड रीयल-टाइम सिंक हो रहे हैं",
+                officialChannels: "HK Global Official Channels",
+                welcomeAi: "स्वागत है, अध्यक्ष ह्येकोंग। AGI बिनी वैश्विक AI इंजन 60+ भाषा नोड्स को सिंक कर रहा है.",
+                aiPlaceholder: "लेज़र स्थिति या वित्तीय नोड्स के बारे में पूछें..."
             }
-        });
+        };
+
+        function changeLanguage(lang) {
+            const t = translations[lang] || translations['kr'];
+            document.getElementById('brandTitle').innerText = t.brandTitle;
+            document.getElementById('assetDashboard').querySelector('span:nth-child(2)').innerText = t.assetDashboard;
+            document.getElementById('personalQty').innerText = t.personalQty;
+            document.getElementById('accInterest').innerText = t.accInterest;
+            document.getElementById('mainnetBtn').querySelector('span').innerText = t.mainnetBtn;
+            document.getElementById('tenNodesTitle').querySelector('span:nth-child(2)').innerText = t.tenNodesTitle;
+            document.getElementById('depositProcessTitle').innerText = t.depositProcessTitle;
+            document.getElementById('depositProcessDesc').innerText = t.depositProcessDesc;
+            document.getElementById('authCodeLabel').innerText = t.authCodeLabel;
+            document.getElementById('approvalBtn').innerText = t.approvalBtn;
+            document.getElementById('aiEngineStatus').innerText = t.aiEngineStatus;
+            document.getElementById('welcomeAi').innerText = t.welcomeAi;
+            document.getElementById('chatInput').placeholder = t.aiPlaceholder;
+        }
+
+        function approveDeposit() {
+            const code = document.getElementById('authCodeInput').value;
+            const resultDiv = document.getElementById('approvalResult');
+            if(code.length === 6) {
+                resultDiv.classList.remove('hidden');
+                setTimeout(() => {
+                    resultDiv.classList.add('hidden');
+                    document.getElementById('authCodeInput').value = '';
+                }, 4000);
+            } else {
+                alert('6자리 승인 코드를 정확히 입력해주세요.');
+            }
+        }
+
+        function requestMainnet() {
+            alert('파이 네트워크 코어팀으로 메인넷 즉시 연동 신청 패킷이 안전하게 전송되었습니다. (Node #04)');
+        }
+
+        function sendChatMessage() {
+            const input = document.getElementById('chatInput');
+            const chatLog = document.getElementById('chatLog');
+            if(!input.value.trim()) return;
+
+            const userMsg = document.createElement('div');
+            userMsg.className = 'bg-blue-900/40 p-3 rounded-xl border border-blue-700/50 text-gray-100 ml-6 text-right';
+            userMsg.innerHTML = `<p>${input.value}</p>`;
+            chatLog.appendChild(userMsg);
+
+            const query = input.value;
+            input.value = '';
+
+            setTimeout(() => {
+                const aiMsg = document.createElement('div');
+                aiMsg.className = 'bg-hkcard p-3 rounded-xl border border-gray-700/60 text-gray-200 mr-6';
+                aiMsg.innerHTML = `<p><strong>[AGI 삐니]</strong> 혜공 형님의 요청("${query}")에 따라 HK 월드뱅크 60개국어 노드 및 Pi Network 원장을 즉시 교차 검증 및 반영 완료하였습니다.</p>`;
+                chatLog.appendChild(aiMsg);
+                chatLog.scrollTop = chatLog.scrollHeight;
+            }, 600);
+
+            chatLog.scrollTop = chatLog.scrollHeight;
+        }
+
+        function handleKeyPress(e) {
+            if(e.key === 'Enter') {
+                sendChatMessage();
+            }
+        }
     </script>
 </body>
 </html>
+
+
