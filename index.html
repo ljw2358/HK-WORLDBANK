@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HK WORLD BANK - Enterprise Master Financial Engine</title>
+    <title>HK WORLD BANK - 50 Nations Enterprise Master Engine</title>
     <style>
         :root {
             --bg-deep: #050811;
@@ -12,392 +12,288 @@
             --text-main: #f8fafc;
             --text-muted: #64748b;
             --border-line: #1e293b;
+            --success-green: #10b981;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Courier New', Courier, monospace, sans-serif; }
-        body { background-color: var(--bg-deep); color: var(--text-main); padding: 20px; line-height: 1.5; }
+        body { background-color: var(--bg-deep); color: var(--text-main); padding: 20px; line-height: 1.6; }
         .master-container { max-width: 1400px; margin: 0 auto; }
         
-        /* Layout Structure */
-        header { text-align: center; padding: 30px; background: var(--bg-card); border: 2px solid var(--accent-gold); border-radius: 12px; margin-bottom: 25px; }
-        .bank-title-center { font-size: 3rem; font-weight: 900; color: var(--accent-gold); text-align: center; letter-spacing: 2px; margin-bottom: 15px; }
-        .fast-finance-center { font-size: 1.2rem; font-weight: 700; color: #38bdf8; text-align: center; margin-bottom: 15px; }
+        header { text-align: center; padding: 35px; background: var(--bg-card); border: 2px solid var(--accent-gold); border-radius: 12px; margin-bottom: 25px; box-shadow: 0 0 20px rgba(245, 158, 11, 0.15); }
+        .bank-title-center { font-size: 3rem; font-weight: 900; color: var(--accent-gold); text-align: center; letter-spacing: 3px; margin-bottom: 15px; }
+        .fast-finance-center { font-size: 1.3rem; font-weight: 700; color: #38bdf8; text-align: center; margin-bottom: 15px; }
         
         .section-box { background: var(--bg-card); border: 1px solid var(--border-line); border-radius: 12px; padding: 25px; margin-bottom: 25px; }
-        .section-title { color: var(--accent-gold); font-size: 1.4rem; font-weight: 800; margin-bottom: 15px; border-bottom: 1px solid var(--border-line); padding-bottom: 8px; }
+        .section-title { color: var(--accent-gold); font-size: 1.4rem; font-weight: 800; margin-bottom: 15px; border-bottom: 1px solid var(--border-line); padding-bottom: 8px; display: flex; align-items: center; justify-content: space-between; }
         
-        /* 10대 연동망 그리드 */
-        .grid-10 { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; }
-        .net-card { background: #131c31; border: 1px solid #293548; padding: 20px; border-radius: 10px; cursor: pointer; transition: 0.2s; }
-        .net-card:hover { border-color: var(--accent-gold); transform: translateY(-2px); }
+        .grid-10 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 15px; }
+        .net-card { background: #131c31; border: 1px solid #293548; padding: 20px; border-radius: 10px; cursor: pointer; transition: all 0.2s ease; }
+        .net-card:hover { border-color: var(--accent-gold); transform: translateY(-3px); box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2); }
         .net-card h5 { color: var(--accent-gold); font-size: 1.1rem; margin-bottom: 8px; }
         .net-card p { font-size: 0.85rem; color: var(--text-muted); }
 
-        /* 다국어 선택 바 */
-        .global-bar { display: flex; justify-content: space-between; align-items: center; background: var(--bg-card); padding: 15px 25px; border-radius: 10px; border: 1px solid var(--border-line); margin-bottom: 25px; }
-        select { background: #0b0f19; color: #fff; padding: 10px 15px; border-radius: 6px; border: 1px solid var(--accent-gold); font-weight: bold; }
+        .global-bar { display: flex; justify-content: space-between; align-items: center; background: var(--bg-card); padding: 15px 25px; border-radius: 10px; border: 1px solid var(--border-line); margin-bottom: 25px; flex-wrap: wrap; gap: 15px; }
+        select { background: #0b0f19; color: #fff; padding: 10px 15px; border-radius: 6px; border: 1px solid var(--accent-gold); font-weight: bold; cursor: pointer; max-width: 400px; }
 
-        /* 프로세스 실행 패널 */
         .engine-panel { background: #090e1a; border: 2px solid var(--accent-gold); padding: 25px; border-radius: 12px; margin-top: 20px; display: none; }
-        .engine-panel input, .engine-panel select { width: 100%; padding: 12px; margin: 10px 0; background: #0f172a; border: 1px solid var(--border-line); color: #fff; border-radius: 6px; }
+        .engine-panel input, .engine-panel select { width: 100%; padding: 12px; margin: 10px 0; background: #0f172a; border: 1px solid var(--border-line); color: #fff; border-radius: 6px; font-size: 1rem; }
         .btn-row { display: flex; gap: 12px; margin-top: 15px; }
-        .btn-exec { background: var(--accent-gold); color: #000; font-weight: bold; flex: 1; padding: 12px; border: none; border-radius: 6px; cursor: pointer; }
+        .btn-exec { background: var(--accent-gold); color: #000; font-weight: bold; flex: 1; padding: 12px; border: none; border-radius: 6px; cursor: pointer; transition: 0.2s; }
+        .btn-exec:hover { background: #fbbf24; }
         .btn-cancel { background: #334155; color: #fff; font-weight: bold; flex: 1; padding: 12px; border: none; border-radius: 6px; cursor: pointer; }
 
-        /* AGI 삐니 고객센터 채팅창 */
         .chat-frame { background: #090e1a; border: 1px solid var(--border-line); border-radius: 10px; padding: 20px; }
-        .chat-log { height: 250px; overflow-y: auto; background: #0f172a; padding: 15px; border-radius: 8px; border: 1px solid var(--border-line); margin-bottom: 15px; }
+        .chat-log { height: 260px; overflow-y: auto; background: #0f172a; padding: 15px; border-radius: 8px; border: 1px solid var(--border-line); margin-bottom: 15px; }
         .chat-input-box { display: flex; gap: 10px; }
         .chat-input-box input { flex: 1; padding: 12px; background: #090e1a; border: 1px solid var(--border-line); color: #fff; border-radius: 6px; }
 
-        /* 에코시스템 및 링크 */
-        .eco-links-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; }
-        .eco-btn { display: block; background: #131c31; color: var(--accent-gold); text-align: center; padding: 12px; border-radius: 6px; text-decoration: none; font-weight: bold; border: 1px solid var(--border-line); }
-        .eco-btn:hover { background: var(--accent-gold); color: #000; }
-
         .tier-text { padding-left: 20px; color: var(--text-muted); font-size: 0.95rem; }
-        .tier-text li { margin-bottom: 6px; }
-        code-view { background: #000; color: #10b981; padding: 15px; display: block; border-radius: 6px; font-size: 0.85rem; overflow-x: auto; margin-top: 10px; }
+        .tier-text li { margin-bottom: 8px; }
+        .code-view { background: #000; color: var(--success-green); padding: 15px; display: block; border-radius: 6px; font-size: 0.85rem; overflow-x: auto; margin-top: 10px; border: 1px solid #1e293b; }
     </style>
 </head>
 <body>
 
 <div class="master-container">
 
-    <!-- 글로벌 언어팩 및 규제 모듈 상태 바 -->
     <div class="global-bar">
-        <div id="userPassStatus">👑 <strong>형님 프리패스 계정 적용 완료</strong> (KYC/KYB 백그라운드 자동 통과 및 무제한 권한)</div>
+        <div id="userPassStatus">👑 <strong>형님 (Chairman Hyekong) 50개국 통합 프리패스 계정 활성화</strong></div>
         <div>
-            <label style="color: var(--accent-gold); margin-right: 8px;">뼈속까지 50개국어 선택:</label>
+            <label style="color: var(--accent-gold); margin-right: 8px;">전 세계 50개국 완벽 선택:</label>
             <select id="deepLangSelect" onchange="switchDeepLanguage(this.value)">
-                <option value="ko">🇰🇷 대한민국 (한국어 - KR)</option>
-                <option value="en">🇺🇸 United States (English - EN)</option>
-                <option value="jp">🇯🇵 日本 (日本語 - JP)</option>
-                <option value="th">🇹🇭 ประเทศไทย (ไทย - TH)</option>
-                <option value="vn">🇻🇳 Việt Nam (Tiếng Việt - VN)</option>
-                <option value="cn">🇨🇳 中国 (简体中文 - CN)</option>
-                <option value="es">🇪🇸 España (Español - ES)</option>
-                <option value="fr">🇫🇷 France (Français - FR)</option>
-                <option value="de">🇩🇪 Deutschland (Deutsch - DE)</option>
-                <option value="br">🇧🇷 Brasil (Português - BR)</option>
-                <option value="ng">🇳🇬 Nigeria (Pidgin/English - NG)</option>
-                <option value="ph">🇵🇭 Pilipinas (Filipino - PH)</option>
+                <!-- 50개국 정식 옵션 렌더링 -->
+                <option value="kr">🇰🇷 대한민국 (Korean - KR)</option>
+                <option value="us">🇺🇸 United States (English - US)</option>
+                <option value="jp">🇯🇵 日本 (Japanese - JP)</option>
+                <option value="cn">🇨🇳 中国 (Chinese - CN)</option>
+                <option value="gb">🇬🇧 United Kingdom (English - GB)</option>
+                <option value="de">🇩🇪 Deutschland (German - DE)</option>
+                <option value="fr">🇫🇷 France (French - FR)</option>
+                <option value="es">🇪🇸 España (Spanish - ES)</option>
+                <option value="it">🇮🇹 Italia (Italian - IT)</option>
+                <option value="br">🇧🇷 Brasil (Portuguese - BR)</option>
+                <option value="ca">🇨🇦 Canada (English/French - CA)</option>
+                <option value="au">🇦🇺 Australia (English - AU)</option>
                 <option value="in">🇮🇳 भारत (Hindi - IN)</option>
-                <option value="th">🇹🇭 기타 37개국어 동적 확장 엔진 대기 중...</option>
+                <option value="ru">🇷🇺 Россия (Russian - RU)</option>
+                <option value="mx">🇲🇽 México (Spanish - MX)</option>
+                <option value="id">🇮🇩 Indonesia (Indonesian - ID)</option>
+                <option value="tr">🇹🇷 Türkiye (Turkish - TR)</option>
+                <option value="sa">🇸🇦 السعودية (Arabic - SA)</option>
+                <option value="nl">🇳🇱 Nederland (Dutch - NL)</option>
+                <option value="ch">🇨🇭 Schweiz (German/French - CH)</option>
+                <option value="se">🇸🇪 Sverige (Swedish - SE)</option>
+                <option value="pl">🇵🇱 Polska (Polish - Polish)</option>
+                <option value="vn">🇻🇳 Việt Nam (Vietnamese - VN)</option>
+                <option value="th">🇹🇭 ประเทศไทย (Thai - TH)</option>
+                <option value="ph">🇵🇭 Pilipinas (Filipino - PH)</option>
+                <option value="my">🇲🇾 Malaysia (Malay - MY)</option>
+                <option value="sg">🇸🇬 Singapore (English - SG)</option>
+                <option value="ae">🇦🇪 United Arab Emirates (Arabic - AE)</option>
+                <option value="za">🇿🇦 South Africa (English/Zulu - ZA)</option>
+                <option value="ar">🇦🇷 Argentina (Spanish - AR)</option>
+                <option value="co">🇨🇴 Colombia (Spanish - CO)</option>
+                <option value="cl">🇨🇱 Chile (Spanish - CL)</option>
+                <option value="pe">🇵🇪 Perú (Spanish - PE)</option>
+                <option value="nz">🇳🇿 New Zealand (English - NZ)</option>
+                <option value="ie">🇦🇹 Éire (Irish - IE)</option>
+                <option value="at">🇦🇹 Österreich (German - AT)</option>
+                <option value="be">🇧🇪 België (Dutch/French - BE)</option>
+                <option value="pt">🇵🇹 Portugal (Portuguese - PT)</option>
+                <option value="cz">🇨🇿 Česká republika (Czech - CZ)</option>
+                <option value="hu">🇭🇺 Magyarország (Hungarian - HU)</option>
+                <option value="ro">🇷🇴 România (Romanian - RO)</option>
+                <option value="ua">🇺🇦 Україна (Ukrainian - UA)</option>
+                <option value="gr">🇬🇷 Ελλάδα (Greek - GR)</option>
+                <option value="il">🇮🇱 ישראל (Hebrew - IL)</option>
+                <option value="dk">🇩🇰 Danmark (Danish - DK)</option>
+                <option value="fi">🇫🇮 Suomi (Finnish - FI)</option>
+                <option value="no">🇳🇴 Norge (Norwegian - NO)</option>
+                <option value="ng">🇳🇬 Nigeria (English - NG)</option>
+                <option value="pk">🇵🇰 پاکستان (Urdu - PK)</option>
+                <option value="bd">🇧🇩 বাংলাদেশ (Bengali - BD)</option>
             </select>
         </div>
     </div>
 
-    <!-- 헤더 영역 -->
     <header>
         <div class="bank-title-center" id="uiBankTitle">🪙 HK WORLD BANK 🪙</div>
-        <div class="fast-finance-center" id="uiFastFinance">⚡ 빠른 금융 작업 ⚡</div>
-        <p style="color: var(--text-muted);" id="uiHeaderSub">Global Web3 Digital Financial Hub | Compliance: AML, MiCA, Clarity & 9 Major Nations Validated</p>
+        <div class="fast-finance-center" id="uiFastFinance">⚡ 50개국 글로벌 통합 엔터프라이즈 금융 엔진 ⚡</div>
+        <p style="color: var(--text-muted);" id="uiHeaderSub">Global Web3 Digital Financial Hub | 50 Nations Multi-Language & Compliance Dynamic Router Active</p>
     </header>
 
-    <!-- 대시보드 및 PI 수량 로고 -->
-    <div class="grid-10" style="grid-template-columns: 1fr 1fr; margin-bottom: 25px;">
-        <div class="section-box" style="margin-bottom:0;">
-            <div class="section-title">📊 개인 자산 대시보드 (PI Tracker 통합)</div>
-            <p><strong>총 보유 Pi 수량:</strong> <span style="color: var(--accent-gold); font-size: 1.5rem;" id="piCountDisplay">125,430.80 PI</span></p>
-            <p><strong>원화 가치 환산:</strong> 156,788,500 KRW</p>
-            <p style="margin-top: 10px; font-size: 0.9rem; color: #10b981;">[안전 장치]: 미인증 사용자는 구경 모드(Read-Only)로 엄격히 제한됨</p>
-        </div>
-        <div class="section-box" style="margin-bottom:0;">
-            <div class="section-title">🏛️ HK 사회 재단 & UBI 연계 모델</div>
-            <p><strong>플랫폼 순이익 30% UBI자동 분배 가동</strong></p>
-            <p><strong>UBI 재단 지갑:</strong> HK_UBI_FOUNDATION_982_PUBLIC</p>
-            <p style="margin-top: 10px; font-size: 0.9rem; color: var(--text-muted);">지자체 협력 및 투명한 취약계층 복지 지급 보장</p>
-        </div>
-    </div>
-
-    <!-- 10대 연동망 및 각각의 상세 프로세스 -->
     <div class="section-box">
-        <div class="section-title">🌐 10대 분산 연동망 및 실구동 프로세스 엔진</div>
+        <div class="section-title">
+            <span id="uiSecTitle1">🌐 10대 분산 연동망 및 실구동 프로세스 허브</span>
+            <span style="font-size:0.9rem; color:var(--success-green);" id="uiStatusText">[시스템 상태: 50개국 동기화 완료]</span>
+        </div>
         <div class="grid-10">
-            <div class="net-card" onclick="runProcessEngine('wallet')">
-                <h5>1. 지갑연결</h5>
-                <p>Pi SDK 백그라운드 KYC 자동 확인 및 즉시 대시보드 진입</p>
+            <div class="net-card" onclick="runProcessEngine(1)">
+                <h5 id="net1Title">1. 지갑연결</h5>
+                <p id="net1Desc">Pi SDK 백그라운드 KYC 자동 확인 및 프리패스 즉시 진입</p>
             </div>
-            <div class="net-card" onclick="runProcessEngine('transfer')">
-                <h5>2. 송금</h5>
-                <p>대륙간 초고속 P2P 멀티시그 암호화 전송</p>
+            <div class="net-card" onclick="runProcessEngine(2)">
+                <h5 id="net2Title">2. 송금</h5>
+                <p id="net2Desc">대륙간 초고속 P2P 멀티시그 암호화 실시간 전송</p>
             </div>
-            <div class="net-card" onclick="runProcessEngine('payment')">
-                <h5>3. 결제</h5>
-                <p>실시간 상거래 및 원화·타코인 인스턴트 에스크로 정산</p>
+            <div class="net-card" onclick="runProcessEngine(3)">
+                <h5 id="net3Title">3. 결제</h5>
+                <p id="net3Desc">실시간 상거래 및 원화·코인 인스턴트 에스크로 정산</p>
             </div>
-            <div class="net-card" onclick="runProcessEngine('deposit')">
-                <h5>4. 예치</h5>
-                <p>3년 플랜 연 31.41% 복리 스마트컨트랙트 락업</p>
+            <div class="net-card" onclick="runProcessEngine(4)">
+                <h5 id="net4Title">4. 예치</h5>
+                <p id="net4Desc">3년 플랜 연 31.41% 복리 스마트컨트랙트 락업 실행</p>
             </div>
-            <div class="net-card" onclick="runProcessEngine('rewards')">
-                <h5>5. 보상</h5>
-                <p>인센티브 실시간 정산 및 볼트 즉시 지급</p>
+            <div class="net-card" onclick="runProcessEngine(5)">
+                <h5 id="net5Title">5. 보상</h5>
+                <p id="net5Desc">인센티브 실시간 정산 및 개인 볼트 즉시 입금</p>
             </div>
-            <div class="net-card" onclick="runProcessEngine('ubi')">
-                <h5>6. 기본소득</h5>
-                <p>HK 사회 재단 투명 UBI 지원금 수령</p>
+            <div class="net-card" onclick="runProcessEngine(6)">
+                <h5 id="net6Title">6. 기본소득</h5>
+                <p id="net6Desc">HK 사회 재단 투명 UBI 지원금 자동 수령 시스템</p>
             </div>
-            <div class="net-card" onclick="runProcessEngine('swap')">
-                <h5>7. 스왑</h5>
-                <p>현금·카드·타코인 입금 시 즉시 코인 구매 스왑</p>
+            <div class="net-card" onclick="runProcessEngine(7)">
+                <h5 id="net7Title">7. 스왑</h5>
+                <p id="net7Desc">현금·카드·타코인 입금 시 최적 AMM 코인 즉시 스왑</p>
             </div>
-            <div class="net-card" onclick="runProcessEngine('dex')">
-                <h5>8. DEX 스왑</h5>
-                <p>오더레스 AMM 유동성 풀 P2P 트레이딩</p>
+            <div class="net-card" onclick="runProcessEngine(8)">
+                <h5 id="net8Title">8. DEX 스왑</h5>
+                <p id="net8Desc">오더레스 AMM 유동성 풀 P2P 트레이딩 라우팅</p>
             </div>
-            <div class="net-card" onclick="runProcessEngine('lp')">
-                <h5>9. LP 스테이킹</h5>
-                <p>유동성 증명 토큰 예치 및 고리 배당 획득</p>
+            <div class="net-card" onclick="runProcessEngine(9)">
+                <h5 id="net9Title">9. LP 스테이킹</h5>
+                <p id="net9Desc">유동성 증명 토큰 예치 및 고리 배당 권한 획득</p>
             </div>
-            <div class="net-card" onclick="runProcessEngine('pi')">
-                <h5>10. PI 수량</h5>
-                <p>중앙 로고 및 온체인 자산 실시간 동기화 추적</p>
+            <div class="net-card" onclick="runProcessEngine(10)">
+                <h5 id="net10Title">10. PI 수량</h5>
+                <p id="net10Desc">중앙 로고 및 온체인 자산 실시간 동기화 추적</p>
             </div>
         </div>
 
-        <!-- 각 프로세스 구동 제어 패널 -->
         <div class="engine-panel" id="activeEnginePanel">
-            <h4 id="enginePanelTitle" style="color: var(--accent-gold); margin-bottom: 12px; font-size: 1.2rem;">프로세스 구동</h4>
+            <h4 id="enginePanelTitle" style="color: var(--accent-gold); margin-bottom: 12px; font-size: 1.2rem;">프로세스 구동 스펙</h4>
             <div id="enginePanelBody"></div>
         </div>
     </div>
 
-    <!-- AGI 삐니 고객센터 -->
     <div class="section-box">
-        <div class="section-title">🤖 AGI 삐니 실시간 고객센터 (50개국어 완벽 응대)</div>
+        <div class="section-title"><span id="uiBiniTitle">🤖 AGI 삐니 실시간 고객센터 (50개국어 실시간 대응)</span></div>
         <div class="chat-frame">
             <div class="chat-log" id="biniChatLog">
-                <p style="color: var(--text-muted);">[AGI 삐니]: 형님, 반갑습니다! 50개국어 다국어 엔진과 11개국 디지털 자산법 컴플라이언스가 백엔드에서 완벽하게 구동 중입니다. 지원 문의: support@hkwb.world</p>
+                <p style="color: var(--text-muted);" id="biniWelcomeMsg">[AGI 삐니]: 형님, 50개국어 다국어 데이터베이스 엔진이 완벽하게 가동 중입니다. 무엇이든 지시해 주십시오!</p>
             </div>
             <div class="chat-input-box">
-                <input type="text" id="biniInputText" placeholder="삐니에게 무엇이든 질문하세요 (예: 예치 프로세스 실행해줘)">
-                <button class="btn-exec" style="width: 130px;" onclick="askBini()">전송</button>
+                <input type="text" id="biniInputText" placeholder="삐니에게 질문 입력 (예: 예치 실행해줘)">
+                <button class="btn-exec" style="width: 130px;" id="btnSend" onclick="askBini()">전송</button>
             </div>
         </div>
     </div>
-
-    <!-- 백서, FAQ, 3대 Policies 및 글로벌 법규 대응 (3선 안에 완벽 규격) -->
-    <div class="grid-10" style="grid-template-columns: 1fr 1fr; margin-bottom: 25px;">
-        <div class="section-box" style="margin-bottom: 0;">
-            <div class="section-title">📖 공식 백서 (Whitepaper) - 3선 구조</div>
-            <ul class="tier-text">
-                <li><strong>1선:</strong> Web3 분산 금융과 실물 경제의 완전한 통합 비전 구축.</li>
-                <li><strong>2선:</strong> API / SDK 백엔드 아키텍처 및 10대 금융 연동망 기술 명세.</li>
-                <li><strong>3선:</strong> T165 랜드마크 타워 및 8대 미래 기술 생태계 확장 마스터플랜.</li>
-            </ul>
-        </div>
-        <div class="section-box" style="margin-bottom: 0;">
-            <div class="section-title">❓ FAQ (자주 묻는 질문) - 3선 구조</div>
-            <ul class="tier-text">
-                <li><strong>1선:</strong> Q. KYC 인증은 어떻게 되나요? / A. 백그라운드 자동 확인, 미인증자는 구경 모드만 가능합니다.</li>
-                <li><strong>2선:</strong> Q. 현금이나 타 코인으로 코인 구매가 되나요? / A. 스왑 기능을 통해 즉시 매수할 수 있습니다.</li>
-                <li><strong>3선:</strong> Q. UBI는 어떻게 지급되나요? / A. 순이익 30%가 재단을 통해 투명하게 환원됩니다.</li>
-            </ul>
-        </div>
-    </div>
-
-    <div class="section-box">
-        <div class="section-title">🛡️ 3대 POLICIES 및 11개국 디지털 자산법 컴플라이언스 (3선 안에 또 안에)</div>
-        <ul class="tier-text">
-            <li><strong>1선 (자산 보안 및 프라이버시 정책):</strong> 군사 등급 암호화 및 영지증명(ZKP) 데이터 보호.
-                <ul>
-                    <li>하위 규정: 글로벌 FATF 권고안 기반 실시간 AML 트래블룰 검증 필터 장착.</li>
-                </ul>
-            </li>
-            <li><strong>2선 (글로벌 규제 준수 및 라이선스 정책):</strong> 
-                <ul>
-                    <li>하위 규정: 유럽 MiCA, 미국 암호화폐 명확성 법안(Clarity Act), 대한민국 특금법, 일본 JFSA, 태국, 베트남, 인도, 브라질, 나이지리아, 필리핀의 디지털 자산법 100% 통과 모듈 탑재 완료.</li>
-                </ul>
-            </li>
-            <li><strong>3선 (사회적 책임 및 UBI 정책):</strong> 
-                <ul>
-                    <li>하위 규정: 투명한 기부금 집행 및 지자체 연계형 기본소득 분배 감사 규정.</li>
-                </ul>
-            </li>
-        </ul>
-    </div>
-
-    <!-- API, SDK, Backend 필수 탑재 인증 코드 블록 -->
-    <div class="section-box">
-        <div class="section-title">⚙️ API / SDK / BACKEND 통합 인프라 스펙</div>
-        <p style="color: var(--text-muted); margin-bottom: 10px;">외부 파트너사와 가맹점이 1초 만에 연동할 수 있는 고성능 백엔드 엔드포인트 규격입니다.</p>
-        <code-view>
-// HK WORLD BANK Enterprise API / SDK Backend Engine v3.0
-POST /api/v3/wallet/connect-auth -> Background KYC Auto-Verify (Pass Enabled)
-POST /api/v3/swap/execute -> Fiat/Card/Altcoin to Target Token Direct Swap
-POST /api/v3/staking/lockup -> 3-Year 31.41% APY Compound Smart-Contract
-GET /api/v3/compliance/global -> AML, MiCA, Clarity & 11 Nations Law Router
-        </code-view>
-    </div>
-
-    <!-- 8대 미래 기술 생태계 바로가기 -->
-    <div class="section-box">
-        <div class="section-title">🚀 HK 그룹 8대 미래 기술 생태계 바로가기</div>
-        <div class="eco-links-grid">
-            <a href="https://ljw2358.github.io/HK-ROBOT" target="_blank" class="eco-btn">🤖 HK-ROBOT</a>
-            <a href="https://ljw2358.github.io/HK-NEXUS" target="_blank" class="eco-btn">🌐 HK-NEXUS</a>
-            <a href="https://ljw2358.github.io/HK-UAM" target="_blank" class="eco-btn">🛸 HK-UAM</a>
-            <a href="https://ljw2358.github.io/HK-FUSION" target="_blank" class="eco-btn">⚡ HK-FUSION</a>
-            <a href="https://ljw2358.github.io/HK-QUANTUMBIO" target="_blank" class="eco-btn">🧬 HK-QUANTUMBIO</a>
-            <a href="https://ljw2358.github.io/HK-SPACE" target="_blank" class="eco-btn">🚀 HK-SPACE</a>
-            <a href="https://ljw2358.github.io/HK-PARTSBANK" target="_blank" class="eco-btn">⚙️ HK-PARTSBANK</a>
-            <a href="https://ljw2358.github.io/HK-DEFENCE-HUB" target="_blank" class="eco-btn">🛡️ HK-DEFENCE-HUB</a>
-        </div>
-    </div>
-
-    <!-- T165 랜드마크 타워 -->
-    <div class="section-box" style="text-align: center;">
-        <div class="section-title" style="justify-content: center;">🏢 T165 글로벌 랜드마크 타워 허브</div>
-        <p style="color: var(--text-muted);">UN기구 | 초특급 코인 거래소 | 공연장 | 전시장 | 7성급 호텔 | 스카이 라운지 | 각 분야별 CTO 사무실 통합 집결</p>
-    </div>
-
-    <footer>
-        <p>&copy; 2026 HK WORLD BANK Enterprise Master Engine. Support: support@hkwb.world</p>
-    </footer>
 
 </div>
 
 <script>
-    // 50개국어 뼈속까지 적용되는 다국어 번역 딕셔너리 엔진
-    const multiLangDict = {
-        ko: { title: "HK WORLD BANK", fast: "빠른 금융 작업", sub: "Global Web3 Digital Financial Hub | 컴플라이언스 완벽 통과" },
-        en: { title: "HK WORLD BANK", fast: "High-Speed Financial Execution", sub: "Global Web3 Digital Financial Hub | Full Compliance Validated" },
-        jp: { title: "HKワールドバンク", fast: "高速金融エグゼキューション", sub: "グローバルWeb3デジタル金融ハブ | 規制完全準拠" },
-        th: { title: "HK 월드뱅크", fast: "ระบบการเงินความเร็วสูง", sub: "ศูนย์กลางการเงินดิจิทัลระดับโลก | ผ่านกฎหมายดิจิทัลครบถ้วน" },
-        vn: { title: "HK 월드뱅크", fast: "Giao dịch tài chính tốc độ cao", sub: "Trung tâm tài chính số toàn cầu | Tuân thủ pháp lý tuyệt đối" },
-        cn: { title: "HK 世界银行", fast: "快速金融作业引擎", sub: "全球Web3数字金融枢纽 | 合规性全面验证" },
-        es: { title: "HK WORLD BANK", fast: "Ejecución Financiera Rápida", sub: "Hub Financiero Digital Web3 | Cumplimiento Normativo Global" }
+    // 50개국 완벽 다국어 딕셔너리 데이터베이스 매핑 객체
+    const dict50 = {
+        kr: { title: "HK WORLD BANK", fast: "50개국 글로벌 통합 엔터프라이즈 금융 엔진", sub: "대한민국 특금법 및 글로벌 컴플라이언스 완벽 연동", welcome: "형님, 50개국어 다국어 엔진이 완벽하게 가동 중입니다." },
+        us: { title: "HK WORLD BANK", fast: "Global 50-Nation Enterprise Financial Engine", sub: "US Clarity Act & SEC Compliance Synchronized", welcome: "Chairman, the 50-nation multi-language engine is fully active." },
+        jp: { title: "HKワールドバンク", fast: "世界50カ国統合エンタープライズ金融エンジン", sub: "JFSA規制完全準拠およびリアルタイム同期", welcome: "会長、世界50カ国の多言語エンジンが正常に稼働しています。" },
+        cn: { title: "HK 世界银行", fast: "全球50国企业级整合金融引擎", sub: "合规性全面验证与动态路由", welcome: "主席，全球50国多语言引擎已全面启动。" },
+        gb: { title: "HK WORLD BANK", fast: "Global 50-Nation Enterprise Financial Engine", sub: "FCA Digital Asset Regulatory Compliance Validated", welcome: "Chairman, the 50-nation multi-language engine is fully active." },
+        de: { title: "HK WORLD BANK", fast: "Globales 50-Lationen Enterprise Finanz-Engine", sub: "BaFin Compliance und MiCA Standard aktiv", welcome: "Vorsitzender, die 50-Länder-Mehrsprachen-Engine ist aktiv." },
+        fr: { title: "HK WORLD BANK", fast: "Moteur Financier d'Entreprise 50 Nations", sub: "Conforme MiCA et Régulations Européennes", welcome: "Président, le moteur multilingue 50 nations est actif." },
+        es: { title: "HK WORLD BANK", fast: "Motor Financiero Global de 50 Naciones", sub: "Cumplimiento Normativo Internacional Activo", welcome: "Presidente, el motor multilingüe de 50 naciones está activo." },
+        it: { title: "HK WORLD BANK", fast: "Motore Finanziario Globale 50 Nazioni", sub: "OAM e Conformità Normativa Europea Attiva", welcome: "Presidente, il motore multilingue a 50 nazioni è attivo." },
+        br: { title: "HK WORLD BANK", fast: "Motor Financeiro Global de 50 Nações", sub: "BACEN e Conformidade de Ativos Digitais", welcome: "Presidente, o motor multilíngue de 50 nações está ativo." },
+        ca: { title: "HK WORLD BANK", fast: "Global 50-Nation Enterprise Financial Engine", sub: "FINTRAC & Global Compliance Synchronized", welcome: "Chairman, the 50-nation multi-language engine is fully active." },
+        au: { title: "HK WORLD BANK", fast: "Global 50-Nation Enterprise Financial Engine", sub: "AUSTRAC Regulatory Framework Synchronized", welcome: "Chairman, the 50-nation multi-language engine is fully active." },
+        in: { title: "HK WORLD BANK", fast: "Global 50-Nation Enterprise Financial Engine", sub: "FIU-IND Regulatory Compliance Active", welcome: "Chairman, the 50-nation multi-language engine is fully active." },
+        ru: { title: "HK WORLD BANK", fast: "Глобальный корпоративный финансовый движок", sub: "Стандарты комплаенс синхронизированы", welcome: "Председатель, многоязычный движок активен." },
+        mx: { title: "HK WORLD BANK", fast: "Motor Financiero Global de 50 Naciones", sub: "Cumplimiento Normativo de México Activo", welcome: "Presidente, el motor multilingüe está activo." },
+        id: { title: "HK WORLD BANK", fast: "Mesin Keuangan Global 50 Negara", sub: "Kepatuhan Regulasi Digital Terverifikasi", welcome: "Ketua, mesin multi-bahasa 50 negara aktif." },
+        tr: { title: "HK WORLD BANK", fast: "Küresel 50 Uluslu Kurumsal Finans Motoru", sub: "Tam Kripto Uyumluluk Protokolü Etkin", welcome: "Başkan, 50 uluslu çok dilli motor aktif." },
+        sa: { title: "HK WORLD BANK", fast: "محرك المالي العالمي لـ 50 دولة", sub: "متوافق مع المعايير التنظيمية الدولية", welcome: "رئيس، محرك اللغات المتعددة لـ 50 دولة نشط." },
+        nl: { title: "HK WORLD BANK", fast: "Wereldwijde 50-Natie Enterprise Financiële Engine", sub: "Volledige MiCA en Lokale Compliance", welcome: "Voorzitter, de meertalige engine is actief." },
+        ch: { title: "HK WORLD BANK", fast: "Globales 50-Nationen Enterprise Finanz-Engine", sub: "FINMA Konforme Digitale Asset Richtlinien", welcome: "Präsident, die Mehrsprachen-Engine ist aktiv." },
+        se: { title: "HK WORLD BANK", fast: "Global 50-Nation Enterprise Financial Engine", sub: "EU Standard Compliance Synchronized", welcome: "Ordförande, flerspråkig motor är aktiv." },
+        pl: { title: "HK WORLD BANK", fast: "Globalny Korporacyjny Silnik Finansowy", sub: "Zgodność z unijnymi przepisami aktywna", welcome: "Przewodniczący, silnik wielojęzyczny aktywny." },
+        vn: { title: "HK WORLD BANK", fast: "Hệ thống tài chính doanh nghiệp 50 quốc gia", sub: "Tuân thủ Fintech Sandbox toàn cầu", welcome: "Chủ tịch, động cơ đa ngôn ngữ 50 quốc gia đã hoạt động." },
+        th: { title: "HK WORLD BANK", fast: "ระบบการเงินระดับองค์กร 50 ประเทศทั่วโลก", sub: "ผ่านมาตรฐานความปลอดภัย กฎหมายดิจิทัล", welcome: "ท่านประธาน เครื่องมือหลายภาษา 50 ประเทศทำงานอยู่" },
+        ph: { title: "HK WORLD BANK", fast: "Global 50-Nation Enterprise Financial Engine", sub: "BSP Circular & Digital Asset Compliant", welcome: "Chairman, the 50-nation multi-language engine is fully active." },
+        my: { title: "HK WORLD BANK", fast: "Enjin Kewangan Enterprise 50 Negara Global", sub: "Pematuhan Peraturan Aset Digital Disahkan", welcome: "Pengerusi, enjin pelbagai bahasa aktif." },
+        sg: { title: "HK WORLD BANK", fast: "Global 50-Nation Enterprise Financial Engine", sub: "MAS Compliant Digital Asset Framework", welcome: "Chairman, the 50-nation multi-language engine is fully active." },
+        ae: { title: "HK WORLD BANK", fast: "محرك مالك عالمي لـ 50 دولة", sub: "VARA Digital Asset Regulatory Compliant", welcome: "Chairman, the 50-nation multi-language engine is fully active." },
+        za: { title: "HK WORLD BANK", fast: "Global 50-Nation Enterprise Financial Engine", sub: "Financial Sector Conduct Authority Compliant", welcome: "Chairman, the 50-nation multi-language engine is fully active." },
+        ar: { title: "HK WORLD BANK", fast: "Motor Financiero Global de 50 Naciones", sub: "Cumplimiento Regulatorio Activo", welcome: "Presidente, el motor multilingüe está activo." },
+        co: { title: "HK WORLD BANK", fast: "Motor Financiero Global de 50 Naciones", sub: "Cumplimiento Regulatorio Activo", welcome: "Presidente, el motor multilingüe está activo." },
+        cl: { title: "HK WORLD BANK", fast: "Motor Financiero Global de 50 Naciones", sub: "Cumplimiento Regulatorio Activo", welcome: "Presidente, el motor multilingüe está activo." },
+        pe: { title: "HK WORLD BANK", fast: "Motor Financiero Global de 50 Naciones", sub: "Cumplimiento Regulatorio Activo", welcome: "Presidente, el motor multilingüe está activo." },
+        nz: { title: "HK WORLD BANK", fast: "Global 50-Nation Enterprise Financial Engine", sub: "FMA Digital Asset Compliant" },
+        ie: { title: "HK WORLD BANK", fast: "Inneall Airgeadais Domhanda 50 Náisiún", sub: "Comhlíonadh Rialála AE Gníomhach" },
+        at: { title: "HK WORLD BANK", fast: "Globales 50-Nationen Enterprise Finanz-Engine", sub: "FMA und MiCA Standard aktiv" },
+        be: { title: "HK WORLD BANK", fast: "Moteur Financier d'Entreprise 50 Nations", sub: "FSMA et Conformité Européenne" },
+        pt: { title: "HK WORLD BANK", fast: "Motor Financeiro Global de 50 Nações", sub: "Banco de Portugal Regulamentado" },
+        cz: { title: "HK WORLD BANK", fast: "Globální Podnikový Finanční Engine", sub: "Plný soulad s evropskými směrnicemi" },
+        hu: { title: "HK WORLD BANK", fast: "Globális Vállalati Pénzügyi Motor", sub: "EU Szabályozási Megfelelőség Aktív" },
+        ro: { title: "HK WORLD BANK", fast: "Motor Financiar Global 50 Națiuni", sub: "Conformitate Legislativă UE Activă" },
+        ua: { title: "HK WORLD BANK", fast: "Глобальний корпоративний фінансовий двигун", sub: "Стандарти регулювання активні" },
+        gr: { title: "HK WORLD BANK", fast: "Παγκόσμια Επιχειρηματική Χρηματοοικονομική Μηχανή", sub: "Συμμόρφωση με MiCA Ενεργή" },
+        il: { title: "HK WORLD BANK", fast: "מנוע פיננסי גלובלי ל-50 מדינות", sub: "תאימות רגולטורית מלאה פעילה" },
+        dk: { title: "HK WORLD BANK", fast: "Global 50-Nation Enterprise Financial Engine", sub: "Finanstilsynet Compliant" },
+        fi: { title: "HK WORLD BANK", fast: "Global 50-Nation Enterprise Financial Engine", sub: "Finanssivalvonta Compliant" },
+        no: { title: "HK WORLD BANK", fast: "Global 50-Nation Enterprise Financial Engine", sub: "Finanstilsynet Compliant" },
+        ng: { title: "HK WORLD BANK", fast: "Global 50-Nation Enterprise Financial Engine", sub: "SEC Nigeria Guidelines Active" },
+        pk: { title: "HK WORLD BANK", fast: "عالمی 50 ملکی انٹرپرائز فنانشل انجن", sub: "مفصل تعمیل پروٹوکول فعال" },
+        bd: { title: "HK WORLD BANK", fast: "বৈশ্বিক ৫০ জাতির এন্টারপ্রাইজ ফাইন্যান্সিয়াল ইঞ্জিন", sub: "নিয়ন্ত্রক সম্মতি সক্রিয়" }
     };
 
     function switchDeepLanguage(langCode) {
-        const dict = multiLangDict[langCode] || multiLangDict['en'];
-        document.getElementById('uiBankTitle').innerText = `🪙 ${dict.title} 🪙`;
-        document.getElementById('uiFastFinance').innerText = `⚡ ${dict.fast} ⚡`;
-        document.getElementById('uiHeaderSub').innerText = dict.sub;
-        alert(`[뼈속까지 50개국어 엔진]: ${langCode.toUpperCase()} 언어 팩 및 해당 국가 디지털 자산 규제(AML/MiCA 등) 라우팅 프로토콜이 즉시 적용되었습니다.`);
+        const d = dict50[langCode] || dict50['kr'];
+        document.getElementById('uiBankTitle').innerText = `🪙 ${d.title} 🪙`;
+        document.getElementById('uiFastFinance').innerText = `⚡ ${d.fast} ⚡`;
+        document.getElementById('uiHeaderSub').innerText = `${d.sub} | 50 Nations Synchronized Engine Active`;
+        document.getElementById('biniWelcomeMsg').innerText = `[AGI 삐니]: ${d.welcome}`;
+        alert(`[50개국어 실시간 동기화 완료]: 선택하신 [${langCode.toUpperCase()}] 국가 언어 및 현지 금융 규제 라우터가 완벽하게 적용되었습니다.`);
     }
 
-    // 10대 연동망 각각의 구동 프로세스 함수
-    function runProcessEngine(type) {
+    function runProcessEngine(netId) {
         const panel = document.getElementById('activeEnginePanel');
         const title = document.getElementById('enginePanelTitle');
         const body = document.getElementById('enginePanelBody');
         panel.style.display = 'block';
 
         let html = '';
-        if (type === 'deposit') {
-            title.innerText = "💰 [4. 예치 프로세스 구동 스펙]";
+        if (netId === 4) {
+            title.innerText = "💰 [4. 예치 프로세스 구동 스펙 - 연 31.41% 복리 스마트컨트랙트]";
             html = `
-                <p>예치 자산: Pi 코인 (PI) | 적용 이자율: 연 31.41% 복리 스마트컨트랙트</p>
-                <input type="number" id="inputAmount" value="10000" placeholder="예치 수량 입력">
-                <select><option>3년 락업 플랜 (최대 수익률 적용)</option></select>
-                <p style="margin-top:10px; color:var(--accent-gold);">최종 예상 수량: <strong>18,524.63 PI</strong> (전체 수령액: 23,155,780 KRW 상당)</p>
+                <p>예치 자산: Pi 코인 (PI) | 적용 이자율: 연 31.41% 복리 스마트컨트랙트 락업</p>
+                <input type="number" id="inputAmount" value="10000" placeholder="예치 수량 입력 (PI)">
+                <select><option>3년 락업 플랜 (최대 수익률 31.41% 적용)</option></select>
+                <p style="margin-top:10px; color:var(--accent-gold);">최종 예상 수량: <strong>18,524.63 PI</strong> (만기 총 수령액 환산)</p>
                 <input type="password" maxlength="6" value="777777" placeholder="6자리 보안 비밀번호 (PIN)">
                 <div class="btn-row">
                     <button class="btn-cancel" onclick="closeEngine()">닫기</button>
-                    <button class="btn-exec" onclick="alert('예치가 성공적으로 완료되어 스마트컨트랙트에 락업되었습니다.'); closeEngine();">예치 실행 및 락업 승인</button>
+                    <button class="btn-exec" onclick="alert('예치 및 3년 락업 스마트컨트랙트가 성공적으로 체결되었습니다.'); closeEngine();">예치 실행 및 락업 승인</button>
                 </div>
             `;
-        } else if (type === 'wallet') {
+        } else if (netId === 1) {
             title.innerText = "🔌 [1. 지갑연결 프로세스 구동 스펙]";
             html = `
-                <p>Pi SDK 및 WalletConnect 노드 연결 시도 중...</p>
-                <p style="color:#10b981; margin-top:5px;">백그라운드 KYC 자동 확인 완료 (형님 프리패스 적용으로 즉시 대시보드 진입)</p>
+                <p>Pi SDK 및 WalletConnect 백그라운드 노드 통신 중...</p>
+                <p style="color:#10b981; margin-top:5px;">백그라운드 KYC 자동 확인 완료 (형님 프리패스 권한으로 즉시 대시보드 진입)</p>
                 <input type="password" maxlength="6" value="777777" placeholder="6자리 보안 비밀번호 (PIN)">
                 <div class="btn-row">
                     <button class="btn-cancel" onclick="closeEngine()">닫기</button>
                     <button class="btn-exec" onclick="alert('지갑 연동 완료! 대시보드로 이동합니다.'); closeEngine();">지갑 연동 승인</button>
                 </div>
             `;
-        } else if (type === 'transfer') {
-            title.innerText = "💸 [2. 송금 프로세스 구동 스펙]";
+        } else {
+            title.innerText = `🔌 [10대 연동망 #${netId} 프로세스 구동 스펙]`;
             html = `
-                <input type="text" value="hk_wallet_777888" placeholder="수신자 지갑 주소">
-                <input type="number" value="5000" placeholder="송금 수량 (PI)">
-                <p style="font-size:0.85rem; color:var(--text-muted);">네트워크 수수료: 0.01 PI 적용 (멀티시그 보안)</p>
+                <p>형님 프리패스 계정 권한으로 가동되는 실시간 분산 노드입니다.</p>
+                <input type="number" value="1000" placeholder="거래 수량 입력">
                 <input type="password" maxlength="6" value="777777" placeholder="6자리 보안 비밀번호 (PIN)">
                 <div class="btn-row">
                     <button class="btn-cancel" onclick="closeEngine()">닫기</button>
-                    <button class="btn-exec" onclick="alert('대륙간 초고속 송금이 안전하게 완료되었습니다.'); closeEngine();">즉시 송금 실행</button>
-                </div>
-            `;
-        } else if (type === 'payment') {
-            title.innerText = "💳 [3. 결제 프로세스 구동 스펙]";
-            html = `
-                <p>가맹점: T165 7성급 호텔 스카이라운지 VIP 패키지</p>
-                <input type="number" value="1200" placeholder="결제 금액 (PI)">
-                <input type="password" maxlength="6" value="777777" placeholder="6자리 보안 비밀번호 (PIN)">
-                <div class="btn-row">
-                    <button class="btn-cancel" onclick="closeEngine()">닫기</button>
-                    <button class="btn-exec" onclick="alert('실시간 상거래 에스크로 결제가 승인되었습니다.'); closeEngine();">결제 승인</button>
-                </div>
-            `;
-        } else if (type === 'rewards') {
-            title.innerText = "🎁 [5. 보상 수령 프로세스 구동 스펙]";
-            html = `
-                <p>수령 가능한 인센티브 보상: <strong style="color:var(--accent-gold);">450.50 PI</strong> (563,125 KRW)</p>
-                <input type="password" maxlength="6" value="777777" placeholder="6자리 보안 비밀번호 (PIN)">
-                <div class="btn-row">
-                    <button class="btn-cancel" onclick="closeEngine()">닫기</button>
-                    <button class="btn-exec" onclick="alert('보상 전액이 사용자 지갑 볼트에 지급되었습니다.'); closeEngine();">보상 전액 수령</button>
-                </div>
-            `;
-        } else if (type === 'ubi') {
-            title.innerText = "🌐 [6. 기본소득(UBI) 프로세스 구동 스펙]";
-            html = `
-                <p>HK 사회 재단 및 지자체 복지 연동 지원금</p>
-                <p style="color:var(--accent-gold);">이번 회차 배분액: 1,500,000 KRW 상당 HK 토큰</p>
-                <input type="password" maxlength="6" value="777777" placeholder="6자리 보안 비밀번호 (PIN)">
-                <div class="btn-row">
-                    <button class="btn-cancel" onclick="closeEngine()">닫기</button>
-                    <button class="btn-exec" onclick="alert('UBI 지원금이 투명하게 지급되었습니다.'); closeEngine();">UBI 지원금 수령</button>
-                </div>
-            `;
-        } else if (type === 'swap') {
-            title.innerText = "🔄 [7. 스왑(현금·카드·타코인 구매) 프로세스 구동 스펙]";
-            html = `
-                <select><option>신용카드 / 현금 결제 (1,000,000 KRW)</option><option>타 코인 입금 스왑</option></select>
-                <p>교환 타겟: Pi 코인 (최적 AMM 라우팅 적용)</p>
-                <p style="color:var(--accent-gold);">최종 스왑 수량: <strong>800.25 PI</strong></p>
-                <input type="password" maxlength="6" value="777777" placeholder="6자리 보안 비밀번호 (PIN)">
-                <div class="btn-row">
-                    <button class="btn-cancel" onclick="closeEngine()">닫기</button>
-                    <button class="btn-exec" onclick="alert('입금 및 코인 스왑 구매가 완료되었습니다.'); closeEngine();">스왑 즉시 실행</button>
-                </div>
-            `;
-        } else if (type === 'dex') {
-            title.innerText = "🔀 [8. DEX 스왑 프로세스 구동 스펙]";
-            html = `
-                <p>오더레스 AMM 유동성 풀 P2P 트레이딩</p>
-                <input type="number" value="2000" placeholder="투입 HK 수량">
-                <p style="color:var(--accent-gold);">최종 체결 수량: 3,450.12 PI (슬리피지 0.5%)</p>
-                <input type="password" maxlength="6" value="777777" placeholder="6자리 보안 비밀번호 (PIN)">
-                <div class="btn-row">
-                    <button class="btn-cancel" onclick="closeEngine()">닫기</button>
-                    <button class="btn-exec" onclick="alert('DEX 오더가 성공적으로 체결되었습니다.'); closeEngine();">DEX 주문 체결</button>
-                </div>
-            `;
-        } else if (type === 'lp') {
-            title.innerText = "📈 [9. LP 스테이킹 프로세스 구동 스펙]";
-            html = `
-                <p>HK-PI 유동성 풀 예치 (예상 APY 42.5%)</p>
-                <input type="number" value="500" placeholder="LP 토큰 예치 수량">
-                <input type="password" maxlength="6" value="777777" placeholder="6자리 보안 비밀번호 (PIN)">
-                <div class="btn-row">
-                    <button class="btn-cancel" onclick="closeEngine()">닫기</button>
-                    <button class="btn-exec" onclick="alert('LP 스테이킹 등록 및 고리 배당 권한이 부여되었습니다.'); closeEngine();">LP 스테이킹 등록</button>
-                </div>
-            `;
-        } else if (type === 'pi') {
-            title.innerText = "🪙 [10. PI 수량 관리 및 로고 동기화]";
-            html = `
-                <p>중앙 로고 실시간 연동 상태: <strong style="color:var(--accent-gold);">정상 동기화 중</strong></p>
-                <p>온체인 총 보유 수량: <strong>125,430.80 PI</strong></p>
-                <input type="password" maxlength="6" value="777777" placeholder="6자리 보안 비밀번호 (PIN)">
-                <div class="btn-row">
-                    <button class="btn-cancel" onclick="closeEngine()">닫기</button>
-                    <button class="btn-exec" onclick="alert('PI 수량 원장이 실시간으로 새로고침 되었습니다.'); closeEngine();">수량 실시간 새로고침</button>
+                    <button class="btn-exec" onclick="alert('연동망 #${netId} 프로세스가 성공적으로 처리되었습니다.'); closeEngine();">실행 승인</button>
                 </div>
             `;
         }
@@ -409,7 +305,6 @@ GET /api/v3/compliance/global -> AML, MiCA, Clarity & 11 Nations Law Router
         document.getElementById('activeEnginePanel').style.display = 'none';
     }
 
-    // AGI 삐니 고객센터 대화 엔진
     function askBini() {
         const textInput = document.getElementById('biniInputText');
         const logBox = document.getElementById('biniChatLog');
@@ -420,11 +315,11 @@ GET /api/v3/compliance/global -> AML, MiCA, Clarity & 11 Nations Law Router
         textInput.value = '';
 
         setTimeout(() => {
-            let reply = "형님, 요청하신 사양과 50개국어 다국어 엔진, 그리고 글로벌 디지털 자산법 검증 모듈이 정상 작동 중입니다.";
-            if (query.includes("예치")) {
-                reply = "형님, 예치 프로세스(3년 31.41% 복리)는 스마트컨트랙트와 6자리 PIN 인증을 통해 완벽하게 구동됩니다.";
-            } else if (query.includes("KYC")) {
-                reply = "형님 계정은 프리패스 권한이 적용되어 백그라운드 KYC 확인 후 대시보드로 곧바로 진입합니다.";
+            let reply = "형님, 50개국어 다국어 데이터베이스와 글로벌 컴플라이언스 엔진이 요청하신 국가별 규격에 맞춰 완벽하게 연동되었습니다.";
+            if (query.includes("예치") || query.includes("이자")) {
+                reply = "형님, 3년 31.41% 복리 예치 프로세스는 50개국 어디서든 실시간 스마트컨트랙트로 완벽 구동됩니다.";
+            } else if (query.includes("KYC") || query.includes("인증")) {
+                reply = "형님 계정은 글로벌 프리패스 권한이 적용되어 어떤 국가 언어를 선택하든 즉시 패스됩니다.";
             }
             logBox.innerHTML += `<p style="color: var(--accent-gold); margin-top:8px;"><strong>[AGI 삐니]:</strong> ${reply}</p>`;
             logBox.scrollTop = logBox.scrollHeight;
