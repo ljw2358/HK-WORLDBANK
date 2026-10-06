@@ -1518,28 +1518,52 @@
             updateSonpone(document.getElementById('sonponeSlider').value);
         }
 
-        function openProcessModal(processId) {
-            const modal = document.getElementById('appModal');
-            const title = document.getElementById('modalTitle');
-            const content = document.getElementById('modalContent');
-            let t = translations[currentLang] || translations['en'];
+      function openProcessModal(processId) {
+    const modal = document.getElementById('appModal');
+    const title = document.getElementById('modalTitle');
+    const content = document.getElementById('modalContent');
+    let titleText = "";
+    let bodyHtml = "";
 
-            if(processId === 1) {
-                title.innerText = t.net1_title || "1. Wallet Connect";
-                content.innerHTML = `
-                    <p style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">${t.net1_desc}</p>
-                    <div class="input-group">
-                        <label class="input-label">Node Wallet ID</label>
-                        <input class="form-control" value="0x71C...HK2026_NODE_SECURE" readonly>
-                    </div>
-                    <button class="action-btn" onclick="executeProcess('Node Link Approved.')">Approve</button>
-                `;
-            } else {
-                title.innerText = `Process #${processId}`;
-                content.innerHTML = `<p style="font-size:12px; color:var(--text-muted);">Module running under universal 60-language localization engine.</p>`;
-            }
-            modal.classList.add('active');
-        }
+    if (processId === 1) {
+        titleText = "1. 지갑연결";
+        bodyHtml = '<p style="color:var(--text-muted); font-size:12px;">메인넷 노드 지갑과 실시간 연동</p>';
+    } else if (processId === 2) {
+        titleText = "2. 송금";
+        bodyHtml = '<p style="color:var(--text-muted); font-size:12px;">자산 초고속 안전 전송</p>';
+    } else if (processId === 3) {
+        titleText = "3. 결제";
+        bodyHtml = '<p style="color:var(--text-muted); font-size:12px;">상거래 에스크로 결제 처리</p>';
+    } else if (processId === 4) {
+        titleText = "4. 예치";
+        bodyHtml = '<p style="color:var(--text-muted); font-size:12px;">31.41% APY 복리 디지털 신탁</p>';
+    } else if (processId === 5) {
+        titleText = "5. 보상";
+        bodyHtml = '<p style="color:var(--text-muted); font-size:12px;">기여도별 인센티브 적립</p>';
+    } else if (processId === 6) {
+        titleText = "6. 기본소득";
+        bodyHtml = '<p style="color:var(--text-muted); font-size:12px;">UBI 기본소득 공정 분배</p>';
+    } else if (processId === 7) {
+        titleText = "7. 스왑";
+        bodyHtml = '<p style="color:var(--text-muted); font-size:12px;">즉각적인 자산 교환</p>';
+    } else if (processId === 8) {
+        titleText = "8. DEX 스왑";
+        bodyHtml = '<p style="color:var(--text-muted); font-size:12px;">탈중앙화 P2P 유동성 공급</p>';
+    } else if (processId === 9) {
+        titleText = "9. LP 스테이킹";
+        bodyHtml = '<p style="color:var(--text-muted); font-size:12px;">유동성 풀 및 권한 관리</p>';
+    } else if (processId === 10) {
+        titleText = "10. Pi-Fi";
+        bodyHtml = '<p style="color:var(--text-muted); font-size:12px;">파이 네트워크 분산 금융 연결</p>';
+    } else {
+        titleText = "Process " + processId;
+        bodyHtml = '<p style="color:var(--text-muted); font-size:12px;">모듈 정상 작동 중</p>';
+    }
+
+    title.innerText = titleText;
+    content.innerHTML = bodyHtml;
+    if (modal) modal.classList.add('active');
+}
 
         function executeProcess(msg) {
             alert(msg);
