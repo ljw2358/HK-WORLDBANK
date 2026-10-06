@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HK-WorldBank - 글로벌 디지털 뱅킹 & 스테이킹 플랫폼</title>
+    <title>HK WorldBank - 10대 분산 연동망 통합 스위치보드 (완전체)</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -13,141 +13,345 @@
             --accent-gold: #f3ba2f;
             --text-main: #ffffff;
             --text-muted: #8a99ad;
-            --primary-glow: rgba(243, 186, 47, 0.15);
         }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Apple SD Gothic Neo', sans-serif; }
+        body { background-color: var(--bg-dark); color: var(--text-main); padding: 20px; }
+        
+        .header { text-align: center; margin-bottom: 30px; }
+        .header h1 { font-size: 22px; color: var(--accent-gold); margin-bottom: 8px; font-weight: 800; }
+        .header p { font-size: 12px; color: var(--text-muted); }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif; }
-        body { background-color: var(--bg-dark); color: var(--text-main); padding: 20px; line-height: 1.6; }
-
-        .container { max-width: 1200px; margin: 0 auto; }
-
-        /* HK-WORLDBANK 메인 히어로 배너 섹션 */
-        .hero-banner {
-            background: linear-gradient(135deg, #161f33 0%, #0d121d 100%);
-            border: 2px solid var(--accent-gold);
-            border-radius: 16px;
-            padding: 40px 30px;
-            text-align: center;
-            margin-bottom: 35px;
-            box-shadow: 0 10px 30px var(--primary-glow);
-            position: relative;
-            overflow: hidden;
-        }
-        .hero-logo { font-size: 3rem; color: var(--accent-gold); margin-bottom: 15px; }
-        .hero-title { font-size: 2.5rem; font-weight: 800; color: var(--text-main); margin-bottom: 10px; letter-spacing: -1px; }
-        .hero-title span { color: var(--accent-gold); }
-        .hero-subtitle { font-size: 1.1rem; color: var(--text-muted); max-width: 800px; margin: 0 auto 20px auto; }
-        .hero-badge {
-            display: inline-block;
-            background: rgba(243, 186, 47, 0.15);
-            color: var(--accent-gold);
-            padding: 8px 20px;
-            border-radius: 30px;
-            font-size: 0.95rem;
-            font-weight: bold;
-            border: 1px solid rgba(243, 186, 47, 0.4);
-        }
-
-        /* 스위치보드 헤더 */
-        .switchboard-header { text-align: center; margin-bottom: 30px; }
-        .switchboard-header h2 { font-size: 1.8rem; color: var(--accent-gold); margin-bottom: 5px; }
-        .switchboard-header p { font-size: 0.95rem; color: var(--text-muted); }
-
-        /* 서비스 그리드 레이아웃 */
         .service-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 16px;
-            margin-bottom: 40px;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            max-width: 900px;
+            margin: 0 auto 30px auto;
         }
         .service-btn {
-            background-color: var(--panel-bg);
+            background: var(--panel-bg);
             border: 1px solid var(--card-border);
-            border-radius: 12px;
-            padding: 22px 18px;
-            color: var(--text-main);
+            border-radius: 8px;
+            padding: 15px;
             text-align: left;
             cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
+            transition: all 0.2s ease;
         }
         .service-btn:hover {
             border-color: var(--accent-gold);
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(243, 186, 47, 0.15);
-            background-color: #151d2e;
+            transform: translateY(-2px);
         }
-        .service-number { font-size: 0.75rem; color: var(--accent-gold); font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
-        .service-title { font-size: 1.05rem; font-weight: 700; display: flex; align-items: center; gap: 10px; }
-        .service-title i { color: var(--accent-gold); font-size: 1.2rem; }
+        .service-btn .num { font-size: 10px; color: var(--accent-gold); font-weight: 700; margin-bottom: 4px; display: block; }
+        .service-btn .title { font-size: 13px; font-weight: 700; color: #fff; }
 
-        /* 모달 창 디자인 */
-        .modal-overlay {
+        #processModal {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(5px);
-            z-index: 1000;
             justify-content: center;
             align-items: center;
+            z-index: 999;
             padding: 20px;
         }
-        .modal-card {
+        .modal-content {
             background: var(--panel-bg);
-            border: 2px solid var(--accent-gold);
-            border-radius: 16px;
+            border: 1px solid var(--accent-gold);
+            border-radius: 12px;
             width: 100%;
-            max-width: 500px;
-            padding: 30px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            max-width: 420px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             position: relative;
         }
-        .modal-close {
-            position: absolute;
-            top: 20px; right: 20px;
-            background: none; border: none;
-            color: var(--text-muted); font-size: 1.3rem;
-            cursor: pointer;
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 1px solid var(--card-border);
+            padding-bottom: 10px;
         }
-        .modal-close:hover { color: var(--accent-gold); }
-        .modal-title { font-size: 1.3rem; font-weight: 800; color: var(--accent-gold); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .modal-header h3 { font-size: 14px; color: var(--accent-gold); font-weight: 800; }
+        .close-btn { background: none; border: none; color: var(--text-muted); font-size: 16px; cursor: pointer; }
         
-        .form-group { margin-bottom: 20px; }
-        .form-label { display: block; font-size: 0.9rem; color: var(--text-muted); margin-bottom: 8px; font-weight: 600; }
-        .form-input, .form-select {
-            width: 100%;
-            background: var(--bg-dark);
-            border: 1px solid var(--card-border);
-            border-radius: 8px;
-            padding: 12px 15px;
-            color: var(--text-main);
-            font-size: 1rem;
-            outline: none;
-        }
-        .form-input:focus, .form-select:focus { border-color: var(--accent-gold); }
-        
-        .calc-result-box {
-            background: rgba(243, 186, 47, 0.08);
-            border: 1px dashed rgba(243, 186, 47, 0.4);
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 20px;
-        }
-        .calc-row { display: flex; justify-content: space-between; font-size: 0.95rem; margin-bottom: 6px; }
-        .calc-row:last-child { margin-bottom: 0; font-weight: bold; color: var(--accent-gold); font-size: 1.1rem; border-top: 1px solid rgba(243, 186, 47, 0.2); padding-top: 6px; }
+        .form-group { margin-bottom: 12px; }
+        .form-group label { display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 5px; font-weight: 600; }
+        .form-control { width: 100%; padding: 10px; background: #07090e; border: 1px solid var(--card-border); color: #fff; border-radius: 6px; font-size: 12px; }
+        .info-box { background: #07090e; padding: 12px; border-radius: 6px; border: 1px dashed var(--card-border); font-size: 11px; color: var(--text-muted); margin-bottom: 12px; }
+        .submit-btn { width: 100%; background: var(--accent-gold); color: #000; font-weight: 800; padding: 12px; border: none; border-radius: 6px; cursor: pointer; font-size: 13px; }
+    </style>
+</head>
+<body>
 
-        .submit-btn {
-            width: 100%;
-            background: linear-gradient(135deg, #f3ba2f 0%, #d49f1b 100%);
-            color: #000;
-            font-weight: 800;
-            padding: 14px;
-            border: none;
-            border-radius: 8px;
-            font-size: 1.05rem;
-            cursor: pointer;
+    <div class="header">
+        <h1><i class="fa-solid fa-globe"></i> [HK WorldBank] 10대 분산 연동망 통합 스위치보드</h1>
+        <p>해오름 특별시 통합 비전 및 글로벌 Web3 뱅킹 엔진 (총괄 회장: 혜공 형님)</p>
+    </div>
+
+    <div class="service-grid">
+        <button class="service-btn" onclick="openServiceModal(1)"><span class="num">SERVICE 01</span><div class="title"><i class="fa-solid fa-wallet"></i> 지갑 연동</div></button>
+        <button class="service-btn" onclick="openServiceModal(2)"><span class="num">SERVICE 02</span><div class="title"><i class="fa-solid fa-paper-plane"></i> 송금 (Transfer)</div></button>
+        <button class="service-btn" onclick="openServiceModal(3)"><span class="num">SERVICE 03</span><div class="title"><i class="fa-solid fa-credit-card"></i> 결제 (Escrow)</div></button>
+        <button class="service-btn" onclick="openServiceModal(4)"><span class="num">SERVICE 04</span><div class="title"><i class="fa-solid fa-vault"></i> 예치 (Deposit)</div></button>
+        <button class="service-btn" onclick="openServiceModal(5)"><span class="num">SERVICE 05</span><div class="title"><i class="fa-solid fa-gift"></i> 보상 (Reward Vault)</div></button>
+        <button class="service-btn" onclick="openServiceModal(6)"><span class="num">SERVICE 06</span><div class="title"><i class="fa-solid fa-hand-holding-dollar"></i> UBI 기본소득</div></button>
+        <button class="service-btn" onclick="openServiceModal(7)"><span class="num">SERVICE 07</span><div class="title"><i class="fa-solid fa-right-left"></i> 스왑 (Swap)</div></button>
+        <button class="service-btn" onclick="openServiceModal(8)"><span class="num">SERVICE 08</span><div class="title"><i class="fa-solid fa-shuffle"></i> DEX 유동성 스왑</div></button>
+        <button class="service-btn" onclick="openServiceModal(9)"><span class="num">SERVICE 09</span><div class="title"><i class="fa-solid fa-coins"></i> LP 스테이킹</div></button>
+        <button class="service-btn" onclick="openServiceModal(10)"><span class="num">SERVICE 10</span><div class="title"><i class="fa-solid fa-sync"></i> PI 수령 / 원장동기화</div></button>
+    </div>
+
+    <div id="processModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">서비스 타이틀</h3>
+                <button class="close-btn" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <script>
+        function openServiceModal(serviceId) {
+            const modal = document.getElementById('processModal');
+            const titleEl = document.getElementById('modalTitle');
+            const bodyEl = document.getElementById('modalBody');
+            modal.style.display = 'flex';
+            
+            switch(serviceId) {
+                case 1:
+                    titleEl.innerHTML = "01. 지갑 연동 (Pi SDK & Multichain)";
+                    bodyEl.innerHTML = `
+                        <div class="form-group"><label>네트워크 및 프로토콜 선택</label><select id="wNetwork" class="form-control"><option>Pi Network 메인넷 SDK</option><option>HK WorldBank 10대 분산망 노드</option></select></div>
+                        <div class="info-box"><i class="fa-solid fa-shield-halved"></i> 보안 키 체인 인증 상태: <b>대기 중 (안전함)</b></div>
+                        <button class="submit-btn" onclick="executeAction('지갑 연동 및 인증이 안전하게 완료되었습니다 형님!')">지갑 연동 최종 승인</button>
+                    `;
+                    break;
+                case 2:
+                    titleEl.innerHTML = "02. 대륙간 멀티시그 송금";
+                    bodyEl.innerHTML = `
+                        <div class="form-group"><label>수신처 주소 (Pi / 0x 계정)</label><input type="text" id="tDest" class="form-control" placeholder="지갑 주소 입력"></div>
+                        <div class="form-group"><label>송금 수량 (PI / USDT)</label><input type="number" id="tAmount" class="form-control" placeholder="수량 입력" oninput="calcTransfer()"></div>
+                        <div class="info-box" style="border-color:var(--accent-gold);">
+                            <div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>네트워크 수수료:</span> <b>0.001 PI</b></div>
+                            <div style="display:flex; justify-content:space-between;"><span>최종 차감 예정:</span> <b id="tTotal" style="color:var(--accent-gold);">0.00 PI</b></div>
+                        </div>
+                        <button class="submit-btn" onclick="executeAction('대륙간 멀티시그 송금 승인이 완료되었습니다 형님!')">멀티시그 송금 승인</button>
+                    `;
+                    break;
+                case 3:
+                    titleEl.innerHTML = "03. 상거래 에스크로 결제";
+                    bodyEl.innerHTML = `
+                        <div class="form-group"><label>가맹점 ID / 상품 코드</label><input type="text" class="form-control" value="STORE-HK-EXPRESS-2026"></div>
+                        <div class="form-group"><label>결제 수량</label><input type="number" id="eAmount" class="form-control" placeholder="금액 입력"></div>
+                        <div class="info-box">
+                            <div style="display:flex; justify-content:space-between;"><span>에스크로 보호 기간:</span> <b>거래 완료 후 7일 자동 정산</b></div>
+                        </div>
+                        <button class="submit-btn" onclick="executeAction('상거래 에스크로 결제가 안전하게 승인되었습니다 형님!')">에스크로 결제 승인</button>
+                    `;
+                    break;
+                case 4:
+                    titleEl.innerHTML = "04. 자산 예치 (Vault Deposit & Maturity)";
+                    bodyEl.innerHTML = `
+                        <div class="form-group">
+                            <label><i class="fa-solid fa-coins" style="color:var(--accent-gold);"></i> 예치 수량 입력</label>
+                            <input type="number" id="depAmount" class="form-control" placeholder="예: 1000 PI" oninput="calcDeposit()">
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fa-solid fa-calendar-days" style="color:var(--accent-gold);"></i> 예치 기간 선택</label>
+                            <select id="depPeriod" class="form-control" onchange="calcDeposit()">
+                                <option value="1">1년 만기 (연 10% 우대)</option>
+                                <option value="3" selected>3년 만기 (연 15% 특급 우대)</option>
+                                <option value="5">5년 만기 (연 20% 맥시멈)</option>
+                            </select>
+                        </div>
+                        <div class="info-box" style="border-color:var(--accent-gold);">
+                            <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+                                <span>만기 예정일:</span> <b id="depMaturityDate" style="color:#fff;">2029-10-07</b>
+                            </div>
+                            <div style="display:flex; justify-content:space-between;">
+                                <span>만기 시 추정 수량:</span> <b id="depEstimated" style="color:var(--accent-gold); font-size:13px;">1,450.00 PI</b>
+                            </div>
+                        </div>
+                        <button class="submit-btn" onclick="confirmDeposit()">예치 및 만기 조건 최종 승인</button>
+                    `;
+                    break;
+                case 5:
+                    titleEl.innerHTML = "05. 보상 클레임 (Reward Vault)";
+                    bodyEl.innerHTML = `
+                        <div class="info-box">
+                            <div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>현재 누적 기여도:</span> <b>1,250 PTS</b></div>
+                            <div style="display:flex; justify-content:space-between;"><span>클레임 가능 리워드:</span> <b style="color:var(--accent-gold);">250.00 PI</b></div>
+                        </div>
+                        <button class="submit-btn" onclick="executeAction('기여도 보상 인센티브가 성공적으로 클레임되었습니다 형님!')">보상 수령 승인</button>
+                    `;
+                    break;
+                case 6:
+                    titleEl.innerHTML = "06. 해오름 특별시 UBI 기본소득";
+                    bodyEl.innerHTML = `
+                        <div class="form-group"><label>시민 지갑 ID / 자격 인증</label><input type="text" class="form-control" value="HK-UBI-ULSAN-2026"></div>
+                        <div class="info-box" style="border-color:var(--accent-gold);">
+                            <div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>배정 주기:</span> <b>월간 정기 분배</b></div>
+                            <div style="display:flex; justify-content:space-between;"><span>당월 청구 가능액:</span> <b style="color:var(--accent-gold);">50.00 PI</b></div>
+                        </div>
+                        <button class="submit-btn" onclick="executeAction('해오름 특별시 UBI 기본소득이 청구 및 지급되었습니다 형님!')">UBI 기본소득 청구</button>
+                    `;
+                    break;
+                case 7:
+                    titleEl.innerHTML = "07. 토큰 스왑 (Instant Swap)";
+                    bodyEl.innerHTML = `
+                        <div class="form-group"><label>교환 방향</label><select class="form-control"><option>PI ➔ USDT</option><option>USDT ➔ PI</option></select></div>
+                        <div class="form-group"><label>투입 수량</label><input type="number" id="sAmount" class="form-control" placeholder="수량 입력" oninput="calcSwap()"></div>
+                        <div class="info-box">
+                            <div style="display:flex; justify-content:space-between;"><span>예상 수령 수량:</span> <b id="sResult" style="color:var(--accent-gold);">0.00 USDT</b></div>
+                        </div>
+                        <button class="submit-btn" onclick="executeAction('인스턴트 스왑이 체결되었습니다 형님!')">스왑 최종 승인</button>
+                    `;
+                    break;
+                case 8:
+                    titleEl.innerHTML = "08. DEX 유동성 스왑";
+                    bodyEl.innerHTML = `
+                        <div class="form-group"><label>풀(Pool) 선택</label><select class="form-control"><option>PI / HK-USDT 풀</option><option>PI / NEXUS 스마트안경 풀</option></select></div>
+                        <div class="form-group"><label>유동성 공급 수량</label><input type="number" class="form-control" placeholder="수량 입력"></div>
+                        <div class="info-box"><i class="fa-solid fa-chart-line"></i> 예상 0.3% 수수료 지분 배당이 적용됩니다.</div>
+                        <button class="submit-btn" onclick="executeAction('DEX 유동성 공급 및 스왑이 체결되었습니다 형님!')">DEX 유동성 스왑 승인</button>
+                    `;
+                    break;
+                case 9:
+                    titleEl.innerHTML = "09. LP 스테이킹 (APY 보장)";
+                    bodyEl.innerHTML = `
+                        <div class="info-box" style="border-color:var(--accent-gold);">
+                            <div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>적용 APY:</span> <b style="color:var(--accent-gold);">연 15.8%</b></div>
+                            <div style="font-size:10px; color:var(--text-muted);">(삐니 자동 리스크 조절 알고리즘 가동 중)</div>
+                        </div>
+                        <div class="form-group"><label>LP 토큰 수량</label><input type="number" id="lpAmount" class="form-control" placeholder="수량 입력" oninput="calcLP()"></div>
+                        <div class="info-box">
+                            <div style="display:flex; justify-content:space-between;"><span>연간 예상 리워드:</span> <b id="lpResult" style="color:var(--accent-gold);">0.00 PI</b></div>
+                        </div>
+                        <button class="submit-btn" onclick="executeAction('LP 스테이킹 예치가 완료되었습니다 형님!')">LP 스테이킹 승인</button>
+                    `;
+                    break;
+                case 10:
+                    titleEl.innerHTML = "10. PI 수령 및 원장 동기화";
+                    bodyEl.innerHTML = `
+                        <div class="form-group"><label>연동 노드 선택</label><select class="form-control"><option>10대 분산 연동망 마스터 노드 (Node-01 ~ 10)</option></select></div>
+                        <div class="info-box" style="border-color:var(--accent-gold);">
+                            <div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>네트워크 응답 속도:</span> <b>12ms (최상 컨디션)</b></div>
+                            <div style="display:flex; justify-content:space-between;"><span>원장 일치율:</span> <b style="color:var(--accent-gold);">100% 정합성 유지</b></div>
+                        </div>
+                        <button class="submit-btn" onclick="executeAction('PI 수령 확인 및 10대 분산 원장 동기화가 완료되었습니다 형님!')">원장 동기화 승인</button>
+                    `;
+                    break;
+            }
         }
-        .submit-btn:hover { opacity:
+
+        function calcTransfer() {
+            let val = parseFloat(document.getElementById('tAmount').value) || 0;
+            document.getElementById('tTotal').innerText = (val + 0.001).toFixed(3) + " PI";
+        }
+
+        function calcDeposit() {
+            const amountInput = document.getElementById('depAmount').value;
+            const periodSelect = document.getElementById('depPeriod').value;
+            const estEl = document.getElementById('depEstimated');
+            const dateEl = document.getElementById('depMaturityDate');
+            
+            let amt = parseFloat(amountInput) || 0;
+            let years = parseInt(periodSelect);
+            
+            let rate = 0.10;
+            if (years === 3) rate = 0.15;
+            if (years === 5) rate = 0.20;
+            
+            let estimated = amt * Math.pow((1 + rate), years);
+            estEl.innerText = estimated.toFixed(2) + " PI (예상 이자 포함)";
+            
+            let targetYear = 2026 + years;
+            dateEl.innerText = `${targetYear}-10-07`;
+        }
+
+        function calcSwap() {
+            let val = parseFloat(document.getElementById('sAmount').value) || 0;
+            document.getElementById('sResult').innerText = (val * 35.5).toFixed(2) + " USDT (환율 적용)";
+        }
+
+        function calcLP() {
+            let val = parseFloat(document.getElementById('lpAmount').value) || 0;
+            document.getElementById('lpResult').innerText = (val * 0.158).toFixed(2) + " PI (연간 예상)";
+        }
+
+        function confirmDeposit() {
+            const amt = document.getElementById('depAmount').value;
+            if (!amt || amt <= 0) {
+                alert("형님, 예치할 수량을 정확히 입력해 주세요!");
+                return;
+            }
+            alert(`[자산 예치 완료] ${amt} PI가 안전하게 예치되었으며, 만기 시 추정 수량이 메인넷 볼트에 등록되었습니다 형님!`);
+            closeModal();
+        }
+
+        function closeModal() {
+            document.getElementById('processModal').style.display = 'none';
+        }
+
+        function executeAction(msg) {
+            alert(msg);
+            closeModal();
+        }
+    </script>
+/**
+ * HK-WorldBank Core Engine (hk_engine.js)
+ * 글로벌 디지털 뱅킹 & 스테이킹 플랫폼 코어 엔진
+ */
+
+document.addEventListener('DOMContentLoaded', () => {
+    console.log("🚀 HK-WorldBank Engine Initialized successfully.");
+    
+    // 플랫폼 초기 상태 및 데이터 정의
+    window.hkState = {
+        totalStaked: 1250400,
+        apyRate: 12.5,
+        userBalance: 50000,
+        aiAgentName: "삐니",
+        networkStatus: "Online"
+    };
+    
+    // UI 초기화 및 이벤트 바인딩 실행
+    initPlatformUI();
+    bindActions();
+});
+
+// 플랫폼 UI 업데이트 함수
+function initPlatformUI() {
+    console.log("✨ Loading HK-WorldBank UI components...");
+    
+    // 동적 데이터 바인딩 예시 (필요한 DOM 요소가 있을 경우 자동 반영)
+    const stakedDisplay = document.getElementById('totalStaked');
+    if (stakedDisplay) {
+        stakedDisplay.innerText = window.hkState.totalStaked.toLocaleString();
+    }
+}
+
+// 사용자 인터랙션 및 버튼 이벤트 바인딩
+function bindActions() {
+    // 모달 제어 함수 전역 등록 (HTML 내부 onclick 대응)
+    window.openModal = function(modalId) {
+        const modal = document.getElementById(modalId);
+        if (modal) {
+            modal.style.display = 'flex';
+        }
+    };
+
+    window.closeModal = function(modalId) {
+        const modal = document.getElementById(modalId);
+        if (modal) {
+            modal.style.display = 'none';
+        }
+    };
+
+    console.log("✅ HK-WorldBank Event Listeners Bound.");
+}
+<script src="./hk_engine.js"></script>
+</body>
+</html>
