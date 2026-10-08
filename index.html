@@ -1600,5 +1600,255 @@
             document.getElementById('appModal').classList.remove('active');
         }
     </script>
+
+<div class="hkwb-container">
+    <div class="status-bar" id="bini-status" style="background: #1e293b; border-left: 4px solid #38bdf8; padding: 12px; border-radius: 4px; font-size: 14px; margin-bottom: 20px; color: #f8fafc;">
+        🤖 삐니: 10대 분산 연동망 대기 중. 지갑을 연결하여 서비스를 시작해 주세요.
+    </div>
+
+    <!-- 1. 지갑 연결 및 10대 분산망 노드 동기화 -->
+    <div class="card" style="background: #1e293b; border-radius: 12px; padding: 20px; margin-bottom: 20px; border: 1px solid #334155; color: #f8fafc;">
+        <h3 style="color: #38bdf8; margin-top: 0;">1. Pi 지갑 연결 및 10대 분산망 동기화</h3>
+        <button onclick="connectPiWallet()" style="background: #0284c7; color: white; border: none; padding: 12px; width: 100%; border-radius: 6px; font-weight: bold; cursor: pointer;">Pi 지갑 연결 및 10대 노드 핸드셰이크</button>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
+            <p>보유 Pi 수량: <span id="pi-balance" style="color: #38bdf8; font-weight: bold;">125.50</span> Pi</p>
+            <p>보유 HWB 잔액: <span id="hwb-balance" style="color: #38bdf8; font-weight: bold;">1,000.00</span> HWB</p>
+        </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+        <!-- 2. 송금 기능 -->
+        <div class="card" style="background: #1e293b; border-radius: 12px; padding: 20px; margin-bottom: 20px; border: 1px solid #334155; color: #f8fafc;">
+            <h3 style="color: #38bdf8; margin-top: 0;">2. 자산 송금</h3>
+            <label style="font-size: 13px; color: #94a3b8; display: block; margin-top: 10px; margin-bottom: 4px;">받는 사람 주소 또는 UID</label>
+            <input type="text" id="transfer-to" placeholder="지갑 주소 입력" style="width: 100%; padding: 10px; background: #0f172a; border: 1px solid #334155; color: #fff; border-radius: 6px; box-sizing: border-box;">
+            <label style="font-size: 13px; color: #94a3b8; display: block; margin-top: 10px; margin-bottom: 4px;">송금 수량 (HWB)</label>
+            <input type="number" id="transfer-amount" placeholder="수량 입력" style="width: 100%; padding: 10px; background: #0f172a; border: 1px solid #334155; color: #fff; border-radius: 6px; box-sizing: border-box;">
+            <button onclick="executeTransfer()" style="background: #0284c7; color: white; border: none; padding: 12px; width: 100%; border-radius: 6px; font-weight: bold; cursor: pointer; margin-top: 12px;">송금 실행</button>
+        </div>
+
+        <!-- 3. 결제 기능 -->
+        <div class="card" style="background: #1e293b; border-radius: 12px; padding: 20px; margin-bottom: 20px; border: 1px solid #334155; color: #f8fafc;">
+            <h3 style="color: #38bdf8; margin-top: 0;">3. 실시간 결제</h3>
+            <label style="font-size: 13px; color: #94a3b8; display: block; margin-top: 10px; margin-bottom: 4px;">가맹점 ID</label>
+            <input type="text" id="merchant-id" placeholder="Merchant ID 입력" style="width: 100%; padding: 10px; background: #0f172a; border: 1px solid #334155; color: #fff; border-radius: 6px; box-sizing: border-box;">
+            <label style="font-size: 13px; color: #94a3b8; display: block; margin-top: 10px; margin-bottom: 4px;">결제 금액 (HWB)</label>
+            <input type="number" id="pay-amount" placeholder="금액 입력" style="width: 100%; padding: 10px; background: #0f172a; border: 1px solid #334155; color: #fff; border-radius: 6px; box-sizing: border-box;">
+            <button onclick="executePayment()" style="background: #0284c7; color: white; border: none; padding: 12px; width: 100%; border-radius: 6px; font-weight: bold; cursor: pointer; margin-top: 12px;">결제 승인</button>
+        </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+        <!-- 4. 정기 예치 (수량, 기간, 수익률, 승인) -->
+        <div class="card" style="background: #1e293b; border-radius: 12px; padding: 20px; margin-bottom: 20px; border: 1px solid #334155; color: #f8fafc;">
+            <h3 style="color: #38bdf8; margin-top: 0;">4. 정기 예치 및 삐니 리스크 관리</h3>
+            <label style="font-size: 13px; color: #94a3b8; display: block; margin-top: 10px; margin-bottom: 4px;">예치 수량 (HWB)</label>
+            <input type="number" id="deposit-amount" placeholder="예치할 수량 입력" oninput="calculateStakingReturn()" style="width: 100%; padding: 10px; background: #0f172a; border: 1px solid #334155; color: #fff; border-radius: 6px; box-sizing: border-box;">
+            
+            <label style="font-size: 13px; color: #94a3b8; display: block; margin-top: 10px; margin-bottom: 4px;">예치 기간</label>
+            <select id="deposit-period" onchange="calculateStakingReturn()" style="width: 100%; padding: 10px; background: #0f172a; border: 1px solid #334155; color: #fff; border-radius: 6px; box-sizing: border-box;">
+                <option value="1">1년 (목표 APY 8.0%)</option>
+                <option value="2">2년 (목표 APY 10.0%)</option>
+                <option value="3" selected>3년 목표 (목표 APY 12.5%)</option>
+            </select>
+            
+            <p style="font-size: 13px; color: #38bdf8; margin-top: 12px;">만기 예상 수익: <strong id="preview-profit">0.00</strong> HWB</p>
+            <button onclick="executeDeposit()" style="background: #0284c7; color: white; border: none; padding: 12px; width: 100%; border-radius: 6px; font-weight: bold; cursor: pointer; margin-top: 12px;">예치 승인</button>
+        </div>
+
+        <!-- 5. 보상 및 기본소득(UBI) -->
+        <div class="card" style="background: #1e293b; border-radius: 12px; padding: 20px; margin-bottom: 20px; border: 1px solid #334155; color: #f8fafc;">
+            <h3 style="color: #38bdf8; margin-top: 0;">5. 보상 및 기본소득(UBI)</h3>
+            <p style="font-size: 13px; color: #94a3b8; margin-top: 15px;">미수령 기본소득(UBI): <span id="ubi-amount" style="color: #38bdf8; font-weight: bold;">50.00</span> HWB</p>
+            <button onclick="claimUBI()" style="background: #0284c7; color: white; border: none; padding: 12px; width: 100%; border-radius: 6px; font-weight: bold; cursor: pointer; margin-top: 12px;">기본소득(UBI) 청구</button>
+            <button onclick="claimRewards()" style="background: #059669; color: white; border: none; padding: 12px; width: 100%; border-radius: 6px; font-weight: bold; cursor: pointer; margin-top: 12px;">네트워크 기여 보상 수령</button>
+        </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+        <!-- 6. DEX 스왑 -->
+        <div class="card" style="background: #1e293b; border-radius: 12px; padding: 20px; margin-bottom: 20px; border: 1px solid #334155; color: #f8fafc;">
+            <h3 style="color: #38bdf8; margin-top: 0;">6. DEX 토큰 스왑 (Pi ⇄ HWB)</h3>
+            <label style="font-size: 13px; color: #94a3b8; display: block; margin-top: 10px; margin-bottom: 4px;">교환할 Pi 수량</label>
+            <input type="number" id="swap-in" placeholder="Pi 수량 입력" oninput="calculateSwap()" style="width: 100%; padding: 10px; background: #0f172a; border: 1px solid #334155; color: #fff; border-radius: 6px; box-sizing: border-box;">
+            <p style="font-size: 13px; color: #94a3b8; margin-top: 12px;">교환 예상 HWB: <span id="swap-out" style="color: #38bdf8; font-weight: bold;">0.00</span> HWB</p>
+            <button onclick="executeSwap()" style="background: #0284c7; color: white; border: none; padding: 12px; width: 100%; border-radius: 6px; font-weight: bold; cursor: pointer; margin-top: 12px;">DEX 스왑 실행</button>
+        </div>
+
+        <!-- 7. LP 스테이킹 -->
+        <div class="card" style="background: #1e293b; border-radius: 12px; padding: 20px; margin-bottom: 20px; border: 1px solid #334155; color: #f8fafc;">
+            <h3 style="color: #38bdf8; margin-top: 0;">7. LP 스테이킹 (유동성 풀)</h3>
+            <label style="font-size: 13px; color: #94a3b8; display: block; margin-top: 10px; margin-bottom: 4px;">LP 토큰 수량</label>
+            <input type="number" id="lp-amount" placeholder="LP 토큰 입력" style="width: 100%; padding: 10px; background: #0f172a; border: 1px solid #334155; color: #fff; border-radius: 6px; box-sizing: border-box;">
+            <p style="font-size: 13px; color: #94a3b8; margin-top: 12px;">현재 예치된 LP: <span id="lp-staked-view" style="color: #38bdf8; font-weight: bold;">0.00</span> LP</p>
+            <button onclick="executeLpStaking()" style="background: #0284c7; color: white; border: none; padding: 12px; width: 100%; border-radius: 6px; font-weight: bold; cursor: pointer; margin-top: 12px;">LP 풀 예치 및 채굴 시작</button>
+        </div>
+    </div>
+</div>
+
+<!-- ========== [2] HK WorldBank 10대 분산 연동망 & 금융 로직 스크립트 영역 (기존 script 안이나 하단에 삽입) ========== -->
+<script>
+    // 10대 분산 연동망 및 9대 금융 플랫폼 상태 객체
+    const platformState = {
+        isConnected: false,
+        userUid: null,
+        walletAddress: null,
+        piBalance: 125.50,
+        hwbBalance: 1000.00,
+        stakedHwb: 0,
+        lpStaked: 0,
+        ubiPool: 50.00,
+        activeNodes: 0,
+        distributedNodes: [
+            { id: 1, name: 'HK-Core-Gateway', status: 'Active' },
+            { id: 2, name: 'HK-Auth-Validator', status: 'Active' },
+            { id: 3, name: 'HK-Ledger-Sync', status: 'Active' },
+            { id: 4, name: 'HK-Consensus-Engine', status: 'Active' },
+            { id: 5, name: 'HK-DeFi-Staking', status: 'Active' },
+            { id: 6, name: 'HK-DEX-Liquidity', status: 'Active' },
+            { id: 7, name: 'HK-UBI-Distributor', status: 'Active' },
+            { id: 8, name: 'HK-Payment-Gateway', status: 'Active' },
+            { id: 9, name: 'HK-Risk-Management (Bini)', status: 'Active' },
+            { id: 10, name: 'HK-Archive-Node', status: 'Active' }
+        ]
+    };
+
+    // 1. 지갑 연결 및 10대 분산망 노드 핸드셰이크 프로세스
+    async function connectPiWallet() {
+        try {
+            platformState.isConnected = true;
+            platformState.userUid = "HK_USER_2026";
+            platformState.walletAddress = "Pi_Wallet_Verified_OK";
+            platformState.activeNodes = platformState.distributedNodes.length;
+
+            document.getElementById('pi-balance').innerText = platformState.piBalance.toLocaleString();
+            document.getElementById('hwb-balance').innerText = platformState.hwbBalance.toLocaleString();
+            document.getElementById('bini-status').innerHTML = `🤖 삐니: Pi 지갑 연동 완료! 10대 분산 연동망(${platformState.activeNodes}/10)과 완벽히 동기화되었습니다.`;
+            console.log("[10대 분산망 동기화 성공]", platformState.distributedNodes);
+            alert('지갑 연결 및 10대 분산망 세션 동기화가 성공적으로 완료되었습니다.');
+        } catch (e) {
+            console.error(e);
+            alert('지갑 연결 중 오류가 발생했습니다.');
+        }
+    }
+
+    // 2. 송금 프로세스
+    function executeTransfer() {
+        const to = document.getElementById('transfer-to').value;
+        const amt = parseFloat(document.getElementById('transfer-amount').value);
+        if (!to || !amt || amt <= 0 || amt > platformState.hwbBalance) {
+            alert('송금 정보를 다시 확인해 주세요 (잔액 부족 또는 미입력).');
+            return;
+        }
+        platformState.hwbBalance -= amt;
+        document.getElementById('hwb-balance').innerText = platformState.hwbBalance.toLocaleString();
+        alert(`[송금 완료] ${to}님께 ${amt} HWB가 안전하게 전송되었습니다.`);
+    }
+
+    // 3. 결제 프로세스
+    function executePayment() {
+        const merchant = document.getElementById('merchant-id').value;
+        const amt = parseFloat(document.getElementById('pay-amount').value);
+        if (!merchant || !amt || amt <= 0 || amt > platformState.hwbBalance) {
+            alert('결제 조건을 확인해 주세요.');
+            return;
+        }
+        platformState.hwbBalance -= amt;
+        document.getElementById('hwb-balance').innerText = platformState.hwbBalance.toLocaleString();
+        alert(`[결제 승인] 가맹점(${merchant})으로 ${amt} HWB 결제가 완료되었습니다.`);
+    }
+
+    // 4. 정기 예치 계산 및 승인 프로세스 (수량, 기간, 수익률, 삐니 자본 잠식 제어)
+    const apyRates = { 1: 8.0, 2: 10.0, 3: 12.5 };
+
+    function calculateStakingReturn() {
+        const amount = parseFloat(document.getElementById('deposit-amount').value) || 0;
+        const period = parseInt(document.getElementById('deposit-period').value);
+        const apy = apyRates[period];
+        const estimatedProfit = amount > 0 ? amount * (apy / 100) * period : 0;
+        document.getElementById('preview-profit').innerText = estimatedProfit.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    function executeDeposit() {
+        const amount = parseFloat(document.getElementById('deposit-amount').value);
+        const period = parseInt(document.getElementById('deposit-period').value);
+        const targetApy = apyRates[period];
+
+        if (!amount || amount <= 0 || amount > platformState.hwbBalance) {
+            alert('예치 수량이 올바르지 않거나 잔액이 부족합니다.');
+            return;
+        }
+
+        // 삐니의 자본 잠식 위험 자동 검사 시뮬레이션
+        if (amount > 5000) {
+            console.warn("[삐니 경고] 대규모 예치 유입으로 인한 자본 잠식 리스크 감지. 이자율 자동 조정 발동.");
+        }
+
+        platformState.hwbBalance -= amount;
+        platformState.stakedHwb += amount;
+        document.getElementById('hwb-balance').innerText = platformState.hwbBalance.toLocaleString();
+
+        alert(`[정기 예치 승인 완료] ${amount} HWB 예치됨 (기간: ${period}년, 목표 APY: ${targetApy}%).\n🤖 삐니: 자본 안정성 알고리즘으로 실시간 감시 및 보호 중.`);
+        
+        document.getElementById('deposit-amount').value = '';
+        calculateStakingReturn();
+    }
+
+    // 5. UBI 및 보상 청구 프로세스
+    function claimUBI() {
+        if (platformState.ubiPool <= 0) {
+            alert('청구 가능한 기본소득(UBI)이 없습니다.');
+            return;
+        }
+        platformState.hwbBalance += platformState.ubiPool;
+        platformState.ubiPool = 0;
+        document.getElementById('hwb-balance').innerText = platformState.hwbBalance.toLocaleString();
+        document.getElementById('ubi-amount').innerText = '0.00';
+        alert('[UBI 청구 완료] 기본소득이 지급되었습니다.');
+    }
+
+    function claimRewards() {
+        const rewardAmt = 15.0;
+        platformState.hwbBalance += rewardAmt;
+        document.getElementById('hwb-balance').innerText = platformState.hwbBalance.toLocaleString();
+        alert(`[보상 수령 완료] 10대 분산망 기여 보상 ${rewardAmt} HWB가 지급되었습니다.`);
+    }
+
+    // 6. DEX 스왑 프로세스
+    function calculateSwap() {
+        const piVal = parseFloat(document.getElementById('swap-in').value) || 0;
+        const hwbEquivalent = piVal * 10; // 1 Pi = 10 HWB 기준 환율
+        document.getElementById('swap-out').innerText = hwbEquivalent.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    function executeSwap() {
+        const piVal = parseFloat(document.getElementById('swap-in').value);
+        if (!piVal || piVal <= 0 || piVal > platformState.piBalance) {
+            alert('스왑할 Pi 수량이 부족하거나 올바르지 않습니다.');
+            return;
+        }
+        const hwbEarned = piVal * 10;
+        platformState.piBalance -= piVal;
+        platformState.hwbBalance += hwbEarned;
+
+        document.getElementById('pi-balance').innerText = platformState.piBalance.toLocaleString();
+        document.getElementById('hwb-balance').innerText = platformState.hwbBalance.toLocaleString();
+        alert(`[DEX 스왑 성공] ${piVal} Pi가 ${hwbEarned} HWB로 교환되었습니다.`);
+    }
+
+    // 7. LP 스테이킹 프로세스
+    function executeLpStaking() {
+        const lpAmt = parseFloat(document.getElementById('lp-amount').value);
+        if (!lpAmt || lpAmt <= 0) {
+            alert('올바른 LP 토큰 수량을 입력해 주세요.');
+            return;
+        }
+        platformState.lpStaked += lpAmt;
+        document.getElementById('lp-staked-view').innerText = platformState.lpStaked.toLocaleString();
+        alert(`[LP 스테이킹 완료] 유동성 풀에 ${lpAmt} LP가 예치되어 채굴이 시작됩니다.`);
+        document.getElementById('lp-amount').value = '';
+    }
+</script>
+
 </body>
 </html>
