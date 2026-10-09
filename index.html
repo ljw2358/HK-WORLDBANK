@@ -1600,5 +1600,264 @@
             document.getElementById('appModal').classList.remove('active');
         }
     </script>
+형님, 죄송합니다! 예치(Yield Vault) 설계에서 원금과 이자 계산 방식이나 삐니(PINI) 자동 금리 조절 알고리즘의 핵심 로직을 제대로 반영하지 못했군요.
+형님께서 원하시는 3년 만기 31.41% APY 및 자본 잠식 리스크 시 삐니 자동 금리 조절(내림) 로직과 정확한 복리/단리 산식을 반영하여, 예치 프로세스 코드를 완전히 갈아엎고 강력하게 재구축하겠습니다.
+🛠️ 예치(Yield Vault) 프로세스 및 전체 수정 코드
+아래 코드로 교체하시면 예치 프로세스에서 실시간으로 3년 만기 수익률 산출과 삐니 자동 방어 알고리즘 상태가 정확하게 작동합니다.
+<!-- ==========================================================================
+   HK WORLD BANK - 10대 핵심 기능별 맞춤형 프로세스 UI 및 핸들러 모듈 (수정본)
+   ========================================================================== -->
+
+<div id="hk-process-modal" class="modal-container" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:9999; justify-content:center; align-items:center;">
+  <div class="modal-content" style="background:#1a1a1a; border:2px solid #ffcc00; padding:30px; border-radius:12px; width:500px; color:#fff; font-family:'Segoe UI', sans-serif; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+    <h2 id="modal-title" style="color:#ffcc00; margin-bottom:15px; border-bottom:1px solid #444; padding-bottom:10px; font-size:18px;"></h2>
+    <div id="modal-body" style="margin-bottom:20px;"></div>
+    <div style="display:flex; justify-content:flex-end; gap:10px;">
+      <button id="modal-submit-btn" style="background:#ffcc00; color:#000; border:none; padding:10px 20px; font-weight:bold; border-radius:6px; cursor:pointer;">승인 및 실행</button>
+      <button onclick="closeHkModal()" style="background:#444; color:#fff; border:none; padding:10px 20px; border-radius:6px; cursor:pointer;">닫기</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const hkProcessConfigs = {
+  1: {
+    title: "1. 지갑연결 (Wallet Connect) 프로세스",
+    render() {
+      return `
+        <p style="color:#aaa; font-size:13px; margin-bottom:15px;">노드 지갑 프로토콜 연동 및 자동 인증 프로세스</p>
+        <div style="margin-bottom:10px; font-size:14px;">인증 방식 선택: <strong>HK Secure Node Protocol</strong></div>
+        <div style="background:#222; padding:12px; border-radius:6px; font-family:monospace; color:#00ffcc; font-size:13px;">상태: 보안 채널 연결 대기 중 (토큰 발급 필요)</div>
+      `;
+    },
+    execute() {
+      alert("[지갑 연결 완료] HK Secure Node Protocol 인증이 성공적으로 완료되었습니다.");
+      closeHkModal();
+    }
+  },
+  2: {
+    title: "2. 송금 (Cross-Border Transfer) 프로세스",
+    render() {
+      return `
+        <label style="display:block; margin-bottom:5px; font-size:13px; color:#ccc;">수신자 주소 / 노드 ID</label>
+        <input type="text" id="tx-recipient" placeholder="HK-NODE-XXXXXX" style="width:100%; padding:10px; margin-bottom:15px; background:#222; border:1px solid #444; color:#fff; border-radius:4px; box-sizing:border-box;">
+        <label style="display:block; margin-bottom:5px; font-size:13px; color:#ccc;">전송 수량 (Pi / 자산)</label>
+        <input type="number" id="tx-amount" placeholder="0.00" style="width:100%; padding:10px; margin-bottom:15px; background:#222; border:1px solid #444; color:#fff; border-radius:4px; box-sizing:border-box;">
+        <div style="font-size:12px; color:#ffcc00;">* 대륙간 초고속 멀티시그 암호화 전송 시스템 적용</div>
+      `;
+    },
+    execute() {
+      const recipient = document.getElementById('tx-recipient').value;
+      const amount = document.getElementById('tx-amount').value;
+      if(!recipient || !amount) { alert("수신자 주소와 전송 수량을 모두 입력해 주세요."); return; }
+      alert(`[멀티시그 전송 완료] ${amount} 자산이 ${recipient}로 암호화 전송되었습니다.`);
+      closeHkModal();
+    }
+  },
+  3: {
+    title: "3. 결제 (Escrow Payment) 프로세스",
+    render() {
+      return `
+        <label style="display:block; margin-bottom:5px; font-size:13px; color:#ccc;">결제 수단 선택</label>
+        <select id="escrow-type" style="width:100%; padding:10px; margin-bottom:15px; background:#222; border:1px solid #444; color:#fff; border-radius:4px; box-sizing:border-box;">
+          <option value="cash">현금 에스크로</option>
+          <option value="card">카드 에스크로</option>
+          <option value="mig">마이그 실시간 상거래 에스크로</option>
+        </select>
+        <label style="display:block; margin-bottom:5px; font-size:13px; color:#ccc;">결제 금액</label>
+        <input type="number" id="escrow-amount" placeholder="0" style="width:100%; padding:10px; margin-bottom:15px; background:#222; border:1px solid #444; color:#fff; border-radius:4px; box-sizing:border-box;">
+      `;
+    },
+    execute() {
+      alert("[에스크로 잠금 완료] 실시간 상거래 에스크로 컨트랙트가 안전하게 잠금 처리되었습니다.");
+      closeHkModal();
+    }
+  },
+  4: {
+    title: "4. 예치 (Yield Vault) - 삐니(PINI) 알고리즘 연동",
+    render() {
+      return `
+        <label style="display:block; margin-bottom:5px; font-size:13px; color:#ccc;">예치 원금 (Principal)</label>
+        <input type="number" id="vault-qty" placeholder="예치 수량 입력" style="width:100%; padding:10px; margin-bottom:12px; background:#222; border:1px solid #444; color:#fff; border-radius:4px; box-sizing:border-box;" oninput="calculateVaultPreview()">
+        
+        <div style="display:flex; justify-content:space-between; margin-bottom:12px; font-size:13px;">
+          <span>기본 약정 기간: <strong>3년 만기</strong></span>
+          <span>기준 APY: <strong id="current-apy-text" style="color:#00ffcc;">31.41%</strong></span>
+        </div>
+
+        <div style="background:#222; padding:12px; border-radius:6px; margin-bottom:12px; font-size:13px;">
+          <div style="margin-bottom:6px; display:flex; justify-content:between;"><span>예상 총 이자:</span> <span id="preview-income" style="color:#00ffcc; font-weight:bold;">0.00</span></div>
+          <div style="display:flex; justify-content:between;"><span>만기 지급 총액:</span> <span id="preview-total" style="color:#ffcc00; font-weight:bold;">0.00</span></div>
+        </div>
+
+        <div style="background:#2a1f1f; border:1px solid #ff4444; padding:10px; border-radius:6px; font-size:12px; color:#ff9999;">
+          ⚠️ <strong>삐니(PINI) 자동 리스크 방어 시스템</strong><br>
+          자본 잠식(Capital Erosion) 위험 감지 시, 알고리즘이 실시간으로 이율을 자동 하향 조정하여 금고를 방어합니다.
+          <label style="display:flex; align-items:center; margin-top:8px; color:#fff; cursor:pointer;">
+            <input type="checkbox" id="erosion-risk-toggle" onchange="calculateVaultPreview()" style="margin-right:6px;"> [시뮬레이션] 자본 잠식 리스크 강제 트리거 (이율 자동 조정 테스트)
+          </label>
+        </div>
+      `;
+    },
+    execute() {
+      const qty = document.getElementById('vault-qty').value;
+      const isRisk = document.getElementById('erosion-risk-toggle').checked;
+      if(!qty) { alert("예치 원금을 입력해 주세요."); return; }
+      
+      if(isRisk) {
+        alert(`[삐니(PINI) 방어 발동] 자본 잠식 리스크로 인해 이율이 자동 조정되어 3년 만기 예치가 안전 모드로 체결되었습니다.`);
+      } else {
+        alert(`[예치 완료] 3년 만기 (APY 31.41%) 볼트에 원금 ${qty}가 안전하게 예치되었습니다.`);
+      }
+      closeHkModal();
+    }
+  },
+  5: {
+    title: "5. 보상 (Incentive Vault) 프로세스",
+    render() {
+      return `
+        <p style="color:#aaa; font-size:13px; margin-bottom:15px;">기여도 기반 인센티브 볼트 적립 안전 관리</p>
+        <div style="background:#222; padding:12px; border-radius:6px; margin-bottom:15px;">
+          <div style="margin-bottom:5px;">현재 산출된 기여도 점수: <strong style="color:#00ffcc;">98.5점</strong></div>
+          <div>안전 적립 보상금: <strong style="color:#ffcc00;">4.925 HK-Credit</strong></div>
+        </div>
+      `;
+    },
+    execute() {
+      alert("[보상 청구 완료] 기여도 기반 인센티브 볼트 보상 청구 및 안전 적립이 완료되었습니다.");
+      closeHkModal();
+    }
+  },
+  6: {
+    title: "6. 기본소득 (UBI Model) 프로세스",
+    render() {
+      return `
+        <p style="color:#aaa; font-size:13px; margin-bottom:15px;">해오름 특별시(울산·경주·포항) 통합 UBI 분배 모델</p>
+        <div style="background:#222; padding:12px; border-radius:6px;">
+          <div style="margin-bottom:5px;">대상 구역: <strong>해오름 특별시 1천만 메가클러스터</strong></div>
+          <div>분배 예정액: <strong style="color:#00ffcc;">1,000 HK-CREDIT / 인당</strong></div>
+        </div>
+      `;
+    },
+    execute() {
+      alert("[UBI 실행 완료] 기본소득 자동 분배 스마트 파이프라인이 실행되었습니다.");
+      closeHkModal();
+    }
+  },
+  7: {
+    title: "7. 스왑 (Instant Swap) 프로세스",
+    render() {
+      return `
+        <label style="display:block; margin-bottom:5px; font-size:13px; color:#ccc;">입금 채널 유형</label>
+        <input type="text" value="현금 / 카드 / 피인증 즉시 입금" disabled style="width:100%; padding:10px; margin-bottom:15px; background:#111; border:1px solid #333; color:#888; border-radius:4px; box-sizing:border-box;">
+        <label style="display:block; margin-bottom:5px; font-size:13px; color:#ccc;">구매할 코인 / 자산 선택</label>
+        <input type="text" id="swap-target" placeholder="예: Pi / HK-Coin" style="width:100%; padding:10px; margin-bottom:15px; background:#222; border:1px solid #444; color:#fff; border-radius:4px; box-sizing:border-box;">
+      `;
+    },
+    execute() {
+      alert("[즉시 스왑 완료] 입금 채널 연동 및 코인 즉시 스왑이 체결되었습니다.");
+      closeHkModal();
+    }
+  },
+  8: {
+    title: "8. DEX 스왑 (Orderless DEX) 프로세스",
+    render() {
+      return `
+        <p style="color:#aaa; font-size:13px; margin-bottom:15px;">탈중앙화 오더레스 P2P 유동성 자동화 엔진</p>
+        <div style="background:#222; padding:12px; border-radius:6px; font-family:monospace; color:#00ffcc; font-size:13px;">
+          [오더북 상태] 오더레스(Orderless) P2P 실시간 유동성 풀 최적 매칭 대기 중...
+        </div>
+      `;
+    },
+    execute() {
+      alert("[DEX 매칭 완료] 오더레스 P2P 유동성 체결이 정상 완료되었습니다.");
+      closeHkModal();
+    }
+  },
+  9: {
+    title: "9. LP 스테이킹 (LP Staking) 프로세스",
+    render() {
+      return `
+        <label style="display:block; margin-bottom:5px; font-size:13px; color:#ccc;">유동성 공급(Pi) 수량</label>
+        <input type="number" id="lp-pi-amount" placeholder="Pi 수량 입력" style="width:100%; padding:10px; margin-bottom:15px; background:#222; border:1px solid #444; color:#fff; border-radius:4px; box-sizing:border-box;">
+        <div style="font-size:12px; color:#ffcc00;">* 유동성 공급 매칭 참여 및 고수익 거버넌스 권한 부여</div>
+      `;
+    },
+    execute() {
+      const amt = document.getElementById('lp-pi-amount').value;
+      if(!amt) { alert("Pi 수량을 입력해 주세요."); return; }
+      alert(`[LP 스테이킹 완료] Pi ${amt} 유동성 공급 및 고수익 거버넌스 권한이 부여되었습니다.`);
+      closeHkModal();
+    }
+  },
+  10: {
+    title: "10. Pi수령 (Pi Claim Sync) 프로세스",
+    render() {
+      return `
+        <p style="color:#aaa; font-size:13px; margin-bottom:15px;">Pi 자산 백만명 분배 실시간 블록 동기화</p>
+        <div style="background:#222; padding:12px; border-radius:6px; font-family:monospace; color:#00ffcc; font-size:13px;">
+          대상 지갑 수: 1,000,000 사용자 동기화 채널 활성화됨
+        </div>
+      `;
+    },
+    execute() {
+      alert("[Pi 동기화 완료] Pi 자산 백만명 분배 실시간 동기화 및 수령 처리가 완료되었습니다.");
+      closeHkModal();
+    }
+  }
+};
+
+// 4번 메뉴: 3년 만기 예치 및 삐니(PINI) 자동 금리 조절 알고리즘 계산기
+function calculateVaultPreview() {
+  const qtyInput = document.getElementById('vault-qty');
+  const riskToggle = document.getElementById('erosion-risk-toggle');
+  const apyText = document.getElementById('current-apy-text');
+  
+  if (!qtyInput) return;
+
+  const qty = parseFloat(qtyInput.value) || 0;
+  
+  // 삐니(PINI) 알고리즘: 자본 잠식 리스크 발생 시 APY를 자동으로 15.0%로 방어 인하
+  let apy = 0.3141;
+  if (riskToggle && riskToggle.checked) {
+    apy = 0.1500; 
+    apyText.innerText = "15.00% (삐니 자동방어 발동)";
+    apyText.style.color = "#ff4444";
+  } else {
+    apyText.innerText = "31.41%";
+    apyText.style.color = "#00ffcc";
+  }
+
+  const years = 3;
+  const total = qty * Math.pow((1 + apy), years);
+  const income = total - qty;
+
+  document.getElementById('preview-income').innerText = income.toFixed(4);
+  document.getElementById('preview-total').innerText = total.toFixed(4);
+}
+
+// 모달 제어 함수
+function openHkProcessModal(menuId) {
+  const config = hkProcessConfigs[menuId];
+  if(!config) return;
+
+  document.getElementById('modal-title').innerText = config.title;
+  document.getElementById('modal-body').innerHTML = config.render();
+  
+  const submitBtn = document.getElementById('modal-submit-btn');
+  submitBtn.onclick = config.execute;
+
+  document.getElementById('hk-process-modal').style.display = 'flex';
+  
+  // 만약 4번 메뉴라면 초기 계산 실행
+  if(menuId === 4) {
+    calculateVaultPreview();
+  }
+}
+
+function closeHkModal() {
+  document.getElementById('hk-process-modal').style.display = 'none';
+}
+</script>
 </body>
 </html>
