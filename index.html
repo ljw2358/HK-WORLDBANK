@@ -970,7 +970,363 @@
                     </div>
                 </div>
             </div>
+<!-- 1. 10대 분산 연동망 전용 CSS 스타일 -->
+<style>
+    :root {
+        --bg-main: #0b0f19;
+        --card-bg: #111827;
+        --border-color: #1f2937;
+        --text-primary: #f3f4f6;
+        --text-secondary: #9ca3af;
+        --accent-blue: #3b82f6;
+        --accent-green: #10b981;
+        --accent-glow: rgba(59, 130, 246, 0.25);
+    }
 
+    .hk-network-section {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 20px;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        color: var(--text-primary);
+    }
+
+    .hk-header-box {
+        text-align: center;
+        padding: 24px;
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 14px;
+        margin-bottom: 28px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .hk-header-box h2 {
+        font-size: 24px;
+        color: var(--accent-blue);
+        margin-bottom: 8px;
+    }
+
+    .hk-header-box p {
+        font-size: 14px;
+        color: var(--text-secondary);
+    }
+
+    .hk-grid-10 {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 16px;
+        margin-bottom: 28px;
+    }
+
+    .hk-net-card {
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        padding: 18px;
+        cursor: pointer;
+        transition: all 0.25s ease-in-out;
+        position: relative;
+    }
+
+    .hk-net-card:hover {
+        transform: translateY(-4px);
+        border-color: var(--accent-blue);
+        box-shadow: 0 6px 20px var(--accent-glow);
+    }
+
+    .hk-card-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .hk-net-badge {
+        font-size: 11px;
+        font-weight: bold;
+        color: var(--accent-blue);
+        background: rgba(59, 130, 246, 0.12);
+        padding: 3px 8px;
+        border-radius: 6px;
+        border: 1px solid rgba(59, 130, 246, 0.3);
+    }
+
+    .hk-net-status {
+        font-size: 10px;
+        color: var(--accent-green);
+        background: rgba(16, 185, 129, 0.12);
+        padding: 2px 6px;
+        border-radius: 10px;
+    }
+
+    .hk-card-title {
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 6px;
+        color: #ffffff;
+    }
+
+    .hk-card-desc {
+        font-size: 12px;
+        color: var(--text-secondary);
+        line-height: 1.4;
+    }
+
+    /* 삐니 상시 모니터링 패널 */
+    .hk-bbini-panel {
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 14px;
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 20px;
+    }
+
+    .hk-bbini-avatar {
+        width: 48px;
+        height: 48px;
+        background: var(--accent-blue);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+        flex-shrink: 0;
+        box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .hk-bbini-info h4 {
+        font-size: 15px;
+        color: var(--accent-blue);
+        margin-bottom: 4px;
+    }
+
+    .hk-bbini-info p {
+        font-size: 13px;
+        color: var(--text-secondary);
+    }
+
+    /* 모달 팝업 */
+    .hk-modal-overlay {
+        display: none;
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0, 0, 0, 0.75);
+        backdrop-filter: blur(4px);
+        z-index: 9999;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .hk-modal-overlay.active {
+        display: flex;
+    }
+
+    .hk-modal-content {
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 16px;
+        width: 90%;
+        max-width: 480px;
+        padding: 24px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .hk-modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 16px;
+    }
+
+    .hk-modal-title {
+        font-size: 18px;
+        font-weight: bold;
+        color: var(--accent-blue);
+    }
+
+    .hk-modal-close {
+        background: none;
+        border: none;
+        color: var(--text-secondary);
+        font-size: 20px;
+        cursor: pointer;
+    }
+
+    .hk-modal-body {
+        font-size: 14px;
+        color: var(--text-primary);
+        line-height: 1.6;
+        margin-bottom: 20px;
+    }
+
+    .hk-modal-btn {
+        width: 100%;
+        padding: 12px;
+        background: var(--accent-blue);
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+</style>
+
+<!-- 2. 10대 분산 연동망 HTML 구조 -->
+<div class="hk-network-section">
+    <div class="hk-header-box">
+        <h2>HK WorldBank 10대 분산 연동망</h2>
+        <p>회장 혜공 형님의 지휘 하에 구동되는 실시간 Web3 분산 금융 인프라</p>
+    </div>
+
+    <div class="hk-grid-10">
+        <!-- 1. 지갑 연결 -->
+        <div class="hk-net-card" onclick="openHkModal('지갑 연결망', 'Pi Network SDK 및 메타마스크, 코인베이스 등 Web3 멀티 지갑 인터페이스와 실시간 분산 노드를 연동합니다.')">
+            <div class="hk-card-top">
+                <span class="hk-net-badge">NET-01</span>
+                <span class="hk-net-status">ONLINE</span>
+            </div>
+            <div class="hk-card-title">1. 지갑 연결망</div>
+            <div class="hk-card-desc">Pi SDK 및 멀티체인 지갑 동기화</div>
+        </div>
+
+        <!-- 2. 송금 -->
+        <div class="hk-net-card" onclick="openHkModal('송금망', '분산 장부 기반의 초고속 P2P 글로벌 자산 실시간 전송 프로세스입니다.')">
+            <div class="hk-card-top">
+                <span class="hk-net-badge">NET-02</span>
+                <span class="hk-net-status">ONLINE</span>
+            </div>
+            <div class="hk-card-title">2. 송금망</div>
+            <div class="hk-card-desc">글로벌 분산 장부 초고속 트랜잭션</div>
+        </div>
+
+        <!-- 3. 결제 -->
+        <div class="hk-net-card" onclick="openHkModal('결제망', '조건부 에스크로 스마트 컨트랙트 기반의 온/오프라인 가맹점 즉시 정산 네트워크입니다.')">
+            <div class="hk-card-top">
+                <span class="hk-net-badge">NET-03</span>
+                <span class="hk-net-status">ONLINE</span>
+            </div>
+            <div class="hk-card-title">3. 결제망</div>
+            <div class="hk-card-desc">조건부 에스크로 & 상거래 정산</div>
+        </div>
+
+        <!-- 4. 예치 -->
+        <div class="hk-net-card" onclick="openHkModal('예치망', '3년 고정/변동 이율 알고리즘이 적용된 자산 예치 및 스테이킹 보동망입니다.')">
+            <div class="hk-card-top">
+                <span class="hk-net-badge">NET-04</span>
+                <span class="hk-net-status">ONLINE</span>
+            </div>
+            <div class="hk-card-title">4. 예치망</div>
+            <div class="hk-card-desc">3년 이율 알고리즘 자산 스테이킹</div>
+        </div>
+
+        <!-- 5. 보상 -->
+        <div class="hk-net-card" onclick="openHkModal('보상망', '생태계 참여 기여도 및 노드 유지에 따른 자동 토큰 인센티브 분배 시스템입니다.')">
+            <div class="hk-card-top">
+                <span class="hk-net-badge">NET-05</span>
+                <span class="hk-net-status">ONLINE</span>
+            </div>
+            <div class="hk-card-title">5. 보상망</div>
+            <div class="hk-card-desc">기여도 기반 자동 인센티브 분배</div>
+        </div>
+
+        <!-- 6. 기본 소득 -->
+        <div class="hk-net-card" onclick="openHkModal('기본 소득망', 'Universal Basic Income (UBI) 메커니즘을 통한 참가자 주기적 기본소득 지급 분산망입니다.')">
+            <div class="hk-card-top">
+                <span class="hk-net-badge">NET-06</span>
+                <span class="hk-net-status">ONLINE</span>
+            </div>
+            <div class="hk-card-title">6. 기본 소득망</div>
+            <div class="hk-card-desc">UBI 주기적 자동 분배 메커니즘</div>
+        </div>
+
+        <!-- 7. 과학 스왑 -->
+        <div class="hk-net-card" onclick="openHkModal('스왑망', '이기종 암호화 자산 간 실시간 최적 가격 교환 원클릭 프로토콜입니다.')">
+            <div class="hk-card-top">
+                <span class="hk-net-badge">NET-07</span>
+                <span class="hk-net-status">ONLINE</span>
+            </div>
+            <div class="hk-card-title">7. 스왑망</div>
+            <div class="hk-card-desc">실시간 이기종 자산 스왑 프로토콜</div>
+        </div>
+
+        <!-- 8. 덱스 스왑 -->
+        <div class="hk-net-card" onclick="openHkModal('DEX 스왑망', 'AMM(자동 마켓 메이커) 및 오더북 기반의 탈중앙화 P2P 자산 거래망입니다.')">
+            <div class="hk-card-top">
+                <span class="hk-net-badge">NET-08</span>
+                <span class="hk-net-status">ONLINE</span>
+            </div>
+            <div class="hk-card-title">8. DEX 스왑망</div>
+            <div class="hk-card-desc">AMM 기반 탈중앙화 거래소 인프라</div>
+        </div>
+
+        <!-- 9. LP 스테이킹 -->
+        <div class="hk-net-card" onclick="openHkModal('LP 스테이킹망', '유동성 공급자(Liquidity Provider)의 LP 토큰 예치 및 수수료 수익 최적화 연동망입니다.')">
+            <div class="hk-card-top">
+                <span class="hk-net-badge">NET-09</span>
+                <span class="hk-net-status">ONLINE</span>
+            </div>
+            <div class="hk-card-title">9. LP 스테이킹망</div>
+            <div class="hk-card-desc">유동성 공급 풀 스테이킹 & 수수료 보상</div>
+        </div>
+
+        <!-- 10. 파이 수량 공급 관리 -->
+        <div class="hk-net-card" onclick="openHkModal('파이 수량 공급 관리망', '자본 잠식 리스크 모니터링 시 AI 에이전트 삐니(BBINI)가 자동 이율 조정 및 공급량을 제어하는 안심 망입니다.')">
+            <div class="hk-card-top">
+                <span class="hk-net-badge">NET-10</span>
+                <span class="hk-net-status" style="color:#3b82f6; background:rgba(59,130,246,0.12);">AUTO-CTRL</span>
+            </div>
+            <div class="hk-card-title">10. 파이 수량 관리망</div>
+            <div class="hk-card-desc">삐니(BBINI) 리스크 감지 & 이율 자동 제어</div>
+        </div>
+    </div>
+
+    <!-- 삐니 에이전트 상태 모니터링 -->
+    <div class="hk-bbini-panel">
+        <div class="hk-bbini-avatar">🤖</div>
+        <div class="hk-bbini-info">
+            <h4>AI 에이전트 삐니(BBINI) 실시간 감시 중</h4>
+            <p>10대 분산 연동망 트랜잭션 정상 작동 중. 자본 잠식 징후 발생 시 자동으로 이율 조정 알고리즘을 즉시 실행합니다.</p>
+        </div>
+    </div>
+</div>
+
+<!-- 3. 상세 모달 팝업 구조 -->
+<div id="hkModalOverlay" class="hk-modal-overlay">
+    <div class="hk-modal-content">
+        <div class="hk-modal-header">
+            <div id="hkModalTitle" class="hk-modal-title">네트워크 상세</div>
+            <button class="hk-modal-close" onclick="closeHkModal()">&times;</button>
+        </div>
+        <div id="hkModalBody" class="hk-modal-body">
+            상세 정보가 여기에 표시됩니다.
+        </div>
+        <button class="hk-modal-btn" onclick="closeHkModal()">확인 및 구동 상태 유지</button>
+    </div>
+</div>
+
+<!-- 4. 인터랙션 자바스크립트 -->
+<script>
+    function openHkModal(title, description) {
+        document.getElementById('hkModalTitle').innerText = title;
+        document.getElementById('hkModalBody').innerText = description;
+        document.getElementById('hkModalOverlay').classList.add('active');
+    }
+
+    function closeHkModal() {
+        document.getElementById('hkModalOverlay').classList.remove('active');
+    }
+
+    // 모달 바깥 배경 클릭 시 닫기
+    document.getElementById('hkModalOverlay').addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeHkModal();
+        }
+    });
+</script>
             <!-- AGI Beeni Customer Service & Sonpone Sensitivity Control -->
             <div class="agi-section">
                 <div class="agi-header">
