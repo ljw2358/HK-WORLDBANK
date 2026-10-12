@@ -1150,9 +1150,64 @@
         }
 
              /* [10대 분산 연동망 개별 맞춤 프로세스 1~10 완벽 통합 엔진 및 6자리 인증번호 자동 생성 검증] */
-        let generatedAuthCode = "";
+      function openProcessModal(processId) {
+            const modal = document.getElementById('appModal');
+            const title = document.getElementById('modalTitle');
+            const content = document.getElementById('modalContent');
 
-   } else if (processId === 4) {
+            // 6자리 랜덤 인증번호 자동 생성 (100000 ~ 999999)
+            generatedAuthCode = Math.floor(100000 + Math.random() * 900000).toString();
+
+            if (processId === 1) {
+                // 1. 지갑연결
+                title.innerText = "1. 지갑연결 (Wallet Connect)";
+                content.innerHTML = `
+                    <div style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">본인의 노드 지갑 주소를 입력하고 보안 인증을 진행하세요.</div>
+                    <div class="input-group">
+                        <label class="input-label">노드 지갑 주소</label>
+                        <input class="form-control" id="nodeWalletAddress" placeholder="본인의 지갑 주소를 입력하세요 (예: 0x...)">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">인증번호 (발급됨: <span style="color:var(--accent-gold); font-weight:700;">${generatedAuthCode}</span>)</label>
+                        <input class="form-control" id="userInputCode" placeholder="위의 6자리 인증번호를 입력하세요" maxlength="6">
+                    </div>
+                    <button class="action-btn" onclick="verifyAndExecute(1)">인증번호 승인 및 연결</button>
+                `;
+            } else if (processId === 2) {
+                // 2. 송금
+                title.innerText = "2. 송금 (Transfer)";
+                content.innerHTML = `
+                    <div style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">대륙간 초고속 멀티시그 암호화 전송 프로세스입니다.</div>
+                    <div class="input-group">
+                        <label class="input-label">수신자 지갑 주소</label>
+                        <input class="form-control" placeholder="0x... 또는 Pi 아이디">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">전송 수량 (PI / HK)</label>
+                        <input class="form-control" placeholder="0.00">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">보안 인증번호 (발급됨: <span style="color:var(--accent-gold); font-weight:700;">${generatedAuthCode}</span>)</label>
+                        <input class="form-control" id="userInputCode" placeholder="6자리 인증번호 입력" maxlength="6">
+                    </div>
+                    <button class="action-btn" onclick="verifyAndExecute(2)">송금 및 승인 요청</button>
+                `;
+            } else if (processId === 3) {
+                // 3. 결제
+                title.innerText = "3. 결제 (Payment)";
+                content.innerHTML = `
+                    <div style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">실시간 에스크로 안전 결제 프로세스입니다.</div>
+                    <div class="input-group">
+                        <label class="input-label">결제 금액 (HKD / USDT)</label>
+                        <input class="form-control" value="1,250.00 HK" readonly>
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">결제 승인 인증번호 (발급됨: <span style="color:var(--accent-gold); font-weight:700;">${generatedAuthCode}</span>)</label>
+                        <input class="form-control" id="userInputCode" placeholder="6자리 인증번호 입력" maxlength="6">
+                    </div>
+                    <button class="action-btn" onclick="verifyAndExecute(3)">에스크로 결제 승인</button>
+                `;
+            } else if (processId === 4) {
                 // 4. 예치 (Vault Deposit)
                 title.innerText = "4. 예치 (Vault Deposit)";
                 content.innerHTML = `
@@ -1179,8 +1234,105 @@
                     </div>
                     <button class="action-btn" onclick="verifyAndExecute(4)">예치 및 인증 승인</button>
                 `;
-            } 
-        // 인증번호 검증 및 실행 함수
+            } else if (processId === 5) {
+                // 5. 보상
+                title.innerText = "5. 보상 (Rewards)";
+                content.innerHTML = `
+                    <div style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">기여도 기반 인센티브 볼트 적립 및 수령 프로세스입니다.</div>
+                    <div class="input-group">
+                        <label class="input-label">수령 가능 기여 보상</label>
+                        <input class="form-control" value="314.159 HK (누적 기여도 100%)" readonly style="color:var(--accent-gold);">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">보상 승인 인증번호 (발급됨: <span style="color:var(--accent-gold); font-weight:700;">${generatedAuthCode}</span>)</label>
+                        <input class="form-control" id="userInputCode" placeholder="6자리 인증번호 입력" maxlength="6">
+                    </div>
+                    <button class="action-btn" onclick="verifyAndExecute(5)">보상 수령 승인</button>
+                `;
+            } else if (processId === 6) {
+                // 6. 기본소득
+                title.innerText = "6. 기본소득 (UBI Vault)";
+                content.innerHTML = `
+                    <div style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">HK 사회 재단 및 지자체 UBI 분배 청구 프로세스입니다.</div>
+                    <div class="input-group">
+                        <label class="input-label">이번 달 지급 예정 기본소득</label>
+                        <input class="form-control" value="500.00 HK (지급 자격 격월 인증됨)" readonly style="color:var(--accent-green);">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">UBI 수급 인증번호 (발급됨: <span style="color:var(--accent-gold); font-weight:700;">${generatedAuthCode}</span>)</label>
+                        <input class="form-control" id="userInputCode" placeholder="6자리 인증번호 입력" maxlength="6">
+                    </div>
+                    <button class="action-btn" onclick="verifyAndExecute(6)">기본소득 청구 및 승인</button>
+                `;
+            } else if (processId === 7) {
+                // 7. 스왑
+                title.innerText = "7. 즉시 스왑 (Swap)";
+                content.innerHTML = `
+                    <div style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">현금/카드/타코인 입금 즉시 코인을 구매 및 교환합니다.</div>
+                    <div class="input-group">
+                        <label class="input-label">보낼 자산</label>
+                        <input class="form-control" placeholder="100 USDT">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">받을 자산 (예상)</label>
+                        <input class="form-control" value="≈ 318.47 HK" readonly>
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">스왑 승인 인증번호 (발급됨: <span style="color:var(--accent-gold); font-weight:700;">${generatedAuthCode}</span>)</label>
+                        <input class="form-control" id="userInputCode" placeholder="6자리 인증번호 입력" maxlength="6">
+                    </div>
+                    <button class="action-btn" onclick="verifyAndExecute(7)">즉시 스왑 실행</button>
+                `;
+            } else if (processId === 8) {
+                // 8. DEX 스왑
+                title.innerText = "8. DEX 스왑 (Orderbook P2P)";
+                content.innerHTML = `
+                    <div style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">탈중앙화 오더북 기반 P2P 유동성 자동 매칭 시스템입니다.</div>
+                    <div class="input-group">
+                        <label class="input-label">P2P 매수/매도 수량</label>
+                        <input class="form-control" placeholder="수량 입력">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">DEX 보안 인증번호 (발급됨: <span style="color:var(--accent-gold); font-weight:700;">${generatedAuthCode}</span>)</label>
+                        <input class="form-control" id="userInputCode" placeholder="6자리 인증번호 입력" maxlength="6">
+                    </div>
+                    <button class="action-btn" onclick="verifyAndExecute(8)">P2P 주문 등록 및 승인</button>
+                `;
+            } else if (processId === 9) {
+                // 9. LP 스테이킹
+                title.innerText = "9. LP 스테이킹 (PoL Staking)";
+                content.innerHTML = `
+                    <div style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">유동성 공급 증명(PoL) 및 고배당 거버넌스 권한 부여입니다.</div>
+                    <div class="input-group">
+                        <label class="input-label">스테이킹할 LP 토큰 수량</label>
+                        <input class="form-control" placeholder="0.00 LP">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">LP 승인 인증번호 (발급됨: <span style="color:var(--accent-gold); font-weight:700;">${generatedAuthCode}</span>)</label>
+                        <input class="form-control" id="userInputCode" placeholder="6자리 인증번호 입력" maxlength="6">
+                    </div>
+                    <button class="action-btn" onclick="verifyAndExecute(9)">LP 스테이킹 등록</button>
+                `;
+            } else if (processId === 10) {
+                // 10. PI 수량
+                title.innerText = "10. PI 수량 (Pi Mainnet Sync)";
+                content.innerHTML = `
+                    <div style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">Pi 자산 메인넷 원장 실시간 동기화 프로세스입니다.</div>
+                    <div class="input-group">
+                        <label class="input-label">동기화된 Pi 메인넷 잔액</label>
+                        <input class="form-control" value="3,141.59 PI" readonly style="color:var(--accent-gold); font-weight:700;">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">동기화 승인 인증번호 (발급됨: <span style="color:var(--accent-gold); font-weight:700;">${generatedAuthCode}</span>)</label>
+                        <input class="form-control" id="userInputCode" placeholder="6자리 인증번호 입력" maxlength="6">
+                    </div>
+                    <button class="action-btn" onclick="verifyAndExecute(10)">원장 동기화 실행</button>
+                `;
+            }
+
+            modal.style.display = 'flex';
+        }
+
         function verifyAndExecute(processId) {
             const userEntered = document.getElementById('userInputCode').value.trim();
             if(userEntered !== generatedAuthCode) {
