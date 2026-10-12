@@ -1356,6 +1356,35 @@
             alert("✅ [인증 성공] " + messages[processId]);
             closeModal();
         }
+       // 4번 예치 실시간 이자 및 수익 계산 함수
+        function updateDepositCalc() {
+            const amountInput = document.getElementById('depositAmount');
+            const periodSelect = document.getElementById('depositPeriod');
+            const resultInput = document.getElementById('depositExpectedResult');
+
+            if (!amountInput || !periodSelect || !resultInput) return;
+
+            // 입력된 수량 숫자 변환 (콤마 제거)
+            let rawVal = amountInput.value.replace(/,/g, '').trim();
+            let amount = parseFloat(rawVal);
+
+            if (isNaN(amount) || amount <= 0) {
+                resultInput.value = "예치할 수량을 입력해주세요 (+0.00 HK)";
+                return;
+            }
+
+            let period = parseInt(periodSelect.value); // 1년, 3년, 5년
+            let apy = 0.155; // 1년 기본 15.5%
+
+            if (period === 3) apy = 0.3141; // 3년 31.41%
+            else if (period === 5) apy = 0.45; // 5년 45.0%
+
+            // 단리/복리 계산 (원금 * (1 + APY)^period - 원금)
+            let totalReturn = amount * Math.pow((1 + apy), period) - amount;
+
+            // 결과창에 포맷팅하여 출력
+            resultInput.value = `${period}년 복리 적용 시 예상 수익: +${totalReturn.toLocaleString('en-US', {maximumFractionDigits: 2})} HK`;
+        }
 
         function openInfoModal(type) {
             toggleDrawer();
