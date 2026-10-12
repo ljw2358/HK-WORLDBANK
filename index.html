@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title id="metaTitle">HK WORLD BANK | 글로벌 차세대 분산 금융 플랫폼 (Master Core v3.1)</title>
+    <title id="metaTitle">HK WORLD BANK | 글로벌 차세대 분산 금융 플랫폼</title>
     <!-- FontAwesome Icons & Google Fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Orbitron:wght@500;700;900&family=Roboto+Mono:wght@400;600&display=swap" rel="stylesheet">
@@ -748,7 +748,7 @@
         <div class="lang-bar">
             <div class="lang-info">
                 <i class="fa-solid fa-globe"></i>
-                <span data-i18n="langEngineLabel">60개국어 다국어 엔진</span>
+                <span data-i18n="langEngineLabel">60개국어</span>
             </div>
             <select class="lang-select" id="langSelect" onchange="changeLanguage(this.value)">
                 <option value="ko" selected>🇰🇷 한국어 (대한민국)</option>
@@ -1035,7 +1035,7 @@
                     <i class="fa-solid fa-file-contract"></i> <span data-i18n="menu_wp">백서 (Whitepaper v3.1 상세)</span>
                 </div>
                 <div class="menu-item" onclick="openInfoModal('faq')">
-                    <i class="fa-solid fa-circle-question"></i> <span data-i18n="menu_faq">자주 묻는 질문 (FAQ 심층)</span>
+                    <i class="fa-solid fa-circle-question"></i> <span data-i18n="menu_faq">자주 묻는 질문 20선 (FAQ 심층)</span>
                 </div>
                 <div class="menu-item" onclick="openInfoModal('policies')">
                     <i class="fa-solid fa-shield-halved"></i> <span data-i18n="menu_pol">3대 POLICIES (약관·보안·프라이버시)</span>
@@ -1149,268 +1149,18 @@
             if (e.key === 'Enter') sendChatMessage();
         }
 
-        /* [10대 분산 연동망 개별 프로세스 1~10 분리 구현 엔진] */
-        function openProcessModal(processId) {
-            const modal = document.getElementById('appModal');
-            const title = document.getElementById('modalTitle');
-            const content = document.getElementById('modalContent');
-            let t = translations[currentLang] || translations['en'];
-
-            if (processId === 1) {
-                // 1. 지갑연결 프로세스
-                title.innerText = "1. 지갑연결 (Wallet Connect)";
-                content.innerHTML = `
-                    <div style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">
-                        노드 지갑 프로토콜 연동 및 자동 인증 프로세스입니다.
-                    </div>
-                    <div class="input-group">
-                        <label class="input-label">Node Wallet ID</label>
-                        <input class="form-control" value="0x71C...HK2026_NODE_SECURE" readonly>
-                    </div>
-                    <div class="input-group">
-                        <label class="input-label">연동 상태</label>
-                        <input class="form-control" value="CONNECTED (99.9% Sync)" readonly style="color:var(--accent-green);">
-                    </div>
-                    <button class="action-btn" onclick="executeProcess('1번 지갑연결 프로세스: 노드 지갑 인증 및 프로토콜 연결이 승인되었습니다.')">지갑 인증 승인</button>
-                `;
-            } else if (processId === 2) {
-                // 2. 송금 프로세스
-                title.innerText = "2. 송금 (Transfer)";
-                content.innerHTML = `
-                    <div style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">
-                        대륙간 초고속 멀티시그 암호화 전송 프로세스입니다.
-                    </div>
-                    <div class="input-group">
-                        <label class="input-label">수신자 지갑 주소</label>
-                        <input class="form-control" id="txTo" placeholder="0x... 또는 계정 주소 입력">
-                    </div>
-                    <div class="input-group">
-                        <label class="input-label">전송 수량 (PI / HK)</label>
-                        <input class="form-control" id="txAmount" type="number" placeholder="0.00">
-                    </div>
-                    <button class="action-btn" onclick="executeProcess('2번 송금 프로세스: 초고속 멀티시그 암호화 전송이 성공적으로 실행되었습니다.')">멀티시그 송금 실행</button>
-                `;
-            } else if (processId === 3) {
-                // 3. 결제 프로세스
-                title.innerText = "3. 결제 (Payment)";
-                content.innerHTML = `
-                    <div style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">
-                        현금·카드·타코인 실시간 상거래 에스크로 프로세스입니다.
-                    </div>
-                    <div class="input-group">
-                        <label class="input-label">가맹점 결제 ID</label>
-                        <input class="form-control" value="STORE_HK_MERCHANT_99" readonly>
-                    </div>
-                    <div class="input-group">
-                        <label class="input-label">결제 금액 (KRW / USD / PI)</label>
-                        <input class="form-control" id="payAmount" placeholder="결제할 금액 입력">
-                    </div>
-                    <button class="action-btn" onclick="executeProcess('3번 결제 프로세스: 에스크로 상거래 결제가 정상적으로 처리되었습니다.')">에스크로 결제 승인</button>
-                `;
-            } else if (processId === 4) {
-                // 4. 예치 프로세스
-                title.innerText = "4. 예치 (Vault Deposit)";
-                content.innerHTML = `
-                    <div style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">
-                        3년 만기 31.41% APY 자산 신탁 볼트 프로세스입니다.
-                    </div>
-                    <div class="input-group">
-                        <label class="input-label">예치 수량</label>
-                        <input class="form-control" id="depositAmount" placeholder="예치할 PI/HK 수량 입력">
-                    </div>
-                    <div class="input-group">
-                        <label class="input-label">적용 이율</label>
-                        <input class="form-control" value="3년 만기 31.41% APY 복리" readonly style="color:var(--accent-gold);">
-                    </div>
-                    <button class="action-btn" onclick="executeProcess('4번 예치 프로세스: 자산 신탁 볼트에 성공적으로 예치되었습니다.')">볼트 예치 설정</button>
-                `;
-            } else if (processId === 5) {
-                // 5. 보상 프로세스
-                title.innerText = "5. 보상 (Rewards)";
-                content.innerHTML = `
-                    <div style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">
-                        기여도 기반 인센티브 볼트 적립 프로세스입니다.
-                    </div>
-                    <div class="input-group">
-                        <label class="input-label">누적 기여 포인트</label>
-                        <input class="form-control" value="12,450 PTS" readonly>
-                    </div>
-                    <div class="input-group">
-                        <label class="input-label">수령 가능 보상</label>
-                        <input class="form-control" value="314.159 HK" readonly style="color:var(--accent-green);">
-                    </div>
-                    <button class="action-btn" onclick="executeProcess('5번 보상 프로세스: 인센티브 보상이 개인 지갑으로 수령되었습니다.')">보상 즉시 수령</button>
-                `;
-            } else if (processId === 6) {
-                // 6. 기본소득 프로세스
-                title.innerText = "6. 기본소득 (UBI)";
-                content.innerHTML = `
-                    <div style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">
-                        HK 사회 재단 & 지자체 UBI 분배 모델 프로세스입니다.
-                    </div>
-                    <div class="input-group">
-                        <label class="input-label">분배 재단</label>
-                        <input class="form-control" value="HK Social Foundation & Municipalities" readonly>
-                    </div>
-                    <div class="input-group">
-                        <label class="input-label">월간 UBI 지급액</label>
-                        <input class="form-control" value="1,000 HK / Month" readonly style="color:var(--accent-cyan);">
-                    </div>
-                    <button class="action-btn" onclick="executeProcess('6번 기본소득 프로세스: UBI 기본소득 수급 자격이 정상 확인되었습니다.')">UBI 수급 신청</button>
-                `;
-            } else if (processId === 7) {
-                // 7. 스왑 프로세스
-                title.innerText = "7. 스왑 (Swap)";
-                content.innerHTML = `
-                    <div style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">
-                        현금/카드/타코인 입금 즉각 코인 구매 스왑 프로세스입니다.
-                    </div>
-                    <div class="input-group">
-                        <label class="input-label">입금 자산 (From)</label>
-                        <input class="form-control" placeholder="KRW / USD / Card">
-                    </div>
-                    <div class="input-group">
-                        <label class="input-label">전환 코인 (To)</label>
-                        <input class="form-control" value="HK / PI Coin" readonly>
-                    </div>
-                    <button class="action-btn" onclick="executeProcess('7번 스왑 프로세스: 스왑 구매 및 교환이 성공적으로 완료되었습니다.')">스왑 구매 실행</button>
-                `;
-            } else if (processId === 8) {
-                // 8. DEX 스왑 프로세스
-                title.innerText = "8. DEX 스왑 (DEX Swap)";
-                content.innerHTML = `
-                    <div style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">
-                        탈중앙화 오더레스 P2P 유동성 자동매칭 프로세스입니다.
-                    </div>
-                    <div class="input-group">
-                        <label class="input-label">P2P 매칭 풀</label>
-                        <input class="form-control" value="PI-HK Decentralized Liquidity Pool" readonly>
-                    </div>
-                    <div class="input-group">
-                        <label class="input-label">슬리피지 설정</label>
-                        <input class="form-control" value="0.1% (Optimal)" readonly style="color:var(--accent-gold);">
-                    </div>
-                    <button class="action-btn" onclick="executeProcess('8번 DEX 스왑 프로세스: DEX P2P 유동성 체결이 완결되었습니다.')">DEX P2P 스왑 실행</button>
-                `;
-            } else if (processId === 9) {
-                // 9. LP스태이킹 프로세스
-                title.innerText = "9. LP스태이킹 (LP Staking)";
-                content.innerHTML = `
-                    <div style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">
-                        유동성 공급 증명(PoL) 및 고배당 권한 프로세스입니다.
-                    </div>
-                    <div class="input-group">
-                        <label class="input-label">공급 유동성 (LP Token)</label>
-                        <input class="form-control" placeholder="스태이킹할 LP 토큰 수량">
-                    </div>
-                    <div class="input-group">
-                        <label class="input-label">예상 지분 배당률</label>
-                        <input class="form-control" value="PoL High-Dividend Yield Active" readonly style="color:var(--accent-green);">
-                    </div>
-                    <button class="action-btn" onclick="executeProcess('9번 LP스태이킹 프로세스: LP 스태이킹 권한이 부여되었습니다.')">LP 스태이킹 참여</button>
-                `;
-            } else if (processId === 10) {
-                // 10. PI수량 프로세스
-                title.innerText = "10. PI수량 (PI Ledger)";
-                content.innerHTML = `
-                    <div style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">
-                        PI 자산 메인넷 원장 실시간 동기화 프로세스입니다.
-                    </div>
-                    <div class="input-group">
-                        <label class="input-label">메인넷 블록체인 원장 상태</label>
-                        <input class="form-control" value="PI Mainnet Block #18492026 Synced" readonly style="color:var(--pi-color);">
-                    </div>
-                    <div class="input-group">
-                        <label class="input-label">원장 동기화 보유량</label>
-                        <input class="form-control" value="314,159.000000 PI" readonly style="font-weight:700;">
-                    </div>
-                    <button class="action-btn" onclick="executeProcess('10번 PI수량 프로세스: PI 자산 메인넷 원장 재동기화가 완료되었습니다.')">원장 실시간 동기화</button>
-                `;
-            }
-            modal.classList.add('active');
-        }
-
-        function executeProcess(msg) {
-            alert(msg);
-            closeModal();
-        }
-
-        function openInfoModal(type) {
-            toggleDrawer();
-            const modal = document.getElementById('appModal');
-            const title = document.getElementById('modalTitle');
-            const content = document.getElementById('modalContent');
-
-            let titleText = "";
-            let bodyHtml = "";
-
-            if (type === 'whitepaper') {
-                titleText = "HK WORLD BANK 백서 20개 항목 (v3.1)";
-                bodyHtml = '<div style="font-size:12px; line-height:1.6; color:var(--text-main); max-height:60vh; overflow-y:auto; padding-right:6px;">' +
-                           '<p style="color:var(--accent-gold); font-weight:700; margin-bottom:6px;">[1~5] 코어 아키텍처 및 연동</p>' +
-                           '<p style="color:var(--text-muted); margin-bottom:8px;">1. 비전 및 개요<br>2. Pi Network SDK 통합<br>3. 10대 분산 연동망 아키텍처<br>4. AGI 삐니 오케스트레이션<br>5. SONPONE 손폰 감지 시스템</p>' +
-                           '<p style="color:var(--accent-gold); font-weight:700; margin-bottom:6px;">[6~10] 경제 모델 및 유동성</p>' +
-                           '<p style="color:var(--text-muted); margin-bottom:8px;">6. 3년 31.41% APY 복리 모델<br>7. 유동성풀 지갑 시스템<br>8. 60개국어 유니버설 번역 엔진<br>9. UBI 재단 분배 모델<br>10. DEX 오더레스 P2P 스왑</p>' +
-                           '<p style="color:var(--accent-gold); font-weight:700; margin-bottom:6px;">[11~15] 보안 및 컴플라이언스</p>' +
-                           '<p style="color:var(--text-muted); margin-bottom:8px;">11. 멀티시그 암호화 전송<br>12. 상거래 에스크로 시스템<br>13. LP 스태이킹 및 PoL<br>14. 11개국 디지털 자산법 컴플라이언스<br>15. 지갑 자동 인증 프로토콜</p>' +
-                           '<p style="color:var(--accent-gold); font-weight:700; margin-bottom:6px;">[16~20] 생태계 및 로드맵</p>' +
-                           '<p style="color:var(--text-muted);">16. 에너지 및 인프라 연계<br>17. 탈중앙화 거버넌스<br>18. 24시간 실시간 보안 방어막<br>19. 웨어러블 최적화 (경주 사옥 연동)<br>20. 글로벌 허브 확장 계획</p>' +
-                           '</div>';
-            } else if (type === 'faq') {
-                titleText = "자주 묻는 질문 20선 (FAQ 심층)";
-                bodyHtml = '<div style="font-size:12px; line-height:1.6; color:var(--text-main); max-height:60vh; overflow-y:auto; padding-right:6px;">' +
-                           '<p style="color:var(--accent-cyan); font-weight:700; margin-bottom:4px;">Q1. HK WorldBank는 어떤 플랫폼인가요?</p>' +
-                           '<p style="color:var(--text-muted); margin-bottom:8px;">A. Pi Network SDK와 10대 분산 연동망을 기반으로 한 차세대 글로벌 분산 금융 플랫폼입니다.</p>' +
-                           '<p style="color:var(--accent-cyan); font-weight:700; margin-bottom:4px;">Q2. PI 수량 원장 동기화는 어떻게 작동하나요?</p>' +
-                           '<p style="color:var(--text-muted); margin-bottom:8px;">A. 노드 지갑 프로토콜과 실시간 연동되어 메인넷 원장 상태를 오차 없이 반영합니다.</p>' +
-                           '<p style="color:var(--accent-cyan); font-weight:700; margin-bottom:4px;">Q3. 31.41% APY 이자는 어떻게 지급되나요?</p>' +
-                           '<p style="color:var(--text-muted); margin-bottom:8px;">A. 초 단위 복리가산되며 AGI 삐니가 자산 방어선을 자동 조절합니다.</p>' +
-                           '<p style="color:var(--accent-cyan); font-weight:700; margin-bottom:4px;">Q4~Q20. 기타 상세 문의</p>' +
-                           '<p style="color:var(--text-muted);">A. 10대 분산 연동망(지갑, 송금, 결제, 예치, 보상, 기본소득, 스왑, DEX, LP, PI수량) 및 60개국어 번역에 대한 모든 질의응답은 AGI 삐니 고객센터를 통해 실시간 처리됩니다.</p>' +
-                           '</div>';
-            } else if (type === 'policies') {
-                titleText = "3대 POLICIES (약관·보안·프라이버시)";
-                bodyHtml = '<div style="font-size:12px; line-height:1.6; color:var(--text-main);">' +
-                           '<p style="color:var(--accent-green); font-weight:700; margin-bottom:4px;">1. 이용약관</p>' +
-                           '<p style="color:var(--text-muted); margin-bottom:8px;">모든 금융 트랜잭션은 분산 원장 기록을 바탕으로 공정하게 처리됩니다.</p>' +
-                           '<p style="color:var(--accent-green); font-weight:700; margin-bottom:4px;">2. 보안 및 프라이버시</p>' +
-                           '<p style="color:var(--text-muted); margin-bottom:8px;">멀티시그 암호화 전송 및 24시간 AGI 실시간 방어막을 가동합니다.</p>' +
-                           '<p style="color:var(--accent-green); font-weight:700; margin-bottom:4px;">3. 데이터 처리 정책</p>' +
-                           '<p style="color:var(--text-muted);">사용자의 자산 및 개인정보는 최고 수준의 암호화 알고리즘으로 보호됩니다.</p>' +
-                           '</div>';
-            } else if (type === 'regulations') {
-                titleText = "11개국 디지털 자산법 컴플라이언스";
-                bodyHtml = '<div style="font-size:12px; line-height:1.6; color:var(--text-main);">' +
-                           '<p style="color:var(--accent-gold); font-weight:700; margin-bottom:6px;">✔ 글로벌 규제 준수 현황</p>' +
-                           '<p style="color:var(--text-muted);">FATF, EU MiCA, 미국 CLARITY 등 전 세계 주요 11개국의 디지털 자산 규제 기준을 완벽히 충족하며 경주 사옥 및 글로벌 허브와 실시간 연동됩니다.</p>' +
-                           '</div>';
-            } else if (type === 't165') {
-                titleText = "T165 초특급 랜드마크 허브 (경주 사옥)";
-                bodyHtml = '<div style="font-size:12px; line-height:1.6; color:var(--text-main);">' +
-                           '<p style="color:var(--accent-gold); font-weight:700; margin-bottom:6px;">✔ HK 그룹 경주 사옥 및 글로벌 허브</p>' +
-                           '<p style="color:var(--text-muted);">경주에 위치한 HK 그룹 본사 사옥은 10대 분산 연동망의 물리적 관제탑이자 AGI 삐니의 코어 서버가 구동되는 글로벌 금융 메카입니다.</p>' +
-                           '</div>';
-            }
-
-            title.innerText = titleText;
-            content.innerHTML = bodyHtml;
-            modal.classList.add('active');
-        }
-
-        function closeModal() {
-            document.getElementById('appModal').classList.remove('active');
-        }
-
-        // [정식 60개국어 글로벌 유니버설 번역 사전 데이터베이스 - 60개국 전체 포함]
+        // [정식 60개국어 글로벌 유니버설 번역 사전 데이터베이스]
         const translations = {
             ko: {
                 headerSubText: "글로벌 차세대 분산 금융", langEngineLabel: "60개국어 다국어 엔진", subTitle: "빠른 금융 작업 마스터 코어",
                 dashTitle: "개인 자산 대시보드", piSyncLabel: "보유 수량 (PI 수량 원장 동기화)", interestLabel: "실시간 누적 이자 (3년 31.41% APY 복리)",
                 mainnetBtnText: "코어팀에게 메인넷 즉시 신청하기", gridSectionTitle: "10대 분산 연동망", gridSectionSub: "[개별 프로세스 작동]",
                 agiTitle: "AGI 삐니 고객센터", agiSub: "손폰(SONPONE) 자동 반응 및 AI 오케스트레이션", sonponeLabelText: "손폰(SONPONE) 감지 감도:", syncText: "(실시간 싱크)",
-                initialBeeniMsg: "[AGI 삐니]: 정식 60개국어 실시간 교차 추론 및 손폰 자동 반응 시스템이 완벽하게 가동 중입니다. 혜공 형님, 무엇이든 지시해 주십시오!",
+                initialBeeniMsg: "[AGI 삐니]: 60개국어 실시간 교차 추론 및 손폰 자동 반응 시스템이 완벽하게 가동 중입니다. 혜공 형님, 무엇이든 지시해 주십시오!",
                 chatInputPlaceholder: "삐니에게 질문 입력...", chatSendBtn: "전송", supportEmailText: "Support: support@hkwb.world",
-                drawerTitle: "HK NAVIGATOR", menuGroup1Title: "Core Legal & Compliance", menuGroup2Title: "HK Global Ecosystem Hubs",
+                drawerTitle: "HK NAVIGATOR", menuGroup1Title: "Core Legal & Compliance (확장 상세)", menuGroup2Title: "HK Global Ecosystem Hubs",
+                menu_wp: "백서 20개 항목 (Whitepaper v3.1 상세)", menu_faq: "자주 묻는 질문 20선 (FAQ 심층)", menu_pol: "3대 POLICIES (약관·보안·프라이버시)", menu_reg: "11개국 디지털 자산법 컴플라이언스",
+                hub_robot: "로봇: HK-ROBOT", hub_nexus: "스마트 글래스: HK-NEXUS", hub_uam: "도심항공교통: HK-UAM", hub_fusion: "인공태양: HK-FUSION", hub_bio: "퀀텀바이오: HK-QUANTUMBIO", hub_space: "우주모빌리티: HK-SPACE", hub_parts: "부품뱅크: HK-PARTSBANK", hub_defence: "국방기술: HK-DEFENCE-HUB", hub_t165: "T165 초특급 랜드마크 허브 (경주 사옥)",
                 net1_title: "1. 지갑연결", net1_desc: "노드 지갑 프로토콜 연동 및 자동 인증", net2_title: "2. 송금", net2_desc: "대륙간 초고속 멀티시그 암호화 전송 시스템",
                 net3_title: "3. 결제", net3_desc: "현금·카드·타코인 실시간 상거래 에스크로", net4_title: "4. 예치", net4_desc: "3년 만기 31.41% APY 자산 신탁 볼트",
                 net5_title: "5. 보상", net5_desc: "기여도 기반 인센티브 볼트 적립 엔진", net6_title: "6. 기본소득", net6_desc: "HK 사회 재단 & 지자체 UBI 분배 모델",
@@ -1427,6 +1177,8 @@
                 initialBeeniMsg: "[AGI Beeni]: 60-language cross-inference & SONPONE auto-response system is fully operational. Please give your command!",
                 chatInputPlaceholder: "Ask Beeni anything...", chatSendBtn: "Send", supportEmailText: "Support: support@hkwb.world",
                 drawerTitle: "HK NAVIGATOR", menuGroup1Title: "Core Legal & Compliance", menuGroup2Title: "HK Global Ecosystem Hubs",
+                menu_wp: "Whitepaper (20 Items)", menu_faq: "Frequently Asked Questions (20 FAQs)", menu_pol: "3 POLICIES (Terms, Security, Privacy)", menu_reg: "11-Country Digital Asset Compliance",
+                hub_robot: "Robotics: HK-ROBOT", hub_nexus: "Smart Glasses: HK-NEXUS", hub_uam: "UAM: HK-UAM", hub_fusion: "Fusion Energy: HK-FUSION", hub_bio: "Quantum Bio: HK-QUANTUMBIO", hub_space: "Space Mobility: HK-SPACE", hub_parts: "Parts Bank: HK-PARTSBANK", hub_defence: "Defense Tech: HK-DEFENCE-HUB", hub_t165: "T165 Landmark Hub",
                 net1_title: "1. Wallet Connect", net1_desc: "Node wallet protocol link & auto auth", net2_title: "2. Transfer", net2_desc: "Intercontinental high-speed multisig encrypted transfer",
                 net3_title: "3. Payment", net3_desc: "Cash, card & token real-time commerce escrow", net4_title: "4. Vault Deposit", net4_desc: "3-year maturity 31.41% APY asset trust vault",
                 net5_title: "5. Rewards", net5_desc: "Contribution-based incentive vault engine", net6_title: "6. UBI", net6_desc: "HK Social Foundation & municipal UBI model",
@@ -1710,7 +1462,7 @@
             ms: { headerSubText: "Kewangan Teragih Global", langEngineLabel: "Enjin 60 Bahasa", subTitle: "Core Master", dashTitle: "Papan Pemuka Aset Peribadi", piSyncLabel: "Jumlah PI", interestLabel: "Faedah APY 31.41%", mainnetBtnText: "Mohon Mainnet", gridSectionTitle: "10 Rangkaian Teratas", gridSectionSub: "[Proses]", agiTitle: "Sokongan AGI Beeni", agiSub: "SONPONE", sonponeLabelText: "Sensitiviti:", syncText: "(Live)", initialBeeniMsg: "Sistem 60 bahasa aktif!", chatInputPlaceholder: "Tanya...", chatSendBtn: "Hantar", supportEmailText: "Support: support@hkwb.world", drawerTitle: "HK NAVIGATOR", menuGroup1Title: "Undang-undang", menuGroup2Title: "Hab", net1_title: "1. Dompet", net1_desc: "Protokol", net2_title: "2. Pemindahan", net2_desc: "Multisig", net3_title: "3. Bayaran", net3_desc: "Escrow", net4_title: "4. Vault", net4_desc: "Deposit", net5_title: "5. Ganjaran", net5_desc: "Engine", net6_title: "6. UBI", net6_desc: "Model", net7_title: "7. Tukar", net7_desc: "Swap", net8_title: "8. DEX", net8_desc: "P2P", net9_title: "9. LP", net9_desc: "Staking", net10_title: "10. PI", net10_desc: "Sync", mainnetAlert: "Penyegerakan Mainnet berjaya!", beeniReply: (t) => `Arahan "${t}" diterima.` },
             km: { headerSubText: "ហិរញ្ញវត្ថុអចិន្ត្រៃយ៍សកល", langEngineLabel: "ម៉ាស៊ីន 60 ភាសា", subTitle: "Core Master", dashTitle: "ផ្ទាំងគ្រប់គ្រងទ្រព្យសម្បត្តិ", piSyncLabel: "បរិមាណ PI", interestLabel: "ការប្រាក់ APY 31.41%", mainnetBtnText: "ស្នើសុំ Mainnet", gridSectionTitle: "បណ្តាញកំពូលទាំង ១០", gridSectionSub: "[ដំណើរការ]", agiTitle: "ជំនួយការ AGI Beeni", agiSub: "SONPONE", sonponeLabelText: "ភាពរសើប៖", syncText: "(ផ្សាយផ្ទាល់)", initialBeeniMsg: "ប្រព័ន្ធ 60 ភាសាដំណើរការ!", chatInputPlaceholder: "សួរ...", chatSendBtn: "ផ្ញើ", supportEmailText: "Support: support@hkwb.world", drawerTitle: "HK NAVIGATOR", menuGroup1Title: "ច្បាប់", menuGroup2Title: "មជ្ឈមណ្ឌល", net1_title: "១. កាបូប", net1_desc: "ពិធីការ", net2_title: "២. ផ្ទេរប្រាក់", net2_desc: "Multisig", net3_title: "៣. បង់ប្រាក់", net3_desc: "Escrow", net4_title: "៤. Vault", net4_desc: "ដាក់ប្រាក់", net5_title: "៥. រង្វាន់", net5_desc: "Engine", net6_title: "៦. UBI", net6_desc: "Model", net7_title: "៧. ប្តូរប្រាក់", net7_desc: "Swap", net8_title: "៨. DEX", net8_desc: "P2P", net9_title: "៩. LP", net9_desc: "Staking", net10_title: "១០. PI", net10_desc: "Sync", mainnetAlert: "ការធ្វើសមកាលកម្ម Mainnet ជោគជ័យ!", beeniReply: (t) => `បានទទួលបញ្ជា "${t}"។` },
             my: { headerSubText: "ကမ္ဘာ့ငွေကြေးစနစ်", langEngineLabel: "ဘာသာစကား ၆၀", subTitle: "Core Master", dashTitle: "ပုဂ္ဂိုလ်ရေးဆိုင်ရာ ဒက်ရှ်ဘုတ်", piSyncLabel: "PI ပမာဏ", interestLabel: "အတိုးနှုန်း APY 31.41%", mainnetBtnText: "Mainnet လျှောက်ထားရန်", gridSectionTitle: "ထိပ်တန်း ကွန်ရက် ၁၀ ခု", gridSectionSub: "[လုပ်ငန်းစဉ်]", agiTitle: "AGI Beeni ပံ့ပိုးမှု", agiSub: "SONPONE", sonponeLabelText: "အာရုံခံနိုင်စွမ်း-", syncText: "(တိုက်ရိုက်)", initialBeeniMsg: "ဘာသာစကား ၆၀ စနစ် အလုပ်လုပ်နေပါပြီ!", chatInputPlaceholder: "မေးမြန်းပါ...", chatSendBtn: "ပို့မည်", supportEmailText: "Support: support@hkwb.world", drawerTitle: "HK NAVIGATOR", menuGroup1Title: "ဥပဒေ", menuGroup2Title: "ဟပ်များ", net1_title: "၁။ ပိုက်ဆံအိတ်", net1_desc: "ပရိုတိုကော", net2_title: "၂။ လွှဲပြောင်း", net2_desc: "Multisig", net3_title: "၃။ ပေးချေမှု", net3_desc: "Escrow", net4_title: "၄။ Vault", net4_desc: "အပ်နှံ", net5_title: "၅။ ဆုလာဘ်", net5_desc: "Engine", net6_title: "၆။ UBI", net6_desc: "Model", net7_title: "၇။ လဲလှယ်", net7_desc: "Swap", net8_title: "၈။ DEX", net8_desc: "P2P", net9_title: "၉။ LP", net9_desc: "Staking", net10_title: "၁၀။ PI", net10_desc: "Sync", mainnetAlert: "Mainnet ချိတ်ဆက်မှု အောင်မြင်သည်!", beeniReply: (t) => `အမိန့် "${t}" လက်ခံရရှိသည်။` },
-            lo: { headerSubText: "ການເງິນກະຈາຍอำนาຈ", langEngineLabel: "ເຄື່ອງຈັກ 60 ພາສາ", subTitle: "Core Master", dashTitle: "ໜ້າປັດຊັບສິນສ່ວນຕົວ", piSyncLabel: "ຈຳນວນ PI", interestLabel: "ດອກເບี้ย APY 31.41%", mainnetBtnText: "ສະໝັກ Mainnet", gridSectionTitle: "10 เครືອຂ່າຍ", gridSectionSub: "[ຂະບວນການ]", agiTitle: "ສະໜັບສະໜູນ AGI Beeni", agiSub: "SONPONE", sonponeLabelText: "ຄວາມไว:", syncText: "(ສົດ)", initialBeeniMsg: "ລະບົບ 60 ພາສາເຮັດວຽກແລ້ວ!", chatInputPlaceholder: "ຖາມ...", chatSendBtn: "ສົ່ງ", supportEmailText: "Support: support@hkwb.world", drawerTitle: "HK NAVIGATOR", menuGroup1Title: "ກົດໝາຍ", menuGroup2Title: "ສູນກາງ", net1_title: "1. กระเป๋าเงิน", net1_desc: "โปรโตຄول", net2_title: "2. ໂອນເງິນ", net2_desc: "Multisig", net3_title: "3. ຊຳລະ", net3_desc: "Escrow", net4_title: "4. Vault", net4_desc: "ຝາກ", net5_title: "5. รางวัล", net5_desc: "Engine", net6_title: "6. UBI", net6_desc: "Model", net7_title: "7. ສະວອບ", net7_desc: "Swap", net8_title: "8. DEX", net8_desc: "P2P", net9_title: "9. LP", net9_desc: "Staking", net10_title: "10. PI", net10_desc: "Sync", mainnetAlert: "ซິງຄ์ Mainnet สำເລັດ!", beeniReply: (t) => `ได้รับຄຳສັ່ງ "${t}" ແລ້ວ.` },
+            lo: { headerSubText: "ການເງິນກະຈາຍอำนาจ", langEngineLabel: "ເຄື່ອງຈັກ 60 ພາສາ", subTitle: "Core Master", dashTitle: "ໜ້າປັດຊັບສິນສ່ວນຕົວ", piSyncLabel: "ຈຳນວນ PI", interestLabel: "ດອກເບี้ย APY 31.41%", mainnetBtnText: "ສະໝັກ Mainnet", gridSectionTitle: "10 เครືອຂ่าย", gridSectionSub: "[ຂະບວນການ]", agiTitle: "ສະໜັບສະໜູນ AGI Beeni", agiSub: "SONPONE", sonponeLabelText: "ຄວາມไว:", syncText: "(ສົດ)", initialBeeniMsg: "ລະບົບ 60 ພາສາເຮັດວຽກແລ້ວ!", chatInputPlaceholder: "ຖາມ...", chatSendBtn: "ສົ່ງ", supportEmailText: "Support: support@hkwb.world", drawerTitle: "HK NAVIGATOR", menuGroup1Title: "ກົດໝາຍ", menuGroup2Title: "ສູນກາງ", net1_title: "1. กระเป๋าเงิน", net1_desc: "โปรโตຄول", net2_title: "2. ໂອນເງິນ", net2_desc: "Multisig", net3_title: "3. ຊຳລະ", net3_desc: "Escrow", net4_title: "4. Vault", net4_desc: "ຝາກ", net5_title: "5. รางวัล", net5_desc: "Engine", net6_title: "6. UBI", net6_desc: "Model", net7_title: "7. ສະວອບ", net7_desc: "Swap", net8_title: "8. DEX", net8_desc: "P2P", net9_title: "9. LP", net9_desc: "Staking", net10_title: "10. PI", net10_desc: "Sync", mainnetAlert: "ซິງຄ์ Mainnet สำເລັດ!", beeniReply: (t) => `ได้รับຄຳສັ່ງ "${t}" ແລ້ວ.` },
             ne: { headerSubText: "वैश्विक विकेन्द्रीकृत वित्त", langEngineLabel: "६०-भाषा इन्जिन", subTitle: "Core Master", dashTitle: "व्यक्तिगत सम्पत्ति ड्यासबोर्ड", piSyncLabel: "PI मात्रा", interestLabel: "ब्याज APY 31.41%", mainnetBtnText: "Mainnet आवेदन दिनुहोस्", gridSectionTitle: "शीर्ष १० नेटवर्कहरू", gridSectionSub: "[प्रक्रिया]", agiTitle: "AGI Beeni समर्थन", agiSub: "SONPONE", sonponeLabelText: "संवेदनशीलता:", syncText: "(लाइभ)", initialBeeniMsg: "६०-भाषा प्रणाली सक्रिय छ!", chatInputPlaceholder: "सोध्नुहोस्...", chatSendBtn: "पठाउनुहोस्", supportEmailText: "Support: support@hkwb.world", drawerTitle: "HK NAVIGATOR", menuGroup1Title: "कानून", menuGroup2Title: "हबहरू", net1_title: "१. वालेट", net1_desc: "प्रोटोकल", net2_title: "२. स्थानान्तरण", net2_desc: "Multisig", net3_title: "३. भुक्तानी", net3_desc: "Escrow", net4_title: "४. Vault", net4_desc: "निक्षेप", net5_title: "५. पुरस्कार", net5_desc: "Engine", net6_title: "६. UBI", net6_desc: "Model", net7_title: "७. स्वाप", net7_desc: "Swap", net8_title: "८. DEX", net8_desc: "P2P", net9_title: "९. LP", net9_desc: "Staking", net10_title: "१०. PI", net10_desc: "Sync", mainnetAlert: "Mainnet सिंक सफल!", beeniReply: (t) => `आदेश "${t}" प्राप्त भयो।` },
             si: { headerSubText: "वैश्विक विकेन्द्रीकृत वित्त", langEngineLabel: "භාෂා 60 එන්ජුම", subTitle: "Core Master", dashTitle: "පෞද්ගලික වත්කම් උපකරණ පුවරුව", piSyncLabel: "PI ප් රමාණය", interestLabel: "ריבית APY 31.41%", mainnetBtnText: "Mainnet අයදුම් කරන්න", gridSectionTitle: "ප් රධාන ජාල 10", gridSectionSub: "[செயல்முறை]", agiTitle: "AGI Beeni සහය", agiSub: "SONPONE", sonponeLabelText: "සංවේදීතාව:", syncText: "(සජීවී)", initialBeeniMsg: "භාෂා 60 පද්ධතිය සක් රීයයි!", chatInputPlaceholder: "අසන්න...", chatSendBtn: "යවන්න", supportEmailText: "Support: support@hkwb.world", drawerTitle: "HK NAVIGATOR", menuGroup1Title: "නීතිය", menuGroup2Title: "හබ්", net1_title: "1. මුදල් පසුම්බිය", net1_desc: "ප් රොටෝකෝලය", net2_title: "2. මාරු කිරීම", net2_desc: "Multisig", net3_title: "3. ගෙවීම", net3_desc: "Escrow", net4_title: "4. Vault", net4_desc: "තැන්පතු", net5_title: "5. ත් යාග", net5_desc: "Engine", net6_title: "6. UBI", net6_desc: "Model", net7_title: "7. හුවමාරුව", net7_desc: "Swap", net8_title: "8. DEX", net8_desc: "P2P", net9_title: "9. LP", net9_desc: "Staking", net10_title: "10. PI", net10_desc: "Sync", mainnetAlert: "Mainnet සමলංකරණය සාර්ථකයි!", beeniReply: (t) => `"${t}" විධානය ලැබුණි.` },
             sw: { headerSubText: "Fedha za Kugawa za Kimataifa", langEngineLabel: "Injini ya Lugha 60", subTitle: "Core Master", dashTitle: "Dashibodi ya Mali Binafsi", piSyncLabel: "Kiasi cha PI", interestLabel: "Riba APY 31.41%", mainnetBtnText: "Omba Mainnet", gridSectionTitle: "Mitandao 10 Bora", gridSectionSub: "[Mchakato]", agiTitle: "Msaada wa AGI Beeni", agiSub: "SONPONE", sonponeLabelText: "Unyeti:", syncText: "(Moja kwa moja)", initialBeeniMsg: "Mfumo wa lugha 60 unafanya kazi!", chatInputPlaceholder: "Uliza...", chatSendBtn: "Tuma", supportEmailText: "Support: support@hkwb.world", drawerTitle: "HK NAVIGATOR", menuGroup1Title: "Sheria", menuGroup2Title: "Vitovu", net1_title: "1. Pochi", net1_desc: "Itifaki", net2_title: "2. Uhamisho", net2_desc: "Multisig", net3_title: "3. Malipo", net3_desc: "Escrow", net4_title: "4. Vault", net4_desc: "Amana", net5_title: "5. Zawadi", net5_desc: "Engine", net6_title: "6. UBI", net6_desc: "Model", net7_title: "7. Badilisha", net7_desc: "Swap", net8_title: "8. DEX", net8_desc: "P2P", net9_title: "9. LP", net9_desc: "Staking", net10_title: "10. PI", net10_desc: "Sync", mainnetAlert: "Usawazishaji wa Mainnet umefanikiwa!", beeniReply: (t) => `Amri "${t}" imepokelewa.` },
@@ -1718,7 +1470,7 @@
             ha: { headerSubText: "Kudin Tsakiya Na Duniya", langEngineLabel: "Injin Harsuna 60", subTitle: "Core Master", dashTitle: "Dashboard na Keɓaɓɓen", piSyncLabel: "Adadin PI", interestLabel: "Riba APY 31.41%", mainnetBtnText: "Nemi Mainnet", gridSectionTitle: "Manyan Sadarwa 10", gridSectionSub: "[Tsari]", agiTitle: "Taimakon AGI Beeni", agiSub: "SONPONE", sonponeLabelText: "Hankali:", syncText: "(Kai tsaye)", initialBeeniMsg: "Tsarin harsuna 60 yana aiki!", chatInputPlaceholder: "Tambaya...", chatSendBtn: "Aika", supportEmailText: "Support: support@hkwb.world", drawerTitle: "HK NAVIGATOR", menuGroup1Title: "Doka", menuGroup2Title: "Wurare", net1_title: "1. Walat", net1_desc: "Yarjejeniya", net2_title: "2. Canja wuri", net2_desc: "Multisig", net3_title: "3. Biya", net3_desc: "Escrow", net4_title: "4. Vault", net4_desc: "Ajiya", net5_title: "5. Kyaututtuka", net5_desc: "Engine", net6_title: "6. UBI", net6_desc: "Model", net7_title: "7. Musanya", net7_desc: "Swap", net8_title: "8. DEX", net8_desc: "P2P", net9_title: "9. LP", net9_desc: "Staking", net10_title: "10. PI", net10_desc: "Sync", mainnetAlert: "An yi nasarar daidaita Mainnet!", beeniReply: (t) => `An karɓi umarni "${t}".` },
             yo: { headerSubText: "Owo Agbaye", langEngineLabel: "Ẹrọ Awọn Ede 60", subTitle: "Core Master", dashTitle: "Dasibodu Awọn Ohun-ini", piSyncLabel: "Iye PI", interestLabel: "Ere APY 31.41%", mainnetBtnText: "Beere Mainnet", gridSectionTitle: "Awọn Nẹtiwọọki 10", gridSectionSub: "[Ilana]", agiTitle: "Atilẹyin AGI Beeni", agiSub: "SONPONE", sonponeLabelText: "Ifarako:", syncText: "(Laye)", initialBeeniMsg: "Eto awọn ede 60 n ṣiṣẹ!", chatInputPlaceholder: "Beere...", chatSendBtn: "Firanṣẹ", supportEmailText: "Support: support@hkwb.world", drawerTitle: "HK NAVIGATOR", menuGroup1Title: "Ofin", menuGroup2Title: "Awọn ibudo", net1_title: "1. Apamọwọ", net1_desc: "Ilana", net2_title: "2. Gbigbe", net2_desc: "Multisig", net3_title: "3. Isanwo", net3_desc: "Escrow", net4_title: "4. Vault", net4_desc: "Idogo", net5_title: "5. Awọn ere", net5_desc: "Engine", net6_title: "6. UBI", net6_desc: "Model", net7_title: "7. Paṣipaarọ", net7_desc: "Swap", net8_title: "8. DEX", net8_desc: "P2P", net9_title: "9. LP", net9_desc: "Staking", net10_title: "10. PI", net10_desc: "Sync", mainnetAlert: "Imuuṣiṣẹpọ Mainnet ti yọrisi!", beeniReply: (t) => `A gba aṣẹ "${t}".` },
             uz: { headerSubText: "Global Markazlashtirilmagan Moliya", langEngineLabel: "60 Tilli Dvigatel", subTitle: "Core Master", dashTitle: "Shaxsiy Aktivlar Panel", piSyncLabel: "PI Miqdori", interestLabel: "Foiz APY 31.41%", mainnetBtnText: "Mainnet Uchun Ariza", gridSectionTitle: "Top 10 Tarmoqlar", gridSectionSub: "[Jarayon]", agiTitle: "AGI Beeni Yordami", agiSub: "SONPONE", sonponeLabelText: "Sezgirlik:", syncText: "(Jonli)", initialBeeniMsg: "60 tilli tizim ishlamoqda!", chatInputPlaceholder: "So'rang...", chatSendBtn: "Yuborish", supportEmailText: "Support: support@hkwb.world", drawerTitle: "HK NAVIGATOR", menuGroup1Title: "Qonun", menuGroup2Title: "Markazlar", net1_title: "1. Hamyon", net1_desc: "Protokol", net2_title: "2. O'tkazma", net2_desc: "Multisig", net3_title: "3. To'lov", net3_desc: "Escrow", net4_title: "4. Vault", net4_desc: "Omonat", net5_title: "5. Mukofotlar", net5_desc: "Engine", net6_title: "6. UBI", net6_desc: "Model", net7_title: "7. Ayirboshlash", net7_desc: "Swap", net8_title: "8. DEX", net8_desc: "P2P", net9_title: "9. LP", net9_desc: "Staking", net10_title: "10. PI", net10_desc: "Sync", mainnetAlert: "Mainnet sinxronizatsiyasi muvaffaqiyatli!", beeniReply: (t) => `"${t}" buyrug'i qabul qilindi.` },
-            kk: { headerSubText: "Жаһандық Орталықтандырылмаған Қаржы", langEngineLabel: "60 Тілді Қозғалтқыш", subTitle: "Core Master", dashTitle: "Жеке Активтер Панелі", piSyncLabel: "PI Мөлшері", interestLabel: "Парыз APY 31.41%", mainnetBtnText: "Mainnet Өтініші", gridSectionTitle: "Үздік 10 Желі", gridSectionSub: "[Процесс]", agiTitle: "AGI Beeni Қолдауы", agiSub: "SONPONE", sonponeLabelText: "Сезімталдық:", syncText: "(Тікелей)", initialBeeniMsg: "60 тілді жүйе жұмыс істеп тұр!", chatInputPlaceholder: "Сұраңыз...", chatSendBtn: "Жіберу", supportEmailText: "Support: support@hkwb.world", drawerTitle: "HK NAVIGATOR", menuGroup1Title: "Заң", menuGroup2Title: "Хабтар", net1_title: "1. Әмиян", net1_desc: "Протокол", net2_title: "2. Ақша аудару", net2_desc: "Multisig", net3_title: "3. Төлем", net3_desc: "Escrow", net4_title: "4. Vault", net4_desc: "Депозит", net5_title: "5. Марапаттар", net5_desc: "Engine", net6_title: "6. UBI", net6_desc: "Model", net7_title: "7. Ауыстыру", net7_desc: "Swap", net8_title: "8. DEX", net8_desc: "P2P", net9_title: "9. LP", net9_desc: "Staking", net10_title: "10. PI", net10_desc: "Sync", mainnetAlert: "Mainnet синхрондауы сәтті!", beeniReply: (t) => `"${t}" пәрмені қабылданды.` },
+            kk: { headerSubText: "Жаһандық Орталықтандырылмаған Қаржы", langEngineLabel: "60 Тілді Қозғалтқыш", subTitle: "Core Master", dashTitle: "Жеке Активтер Панелі", piSyncLabel: "PI Мөлшері", interestLabel: "Парыз APY 31.41%", mainnetBtnText: "Mainnet Өтініші", gridSectionTitle: "Үздік 10 Желі", gridSectionSub: "[Процесс]", agiTitle: "AGI Beeni Қолдауы", agiSub: "SONPONE", sonponeLabelText: "Сезімталдық:", syncText: "(Tікелей)", initialBeeniMsg: "60 тілді жүйе жұмыс істеп тұр!", chatInputPlaceholder: "Сұраңыз...", chatSendBtn: "Жіберу", supportEmailText: "Support: support@hkwb.world", drawerTitle: "HK NAVIGATOR", menuGroup1Title: "Заң", menuGroup2Title: "Хабтар", net1_title: "1. Әмиян", net1_desc: "Протокол", net2_title: "2. Ақша аудару", net2_desc: "Multisig", net3_title: "3. Төлем", net3_desc: "Escrow", net4_title: "4. Vault", net4_desc: "Депозит", net5_title: "5. Марапаттар", net5_desc: "Engine", net6_title: "6. UBI", net6_desc: "Model", net7_title: "7. Ауыстыру", net7_desc: "Swap", net8_title: "8. DEX", net8_desc: "P2P", net9_title: "9. LP", net9_desc: "Staking", net10_title: "10. PI", net10_desc: "Sync", mainnetAlert: "Mainnet синхрондауы сәтті!", beeniReply: (t) => `"${t}" пәрмені қабылданды.` },
             az: { headerSubText: "Qlobal Mərkəzləşdirilməmiş Maliyyə", langEngineLabel: "60 Dillik Mühərrik", subTitle: "Core Master", dashTitle: "Şəxsi Aktivlər Paneli", piSyncLabel: "PI Miqdarı", interestLabel: "Faiz APY 31.41%", mainnetBtnText: "Mainnet Müraciəti", gridSectionTitle: "Top 10 Şəbəkə", gridSectionSub: "[Proses]", agiTitle: "AGI Beeni Dəstəyi", agiSub: "SONPONE", sonponeLabelText: "Həssaslıq:", syncText: "(Canlı)", initialBeeniMsg: "60 dilli sistem işləkdir!", chatInputPlaceholder: "Soruşun...", chatSendBtn: "Göndər", supportEmailText: "Support: support@hkwb.world", drawerTitle: "HK NAVIGATOR", menuGroup1Title: "Qanun", menuGroup2Title: "Mərkəzlər", net1_title: "1. Cüzdan", net1_desc: "Protokol", net2_title: "2. Köçürmə", net2_desc: "Multisig", net3_title: "3. Ödəniş", net3_desc: "Escrow", net4_title: "4. Vault", net4_desc: "Depozit", net5_title: "5. Mükafatlar", net5_desc: "Engine", net6_title: "6. UBI", net6_desc: "Model", net7_title: "7. Mübadilə", net7_desc: "Swap", net8_title: "8. DEX", net8_desc: "P2P", net9_title: "9. LP", net9_desc: "Staking", net10_title: "10. PI", net10_desc: "Sync", mainnetAlert: "Mainnet sinxronizasiyası uğurludur!", beeniReply: (t) => `"${t}" əmri qəbul edildi.` },
             ka: { headerSubText: "გლობალური დეცენტრალიზებული ფინანსები", langEngineLabel: "60 ენის ძრავი", subTitle: "Core Master", dashTitle: "პირადი აქტივების პანელი", piSyncLabel: "PI რაოდენობა", interestLabel: "პროცენტი APY 31.41%", mainnetBtnText: "Mainnet მოთხოვნა", gridSectionTitle: "ტოპ 10 ქსელი", gridSectionSub: "[პროცესი]", agiTitle: "AGI Beeni მხარდაჭერა", agiSub: "SONPONE", sonponeLabelText: "მგრძნობელობა:", syncText: "(ლაივში)", initialBeeniMsg: "60 ენიანი სისტემა აქტიურია!", chatInputPlaceholder: "იკითხეთ...", chatSendBtn: "გაგზავნა", supportEmailText: "Support: support@hkwb.world", drawerTitle: "HK NAVIGATOR", menuGroup1Title: "კანონი", menuGroup2Title: "ჰაბები", net1_title: "1. საფულე", net1_desc: "პროტოკოლი", net2_title: "2. გადარიცხვა", net2_desc: "Multisig", net3_title: "3. გადახდა", net3_desc: "Escrow", net4_title: "4. Vault", net4_desc: "დოპოზიტი", net5_title: "5. ჯილდოები", net5_desc: "Engine", net6_title: "6. UBI", net6_desc: "Model", net7_title: "7. გაცვლა", net7_desc: "Swap", net8_title: "8. DEX", net8_desc: "P2P", net9_title: "9. LP", net9_desc: "Staking", net10_title: "10. PI", net10_desc: "Sync", mainnetAlert: "Mainnet სინქრონიზაცია წარმატებულია!", beeniReply: (t) => `ბრძანება "${t}" მიღებულია.` },
             hy: { headerSubText: "Գլոբալ ապակենտրոնացված ֆինանսներ", langEngineLabel: "60 լեզվի շարժիչ", subTitle: "Core Master", dashTitle: "Անձնական ակտիվների վահանակ", piSyncLabel: "PI քանակ", interestLabel: "Տոկոս APY 31.41%", mainnetBtnText: "Mainnet հայտ", gridSectionTitle: "Թոփ 10 ցանցեր", gridSectionSub: "[Գործընթաց]", agiTitle: "AGI Beeni աջակցություն", agiSub: "SONPONE", sonponeLabelText: "Զգայունություն:", syncText: "(Ուղիղ)", initialBeeniMsg: "60 լեզվի համակարգն ակտիվ է:", chatInputPlaceholder: "Հարցրեք...", chatSendBtn: "Ուղարկել", supportEmailText: "Support: support@hkwb.world", drawerTitle: "HK NAVIGATOR", menuGroup1Title: "Օրենք", menuGroup2Title: "Հաբեր", net1_title: "1. Դրամապանակ", net1_desc: "Արձանագրություն", net2_title: "2. Փոխանցում", net2_desc: "Multisig", net3_title: "3. Վճարում", net3_desc: "Escrow", net4_title: "4. Vault", net4_desc: "Ավանդ", net5_title: "5. Պարգևներ", net5_desc: "Engine", net6_title: "6. UBI", net6_desc: "Model", net7_title: "7. Փոխանակում", net7_desc: "Swap", net8_title: "8. DEX", net8_desc: "P2P", net9_title: "9. LP", net9_desc: "Staking", net10_title: "10. PI", net10_desc: "Sync", mainnetAlert: "Mainnet սինքրոնիզացիան հաջողվեց:", beeniReply: (t) => `Ստացվել է հրաման՝ "${t}":` },
@@ -1763,6 +1515,167 @@
 
             document.dir = ['ar', 'fa', 'ur', 'he'].includes(lang) ? 'rtl' : 'ltr';
             updateSonpone(document.getElementById('sonponeSlider').value);
+        }
+
+        function openProcessModal(processId) {
+            const modal = document.getElementById('appModal');
+            const title = document.getElementById('modalTitle');
+            const content = document.getElementById('modalContent');
+            let t = translations[currentLang] || translations['en'];
+
+            if(processId === 1) {
+                title.innerText = t.net1_title || "1. Wallet Connect";
+                content.innerHTML = `
+                    <p style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">${t.net1_desc}</p>
+                    <div class="input-group">
+                        <label class="input-label">Node Wallet ID</label>
+                        <input class="form-control" value="0x71C...HK2026_NODE_SECURE" readonly>
+                    </div>
+                    <button class="action-btn" onclick="executeProcess('Node Link Approved.')">Approve</button>
+                `;
+            } else if(processId === 2) {
+                title.innerText = "2. 송금 (Transfer)";
+                content.innerHTML = `
+                    <p style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">대륙간 초고속 멀티시그 암호화 전송 시스템</p>
+                    <div class="input-group"><label class="input-label">수신자 주소 (Recipient Address)</label><input class="form-control" value="HK_NODE_RECEIVE_9921" readonly></div>
+                    <div class="input-group"><label class="input-label">전송 수량 (Transfer Amount)</label><input class="form-control" value="1,000.000000 PI / HK" readonly></div>
+                    <button class="action-btn" onclick="executeProcess('멀티시그 암호화 송금 프로세스가 안전하게 실행되었습니다.')">송금 실행 승인</button>
+                `;
+            } else if(processId === 3) {
+                title.innerText = "3. 결제 (Payment)";
+                content.innerHTML = `
+                    <p style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">현금·카드·타코인 실시간 상거래 에스크로</p>
+                    <div class="input-group"><label class="input-label">가맹점 ID (Merchant ID)</label><input class="form-control" value="M_HK_GLOBAL_T165" readonly></div>
+                    <div class="input-group"><label class="input-label">에스크로 조건</label><input class="form-control" value="배송/거래 완료 시 즉시 정산 스마트 에스크로" readonly></div>
+                    <button class="action-btn" onclick="executeProcess('실시간 상거래 에스크로 결제가 승인되었습니다.')">결제 에스크로 승인</button>
+                `;
+            } else if(processId === 4) {
+                title.innerText = "4. 예치 (Vault Deposit)";
+                content.innerHTML = `
+                    <p style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">3년 만기 31.41% APY 자산 신탁 볼트</p>
+                    <div class="input-group"><label class="input-label">예치 기간</label><input class="form-control" value="3년 만기 (초 단위 복리 가산)" readonly></div>
+                    <div class="input-group"><label class="input-label">예상 이자율</label><input class="form-control" value="APY 31.41% 보장 볼트" readonly></div>
+                    <button class="action-btn" onclick="executeProcess('3년 만기 자산 신탁 볼트 예치가 완료되었습니다.')">볼트 예치 시작</button>
+                `;
+            } else if(processId === 5) {
+                title.innerText = "5. 보상 (Rewards)";
+                content.innerHTML = `
+                    <p style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">기여도 기반 인센티브 볼트 적립 엔진</p>
+                    <div class="input-group"><label class="input-label">노드 기여도 점수</label><input class="form-control" value="99.98 점 (Tier-1 우수 노드)" readonly></div>
+                    <button class="action-btn" onclick="executeProcess('기여도 기반 인센티브 보상이 지갑으로 청구되었습니다.')">인센티브 수령 청구</button>
+                `;
+            } else if(processId === 6) {
+                title.innerText = "6. 기본소득 (UBI)";
+                content.innerHTML = `
+                    <p style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">HK 사회 재단 & 지자체 UBI 분배 모델</p>
+                    <div class="input-group"><label class="input-label">UBI 수급 지갑</label><input class="form-control" value="UBI_WALLET_HK_GWANGJU_ULSAN" readonly></div>
+                    <button class="action-btn" onclick="executeProcess('사회 재단 UBI 기본소득 분배금이 정상 동기화되었습니다.')">UBI 수령 확인</button>
+                `;
+            } else if(processId === 7) {
+                title.innerText = "7. 스왑 (Swap)";
+                content.innerHTML = `
+                    <p style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">현금/카드/타코인 입금 즉각 코인 구매 스왑</p>
+                    <div class="input-group"><label class="input-label">입금 자산</label><input class="form-control" value="USDT (TRC-20) / Credit Card" readonly></div>
+                    <div class="input-group"><label class="input-label">교환 대상</label><input class="form-control" value="PI / HK WORLD COIN" readonly></div>
+                    <button class="action-btn" onclick="executeProcess('즉각 코인 스왑 거래가 성공적으로 체결되었습니다.')">스왑 즉시 실행</button>
+                `;
+            } else if(processId === 8) {
+                title.innerText = "8. DEX 스왑 (DEX Swap)";
+                content.innerHTML = `
+                    <p style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">탈중앙화 오더레스 P2P 유동성 자동매칭</p>
+                    <div class="input-group"><label class="input-label">AMM 풀 매칭 상태</label><input class="ofrm-control" value="최적 유동성 경로 매칭 완료 (슬리피지 0.01%)" readonly></div>
+                    <button class="action-btn" onclick="executeProcess('DEX 오더레스 P2P 유동성 자동매칭이 체결되었습니다.')">DEX 스왑 체결</button>
+                `;
+            } else if(processId === 9) {
+                title.innerText = "9. LP스태이킹 (LP Staking)";
+                content.innerHTML = `
+                    <p style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">유동성 공급 증명(PoL) 및 고배당 권한</p>
+                    <div class="input-group"><label class="input-label">LP 토큰 예치량</label><input class="form-control" value="50,000 LP-HK/PI" readonly></div>
+                    <button class="action-btn" onclick="executeProcess('유동성 공급 증명(PoL) 스태이킹과 고배당 권한이 활성화되었습니다.')">LP 스태이킹 등록</button>
+                `;
+            } else if(processId === 10) {
+                title.innerText = "10. PI수량 (PI Ledger Sync)";
+                content.innerHTML = `
+                    <p style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">PI 자산 메인넷 원장 실시간 동기화</p>
+                    <div class="input-group"><label class="input-label">메인넷 원장 해시</label><input class="form-control" value="0x99A8F...PI_MAINNET_VERIFIED" readonly></div>
+                    <button class="action-btn" onclick="executeProcess('PI 메인넷 원장 잔액이 100% 실시간 동기화되었습니다.')">원장 수동 재동기화</button>
+                `;
+            } else {
+                title.innerText = `Process #${processId}`;
+                content.innerHTML = `<p style="font-size:12px; color:var(--text-muted);">Module running under universal 60-language localization engine with AGI Beeni orchestration.</p>`;
+            }
+            modal.classList.add('active');
+        }
+
+        function executeProcess(msg) {
+            alert(msg);
+            closeModal();
+        }
+
+        function openInfoModal(type) {
+            toggleDrawer();
+            const modal = document.getElementById('appModal');
+            const title = document.getElementById('modalTitle');
+            const content = document.getElementById('modalContent');
+
+            let titleText = "";
+            let bodyHtml = "";
+
+            if (type === 'whitepaper') {
+                titleText = "HK WORLD BANK 백서 20개 항목 (v3.1)";
+                bodyHtml = '<div style="font-size:12px; line-height:1.6; color:var(--text-main); max-height:60vh; overflow-y:auto; padding-right:6px;">' +
+                           '<p style="color:var(--accent-gold); font-weight:700; margin-bottom:6px;">[1~5] 코어 아키텍처 및 연동</p>' +
+                           '<p style="color:var(--text-muted); margin-bottom:8px;">1. 비전 및 개요<br>2. Pi Network SDK 통합<br>3. 10대 분산 연동망 아키텍처<br>4. AGI 삐니 오케스트레이션<br>5. SONPONE 손폰 감지 시스템</p>' +
+                           '<p style="color:var(--accent-gold); font-weight:700; margin-bottom:6px;">[6~10] 경제 모델 및 유동성</p>' +
+                           '<p style="color:var(--text-muted); margin-bottom:8px;">6. 3년 31.41% APY 복리 모델<br>7. 유동성풀 지갑 시스템<br>8. 60개국어 유니버설 번역 엔진<br>9. UBI 재단 분배 모델<br>10. DEX 오더레스 P2P 스왑</p>' +
+                           '<p style="color:var(--accent-gold); font-weight:700; margin-bottom:6px;">[11~15] 보안 및 컴플라이언스</p>' +
+                           '<p style="color:var(--text-muted); margin-bottom:8px;">11. 멀티시그 암호화 전송<br>12. 상거래 에스크로 시스템<br>13. LP 스태이킹 및 PoL<br>14. 11개국 디지털 자산법 컴플라이언스<br>15. 지갑 자동 인증 프로토콜</p>' +
+                           '<p style="color:var(--accent-gold); font-weight:700; margin-bottom:6px;">[16~20] 생태계 및 로드맵</p>' +
+                           '<p style="color:var(--text-muted);">16. 에너지 및 인프라 연계<br>17. 탈중앙화 거버넌스<br>18. 24시간 실시간 보안 방어막<br>19. 웨어러블 최적화 (경주 사옥 연동)<br>20. 글로벌 허브 확장 계획</p>' +
+                           '</div>';
+            } else if (type === 'faq') {
+                titleText = "자주 묻는 질문 20선 (FAQ 심층)";
+                bodyHtml = '<div style="font-size:12px; line-height:1.6; color:var(--text-main); max-height:60vh; overflow-y:auto; padding-right:6px;">' +
+                           '<p style="color:var(--accent-cyan); font-weight:700; margin-bottom:4px;">Q1. HK WorldBank는 어떤 플랫폼인가요?</p>' +
+                           '<p style="color:var(--text-muted); margin-bottom:8px;">A. Pi Network SDK와 10대 분산 연동망을 기반으로 한 차세대 글로벌 분산 금융 플랫폼입니다.</p>' +
+                           '<p style="color:var(--accent-cyan); font-weight:700; margin-bottom:4px;">Q2. PI 수량 원장 동기화는 어떻게 작동하나요?</p>' +
+                           '<p style="color:var(--text-muted); margin-bottom:8px;">A. 노드 지갑 프로토콜과 실시간 연동되어 메인넷 원장 상태를 오차 없이 반영합니다.</p>' +
+                           '<p style="color:var(--accent-cyan); font-weight:700; margin-bottom:4px;">Q3. 31.41% APY 이자는 어떻게 지급되나요?</p>' +
+                           '<p style="color:var(--text-muted); margin-bottom:8px;">A. 초 단위 복리가산되며 AGI 삐니가 자산 방어선을 자동 조절합니다.</p>' +
+                           '<p style="color:var(--accent-cyan); font-weight:700; margin-bottom:4px;">Q4~Q20. 기타 상세 문의</p>' +
+                           '<p style="color:var(--text-muted);">A. 10대 분산 연동망(지갑, 송금, 결제, 예치, 보상, 기본소득, 스왑, DEX, LP, PI수량) 및 60개국어 번역에 대한 모든 질의응답은 AGI 삐니 고객센터를 통해 실시간 처리됩니다.</p>' +
+                           '</div>';
+            } else if (type === 'policies') {
+                titleText = "3대 POLICIES (약관·보안·프라이버시)";
+                bodyHtml = '<div style="font-size:12px; line-height:1.6; color:var(--text-main); max-height:60vh; overflow-y:auto; padding-right:6px;">' +
+                           '<p style="color:var(--accent-green); font-weight:700; margin-bottom:4px;">1. 이용약관 (Terms of Service)</p>' +
+                           '<p style="color:var(--text-muted); margin-bottom:8px;">모든 금융 트랜잭션은 분산 원장에 영구 기록되며, 조작이 불가능한 스마트 계약을 기반으로 공정하게 처리됩니다.</p>' +
+                           '<p style="color:var(--accent-green); font-weight:700; margin-bottom:4px;">2. 보안 및 프라이버시 (Security & Privacy)</p>' +
+                           '<p style="color:var(--text-muted); margin-bottom:8px;">최고 수준의 암호화 알고리즘과 다중 서명(Multisig)을 적용하며, 24시간 AGI 실시간 방어막이 가동됩니다.</p>' +
+                           '<p style="color:var(--accent-green); font-weight:700; margin-bottom:4px;">3. 데이터 처리 정책 (Data Governance)</p>' +
+                           '<p style="color:var(--text-muted);">필수 금융 데이터 외에는 수집하지 않으며, 글로벌 프라이버시 보호 표준에 따라 안전하게 암호화 관리됩니다.</p>' +
+                           '</div>';
+            } else if (type === 'regulations') {
+                titleText = "11개국 디지털 자산법 컴플라이언스";
+                bodyHtml = '<div style="font-size:12px; line-height:1.6; color:var(--text-main); max-height:60vh; overflow-y:auto; padding-right:6px;">' +
+                           '<p style="color:var(--accent-gold); font-weight:700; margin-bottom:6px;">✔ 글로벌 규제 11개국 준수 현황</p>' +
+                           '<p style="color:var(--text-muted);">미국(SEC/FinCEN), EU(MiCA), 대한민국(특금법), 일본(JFSA), 싱가포르(MAS), 영국(FCA), 스위스(FINMA), 아랍에미리트(VARA), 호주(AUSTRAC), 캐나다(FINTRAC), 홍콩(SFC)의 디지털 자산 규제 기준을 완벽히 충족합니다.</p>' +
+                           '</div>';
+            } else if (type === 't165') {
+                titleText = "T165 초특급 랜드마크 허브 (경주 사옥)";
+                bodyHtml = '<div style="font-size:12px; line-height:1.6; color:var(--text-main);">' +
+                           '<p style="color:var(--accent-gold); font-weight:700; margin-bottom:6px;">✔ HK 그룹 경주 사옥 및 글로벌 허브</p>' +
+                           '<p style="color:var(--text-muted);">경주에 위치한 HK 그룹 본사 사옥은 10대 분산 연동망의 물리적 관제탑이자 AGI 삐니의 코어 서버가 구동되는 글로벌 금융 메카입니다.</p>' +
+                           '</div>';
+            }
+
+            title.innerText = titleText;
+            content.innerHTML = bodyHtml;
+            modal.classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('appModal').classList.remove('active');
         }
     </script>
 </body>
