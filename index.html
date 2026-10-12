@@ -1197,17 +1197,21 @@ select option {
                     </div>
                     <button class="action-btn" onclick="verifyAndExecute(2)">송금 및 승인 요청</button>
                 `;
-          } else if (processId === 3) {
-    // 3. 결제 (Payment)
-    title.innerText = "3. 결제 (Payment)";
-    content.innerHTML = `
-        <div style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">실시간 에스크로 안전 결제 프로세스입니다.</div>
-        <div class="input-group">
-            <label class="input-label">결제 승인 인증번호 (발급팀: <span style="color:var(--accent-gold); font-weight:700;">${generatedAuthCode}</span>)</label>
-            <input class="form-control" id="userInputCode" placeholder="6자리 인증번호 입력" maxlength="6">
-        </div>
-        <button class="action-btn" onclick="verifyAndExecute(3)">에스크로 결제 승인</button>
-    `;
+            } else if (processId === 3) {
+                // 3. 결제
+                title.innerText = "3. 결제 (Payment)";
+                content.innerHTML = `
+                    <div style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">실시간 에스크로 안전 결제 프로세스입니다.</div>
+                    <div class="input-group">
+                        <label class="input-label">결제 금액 (HKD / USDT)</label>
+                        <input class="form-control" value="1,250.00 HK" readonly>
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">결제 승인 인증번호 (발급됨: <span style="color:var(--accent-gold); font-weight:700;">${generatedAuthCode}</span>)</label>
+                        <input class="form-control" id="userInputCode" placeholder="6자리 인증번호 입력" maxlength="6">
+                    </div>
+                    <button class="action-btn" onclick="verifyAndExecute(3)">에스크로 결제 승인</button>
+                `;
             } else if (processId === 4) {
                 // 4. 예치 (Vault Deposit)
                 title.innerText = "4. 예치 (Vault Deposit)";
@@ -1817,21 +1821,13 @@ select option {
             updateSonpone(document.getElementById('sonponeSlider').value);
         }
     </script>
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <!-- 스타일 및 메타태그 -->
-</head>
-<body>
-    <!-- 메인 콘텐츠 영역 -->
-    <div class="app-container">
-        <!-- ... 기존 화면 내용들 ... -->
-    </div>
-
-    <!-- [3. Payment 모달 팝업 레이어는 여기에 위치합니다] -->
+ <!-- [3. Payment 모달 팝업 레이어] -->
     <div id="paymentModal" class="modal" style="display:block;">
       <div class="modal-content">
-        <h3>3. 결제 (Payment)</h3>
+        <div class="modal-header">
+          <h3>3. 결제 (Payment)</h3>
+          <span class="close-btn" onclick="document.getElementById('paymentModal').style.display='none'">&times;</span>
+        </div>
         
         <!-- 1. QR코드 및 지갑/금액 정보 -->
         <div class="payment-info-card">
@@ -1841,15 +1837,14 @@ select option {
         </div>
 
         <!-- 2. 에스크로 승인 인증 -->
-        <p>실시간 에스크로 안전 결제 프로세스입니다.</p>
-        <p>결제 승인 인증번호: <strong>419467</strong></p>
-        <input type="text" placeholder="6자리 인증번호 입력">
-        <button onclick="approvePayment()">에스크로 결제 승인</button>
+        <div class="escrow-section">
+          <p>실시간 에스크로 안전 결제 프로세스입니다.</p>
+          <p>결제 승인 인증번호 (발급됨): <strong>991930</strong></p>
+          <input type="text" id="escrowAuthInput" placeholder="6자리 인증번호 입력" maxlength="6">
+          <button class="approve-btn" onclick="approvePayment()">에스크로 결제 승인</button>
+        </div>
       </div>
     </div>
-</body>
-</html>
-
 
 </body>
 </html>
