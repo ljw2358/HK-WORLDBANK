@@ -1189,14 +1189,14 @@
             // 6자리 랜덤 인증번호 자동 생성 (100000 ~ 999999)
             generatedAuthCode = Math.floor(100000 + Math.random() * 900000).toString();
 
-            if (processId === 1) {
+             if (processId === 1) {
                 // 1. 지갑연결
                 title.innerText = "1. 지갑연결 (Wallet Connect)";
                 content.innerHTML = `
-                    <div style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">노드 지갑 프로토콜 연동 및 자동 인증 프로세스입니다.</div>
+                    <div style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">본인의 노드 지갑 주소를 입력하고 보안 인증을 진행하세요.</div>
                     <div class="input-group">
                         <label class="input-label">노드 지갑 주소</label>
-                        <input class="form-control" value="0x71C...HK2026_NODE_SECURE" readonly>
+                        <input class="form-control" id="nodeWalletAddress" placeholder="본인의 지갑 주소를 입력하세요 (예: 0x...)">
                     </div>
                     <div class="input-group">
                         <label class="input-label">인증번호 (발급됨: <span style="color:var(--accent-gold); font-weight:700;">${generatedAuthCode}</span>)</label>
@@ -1204,7 +1204,8 @@
                     </div>
                     <button class="action-btn" onclick="verifyAndExecute(1)">인증번호 승인 및 연결</button>
                 `;
-            } else if (processId === 2) {
+            }
+
                 // 2. 송금
                 title.innerText = "2. 송금 (Transfer)";
                 content.innerHTML = `
