@@ -1149,12 +1149,16 @@
             if (e.key === 'Enter') sendChatMessage();
         }
 
-        /* [10대 분산 연동망 개별 맞춤 프로세스 1~10 완벽 통합 엔진] */
+             /* [10대 분산 연동망 개별 맞춤 프로세스 1~10 완벽 통합 엔진 및 6자리 인증번호 자동 생성 검증] */
+        let generatedAuthCode = "";
+
         function openProcessModal(processId) {
             const modal = document.getElementById('appModal');
             const title = document.getElementById('modalTitle');
             const content = document.getElementById('modalContent');
-            let t = translations[currentLang] || translations['en'];
+            
+            // 6자리 랜덤 인증번호 자동 생성 (100000 ~ 999999)
+            generatedAuthCode = Math.floor(100000 + Math.random() * 900000).toString();
 
             if (processId === 1) {
                 // 1. 지갑연결
@@ -1166,10 +1170,10 @@
                         <input class="form-control" value="0x71C...HK2026_NODE_SECURE" readonly>
                     </div>
                     <div class="input-group">
-                        <label class="input-label">인증번호 (SMS / OTP)</label>
-                        <input class="form-control" id="authCode1" placeholder="6자리 인증번호 입력">
+                        <label class="input-label">인증번호 (발급됨: <span style="color:var(--accent-gold); font-weight:700;">${generatedAuthCode}</span>)</label>
+                        <input class="form-control" id="userInputCode" placeholder="위의 6자리 인증번호를 입력하세요" maxlength="6">
                     </div>
-                    <button class="action-btn" onclick="executeProcess('1번 지갑연결: 인증번호 승인이 완료되어 노드 지갑이 안전하게 연결되었습니다.')">인증번호 승인 및 연결</button>
+                    <button class="action-btn" onclick="verifyAndExecute(1)">인증번호 승인 및 연결</button>
                 `;
             } else if (processId === 2) {
                 // 2. 송금
@@ -1185,10 +1189,10 @@
                         <input class="form-control" id="txAmount" type="number" placeholder="전송할 수량 입력">
                     </div>
                     <div class="input-group">
-                        <label class="input-label">보안 인증번호</label>
-                        <input class="form-control" id="authCode2" placeholder="OTP 승인번호 입력">
+                        <label class="input-label">보안 인증번호 (발급됨: <span style="color:var(--accent-gold); font-weight:700;">${generatedAuthCode}</span>)</label>
+                        <input class="form-control" id="userInputCode" placeholder="6자리 인증번호 입력" maxlength="6">
                     </div>
-                    <button class="action-btn" onclick="executeProcess('2번 송금: 멀티시그 암호화 전송 및 인증번호 승인이 처리되었습니다.')">송금 승인 실행</button>
+                    <button class="action-btn" onclick="verifyAndExecute(2)">송금 승인 실행</button>
                 `;
             } else if (processId === 3) {
                 // 3. 결제
@@ -1204,13 +1208,13 @@
                         <input class="form-control" id="payAmount" placeholder="결제 금액 입력">
                     </div>
                     <div class="input-group">
-                        <label class="input-label">결제 승인 번호</label>
-                        <input class="form-control" id="authCode3" placeholder="결제 승인번호 입력">
+                        <label class="input-label">결제 승인 번호 (발급됨: <span style="color:var(--accent-gold); font-weight:700;">${generatedAuthCode}</span>)</label>
+                        <input class="form-control" id="userInputCode" placeholder="6자리 인증번호 입력" maxlength="6">
                     </div>
-                    <button class="action-btn" onclick="executeProcess('3번 결제: 에스크로 상거래 결제 및 인증이 정상 승인되었습니다.')">에스크로 결제 승인</button>
+                    <button class="action-btn" onclick="verifyAndExecute(3)">에스크로 결제 승인</button>
                 `;
             } else if (processId === 4) {
-                // 4. 예치 (형님이 강조하신 핵심 폼: 예치수량, 기간, 예상수익, 인증번호, 승인)
+                // 4. 예치
                 title.innerText = "4. 예치 (Vault Deposit)";
                 content.innerHTML = `
                     <div style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">3년 만기 31.41% APY 자산 신탁 볼트 예치 프로세스입니다.</div>
@@ -1231,10 +1235,10 @@
                         <input class="form-control" value="3년 복리 적용 시 예상 수익: +3,141.00 HK" readonly style="color:var(--accent-green); font-weight:700;">
                     </div>
                     <div class="input-group">
-                        <label class="input-label">볼트 보안 인증번호</label>
-                        <input class="form-control" id="authCode4" placeholder="인증번호 6자리 입력">
+                        <label class="input-label">볼트 보안 인증번호 (발급됨: <span style="color:var(--accent-gold); font-weight:700;">${generatedAuthCode}</span>)</label>
+                        <input class="form-control" id="userInputCode" placeholder="6자리 인증번호 입력" maxlength="6">
                     </div>
-                    <button class="action-btn" onclick="executeProcess('4번 예치: 수량, 기간 및 예상수익 설정과 인증번호 승인이 완료되어 자산 신탁 볼트에 예치되었습니다.')">예치 및 인증 승인</button>
+                    <button class="action-btn" onclick="verifyAndExecute(4)">예치 및 인증 승인</button>
                 `;
             } else if (processId === 5) {
                 // 5. 보상
@@ -1246,10 +1250,10 @@
                         <input class="form-control" value="314.159 HK (누적 기여도 100%)" readonly style="color:var(--accent-gold);">
                     </div>
                     <div class="input-group">
-                        <label class="input-label">보상 승인 인증번호</label>
-                        <input class="form-control" id="authCode5" placeholder="인증번호 입력">
+                        <label class="input-label">보상 승인 인증번호 (발급됨: <span style="color:var(--accent-gold); font-weight:700;">${generatedAuthCode}</span>)</label>
+                        <input class="form-control" id="userInputCode" placeholder="6자리 인증번호 입력" maxlength="6">
                     </div>
-                    <button class="action-btn" onclick="executeProcess('5번 보상: 기여도 보상 청구 및 인증 승인이 완료되었습니다.')">보상 즉시 수령 승인</button>
+                    <button class="action-btn" onclick="verifyAndExecute(5)">보상 즉시 수령 승인</button>
                 `;
             } else if (processId === 6) {
                 // 6. 기본소득
@@ -1261,10 +1265,10 @@
                         <input class="form-control" value="1,000 HK / Month" readonly style="color:var(--accent-cyan);">
                     </div>
                     <div class="input-group">
-                        <label class="input-label">UBI 수급 인증번호</label>
-                        <input class="form-control" id="authCode6" placeholder="인증번호 입력">
+                        <label class="input-label">UBI 수급 인증번호 (발급됨: <span style="color:var(--accent-gold); font-weight:700;">${generatedAuthCode}</span>)</label>
+                        <input class="form-control" id="userInputCode" placeholder="6자리 인증번호 입력" maxlength="6">
                     </div>
-                    <button class="action-btn" onclick="executeProcess('6번 기본소득: UBI 수급 자격 확인 및 인증 승인이 처리되었습니다.')">UBI 수급 승인</button>
+                    <button class="action-btn" onclick="verifyAndExecute(6)">UBI 수급 승인</button>
                 `;
             } else if (processId === 7) {
                 // 7. 스왑
@@ -1280,10 +1284,10 @@
                         <input class="form-control" placeholder="구매할 수량 입력">
                     </div>
                     <div class="input-group">
-                        <label class="input-label">스왑 인증번호</label>
-                        <input class="form-control" id="authCode7" placeholder="인증번호 입력">
+                        <label class="input-label">스왑 인증번호 (발급됨: <span style="color:var(--accent-gold); font-weight:700;">${generatedAuthCode}</span>)</label>
+                        <input class="form-control" id="userInputCode" placeholder="6자리 인증번호 입력" maxlength="6">
                     </div>
-                    <button class="action-btn" onclick="executeProcess('7번 스왑: 즉시 코인 구매 및 스왑 승인이 완료되었습니다.')">스왑 구매 승인</button>
+                    <button class="action-btn" onclick="verifyAndExecute(7)">스왑 구매 승인</button>
                 `;
             } else if (processId === 8) {
                 // 8. DEX 스왑
@@ -1295,10 +1299,10 @@
                         <input class="form-control" value="슬리피지 0.1% 최적화 적용" readonly>
                     </div>
                     <div class="input-group">
-                        <label class="input-label">DEX 승인 인증번호</label>
-                        <input class="form-control" id="authCode8" placeholder="인증번호 입력">
+                        <label class="input-label">DEX 승인 인증번호 (발급됨: <span style="color:var(--accent-gold); font-weight:700;">${generatedAuthCode}</span>)</label>
+                        <input class="form-control" id="userInputCode" placeholder="6자리 인증번호 입력" maxlength="6">
                     </div>
-                    <button class="action-btn" onclick="executeProcess('8번 DEX 스왑: P2P 유동성 자동매칭 및 인증 승인이 완료되었습니다.')">DEX P2P 스왑 승인</button>
+                    <button class="action-btn" onclick="verifyAndExecute(8)">DEX P2P 스왑 승인</button>
                 `;
             } else if (processId === 9) {
                 // 9. LP스태이킹
@@ -1314,10 +1318,10 @@
                         <input class="form-control" value="PoL High-Yield Active (+24.5% 연간)" readonly style="color:var(--accent-green);">
                     </div>
                     <div class="input-group">
-                        <label class="input-label">스태이킹 인증번호</label>
-                        <input class="form-control" id="authCode9" placeholder="인증번호 입력">
+                        <label class="input-label">스태이킹 인증번호 (발급됨: <span style="color:var(--accent-gold); font-weight:700;">${generatedAuthCode}</span>)</label>
+                        <input class="form-control" id="userInputCode" placeholder="6자리 인증번호 입력" maxlength="6">
                     </div>
-                    <button class="action-btn" onclick="executeProcess('9번 LP스태이킹: 유동성 공급 및 인증 승인이 완료되었습니다.')">LP 스태이킹 승인</button>
+                    <button class="action-btn" onclick="verifyAndExecute(9)">LP 스태이킹 승인</button>
                 `;
             } else if (processId === 10) {
                 // 10. PI수량
@@ -1329,17 +1333,37 @@
                         <input class="form-control" value="314,159.000000 PI (Synced)" readonly style="font-weight:700;">
                     </div>
                     <div class="input-group">
-                        <label class="input-label">원장 동기화 승인번호</label>
-                        <input class="form-control" id="authCode10" placeholder="인증번호 입력">
+                        <label class="input-label">원장 동기화 승인번호 (발급됨: <span style="color:var(--accent-gold); font-weight:700;">${generatedAuthCode}</span>)</label>
+                        <input class="form-control" id="userInputCode" placeholder="6자리 인증번호 입력" maxlength="6">
                     </div>
-                    <button class="action-btn" onclick="executeProcess('10번 PI수량: 메인넷 블록체인 원장 재동기화 및 승인이 완료되었습니다.')">원장 동기화 승인</button>
+                    <button class="action-btn" onclick="verifyAndExecute(10)">원장 동기화 승인</button>
                 `;
             }
             modal.classList.add('active');
         }
 
-        function executeProcess(msg) {
-            alert(msg);
+        // 인증번호 검증 및 실행 함수
+        function verifyAndExecute(processId) {
+            const userEntered = document.getElementById('userInputCode').value.trim();
+            if(userEntered !== generatedAuthCode) {
+                alert("❌ 인증번호가 일치하지 않습니다. 발급된 6자리 인증번호를 정확히 입력해 주세요.");
+                return;
+            }
+            
+            const messages = {
+                1: "1번 지갑연결: 6자리 인증번호 검증 완료 및 노드 지갑이 안전하게 연결되었습니다.",
+                2: "2번 송금: 멀티시그 암호화 전송 및 인증번호 승인이 처리되었습니다.",
+                3: "3번 결제: 에스크로 상거래 결제 및 인증이 정상 승인되었습니다.",
+                4: "4번 예치: 수량, 기간 및 예상수익 설정과 인증번호 승인이 완료되어 자산 신탁 볼트에 예치되었습니다.",
+                5: "5번 보상: 기여도 보상 청구 및 인증 승인이 완료되었습니다.",
+                6: "6번 기본소득: UBI 수급 자격 확인 및 인증 승인이 처리되었습니다.",
+                7: "7번 스왑: 즉시 코인 구매 및 스왑 승인이 완료되었습니다.",
+                8: "8번 DEX 스왑: P2P 유동성 자동매칭 및 인증 승인이 완료되었습니다.",
+                9: "9번 LP스태이킹: 유동성 공급 및 인증 승인이 완료되었습니다.",
+                10: "10번 PI수량: 메인넷 블록체인 원장 재동기화 및 승인이 완료되었습니다."
+            };
+            
+            alert("✅ [인증 성공] " + messages[processId]);
             closeModal();
         }
 
