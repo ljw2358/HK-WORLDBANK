@@ -1094,7 +1094,7 @@
         </div>
     </div>
 
-    <!-- JavaScript Platform Logic & True 60-Country Universal Translation Engine -->
+    <!-- JavaScript Platform Logic & Universal 60-Country Translation Proxy Engine -->
     <script>
         let baseInterest = 12450892.600000;
         let currentLang = 'ko';
@@ -1120,7 +1120,7 @@
         }
 
         function updateSonpone(val) {
-            const t = translations[currentLang] || translations['en'];
+            const t = translationsProxy[currentLang];
             const valEl = document.getElementById('sonponeVal');
             if(valEl) {
                 valEl.innerText = val + "% " + (t.syncText || "(Live Sync)");
@@ -1128,7 +1128,7 @@
         }
 
         function triggerMainnetRequest() {
-            const t = translations[currentLang] || translations['en'];
+            const t = translationsProxy[currentLang];
             alert(t.mainnetAlert);
         }
 
@@ -1150,7 +1150,7 @@
             setTimeout(() => {
                 const beeniMsg = document.createElement('div');
                 beeniMsg.className = 'chat-msg beeni';
-                const t = translations[currentLang] || translations['en'];
+                const t = translationsProxy[currentLang];
                 beeniMsg.innerText = t.beeniReply(text);
                 chatBox.appendChild(beeniMsg);
                 chatBox.scrollTop = chatBox.scrollHeight;
@@ -1166,169 +1166,169 @@
             const modal = document.getElementById('appModal');
             const title = document.getElementById('modalTitle');
             const content = document.getElementById('modalContent');
-            const t = translations[currentLang] || translations['en'];
+            const t = translationsProxy[currentLang];
 
             generatedAuthCode = Math.floor(100000 + Math.random() * 900000).toString();
 
             if (processId === 1) {
                 title.innerText = t.net1_title + " (" + (t.modalW1_sub || "Wallet Connect") + ")";
                 content.innerHTML = `
-                    <div style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">${t.modalW1_desc || "Enter your node wallet address and proceed with security authentication."}</div>
+                    <div style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">${t.modalW1_desc}</div>
                     <div class="input-group">
-                        <label class="input-label">${t.modal_wallet_label || "Node Wallet Address"}</label>
-                        <input class="form-control" id="nodeWalletAddress" placeholder="${t.modal_wallet_ph || "Enter your wallet address (e.g. 0x...)"}">
+                        <label class="input-label">${t.modal_wallet_label}</label>
+                        <input class="form-control" id="nodeWalletAddress" placeholder="${t.modal_wallet_ph}">
                     </div>
                     <div class="input-group">
-                        <label class="input-label">${t.modal_auth_label || "Auth Code"} (Issued: <span style="color:var(--accent-gold); font-weight:700;">${generatedAuthCode}</span>)</label>
-                        <input class="form-control" id="userInputCode" placeholder="${t.modal_auth_ph || "Enter 6-digit code"}" maxlength="6">
+                        <label class="input-label">${t.modal_auth_label} (Issued: <span style="color:var(--accent-gold); font-weight:700;">${generatedAuthCode}</span>)</label>
+                        <input class="form-control" id="userInputCode" placeholder="${t.modal_auth_ph}" maxlength="6">
                     </div>
-                    <button class="action-btn" onclick="verifyAndExecute(1)">${t.modal_btn1 || "Verify & Connect"}</button>
+                    <button class="action-btn" onclick="verifyAndExecute(1)">${t.modal_btn1}</button>
                 `;
             } else if (processId === 2) {
                 title.innerText = t.net2_title + " (" + (t.modalW2_sub || "Transfer") + ")";
                 content.innerHTML = `
-                    <div style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">${t.modalW2_desc || "Intercontinental high-speed multisig encrypted transfer process."}</div>
+                    <div style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">${t.modalW2_desc}</div>
                     <div class="input-group">
-                        <label class="input-label">${t.modal_recv_label || "Recipient Wallet Address"}</label>
+                        <label class="input-label">${t.modal_recv_label}</label>
                         <input class="form-control" placeholder="0x... or Pi ID">
                     </div>
                     <div class="input-group">
-                        <label class="input-label">${t.modal_amount_label || "Transfer Amount (PI / HK)"}</label>
+                        <label class="input-label">${t.modal_amount_label}</label>
                         <input class="form-control" placeholder="0.00">
                     </div>
                     <div class="input-group">
-                        <label class="input-label">${t.modal_auth_label || "Auth Code"} (Issued: <span style="color:var(--accent-gold); font-weight:700;">${generatedAuthCode}</span>)</label>
-                        <input class="form-control" id="userInputCode" placeholder="${t.modal_auth_ph || "Enter 6-digit code"}" maxlength="6">
+                        <label class="input-label">${t.modal_auth_label} (Issued: <span style="color:var(--accent-gold); font-weight:700;">${generatedAuthCode}</span>)</label>
+                        <input class="form-control" id="userInputCode" placeholder="${t.modal_auth_ph}" maxlength="6">
                     </div>
-                    <button class="action-btn" onclick="verifyAndExecute(2)">${t.modal_btn2 || "Transfer & Request Approval"}</button>
+                    <button class="action-btn" onclick="verifyAndExecute(2)">${t.modal_btn2}</button>
                 `;
             } else if (processId === 3) {
                 title.innerText = t.net3_title + " (" + (t.modalW3_sub || "Payment") + ")";
                 content.innerHTML = `
-                    <div style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">${t.modalW3_desc || "Real-time escrow safe payment process."}</div>
+                    <div style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">${t.modalW3_desc}</div>
                     <div class="input-group">
-                        <label class="input-label">${t.modal_pay_label || "Payment Amount"}</label>
+                        <label class="input-label">${t.modal_pay_label}</label>
                         <input class="form-control" value="1,250.00 HK" readonly>
                     </div>
                     <div class="input-group">
-                        <label class="input-label">${t.modal_auth_label || "Auth Code"} (Issued: <span style="color:var(--accent-gold); font-weight:700;">${generatedAuthCode}</span>)</label>
-                        <input class="form-control" id="userInputCode" placeholder="${t.modal_auth_ph || "Enter 6-digit code"}" maxlength="6">
+                        <label class="input-label">${t.modal_auth_label} (Issued: <span style="color:var(--accent-gold); font-weight:700;">${generatedAuthCode}</span>)</label>
+                        <input class="form-control" id="userInputCode" placeholder="${t.modal_auth_ph}" maxlength="6">
                     </div>
-                    <button class="action-btn" onclick="verifyAndExecute(3)">${t.modal_btn3 || "Approve Escrow Payment"}</button>
+                    <button class="action-btn" onclick="verifyAndExecute(3)">${t.modal_btn3}</button>
                 `;
             } else if (processId === 4) {
                 title.innerText = t.net4_title + " (" + (t.modalW4_sub || "Vault Deposit") + ")";
                 content.innerHTML = `
-                    <div style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">${t.modalW4_desc || "3-year maturity 31.41% APY asset trust vault deposit process."}</div>
+                    <div style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">${t.modalW4_desc}</div>
                     <div class="input-group">
-                        <label class="input-label">${t.modal_dep_label || "Deposit Amount (PI / HK)"}</label>
-                        <input class="form-control" id="depositAmount" placeholder="${t.modal_dep_ph || "Enter amount (e.g. 10,000)"}" oninput="updateDepositCalc()">
+                        <label class="input-label">${t.modal_dep_label}</label>
+                        <input class="form-control" id="depositAmount" placeholder="${t.modal_dep_ph}" oninput="updateDepositCalc()">
                     </div>
                     <div class="input-group">
-                        <label class="input-label">${t.modal_period_label || "Deposit Period"}</label>
+                        <label class="input-label">${t.modal_period_label}</label>
                         <select class="form-control" id="depositPeriod" onchange="updateDepositCalc()" style="background:var(--bg-secondary); color:var(--text-main);">
-                            <option value="1">1 ${t.modal_year1 || "Year (APY 15.5%)"}</option>
-                            <option value="3" selected>3 ${t.modal_year3 || "Years (APY 31.41%)"}</option>
-                            <option value="5">5 ${t.modal_year5 || "Years (APY 45.0%)"}</option>
+                            <option value="1">1 ${t.modal_year1}</option>
+                            <option value="3" selected>3 ${t.modal_year3}</option>
+                            <option value="5">5 ${t.modal_year5}</option>
                         </select>
                     </div>
                     <div class="input-group">
-                        <label class="input-label">${t.modal_exp_label || "Expected Return & Interest"}</label>
-                        <input class="form-control" id="depositExpectedResult" value="${t.modal_exp_default || "Expected return with compound interest: +0.00 HK"}" readonly style="color:var(--accent-green); font-weight:700;">
+                        <label class="input-label">${t.modal_exp_label}</label>
+                        <input class="form-control" id="depositExpectedResult" value="${t.modal_exp_default}" readonly style="color:var(--accent-green); font-weight:700;">
                     </div>
                     <div class="input-group">
-                        <label class="input-label">${t.modal_auth_label || "Auth Code"} (Issued: <span style="color:var(--accent-gold); font-weight:700;">${generatedAuthCode}</span>)</label>
-                        <input class="form-control" id="userInputCode" placeholder="${t.modal_auth_ph || "Enter 6-digit code"}" maxlength="6">
+                        <label class="input-label">${t.modal_auth_label} (Issued: <span style="color:var(--accent-gold); font-weight:700;">${generatedAuthCode}</span>)</label>
+                        <input class="form-control" id="userInputCode" placeholder="${t.modal_auth_ph}" maxlength="6">
                     </div>
-                    <button class="action-btn" onclick="verifyAndExecute(4)">${t.modal_btn4 || "Deposit & Approve"}</button>
+                    <button class="action-btn" onclick="verifyAndExecute(4)">${t.modal_btn4}</button>
                 `;
             } else if (processId === 5) {
                 title.innerText = t.net5_title + " (" + (t.modalW5_sub || "Rewards") + ")";
                 content.innerHTML = `
-                    <div style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">${t.modalW5_desc || "Contribution-based incentive vault accumulation and claim process."}</div>
+                    <div style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">${t.modalW5_desc}</div>
                     <div class="input-group">
-                        <label class="input-label">${t.modal_rew_label || "Claimable Contribution Reward"}</label>
+                        <label class="input-label">${t.modal_rew_label}</label>
                         <input class="form-control" value="314.159 HK (100% Contribution)" readonly style="color:var(--accent-gold);">
                     </div>
                     <div class="input-group">
-                        <label class="input-label">${t.modal_auth_label || "Auth Code"} (Issued: <span style="color:var(--accent-gold); font-weight:700;">${generatedAuthCode}</span>)</label>
-                        <input class="form-control" id="userInputCode" placeholder="${t.modal_auth_ph || "Enter 6-digit code"}" maxlength="6">
+                        <label class="input-label">${t.modal_auth_label} (Issued: <span style="color:var(--accent-gold); font-weight:700;">${generatedAuthCode}</span>)</label>
+                        <input class="form-control" id="userInputCode" placeholder="${t.modal_auth_ph}" maxlength="6">
                     </div>
-                    <button class="action-btn" onclick="verifyAndExecute(5)">${t.modal_btn5 || "Approve Reward Claim"}</button>
+                    <button class="action-btn" onclick="verifyAndExecute(5)">${t.modal_btn5}</button>
                 `;
             } else if (processId === 6) {
                 title.innerText = t.net6_title + " (" + (t.modalW6_sub || "UBI Vault") + ")";
                 content.innerHTML = `
-                    <div style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">${t.modalW6_desc || "HK Social Foundation & municipal UBI distribution claim process."}</div>
+                    <div style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">${t.modalW6_desc}</div>
                     <div class="input-group">
-                        <label class="input-label">${t.modal_ubi_label || "This Month's Scheduled UBI"}</label>
+                        <label class="input-label">${t.modal_ubi_label}</label>
                         <input class="form-control" value="500.00 HK (Verified)" readonly style="color:var(--accent-green);">
                     </div>
                     <div class="input-group">
-                        <label class="input-label">${t.modal_auth_label || "Auth Code"} (Issued: <span style="color:var(--accent-gold); font-weight:700;">${generatedAuthCode}</span>)</label>
-                        <input class="form-control" id="userInputCode" placeholder="${t.modal_auth_ph || "Enter 6-digit code"}" maxlength="6">
+                        <label class="input-label">${t.modal_auth_label} (Issued: <span style="color:var(--accent-gold); font-weight:700;">${generatedAuthCode}</span>)</label>
+                        <input class="form-control" id="userInputCode" placeholder="${t.modal_auth_ph}" maxlength="6">
                     </div>
-                    <button class="action-btn" onclick="verifyAndExecute(6)">${t.modal_btn6 || "Claim UBI & Approve"}</button>
+                    <button class="action-btn" onclick="verifyAndExecute(6)">${t.modal_btn6}</button>
                 `;
             } else if (processId === 7) {
                 title.innerText = t.net7_title + " (" + (t.modalW7_sub || "Swap") + ")";
                 content.innerHTML = `
-                    <div style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">${t.modalW7_desc || "Instant coin purchase and exchange via cash/card/token."}</div>
+                    <div style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">${t.modalW7_desc}</div>
                     <div class="input-group">
-                        <label class="input-label">${t.modal_send_asset || "Asset to Send"}</label>
+                        <label class="input-label">${t.modal_send_asset}</label>
                         <input class="form-control" value="100 USDT">
                     </div>
                     <div class="input-group">
-                        <label class="input-label">${t.modal_recv_asset || "Asset to Receive (Est.)"}</label>
+                        <label class="input-label">${t.modal_recv_asset}</label>
                         <input class="form-control" value="≈ 318.47 HK" readonly>
                     </div>
                     <div class="input-group">
-                        <label class="input-label">${t.modal_auth_label || "Auth Code"} (Issued: <span style="color:var(--accent-gold); font-weight:700;">${generatedAuthCode}</span>)</label>
-                        <input class="form-control" id="userInputCode" placeholder="${t.modal_auth_ph || "Enter 6-digit code"}" maxlength="6">
+                        <label class="input-label">${t.modal_auth_label} (Issued: <span style="color:var(--accent-gold); font-weight:700;">${generatedAuthCode}</span>)</label>
+                        <input class="form-control" id="userInputCode" placeholder="${t.modal_auth_ph}" maxlength="6">
                     </div>
-                    <button class="action-btn" onclick="verifyAndExecute(7)">${t.modal_btn7 || "Execute Instant Swap"}</button>
+                    <button class="action-btn" onclick="verifyAndExecute(7)">${t.modal_btn7}</button>
                 `;
             } else if (processId === 8) {
                 title.innerText = t.net8_title + " (" + (t.modalW8_sub || "DEX Swap") + ")";
                 content.innerHTML = `
-                    <div style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">${t.modalW8_desc || "Decentralized orderbook-based P2P liquidity auto-matching system."}</div>
+                    <div style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">${t.modalW8_desc}</div>
                     <div class="input-group">
-                        <label class="input-label">${t.modal_p2p_label || "P2P Buy/Sell Amount"}</label>
-                        <input class="form-control" placeholder="${t.modal_p2p_ph || "Enter amount"}">
+                        <label class="input-label">${t.modal_p2p_label}</label>
+                        <input class="form-control" placeholder="${t.modal_p2p_ph}">
                     </div>
                     <div class="input-group">
-                        <label class="input-label">${t.modal_auth_label || "Auth Code"} (Issued: <span style="color:var(--accent-gold); font-weight:700;">${generatedAuthCode}</span>)</label>
-                        <input class="form-control" id="userInputCode" placeholder="${t.modal_auth_ph || "Enter 6-digit code"}" maxlength="6">
+                        <label class="input-label">${t.modal_auth_label} (Issued: <span style="color:var(--accent-gold); font-weight:700;">${generatedAuthCode}</span>)</label>
+                        <input class="form-control" id="userInputCode" placeholder="${t.modal_auth_ph}" maxlength="6">
                     </div>
-                    <button class="action-btn" onclick="verifyAndExecute(8)">${t.modal_btn8 || "Register P2P Order & Approve"}</button>
+                    <button class="action-btn" onclick="verifyAndExecute(8)">${t.modal_btn8}</button>
                 `;
             } else if (processId === 9) {
                 title.innerText = t.net9_title + " (" + (t.modalW9_sub || "LP Staking") + ")";
                 content.innerHTML = `
-                    <div style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">${t.modalW9_desc || "Proof of Liquidity (PoL) and high dividend governance rights grant."}</div>
+                    <div style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">${t.modalW9_desc}</div>
                     <div class="input-group">
-                        <label class="input-label">${t.modal_lp_label || "LP Token Amount to Stake"}</label>
+                        <label class="input-label">${t.modal_lp_label}</label>
                         <input class="form-control" placeholder="0.00 LP">
                     </div>
                     <div class="input-group">
-                        <label class="input-label">${t.modal_auth_label || "Auth Code"} (Issued: <span style="color:var(--accent-gold); font-weight:700;">${generatedAuthCode}</span>)</label>
-                        <input class="form-control" id="userInputCode" placeholder="${t.modal_auth_ph || "Enter 6-digit code"}" maxlength="6">
+                        <label class="input-label">${t.modal_auth_label} (Issued: <span style="color:var(--accent-gold); font-weight:700;">${generatedAuthCode}</span>)</label>
+                        <input class="form-control" id="userInputCode" placeholder="${t.modal_auth_ph}" maxlength="6">
                     </div>
-                    <button class="action-btn" onclick="verifyAndExecute(9)">${t.modal_btn9 || "Register LP Staking"}</button>
+                    <button class="action-btn" onclick="verifyAndExecute(9)">${t.modal_btn9}</button>
                 `;
             } else if (processId === 10) {
                 title.innerText = t.net10_title + " (" + (t.modalW10_sub || "Pi Mainnet Sync") + ")";
                 content.innerHTML = `
-                    <div style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">${t.modalW10_desc || "Pi asset mainnet ledger real-time synchronization process."}</div>
+                    <div style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">${t.modalW10_desc}</div>
                     <div class="input-group">
-                        <label class="input-label">${t.modal_pi_label || "Synchronized Pi Mainnet Balance"}</label>
+                        <label class="input-label">${t.modal_pi_label}</label>
                         <input class="form-control" value="3,141.59 PI" readonly style="color:var(--accent-gold); font-weight:700;">
                     </div>
                     <div class="input-group">
-                        <label class="input-label">${t.modal_auth_label || "Auth Code"} (Issued: <span style="color:var(--accent-gold); font-weight:700;">${generatedAuthCode}</span>)</label>
-                        <input class="form-control" id="userInputCode" placeholder="${t.modal_auth_ph || "Enter 6-digit code"}" maxlength="6">
+                        <label class="input-label">${t.modal_auth_label} (Issued: <span style="color:var(--accent-gold); font-weight:700;">${generatedAuthCode}</span>)</label>
+                        <input class="form-control" id="userInputCode" placeholder="${t.modal_auth_ph}" maxlength="6">
                     </div>
-                    <button class="action-btn" onclick="verifyAndExecute(10)">${t.modal_btn10 || "Execute Ledger Sync"}</button>
+                    <button class="action-btn" onclick="verifyAndExecute(10)">${t.modal_btn10}</button>
                 `;
             }
 
@@ -1337,27 +1337,19 @@
 
         function verifyAndExecute(processId) {
             const userEntered = document.getElementById('userInputCode').value.trim();
-            const t = translations[currentLang] || translations['en'];
+            const t = translationsProxy[currentLang];
             
             if(userEntered !== generatedAuthCode) {
-                alert(t.alertMismatch || "❌ Auth code does not match. Please enter the exact 6-digit code.");
+                alert(t.alertMismatch);
                 return;
             }
             
             const messages = {
-                1: t.msg1 || "Wallet connected successfully.",
-                2: t.msg2 || "Transfer and approval processed.",
-                3: t.msg3 || "Escrow payment approved.",
-                4: t.msg4 || "Deposit into asset trust vault completed.",
-                5: t.msg5 || "Reward claim approved.",
-                6: t.msg6 || "UBI distribution verified and approved.",
-                7: t.msg7 || "Instant swap completed.",
-                8: t.msg8 || "P2P order matching approved.",
-                9: t.msg9 || "LP staking registered successfully.",
-                10: t.msg10 || "Mainnet ledger resynchronization completed."
+                1: t.msg1, 2: t.msg2, 3: t.msg3, 4: t.msg4, 5: t.msg5,
+                6: t.msg6, 7: t.msg7, 8: t.msg8, 9: t.msg9, 10: t.msg10
             };
             
-            alert("✅ [" + (t.alertSuccess || "Success") + "] " + messages[processId]);
+            alert("✅ [" + t.alertSuccess + "] " + messages[processId]);
             closeModal();
         }
 
@@ -1365,7 +1357,7 @@
             const amountInput = document.getElementById('depositAmount');
             const periodSelect = document.getElementById('depositPeriod');
             const resultInput = document.getElementById('depositExpectedResult');
-            const t = translations[currentLang] || translations['en'];
+            const t = translationsProxy[currentLang];
 
             if (!amountInput || !periodSelect || !resultInput) return;
 
@@ -1373,7 +1365,7 @@
             let amount = parseFloat(rawVal);
 
             if (isNaN(amount) || amount <= 0) {
-                resultInput.value = t.modal_exp_default || "Expected return with compound interest: +0.00 HK";
+                resultInput.value = t.modal_exp_default;
                 return;
             }
 
@@ -1384,7 +1376,7 @@
             else if (period === 5) apy = 0.45;
 
             let totalReturn = amount * Math.pow((1 + apy), period) - amount;
-            resultInput.value = `${period} ${t.modal_years_suffix || "years compound return"}: +${totalReturn.toLocaleString('en-US', {maximumFractionDigits: 2})} HK`;
+            resultInput.value = `${period} ${t.modal_years_suffix}: +${totalReturn.toLocaleString('en-US', {maximumFractionDigits: 2})} HK`;
         }
 
         function openInfoModal(type) {
@@ -1392,46 +1384,46 @@
             const modal = document.getElementById('appModal');
             const title = document.getElementById('modalTitle');
             const content = document.getElementById('modalContent');
-            const t = translations[currentLang] || translations['en'];
+            const t = translationsProxy[currentLang];
 
             let titleText = "";
             let bodyHtml = "";
 
             if (type === 'whitepaper') {
-                titleText = t.info_wp_title || "HK WORLD BANK Whitepaper v3.1";
+                titleText = t.info_wp_title;
                 bodyHtml = `<div style="font-size:12px; line-height:1.6; color:var(--text-main); max-height:60vh; overflow-y:auto; padding-right:6px;">
-                           <p style="color:var(--accent-gold); font-weight:700; margin-bottom:6px;">${t.info_wp_h1 || "[1-5] Core Architecture"}</p>
-                           <p style="color:var(--text-muted); margin-bottom:8px;">1. ${t.info_wp_1 || "Vision & Overview"}<br>2. ${t.info_wp_2 || "Pi Network SDK Integration"}<br>3. ${t.info_wp_3 || "Top 10 Distributed Network Architecture"}<br>4. ${t.info_wp_4 || "AGI Beeni Orchestration"}<br>5. ${t.info_wp_5 || "SONPONE Detection System"}</p>
-                           <p style="color:var(--accent-gold); font-weight:700; margin-bottom:6px;">${t.info_wp_h2 || "[6-10] Economic Model & Liquidity"}</p>
-                           <p style="color:var(--text-muted); margin-bottom:8px;">6. ${t.info_wp_6 || "3-Yr 31.41% APY Compounding"}<br>7. ${t.info_wp_7 || "Liquidity Pool Wallet System"}<br>8. ${t.info_wp_8 || "60-Language Universal Engine"}<br>9. ${t.info_wp_9 || "UBI Distribution Model"}<br>10. ${t.info_wp_10 || "DEX Orderless P2P Swap"}</p>
+                           <p style="color:var(--accent-gold); font-weight:700; margin-bottom:6px;">${t.info_wp_h1}</p>
+                           <p style="color:var(--text-muted); margin-bottom:8px;">1. ${t.info_wp_1}<br>2. ${t.info_wp_2}<br>3. ${t.info_wp_3}<br>4. ${t.info_wp_4}<br>5. ${t.info_wp_5}</p>
+                           <p style="color:var(--accent-gold); font-weight:700; margin-bottom:6px;">${t.info_wp_h2}</p>
+                           <p style="color:var(--text-muted); margin-bottom:8px;">6. ${t.info_wp_6}<br>7. ${t.info_wp_7}<br>8. ${t.info_wp_8}<br>9. ${t.info_wp_9}<br>10. ${t.info_wp_10}</p>
                            </div>`;
             } else if (type === 'faq') {
-                titleText = t.info_faq_title || "Frequently Asked Questions (FAQ)";
+                titleText = t.info_faq_title;
                 bodyHtml = `<div style="font-size:12px; line-height:1.6; color:var(--text-main); max-height:60vh; overflow-y:auto; padding-right:6px;">
-                           <p style="color:var(--accent-cyan); font-weight:700; margin-bottom:4px;">Q1. ${t.info_faq_q1 || "What is HK WorldBank?"}</p>
-                           <p style="color:var(--text-muted); margin-bottom:8px;">A. ${t.info_faq_a1 || "Next-gen decentralized finance platform based on Pi Network SDK and top 10 distributed networks."}</p>
-                           <p style="color:var(--accent-cyan); font-weight:700; margin-bottom:4px;">Q2. ${t.info_faq_q2 || "How does PI Ledger Sync work?"}</p>
-                           <p style="color:var(--text-muted); margin-bottom:8px;">A. ${t.info_faq_a2 || "Real-time sync with node wallet protocols without error."}</p>
+                           <p style="color:var(--accent-cyan); font-weight:700; margin-bottom:4px;">Q1. ${t.info_faq_q1}</p>
+                           <p style="color:var(--text-muted); margin-bottom:8px;">A. ${t.info_faq_a1}</p>
+                           <p style="color:var(--accent-cyan); font-weight:700; margin-bottom:4px;">Q2. ${t.info_faq_q2}</p>
+                           <p style="color:var(--text-muted); margin-bottom:8px;">A. ${t.info_faq_a2}</p>
                            </div>`;
             } else if (type === 'policies') {
-                titleText = t.info_pol_title || "3 POLICIES (Terms, Security, Privacy)";
+                titleText = t.info_pol_title;
                 bodyHtml = `<div style="font-size:12px; line-height:1.6; color:var(--text-main);">
-                           <p style="color:var(--accent-green); font-weight:700; margin-bottom:4px;">1. ${t.info_pol_1 || "Terms of Service"}</p>
-                           <p style="color:var(--text-muted); margin-bottom:8px;">${t.info_pol_desc1 || "All transactions processed fairly based on ledger records."}</p>
-                           <p style="color:var(--accent-green); font-weight:700; margin-bottom:4px;">2. ${t.info_pol_2 || "Security & Privacy"}</p>
-                           <p style="color:var(--text-muted);">${t.info_pol_desc2 || "Multisig encryption and 24/7 AGI defense shield active."}</p>
+                           <p style="color:var(--accent-green); font-weight:700; margin-bottom:4px;">1. ${t.info_pol_1}</p>
+                           <p style="color:var(--text-muted); margin-bottom:8px;">${t.info_pol_desc1}</p>
+                           <p style="color:var(--accent-green); font-weight:700; margin-bottom:4px;">2. ${t.info_pol_2}</p>
+                           <p style="color:var(--text-muted);">${t.info_pol_desc2}</p>
                            </div>`;
             } else if (type === 'regulations') {
-                titleText = t.info_reg_title || "11-Country Digital Asset Compliance";
+                titleText = t.info_reg_title;
                 bodyHtml = `<div style="font-size:12px; line-height:1.6; color:var(--text-main);">
-                           <p style="color:var(--accent-gold); font-weight:700; margin-bottom:6px;">✔ ${t.info_reg_sub || "Global Regulatory Compliance"}</p>
-                           <p style="color:var(--text-muted);">${t.info_reg_desc || "Fully satisfies FATF, EU MiCA, and global digital asset regulatory standards."}</p>
+                           <p style="color:var(--accent-gold); font-weight:700; margin-bottom:6px;">✔ ${t.info_reg_sub}</p>
+                           <p style="color:var(--text-muted);">${t.info_reg_desc}</p>
                            </div>`;
             } else if (type === 't165') {
-                titleText = t.info_t165_title || "T165 Landmark Hub (Gyeongju Headquarters)";
+                titleText = t.info_t165_title;
                 bodyHtml = `<div style="font-size:12px; line-height:1.6; color:var(--text-main);">
-                           <p style="color:var(--accent-gold); font-weight:700; margin-bottom:6px;">✔ ${t.info_t165_sub || "HK Group Gyeongju Headquarters"}</p>
-                           <p style="color:var(--text-muted);">${t.info_t165_desc || "The physical command center for the 10 distributed networks and AGI Beeni core server."}</p>
+                           <p style="color:var(--accent-gold); font-weight:700; margin-bottom:6px;">✔ ${t.info_t165_sub}</p>
+                           <p style="color:var(--text-muted);">${t.info_t165_desc}</p>
                            </div>`;
             }
 
@@ -1448,7 +1440,7 @@
             }
         }
 
-        // [정식 60개국어 글로벌 유니버설 번역 사전 데이터베이스 (Proxy를 이용해 나머지 모든 언어 자동 영어 지원)]
+        // [정식 60개국어 글로벌 유니버설 번역 사전 데이터베이스]
         const translations = {
             ko: {
                 headerSubText: "글로벌 차세대 분산 금융", langEngineLabel: "60개국어 다국어 엔진", subTitle: "빠른 금융 작업 마스터 코어",
@@ -1504,7 +1496,16 @@
                 msg7: "7번 스왑: 즉시 코인 구매 및 스왑 승인이 완료되었습니다.",
                 msg8: "8번 DEX 스왑: P2P 유동성 자동매칭 및 인증 승인이 완료되었습니다.",
                 msg9: "9번 LP스태이킹: 유동성 공급 및 인증 승인이 완료되었습니다.",
-                msg10: "10번 PI수량: 메인넷 블록체인 원장 재동기화 및 승인이 완료되었습니다."
+                msg10: "10번 PI수량: 메인넷 블록체인 원장 재동기화 및 승인이 완료되었습니다.",
+                info_wp_title: "HK WORLD BANK 백서 v3.1", info_wp_h1: "[1-5] 코어 아키텍처",
+                info_wp_1: "비전 및 개요", info_wp_2: "Pi Network SDK 연동", info_wp_3: "10대 분산 연동망 구조", info_wp_4: "AGI 삐니 오케스트레이션", info_wp_5: "손폰(SONPONE) 감지 시스템",
+                info_wp_h2: "[6-10] 경제 모델 및 유동성", info_wp_6: "3년 31.41% APY 복리", info_wp_7: "유동성풀 지갑 시스템", info_wp_8: "60개국어 유니버설 엔진", info_wp_9: "UBI 분배 모델", info_wp_10: "DEX 오더레스 P2P 스왑",
+                info_faq_title: "자주 묻는 질문 (FAQ)", info_faq_q1: "HK WorldBank란 무엇인가요?", info_faq_a1: "Pi Network SDK와 10대 분산 연동망을 기반으로 한 차세대 탈중앙화 금융 플랫폼입니다.",
+                info_faq_q2: "PI 원장 동기화는 어떻게 작동하나요?", info_faq_a2: "노드 지갑 프로토콜과 실시간으로 에러 없이 동기화됩니다.",
+                info_pol_title: "3대 POLICIES (약관·보안·프라이버시)", info_pol_1: "이용약관", info_pol_desc1: "모든 거래는 원장 기록을 바탕으로 공정하게 처리됩니다.",
+                info_pol_2: "보안 및 프라이버시", info_pol_desc2: "멀티시그 암호화 및 24시간 AGI 방어 쉴드가 가동됩니다.",
+                info_reg_title: "11개국 디지털 자산법 컴플라이언스", info_reg_sub: "글로벌 규제 준수", info_reg_desc: "FATF, EU MiCA 및 글로벌 디지털 자산 규제 기준을 완벽히 충족합니다.",
+                info_t165_title: "T165 랜드마크 허브 (경주 사옥)", info_t165_sub: "HK그룹 경주 사옥", info_t165_desc: "10대 분산 연동망과 AGI 삐니 코어 서버의 물리적 지휘 본부입니다."
             },
             en: {
                 headerSubText: "Global Next-Gen Decentralized Finance", langEngineLabel: "60-Language Engine", subTitle: "Fast Financial Operation Master Core",
@@ -1560,7 +1561,16 @@
                 msg7: "Instant swap completed.",
                 msg8: "P2P order matching approved.",
                 msg9: "LP staking registered successfully.",
-                msg10: "Mainnet ledger resynchronization completed."
+                msg10: "Mainnet ledger resynchronization completed.",
+                info_wp_title: "HK WORLD BANK Whitepaper v3.1", info_wp_h1: "[1-5] Core Architecture",
+                info_wp_1: "Vision & Overview", info_wp_2: "Pi Network SDK Integration", info_wp_3: "Top 10 Distributed Network Architecture", info_wp_4: "AGI Beeni Orchestration", info_wp_5: "SONPONE Detection System",
+                info_wp_h2: "[6-10] Economic Model & Liquidity", info_wp_6: "3-Yr 31.41% APY Compounding", info_wp_7: "Liquidity Pool Wallet System", info_wp_8: "60-Language Universal Engine", info_wp_9: "UBI Distribution Model", info_wp_10: "DEX Orderless P2P Swap",
+                info_faq_title: "Frequently Asked Questions (FAQ)", info_faq_q1: "What is HK WorldBank?", info_faq_a1: "Next-gen decentralized finance platform based on Pi Network SDK and top 10 distributed networks.",
+                info_faq_q2: "How does PI Ledger Sync work?", info_faq_a2: "Real-time sync with node wallet protocols without error.",
+                info_pol_title: "3 POLICIES (Terms, Security, Privacy)", info_pol_1: "Terms of Service", info_pol_desc1: "All transactions processed fairly based on ledger records.",
+                info_pol_2: "Security & Privacy", info_pol_desc2: "Multisig encryption and 24/7 AGI defense shield active.",
+                info_reg_title: "11-Country Digital Asset Compliance", info_reg_sub: "Global Regulatory Compliance", info_reg_desc: "Fully satisfies FATF, EU MiCA, and global digital asset regulatory standards.",
+                info_t165_title: "T165 Landmark Hub (Gyeongju Headquarters)", info_t165_sub: "HK Group Gyeongju Headquarters", info_t165_desc: "The physical command center for the 10 distributed networks and AGI Beeni core server."
             },
             zh: {
                 headerSubText: "全球下一代分散式金融", langEngineLabel: "60国语言引擎", subTitle: "快速金融操作 Master Core",
@@ -1602,7 +1612,7 @@
                 modalW8_sub: "订单簿 P2P", modalW8_desc: "去中心化订单簿 P2P 流动性自动匹配系统。",
                 modal_p2p_label: "P2P 买入/卖出数量", modal_p2p_ph: "输入数量", modal_btn8: "注册 P2P 订单并批准",
                 modalW9_sub: "PoL 质押", modalW9_desc: "流动性证明 (PoL) 及高股息治理权授予。",
-                modal_lp_label: "质押 LP 代币数量", modal_lp_ph: "", modal_btn9: "注册 LP 质押",
+                modal_lp_label: "质押 LP 代币数量", modal_btn9: "注册 LP 质押",
                 modalW10_sub: "Pi 主网同步", modalW10_desc: "Pi 资产主网账本实时同步进程。",
                 modal_pi_label: "已同步的 Pi 主网余额", modal_btn10: "执行账本同步",
                 alertMismatch: "❌ 验证码不匹配。请输入准确的 6 位验证码。",
@@ -1616,7 +1626,16 @@
                 msg7: "7号兑换：即时代币购买及兑换批准完成。",
                 msg8: "8号 DEX 兑换：P2P 流动性自动匹配及认证批准完成。",
                 msg9: "9号 LP 质押：流动性供给及认证批准完成。",
-                msg10: "10号 PI 数量：主网区块链账本重新同步及批准完成。"
+                msg10: "10号 PI 数量：主网区块链账本重新同步及批准完成.",
+                info_wp_title: "HK WORLD BANK 白皮书 v3.1", info_wp_h1: "[1-5] 核心架构",
+                info_wp_1: "愿景与概述", info_wp_2: "Pi Network SDK 集成", info_wp_3: "十大分布式网络架构", info_wp_4: "AGI 삐니 编排", info_wp_5: "SONPONE 检测系统",
+                info_wp_h2: "[6-10] 经济模型与流动性", info_wp_6: "3年 31.41% APY 复利", info_wp_7: "流动性池钱包系统", info_wp_8: "60国语言通用引擎", info_wp_9: "UBI 分配模型", info_wp_10: "DEX 无订单 P2P 兑换",
+                info_faq_title: "常见问题 (FAQ)", info_faq_q1: "什么是 HK WorldBank？", info_faq_a1: "基于 Pi Network SDK 和十大分布式网络的下一代去中心化金融平台。",
+                info_faq_q2: "PI 账本同步是如何工作的？", info_faq_a2: "与节点钱包协议实时无误同步。",
+                info_pol_title: "三大 POLICIES (条款、安全、隐私)", info_pol_1: "服务条款", info_pol_desc1: "所有交易均根据账本记录公平处理。",
+                info_pol_2: "安全与隐私", info_pol_desc2: "多签加密与 24/7 AGI 防御护盾处于激活状态。",
+                info_reg_title: "11国数字资产合规", info_reg_sub: "全球监管合规", info_reg_desc: "完全满足 FATF、欧盟 MiCA 及全球数字资产监管标准。",
+                info_t165_title: "T165 标志性枢纽 (庆州总部)", info_t165_sub: "HK集团庆州总部", info_t165_desc: "十大分布式网络和 AGI 삐니 核心服务器的物理指挥中心。"
             },
             ja: {
                 headerSubText: "グローバル次世代分散型金融", langEngineLabel: "60ヶ国語エンジン", subTitle: "高速金融操作マスターコア",
@@ -1672,11 +1691,20 @@
                 msg7: "7番スワップ：即時コイン購入及びスワップ承認が完了しました。",
                 msg8: "8番DEXスワップ：P2P流動性自動マッチング及び認証承認が完了しました。",
                 msg9: "9番LPステーキング：流動性供給及び認証承認が完了しました。",
-                msg10: "10番PI数量：メインネットブロックチェーン台帳再同期及び承認が完了しました。"
+                msg10: "10番PI数量：メインネットブロックチェーン台帳再同期及び承認が完了しました。",
+                info_wp_title: "HK WORLD BANK ホワイトペーパー v3.1", info_wp_h1: "[1-5] コアアーキテクチャ",
+                info_wp_1: "ビジョンと概要", info_wp_2: "Pi Network SDK 連携", info_wp_3: "10大分散連動網構造", info_wp_4: "AGI 삐니 オーケストレーション", info_wp_5: "SONPONE検知システム",
+                info_wp_h2: "[6-10] 経済モデルと流動性", info_wp_6: "3年 31.41% APY 複利", info_wp_7: "流動性プールウォレットシステム", info_wp_8: "60ヶ国語ユニバーサルエンジン", info_wp_9: "UBI分配モデル", info_wp_10: "DEXオーダーレスP2Pスワップ",
+                info_faq_title: "よくある質問 (FAQ)", info_faq_q1: "HK WorldBankとは何ですか？", info_faq_a1: "Pi Network SDKと10大分散連動網をベースにした次世代分散型金融プラットフォームです。",
+                info_faq_q2: "PI台帳同期はどのように動作しますか？", info_faq_a2: "ノードウォレットプロトコルとリアルタイムでエラーなく同期されます。",
+                info_pol_title: "3大POLICIES (規約・セキュリティ・プライバシー)", info_pol_1: "利用規約", info_pol_desc1: "すべての取引は台帳記録に基づき公正に処理されます。",
+                info_pol_2: "セキュリティとプライバシー", info_pol_desc2: "マルチシグ暗号化および24時間AGI防御シールドが稼働します。",
+                info_reg_title: "11ヶ国デジタル資産法コンプライアンス", info_reg_sub: "グローバル規制遵守", info_reg_desc: "FATF、EU MiCAおよびグローバルデジタル資産規制基準を完全に満たしています。",
+                info_t165_title: "T165 ランドマークハブ (慶州本社)", info_t165_sub: "HKグループ慶州本社", info_t165_desc: "10大分散連動網とAGI 삐니 コアサーバーの物理的指揮本部です。"
             }
         };
 
-        // Proxy를 이용해 등록되지 않은 나머지 56개국어 선택 시 자동으로 영어(en) 사전 데이터를 가져오도록 설정
+        // Proxy를 활용하여 사전에 정의되지 않은 나머지 56개국어 선택 시 자동으로 영어(en) 사전 데이터를 반환하도록 설정
         const translationsProxy = new Proxy(translations, {
             get(target, prop) {
                 return target[prop] || target['en'];
