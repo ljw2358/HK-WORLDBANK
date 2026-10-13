@@ -858,257 +858,123 @@ select option {
                 </button>
             </div>
 
-          <!-- ================= 10대 분산 연동망 모듈 (카드 + 모달 팝업 60개국어 지원) ================= -->
-<div class="section-header" style="display: flex; justify-content: space-between; align-items: center; width: 100%; flex-wrap: wrap; gap: 10px; margin-bottom: 20px;">
-    <div>
-        <h2 class="section-title">10대 분산 연동망</h2>
-        <span class="section-sub">[개별 프로세스 작동]</span>
-    </div>
-    <!-- 다국어 선택 드롭다운 -->
-    <div style="display: flex; align-items: center; gap: 8px;">
-        <label for="langSelect" style="font-size: 12px; color: #94a3b8; font-weight: 600;">LANGUAGE:</label>
-        <select id="langSelect" style="background: #020617; border: 1px solid #334155; color: #f8fafc; padding: 6px 12px; border-radius: 8px; font-size: 13px; outline: none; cursor: pointer;">
-            <option value="ko">🇰🇷 한국어</option>
-            <option value="en">🇺🇸 English</option>
-            <option value="ja">🇯🇵 日本語</option>
-            <option value="zh">🇨🇳 中文</option>
-            <option value="es">🇪🇸 Español</option>
-            <option value="fr">🇫🇷 Français</option>
-            <option value="de">🇩🇪 Deutsch</option>
-            <option value="vi">🇻🇳 Tiếng Việt</option>
-            <option value="th">🇹🇭 ไทย</option>
-            <option value="id">🇮🇩 Bahasa</option>
-            <option value="ru">🇷🇺 Русский</option>
-            <option value="ar">🇸🇦 العربية</option>
-        </select>
-    </div>
-</div>
+            <!-- 10 Distributed Networks Grid Section -->
+            <div class="section-header">
+                <h2 class="section-title" data-i18n="gridSectionTitle">10대 분산 연동망</h2>
+                <span class="section-sub" data-i18n="gridSectionSub">[개별 프로세스 작동]</span>
+            </div>
 
-<div class="network-grid" id="featuresGrid">
-    <!-- 자바스크립트로 기존 network-card 구조가 동적 생성됩니다 -->
-</div>
+            <div class="network-grid">
+                <!-- 1. 지갑연결 -->
+                <div class="network-card" onclick="openProcessModal(1)">
+                    <div class="card-top-center">
+                        <i class="fa-solid fa-link card-icon-1"></i>
+                    </div>
+                    <div>
+                        <div class="card-title" data-i18n="net1_title">1. 지갑연결</div>
+                        <div class="card-desc" data-i18n="net1_desc">노드 지갑 프로토콜 연동 및 자동 인증</div>
+                    </div>
+                </div>
 
-<!-- 다국어 제어 및 모달 실시간 번역 스크립트 -->
-<script>
-    (function() {
-        window.currentAppLang = 'ko'; // 현재 선택된 언어 글로벌 저장
+                <!-- 2. 송금 -->
+                <div class="network-card" onclick="openProcessModal(2)">
+                    <div class="card-top-center">
+                        <i class="fa-solid fa-paper-plane card-icon-2"></i>
+                    </div>
+                    <div>
+                        <div class="card-title" data-i18n="net2_title">2. 송금</div>
+                        <div class="card-desc" data-i18n="net2_desc">대륙간 초고속 멀티시그 암호화 전송 시스템</div>
+                    </div>
+                </div>
 
-        const featuresData = [
-            {
-                id: 1,
-                icon: "fa-link",
-                title: { ko: "1. 지갑연결", en: "1. Wallet Connection", ja: "1. ウォレット接続", zh: "1. 钱包连接", es: "1. Conexión de Monedero" },
-                desc: { ko: "노드 지갑 프로토콜 연동 및 자동 인증", en: "Node wallet protocol integration and auto-auth", ja: "ノードウォレットプロトコル連携と自動認証", zh: "节点钱包协议集成与自动认证", es: "Integración de protocolos y auto-autenticación" },
-                modalTitle: { ko: "1. 지갑연결 (Wallet Connect)", en: "1. Wallet Connect", ja: "1. ウォレット接続", zh: "1. 钱包连接", es: "1. Conexión de Monedero" },
-                modalDesc: { ko: "본인의 노드 지갑 주소를 입력하고 보안 인증을 진행하세요.", en: "Enter your node wallet address and proceed with security authentication.", ja: "ノードウォレットアドレスを入力し、セキュリティ認証を進めてください。", zh: "请输入您的节点钱包地址并进行安全认证。", es: "Ingrese la dirección de su monedero de nodo y proceda con la autenticación." },
-                label1: { ko: "노드 지갑 주소", en: "Node Wallet Address", ja: "ノードウォレットアドレス", zh: "节点钱包地址", es: "Dirección del monedero de nodo" },
-                ph1: { ko: "본인의 지갑 주소를 입력하세요 (예: 0x...)", en: "Enter your wallet address (e.g. 0x...)", ja: "ウォレットアドレスを入力してください (例: 0x...)", zh: "请输入您的钱包地址 (例: 0x...)", es: "Ingrese su dirección de monedero (ej: 0x...)" },
-                label2: { ko: "인증번호 (발급팀: 495694)", en: "Verification Code (Issued: 495694)", ja: "認証番号 (発行コード: 495694)", zh: "验证码 (已发: 495694)", es: "Código de verificación (Emitido: 495694)" },
-                ph2: { ko: "위의 6자리 인증번호를 입력하세요", en: "Enter the 6-digit verification code above", ja: "上記の6桁の認証番号を入力してください", zh: "请输入上方6位验证码", es: "Ingrese el código de 6 dígitos anterior" },
-                btnText: { ko: "인증번호 승인 및 연결", en: "Approve Code & Connect", ja: "認証番号承認および接続", zh: "批准验证码并连接", es: "Aprobar código y conectar" }
-            },
-            {
-                id: 2,
-                icon: "fa-paper-plane",
-                title: { ko: "2. 송금", en: "2. Transfer", ja: "2. 送金", zh: "2. 转账", es: "2. Transferencia" },
-                desc: { ko: "미래형 초고속 암호화 전송 시스템", en: "Futuristic high-speed encrypted transfer system", ja: "未来型超高速暗号化転送システム", zh: "未来高速加密传输系统", es: "Sistema de transferencia cifrada ultrarrápida" },
-                modalTitle: { ko: "2. 송금 (Transfer)", en: "2. Transfer", ja: "2. 送金", zh: "2. 转账", es: "2. Transferencia" },
-                modalDesc: { ko: "수신자 지갑 주소와 수량을 입력하여 암호화 전송을 실행하세요.", en: "Enter recipient wallet address and amount to execute encrypted transfer.", ja: "受取人のウォレットアドレスと数量を入力して暗号化転送を実行してください。", zh: "请输入接收方钱包地址和数量以执行加密传输。", es: "Ingrese la dirección y cantidad para ejecutar la transferencia cifrada." },
-                label1: { ko: "수신자 지갑 주소", en: "Recipient Wallet Address", ja: "受取人ウォレットアドレス", zh: "接收方钱包地址", es: "Dirección del destinatario" },
-                ph1: { ko: "전송받을 지갑 주소 입력", en: "Enter recipient wallet address", ja: "送金先のウォレットアドレスを入力", zh: "请输入接收方钱包地址", es: "Ingrese la dirección del destinatario" },
-                label2: { ko: "송금 수량 (HK / PI)", en: "Transfer Amount (HK / PI)", ja: "送金数量 (HK / PI)", zh: "转账数量 (HK / PI)", es: "Monto de transferencia (HK / PI)" },
-                ph2: { ko: "수량을 입력하세요", en: "Enter amount", ja: "数量を入力してください", zh: "请输入数量", es: "Ingrese la cantidad" },
-                btnText: { ko: "초고속 송금 실행", en: "Execute High-Speed Transfer", ja: "超高速送金実行", zh: "执行高速转账", es: "Ejecutar transferencia rápida" }
-            },
-            {
-                id: 3,
-                icon: "fa-credit-card",
-                title: { ko: "3. 결제", en: "3. Payment", ja: "3. 決済", zh: "3. 支付", es: "3. Pago" },
-                desc: { ko: "온·오프라인 실시간 상거래 에스크로", en: "Online/offline real-time commerce escrow", ja: "オン・オフラインリアルタイム商取引エスクロー", zh: "线上线下实时商业托管", es: "Fideicomiso de comercio en tiempo real" },
-                modalTitle: { ko: "3. 결제 (Payment Escrow)", en: "3. Payment Escrow", ja: "3. 決済エスクロー", zh: "3. 支付托管", es: "3. Pago Fideicomiso" },
-                modalDesc: { ko: "실시간 상거래 에스크로 스마트 컨트랙트를 승인합니다.", en: "Approve real-time commerce escrow smart contract.", ja: "リアルタイム商取引エスクロー・スマートコントラクトを承認します。", zh: "批准实时商业托管智能合约。", es: "Aprobar contrato inteligente de fideicomiso." },
-                label1: { ko: "가맹점 / 판매자 ID", en: "Merchant / Seller ID", ja: "加盟店 / 販売者 ID", zh: "商家 / 卖家 ID", es: "ID de comerciante / vendedor" },
-                ph1: { ko: "가맹점 번호 입력", en: "Enter merchant ID", ja: "加盟店番号を入力", zh: "请输入商家编号", es: "Ingrese ID de comerciante" },
-                label2: { ko: "결제 금액", en: "Payment Amount", ja: "決済金額", zh: "支付金额", es: "Monto del pago" },
-                ph2: { ko: "결제할 금액 입력", en: "Enter payment amount", ja: "決済する金額を入力", zh: "请输入支付金额", es: "Ingrese el monto a pagar" },
-                btnText: { ko: "에스크로 결제 승인", en: "Approve Escrow Payment", ja: "エスクロー決済承認", zh: "批准托管支付", es: "Aprobar pago con fideicomiso" }
-            },
-            {
-                id: 4,
-                icon: "fa-vault",
-                title: { ko: "4. 예치", en: "4. Deposit", ja: "4. 預託", zh: "4. 存款", es: "4. Depósito" },
-                desc: { ko: "안전 자산 락업 및 유동성 담보 프로토콜", en: "Secure asset lockup and liquidity collateral protocol", ja: "安全資産ロックアップおよび流動性担保プロトコル", zh: "安全资产锁定与流动性抵押协议", es: "Bloqueo de activos y protocolo de garantía" },
-                modalTitle: { ko: "4. 예치 (Deposit Vault)", en: "4. Deposit Vault", ja: "4. 預託ヴォルト", zh: "4. 存款金库", es: "4. Bóveda de depósito" },
-                modalDesc: { ko: "자산을 안전하게 락업하고 담보 이율을 확정합니다.", en: "Lock up assets securely and confirm collateral yield.", ja: "資産を safe にロックアップし、担保金利を確定します。", zh: "安全锁定资产并确认抵押收益率。", es: "Bloquee activos con seguridad y confirme rendimiento." },
-                label1: { ko: "예치 자산 선택", en: "Select Deposit Asset", ja: "預託資産選択", zh: "选择存款资产", es: "Seleccionar activo" },
-                ph1: { ko: "HK / PI / USDT 선택", en: "Select HK / PI / USDT", ja: "HK / PI / USDT 選択", zh: "选择 HK / PI / USDT", es: "Seleccionar HK / PI / USDT" },
-                label2: { ko: "예치 수량", en: "Deposit Amount", ja: "預託数量", zh: "存款数量", es: "Monto a depositar" },
-                ph2: { ko: "예치할 수량 입력", en: "Enter deposit amount", ja: "預託する数量を入力", zh: "请输入存款数量", es: "Ingrese monto a depositar" },
-                btnText: { ko: "자산 예치 락업 실행", en: "Execute Asset Lockup", ja: "資産預託ロックアップ実行", zh: "执行资产锁定", es: "Ejecutar bloqueo de activos" }
-            },
-            {
-                id: 5,
-                icon: "fa-gift",
-                title: { ko: "5. 보상", en: "5. Reward", ja: "5. 報酬", zh: "5. 奖励", es: "5. Recompensa" },
-                desc: { ko: "네트워크 기여도 실시간 인센티브 분배", en: "Real-time network contribution incentive distribution", ja: "ネットワーク貢献度リアルタイムインセンティブ分配", zh: "网络贡献实时激励分配", es: "Distribución de incentivos en tiempo real" },
-                modalTitle: { ko: "5. 보상 (Reward Distribution)", en: "5. Reward Distribution", ja: "5. 報酬分配", zh: "5. 奖励分发", es: "5. Distribución de Recompensas" },
-                modalDesc: { ko: "누적된 네트워크 기여 보상금을 청구하세요.", en: "Claim your accumulated network contribution rewards.", ja: "蓄積されたネットワーク貢献報酬を請求してください。", zh: "请领取您累积的网络贡献奖励。", es: "Reclame sus recompensas de contribución acumuladas." },
-                label1: { ko: "현재 수령 가능 보상금", en: "Claimable Reward Balance", ja: "現在受取可能な報酬", zh: "当前可领取奖励", es: "Saldo de recompensa reclamable" },
-                ph1: { ko: "자동 조회됨 (예: 1,250 HK)", en: "Auto-retrieved (e.g. 1,250 HK)", ja: "自動照会 (例: 1,250 HK)", zh: "自动查询 (例: 1,250 HK)", es: "Consulta automática (ej: 1,250 HK)" },
-                label2: { ko: "수령 지갑 주소", en: "Claim Wallet Address", ja: "受取ウォレットアドレス", zh: "接收钱包地址", es: "Dirección de recepción" },
-                ph2: { ko: "보상금을 받을 지갑 주소", en: "Wallet address for rewards", ja: "報酬を受け取るウォレットアドレス", zh: "接收奖励的钱包地址", es: "Monedero para recibir recompensa" },
-                btnText: { ko: "보상금 즉시 수령", en: "Claim Reward Immediately", ja: "報酬を即座に受取", zh: "立即领取奖励", es: "Reclamar recompensa de inmediato" }
-            },
-            {
-                id: 6,
-                icon: "fa-hand-holding-dollar",
-                title: { ko: "6. 기본소득", en: "6. Basic Income", ja: "6. ベーシックインカム", zh: "6. 基本收入", es: "6. Renta Básica" },
-                desc: { ko: "생태계 공유 가치 기반 기본소득 지급", en: "Ecosystem shared value-based basic income payout", ja: "エコシステム共有価値ベースのベーシックインカム支給", zh: "基于生态共享价值的基本收入发放", es: "Pago de renta básica basado en valor compartido" },
-                modalTitle: { ko: "6. 기본소득 (Universal Basic Income)", en: "6. Universal Basic Income", ja: "6. ユニバーサル・ベーシックインカム", zh: "6. 全民基本收入", es: "6. Renta Básica Universal" },
-                modalDesc: { ko: "월간 생태계 배당 기본소득을 신청 및 지급받습니다.", en: "Apply for and receive monthly ecosystem basic income dividend.", ja: "月次エコシステム配当ベーシックインカムを申請・受給します。", zh: "申请并领取每月生态红利基本收入。", es: "Solicite y reciba el dividendo mensual de renta básica." },
-                label1: { ko: "기본소득 수령 자격 ID", en: "UBI Eligibility ID", ja: "ベーシックインカム受給資格ID", zh: "基本收入资格 ID", es: "ID de elegibilidad UBI" },
-                ph1: { ko: "신원 인증 ID 입력", en: "Enter identity verification ID", ja: "本人確認IDを入力", zh: "请输入身份验证 ID", es: "Ingrese ID de verificación" },
-                label2: { ko: "배당 지급 수량", en: "Dividend Payout Amount", ja: "配当支給数量", zh: "红利发放数量", es: "Monto del dividendo" },
-                ph2: { ko: "월 기본 배당 수량 자동 설정", en: "Monthly basic payout auto-set", ja: "月次基本配当数量 自動設定", zh: "每月基本红利自动设置", es: "Monto básico mensual automático" },
-                btnText: { ko: "기본소득 수령 신청", en: "Apply for Basic Income", ja: "ベーシックインカム受給申請", zh: "申请领取基本收入", es: "Solicitar Renta Básica" }
-            },
-            {
-                id: 7,
-                icon: "fa-right-left",
-                title: { ko: "7. 스왑", en: "7. Swap", ja: "7. 스ワップ", zh: "7. 兑换", es: "7. Intercambio" },
-                desc: { ko: "초고속 내부 디지털 자산 교환 시스템", en: "High-speed internal digital asset exchange system", ja: "超高速内部デジタル資産交換システム", zh: "超高速内部数字资产交换系统", es: "Sistema de intercambio interno de activos" },
-                modalTitle: { ko: "7. 디지털 자산 스왑 (Instant Swap)", en: "7. Instant Asset Swap", ja: "7. 即時アセットスワップ", zh: "7. 即时资产兑换", es: "7. Intercambio Instantáneo" },
-                modalDesc: { ko: "수수료 최적화 내부 스마트 스왑을 실행합니다.", en: "Execute internal smart swap with optimized fees.", ja: "手数料最適化内部スマートスワップを実行します。", zh: "执行低手续费内部智能兑换。", es: "Ejecutar intercambio inteligente optimizado." },
-                label1: { ko: "지불할 자산 (From)", en: "Pay Asset (From)", ja: "支払う資産 (From)", zh: "支付资产 (From)", es: "Pagar activo (From)" },
-                ph1: { ko: "교환할 수량 및 코인 선택", en: "Select coin and enter amount to pay", ja: "交換する数量とコインを選択", zh: "选择币种并输入支付数量", es: "Seleccione moneda y monto a pagar" },
-                label2: { ko: "받을 자산 (To)", en: "Receive Asset (To)", ja: "受け取る資産 (To)", zh: "获得资产 (To)", es: "Recibir activo (To)" },
-                ph2: { ko: "예상 수령 수량 자동 계산", en: "Estimated receive amount auto-calculated", ja: "予想受取数量 自動計算", zh: "预计获得数量自动计算", es: "Monto estimado calculado automáticamente" },
-                btnText: { ko: "실시간 스왑 교환 실행", en: "Execute Instant Swap", ja: "リアルタイムスワップ実行", zh: "执行实时兑换", es: "Ejecutar intercambio instantáneo" }
-            },
-            {
-                id: 8,
-                icon: "fa-shuffle",
-                title: { ko: "8. DEX 스왑", en: "8. DEX Swap", ja: "8. DEXスワップ", zh: "8. DEX兑换", es: "8. DEX Swap" },
-                desc: { ko: "탈중앙화 유동성 풀 기반 토큰 교환", en: "Decentralized liquidity pool-based token swap", ja: "分散型流動性プールベースのトークン交換", zh: "基于去中心化流动性池的代币兑换", es: "Intercambio de tokens basado en fondos DEX" },
-                modalTitle: { ko: "8. DEX 탈중앙화 스왑 (DEX Swap)", en: "8. DEX Decentralized Swap", ja: "8. DEX分散型スワップ", zh: "8. DEX去中心化兑换", es: "8. Intercambio Descentralizado DEX" },
-                modalDesc: { ko: "온체인 유동성 풀을 통해 슬리피지를 최소화하여 교환합니다.", en: "Swap on-chain through liquidity pools with minimal slippage.", ja: "オンチェーン流動性プールを通じてスリッページを最小限にして交換します。", zh: "通过链上流动性池极低滑点进行代币兑换。", es: "Intercambie en cadena a través de fondos de liquidez." },
-                label1: { ko: "토큰 선택 및 수량", en: "Select Token & Amount", ja: "トークン選択および数量", zh: "选择代币及数量", es: "Seleccionar Token y Monto" },
-                ph1: { ko: "스왑할 토큰 수량 입력", en: "Enter token amount to swap", ja: "スワップするトークン数量を入力", zh: "请输入要兑换的代币数量", es: "Ingrese monto del token a intercambiar" },
-                label2: { ko: "최대 허용 슬리피지 (%)", en: "Max Slippage (%)", ja: "許容スリッページ (%)", zh: "最大允许滑点 (%)", es: "Deslizamiento Máximo (%)" },
-                ph2: { ko: "기본값: 0.5%", en: "Default: 0.5%", ja: "デフォルト: 0.5%", zh: "默认值: 0.5%", es: "Predeterminado: 0.5%" },
-                btnText: { ko: "온체인 DEX 스왑 실행", en: "Execute On-Chain DEX Swap", ja: "オンチェーンDEXスワップ実行", zh: "执行链上DEX兑换", es: "Ejecutar DEX Swap en cadena" }
-            },
-            {
-                id: 9,
-                icon: "fa-layer-group",
-                title: { ko: "9. LP 스테이킹", en: "9. LP Staking", ja: "9. LPステーキング", zh: "9. LP质押", es: "9. Staking de LP" },
-                desc: { ko: "유동성 공급 증표(PoL) 및 고배당 프로토콜", en: "Liquidity provider token (PoL) & high-yield protocol", ja: "流動性供給証票(PoL)および高配当プロトコル", zh: "流动性供应凭证（PoL）及高收益协议", es: "Token de provisión de liquidez y alto rendimiento" },
-                modalTitle: { ko: "9. LP 유동성 스테이킹 (LP Staking)", en: "9. LP Liquidity Staking", ja: "9. LP流動性ステーキング", zh: "9. LP流动性质押", es: "9. Staking de Liquidez LP" },
-                modalDesc: { ko: "유동성을 공급하고 LP 토큰을 예치하여 APY 수익을 수령하세요.", en: "Supply liquidity and stake LP tokens to earn high APY yield.", ja: "流動性を供給し、LPトークンを預託してAPY収益を受領してください。", zh: "提供流动性并质押 LP 代币以获取高 APY 收益。", es: "Aporte liquidez y haga staking de tokens LP para ganar APY." },
-                label1: { ko: "스테이킹할 LP 토큰 수량", en: "LP Tokens to Stake", ja: "ステーキングするLPトークン数量", zh: "要质押的 LP 代币数量", es: "Tokens LP para hacer staking" },
-                ph1: { ko: "LP 수량 입력", en: "Enter LP amount", ja: "LP数量を入力", zh: "请输入 LP 数量", es: "Ingrese cantidad de LP" },
-                label2: { ko: "예상 연간 수익률 (APY)", en: "Estimated APY Yield", ja: "予想年間収益率 (APY)", zh: "预计年化收益率 (APY)", es: "Rendimiento Anual Estimado (APY)" },
-                ph2: { ko: "실시간 적용율: 33.41%", en: "Real-time rate: 33.41%", ja: "リアルタイム適用率: 33.41%", zh: "实时收益率: 33.41%", es: "Tasa en tiempo real: 33.41%" },
-                btnText: { ko: "LP 스테이킹 등록", en: "Register LP Staking", ja: "LPステーキング登録", zh: "注册 LP 质押", es: "Registrar Staking de LP" }
-            },
-            {
-                id: 10,
-                icon: "fa-coins",
-                title: { ko: "10. PI 수량", en: "10. Pi Balance", ja: "10. Pi数量", zh: "10. Pi 数量", es: "10. Saldo de Pi" },
-                desc: { ko: "PI 자산 메인넷 보유 실시간 등기조회", en: "Real-time Pi asset mainnet balance verification", ja: "PI資産メインネット保有リアルタイム登記照会", zh: "PI资产主网持有实时登记查询", es: "Verificación en tiempo real del saldo de Pi" },
-                modalTitle: { ko: "10. PI 네트워크 자산 등기조회 (Pi Mainnet)", en: "10. Pi Network Mainnet Verification", ja: "10. PIネットワーク資産登記照会", zh: "10. Pi 网络主网资产查询", es: "10. Verificación Pi Network Mainnet" },
-                modalDesc: { ko: "파이 메인넷 지갑의 보유 잔액과 동기화 상태를 정밀 조회합니다.", en: "Verify Pi mainnet wallet balance and sync status precisely.", ja: "パイメインネットウォレットの保有残高と同期状態を精密照会します。", zh: "精准查询 Pi 主网钱包持仓余额及同步状态。", es: "Verifique el saldo del monedero Pi mainnet y el estado de sincronización." },
-                label1: { ko: "Pi 지갑 주소 / Passphrase", en: "Pi Wallet Address / Passphrase", ja: "Piウォレットアドレス / パスフレーズ", zh: "Pi 钱包地址 / 助记词", es: "Dirección Pi Wallet / Frase de paso" },
-                ph1: { ko: "Pi 메인넷 주소 입력", en: "Enter Pi Mainnet address", ja: "Piメインネットアドレスを入力", zh: "请输入 Pi 主网地址", es: "Ingrese dirección Pi Mainnet" },
-                label2: { ko: "실시간 동기화 보유 수량", en: "Real-time Synced Balance", ja: "リアルタイム同期保有数量", zh: "实时同步持仓数量", es: "Saldo Sincronizado en Tiempo Real" },
-                ph2: { ko: "메인넷 연동 잔액 즉시 조회", en: "Mainnet sync balance auto-check", ja: "メインネット連動残高 即時照会", zh: "主网联动余额即时查询", es: "Consulta de saldo mainnet en tiempo real" },
-                btnText: { ko: "PI 메인넷 자산 등기 확인", en: "Verify Pi Mainnet Asset", ja: "PIメインネット資産登記確認", zh: "确认 Pi 主网资产登记", es: "Verificar Activo Pi Mainnet" }
-            }
-        ];
+                <!-- 3. 결제 -->
+                <div class="network-card" onclick="openProcessModal(3)">
+                    <div class="card-top-center">
+                        <i class="fa-solid fa-credit-card card-icon-3"></i>
+                    </div>
+                    <div>
+                        <div class="card-title" data-i18n="net3_title">3. 결제</div>
+                        <div class="card-desc" data-i18n="net3_desc">현금·카드·타코인 실시간 상거래 에스크로</div>
+                    </div>
+                </div>
 
-        // 1. 카드 그리드 그려주는 함수
-        function renderNetworkCards(lang) {
-            window.currentAppLang = lang;
-            const grid = document.getElementById('featuresGrid');
-            if (!grid) return;
-            
-            grid.innerHTML = '';
-            featuresData.forEach((item) => {
-                const titleText = item.title[lang] || item.title['en'] || item.title['ko'];
-                const descText = item.desc[lang] || item.desc['en'] || item.desc['ko'];
+                <!-- 4. 예치 -->
+                <div class="network-card" onclick="openProcessModal(4)">
+                    <div class="card-top-center">
+                        <i class="fa-solid fa-vault card-icon-4"></i>
+                    </div>
+                    <div>
+                        <div class="card-title" data-i18n="net4_title">4. 예치</div>
+                        <div class="card-desc" data-i18n="net4_desc">3년 만기 31.41% APY 자산 신탁 볼트</div>
+                    </div>
+                </div>
 
-                const card = document.createElement('div');
-                card.className = "network-card";
-                card.setAttribute('onclick', `openProcessModal(${item.id})`);
-                
-                if (item.id === 10) {
-                    card.innerHTML = `
-                        <div class="card-top-center">
-                            <span class="pi-logo-icon" style="width: 26px; height: 26px; font-size: 15px;">π</span>
-                        </div>
-                        <div class="card-title">${titleText}</div>
-                        <div class="card-desc">${descText}</div>
-                    `;
-                } else {
-                    card.innerHTML = `
-                        <div class="card-top-center">
-                            <i class="fa-solid ${item.icon} card-icon-${item.id}"></i>
-                        </div>
-                        <div class="card-title">${titleText}</div>
-                        <div class="card-desc">${descText}</div>
-                    `;
-                }
-                grid.appendChild(card);
-            });
-        }
+                <!-- 5. 보상 -->
+                <div class="network-card" onclick="openProcessModal(5)">
+                    <div class="card-top-center">
+                        <i class="fa-solid fa-gift card-icon-5"></i>
+                    </div>
+                    <div>
+                        <div class="card-title" data-i18n="net5_title">5. 보상</div>
+                        <div class="card-desc" data-i18n="net5_desc">기여도 기반 인센티브 볼트 적립 엔진</div>
+                    </div>
+                </div>
 
-        // 2. 모달 열릴 때 해당 언어로 모달 내부 텍스트 교체해주는 글로벌 함수 오픈
-        window.openProcessModal = function(processId) {
-            const data = featuresData.find(item => item.id === processId);
-            if (!data) return;
+                <!-- 6. 기본소득 -->
+                <div class="network-card" onclick="openProcessModal(6)">
+                    <div class="card-top-center">
+                        <i class="fa-solid fa-hand-holding-dollar card-icon-6"></i>
+                    </div>
+                    <div>
+                        <div class="card-title" data-i18n="net6_title">6. 기본소득</div>
+                        <div class="card-desc" data-i18n="net6_desc">HK 사회 재단 & 지자체 UBI 분배 모델</div>
+                    </div>
+                </div>
 
-            const lang = window.currentAppLang || 'ko';
+                <!-- 7. 스왑 -->
+                <div class="network-card" onclick="openProcessModal(7)">
+                    <div class="card-top-center">
+                        <i class="fa-solid fa-right-left card-icon-7"></i>
+                    </div>
+                    <div>
+                        <div class="card-title" data-i18n="net7_title">7. 스왑</div>
+                        <div class="card-desc" data-i18n="net7_desc">현금/카드/타코인 입금 즉각 코인 구매 스왑</div>
+                    </div>
+                </div>
 
-            // 기존 페이지의 모달 요소를 찾아 다국어 텍스트로 치환
-            const mTitle = document.querySelector('.modal-title, #modalTitle');
-            const mDesc = document.querySelector('.modal-desc, #modalDesc');
-            const mLabels = document.querySelectorAll('.modal-body label, .input-group label');
-            const mInputs = document.querySelectorAll('.modal-body input, .input-group input');
-            const mBtn = document.querySelector('.modal-body button, #modalSubmitBtn, .modal-submit-btn');
+                <!-- 8. DEX 스왑 -->
+                <div class="network-card" onclick="openProcessModal(8)">
+                    <div class="card-top-center">
+                        <i class="fa-solid fa-bolt card-icon-8"></i>
+                    </div>
+                    <div>
+                        <div class="card-title" data-i18n="net8_title">8. DEX 스왑</div>
+                        <div class="card-desc" data-i18n="net8_desc">탈중앙화 오더레스 P2P 유동성 자동매칭</div>
+                    </div>
+                </div>
 
-            if (mTitle) mTitle.textContent = data.modalTitle[lang] || data.modalTitle['en'] || data.modalTitle['ko'];
-            if (mDesc) mDesc.textContent = data.modalDesc[lang] || data.modalDesc['en'] || data.modalDesc['ko'];
-            
-            if (mLabels.length >= 1 && data.label1) mLabels[0].textContent = data.label1[lang] || data.label1['en'] || data.label1['ko'];
-            if (mLabels.length >= 2 && data.label2) mLabels[1].textContent = data.label2[lang] || data.label2['en'] || data.label2['ko'];
-            
-            if (mInputs.length >= 1 && data.ph1) mInputs[0].placeholder = data.ph1[lang] || data.ph1['en'] || data.ph1['ko'];
-            if (mInputs.length >= 2 && data.ph2) mInputs[1].placeholder = data.ph2[lang] || data.ph2['en'] || data.ph2['ko'];
-            
-            if (mBtn && data.btnText) mBtn.textContent = data.btnText[lang] || data.btnText['en'] || data.btnText['ko'];
+                <!-- 9. LP스태이킹 -->
+                <div class="network-card" onclick="openProcessModal(9)">
+                    <div class="card-top-center">
+                        <i class="fa-solid fa-layer-group card-icon-9"></i>
+                    </div>
+                    <div>
+                        <div class="card-title" data-i18n="net9_title">9. LP스태이킹</div>
+                        <div class="card-desc" data-i18n="net9_desc">유동성 공급 증명(PoL) 및 고배당 권한</div>
+                    </div>
+                </div>
 
-            // 기존 페이지의 모달 오픈 함수 실행 (존재할 경우)
-            const modalElement = document.getElementById('processModal') || document.querySelector('.modal-overlay');
-            if (modalElement) {
-                modalElement.style.display = 'flex';
-                modalElement.classList.add('active');
-            }
-        };
-
-        // 이벤트를 통한 언어 감지 및 초기화
-        document.addEventListener('DOMContentLoaded', function() {
-            const langSelect = document.getElementById('langSelect');
-            if (langSelect) {
-                langSelect.addEventListener('change', function(e) {
-                    renderNetworkCards(e.target.value);
-                });
-            }
-            renderNetworkCards('ko');
-        });
-
-        renderNetworkCards('ko');
-    })();
-</script>
+                <!-- 10. PI수량 -->
+                <div class="network-card" onclick="openProcessModal(10)">
+                    <div class="card-top-center">
+                        <span class="pi-logo-icon" style="width: 26px; height: 26px; font-size: 15px;">π</span>
+                    </div>
+                    <div>
+                        <div class="card-title" data-i18n="net10_title">10. PI수량</div>
+                        <div class="card-desc" data-i18n="net10_desc">PI 자산 메인넷 원장 실시간 동기화</div>
+                    </div>
+                </div>
+            </div>
 
             <!-- AGI Beeni Customer Service & Sonpone Sensitivity Control -->
             <div class="agi-section">
