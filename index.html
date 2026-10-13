@@ -1448,7 +1448,7 @@
             }
         }
 
-        // [정식 60개국어 글로벌 유니버설 번역 사전 데이터베이스 (모달 문구까지 완벽 대응)]
+        // [정식 60개국어 글로벌 유니버설 번역 사전 데이터베이스 (Proxy를 이용해 나머지 모든 언어 자동 영어 지원)]
         const translations = {
             ko: {
                 headerSubText: "글로벌 차세대 분산 금융", langEngineLabel: "60개국어 다국어 엔진", subTitle: "빠른 금융 작업 마스터 코어",
@@ -1470,7 +1470,6 @@
                 net10_title: "10. PI수량", net10_desc: "PI 자산 메인넷 원장 실시간 동기화",
                 mainnetAlert: "PI 메인넷 원장 동기화 및 코어팀 전송 신청이 정상적으로 완료되었습니다!",
                 beeniReply: (txt) => `[AGI 삐니]: "${txt}" 명령을 수신했습니다. 10대 분산 연동망 및 AGI 백엔드 코어 프로세스에서 실시간 조율을 실행합니다.`,
-                // Modal translations
                 modalW1_sub: "Wallet Connect", modalW1_desc: "본인의 노드 지갑 주소를 입력하고 보안 인증을 진행하세요.",
                 modal_wallet_label: "노드 지갑 주소", modal_wallet_ph: "본인의 지갑 주소를 입력하세요 (예: 0x...)",
                 modal_auth_label: "인증번호", modal_auth_ph: "위의 6자리 인증번호를 입력하세요", modal_btn1: "인증번호 승인 및 연결",
@@ -1603,7 +1602,7 @@
                 modalW8_sub: "订单簿 P2P", modalW8_desc: "去中心化订单簿 P2P 流动性自动匹配系统。",
                 modal_p2p_label: "P2P 买入/卖出数量", modal_p2p_ph: "输入数量", modal_btn8: "注册 P2P 订单并批准",
                 modalW9_sub: "PoL 质押", modalW9_desc: "流动性证明 (PoL) 及高股息治理权授予。",
-                modal_lp_label: "质押 LP 代币数量", modal_btn9: "注册 LP 质押",
+                modal_lp_label: "质押 LP 代币数量", modal_lp_ph: "", modal_btn9: "注册 LP 质押",
                 modalW10_sub: "Pi 主网同步", modalW10_desc: "Pi 资产主网账本实时同步进程。",
                 modal_pi_label: "已同步的 Pi 主网余额", modal_btn10: "执行账本同步",
                 alertMismatch: "❌ 验证码不匹配。请输入准确的 6 位验证码。",
@@ -1677,9 +1676,16 @@
             }
         };
 
+        // Proxy를 이용해 등록되지 않은 나머지 56개국어 선택 시 자동으로 영어(en) 사전 데이터를 가져오도록 설정
+        const translationsProxy = new Proxy(translations, {
+            get(target, prop) {
+                return target[prop] || target['en'];
+            }
+        });
+
         function changeLanguage(lang) {
             currentLang = lang;
-            let t = translations[lang] || translations['en'];
+            let t = translationsProxy[lang];
 
             const metaTitleEl = document.getElementById('metaTitle');
             if(metaTitleEl) {
