@@ -792,7 +792,7 @@
                 <option value="ms">🇲🇾 Bahasa Melayu</option>
                 <option value="km">🇰🇭 ភាសាខ្មែរ</option>
                 <option value="my">🇲🇲 မြန်မာစာ</option>
-                <option value="lo">🇱🇦 ພາສາລາວ</option>
+                <option value="lo">🇱ående ພາສາລາວ</option>
                 <option value="ne">🇳🇵 नेपाली</option>
                 <option value="si">🇱🇰 සිංහල</option>
                 <option value="sw">🇰🇪 Kiswahili</option>
@@ -1056,12 +1056,12 @@
         }
 
         function updateSonpone(val) {
-            const t = translations[currentLang] || translations['en'];
+            const t = translations[currentLang] || translations['ko'];
             document.getElementById('sonponeVal').innerText = val + "% " + (t.syncText || "(Live Sync)");
         }
 
         function triggerMainnetRequest() {
-            const t = translations[currentLang] || translations['en'];
+            const t = translations[currentLang] || translations['ko'];
             alert(t.mainnetAlert);
         }
 
@@ -1083,8 +1083,8 @@
             setTimeout(() => {
                 const beeniMsg = document.createElement('div');
                 beeniMsg.className = 'chat-msg beeni';
-                const t = translations[currentLang] || translations['en'];
-                beeniMsg.innerText = t.beeniReply(text);
+                const t = translations[currentLang] || translations['ko'];
+                beeniMsg.innerText = typeof t.beeniReply === 'function' ? t.beeniReply(text) : `[AGI Beeni]: ${text}`;
                 chatBox.appendChild(beeniMsg);
                 chatBox.scrollTop = chatBox.scrollHeight;
             }, 600);
@@ -1098,7 +1098,7 @@
             const modal = document.getElementById('appModal');
             const title = document.getElementById('modalTitle');
             const content = document.getElementById('modalContent');
-            const t = translations[currentLang] || translations['en'];
+            const t = translations[currentLang] || translations['ko'];
             generatedAuthCode = Math.floor(100000 + Math.random() * 900000).toString();
 
             const titles = [
@@ -1188,7 +1188,7 @@
 
         function verifyAndExecute(processId) {
             const userEntered = document.getElementById('userInputCode').value.trim();
-            const t = translations[currentLang] || translations['en'];
+            const t = translations[currentLang] || translations['ko'];
             if(userEntered !== generatedAuthCode) {
                 alert(t.alert_auth_fail);
                 return;
@@ -1201,7 +1201,7 @@
             const amountInput = document.getElementById('depositAmount');
             const periodSelect = document.getElementById('depositPeriod');
             const resultInput = document.getElementById('depositExpectedResult');
-            const t = translations[currentLang] || translations['en'];
+            const t = translations[currentLang] || translations['ko'];
             if (!amountInput || !periodSelect || !resultInput) return;
             let amount = parseFloat(amountInput.value.replace(/,/g, '').trim());
             if (isNaN(amount) || amount <= 0) {
@@ -1219,7 +1219,7 @@
             const modal = document.getElementById('appModal');
             const title = document.getElementById('modalTitle');
             const content = document.getElementById('modalContent');
-            const t = translations[currentLang] || translations['en'];
+            const t = translations[currentLang] || translations['ko'];
 
             if (type === 'whitepaper') {
                 title.innerText = t.info_wp_title;
@@ -1244,315 +1244,173 @@
             document.getElementById('appModal').classList.remove('active');
         }
 
-        // 60개국어 번역 사전 데이터베이스 및 모달 폼 레이블 통합 사전
-        const translations = {
-            ko: {
-                headerSubText: "글로벌 차세대 분산 금융", langEngineLabel: "60개국어 다국어 엔진", subTitle: "빠른 금융 작업 마스터 코어",
-                dashTitle: "개인 자산 대시보드", piSyncLabel: "보유 수량 (PI 수량 원장 동기화)", interestLabel: "실시간 누적 이자 (3년 31.41% APY 복리)",
-                mainnetBtnText: "코어팀에게 메인넷 즉시 신청하기", gridSectionTitle: "10대 분산 연동망", gridSectionSub: "[개별 프로세스 작동]",
-                agiTitle: "AGI 삐니 고객센터", agiSub: "손폰(SONPONE) 자동 반응 및 AI 오케스트레이션", sonponeLabelText: "손폰(SONPONE) 감지 감도:", syncText: "(실시간 싱크)",
-                initialBeeniMsg: "[AGI 삐니]: 정식 60개국어 실시간 교차 추론 및 손폰 자동 반응 시스템이 완벽하게 가동 중입니다. 혜공 형님, 무엇이든 지시해 주십시오!",
-                chatInputPlaceholder: "삐니에게 질문 입력...", chatSendBtn: "전송", supportEmailText: "Support: support@hkwb.world",
-                drawerTitle: "HK NAVIGATOR", menuGroup1Title: "Core Legal & Compliance", menuGroup2Title: "HK Global Ecosystem Hubs",
-                menu_wp: "백서 (Whitepaper v3.1 상세)", menu_faq: "자주 묻는 질문 (FAQ 심층)", menu_pol: "3대 POLICIES (약관·보안·프라이버시)", menu_reg: "11개국 디지털 자산법 컴플라이언스",
-                hub_robot: "로봇: HK-ROBOT", hub_nexus: "스마트 글래스: HK-NEXUS", hub_uam: "도심항공교통: HK-UAM", hub_fusion: "인공태양: HK-FUSION", hub_bio: "퀀텀바이오: HK-QUANTUMBIO", hub_space: "우주모빌리티: HK-SPACE", hub_parts: "부품뱅크: HK-PARTSBANK", hub_defence: "국방기술: HK-DEFENCE-HUB", hub_t165: "T165 초특급 랜드마크 허브 (경주 사옥)",
-                net1_title: "1. 지갑연결", net1_desc: "노드 지갑 프로토콜 연동 및 자동 인증", net2_title: "2. 송금", net2_desc: "대륙간 초고속 멀티시그 암호화 전송 시스템",
-                net3_title: "3. 결제", net3_desc: "현금·카드·타코인 실시간 상거래 에스크로", net4_title: "4. 예치", net4_desc: "3년 만기 31.41% APY 자산 신탁 볼트",
-                net5_title: "5. 보상", net5_desc: "기여도 기반 인센티브 볼트 적립 엔진", net6_title: "6. 기본소득", net6_desc: "HK 사회 재단 & 지자체 UBI 분배 모델",
-                net7_title: "7. 스왑", net7_desc: "현금/카드/타코인 입금 즉각 코인 구매 스왑", net8_title: "8. DEX 스왑", net8_desc: "탈중앙화 오더레스 P2P 유동성 자동매칭",
-                net9_title: "9. LP스태이킹", net9_desc: "유동성 공급 증명(PoL) 및 고배당 권한", net10_title: "10. PI수량", net10_desc: "PI 자산 메인넷 원장 실시간 동기화",
-                mainnetAlert: "PI 메인넷 원장 동기화 및 코어팀 전송 신청이 정상적으로 완료되었습니다!",
-                beeniReply: (txt) => `[AGI 삐니]: "${txt}" 명령을 수신했습니다. 10대 분산 연동망 및 AGI 백엔드 코어 프로세스에서 실시간 조율을 실행합니다.`,
-                mod_wallet_desc: "본인의 노드 지갑 주소를 입력하고 보안 인증을 진행하세요.", mod_wallet_lbl: "노드 지갑 주소", mod_wallet_ph: "지갑 주소 입력 (0x...)",
-                mod_transfer_desc: "대륙간 초고속 멀티시그 암호화 전송 프로세스입니다.", mod_transfer_lbl1: "수신자 지갑 주소", mod_transfer_ph1: "0x... 또는 Pi 아이디", mod_transfer_lbl2: "전송 수량",
-                mod_pay_desc: "실시간 에스크로 안전 결제 프로세스입니다.", mod_pay_lbl: "결제 금액",
-                mod_vault_desc: "3년 만기 31.41% APY 자산 신탁 볼트 예치 프로세스입니다.", mod_vault_lbl: "예치 수량", mod_vault_ph: "수량 입력", mod_vault_period: "예치 기간", mod_vault_expected: "예상 수익금", mod_vault_res: "예상 수익",
-                mod_reward_desc: "기여도 기반 인센티브 볼트 적립 및 수령 프로세스입니다.", mod_reward_lbl: "수령 가능 보상",
-                mod_ubi_desc: "HK 사회 재단 및 지자체 UBI 분배 청구 프로세스입니다.", mod_ubi_lbl: "지급 예정 기본소득",
-                mod_swap_desc: "현금/카드/타코인 입금 즉각 코인 구매 스왑입니다.", mod_swap_lbl1: "보낼 자산", mod_swap_lbl2: "받을 자산 (예상)",
-                mod_dex_desc: "탈중앙화 오더북 기반 P2P 유동성 자동 매칭 시스템입니다.", mod_dex_lbl: "P2P 수량 입력",
-                mod_lp_desc: "유동성 공급 증명(PoL) 및 고배당 거버넌스 권한 부여입니다.", mod_lp_lbl: "LP 토큰 수량",
-                mod_pi_desc: "Pi 자산 메인넷 원장 실시간 동기화 프로세스입니다.", mod_pi_lbl: "동기화된 잔액",
-                mod_auth_lbl: "인증번호 (발급됨:", mod_auth_ph: "6자리 인증번호 입력", mod_btn_approve: "인증번호 승인 및 실행",
-                alert_auth_fail: "❌ 인증번호가 일치하지 않습니다. 올바른 6자리 번호를 입력해주세요.", alert_auth_success: "✅ [인증 성공] {id}번 연동망 프로세스가 정상 승인되었습니다.",
-                info_wp_title: "HK WORLD BANK 백서 v3.1 상세 요약", info_wp_body: "<p style='color:var(--accent-gold); font-weight:700;'>[1~5] 아키텍처</p><p style='color:var(--text-muted); margin-bottom:8px;'>1. 비전 및 분산 네트워크<br>2. Pi Network SDK 동기화<br>3. 10대 분산 연동망 프로세스<br>4. AGI 삐니 코어<br>5. SONPONE 손폰 감지</p>",
-                info_faq_title: "자주 묻는 질문 (FAQ 심층)", info_faq_body: "<p style='color:var(--accent-cyan); font-weight:700;'>Q1. 10대 분산 연동망이란?</p><p style='color:var(--text-muted);'>A. 지갑, 송금, 결제, 예치, 보상, UBI, 스왑, DEX, LP, PI수량을 유기적으로 연결한 차세대 금융망입니다.</p>",
-                info_pol_title: "3대 POLICIES (약관·보안·프라이버시)", info_pol_body: "<p style='color:var(--accent-green); font-weight:700;'>보안 및 프라이버시 정책</p><p style='color:var(--text-muted);'>모든 자산과 프로세스는 멀티시그 암호화 보호를 받습니다.</p>",
-                info_reg_title: "11개국 디지털 자산법 컴플라이언스", info_reg_body: "<p style='color:var(--accent-gold);'>전 세계 주요 11개국 디지털 자산 규제 기준을 완벽히 충족합니다.</p>",
-                info_t165_title: "T165 초특급 랜드마크 허브 (경주 사옥)", info_t165_body: "<p style='color:var(--accent-gold);'>경주 본사 T165 사옥은 10대 분산 연동망의 물리적 관제탑이자 글로벌 핵심 거점입니다.</p>"
-            },
-            en: {
-                headerSubText: "Global Next-Gen Decentralized Finance", langEngineLabel: "60-Language Engine", subTitle: "Fast Financial Operation Master Core",
-                dashTitle: "Personal Asset Dashboard", piSyncLabel: "Holding Amount (PI Ledger Sync)", interestLabel: "Real-time Accumulated Interest (3-Yr 31.41% APY Compounding)",
-                mainnetBtnText: "Apply for Mainnet to Core Team Now", gridSectionTitle: "Top 10 Distributed Networks", gridSectionSub: "[Individual Process Operation]",
-                agiTitle: "AGI Beeni Support", agiSub: "SONPONE Auto-Response & AI Orchestration", sonponeLabelText: "SONPONE Detection Sensitivity:", syncText: "(Live Sync)",
-                initialBeeniMsg: "[AGI Beeni]: 60-language cross-inference & SONPONE auto-response system is fully operational. Please give your command!",
-                chatInputPlaceholder: "Ask Beeni anything...", chatSendBtn: "Send", supportEmailText: "Support: support@hkwb.world",
-                drawerTitle: "HK NAVIGATOR", menuGroup1Title: "Core Legal & Compliance", menuGroup2Title: "HK Global Ecosystem Hubs",
-                menu_wp: "Whitepaper (v3.1 Detailed)", menu_faq: "FAQ (In-Depth)", menu_pol: "3 POLICIES (Terms & Security)", menu_reg: "11-Nation Digital Asset Compliance",
-                hub_robot: "Robot: HK-ROBOT", hub_nexus: "Smart Glass: HK-NEXUS", hub_uam: "UAM: HK-UAM", hub_fusion: "Artificial Sun: HK-FUSION", hub_bio: "Quantum Bio: HK-QUANTUMBIO", hub_space: "Space Mobility: HK-SPACE", hub_parts: "Parts Bank: HK-PARTSBANK", hub_defence: "Defence Tech: HK-DEFENCE-HUB", hub_t165: "T165 Landmark Hub (Gyeongju)",
-                net1_title: "1. Wallet Connect", net1_desc: "Node wallet protocol link & auto auth", net2_title: "2. Transfer", net2_desc: "Intercontinental high-speed multisig encrypted transfer",
-                net3_title: "3. Payment", net3_desc: "Cash, card & token real-time commerce escrow", net4_title: "4. Vault Deposit", net4_desc: "3-year maturity 31.41% APY asset trust vault",
-                net5_title: "5. Rewards", net5_desc: "Contribution-based incentive vault engine", net6_title: "6. UBI", net6_desc: "HK Social Foundation & municipal UBI model",
-                net7_title: "7. Swap", net7_desc: "Instant coin purchase swap via cash/card/token", net8_title: "8. DEX Swap", net8_desc: "Decentralized orderless P2P liquidity matching",
-                net9_title: "9. LP Staking", net9_desc: "Proof of Liquidity (PoL) & high dividend rights", net10_title: "10. PI Ledger", net10_desc: "PI asset mainnet ledger real-time sync",
-                mainnetAlert: "PI Mainnet ledger synchronization and core team transmission request have been successfully completed!",
-                beeniReply: (txt) => `[AGI Beeni]: Received command "${txt}". Real-time coordination is executed in the 10 distributed networks and AGI backend.`,
-                mod_wallet_desc: "Enter your node wallet address and proceed with security auth.", mod_wallet_lbl: "Node Wallet Address", mod_wallet_ph: "Enter wallet address (0x...)",
-                mod_transfer_desc: "Intercontinental high-speed multisig encrypted transfer process.", mod_transfer_lbl1: "Recipient Wallet Address", mod_transfer_ph1: "0x... or Pi ID", mod_transfer_lbl2: "Transfer Amount",
-                mod_pay_desc: "Real-time escrow secure payment process.", mod_pay_lbl: "Payment Amount",
-                mod_vault_desc: "3-year maturity 31.41% APY asset trust vault deposit process.", mod_vault_lbl: "Deposit Amount", mod_vault_ph: "Enter amount", mod_vault_period: "Deposit Period", mod_vault_expected: "Expected Return", mod_vault_res: "Expected profit",
-                mod_reward_desc: "Contribution-based incentive vault collection process.", mod_reward_lbl: "Claimable Reward",
-                mod_ubi_desc: "HK Social Foundation & municipal UBI claim process.", mod_ubi_lbl: "Scheduled UBI",
-                mod_swap_desc: "Instant coin purchase swap via cash/card/token.", mod_swap_lbl1: "Asset to Send", mod_swap_lbl2: "Asset to Receive (Est.)",
-                mod_dex_desc: "Decentralized orderbook P2P liquidity auto-matching system.", mod_dex_lbl: "Enter P2P Amount",
-                mod_lp_desc: "Proof of Liquidity (PoL) and high dividend governance rights.", mod_lp_lbl: "LP Token Amount",
-                mod_pi_desc: "Pi asset mainnet ledger real-time sync process.", mod_pi_lbl: "Synchronized Balance",
-                mod_auth_lbl: "Auth Code (Issued:", mod_auth_ph: "Enter 6-digit code", mod_btn_approve: "Approve and Execute",
-                alert_auth_fail: "❌ Auth code does not match. Please enter the correct 6-digit code.", alert_auth_success: "✅ [Auth Success] Process #{id} has been successfully approved.",
-                info_wp_title: "HK WORLD BANK Whitepaper v3.1 Detailed", info_wp_body: "<p style='color:var(--accent-gold); font-weight:700;'>[1-5] Architecture</p><p style='color:var(--text-muted);'>1. Vision<br>2. Pi Network SDK<br>3. Top 10 Distributed Networks<br>4. AGI Beeni Core<br>5. SONPONE Detection</p>",
-                info_faq_title: "Frequently Asked Questions (FAQ)", info_faq_body: "<p style='color:var(--accent-cyan); font-weight:700;'>Q1. What is the Top 10 Networks?</p><p style='color:var(--text-muted);'>A. Next-gen financial network integrating wallets, transfers, payments, vaults, UBI, and swaps.</p>",
-                info_pol_title: "3 POLICIES", info_pol_body: "<p style='color:var(--accent-green); font-weight:700;'>Security & Privacy</p><p style='color:var(--text-muted);'>All transactions are protected by multisig encryption.</p>",
-                info_reg_title: "11-Nation Digital Asset Compliance", info_reg_body: "<p style='color:var(--accent-gold);'>Fully compliant with global digital asset regulations across 11 nations.</p>",
-                info_t165_title: "T165 Landmark Hub (Gyeongju)", info_t165_body: "<p style='color:var(--accent-gold);'>Gyeongju headquarters is the physical command tower of the 10 distributed networks.</p>"
-            },
-            zh: {
-                headerSubText: "全球下一代分散式金融", langEngineLabel: "60国语言引擎", subTitle: "快速金融操作 Master Core",
-                dashTitle: "个人资产仪表板", piSyncLabel: "持有数量 (PI 账本实时同步)", interestLabel: "实时累计利息 (3年 31.41% APY 复利)",
-                mainnetBtnText: "立即向核心团队申请主网", gridSectionTitle: "十大分布式网络", gridSectionSub: "[独立进程运行]",
-                agiTitle: "AGI 삐니 客户中心", agiSub: "SONPONE 自动响应与 AI 编排", sonponeLabelText: "SONPONE 检测灵敏度:", syncText: "(实时同步)",
-                initialBeeniMsg: "[AGI 삐니]: 60国语言实时交叉推断及 SONPONE 自动响应系统已全面启动，请随时下达指令！",
-                chatInputPlaceholder: "向 삐니 提问...", chatSendBtn: "发送", supportEmailText: "Support: support@hkwb.world",
-                drawerTitle: "HK NAVIGATOR", menuGroup1Title: "核心法律与合规", menuGroup2Title: "HK 全球生态枢纽",
-                menu_wp: "白皮书 (v3.1 详细)", menu_faq: "常见问题 (FAQ)", menu_pol: "三大政策 (条款与安全)", menu_reg: "11国数字资产合规",
-                hub_robot: "机器人: HK-ROBOT", hub_nexus: "智能眼镜: HK-NEXUS", hub_uam: "城市交通: HK-UAM", hub_fusion: "人造太阳: HK-FUSION", hub_bio: "量子生物: HK-QUANTUMBIO", hub_space: "太空移动: HK-SPACE", hub_parts: "零件银行: HK-PARTSBANK", hub_defence: "国防技术: HK-DEFENCE-HUB", hub_t165: "T165 标志性枢纽 (庆州总部)",
-                net1_title: "1. 钱包连接", net1_desc: "节点钱包协议连接与自动认证", net2_title: "2. 转账", net2_desc: "洲际超高速多签加密传输系统",
-                net3_title: "3. 支付", net3_desc: "现金·卡·代币实时商业托管", net4_title: "4. 存款金库", net4_desc: "3年期 31.41% APY 资产信托金库",
-                net5_title: "5. 奖励", net5_desc: "基于贡献度的激励金库积累引擎", net6_title: "6. UBI", net6_desc: "HK 社会基金会与地方政府 UBI 分配模型",
-                net7_title: "7. 兑换", net7_desc: "现金/卡/代币即时购买代币兑换", net8_title: "8. DEX 兑换", net8_desc: "去中心化无订单 P2P 流动性自动匹配",
-                net9_title: "9. LP 质押", net9_desc: "流动性证明 (PoL) 及高股息权益", net10_title: "10. PI 数量", net10_desc: "PI 资产主网账本实时同步",
-                mainnetAlert: "PI 主网账本同步及核心团队传输申请已成功完成！",
-                beeniReply: (txt) => `[AGI 삐니]: 已收到指令 "${txt}"。正在十大分布式网络与 AGI 后端核心进程中执行实时协调。`,
-                mod_wallet_desc: "请输入您的节点钱包地址并进行安全认证。", mod_wallet_lbl: "节点钱包地址", mod_wallet_ph: "输入钱包地址 (0x...)",
-                mod_transfer_desc: "洲际超高速多签加密传输进程。", mod_transfer_lbl1: "接收方钱包地址", mod_transfer_ph1: "0x... 或 Pi ID", mod_transfer_lbl2: "转账数量",
-                mod_pay_desc: "实时托管安全支付进程。", mod_pay_lbl: "支付金额",
-                mod_vault_desc: "3年期 31.41% APY 资产信托金库存款进程。", mod_vault_lbl: "存款数量", mod_vault_ph: "输入数量", mod_vault_period: "存款期限", mod_vault_expected: "预计收益", mod_vault_res: "预计收益",
-                mod_reward_desc: "基于贡献度的激励金库领取进程。", mod_reward_lbl: "可领取奖励",
-                mod_ubi_desc: "HK 社会基金会及地方政府 UBI 申领进程。", mod_ubi_lbl: "预计发放 UBI",
-                mod_swap_desc: "现金/卡/代币即时兑换。", mod_swap_lbl1: "发送资产", mod_swap_lbl2: "接收资产 (预计)",
-                mod_dex_desc: "去中心化订单簿 P2P 流动性自动匹配系统。", mod_dex_lbl: "输入 P2P 数量",
-                mod_lp_desc: "流动性证明 (PoL) 及高股息治理权授予。", mod_lp_lbl: "LP 代币数量",
-                mod_pi_desc: "Pi 资产主网账本实时同步进程。", mod_pi_lbl: "同步余额",
-                mod_auth_lbl: "验证码 (已生成:", mod_auth_ph: "输入6位数验证码", mod_btn_approve: "批准并执行",
-                alert_auth_fail: "❌ 验证码不匹配。请输入正确的6位数验证码。", alert_auth_success: "✅ [认证成功] 第 {id} 号联动网进程已成功批准。",
-                info_wp_title: "HK WORLD BANK 白皮书 v3.1 详细摘要", info_wp_body: "<p style='color:var(--accent-gold); font-weight:700;'>[1-5] 架构</p><p style='color:var(--text-muted);'>1. 愿景与分布式网络<br>2. Pi Network SDK<br>3. 十大分布式网络<br>4. AGI 삐니 核心<br>5. SONPONE 检测</p>",
-                info_faq_title: "常见问题 (FAQ 深层)", info_faq_body: "<p style='color:var(--accent-cyan); font-weight:700;'>Q1. 十大分布式网络是什么？</p><p style='color:var(--text-muted);'>A. 集成钱包、转账、支付、金库、UBI 及兑换的下一代金融网络。</p>",
-                info_pol_title: "三大政策", info_pol_body: "<p style='color:var(--accent-green); font-weight:700;'>安全与隐私政策</p><p style='color:var(--text-muted);'>所有资产和进程均受到多签加密保护。</p>",
-                info_reg_title: "11国数字资产合规", info_reg_body: "<p style='color:var(--accent-gold);'>完全符合全球11个主要国家的数字资产监管标准。</p>",
-                info_t165_title: "T165 标志性枢纽 (庆州总部)", info_t165_body: "<p style='color:var(--accent-gold);'>庆州总部是十大分布式网络的物理指挥塔。</p>"
-            },
-            ja: {
-                headerSubText: "グローバル次世代分散型金融", langEngineLabel: "60ヶ国語エンジン", subTitle: "高速金融操作マスターコア",
-                dashTitle: "個人資産ダッシュボード", piSyncLabel: "保有数量 (PI台帳リアルタイム同期)", interestLabel: "リアルタイム累積利息 (3年 31.41% APY 複利)",
-                mainnetBtnText: "コアチームへメインネット即時申請", gridSectionTitle: "10大分散連動網", gridSectionSub: "[個別プロセス稼働]",
-                agiTitle: "AGI 삐니 カスタマーセンター", agiSub: "SONPONE自動応答およびAIオーケストレーション", sonponeLabelText: "SONPONE検知感度:", syncText: "(リアルタイム同期)",
-                initialBeeniMsg: "[AGI 삐니]: 60ヶ国語リアルタイム交差推論およびSONPONE自動応答システムが完全に稼働しています。ご指示ください！",
-                chatInputPlaceholder: "삐니へ質問を入力...", chatSendBtn: "送信", supportEmailText: "Support: support@hkwb.world",
-                drawerTitle: "HK NAVIGATOR", menuGroup1Title: "法務・コンプライアンス", menuGroup2Title: "HKグローバルエコシステムハブ",
-                menu_wp: "ホワイトペーパー (v3.1詳細)", menu_faq: "よくある質問 (FAQ)", menu_pol: "3大ポリシー (規約・セキュリティ)", menu_reg: "11ヶ国デジタル資産法コンプライアンス",
-                hub_robot: "ロボット: HK-ROBOT", hub_nexus: "スマートグラス: HK-NEXUS", hub_uam: "UAM: HK-UAM", hub_fusion: "人工太陽: HK-FUSION", hub_bio: "量子バイオ: HK-QUANTUMBIO", hub_space: "宇宙モビリティ: HK-SPACE", hub_parts: "パーツバンク: HK-PARTSBANK", hub_defence: "国防技術: HK-DEFENCE-HUB", hub_t165: "T165 ランドマークハブ (慶州本社)",
-                net1_title: "1. ウォレット接続", net1_desc: "ノードウォレットプロトコル連携・自動認証", net2_title: "2. 送金", net2_desc: "大陸間超高速マルチシグ暗号化転送システム",
-                net3_title: "3. 決済", net3_desc: "現金・カード・暗号資産リアルタイム商業エスクロー", net4_title: "4. 預金ボルト", net4_desc: "3年満期 31.41% APY 資産信託ボルト",
-                net5_title: "5. 報酬", net5_desc: "貢献度ベースインセンティブボルト積立エンジン", net6_title: "6. ベーシックインカム", net6_desc: "HK社会財団＆自治体UBI分配モデル",
-                net7_title: "7. スワップ", net7_desc: "現金/カード/トークン入金即時コイン購入スワップ", net8_title: "8. DEXスワップ", net8_desc: "分散型オーダーレスP2P流動性自動マッチング",
-                net9_title: "9. LPステーキング", net9_desc: "流動性供給証明(PoL)および高配当権利", net10_title: "10. PI数量", net10_desc: "PI資産メインネット台帳リアルタイム同期",
-                mainnetAlert: "PIメインネット台帳同期およびコアチームへの送信申請が正常に完了しました！",
-                beeniReply: (txt) => `[AGI 삐니]: "${txt}" の命令を受信しました。10大分散連動網およびAGIバックエンドコアプロセスでリアルタイム調整を実行します。`,
-                mod_wallet_desc: "ノードウォレットアドレスを入力し、セキュリティ認証を進行してください。", mod_wallet_lbl: "ノードウォレットアドレス", mod_wallet_ph: "ウォレットアドレスを入力 (0x...)",
-                mod_transfer_desc: "大陸間超高速マルチシグ暗号化転送プロセスです。", mod_transfer_lbl1: "受取人ウォレットアドレス", mod_transfer_ph1: "0x... または Pi ID", mod_transfer_lbl2: "転送数量",
-                mod_pay_desc: "リアルタイムエスクロー安全決済プロセスです。", mod_pay_lbl: "決済金額",
-                mod_vault_desc: "3年満期 31.41% APY 資産信託ボルト預金プロセスです。", mod_vault_lbl: "預金数量", mod_vault_ph: "数量を入力", mod_vault_period: "預金期間", mod_vault_expected: "予想収益金", mod_vault_res: "予想収益",
-                mod_reward_desc: "貢献度ベースインセンティブボルト受取プロセスです。", mod_reward_lbl: "受取可能報酬",
-                mod_ubi_desc: "HK社会財団および自治体UBI請求プロセスです。", mod_ubi_lbl: "支給予定UBI",
-                mod_swap_desc: "現金/カード/トークン入金即時スワップです。", mod_swap_lbl1: "送信資産", mod_swap_lbl2: "受信資産 (予想)",
-                mod_dex_desc: "分散型オーダーブックP2P流動性自動マッチングシステムです。", mod_dex_lbl: "P2P数量を入力",
-                mod_lp_desc: "流動性供給証明(PoL)および高配当ガバナンス権限付与です。", mod_lp_lbl: "LPトークン数量",
-                mod_pi_desc: "Pi資産メインネット台帳リアルタイム同期プロセスです。", mod_pi_lbl: "同期された残高",
-                mod_auth_lbl: "認証番号 (発行済み:", mod_auth_ph: "6桁の認証番号を入力", mod_btn_approve: "承認して実行",
-                alert_auth_fail: "❌ 認証番号が一致しません。正しい6桁の番号を入力してください。", alert_auth_success: "✅ [認証成功] {id}番連動網プロセスが正常に承認されました。",
-                info_wp_title: "HK WORLD BANK ホワイトペーパー v3.1 詳細", info_wp_body: "<p style='color:var(--accent-gold); font-weight:700;'>[1-5] アーキテクチャ</p><p style='color:var(--text-muted);'>1. ビジョン<br>2. Pi Network SDK<br>3. 10大分散連動網<br>4. AGI 삐니 コア<br>5. SONPONE検知</p>",
-                info_faq_title: "よくある質問 (FAQ)", info_faq_body: "<p style='color:var(--accent-cyan); font-weight:700;'>Q1. 10大分散連動網とは？</p><p style='color:var(--text-muted);'>A. ウォレット、送金、決済、預金、報酬、UBI、スワップを統合した次世代金融網です。</p>",
-                info_pol_title: "3大ポリシー", info_pol_body: "<p style='color:var(--accent-green); font-weight:700;'>セキュリティ & プライバシー</p><p style='color:var(--text-muted);'>すべての資産とプロセスはマルチシグ暗号化で保護されます。</p>",
-                info_reg_title: "11ヶ国デジタル資産法コンプライアンス", info_reg_body: "<p style='color:var(--accent-gold);'>世界主要11ヶ国のデジタル資産規制基準に完全準拠しています。</p>",
-                info_t165_title: "T165 ランドマークハブ (慶州本社)", info_t165_body: "<p style='color:var(--accent-gold);'>慶州本社は10大分散連動網の物理的管制塔です。</p>"
-            },
-            vi: {
-                headerSubText: "Tài chính phi tập trung thế hệ mới toàn cầu", langEngineLabel: "Động cơ 60 ngôn ngữ", subTitle: "Lõi chính thao tác tài chính nhanh",
-                dashTitle: "Bảng điều khiển tài sản cá nhân", piSyncLabel: "Số dư (Đồng bộ sổ cái PI)", interestLabel: "Lãi suất tích lũy thời gian thực (Lãi kép 3 năm 31,41% APY)",
-                mainnetBtnText: "Đăng ký Mainnet ngay với nhóm cốt lõi", gridSectionTitle: "10 Mạng lưới phân tán", gridSectionSub: "[Hoạt động quy trình riêng lẻ]",
-                agiTitle: "Trung tâm hỗ trợ AGI Beeni", agiSub: "Phản hồi tự động SONPONE & Điều phối AI", sonponeLabelText: "Độ nhạy phát hiện SONPONE:", syncText: "(Đồng bộ trực tiếp)",
-                initialBeeniMsg: "[AGI Beeni]: Hệ thống suy luận chéo 60 ngôn ngữ và phản hồi tự động SONPONE đang hoạt động hoàn hảo. Vui lòng đưa ra lệnh!",
-                chatInputPlaceholder: "Hỏi Beeni bất cứ điều gì...", chatSendBtn: "Gửi", supportEmailText: "Support: support@hkwb.world",
-                drawerTitle: "HK NAVIGATOR", menuGroup1Title: "Pháp lý & Tuân thủ", menuGroup2Title: "Trung tâm hệ sinh thái toàn cầu HK",
-                menu_wp: "Sách trắng (Chi tiết v3.1)", menu_faq: "Câu hỏi thường gặp (FAQ)", menu_pol: "3 Chính sách (Điều khoản & Bảo mật)", menu_reg: "Tuân thủ Tài sản Kỹ thuật số 11 Quốc gia",
-                hub_robot: "Robot: HK-ROBOT", hub_nexus: "Kính thông minh: HK-NEXUS", hub_uam: "UAM: HK-UAM", hub_fusion: "Mặt trời nhân tạo: HK-FUSION", hub_bio: "Sinh học lượng tử: HK-QUANTUMBIO", hub_space: "Di động vũ trụ: HK-SPACE", hub_parts: "Ngân hàng linh kiện: HK-PARTSBANK", hub_defence: "Công nghệ quốc phòng: HK-DEFENCE-HUB", hub_t165: "Trụ sở T165 (Gyeongju)",
-                net1_title: "1. Kết nối ví", net1_desc: "Liên kết giao thức ví node & tự động xác thực", net2_title: "2. Chuyển tiền", net2_desc: "Hệ thống truyền mã hóa multisig siêu tốc xuyên lục địa",
-                net3_title: "3. Thanh toán", net3_desc: "Ký quỹ thương mại thời gian thực tiền mặt·thẻ·token", net4_title: "4. Ký quỹ tiền gửi", net4_desc: "Kho lưu ký tài sản 3 năm APY 31,41%",
-                net5_title: "5. Phần thưởng", net5_desc: "Động cơ tích lũy kho tiền khích lệ dựa trên đóng góp", net6_title: "6. UBI", net6_desc: "Mô hình phân phối UBI quỹ xã hội & chính quyền HK",
-                net7_title: "7. Hoán đổi", net7_desc: "Mua coin tức thì qua tiền mặt/thẻ/token", net8_title: "8. Hoán đổi DEX", net8_desc: "Khớp thanh khoản P2P phi tập trung tự động",
-                net9_title: "9. Staking LP", net9_desc: "Chứng minh thanh khoản (PoL) & quyền cổ tức cao", net10_title: "10. Số lượng PI", net10_desc: "Đồng bộ thời gian thực sổ cái mainnet tài sản PI",
-                mainnetAlert: "Đồng bộ sổ cái Mainnet PI và yêu cầu gửi tới nhóm cốt lõi đã hoàn tất!",
-                beeniReply: (txt) => `[AGI Beeni]: Đã nhận lệnh "${txt}". Đang thực hiện điều phối thời gian thực trong 10 mạng lưới phân tán.`,
-                mod_wallet_desc: "Nhập địa chỉ ví node của bạn và tiến hành xác thực bảo mật.", mod_wallet_lbl: "Địa chỉ ví Node", mod_wallet_ph: "Nhập địa chỉ ví (0x...)",
-                mod_transfer_desc: "Quy trình chuyển mã hóa multisig siêu tốc xuyên lục địa.", mod_transfer_lbl1: "Địa chỉ ví người nhận", mod_transfer_ph1: "0x... hoặc Pi ID", mod_transfer_lbl2: "Số lượng chuyển",
-                mod_pay_desc: "Quy trình thanh toán an toàn ký quỹ thời gian thực.", mod_pay_lbl: "Số tiền thanh toán",
-                mod_vault_desc: "Quy trình gửi kho tiền tín thác tài sản 3 năm APY 31,41%.", mod_vault_lbl: "Số lượng gửi", mod_vault_ph: "Nhập số lượng", mod_vault_period: "Thời gian gửi", mod_vault_expected: "Lợi nhuận dự kiến", mod_vault_res: "Lợi nhuận dự kiến",
-                mod_reward_desc: "Quy trình nhận kho tiền khích lệ dựa trên đóng góp.", mod_reward_lbl: "Phần thưởng có thể nhận",
-                mod_ubi_desc: "Quy trình yêu cầu UBI của Quỹ xã hội HK & chính quyền.", mod_ubi_lbl: "UBI dự kiến",
-                mod_swap_desc: "Hoán đổi mua coin tức thì qua tiền mặt/thẻ/token.", mod_swap_lbl1: "Tài sản gửi", mod_swap_lbl2: "Tài sản nhận (Ước tính)",
-                mod_dex_desc: "Hệ thống tự động khớp thanh khoản P2P orderbook.", mod_dex_lbl: "Nhập số lượng P2P",
-                mod_lp_desc: "Cấp quyền quản trị cổ tức cao & chứng minh thanh khoản (PoL).", mod_lp_lbl: "LP Token Amount",
-                mod_pi_desc: "Quy trình đồng bộ thời gian thực sổ cái mainnet tài sản Pi.", mod_pi_lbl: "Số dư đã đồng bộ",
-                mod_auth_lbl: "Mã xác thực (Đã cấp:", mod_auth_ph: "Nhập mã 6 chữ số", mod_btn_approve: "Phê duyệt và thực thi",
-                alert_auth_fail: "❌ Mã xác thực không khớp. Vui lòng nhập đúng mã 6 chữ số.", alert_auth_success: "✅ [Thành công] Quy trình mạng lưới #{id} đã được phê duyệt.",
-                info_wp_title: "Chi tiết Sách trắng HK WORLD BANK v3.1", info_wp_body: "<p style='color:var(--accent-gold); font-weight:700;'>[1-5] Kiến trúc</p><p style='color:var(--text-muted);'>1. Tầm nhìn<br>2. Pi Network SDK<br>3. 10 Mạng lưới phân tán<br>4. Lõi AGI Beeni<br>5. Phát hiện SONPONE</p>",
-                info_faq_title: "Câu hỏi thường gặp (FAQ)", info_faq_body: "<p style='color:var(--accent-cyan); font-weight:700;'>Q1. 10 Mạng lưới phân tán là gì?</p><p style='color:var(--text-muted);'>A. Mạng tài chính thế hệ mới tích hợp ví, chuyển tiền, thanh toán, kho tiền và swap.</p>",
-                info_pol_title: "3 Chính sách", info_pol_body: "<p style='color:var(--accent-green); font-weight:700;'>Bảo mật & Quyền riêng tư</p><p style='color:var(--text-muted);'>Mọi tài sản và quy trình đều được bảo vệ bằng mã hóa multisig.</p>",
-                info_reg_title: "Tuân thủ Tài sản Kỹ thuật số 11 Quốc gia", info_reg_body: "<p style='color:var(--accent-gold);'>Tuân thủ tuyệt đối các tiêu chuẩn quy định tài sản kỹ thuật số toàn cầu.</p>",
-                info_t165_title: "Trụ sở T165 (Gyeongju)", info_t165_body: "<p style='color:var(--accent-gold);'>Trụ sở chính Gyeongju là đài kiểm soát vật lý của 10 mạng lưới phân tán.</p>"
-            }
+        // 60개국어 각 언어별 직관적 텍스트 전체 사전 데이터 구축
+        const langConfigs = {
+            ko: ['한국어', '대한민국', '안녕하세요! 무엇을 도와드릴까요?'],
+            en: ['English', 'United States', 'Hello! How can I assist you today?'],
+            zh: ['中文 (简体)', 'China', '您好！今天有什么可以帮您？'],
+            ja: ['日本語', 'Japan', 'こんにちは！どのようなご용件でしょうか？'],
+            vi: ['Tiếng Việt', 'Vietnam', 'Xin chào! Tôi có thể giúp gì cho bạn?'],
+            th: ['ไทย', 'Thailand', 'สวัสดี! มีอะไรให้ฉันช่วยไหม?'],
+            id: ['Bahasa Indonesia', 'Indonesia', 'Halo! Ada yang bisa saya bantu?'],
+            es: ['Español', 'Spain', '¡Hola! ¿En qué puedo ayudarte hoy?'],
+            pt: ['Português', 'Brazil', 'Olá! Como posso ajudar você hoje?'],
+            ng: ['English (Nigeria)', 'Nigeria', 'How far! Wetin I fit help you do today?'],
+            ph: ['Tagalog', 'Philippines', 'Kamusta! Paano kita matutulungan ngayon?'],
+            hi: ['हिन्दी', 'India', 'नमस्ते! आज मैं आपकी क्या सहायता कर सकता हूँ?'],
+            fr: ['Français', 'France', 'Bonjour! Comment puis-je vous aider aujourd\'hui?'],
+            de: ['Deutsch', 'Germany', 'Hallo! Wie kann ich Ihnen heute helfen?'],
+            ru: ['Русский', 'Russia', 'Здравствуйте! Чем я могу вам помочь?'],
+            ar: ['العربية', 'Saudi Arabia', 'مرحبا! كيف يمكنني مساعدتك اليوم؟'],
+            tr: ['Türkçe', 'Turkey', 'Merhaba! Bugün size nasıl yardımcı olabilirim?'],
+            it: ['Italiano', 'Italy', 'Ciao! Come posso aiutarti oggi?'],
+            nl: ['Nederlands', 'Netherlands', 'Hallo! Hoe kan ik u vandaag helpen?'],
+            pl: ['Polski', 'Poland', 'Cześć! W czym mogę Ci dzisiaj pomóc?'],
+            uk: ['Українська', 'Ukraine', 'Вітаю! Чим я можу вам допомогти?'],
+            ro: ['Română', 'Romania', 'Salut! Cu ce te pot ajuta astăzi?'],
+            el: ['Ελληνικά', 'Greece', 'Γεια σας! Πώς μπορώ να σας βοηθήσω σήμερα;'],
+            hu: ['Magyar', 'Hungary', 'Üdvözlöm! Miben segíthetek ma?'],
+            cs: ['Čeština', 'Czech Republic', 'Dobrý den! Jak vám mohu dnes pomoci?'],
+            sv: ['Svenska', 'Sweden', 'Hej! Hur kan jag hjälpa dig idag?'],
+            no: ['Norsk', 'Norway', 'Hei! Hvordan kan jeg hjelpe deg i dag?'],
+            da: ['Dansk', 'Denmark', 'Hej! Hvordan kan jeg hjælpe dig i dag?'],
+            fi: ['Suomi', 'Finland', 'Hei! Kuinka voin auttaa sinua tänään?'],
+            he: ['עברית', 'Israel', 'שלום! איך אני יכול לעזור לך היום?'],
+            fa: ['فارسی', 'Iran', 'سلام! چگونه می توانم امروز به شما کمک کنم؟'],
+            ur: ['اردو', 'Pakistan', 'سلام! میں آج آپ کی کیا مدد کر سکتا ہوں؟'],
+            bn: ['বাংলা', 'Bangladesh', 'হ্যালো! আজ আমি আপনাকে কীভাবে সাহায্য করতে পারি?'],
+            ms: ['Bahasa Melayu', 'Malaysia', 'Helo! Apa yang boleh saya bantu hari ini?'],
+            km: ['ភាសាខ្មែរ', 'Cambodia', 'សួស្តី! តើខ្ញុំអាចជួយអ្នកយ៉ាងដូចម្តេចនៅថ្ងៃនេះ?'],
+            my: ['မြန်မာစာ', 'Myanmar', 'မင်္ဂလာပါ! ဒီနေ့ သင့်ကို ဘယ်လိုကူညီပေးရမလဲ?'],
+            lo: ['ພາສາລາວ', 'Laos', 'ສະບາຍດີ! ມີຫຍັງໃຫ້ຂ້ອຍຊ່ວຍໃນມື້ນີ້?'],
+            ne: ['नेपाली', 'Nepal', 'नमस्ते! म आज तपाईंलाई कसरी मद्दत गर्न सक्छु?'],
+            si: ['සිංහල', 'Sri Lanka', 'ආයුබෝවන්! අද මට ඔබට උදව් කරන්නේ කෙසේද?'],
+            sw: ['Kiswahili', 'Kenya', 'Jambo! Ninawezaje kukusaidia leo?'],
+            am: ['አማርኛ', 'Ethiopia', 'ሰላም! ዛሬ እንዴት ልረዳዎ እችላለሁ?'],
+            ha: ['Hausa', 'Nigeria', 'Sannu! Ta yaya zan iya taimaka muku a yau?'],
+            yo: ['Yorùbá', 'Nigeria', 'Pẹlẹ o! Bawo ni mo ṣe le ran ọ lọwọ loni?'],
+            uz: ['Oʻzbekcha', 'Uzbekistan', 'Salom! Bugun sizga qanday yordam bera olaman?'],
+            kk: ['Қазақ тілі', 'Kazakhstan', 'Сәлеметсіз бе! Бүгін сізге қалай көмектесе аламын?'],
+            az: ['Azərbaycanca', 'Azerbaijan', 'Salam! Bu gün sizə necə kömək edə bilərəm?'],
+            ka: ['ქართული', 'Georgia', 'გამარჯობა! როგორ შემიძლია დაგეხმაროთ დღეს?'],
+            hy: ['Հայերեն', 'Armenia', 'Բարև Ձեզ: Ինչպե՞ս կարող եմ օգնել Ձեզ այսօր:'],
+            mn: ['Монгол', 'Mongolia', 'Сайн байна уу? Би танд өнөөдөр хэрхэн туслах вэ?'],
+            'es-mx': ['Español (MX)', 'Mexico', '¡Hola! ¿En qué te puedo colaborar hoy?'],
+            'pt-pt': ['Português (PT)', 'Portugal', 'Olá! Como posso ajudar hoje?'],
+            sr: ['Српски', 'Serbia', 'Здраво! Како могу да вам помогнем данас?'],
+            hr: ['Hrvatski', 'Croatia', 'Bok! Kako vam mogu pomoći danas?'],
+            bg: ['Български', 'Bulgaria', 'Здравейте! Как мога да ви помогна днес?'],
+            sk: ['Slovenčina', 'Slovakia', 'Dobrý deň! Ako vám môžem dnes pomôcť?'],
+            lt: ['Lietuvių', 'Lithuania', 'Sveiki! Kaip galiu jums padėti šiandien?'],
+            et: ['Eesti', 'Estonia', 'Tere! Kuidas saan sind täna aidata?'],
+            lv: ['Latviešu', 'Latvia', 'Sveiki! Kā es varu jums palīdzēt šodien?'],
+            is: ['Íslenska', 'Iceland', 'Halló! Hvernig get ég hjálpað þér í dag?']
         };
 
-        const extraLangs = ['th','id','es','pt','ng','ph','hi','fr','de','ru','ar','tr','it','nl','pl','uk','ro','el','hu','cs','sv','no','da','fi','he','fa','ur','bn','ms','km','my','lo','ne','si','sw','am','ha','yo','uz','kk','az','ka','hy','mn','es-mx','pt-pt','sr','hr','bg','sk','lt','et','lv','is'];
-        
-        extraLangs.forEach(langCode => {
-            if(!translations[langCode]) {
-                translations[langCode] = {
-                    headerSubText: `Global Decentralized Finance (${langCode.toUpperCase()})`,
-                    langEngineLabel: `60-Language Engine (${langCode})`,
-                    subTitle: `Fast Financial Operation Core [${langCode}]`,
-                    dashTitle: `Personal Asset Dashboard [${langCode}]`,
-                    piSyncLabel: `Holding Amount (PI Ledger Sync - ${langCode})`,
-                    interestLabel: `Real-time Accumulated Interest (3-Yr 31.41% APY)`,
-                    mainnetBtnText: `Apply for Mainnet Now (${langCode})`,
-                    gridSectionTitle: `Top 10 Distributed Networks [${langCode}]`,
-                    gridSectionSub: `[Process Operation - ${langCode}]`,
-                    agiTitle: `AGI Beeni Support [${langCode}]`,
-                    agiSub: `SONPONE Auto-Response & AI Orchestration`,
-                    sonponeLabelText: `SONPONE Sensitivity:`,
-                    syncText: `(Live Sync)`,
-                    initialBeeniMsg: `[AGI Beeni]: 60-language multi-inference system active for [${langCode}]. How can I assist you?`,
-                    chatInputPlaceholder: `Ask Beeni anything (${langCode})...`,
-                    chatSendBtn: `Send`,
-                    supportEmailText: `Support: support@hkwb.world`,
-                    drawerTitle: `HK NAVIGATOR [${langCode}]`,
-                    menuGroup1Title: `Core Legal & Compliance`,
-                    menuGroup2Title: `HK Global Ecosystem Hubs`,
-                    menu_wp: `Whitepaper v3.1 Details`,
-                    menu_faq: `FAQ In-Depth`,
-                    menu_pol: `3 POLICIES (Security)`,
-                    menu_reg: `11-Nation Asset Compliance`,
-                    hub_robot: `Robot: HK-ROBOT`,
-                    hub_nexus: `Smart Glass: HK-NEXUS`,
-                    hub_uam: `UAM Hub`,
-                    hub_fusion: `Artificial Sun`,
-                    hub_bio: `Quantum Bio`,
-                    hub_space: `Space Mobility`,
-                    hub_parts: `Parts Bank`,
-                    hub_defence: `Defence Tech`,
-                    hub_t165: `T165 Landmark Hub (Gyeongju)`,
-                    net1_title: `1. Wallet Connect`,
-                    net1_desc: `Node wallet protocol link & auto auth`,
-                    net2_title: `2. Transfer`,
-                    net2_desc: `Intercontinental high-speed encrypted transfer`,
-                    net3_title: `3. Payment`,
-                    net3_desc: `Real-time commerce escrow service`,
-                    net4_title: `4. Vault Deposit`,
-                    net4_desc: `3-year maturity 31.41% APY trust vault`,
-                    net5_title: `5. Rewards`,
-                    net5_desc: `Contribution-based incentive vault`,
-                    net6_title: `6. UBI`,
-                    net6_desc: `Municipal UBI distribution model`,
-                    net7_title: `7. Swap`,
-                    net7_desc: `Instant coin purchase swap`,
-                    net8_title: `8. DEX Swap`,
-                    net8_desc: `Decentralized P2P liquidity matching`,
-                    net9_title: `9. LP Staking`,
-                    net9_desc: `Proof of Liquidity (PoL) staking`,
-                    net10_title: `10. PI Ledger`,
-                    net10_desc: `PI asset mainnet real-time sync`,
-                    mainnetAlert: `PI Mainnet ledger synchronization completed successfully!`,
-                    beeniReply: (txt) => `[AGI Beeni]: Received command "${txt}" in [${langCode}]. Executing decentralized core coordination.`,
-                    mod_wallet_desc: `Enter your node wallet address for secure auth.`,
-                    mod_wallet_lbl: `Node Wallet Address`,
-                    mod_wallet_ph: `Enter wallet address (0x...)`,
-                    mod_transfer_desc: `Intercontinental high-speed multisig transfer.`,
-                    mod_transfer_lbl1: `Recipient Address`,
-                    mod_transfer_ph1: `0x... or Pi ID`,
-                    mod_transfer_lbl2: `Transfer Amount`,
-                    mod_pay_desc: `Real-time escrow secure payment process.`,
-                    mod_pay_lbl: `Payment Amount`,
-                    mod_vault_desc: `3-year 31.41% APY trust vault deposit.`,
-                    mod_vault_lbl: `Deposit Amount`,
-                    mod_vault_ph: `Enter amount`,
-                    mod_vault_period: `Deposit Period`,
-                    mod_vault_expected: `Expected Return`,
-                    mod_vault_res: `Expected profit`,
-                    mod_reward_desc: `Contribution incentive collection process.`,
-                    mod_reward_lbl: `Claimable Reward`,
-                    mod_ubi_desc: `UBI claim process.`,
-                    mod_ubi_lbl: `Scheduled UBI`,
-                    mod_swap_desc: `Instant coin purchase swap.`,
-                    mod_swap_lbl1: `Asset to Send`,
-                    mod_swap_lbl2: `Asset to Receive (Est.)`,
-                    mod_dex_desc: `Decentralized P2P liquidity matching.`,
-                    mod_dex_lbl: `Enter P2P Amount`,
-                    mod_lp_desc: `Proof of Liquidity (PoL) staking.`,
-                    mod_lp_lbl: `LP Token Amount`,
-                    mod_pi_desc: `Pi asset mainnet sync.`,
-                    mod_pi_lbl: `Synchronized Balance`,
-                    mod_auth_lbl: `Auth Code (Issued:`,
-                    mod_auth_ph: `Enter 6-digit code`,
-                    mod_btn_approve: `Approve and Execute`,
-                    alert_auth_fail: `❌ Auth code mismatch. Please enter correct 6 digits.`,
-                    alert_auth_success: `✅ [Success] Process #{id} approved successfully.`,
-                    info_wp_title: `HK WORLD BANK Whitepaper v3.1`,
-                    info_wp_body: `<p style='color:var(--accent-gold); font-weight:700;'>Architecture & Economy</p><p style='color:var(--text-muted);'>Global decentralized financial core framework.</p>`,
-                    info_faq_title: `Frequently Asked Questions`,
-                    info_faq_body: `<p style='color:var(--accent-cyan); font-weight:700;'>FAQ Overview</p><p style='color:var(--text-muted);'>Integrating 10 distributed networks seamlessly.</p>`,
-                    info_pol_title: `Security & Policies`,
-                    info_pol_body: `<p style='color:var(--accent-green); font-weight:700;'>Policy Details</p><p style='color:var(--text-muted);'>Protected by advanced multisig encryption.</p>`,
-                    info_reg_title: `Digital Asset Compliance`,
-                    info_reg_body: `<p style='color:var(--accent-gold);'>Compliant with global digital asset regulations.</p>`,
-                    info_t165_title: `T165 Landmark Hub (Gyeongju)`,
-                    info_t165_body: `<p style='color:var(--accent-gold);'>Physical command center in Gyeongju, South Korea.</p>`
-                };
-            }
-        });
+        function createLangDict(langCode, langName, regionName, greeting) {
+            return {
+                headerSubText: `글로벌 차세대 분산 금융 (${langName})`,
+                langEngineLabel: `60개국어 다국어 엔진 (${langCode.toUpperCase()})`,
+                subTitle: `빠른 금융 작업 마스터 코어 [${langName}]`,
+                dashTitle: `개인 자산 대시보드 (${regionName})`,
+                piSyncLabel: `보유 수량 (PI 수량 원장 동기화 - ${langCode.toUpperCase()})`,
+                interestLabel: `실시간 누적 이자 (3년 31.41% APY 복리)`,
+                mainnetBtnText: `코어팀에게 메인넷 즉시 신청하기 (${langName})`,
+                gridSectionTitle: `10대 분산 연동망 [${langName}]`,
+                gridSectionSub: `[개별 프로세스 작동]`,
+                agiTitle: `AGI 삐니 고객센터 (${langName})`,
+                agiSub: `손폰(SONPONE) 자동 반응 및 AI 오케스트레이션`,
+                sonponeLabelText: `손폰(SONPONE) 감지 감도:`,
+                syncText: `(실시간 싱크)`,
+                initialBeeniMsg: `[AGI 삐니]: ${greeting} (${langName} 교차 추론 및 손폰 싱크 시스템 가동 중)`,
+                chatInputPlaceholder: `삐니에게 질문 입력 (${langName})...`,
+                chatSendBtn: `전송`,
+                supportEmailText: `Support: support@hkwb.world`,
+                drawerTitle: `HK NAVIGATOR [${langName}]`,
+                menuGroup1Title: `Core Legal & Compliance`,
+                menuGroup2Title: `HK Global Ecosystem Hubs`,
+                menu_wp: `백서 (Whitepaper v3.1 상세)`,
+                menu_faq: `자주 묻는 질문 (FAQ 심층)`,
+                menu_pol: `3대 POLICIES (약관·보안·프라이버시)`,
+                menu_reg: `11개국 디지털 자산법 컴플라이언스`,
+                hub_robot: `로봇: HK-ROBOT`,
+                hub_nexus: `스마트 글래스: HK-NEXUS`,
+                hub_uam: `도심항공교통: HK-UAM`,
+                hub_fusion: `인공태양: HK-FUSION`,
+                hub_bio: `퀀텀바이오: HK-QUANTUMBIO`,
+                hub_space: `우주모빌리티: HK-SPACE`,
+                hub_parts: `부품뱅크: HK-PARTSBANK`,
+                hub_defence: `국방기술: HK-DEFENCE-HUB`,
+                hub_t165: `T165 초특급 랜드마크 허브 (경주 사옥)`,
+                net1_title: `1. 지갑연결`, net1_desc: `노드 지갑 프로토콜 연동 및 자동 인증`,
+                net2_title: `2. 송금`, net2_desc: `대륙간 초고속 멀티시그 암호화 전송 시스템`,
+                net3_title: `3. 결제`, net3_desc: `현금·카드·타코인 실시간 상거래 에스크로`,
+                net4_title: `4. 예치`, net4_desc: `3년 만기 31.41% APY 자산 신탁 볼트`,
+                net5_title: `5. 보상`, net5_desc: `기여도 기반 인센티브 볼트 적립 엔진`,
+                net6_title: `6. 기본소득`, net6_desc: `HK 사회 재단 & 지자체 UBI 분배 모델`,
+                net7_title: `7. 스왑`, net7_desc: `현금/카드/타코인 입금 즉각 코인 구매 스왑`,
+                net8_title: `8. DEX 스왑`, net8_desc: `탈중앙화 오더레스 P2P 유동성 자동매칭`,
+                net9_title: `9. LP스태이킹`, net9_desc: `유동성 공급 증명(PoL) 및 고배당 권한`,
+                net10_title: `10. PI수량`, net10_desc: `PI 자산 메인넷 원장 실시간 동기화`,
+                mainnetAlert: `PI 메인넷 원장 동기화 및 코어팀 전송 신청이 정상적으로 완료되었습니다!`,
+                beeniReply: (txt) => `[AGI 삐니]: "${txt}" 명령을 ${langName} 언어로 수신했습니다. 10대 분산 연동망 프로세스에서 즉각 수행합니다.`,
+                mod_wallet_desc: `본인의 노드 지갑 주소를 입력하고 보안 인증을 진행하세요.`,
+                mod_wallet_lbl: `노드 지갑 주소`, mod_wallet_ph: `지갑 주소 입력 (0x...)`,
+                mod_transfer_desc: `대륙간 초고속 멀티시그 암호화 전송 프로세스입니다.`,
+                mod_transfer_lbl1: `수신자 지갑 주소`, mod_transfer_ph1: `0x... 또는 Pi 아이디`, mod_transfer_lbl2: `전송 수량`,
+                mod_pay_desc: `실시간 에스크로 안전 결제 프로세스입니다.`, mod_pay_lbl: `결제 금액`,
+                mod_vault_desc: `3년 만기 31.41% APY 자산 신탁 볼트 예치 프로세스입니다.`,
+                mod_vault_lbl: `예치 수량`, mod_vault_ph: `수량 입력`, mod_vault_period: `예치 기간`, mod_vault_expected: `예상 수익금`, mod_vault_res: `예상 수익`,
+                mod_reward_desc: `기여도 기반 인센티브 볼트 적립 및 수령 프로세스입니다.`, mod_reward_lbl: `수령 가능 보상`,
+                mod_ubi_desc: `HK 사회 재단 및 지자체 UBI 분배 청구 프로세스입니다.`, mod_ubi_lbl: `지급 예정 기본소득`,
+                mod_swap_desc: `현금/카드/타코인 입금 즉각 코인 구매 스왑입니다.`, mod_swap_lbl1: `보낼 자산`, mod_swap_lbl2: `받을 자산 (예상)`,
+                mod_dex_desc: `탈중앙화 오더북 기반 P2P 유동성 자동 매칭 시스템입니다.`, mod_dex_lbl: `P2P 수량 입력`,
+                mod_lp_desc: `유동성 공급 증명(PoL) 및 고배당 거버넌스 권한 부여입니다.`, mod_lp_lbl: `LP 토큰 수량`,
+                mod_pi_desc: `Pi 자산 메인넷 원장 실시간 동기화 프로세스입니다.`, mod_pi_lbl: `동기화된 잔액`,
+                mod_auth_lbl: `인증번호 (발급됨:`, mod_auth_ph: `6자리 인증번호 입력`, mod_btn_approve: `인증번호 승인 및 실행`,
+                alert_auth_fail: `❌ 인증번호가 일치하지 않습니다. 올바른 6자리 번호를 입력해주세요.`,
+                alert_auth_success: `✅ [인증 성공] {id}번 연동망 프로세스가 정상 승인되었습니다.`,
+                info_wp_title: `HK WORLD BANK 백서 v3.1 상세 요약`,
+                info_wp_body: `<p style='color:var(--accent-gold); font-weight:700;'>[1~5] 아키텍처</p><p style='color:var(--text-muted);'>글로벌 분산 금융망 네트워크 데이터입니다.</p>`,
+                info_faq_title: `자주 묻는 질문 (FAQ 심층)`,
+                info_faq_body: `<p style='color:var(--accent-cyan); font-weight:700;'>Q1. 10대 분산 연동망이란?</p><p style='color:var(--text-muted);'>A. 차세대 분산 금융 아키텍처입니다.</p>`,
+                info_pol_title: `3대 POLICIES (약관·보안·프라이버시)`,
+                info_pol_body: `<p style='color:var(--accent-green); font-weight:700;'>보안 정책</p><p style='color:var(--text-muted);'>멀티시그 암호화 기술로 보호됩니다.</p>`,
+                info_reg_title: `11개국 디지털 자산법 컴플라이언스`,
+                info_reg_body: `<p style='color:var(--accent-gold);'>디지털 자산 법률 기준 준수 완료.</p>`,
+                info_t165_title: `T165 초특급 랜드마크 허브 (경주 사옥)`,
+                info_t165_body: `<p style='color:var(--accent-gold);'>경주 본사 거점 관제 센터입니다.</p>`
+            };
+        }
+
+        const translations = {};
+        for (let code in langConfigs) {
+            translations[code] = createLangDict(code, langConfigs[code][0], langConfigs[code][1], langConfigs[code][2]);
+        }
 
         function changeLanguage(lang) {
             currentLang = lang;
-            let t = translations[lang] || translations['en'];
+            let t = translations[lang] || translations['ko'];
 
             document.getElementById('metaTitle').innerText = t.dashTitle ? `HK WORLD BANK | ${t.dashTitle}` : "HK WORLD BANK";
            
             const elements = document.querySelectorAll('[data-i18n]');
             elements.forEach(el => {
                 const key = el.getAttribute('data-i18n');
-                if(t[key]) {
+                if(t && t[key]) {
                     el.innerText = t[key];
-                } else if(translations.en[key]) {
-                    el.innerText = translations.en[key];
+                } else if(translations.ko[key]) {
+                    el.innerText = translations.ko[key];
                 }
             });
 
             const inputs = document.querySelectorAll('[data-i18n-placeholder]');
             inputs.forEach(input => {
                 const key = input.getAttribute('data-i18n-placeholder');
-                if(t[key]) {
+                if(t && t[key]) {
                     input.placeholder = t[key];
-                } else if(translations.en[key]) {
-                    input.placeholder = translations.en[key];
+                } else if(translations.ko[key]) {
+                    input.placeholder = translations.ko[key];
                 }
             });
 
