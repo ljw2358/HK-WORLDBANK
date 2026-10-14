@@ -31,11 +31,12 @@
             font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             -webkit-tap-highlight-color: transparent;
         }
-       /* 드롭다운 리스트 배경 및 글자색 다크 테마 고정 */
-select option {
-    background-color: #1a1a1a !important;
-    color: #ffffff !important;
-}
+
+        /* 드롭다운 리스트 배경 및 글자색 다크 테마 고정 */
+        select option {
+            background-color: #1a1a1a !important;
+            color: #ffffff !important;
+        }
 
         body {
             background-color: var(--bg-primary);
@@ -1098,10 +1099,14 @@ select option {
     <script>
         let baseInterest = 12450892.600000;
         let currentLang = 'ko';
+        let generatedAuthCode = "123456";
 
         setInterval(() => {
             baseInterest += 0.001250;
-            document.getElementById('accumulatedInterest').innerText = baseInterest.toLocaleString('en-US', {minimumFractionDigits: 6, maximumFractionDigits: 6}) + " HK";
+            const el = document.getElementById('accumulatedInterest');
+            if(el) {
+                el.innerText = baseInterest.toLocaleString('en-US', {minimumFractionDigits: 6, maximumFractionDigits: 6}) + " HK";
+            }
         }, 1000);
 
         function toggleDrawer() {
@@ -1116,7 +1121,10 @@ select option {
 
         function updateSonpone(val) {
             const t = translations[currentLang] || translations['en'];
-            document.getElementById('sonponeVal').innerText = val + "% " + (t.syncText || "(Live Sync)");
+            const sonponeValEl = document.getElementById('sonponeVal');
+            if(sonponeValEl) {
+                sonponeValEl.innerText = val + "% " + (t.syncText || "(Live Sync)");
+            }
         }
 
         function triggerMainnetRequest() {
@@ -1154,17 +1162,15 @@ select option {
             if (e.key === 'Enter') sendChatMessage();
         }
 
-             /* [10대 분산 연동망 개별 맞춤 프로세스 1~10 완벽 통합 엔진 및 6자리 인증번호 자동 생성 검증] */
-      function openProcessModal(processId) {
+        /* [10대 분산 연동망 개별 맞춤 프로세스 1~10 완벽 통합 엔진 및 6자리 인증번호 자동 생성 검증] */
+        function openProcessModal(processId) {
             const modal = document.getElementById('appModal');
             const title = document.getElementById('modalTitle');
             const content = document.getElementById('modalContent');
 
-            // 6자리 랜덤 인증번호 자동 생성 (100000 ~ 999999)
             generatedAuthCode = Math.floor(100000 + Math.random() * 900000).toString();
 
             if (processId === 1) {
-                // 1. 지갑연결
                 title.innerText = "1. 지갑연결 (Wallet Connect)";
                 content.innerHTML = `
                     <div style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">본인의 노드 지갑 주소를 입력하고 보안 인증을 진행하세요.</div>
@@ -1179,7 +1185,6 @@ select option {
                     <button class="action-btn" onclick="verifyAndExecute(1)">인증번호 승인 및 연결</button>
                 `;
             } else if (processId === 2) {
-                // 2. 송금
                 title.innerText = "2. 송금 (Transfer)";
                 content.innerHTML = `
                     <div style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">대륙간 초고속 멀티시그 암호화 전송 프로세스입니다.</div>
@@ -1198,7 +1203,6 @@ select option {
                     <button class="action-btn" onclick="verifyAndExecute(2)">송금 및 승인 요청</button>
                 `;
             } else if (processId === 3) {
-                // 3. 결제
                 title.innerText = "3. 결제 (Payment)";
                 content.innerHTML = `
                     <div style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">실시간 에스크로 안전 결제 프로세스입니다.</div>
@@ -1213,7 +1217,6 @@ select option {
                     <button class="action-btn" onclick="verifyAndExecute(3)">에스크로 결제 승인</button>
                 `;
             } else if (processId === 4) {
-                // 4. 예치 (Vault Deposit)
                 title.innerText = "4. 예치 (Vault Deposit)";
                 content.innerHTML = `
                     <div style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">3년 만기 31.41% APY 자산 신탁 볼트 예치 프로세스입니다.</div>
@@ -1240,7 +1243,6 @@ select option {
                     <button class="action-btn" onclick="verifyAndExecute(4)">예치 및 인증 승인</button>
                 `;
             } else if (processId === 5) {
-                // 5. 보상
                 title.innerText = "5. 보상 (Rewards)";
                 content.innerHTML = `
                     <div style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">기여도 기반 인센티브 볼트 적립 및 수령 프로세스입니다.</div>
@@ -1255,7 +1257,6 @@ select option {
                     <button class="action-btn" onclick="verifyAndExecute(5)">보상 수령 승인</button>
                 `;
             } else if (processId === 6) {
-                // 6. 기본소득
                 title.innerText = "6. 기본소득 (UBI Vault)";
                 content.innerHTML = `
                     <div style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">HK 사회 재단 및 지자체 UBI 분배 청구 프로세스입니다.</div>
@@ -1270,7 +1271,6 @@ select option {
                     <button class="action-btn" onclick="verifyAndExecute(6)">기본소득 청구 및 승인</button>
                 `;
             } else if (processId === 7) {
-                // 7. 스왑
                 title.innerText = "7. 즉시 스왑 (Swap)";
                 content.innerHTML = `
                     <div style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">현금/카드/타코인 입금 즉시 코인을 구매 및 교환합니다.</div>
@@ -1289,7 +1289,6 @@ select option {
                     <button class="action-btn" onclick="verifyAndExecute(7)">즉시 스왑 실행</button>
                 `;
             } else if (processId === 8) {
-                // 8. DEX 스왑
                 title.innerText = "8. DEX 스왑 (Orderbook P2P)";
                 content.innerHTML = `
                     <div style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">탈중앙화 오더북 기반 P2P 유동성 자동 매칭 시스템입니다.</div>
@@ -1304,7 +1303,6 @@ select option {
                     <button class="action-btn" onclick="verifyAndExecute(8)">P2P 주문 등록 및 승인</button>
                 `;
             } else if (processId === 9) {
-                // 9. LP 스테이킹
                 title.innerText = "9. LP 스테이킹 (PoL Staking)";
                 content.innerHTML = `
                     <div style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">유동성 공급 증명(PoL) 및 고배당 거버넌스 권한 부여입니다.</div>
@@ -1319,7 +1317,6 @@ select option {
                     <button class="action-btn" onclick="verifyAndExecute(9)">LP 스테이킹 등록</button>
                 `;
             } else if (processId === 10) {
-                // 10. PI 수량
                 title.innerText = "10. PI 수량 (Pi Mainnet Sync)";
                 content.innerHTML = `
                     <div style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">Pi 자산 메인넷 원장 실시간 동기화 프로세스입니다.</div>
@@ -1335,11 +1332,12 @@ select option {
                 `;
             }
 
-       modal.classList.add('active');
+            modal.classList.add('active');
         }
 
         function verifyAndExecute(processId) {
-            const userEntered = document.getElementById('userInputCode').value.trim();
+            const codeInput = document.getElementById('userInputCode');
+            const userEntered = codeInput ? codeInput.value.trim() : "";
             if(userEntered !== generatedAuthCode) {
                 alert("❌ 인증번호가 일치하지 않습니다. 발급된 6자리 인증번호를 정확히 입력해 주세요.");
                 return;
@@ -1361,7 +1359,7 @@ select option {
             alert("✅ [인증 성공] " + messages[processId]);
             closeModal();
         }
-       // 4번 예치 실시간 이자 및 수익 계산 함수
+
         function updateDepositCalc() {
             const amountInput = document.getElementById('depositAmount');
             const periodSelect = document.getElementById('depositPeriod');
@@ -1369,7 +1367,6 @@ select option {
 
             if (!amountInput || !periodSelect || !resultInput) return;
 
-            // 입력된 수량 숫자 변환 (콤마 제거)
             let rawVal = amountInput.value.replace(/,/g, '').trim();
             let amount = parseFloat(rawVal);
 
@@ -1378,16 +1375,14 @@ select option {
                 return;
             }
 
-            let period = parseInt(periodSelect.value); // 1년, 3년, 5년
-            let apy = 0.155; // 1년 기본 15.5%
+            let period = parseInt(periodSelect.value);
+            let apy = 0.155;
 
-            if (period === 3) apy = 0.3141; // 3년 31.41%
-            else if (period === 5) apy = 0.45; // 5년 45.0%
+            if (period === 3) apy = 0.3141;
+            else if (period === 5) apy = 0.45;
 
-            // 단리/복리 계산 (원금 * (1 + APY)^period - 원금)
             let totalReturn = amount * Math.pow((1 + apy), period) - amount;
 
-            // 결과창에 포맷팅하여 출력
             resultInput.value = `${period}년 복리 적용 시 예상 수익: +${totalReturn.toLocaleString('en-US', {maximumFractionDigits: 2})} HK`;
         }
 
@@ -1457,7 +1452,6 @@ select option {
             document.getElementById('appModal').classList.remove('active');
         }
 
-        // [정식 60개국어 글로벌 유니버설 번역 사전 데이터베이스 (60개국 완전 수록)]
         const translations = {
             ko: {
                 headerSubText: "글로벌 차세대 분산 금융", langEngineLabel: "60개국어 다국어 엔진", subTitle: "빠른 금융 작업 마스터 코어",
@@ -1795,7 +1789,10 @@ select option {
             currentLang = lang;
             let t = translations[lang] || translations['en'];
 
-            document.getElementById('metaTitle').innerText = t.dashTitle ? `HK WORLD BANK | ${t.dashTitle}` : "HK WORLD BANK";
+            const metaTitleEl = document.getElementById('metaTitle');
+            if(metaTitleEl) {
+                metaTitleEl.innerText = t.dashTitle ? `HK WORLD BANK | ${t.dashTitle}` : "HK WORLD BANK";
+            }
            
             const elements = document.querySelectorAll('[data-i18n]');
             elements.forEach(el => {
@@ -1818,7 +1815,10 @@ select option {
             });
 
             document.dir = ['ar', 'fa', 'ur', 'he'].includes(lang) ? 'rtl' : 'ltr';
-            updateSonpone(document.getElementById('sonponeSlider').value);
+            const slider = document.getElementById('sonponeSlider');
+            if(slider) {
+                updateSonpone(slider.value);
+            }
         }
     </script>
 </body>
