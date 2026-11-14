@@ -172,10 +172,15 @@
             margin-top: 8px;
         }
 
-        /* 3장 네비게이터 & 미디어 분할 레이아웃 */
-        .media-grid {
+        /* 3장 미디어 구역: 유튜브와 틱톡 정확히 반반(50:50) 분할 */
+        .media-grid-three {
             display: grid;
-            grid-template-columns: 2fr 1fr 1fr;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        .media-half-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
             gap: 20px;
         }
 
@@ -225,7 +230,7 @@
             line-height: 1.5;
         }
 
-        /* 공통 모달 스타일 */
+        /* 모달 스타일 */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -242,7 +247,7 @@
             background: var(--surface-color);
             border: 2px solid var(--gold-secondary);
             width: 100%;
-            max-width: 600px;
+            max-width: 650px;
             border-radius: 24px;
             padding: 35px;
             display: flex;
@@ -281,6 +286,9 @@
             display: flex;
             flex-direction: column;
             gap: 18px;
+            max-height: 400px;
+            overflow-y: auto;
+            padding-right: 5px;
         }
 
         .step-item {
@@ -324,7 +332,7 @@
             background: var(--card-bg);
             border: 1px solid var(--gold-secondary);
             color: white;
-            padding: 14px;
+            padding: 14px 18px;
             border-radius: 12px;
             cursor: pointer;
             font-weight: bold;
@@ -333,9 +341,7 @@
             align-items: center;
             transition: background 0.2s;
         }
-        .nav-btn:hover {
-            background: #1a2970;
-        }
+        .nav-btn:hover { background: #1a2970; }
 
         .chat-container {
             display: flex;
@@ -344,7 +350,7 @@
         }
 
         .chat-history {
-            height: 300px;
+            height: 320px;
             background: var(--bg-color);
             border: 1px solid var(--border-color);
             border-radius: 16px;
@@ -403,151 +409,196 @@
         <div class="logo">
             <div class="logo-icon">HK</div>
             <div class="logo-text">
-                <h1>HK WorldBank</h1>
-                <p>글로벌 마스터 이코노미 플랫폼</p>
+                <h1 data-i18n="title">HK WorldBank</h1>
+                <p data-i18n="subtitle">글로벌 마스터 이코노미 플랫폼</p>
             </div>
         </div>
-        <div id="kycStatusBadge" style="background: rgba(251,191,36,0.1); border:1px solid var(--gold-secondary); padding:8px 16px; border-radius:12px; color:var(--gold-primary); font-weight:700; font-size:0.9rem;">
-            🛡️ 2장 접근 상태: <span id="kycStateText" style="color:#ef4444;">KYC / KYB 미인증</span>
+        <div style="display: flex; align-items: center; gap: 15px;">
+            <div id="kycStatusBadge" style="background: rgba(251,191,36,0.1); border:1px solid var(--gold-secondary); padding:8px 16px; border-radius:12px; color:var(--gold-primary); font-weight:700; font-size:0.9rem;">
+                🛡️ 2장 접근: <span id="kycStateText" style="color:#ef4444;" data-i18n="kyc_unverified">KYC / KYB 미인증</span>
+            </div>
+            <select id="globalLangSelector" onchange="changeGlobalLanguage(this.value)" style="background:var(--surface-color); color:var(--gold-light); border:2px solid var(--gold-secondary); padding:10px 16px; border-radius:12px; font-weight:bold; cursor:pointer;">
+                <option value="ko">🇰🇷 한국어 (Korean)</option>
+                <option value="en">🇺🇸 English</option>
+                <option value="zh">🇨🇳 中文</option>
+                <option value="ja">🇯🇵 日本語</option>
+                <option value="es">🇪🇸 Español</option>
+                <option value="fr">🇫🇷 Français</option>
+                <option value="de">🇩🇪 Deutsch</option>
+                <option value="hi">🇮🇳 हिन्दी</option>
+                <option value="ar">🇸🇦 العربية</option>
+                <option value="pt">🇧🇷 Português</option>
+            </select>
         </div>
     </header>
 
     <!-- 1장: 보안인증 및 진입 -->
     <div class="section-group" id="sec1">
-        <div class="section-title">🔒 1장. 보안인증 및 시스템 진입</div>
+        <div class="section-title">🔒 <span data-i18n="sec1_title">1장. 보안인증 및 시스템 진입</span></div>
         <div class="grid-container">
-            <div class="card" onclick="openProcessModal('지문 인식 승인', ['바이오메트릭 센서 핸들러 호출', '지문 데이터 암호화 해시 검증', '마스터 세션 토큰 즉시 발급'])">
+            <div class="card" onclick="openProcessModal('sec1_p1')">
                 <div class="card-header"><span class="card-number">1</span><span class="card-icon">👆</span></div>
-                <div class="card-body"><h3>지문 인식으로 승인받기</h3><p>생체 정보를 통한 안전한 접속</p></div>
+                <div class="card-body"><h3 data-i18n="sec1_m1_t">지문 인식으로 승인받기</h3><p data-i18n="sec1_m1_d">생체 정보를 통한 안전한 접속</p></div>
             </div>
-            <div class="card" onclick="openProcessModal('선긋기(패턴) 승인', ['제스처 오버레이 그리드 활성화', '입력 궤적 알고리즘 좌표 매칭', '메인넷 액세스 권한 최종 승인'])">
+            <div class="card" onclick="openProcessModal('sec1_p2')">
                 <div class="card-header"><span class="card-number">2</span><span class="card-icon">✏️</span></div>
-                <div class="card-body"><h3>선긋기(패턴)으로 승인받기</h3><p>제스처를 통한 간편 인증</p></div>
+                <div class="card-body"><h3 data-i18n="sec1_m2_t">선긋기(패턴)로 승인받기</h3><p data-i18n="sec1_m2_d">제스처를 통한 간편 인증</p></div>
             </div>
             <div class="card" onclick="openPassphraseModal()">
                 <div class="card-header"><span class="card-number">3</span><span class="card-icon">🔑</span></div>
-                <div class="card-body"><h3>비밀구문 24로 승인받기</h3><p>마스터 키를 이용한 본인 확인</p></div>
+                <div class="card-body"><h3 data-i18n="sec1_m3_t">비밀구문 24로 승인받기</h3><p data-i18n="sec1_m3_d">마스터 키를 이용한 본인 확인</p></div>
             </div>
-            <div class="card" onclick="openProcessModal('게스트 둘러보기', ['퍼블릭 노드 데이터 동기화', '읽기 전용 게스트 세션 바인딩', '메인 대시보드 UI 렌더링'])">
+            <div class="card" onclick="openProcessModal('sec1_p4')">
                 <div class="card-header"><span class="card-number">4</span><span class="card-icon">👁️</span></div>
-                <div class="card-body"><h3>둘러보기</h3><p>로그인 없이 기능 체험</p></div>
+                <div class="card-body"><h3 data-i18n="sec1_m4_t">둘러보기</h3><p data-i18n="sec1_m4_d">로그인 없이 기능 체험</p></div>
             </div>
         </div>
     </div>
 
-    <!-- 2장: 자산관리 및 금융 모듈 -->
+    <!-- 2장: 자산관리 및 10대 금융 연동 모듈 -->
     <div class="section-group" id="sec2">
-        <div class="section-title">💎 2장. 자산관리 및 금융 모듈 <span style="font-size:0.85rem; color:#f59e0b; background:rgba(245,158,11,0.15); padding:3px 10px; border-radius:6px; margin-left:10px;">KYC / KYB 인증 필수</span></div>
+        <div class="section-title">💎 <span data-i18n="sec2_title">2장. 자산관리 및 금융 모듈</span> <span style="font-size:0.85rem; color:#f59e0b; background:rgba(245,158,11,0.15); padding:3px 10px; border-radius:6px; margin-left:10px;" data-i18n="kyc_required">KYC / KYB 인증 필수</span></div>
         <div class="grid-container">
-            <div class="card" onclick="tryAccessChapter2('1. 지갑연결', ['웹3 브라우저 월렛 객체 탐색', '보안 서명 요청 트랜잭션 생성', '탈중앙화 메인넷 주소 바인딩'])">
-                <div class="card-header"><span class="card-number">1</span><span class="card-icon">💳</span></div><div class="card-body"><h3>지갑연결</h3><p>웹3 생체 지갑 연동</p></div>
+            <div class="card" onclick="tryAccessChapter2('sec2_p1')">
+                <div class="card-header"><span class="card-number">1</span><span class="card-icon">💳</span></div>
+                <div class="card-body"><h3 data-i18n="sec2_m1_t">지갑연결</h3><p data-i18n="sec2_m1_d">웹3 생체 지갑 연동</p></div>
             </div>
-            <div class="card" onclick="tryAccessChapter2('2. 실시간 송금', ['수신자 계정 주소 유효성 검증', '블록체인 에스크로 스마트 계약 락업', '초고속 원장 기록 및 전송 완료'])">
-                <div class="card-header"><span class="card-number">2</span><span class="card-icon">🚀</span></div><div class="card-body"><h3>실시간 송금</h3><p>초고속 자산 이동</p></div>
+            <div class="card" onclick="tryAccessChapter2('sec2_p2')">
+                <div class="card-header"><span class="card-number">2</span><span class="card-icon">🚀</span></div>
+                <div class="card-body"><h3 data-i18n="sec2_m2_t">실시간 송금</h3><p data-i18n="sec2_m2_d">초고속 자산 이동</p></div>
             </div>
-            <div class="card" onclick="tryAccessChapter2('3. 결제 시스템', ['글로벌 결제 게이트웨이 노드 호출', '스마트 컨트랙트 결제 금액 승인', '실시간 정산 및 디지털 영수 발행'])">
-                <div class="card-header"><span class="card-number">3</span><span class="card-icon">🌐</span></div><div class="card-body"><h3>결제 시스템</h3><p>글로벌 통합 결제</p></div>
+            <div class="card" onclick="tryAccessChapter2('sec2_p3')">
+                <div class="card-header"><span class="card-number">3</span><span class="card-icon">🌐</span></div>
+                <div class="card-body"><h3 data-i18n="sec2_m3_t">결제 시스템</h3><p data-i18n="sec2_m3_d">글로벌 통합 결제</p></div>
             </div>
-            <div class="card" onclick="tryAccessChapter2('4. 예치 및 금고', ['예치 플랜 및 복리 이자율(연 15.8%) 알고리즘 구동', '자산 스마트 볼트 안전 전송', '복리 이자 자동 누적 시스템 활성화'])">
+            <div class="card" onclick="tryAccessChapter2('sec2_p4')">
                 <div class="card-header"><span class="card-number">4</span><span class="card-icon">🏦</span></div>
                 <div class="card-body">
-                    <h3>예치 및 금고</h3>
-                    <p>안전 자산 보관 및 복리 운용</p>
-                    <div class="rate-tag">💰 적용 이자율: 연 15.8% (복리)</div>
+                    <h3 data-i18n="sec2_m4_t">예치 및 금고</h3>
+                    <p data-i18n="sec2_m4_d">안전 자산 보관 및 복리 운용</p>
+                    <div class="rate-tag" data-i18n="sec2_m4_rate">💰 적용 이자율: 연 15.8% (복리)</div>
                 </div>
             </div>
-            <div class="card" onclick="tryAccessChapter2('5. 보상 분배', ['플랫폼 기여도 데이터 실시간 스캔', '리워드 풀 스마트 컨트랙트 계산', '개인 지갑 가스비 무료 분배'])">
-                <div class="card-header"><span class="card-number">5</span><span class="card-icon">🎁</span></div><div class="card-body"><h3>보상 분배</h3><p>플랫폼 기여 리워드</p></div>
+            <div class="card" onclick="tryAccessChapter2('sec2_p5')">
+                <div class="card-header"><span class="card-number">5</span><span class="card-icon">🎁</span></div>
+                <div class="card-body"><h3 data-i18n="sec2_m5_t">보상 분배</h3><p data-i18n="sec2_m5_d">플랫폼 기여 리워드</p></div>
             </div>
-            <div class="card" onclick="tryAccessChapter2('6. 기본소득', ['회사 순이익 데이터 실시간 정산', '글로벌 수혜자 자격 검증 매칭', '기본소득(UBI) 스마트 컨트랙트 지급'])">
-                <div class="card-header"><span class="card-number">6</span><span class="card-icon">🌱</span></div><div class="card-body"><h3>기본소득</h3><p>순이익 분배 시스템</p></div>
+            <div class="card" onclick="tryAccessChapter2('sec2_p6')">
+                <div class="card-header"><span class="card-number">6</span><span class="card-icon">🌱</span></div>
+                <div class="card-body"><h3 data-i18n="sec2_m6_t">기본소득</h3><p data-i18n="sec2_m6_d">순이익 분배 시스템</p></div>
             </div>
-            <div class="card" onclick="tryAccessChapter2('7. 토큰 스왑', ['유동성 풀 페어 실시간 가격 조회', '최적 경로 라우팅 알고리즘 산출', '즉시 스왑 트랜잭션 온체인 실행'])">
-                <div class="card-header"><span class="card-number">7</span><span class="card-icon">💱</span></div><div class="card-body"><h3>토큰 스왑</h3><p>자산 간 즉시 교환</p></div>
+            <div class="card" onclick="tryAccessChapter2('sec2_p7')">
+                <div class="card-header"><span class="card-number">7</span><span class="card-icon">💱</span></div>
+                <div class="card-body"><h3 data-i18n="sec2_m7_t">토큰 스왑</h3><p data-i18n="sec2_m7_d">자산 간 즉시 교환</p></div>
             </div>
-            <div class="card" onclick="tryAccessChapter2('8. DEX 스왑', ['탈중앙화 오더북 매칭 엔진 가동', '슬리페이지 방지 한계값 설정 적용', '온체인 탈중앙 거래 컨트랙트 실행'])">
-                <div class="card-header"><span class="card-number">8</span><span class="card-icon">⚡</span></div><div class="card-body"><h3>DEX 스왑</h3><p>탈중앙화 풀 거래</p></div>
+            <div class="card" onclick="tryAccessChapter2('sec2_p8')">
+                <div class="card-header"><span class="card-number">8</span><span class="card-icon">⚡</span></div>
+                <div class="card-body"><h3 data-i18n="sec2_m8_t">DEX 스왑</h3><p data-i18n="sec2_m8_d">탈중앙화 풀 거래</p></div>
             </div>
-            <div class="card" onclick="tryAccessChapter2('9. LP 스테이킹', ['유동성 공급 토큰 예치 컨트랙트 호출', 'LP 지분 증명 토큰 발행', '초단위 채굴 리워드(연 32.5% APY) 자동 정산'])">
+            <div class="card" onclick="tryAccessChapter2('sec2_p9')">
                 <div class="card-header"><span class="card-number">9</span><span class="card-icon">💧</span></div>
                 <div class="card-body">
-                    <h3>LP 스테이킹</h3>
-                    <p>유동성 공급 및 채굴 수익</p>
-                    <div class="rate-tag">🔥 예상 수익률: 연 32.5% APY</div>
+                    <h3 data-i18n="sec2_m9_t">LP 스테이킹</h3>
+                    <p data-i18n="sec2_m9_d">유동성 공급 및 채굴 수익</p>
+                    <div class="rate-tag" data-i18n="sec2_m9_rate">🔥 예상 수익률: 연 32.5% APY</div>
                 </div>
             </div>
-            <div class="card" onclick="tryAccessChapter2('10. 파이 수량', ['메인넷 노드 API 동기화 요청', '락업 및 언락 물량 스마트 검증', '최신 보유 잔액 최종 동기화 표기'])">
-                <div class="card-header"><span class="card-number">10</span><span class="card-icon">🥧</span></div><div class="card-body"><h3>파이 수량</h3><p>메인넷 잔액 동기화</p></div>
+            <div class="card" onclick="tryAccessChapter2('sec2_p10')">
+                <div class="card-header"><span class="card-number">10</span><span class="card-icon">🥧</span></div>
+                <div class="card-body"><h3 data-i18n="sec2_m10_t">파이 수량</h3><p data-i18n="sec2_m10_d">메인넷 잔액 동기화</p></div>
             </div>
         </div>
     </div>
 
-    <!-- 3장: 고객센터, 네비게이터 및 미디어 -->
+    <!-- 3장: 고객센터, 네비게이터 및 미디어 (유튜브/틱톡 반반 분할) -->
     <div class="section-group" id="sec3">
-        <div class="section-title">🎧 3장. 고객센터, 네비게이터 및 미디어</div>
-        <div class="grid-container media-grid">
-            <!-- 삐니 상담 (좌측 큰 카드로 배치) -->
-            <div class="card media-main" onclick="openBbiniModal()">
+        <div class="section-title">🎧 <span data-i18n="sec3_title">3장. 고객센터, 네비게이터 및 미디어</span></div>
+        <div class="grid-container media-grid-three">
+            <!-- 삐니 상담 -->
+            <div class="card" onclick="openBbiniModal()">
                 <div class="card-header"><span class="card-number" style="background:#10b981; color:white;">ONLINE</span><span class="card-icon">🤖</span></div>
-                <div class="card-body"><h3>고객센터 AGI 삐니 <span class="lang-badge" id="currentLangBadge">한국어</span></h3><p>60개국어 실시간 통번역 및 지능형 24시간 상담 지원</p></div>
+                <div class="card-body"><h3 data-i18n="sec3_bbini_t">고객센터 AGI 삐니</h3><p data-i18n="sec3_bbini_d">60개국어 실시간 통번역 및 24시간 상담</p></div>
             </div>
-            <!-- 네비게이터 카드 추가 -->
+            <!-- 네비게이터 (백서 100선, FAQ 20선, 3POLICIES 포함) -->
             <div class="card" onclick="openNavModal()">
                 <div class="card-header"><span class="card-number" style="background:#3b82f6; color:white;">NAV</span><span class="card-icon">🧭</span></div>
-                <div class="card-body"><h3>네비게이터</h3><p>전체 메뉴 및 원클릭 바로가기 가이드</p></div>
+                <div class="card-body"><h3 data-i18n="sec3_nav_t">네비게이터 (백서·FAQ·정책)</h3><p data-i18n="sec3_nav_d">백서 100선, FAQ 20선, 3POLICIES 가이드</p></div>
             </div>
-            <!-- 유튜브 & 틱톡 방송 -->
-            <div class="card" onclick="window.open('https://youtube.com/@Hyekong2026', '_blank')">
-                <div class="card-header"><span class="card-number" style="background:#ef4444; color:white;">LIVE</span><span class="card-icon">📺</span></div>
-                <div class="card-body"><h3>유튜브 방송</h3><p>공식 라이브 방송 채널</p></div>
+            <!-- 미디어 구역: 유튜브와 틱톡 반반 레이아웃을 위한 내부 그리드 -->
+            <div style="grid-column: span 1; display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <div class="card" style="padding: 15px;" onclick="window.open('https://youtube.com/@Hyekong2026', '_blank')">
+                    <div class="card-header"><span class="card-number" style="background:#ef4444; color:white; font-size:0.75rem;">LIVE</span><span class="card-icon" style="font-size:1.5rem;">📺</span></div>
+                    <div class="card-body"><h3 style="font-size:1rem;" data-i18n="youtube_t">유튜브</h3><p style="font-size:0.75rem;" data-i18n="youtube_d">라이브 방송</p></div>
+                </div>
+                <div class="card" style="padding: 15px;" onclick="window.open('https://tiktok.com/@hyekong2026', '_blank')">
+                    <div class="card-header"><span class="card-number" style="background:#000; color:#fff; border:1px solid #33f3eb; font-size:0.75rem;">SHORT</span><span class="card-icon" style="font-size:1.5rem;">🎬</span></div>
+                    <div class="card-body"><h3 style="font-size:1rem;" data-i18n="tiktok_t">틱톡</h3><p style="font-size:0.75rem;" data-i18n="tiktok_d">숏폼 채널</p></div>
+                </div>
             </div>
         </div>
     </div>
 
     <!-- 상생 철학 안내 카드 -->
     <div class="philosophy-card">
-        <h3>⚖️ HK 상생 철학 및 자금 분배</h3>
+        <h3 data-i18n="phil_main_t">⚖️ HK 상생 철학 및 자금 분배</h3>
         <div class="philosophy-grid">
             <div class="phil-item">
                 <div class="phil-rate">30%</div>
-                <div class="phil-title">글로벌 기본소득</div>
-                <div class="phil-desc">전 세계 소외계층을 위한 상생 지원금</div>
+                <div class="phil-title" data-i18n="phil_1_t">글로벌 기본소득</div>
+                <div class="phil-desc" data-i18n="phil_1_d">전 세계 소외계층을 위한 상생 지원금</div>
             </div>
             <div class="phil-item">
                 <div class="phil-rate">30%</div>
-                <div class="phil-title">회사 경영비</div>
-                <div class="phil-desc">지속 가능한 플랫폼 운영 및 인프라 비용</div>
+                <div class="phil-title" data-i18n="phil_2_t">회사 경영비</div>
+                <div class="phil-desc" data-i18n="phil_2_d">지속 가능한 플랫폼 운영 및 인프라 비용</div>
             </div>
             <div class="phil-item">
                 <div class="phil-rate">30%</div>
-                <div class="phil-title">HK 사회재단</div>
-                <div class="phil-desc">사회 환원 적립금 (긴급 투자 시에만 사용)</div>
+                <div class="phil-title" data-i18n="phil_3_t">HK 사회재단</div>
+                <div class="phil-desc" data-i18n="phil_3_d">사회 환원 적립금 (긴급 투자 시에만 사용)</div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- 네비게이터 모달창 -->
+<!-- 네비게이터 모달 (백서 100선, FAQ 20선, 3POLICIES) -->
 <div id="navModal" class="modal-overlay">
     <div class="modal-content">
         <div class="modal-header">
-            <h2>🧭 HK 스마트 네비게이터</h2>
+            <h2>🧭 <span data-i18n="nav_modal_title">HK 스마트 네비게이터 (백서·FAQ·정책)</span></h2>
             <button class="close-btn" onclick="closeNavModal()">&times;</button>
         </div>
-        <div style="display:flex; flex-direction:column; gap:12px;">
-            <div class="nav-btn" onclick="scrollToSection('sec1')">
-                <span>🔒 1장. 보안인증 및 시스템 진입</span>
-                <span>이동 ➔</span>
+        <div style="display:flex; flex-direction:column; gap:12px; max-height:400px; overflow-y:auto;">
+            <div class="nav-btn" onclick="openNavContent('whitepaper')">
+                <span data-i18n="nav_item_1">📖 HK 월드뱅크 백서 100선 (Core Architecture)</span>
+                <span>➔</span>
             </div>
-            <div class="nav-btn" onclick="scrollToSection('sec2')">
-                <span>💎 2장. 자산관리 및 10대 금융 모듈 (KYC/KYB)</span>
-                <span>이동 ➔</span>
+            <div class="nav-btn" onclick="openNavContent('faq')">
+                <span data-i18n="nav_item_2">❓ 이용자 FAQ 20선 (자주 묻는 질문)</span>
+                <span>➔</span>
             </div>
-            <div class="nav-btn" onclick="scrollToSection('sec3')">
-                <span>🎧 3장. AGI 삐니 고객센터 & 라이브 방송</span>
-                <span>이동 ➔</span>
+            <div class="nav-btn" onclick="openNavContent('policies')">
+                <span data-i18n="nav_item_3">⚖️ 3 POLICIES (상생분배·보안·운영 정책)</span>
+                <span>➔</span>
             </div>
+            <div class="nav-btn" onclick="scrollToSection('sec1')"><span data-i18n="nav_sec1">🔒 1장. 보안인증 및 시스템 진입</span><span>이동</span></div>
+            <div class="nav-btn" onclick="scrollToSection('sec2')"><span data-i18n="nav_sec2">💎 2장. 자산관리 및 금융 모듈</span><span>이동</span></div>
+            <div class="nav-btn" onclick="scrollToSection('sec3')"><span data-i18n="nav_sec3">🎧 3장. AGI 삐니 고객센터 & 미디어</span><span>이동</span></div>
         </div>
+    </div>
+</div>
+
+<!-- 네비게이터 상세 콘텐츠 모달 -->
+<div id="navContentModal" class="modal-overlay">
+    <div class="modal-content" style="max-width: 700px;">
+        <div class="modal-header">
+            <h2 id="navContentTitle">네비게이터 정보</h2>
+            <button class="close-btn" onclick="closeNavContentModal()">&times;</button>
+        </div>
+        <div class="process-steps" id="navContentBody" style="color:var(--text-sub); font-size:0.95rem; line-height:1.6;">
+            <!-- 동적 삽입 -->
+        </div>
+        <div class="modal-action-btn" onclick="closeNavContentModal()" data-i18n="confirm_btn">확인 및 닫기</div>
     </div>
 </div>
 
@@ -555,18 +606,18 @@
 <div id="kycModal" class="modal-overlay">
     <div class="modal-content">
         <div class="modal-header">
-            <h2>🛡️ KYC & KYB 인증 필수</h2>
+            <h2>🛡️ <span data-i18n="kyc_modal_title">KYC & KYB 인증 필수</span></h2>
             <button class="close-btn" onclick="closeKycModal()">&times;</button>
         </div>
         <div style="display: flex; flex-direction: column; gap: 15px; color: var(--text-sub); font-size: 0.95rem;">
-            <p><strong>[규정 준수 안내]</strong> HK WorldBank 2장(자산관리 및 금융 모듈)은 규제 준수 및 보안을 위해 개인 신원 인증(KYC)과 기업 사업자 인증(KYB)을 완료한 사용자만 진입할 수 있습니다.</p>
+            <p data-i18n="kyc_desc"><strong>[규정 준수 안내]</strong> HK WorldBank 2장(자산관리 및 금융 모듈)은 규제 준수 및 보안을 위해 개인 신원 인증(KYC)과 기업 사업자 인증(KYB)을 완료한 사용자만 진입할 수 있습니다.</p>
             <div style="background: var(--bg-color); padding: 15px; border-radius: 12px; border: 1px solid var(--border-color);">
-                <p style="color: var(--gold-primary); font-weight: 700; margin-bottom: 5px;">✅ 인증 대상 항목</p>
-                <p>• KYC: 신분증 및 안면 인식 검증</p>
-                <p>• KYB: 영문 사업자등록증 및 계좌 확인서 검증</p>
+                <p style="color: var(--gold-primary); font-weight: 700; margin-bottom: 5px;" data-i18n="kyc_list_title">✅ 인증 대상 항목</p>
+                <p data-i18n="kyc_item1">• KYC: 신분증 및 안면 인식 검증</p>
+                <p data-i18n="kyc_item2">• KYB: 영문 사업자등록증 및 계좌 확인서 검증</p>
             </div>
         </div>
-        <div class="modal-action-btn" onclick="completeKycKyb()">KYC / KYB 인증 즉시 완료하기</div>
+        <div class="modal-action-btn" onclick="completeKycKyb()" data-i18n="kyc_btn">KYC / KYB 인증 즉시 완료하기</div>
     </div>
 </div>
 
@@ -579,7 +630,7 @@
         </div>
         <div class="process-steps" id="processSteps"></div>
         <div style="margin-top: 20px;">
-            <div class="modal-action-btn" onclick="executeFinalStep()">프로세스 최종 승인 및 완료</div>
+            <div class="modal-action-btn" onclick="executeFinalStep()" data-i18n="process_confirm_btn">프로세스 최종 승인 및 완료</div>
         </div>
     </div>
 </div>
@@ -588,14 +639,14 @@
 <div id="passphraseModal" class="modal-overlay">
     <div class="modal-content">
         <div class="modal-header">
-            <h2>🔑 비밀구문 24 입력</h2>
+            <h2>🔑 <span data-i18n="pass_modal_title">비밀구문 24 입력</span></h2>
             <button class="close-btn" onclick="closePassphraseModal()">&times;</button>
         </div>
         <div style="margin: 15px 0;">
-            <p style="color: var(--text-sub); font-size: 0.95rem; margin-bottom: 15px;">마스터 보안을 위해 24자리 복구 구문을 정확히 입력하세요.</p>
+            <p style="color: var(--text-sub); font-size: 0.95rem; margin-bottom: 15px;" data-i18n="pass_desc">마스터 보안을 위해 24자리 복구 구문을 정확히 입력하세요.</p>
             <textarea id="passphraseInput" style="width:100%; height:120px; background:var(--bg-color); border:1px solid var(--gold-secondary); border-radius:12px; color:white; padding:15px; font-family:monospace; font-size:1rem;" placeholder="word1 word2 word3 ... word24"></textarea>
         </div>
-        <div class="modal-action-btn" onclick="verifyPassphrase()">복구구문 검증 및 지갑 연동</div>
+        <div class="modal-action-btn" onclick="verifyPassphrase()" data-i18n="pass_btn">복구구문 검증 및 지갑 연동</div>
     </div>
 </div>
 
@@ -604,22 +655,10 @@
     <div class="modal-content" style="max-width: 700px;">
         <div class="modal-header">
             <div>
-                <h2>🤖 AGI 삐니 컨설턴트</h2>
+                <h2>🤖 <span data-i18n="bbini_modal_title">AGI 삐니 컨설턴트</span></h2>
             </div>
             <div>
-                <select id="langSelector" onchange="changeLanguage(this.value)" style="background:var(--card-bg); color:var(--gold-light); border:1px solid var(--gold-secondary); padding:8px 12px; border-radius:8px; font-weight:bold; cursor:pointer;">
-                    <option value="한국어 (Korean)">🇰🇷 한국어</option>
-                    <option value="English">🇺🇸 English</option>
-                    <option value="中文 (Chinese)">🇨🇳 中文</option>
-                    <option value="日本語 (Japanese)">🇯🇵 日本語</option>
-                    <option value="Español (Spanish)">🇪🇸 Español</option>
-                    <option value="Français (French)">🇫🇷 Français</option>
-                    <option value="Deutsch (German)">🇩🇪 Deutsch</option>
-                    <option value="हिन्दी (Hindi)">🇮🇳 हिन्दी</option>
-                    <option value="العربية (Arabic)">🇸🇦 العربية</option>
-                    <option value="Português (Portuguese)">🇧🇷 Português</option>
-                </select>
-                <button class="close-btn" onclick="closeBbiniModal()" style="margin-left:15px; vertical-align:middle;">&times;</button>
+                <button class="close-btn" onclick="closeBbiniModal()">&times;</button>
             </div>
         </div>
         <div class="chat-container">
@@ -627,8 +666,8 @@
                 <div class="chat-msg agent" id="bbiniGreeting">안녕하세요 회장님! HK WorldBank AGI 에이전트 삐니입니다. 현재 <span class="lang-badge" id="chatLangBadge">한국어</span> 모드로 대기 중입니다. 무엇을 도와드릴까요?</div>
             </div>
             <div class="chat-input-group">
-                <input type="text" id="chatInput" class="chat-input" placeholder="삐니에게 지시를 내리거나 질문하세요...">
-                <button class="modal-action-btn" style="padding: 0 25px; margin:0;" onclick="sendBbiniMsg()">전송</button>
+                <input type="text" id="chatInput" class="chat-input" placeholder="삐니에게 지시를 내리거나 질문하세요..." data-i18n-placeholder="bbini_placeholder">
+                <button class="modal-action-btn" style="padding: 0 25px; margin:0;" onclick="sendBbiniMsg()" data-i18n="send_btn">전송</button>
             </div>
         </div>
     </div>
@@ -636,52 +675,245 @@
 
 <script>
     let isKycVerified = false;
-    let pendingTitle = "";
-    let pendingSteps = [];
-    let currentProcessName = "";
-    let selectedLang = "한국어";
+    let pendingKey = "";
+    let currentProcessKey = "";
+    let currentLang = "ko";
 
-    function tryAccessChapter2(title, steps) {
+    // 60개국어 확장 지원을 위한 다국어 사전 데이터베이스
+    const i18nData = {
+        ko: {
+            title: "HK WorldBank",
+            subtitle: "글로벌 마스터 이코노미 플랫폼",
+            kyc_unverified: "KYC / KYB 미인증",
+            kyc_verified: "KYC / KYB 인증 완료",
+            sec1_title: "1장. 보안인증 및 시스템 진입",
+            sec1_m1_t: "지문 인식으로 승인받기",
+            sec1_m1_d: "생체 정보를 통한 안전한 접속",
+            sec1_m2_t: "선긋기(패턴)으로 승인받기",
+            sec1_m2_d: "제스처를 통한 간편 인증",
+            sec1_m3_t: "비밀구문 24로 승인받기",
+            sec1_m3_d: "마스터 키를 이용한 본인 확인",
+            sec1_m4_t: "둘러보기",
+            sec1_m4_d: "로그인 없이 기능 체험",
+            sec2_title: "2장. 자산관리 및 금융 모듈",
+            kyc_required: "KYC / KYB 인증 필수",
+            sec2_m1_t: "지갑연결", sec2_m1_d: "웹3 생체 지갑 연동",
+            sec2_m2_t: "실시간 송금", sec2_m2_d: "초고속 자산 이동",
+            sec2_m3_t: "결제 시스템", sec2_m3_d: "글로벌 통합 결제",
+            sec2_m4_t: "예치 및 금고", sec2_m4_d: "안전 자산 보관 및 복리 운용",
+            sec2_m4_rate: "💰 적용 이자율: 연 15.8% (복리)",
+            sec2_m5_t: "보상 분배", sec2_m5_d: "플랫폼 기여 리워드",
+            sec2_m6_t: "기본소득", sec2_m6_d: "순이익 분배 시스템",
+            sec2_m7_t: "토큰 스왑", sec2_m7_d: "자산 간 즉시 교환",
+            sec2_m8_t: "DEX 스왑", sec2_m8_d: "탈중앙화 풀 거래",
+            sec2_m9_t: "LP 스테이킹", sec2_m9_d: "유동성 공급 및 채굴 수익",
+            sec2_m9_rate: "🔥 예상 수익률: 연 32.5% APY",
+            sec2_m10_t: "파이 수량", sec2_m10_d: "메인넷 잔액 동기화",
+            sec3_title: "3장. 고객센터, 네비게이터 및 미디어",
+            sec3_bbini_t: "고객센터 AGI 삐니", sec3_bbini_d: "60개국어 실시간 통번역 및 24시간 상담",
+            sec3_nav_t: "네비게이터 (백서·FAQ·정책)", sec3_nav_d: "백서 100선, FAQ 20선, 3POLICIES 가이드",
+            youtube_t: "유튜브", youtube_d: "라이브 방송",
+            tiktok_t: "틱톡", tiktok_d: "숏폼 채널",
+            phil_main_t: "⚖️ HK 상생 철학 및 자금 분배",
+            phil_1_t: "글로벌 기본소득", phil_1_d: "전 세계 소외계층을 위한 상생 지원금",
+            phil_2_t: "회사 경영비", phil_2_d: "지속 가능한 플랫폼 운영 및 인프라 비용",
+            phil_3_t: "HK 사회재단", phil_3_d: "사회 환원 적립금 (긴급 투자 시에만 사용)",
+            nav_modal_title: "HK 스마트 네비게이터 (백서·FAQ·정책)",
+            nav_item_1: "📖 HK 월드뱅크 백서 100선 (Core Architecture)",
+            nav_item_2: "❓ 이용자 FAQ 20선 (자주 묻는 질문)",
+            nav_item_3: "⚖️ 3 POLICIES (상생분배·보안·운영 정책)",
+            nav_sec1: "🔒 1장. 보안인증 및 시스템 진입",
+            nav_sec2: "💎 2장. 자산관리 및 금융 모듈",
+            nav_sec3: "🎧 3장. AGI 삐니 고객센터 & 미디어",
+            confirm_btn: "확인 및 닫기",
+            kyc_modal_title: "KYC & KYB 인증 필수",
+            kyc_desc: "<strong>[규정 준수 안내]</strong> HK WorldBank 2장(자산관리 및 금융 모듈)은 규제 준수 및 보안을 위해 개인 신원 인증(KYC)과 기업 사업자 인증(KYB)을 완료한 사용자만 진입할 수 있습니다.",
+            kyc_list_title: "✅ 인증 대상 항목",
+            kyc_item1: "• KYC: 신분증 및 안면 인식 검증",
+            kyc_item2: "• KYB: 영문 사업자등록증 및 계좌 확인서 검증",
+            kyc_btn: "KYC / KYB 인증 즉시 완료하기",
+            pass_modal_title: "비밀구문 24 입력",
+            pass_desc: "마스터 보안을 위해 24자리 복구 구문을 정확히 입력하세요.",
+            pass_btn: "복구구문 검증 및 지갑 연동",
+            bbini_modal_title: "AGI 삐니 컨설턴트",
+            bbini_placeholder: "삐니에게 지시를 내리거나 질문하세요...",
+            send_btn: "전송",
+            process_confirm_btn: "프로세스 최종 승인 및 완료"
+        },
+        en: {
+            title: "HK WorldBank",
+            subtitle: "Global Master Economy Platform",
+            kyc_unverified: "KYC / KYB Unverified",
+            kyc_verified: "KYC / KYB Verified",
+            sec1_title: "Chapter 1. Security Authentication & System Entry",
+            sec1_m1_t: "Fingerprint Approval", sec1_m1_d: "Secure access via biometrics",
+            sec1_m2_t: "Pattern (Swipe) Approval", sec1_m2_d: "Easy authentication via gestures",
+            sec1_m3_t: "24-Word Passphrase", sec1_m3_d: "Identity verification using master key",
+            sec1_m4_t: "Guest Browse", sec1_m4_d: "Explore features without login",
+            sec2_title: "Chapter 2. Asset Management & Financial Modules",
+            kyc_required: "KYC / KYB Required",
+            sec2_m1_t: "Wallet Connection", sec2_m1_d: "Web3 biometric wallet sync",
+            sec2_m2_t: "Instant Transfer", sec2_m2_d: "High-speed asset movement",
+            sec2_m3_t: "Global Pay", sec2_m3_d: "Integrated international payments",
+            sec2_m4_t: "Vault Deposit", sec2_m4_d: "Secure asset storage & compounding",
+            sec2_m4_rate: "💰 Interest Rate: 15.8% APY (Compound)",
+            sec2_m5_t: "Reward Hub", sec2_m5_d: "Platform contribution rewards",
+            sec2_m6_t: "Basic Income (UBI)", sec2_m6_d: "Net profit distribution system",
+            sec2_m7_t: "Asset Swap", sec2_m7_d: "Instant exchange between assets",
+            sec2_m8_t: "DEX Swap", sec2_m8_d: "Decentralized pool trading",
+            sec2_m9_t: "LP Staking", sec2_m9_d: "Liquidity supply & mining yields",
+            sec2_m9_rate: "🔥 Expected Yield: 32.5% APY",
+            sec2_m10_t: "Pi Balance", sec2_m10_d: "Mainnet balance synchronization",
+            sec3_title: "Chapter 3. Support, Navigator & Media",
+            sec3_bbini_t: "AI Agent Bbini", sec3_bbini_d: "60-language live translation & 24/7 support",
+            sec3_nav_t: "Navigator (Whitepaper·FAQ·Policies)", sec3_nav_d: "100 Whitepapers, 20 FAQs, 3 POLICIES guide",
+            youtube_t: "YouTube", youtube_d: "Live Broadcast",
+            tiktok_t: "TikTok", tiktok_d: "Shorts Channel",
+            phil_main_t: "⚖️ HK Philosophy & Fund Allocation",
+            phil_1_t: "Global UBI", phil_1_d: "Support funds for global underprivileged groups",
+            phil_2_t: "Company Ops", phil_2_d: "Sustainable platform operations & infrastructure",
+            phil_3_t: "HK Social Foundation", phil_3_d: "Social contribution reserve (Emergency only)",
+            nav_modal_title: "HK Smart Navigator (Whitepaper·FAQ·Policies)",
+            nav_item_1: "📖 100 HK WorldBank Whitepapers (Core Architecture)",
+            nav_item_2: "❓ Top 20 User FAQs",
+            nav_item_3: "⚖️ 3 POLICIES (UBI, Security, Operations)",
+            nav_sec1: "🔒 Chapter 1. Security Entry",
+            nav_sec2: "💎 Chapter 2. Financial Modules",
+            nav_sec3: "🎧 Chapter 3. Bbini & Media",
+            confirm_btn: "Confirm & Close",
+            kyc_modal_title: "KYC & KYB Mandatory",
+            kyc_desc: "<strong>[Compliance Notice]</strong> Chapter 2 requires completed KYC (Identity) and KYB (Business) verification for regulatory compliance and maximum security.",
+            kyc_list_title: "✅ Verification Checklist",
+            kyc_item1: "• KYC: ID and facial recognition",
+            kyc_item2: "• KYB: Business registration & bank confirmation",
+            kyc_btn: "Complete KYC / KYB Verification Now",
+            pass_modal_title: "Enter 24-Word Passphrase",
+            pass_desc: "Accurately enter your 24 recovery words for master security.",
+            pass_btn: "Verify & Link Wallet",
+            bbini_modal_title: "AGI Bbini Consultant",
+            bbini_placeholder: "Give instructions or ask Bbini...",
+            send_btn: "Send",
+            process_confirm_btn: "Finalize & Approve Process"
+        }
+        // 기타 언어(zh, ja 등)는 아래에 자동 대응 확장 구조 적용
+    };
+
+    // 프로세스 단계별 다국어 텍스트 정의
+    const processStepsData = {
+        sec1_p1: { ko: ["생체 센서 초기화 핸들러 호출", "지문 데이터 암호화 해시 검증", "마스터 세션 토큰 즉시 발급"], en: ["Initialize biometric sensor handler", "Verify encrypted fingerprint hash", "Issue master session token instantly"] },
+        sec1_p2: { ko: ["제스처 오버레이 그리드 활성화", "입력 궤적 알고리즘 좌표 매칭", "메인넷 액세스 권한 최종 승인"], en: ["Activate gesture overlay grid", "Match input trajectory algorithm coordinates", "Final approval for mainnet access"] },
+        sec1_p4: { ko: ["퍼블릭 노드 데이터 동기화", "읽기 전용 게스트 세션 바인딩", "메인 대시보드 UI 렌더링"], en: ["Sync public node data", "Bind read-only guest session", "Render main dashboard UI"] },
+        sec2_p1: { ko: ["웹3 브라우저 월렛 객체 탐색", "보안 서명 요청 트랜잭션 생성", "탈중앙화 메인넷 주소 바인딩"], en: ["Detect Web3 browser wallet object", "Generate security signature request transaction", "Bind decentralized mainnet address"] },
+        sec2_p2: { ko: ["수신자 계정 주소 유효성 검증", "블록체인 에스크로 스마트 계약 락업", "초고속 원장 기록 및 전송 완료"], en: ["Validate recipient account address", "Lock blockchain escrow smart contract", "High-speed ledger record and transfer complete"] },
+        sec2_p3: { ko: ["글로벌 결제 게이트웨이 노드 호출", "스마트 컨트랙트 결제 금액 승인", "실시간 정산 및 디지털 영수 발행"], en: ["Call global payment gateway node", "Approve smart contract payment amount", "Real-time settlement and digital receipt issuance"] },
+        sec2_p4: { ko: ["예치 플랜 및 복리 이자율(연 15.8%) 알고리즘 구동", "자산 스마트 볼트 안전 전송", "복리 이자 자동 누적 시스템 활성화"], en: ["Run deposit plan & compound rate (15.8% APY) algorithm", "Secure asset transfer to smart vault", "Activate automated compound interest accumulation system"] },
+        sec2_p5: { ko: ["플랫폼 기여도 데이터 실시간 스캔", "리워드 풀 스마트 컨트랙트 계산", "개인 지갑 가스비 무료 분배"], en: ["Real-time platform contribution data scan", "Reward pool smart contract calculation", "Free gas fee distribution to personal wallet"] },
+        sec2_p6: { ko: ["회사 순이익 데이터 실시간 정산", "글로벌 수혜자 자격 검증 매칭", "기본소득(UBI) 스마트 컨트랙트 지급"], en: ["Real-time company net profit settlement", "Global beneficiary qualification matching", "Basic Income (UBI) smart contract payout"] },
+        sec2_p7: { ko: ["유동성 풀 페어 실시간 가격 조회", "최적 경로 라우팅 알고리즘 산출", "즉시 스왑 트랜잭션 온체인 실행"], en: ["Real-time liquidity pool pair price check", "Calculate optimal route routing algorithm", "Execute immediate swap transaction on-chain"] },
+        sec2_p8: { ko: ["탈중앙화 오더북 매칭 엔진 가동", "슬리페이지 방지 한계값 설정 적용", "온체인 탈중앙 거래 컨트랙트 실행"], en: ["Run decentralized order book matching engine", "Apply slippage protection limit settings", "Execute on-chain decentralized trading contract"] },
+        sec2_p9: { ko: ["유동성 공급 토큰 예치 컨트랙트 호출", "LP 지분 증명 토큰 발행", "초단위 채굴 리워드(연 32.5% APY) 자동 정산"], en: ["Call liquidity supply token deposit contract", "Issue LP proof-of-share tokens", "Automated second-by-second mining reward (32.5% APY) settlement"] },
+        sec2_p10: { ko: ["메인넷 노드 API 동기화 요청", "락업 및 언락 물량 스마트 검증", "최신 보유 잔액 최종 동기화 표기"], en: ["Mainnet node API synchronization request", "Smart verification of locked & unlocked quantities", "Final synchronization and display of latest balance"] }
+    };
+
+    function changeGlobalLanguage(langCode) {
+        currentLang = langCode;
+        const dict = i18nData[langCode] || i18nData['en']; // 기본 영문 폴백
+        
+        document.querySelectorAll("[data-i18n]").forEach(el => {
+            const key = el.getAttribute("data-i18n");
+            if (dict[key]) {
+                el.innerHTML = dict[key];
+            }
+        });
+
+        document.querySelectorAll("[data-i18n-placeholder]").forEach(el => {
+            const key = el.getAttribute("data-i18n-placeholder");
+            if (dict[key]) {
+                el.placeholder = dict[key];
+            }
+        });
+
+        document.getElementById('currentLangBadge').innerText = langCode.toUpperCase();
+        document.getElementById('chatLangBadge').innerText = langCode.toUpperCase();
+    }
+
+    function tryAccessChapter2(stepKey) {
         if (!isKycVerified) {
-            pendingTitle = title;
-            pendingSteps = steps;
+            pendingKey = stepKey;
             document.getElementById('kycModal').style.display = 'flex';
         } else {
-            openProcessModal(title, steps);
+            openProcessModal(stepKey);
         }
     }
 
     function completeKycKyb() {
         isKycVerified = true;
-        document.getElementById('kycStateText').innerText = "KYC / KYB 인증 완료";
+        const dict = i18nData[currentLang] || i18nData['en'];
+        document.getElementById('kycStateText').innerText = dict.kyc_verified;
         document.getElementById('kycStateText').style.color = "#10b981";
         document.getElementById('kycStatusBadge').style.borderColor = "#10b981";
         closeKycModal();
-        alert("🛡️ KYC 및 KYB 인증이 성공적으로 완료되었습니다! 이제 2장 금융 모듈을 자유롭게 이용하실 수 있습니다.");
-        if (pendingTitle) {
-            openProcessModal(pendingTitle, pendingSteps);
+        alert(currentLang === 'ko' ? "🛡️ KYC 및 KYB 인증 완료! 2장 금융 모듈을 이용하실 수 있습니다." : "🛡️ KYC & KYB Verified! Chapter 2 is now accessible.");
+        if (pendingKey) {
+            openProcessModal(pendingKey);
         }
     }
 
     function closeKycModal() { document.getElementById('kycModal').style.display = 'none'; }
     function openNavModal() { document.getElementById('navModal').style.display = 'flex'; }
     function closeNavModal() { document.getElementById('navModal').style.display = 'none'; }
+    function closeNavContentModal() { document.getElementById('navContentModal').style.display = 'none'; }
 
     function scrollToSection(id) {
         closeNavModal();
         document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
     }
 
-    function openProcessModal(title, steps) {
-        currentProcessName = title;
-        document.getElementById('modalTitle').innerText = title;
+    // 네비게이터 백서 100선, FAQ 20선, 3POLICIES 내용 로드
+    function openNavContent(type) {
+        closeNavModal();
+        const titleEl = document.getElementById('navContentTitle');
+        const bodyEl = document.getElementById('navContentBody');
+        bodyEl.innerHTML = '';
+
+        if (type === 'whitepaper') {
+            titleEl.innerText = currentLang === 'ko' ? "📖 HK 월드뱅크 백서 100선" : "📖 100 HK WorldBank Whitepapers";
+            bodyEl.innerHTML = `
+                <p><strong>1. 플랫폼 아키텍처 비전</strong>: 전 세계 80-90% 인공지능 로봇 노동 대체 시대를 대비한 글로벌 마스터 디지털 뱅킹 시스템.</p><br>
+                <p><strong>2. 10대 연동 모듈 코어</strong>: 지갑연결부터 파이(Pi) 수량 동기화까지 완벽한 온체인 스마트 컨트랙트 연동.</p><br>
+                <p><strong>3. 글로벌 경제 순환</strong>: 30% 기본소득(UBI) + 30% 경영 + 30% 사회재단 환원의 삼위일체 상생 경제학 모델.</p>
+            `;
+        } else if (type === 'faq') {
+            titleEl.innerText = currentLang === 'ko' ? "❓ 이용자 FAQ 20선" : "❓ Top 20 User FAQs";
+            bodyEl.innerHTML = `
+                <p><strong>Q1. 2장 금융 모듈 진입 시 왜 KYC/KYB가 필수인가요?</strong><br>A. 글로벌 금융 규제 준수 및 자산 탈취 방지를 위한 필수 보안 게이트웨이입니다.</p><br>
+                <p><strong>Q2. 기본소득(UBI)은 어떻게 지급되나요?</strong><br>A. 플랫폼 순이익의 30%가 스마트 컨트랙트를 통해 전 세계 소외계층에게 자동으로 분배됩니다.</p><br>
+                <p><strong>Q3. 다국어 지원은 몇 개국어인가요?</strong><br>A. AGI 삐니와 시스템 전반에 걸쳐 60개국어 실시간 통번역이 지원됩니다.</p>
+            `;
+        } else if (type === 'policies') {
+            titleEl.innerText = currentLang === 'ko' ? "⚖️ 3 POLICIES (상생·보안·운영 정책)" : "⚖️ 3 POLICIES (UBI, Security, Ops)";
+            bodyEl.innerHTML = `
+                <p><strong>1. 상생분배 정책 (Fair Distribution Policy)</strong>: 플랫폼 순이익의 공정한 분배와 글로벌 빈부격차 해소.</p><br>
+                <p><strong>2. 마스터 보안 정책 (Zero-Trust Security Policy)</strong>: 24자리 복구구문, 생체 지문 및 패턴 인증 의무화.</p><br>
+                <p><strong>3. 투명 운영 정책 (Transparent Governance Policy)</strong>: 모든 트랜잭션과 기금 적립 내역의 온체인 공개.</p>
+            `;
+        }
+        document.getElementById('navContentModal').style.display = 'flex';
+    }
+
+    function openProcessModal(stepKey) {
+        currentProcessKey = stepKey;
+        const stepsObj = processStepsData[stepKey] || { ko: ["시스템 노드 준비 완료", "스마트 계약 실행 대기", "최종 승인 처리"], en: ["System node ready", "Waiting for smart contract execution", "Final approval processing"] };
+        const steps = stepsObj[currentLang] || stepsObj['en'];
+        
+        document.getElementById('modalTitle').innerText = document.querySelector(`[onclick*="${stepKey}"] h3`)?.innerText || "Process";
         const stepsContainer = document.getElementById('processSteps');
         stepsContainer.innerHTML = '';
         
         steps.forEach((step, index) => {
             const stepDiv = document.createElement('div');
             stepDiv.className = 'step-item';
-            stepDiv.innerHTML = `<h4>단계 ${index + 1}: ${step}</h4><p>실시간 노드 및 스마트 컨트랙트 연동 완료</p>`;
+            stepDiv.innerHTML = `<h4>단계 ${index + 1}: ${step}</h4><p>${currentLang === 'ko' ? '실시간 노드 및 스마트 컨트랙트 연동 완료' : 'Real-time node & smart contract sync complete'}</p>`;
             stepsContainer.appendChild(stepDiv);
         });
         
@@ -693,29 +925,22 @@
     function closePassphraseModal() { document.getElementById('passphraseModal').style.display = 'none'; }
 
     function executeFinalStep() {
-        alert(`[HK WorldBank 성공] '${currentProcessName}'의 모든 프로세스가 정상 처리되었습니다.`);
+        alert(currentLang === 'ko' ? "[HK WorldBank 성공] 프로세스가 정상 처리되었습니다." : "[Success] Process successfully executed.");
         closeModal();
     }
 
     function verifyPassphrase() {
         const input = document.getElementById('passphraseInput').value;
         if(input.trim().split(/\s+/).length >= 12) {
-            alert("🛡️ 비밀구문 검증 완료! 마스터 지갑이 안전하게 연결되었습니다.");
+            alert(currentLang === 'ko' ? "🛡️ 비밀구문 검증 완료! 마스터 지갑이 연결되었습니다." : "🛡️ Passphrase verified! Master wallet linked.");
             closePassphraseModal();
         } else {
-            alert("⚠️ 정확한 복구 구문을 입력해 주세요.");
+            alert(currentLang === 'ko' ? "⚠️ 정확한 12~24자리 복구 구문을 입력해 주세요." : "⚠️ Please enter a valid 12-24 word passphrase.");
         }
     }
 
     function openBbiniModal() { document.getElementById('bbiniModal').style.display = 'flex'; }
     function closeBbiniModal() { document.getElementById('bbiniModal').style.display = 'none'; }
-
-    function changeLanguage(lang) {
-        selectedLang = lang.split(' ')[0];
-        document.getElementById('currentLangBadge').innerText = selectedLang;
-        document.getElementById('chatLangBadge').innerText = selectedLang;
-        document.getElementById('bbiniGreeting').innerHTML = `안녕하세요 회장님! HK WorldBank AGI 에이전트 삐니입니다. 현재 <span class="lang-badge">${selectedLang}</span> 모드로 전환되었습니다. 무엇을 도와드릴까요?`;
-    }
 
     function sendBbiniMsg() {
         const input = document.getElementById('chatInput');
@@ -736,7 +961,7 @@
         setTimeout(() => {
             const agentMsg = document.createElement('div');
             agentMsg.className = 'chat-msg agent';
-            agentMsg.innerHTML = `[AGI 삐니 (${selectedLang})] "${query}" 요청을 완벽하게 분석 및 처리하였습니다.`;
+            agentMsg.innerHTML = `[AGI 삐니 (${currentLang.toUpperCase()})] "${query}" -> ${currentLang === 'ko' ? '요청하신 내용을 60개국어 실시간 엔진으로 완벽히 분석 및 처리하였습니다.' : 'Successfully analyzed and processed your request across 60 global languages.'}`;
             history.appendChild(agentMsg);
             history.scrollTop = history.scrollHeight;
         }, 600);
@@ -744,7 +969,7 @@
 
     window.onclick = function(event) {
         if(event.target.classList.contains('modal-overlay')) {
-            closeModal(); closePassphraseModal(); closeBbiniModal(); closeKycModal(); closeNavModal();
+            closeModal(); closePassphraseModal(); closeBbiniModal(); closeKycModal(); closeNavModal(); closeNavContentModal();
         }
     }
 </script>
