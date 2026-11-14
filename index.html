@@ -3,639 +3,750 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HK WorldBank - 글로벌 휴머니타디지털 은행</title>
+    <title>HK WorldBank - Master Economy</title>
     <style>
         :root {
-            --bg-color: #ffffff;
-            --surface-color: #f8fafc;
-            --text-color: #0f172a;
-            --text-muted: #64748b;
-            --border-color: #e2e8f0;
-            --primary: #4f46e5;
-            --primary-hover: #4338ca;
-            --accent: #7c3aed;
-            --success: #10b981;
-            --shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-            --radius: 16px;
+            --bg-color: #030512;
+            --surface-color: #0a0f29;
+            --card-bg: #121c4e;
+            --text-main: #ffffff;
+            --text-sub: #94a3b8;
+            --gold-primary: #fbbf24;
+            --gold-secondary: #f59e0b;
+            --gold-light: #fef3c7;
+            --border-color: #1e293b;
+            --modal-bg: rgba(3, 5, 18, 0.9);
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
 
         body {
             background-color: var(--bg-color);
-            color: var(--text-color);
+            color: var(--text-main);
             min-height: 100vh;
+            padding: 20px;
             display: flex;
             flex-direction: column;
+            align-items: center;
         }
 
-        .app-container {
-            max-width: 1280px;
+        .container {
             width: 100%;
-            margin: 0 auto;
-            padding: 24px;
-            flex: 1;
+            max-width: 1200px;
             display: flex;
             flex-direction: column;
-            gap: 32px;
+            gap: 30px;
         }
 
-        /* 상단 네비게이션 헤더 */
         header {
+            background-color: var(--surface-color);
+            border: 2px solid var(--gold-secondary);
+            border-radius: 20px;
+            padding: 25px 30px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 16px 24px;
-            background: var(--surface-color);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
+            box-shadow: 0 10px 30px rgba(245, 158, 11, 0.15);
         }
 
-        .logo-area {
+        .logo {
             display: flex;
             align-items: center;
-            gap: 16px;
+            gap: 20px;
         }
 
-        .logo-mark {
-            width: 48px;
-            height: 48px;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            border-radius: 14px;
+        .logo-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--gold-primary), var(--gold-secondary));
+            border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
-            font-size: 1.4rem;
-            font-weight: 800;
-            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+            font-weight: 900;
+            font-size: 1.5rem;
+            color: #000;
+            box-shadow: 0 0 20px rgba(251, 191, 36, 0.5);
         }
 
         .logo-text h1 {
-            font-size: 1.4rem;
-            font-weight: 800;
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--gold-light);
             letter-spacing: -0.5px;
-            color: var(--text-color);
         }
 
         .logo-text p {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        select, button {
-            padding: 10px 16px;
-            border-radius: 10px;
-            border: 1px solid var(--border-color);
             font-size: 0.95rem;
+            color: var(--gold-primary);
             font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
         }
 
-        select {
-            background: white;
-            color: var(--text-color);
-        }
-
-        .btn-primary {
-            background: var(--primary);
-            color: white;
-            border: none;
-        }
-
-        .btn-primary:hover {
-            background: var(--primary-hover);
-        }
-
-        /* 섹션 레이아웃 */
         .section-group {
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 15px;
         }
 
-        .section-header {
+        .section-title {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--gold-primary);
             display: flex;
             align-items: center;
             gap: 10px;
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--text-color);
-            border-left: 4px solid var(--primary);
-            padding-left: 12px;
+            text-shadow: 0 0 10px rgba(251, 191, 36, 0.3);
         }
 
-        .card-grid {
+        .grid-container {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
             gap: 20px;
         }
 
-        .feature-card {
-            background: var(--surface-color);
+        .card {
+            background-color: var(--card-bg);
             border: 1px solid var(--border-color);
-            border-radius: var(--radius);
-            padding: 24px;
+            border-radius: 16px;
+            padding: 22px;
             display: flex;
-            align-items: center;
-            gap: 20px;
+            flex-direction: column;
+            gap: 16px;
             cursor: pointer;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: var(--shadow);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .feature-card:hover {
-            transform: translateY(-4px);
-            border-color: var(--primary);
-            background: white;
-            box-shadow: 0 12px 30px rgba(79, 70, 229, 0.1);
+        .card:hover {
+            border-color: var(--gold-primary);
+            transform: translateY(-5px);
+            background-color: #1a2970;
+            box-shadow: 0 10px 25px rgba(251, 191, 36, 0.2);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-number {
+            font-size: 0.95rem;
+            font-weight: 800;
+            color: #000;
+            background: var(--gold-primary);
+            padding: 4px 10px;
+            border-radius: 20px;
         }
 
         .card-icon {
-            width: 56px;
-            height: 56px;
-            background: #eef2ff;
-            color: var(--primary);
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.8rem;
-            flex-shrink: 0;
+            font-size: 2.2rem;
         }
 
-        .card-info h3 {
-            font-size: 1.05rem;
+        .card-body h3 {
+            font-size: 1.2rem;
             font-weight: 700;
-            color: var(--text-color);
-            margin-bottom: 4px;
+            color: var(--text-main);
         }
 
-        .card-info p {
+        .card-body p {
             font-size: 0.85rem;
-            color: var(--text-muted);
+            color: var(--text-sub);
+            margin-top: 6px;
+            line-height: 1.4;
         }
 
-        /* 철학 및 분배 안내 패널 */
-        .philosophy-panel {
-            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+        .rate-tag {
+            display: inline-block;
+            background: rgba(251, 191, 36, 0.15);
+            color: var(--gold-primary);
+            border: 1px solid var(--gold-secondary);
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-top: 8px;
+        }
+
+        /* 3장 네비게이터 & 미디어 분할 레이아웃 */
+        .media-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 20px;
+        }
+
+        .philosophy-card {
+            background-color: var(--surface-color);
             border: 1px solid var(--border-color);
-            border-radius: var(--radius);
-            padding: 32px;
+            border-radius: 20px;
+            padding: 30px;
             display: flex;
             flex-direction: column;
             gap: 20px;
         }
 
-        .philosophy-panel h2 {
-            font-size: 1.25rem;
-            font-weight: 800;
-            color: var(--primary);
-            display: flex;
-            align-items: center;
-            gap: 8px;
+        .philosophy-card h3 {
+            color: var(--gold-primary);
+            font-size: 1.3rem;
         }
 
-        .allocation-grid {
+        .philosophy-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 16px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
         }
 
-        .allocation-box {
-            background: white;
+        .phil-item {
+            background-color: var(--card-bg);
             padding: 20px;
-            border-radius: 12px;
+            border-radius: 14px;
             border: 1px solid var(--border-color);
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
         }
 
-        .allocation-box .rate {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: var(--primary);
+        .phil-rate {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--gold-primary);
         }
 
-        .allocation-box .title {
+        .phil-title {
             font-weight: 700;
-            font-size: 0.95rem;
+            margin: 10px 0;
+            font-size: 1.1rem;
         }
 
-        .allocation-box .desc {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            line-height: 1.4;
+        .phil-desc {
+            font-size: 0.85rem;
+            color: var(--text-sub);
+            line-height: 1.5;
         }
 
-        /* 모달 팝업 스타일 */
+        /* 공통 모달 스타일 */
         .modal-overlay {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(4px);
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--modal-bg);
+            backdrop-filter: blur(12px);
             display: none;
-            align-items: center;
             justify-content: center;
+            align-items: center;
             z-index: 1000;
             padding: 20px;
         }
 
         .modal-content {
-            background: white;
+            background: var(--surface-color);
+            border: 2px solid var(--gold-secondary);
             width: 100%;
-            max-width: 500px;
-            border-radius: var(--radius);
-            padding: 32px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            max-width: 600px;
+            border-radius: 24px;
+            padding: 35px;
             display: flex;
             flex-direction: column;
-            gap: 20px;
-            animation: modalUp 0.3s ease;
+            gap: 25px;
+            box-shadow: 0 25px 60px rgba(251, 191, 36, 0.25);
+            animation: modalEntry 0.3s ease-out;
         }
 
-        @keyframes modalUp {
-            from { transform: translateY(20px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
+        @keyframes modalEntry {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
         }
 
         .modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 20px;
         }
 
-        .modal-header h3 {
-            font-size: 1.25rem;
+        .modal-header h2 {
+            color: var(--gold-primary);
+            font-size: 1.5rem;
             font-weight: 800;
         }
 
         .close-btn {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--text-muted);
+            background: none; border: none; color: var(--text-sub);
+            font-size: 2rem; cursor: pointer; transition: color 0.2s;
         }
+        .close-btn:hover { color: white; }
 
-        .modal-body {
-            font-size: 0.95rem;
-            color: var(--text-muted);
-            line-height: 1.6;
+        .process-steps {
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 18px;
         }
 
-        .modal-input {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            font-size: 1rem;
+        .step-item {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 16px;
+            border-left: 5px solid var(--gold-secondary);
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
         }
 
-        /* 삐니 챗봇 전용 스타일 */
-        .chat-box {
-            height: 250px;
-            background: var(--surface-color);
+        .step-item h4 {
+            font-size: 1.1rem; color: var(--text-main); font-weight: 700;
+        }
+
+        .step-item p {
+            font-size: 0.9rem; color: var(--gold-primary);
+        }
+
+        .modal-action-btn {
+            background: linear-gradient(135deg, var(--gold-primary), var(--gold-secondary));
+            color: #000;
+            border: none;
+            padding: 18px;
+            border-radius: 16px;
+            font-weight: 900;
+            font-size: 1.1rem;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s;
+            box-shadow: 0 4px 15px rgba(251, 191, 36, 0.3);
+        }
+
+        .modal-action-btn:hover {
+            filter: brightness(1.1);
+            transform: translateY(-2px);
+        }
+
+        .nav-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--gold-secondary);
+            color: white;
+            padding: 14px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.2s;
+        }
+        .nav-btn:hover {
+            background: #1a2970;
+        }
+
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .chat-history {
+            height: 300px;
+            background: var(--bg-color);
             border: 1px solid var(--border-color);
-            border-radius: 10px;
-            padding: 12px;
+            border-radius: 16px;
+            padding: 20px;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 15px;
         }
 
-        .chat-message {
-            padding: 10px 14px;
-            border-radius: 10px;
-            max-width: 80%;
-            font-size: 0.9rem;
+        .chat-msg {
+            max-width: 85%;
+            padding: 14px 18px;
+            border-radius: 16px;
+            font-size: 0.95rem;
+            line-height: 1.4;
         }
 
-        .chat-message.bbini {
-            background: white;
-            border: 1px solid var(--border-color);
+        .chat-msg.agent {
+            background: var(--card-bg);
+            border: 1px solid var(--gold-secondary);
+            color: white;
             align-self: flex-start;
         }
 
-        .chat-message.user {
-            background: var(--primary);
-            color: white;
-            align-self: flex-end;
-        }
-
-        .chat-input-area {
+        .chat-input-group {
             display: flex;
-            gap: 8px;
+            gap: 10px;
         }
 
-        footer {
-            text-align: center;
-            padding: 24px;
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            border-top: 1px solid var(--border-color);
-            margin-top: 32px;
+        .chat-input {
+            flex: 1;
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 16px;
+            color: white;
+            font-size: 1rem;
+        }
+
+        .lang-badge {
+            background: var(--gold-primary);
+            color: #000;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-weight: 800;
+            font-size: 0.8rem;
+            vertical-align: middle;
         }
     </style>
 </head>
 <body>
 
-    <div class="app-container">
-        <!-- 헤더 영역 -->
-        <header>
-            <div class="logo-area">
-                <div class="logo-mark">HK</div>
-                <div class="logo-text">
-                    <h1>HK WorldBank</h1>
-                    <p>글로벌 휴머니타리 디지털 은행</p>
+<div class="container">
+    <header>
+        <div class="logo">
+            <div class="logo-icon">HK</div>
+            <div class="logo-text">
+                <h1>HK WorldBank</h1>
+                <p>글로벌 마스터 이코노미 플랫폼</p>
+            </div>
+        </div>
+        <div id="kycStatusBadge" style="background: rgba(251,191,36,0.1); border:1px solid var(--gold-secondary); padding:8px 16px; border-radius:12px; color:var(--gold-primary); font-weight:700; font-size:0.9rem;">
+            🛡️ 2장 접근 상태: <span id="kycStateText" style="color:#ef4444;">KYC / KYB 미인증</span>
+        </div>
+    </header>
+
+    <!-- 1장: 보안인증 및 진입 -->
+    <div class="section-group" id="sec1">
+        <div class="section-title">🔒 1장. 보안인증 및 시스템 진입</div>
+        <div class="grid-container">
+            <div class="card" onclick="openProcessModal('지문 인식 승인', ['바이오메트릭 센서 핸들러 호출', '지문 데이터 암호화 해시 검증', '마스터 세션 토큰 즉시 발급'])">
+                <div class="card-header"><span class="card-number">1</span><span class="card-icon">👆</span></div>
+                <div class="card-body"><h3>지문 인식으로 승인받기</h3><p>생체 정보를 통한 안전한 접속</p></div>
+            </div>
+            <div class="card" onclick="openProcessModal('선긋기(패턴) 승인', ['제스처 오버레이 그리드 활성화', '입력 궤적 알고리즘 좌표 매칭', '메인넷 액세스 권한 최종 승인'])">
+                <div class="card-header"><span class="card-number">2</span><span class="card-icon">✏️</span></div>
+                <div class="card-body"><h3>선긋기(패턴)으로 승인받기</h3><p>제스처를 통한 간편 인증</p></div>
+            </div>
+            <div class="card" onclick="openPassphraseModal()">
+                <div class="card-header"><span class="card-number">3</span><span class="card-icon">🔑</span></div>
+                <div class="card-body"><h3>비밀구문 24로 승인받기</h3><p>마스터 키를 이용한 본인 확인</p></div>
+            </div>
+            <div class="card" onclick="openProcessModal('게스트 둘러보기', ['퍼블릭 노드 데이터 동기화', '읽기 전용 게스트 세션 바인딩', '메인 대시보드 UI 렌더링'])">
+                <div class="card-header"><span class="card-number">4</span><span class="card-icon">👁️</span></div>
+                <div class="card-body"><h3>둘러보기</h3><p>로그인 없이 기능 체험</p></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2장: 자산관리 및 금융 모듈 -->
+    <div class="section-group" id="sec2">
+        <div class="section-title">💎 2장. 자산관리 및 금융 모듈 <span style="font-size:0.85rem; color:#f59e0b; background:rgba(245,158,11,0.15); padding:3px 10px; border-radius:6px; margin-left:10px;">KYC / KYB 인증 필수</span></div>
+        <div class="grid-container">
+            <div class="card" onclick="tryAccessChapter2('1. 지갑연결', ['웹3 브라우저 월렛 객체 탐색', '보안 서명 요청 트랜잭션 생성', '탈중앙화 메인넷 주소 바인딩'])">
+                <div class="card-header"><span class="card-number">1</span><span class="card-icon">💳</span></div><div class="card-body"><h3>지갑연결</h3><p>웹3 생체 지갑 연동</p></div>
+            </div>
+            <div class="card" onclick="tryAccessChapter2('2. 실시간 송금', ['수신자 계정 주소 유효성 검증', '블록체인 에스크로 스마트 계약 락업', '초고속 원장 기록 및 전송 완료'])">
+                <div class="card-header"><span class="card-number">2</span><span class="card-icon">🚀</span></div><div class="card-body"><h3>실시간 송금</h3><p>초고속 자산 이동</p></div>
+            </div>
+            <div class="card" onclick="tryAccessChapter2('3. 결제 시스템', ['글로벌 결제 게이트웨이 노드 호출', '스마트 컨트랙트 결제 금액 승인', '실시간 정산 및 디지털 영수 발행'])">
+                <div class="card-header"><span class="card-number">3</span><span class="card-icon">🌐</span></div><div class="card-body"><h3>결제 시스템</h3><p>글로벌 통합 결제</p></div>
+            </div>
+            <div class="card" onclick="tryAccessChapter2('4. 예치 및 금고', ['예치 플랜 및 복리 이자율(연 15.8%) 알고리즘 구동', '자산 스마트 볼트 안전 전송', '복리 이자 자동 누적 시스템 활성화'])">
+                <div class="card-header"><span class="card-number">4</span><span class="card-icon">🏦</span></div>
+                <div class="card-body">
+                    <h3>예치 및 금고</h3>
+                    <p>안전 자산 보관 및 복리 운용</p>
+                    <div class="rate-tag">💰 적용 이자율: 연 15.8% (복리)</div>
                 </div>
             </div>
-            <div class="header-actions">
-                <select id="languageSelect" onchange="changeLanguage()">
-                    <option value="ko">🇰🇷 한국어</option>
-                    <option value="en">🇺🇸 English</option>
-                    <option value="zh">🇨🇳 中文</option>
-                    <option value="ja">🇯🇵 日本語</option>
-                    <option value="es">🇪🇸 Español</option>
+            <div class="card" onclick="tryAccessChapter2('5. 보상 분배', ['플랫폼 기여도 데이터 실시간 스캔', '리워드 풀 스마트 컨트랙트 계산', '개인 지갑 가스비 무료 분배'])">
+                <div class="card-header"><span class="card-number">5</span><span class="card-icon">🎁</span></div><div class="card-body"><h3>보상 분배</h3><p>플랫폼 기여 리워드</p></div>
+            </div>
+            <div class="card" onclick="tryAccessChapter2('6. 기본소득', ['회사 순이익 데이터 실시간 정산', '글로벌 수혜자 자격 검증 매칭', '기본소득(UBI) 스마트 컨트랙트 지급'])">
+                <div class="card-header"><span class="card-number">6</span><span class="card-icon">🌱</span></div><div class="card-body"><h3>기본소득</h3><p>순이익 분배 시스템</p></div>
+            </div>
+            <div class="card" onclick="tryAccessChapter2('7. 토큰 스왑', ['유동성 풀 페어 실시간 가격 조회', '최적 경로 라우팅 알고리즘 산출', '즉시 스왑 트랜잭션 온체인 실행'])">
+                <div class="card-header"><span class="card-number">7</span><span class="card-icon">💱</span></div><div class="card-body"><h3>토큰 스왑</h3><p>자산 간 즉시 교환</p></div>
+            </div>
+            <div class="card" onclick="tryAccessChapter2('8. DEX 스왑', ['탈중앙화 오더북 매칭 엔진 가동', '슬리페이지 방지 한계값 설정 적용', '온체인 탈중앙 거래 컨트랙트 실행'])">
+                <div class="card-header"><span class="card-number">8</span><span class="card-icon">⚡</span></div><div class="card-body"><h3>DEX 스왑</h3><p>탈중앙화 풀 거래</p></div>
+            </div>
+            <div class="card" onclick="tryAccessChapter2('9. LP 스테이킹', ['유동성 공급 토큰 예치 컨트랙트 호출', 'LP 지분 증명 토큰 발행', '초단위 채굴 리워드(연 32.5% APY) 자동 정산'])">
+                <div class="card-header"><span class="card-number">9</span><span class="card-icon">💧</span></div>
+                <div class="card-body">
+                    <h3>LP 스테이킹</h3>
+                    <p>유동성 공급 및 채굴 수익</p>
+                    <div class="rate-tag">🔥 예상 수익률: 연 32.5% APY</div>
+                </div>
+            </div>
+            <div class="card" onclick="tryAccessChapter2('10. 파이 수량', ['메인넷 노드 API 동기화 요청', '락업 및 언락 물량 스마트 검증', '최신 보유 잔액 최종 동기화 표기'])">
+                <div class="card-header"><span class="card-number">10</span><span class="card-icon">🥧</span></div><div class="card-body"><h3>파이 수량</h3><p>메인넷 잔액 동기화</p></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3장: 고객센터, 네비게이터 및 미디어 -->
+    <div class="section-group" id="sec3">
+        <div class="section-title">🎧 3장. 고객센터, 네비게이터 및 미디어</div>
+        <div class="grid-container media-grid">
+            <!-- 삐니 상담 (좌측 큰 카드로 배치) -->
+            <div class="card media-main" onclick="openBbiniModal()">
+                <div class="card-header"><span class="card-number" style="background:#10b981; color:white;">ONLINE</span><span class="card-icon">🤖</span></div>
+                <div class="card-body"><h3>고객센터 AGI 삐니 <span class="lang-badge" id="currentLangBadge">한국어</span></h3><p>60개국어 실시간 통번역 및 지능형 24시간 상담 지원</p></div>
+            </div>
+            <!-- 네비게이터 카드 추가 -->
+            <div class="card" onclick="openNavModal()">
+                <div class="card-header"><span class="card-number" style="background:#3b82f6; color:white;">NAV</span><span class="card-icon">🧭</span></div>
+                <div class="card-body"><h3>네비게이터</h3><p>전체 메뉴 및 원클릭 바로가기 가이드</p></div>
+            </div>
+            <!-- 유튜브 & 틱톡 방송 -->
+            <div class="card" onclick="window.open('https://youtube.com/@Hyekong2026', '_blank')">
+                <div class="card-header"><span class="card-number" style="background:#ef4444; color:white;">LIVE</span><span class="card-icon">📺</span></div>
+                <div class="card-body"><h3>유튜브 방송</h3><p>공식 라이브 방송 채널</p></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 상생 철학 안내 카드 -->
+    <div class="philosophy-card">
+        <h3>⚖️ HK 상생 철학 및 자금 분배</h3>
+        <div class="philosophy-grid">
+            <div class="phil-item">
+                <div class="phil-rate">30%</div>
+                <div class="phil-title">글로벌 기본소득</div>
+                <div class="phil-desc">전 세계 소외계층을 위한 상생 지원금</div>
+            </div>
+            <div class="phil-item">
+                <div class="phil-rate">30%</div>
+                <div class="phil-title">회사 경영비</div>
+                <div class="phil-desc">지속 가능한 플랫폼 운영 및 인프라 비용</div>
+            </div>
+            <div class="phil-item">
+                <div class="phil-rate">30%</div>
+                <div class="phil-title">HK 사회재단</div>
+                <div class="phil-desc">사회 환원 적립금 (긴급 투자 시에만 사용)</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 네비게이터 모달창 -->
+<div id="navModal" class="modal-overlay">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>🧭 HK 스마트 네비게이터</h2>
+            <button class="close-btn" onclick="closeNavModal()">&times;</button>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:12px;">
+            <div class="nav-btn" onclick="scrollToSection('sec1')">
+                <span>🔒 1장. 보안인증 및 시스템 진입</span>
+                <span>이동 ➔</span>
+            </div>
+            <div class="nav-btn" onclick="scrollToSection('sec2')">
+                <span>💎 2장. 자산관리 및 10대 금융 모듈 (KYC/KYB)</span>
+                <span>이동 ➔</span>
+            </div>
+            <div class="nav-btn" onclick="scrollToSection('sec3')">
+                <span>🎧 3장. AGI 삐니 고객센터 & 라이브 방송</span>
+                <span>이동 ➔</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- KYC / KYB 인증 안내 모달 -->
+<div id="kycModal" class="modal-overlay">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>🛡️ KYC & KYB 인증 필수</h2>
+            <button class="close-btn" onclick="closeKycModal()">&times;</button>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 15px; color: var(--text-sub); font-size: 0.95rem;">
+            <p><strong>[규정 준수 안내]</strong> HK WorldBank 2장(자산관리 및 금융 모듈)은 규제 준수 및 보안을 위해 개인 신원 인증(KYC)과 기업 사업자 인증(KYB)을 완료한 사용자만 진입할 수 있습니다.</p>
+            <div style="background: var(--bg-color); padding: 15px; border-radius: 12px; border: 1px solid var(--border-color);">
+                <p style="color: var(--gold-primary); font-weight: 700; margin-bottom: 5px;">✅ 인증 대상 항목</p>
+                <p>• KYC: 신분증 및 안면 인식 검증</p>
+                <p>• KYB: 영문 사업자등록증 및 계좌 확인서 검증</p>
+            </div>
+        </div>
+        <div class="modal-action-btn" onclick="completeKycKyb()">KYC / KYB 인증 즉시 완료하기</div>
+    </div>
+</div>
+
+<!-- 공통 프로세스 모달창 -->
+<div id="processModal" class="modal-overlay">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 id="modalTitle">처리 중</h2>
+            <button class="close-btn" onclick="closeModal()">&times;</button>
+        </div>
+        <div class="process-steps" id="processSteps"></div>
+        <div style="margin-top: 20px;">
+            <div class="modal-action-btn" onclick="executeFinalStep()">프로세스 최종 승인 및 완료</div>
+        </div>
+    </div>
+</div>
+
+<!-- 비밀구문 입력 전용 모달창 -->
+<div id="passphraseModal" class="modal-overlay">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>🔑 비밀구문 24 입력</h2>
+            <button class="close-btn" onclick="closePassphraseModal()">&times;</button>
+        </div>
+        <div style="margin: 15px 0;">
+            <p style="color: var(--text-sub); font-size: 0.95rem; margin-bottom: 15px;">마스터 보안을 위해 24자리 복구 구문을 정확히 입력하세요.</p>
+            <textarea id="passphraseInput" style="width:100%; height:120px; background:var(--bg-color); border:1px solid var(--gold-secondary); border-radius:12px; color:white; padding:15px; font-family:monospace; font-size:1rem;" placeholder="word1 word2 word3 ... word24"></textarea>
+        </div>
+        <div class="modal-action-btn" onclick="verifyPassphrase()">복구구문 검증 및 지갑 연동</div>
+    </div>
+</div>
+
+<!-- AGI 삐니 다국어 상담 모달창 -->
+<div id="bbiniModal" class="modal-overlay">
+    <div class="modal-content" style="max-width: 700px;">
+        <div class="modal-header">
+            <div>
+                <h2>🤖 AGI 삐니 컨설턴트</h2>
+            </div>
+            <div>
+                <select id="langSelector" onchange="changeLanguage(this.value)" style="background:var(--card-bg); color:var(--gold-light); border:1px solid var(--gold-secondary); padding:8px 12px; border-radius:8px; font-weight:bold; cursor:pointer;">
+                    <option value="한국어 (Korean)">🇰🇷 한국어</option>
+                    <option value="English">🇺🇸 English</option>
+                    <option value="中文 (Chinese)">🇨🇳 中文</option>
+                    <option value="日本語 (Japanese)">🇯🇵 日本語</option>
+                    <option value="Español (Spanish)">🇪🇸 Español</option>
+                    <option value="Français (French)">🇫🇷 Français</option>
+                    <option value="Deutsch (German)">🇩🇪 Deutsch</option>
+                    <option value="हिन्दी (Hindi)">🇮🇳 हिन्दी</option>
+                    <option value="العربية (Arabic)">🇸🇦 العربية</option>
+                    <option value="Português (Portuguese)">🇧🇷 Português</option>
                 </select>
-                <button class="btn-primary" onclick="openModal('loginModal')">로그인</button>
-            </div>
-        </header>
-
-        <!-- 1. 보안 인증 및 진입 -->
-        <div class="section-group">
-            <div class="section-header">🔒 보안 인증 및 시스템 진입</div>
-            <div class="card-grid">
-                <div class="feature-card" onclick="openModal('biometricModal')">
-                    <div class="card-icon">👆</div>
-                    <div class="card-info">
-                        <h3>지문 인식 승인</h3>
-                        <p>생체 기반 안전한 간편 인증</p>
-                    </div>
-                </div>
-                <div class="feature-card" onclick="openModal('recoveryModal')">
-                    <div class="card-icon">🔑</div>
-                    <div class="card-info">
-                        <h3>복구문구 입력</h3>
-                        <p>24개 단어 마스터 시큐리티</p>
-                    </div>
-                </div>
-                <div class="feature-card" onclick="openModal('signupModal')">
-                    <div class="card-icon">✨</div>
-                    <div class="card-info">
-                        <h3>신규가입 프로세스</h3>
-                        <p>새로운 계정 및 지갑 생성</p>
-                    </div>
-                </div>
-                <div class="feature-card" onclick="openModal('guestModal')">
-                    <div class="card-icon">🚪</div>
-                    <div class="card-info">
-                        <h3>둘러보기</h3>
-                        <p>게스트 모드로 플랫폼 체험</p>
-                    </div>
-                </div>
+                <button class="close-btn" onclick="closeBbiniModal()" style="margin-left:15px; vertical-align:middle;">&times;</button>
             </div>
         </div>
-
-        <!-- 2. 자산 관리 및 금융 흐름 -->
-        <div class="section-group">
-            <div class="section-header">💎 자산 관리 및 금융 서비스</div>
-            <div class="card-grid">
-                <div class="feature-card" onclick="openModal('walletModal')">
-                    <div class="card-icon">💳</div>
-                    <div class="card-info">
-                        <h3>지갑 연동</h3>
-                        <p>Pi Network 및 멀티체인 연결</p>
-                    </div>
-                </div>
-                <div class="feature-card" onclick="openModal('payModal')">
-                    <div class="card-icon">🌍</div>
-                    <div class="card-info">
-                        <h3>결제 시스템</h3>
-                        <p>글로벌 인스턴트 송금 및 결제</p>
-                    </div>
-                </div>
-                <div class="feature-card" onclick="openModal('rewardModal')">
-                    <div class="card-icon">🎁</div>
-                    <div class="card-info">
-                        <h3>보상 분배</h3>
-                        <p>스마트 계약 자동 분배 허브</p>
-                    </div>
-                </div>
-                <div class="feature-card" onclick="openModal('swapModal')">
-                    <div class="card-icon">🔄</div>
-                    <div class="card-info">
-                        <h3>토큰 스왑</h3>
-                        <p>안전하고 빠른 자산 교환</p>
-                    </div>
-                </div>
-                <div class="feature-card" onclick="openModal('dexModal')">
-                    <div class="card-icon">⚡</div>
-                    <div class="card-info">
-                        <h3>DEX 스왑</h3>
-                        <p>탈중앙화 유동성 거래</p>
-                    </div>
-                </div>
-                <div class="feature-card" onclick="openModal('stakingModal')">
-                    <div class="card-icon">💧</div>
-                    <div class="card-info">
-                        <h3>LP 스테이킹</h3>
-                        <p>유동성 공급 및 리워드 적립</p>
-                    </div>
-                </div>
-                <div class="feature-card" onclick="openModal('piModal')">
-                    <div class="card-icon">🥧</div>
-                    <div class="card-info">
-                        <h3>PI 수량 관리</h3>
-                        <p>파이 네트워크 보유량 통합 조회</p>
-                    </div>
-                </div>
+        <div class="chat-container">
+            <div class="chat-history" id="chatHistory">
+                <div class="chat-msg agent" id="bbiniGreeting">안녕하세요 회장님! HK WorldBank AGI 에이전트 삐니입니다. 현재 <span class="lang-badge" id="chatLangBadge">한국어</span> 모드로 대기 중입니다. 무엇을 도와드릴까요?</div>
             </div>
-        </div>
-
-        <!-- 3. 고객센터 및 미디어 방송 -->
-        <div class="section-group">
-            <div class="section-header">🎧 고객센터 및 미디어 방송</div>
-            <div class="card-grid">
-                <div class="feature-card" onclick="openModal('bbiniModal')">
-                    <div class="card-icon">🤖</div>
-                    <div class="card-info">
-                        <h3>AGI 삐니 상담</h3>
-                        <p>24시간 지능형 AI 고객 컨설턴트</p>
-                    </div>
-                </div>
-                <div class="feature-card" onclick="window.open('https://www.youtube.com/@Hyekong2026', '_blank')">
-                    <div class="card-icon">▶️</div>
-                    <div class="card-info">
-                        <h3>유튜브 방송</h3>
-                        <p>공식 채널 라이브 및 아카이브</p>
-                    </div>
-                </div>
-                <div class="feature-card" onclick="window.open('https://www.tiktok.com/@hyekong2026', '_blank')">
-                    <div class="card-icon">🎬</div>
-                    <div class="card-info">
-                        <h3>틱톡 방송</h3>
-                        <p>실시간 숏폼 방송 및 소통</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 상생 철학 및 자금 분배 안내 패널 -->
-        <div class="philosophy-panel">
-            <h2>⚖️ HK 자금 분배 및 상생 철학</h2>
-            <p>플랫폼의 모든 경제적 가치는 투명한 스마트 계약을 통해 인류의 상생과 지속 가능한 성장을 위해 자동으로 분배됩니다.</p>
-            <div class="allocation-grid">
-                <div class="allocation-box">
-                    <div class="rate">30%</div>
-                    <div class="title">글로벌 UBI (기본소득)</div>
-                    <div class="desc">소외된 전 세계 취약계층을 위한 기본소득 재원 공급</div>
-                </div>
-                <div class="allocation-box">
-                    <div class="rate">30%</div>
-                    <div class="title">회사 경영비</div>
-                    <div class="desc">플랫폼 인프라 유지, 보안 고도화 및 글로벌 운영 비용</div>
-                </div>
-                <div class="allocation-box">
-                    <div class="rate">30%</div>
-                    <div class="title">HK 사회재단</div>
-                    <div class="desc">사회 공헌 기금 보관 / <strong>긴급 투자 자본 용도 외 사용 엄격 제한</strong></div>
-                </div>
+            <div class="chat-input-group">
+                <input type="text" id="chatInput" class="chat-input" placeholder="삐니에게 지시를 내리거나 질문하세요...">
+                <button class="modal-action-btn" style="padding: 0 25px; margin:0;" onclick="sendBbiniMsg()">전송</button>
             </div>
         </div>
     </div>
+</div>
 
-    <footer>
-        <p>&copy; HK WorldBank Platform. All Rights Reserved. Chairman 이재완 (혜공)</p>
-    </footer>
+<script>
+    let isKycVerified = false;
+    let pendingTitle = "";
+    let pendingSteps = [];
+    let currentProcessName = "";
+    let selectedLang = "한국어";
 
-    <!-- 모달 팝업 템플릿들 -->
-    <div id="loginModal" class="modal-overlay">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>통합 로그인</h3>
-                <button class="close-btn" onclick="closeModal('loginModal')">&times;</button>
-            </div>
-            <div class="modal-body">
-                <p>생체 인증 또는 복구 키를 통해 안전하게 로그인하세요.</p>
-                <input type="text" class="modal-input" placeholder="계정 아이디 또는 지갑 주소 입력">
-                <button class="btn-primary" onclick="alert('로그인 요청이 전송되었습니다.'); closeModal('loginModal');">인증 및 로그인</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="biometricModal" class="modal-overlay">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>지문 인식 승인</h3>
-                <button class="close-btn" onclick="closeModal('biometricModal')">&times;</button>
-            </div>
-            <div class="modal-body" style="text-align: center; padding: 20px 0;">
-                <div style="font-size: 3rem; margin-bottom: 10px;">👆</div>
-                <p>기기의 지문 센서에 손가락을 올려주세요.</p>
-                <button class="btn-primary" onclick="alert('지문 인증이 완료되었습니다.'); closeModal('biometricModal');">인증 완료</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="recoveryModal" class="modal-overlay">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>복구문구 24 입력</h3>
-                <button class="close-btn" onclick="closeModal('recoveryModal')">&times;</button>
-            </div>
-            <div class="modal-body">
-                <p>지갑 복구를 위한 24개 단어를 순서대로 입력하세요.</p>
-                <textarea class="modal-input" rows="4" placeholder="단어들을 공백으로 구분하여 입력하세요..."></textarea>
-                <button class="btn-primary" onclick="alert('복구문구가 확인되었습니다.'); closeModal('recoveryModal');">지갑 복구 승인</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="bbiniModal" class="modal-overlay">
-        <div class="modal-content" style="max-width: 600px;">
-            <div class="modal-header">
-                <h3>AGI 삐니 고객 컨설턴트</h3>
-                <button class="close-btn" onclick="closeModal('bbiniModal')">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div class="chat-box" id="chatBox">
-                    <div class="chat-message bbini">안녕하세요 회장님! AGI 삐니입니다. 무엇을 도와드릴까요?</div>
-                </div>
-                <div class="chat-input-area">
-                    <input type="text" id="chatInput" class="modal-input" placeholder="삐니에게 질문하기..." style="flex:1;">
-                    <button class="btn-primary" onclick="sendBbiniMessage()">전송</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        function openModal(modalId) {
-            document.getElementById(modalId).style.display = 'flex';
+    function tryAccessChapter2(title, steps) {
+        if (!isKycVerified) {
+            pendingTitle = title;
+            pendingSteps = steps;
+            document.getElementById('kycModal').style.display = 'flex';
+        } else {
+            openProcessModal(title, steps);
         }
+    }
 
-        function closeModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
+    function completeKycKyb() {
+        isKycVerified = true;
+        document.getElementById('kycStateText').innerText = "KYC / KYB 인증 완료";
+        document.getElementById('kycStateText').style.color = "#10b981";
+        document.getElementById('kycStatusBadge').style.borderColor = "#10b981";
+        closeKycModal();
+        alert("🛡️ KYC 및 KYB 인증이 성공적으로 완료되었습니다! 이제 2장 금융 모듈을 자유롭게 이용하실 수 있습니다.");
+        if (pendingTitle) {
+            openProcessModal(pendingTitle, pendingSteps);
         }
+    }
 
-        function changeLanguage() {
-            const lang = document.getElementById('languageSelect').value;
-            alert(`선택하신 언어(${lang.toUpperCase()}) 시스템으로 전환을 준비 중입니다.`);
+    function closeKycModal() { document.getElementById('kycModal').style.display = 'none'; }
+    function openNavModal() { document.getElementById('navModal').style.display = 'flex'; }
+    function closeNavModal() { document.getElementById('navModal').style.display = 'none'; }
+
+    function scrollToSection(id) {
+        closeNavModal();
+        document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function openProcessModal(title, steps) {
+        currentProcessName = title;
+        document.getElementById('modalTitle').innerText = title;
+        const stepsContainer = document.getElementById('processSteps');
+        stepsContainer.innerHTML = '';
+        
+        steps.forEach((step, index) => {
+            const stepDiv = document.createElement('div');
+            stepDiv.className = 'step-item';
+            stepDiv.innerHTML = `<h4>단계 ${index + 1}: ${step}</h4><p>실시간 노드 및 스마트 컨트랙트 연동 완료</p>`;
+            stepsContainer.appendChild(stepDiv);
+        });
+        
+        document.getElementById('processModal').style.display = 'flex';
+    }
+
+    function openPassphraseModal() { document.getElementById('passphraseModal').style.display = 'flex'; }
+    function closeModal() { document.getElementById('processModal').style.display = 'none'; }
+    function closePassphraseModal() { document.getElementById('passphraseModal').style.display = 'none'; }
+
+    function executeFinalStep() {
+        alert(`[HK WorldBank 성공] '${currentProcessName}'의 모든 프로세스가 정상 처리되었습니다.`);
+        closeModal();
+    }
+
+    function verifyPassphrase() {
+        const input = document.getElementById('passphraseInput').value;
+        if(input.trim().split(/\s+/).length >= 12) {
+            alert("🛡️ 비밀구문 검증 완료! 마스터 지갑이 안전하게 연결되었습니다.");
+            closePassphraseModal();
+        } else {
+            alert("⚠️ 정확한 복구 구문을 입력해 주세요.");
         }
+    }
 
-        function sendBbiniMessage() {
-            const input = document.getElementById('chatInput');
-            const chatBox = document.getElementById('chatBox');
-            if(!input.value.trim()) return;
+    function openBbiniModal() { document.getElementById('bbiniModal').style.display = 'flex'; }
+    function closeBbiniModal() { document.getElementById('bbiniModal').style.display = 'none'; }
 
-            // 유저 메시지 추가
-            const userMsg = document.createElement('div');
-            userMsg.className = 'chat-message user';
-            userMsg.textContent = input.value;
-            chatBox.appendChild(userMsg);
+    function changeLanguage(lang) {
+        selectedLang = lang.split(' ')[0];
+        document.getElementById('currentLangBadge').innerText = selectedLang;
+        document.getElementById('chatLangBadge').innerText = selectedLang;
+        document.getElementById('bbiniGreeting').innerHTML = `안녕하세요 회장님! HK WorldBank AGI 에이전트 삐니입니다. 현재 <span class="lang-badge">${selectedLang}</span> 모드로 전환되었습니다. 무엇을 도와드릴까요?`;
+    }
 
-            const query = input.value;
-            input.value = '';
+    function sendBbiniMsg() {
+        const input = document.getElementById('chatInput');
+        if(!input.value.trim()) return;
+        
+        const history = document.getElementById('chatHistory');
+        const userMsg = document.createElement('div');
+        userMsg.className = 'chat-msg';
+        userMsg.style.background = 'var(--gold-primary)';
+        userMsg.style.color = '#000';
+        userMsg.style.alignSelf = 'flex-end';
+        userMsg.textContent = input.value;
+        history.appendChild(userMsg);
+        
+        const query = input.value;
+        input.value = '';
 
-            // 삐니 응답 시뮬레이션
-            setTimeout(() => {
-                const bbiniMsg = document.createElement('div');
-                bbiniMsg.className = 'chat-message bbini';
-                bbiniMsg.textContent = `[삐니 AGI] "${query}" 요청을 접수했습니다. 완벽하게 처리하겠습니다!`;
-                chatBox.appendChild(bbiniMsg);
-                chatBox.scrollTop = chatBox.scrollHeight;
-            }, 500);
+        setTimeout(() => {
+            const agentMsg = document.createElement('div');
+            agentMsg.className = 'chat-msg agent';
+            agentMsg.innerHTML = `[AGI 삐니 (${selectedLang})] "${query}" 요청을 완벽하게 분석 및 처리하였습니다.`;
+            history.appendChild(agentMsg);
+            history.scrollTop = history.scrollHeight;
+        }, 600);
+    }
+
+    window.onclick = function(event) {
+        if(event.target.classList.contains('modal-overlay')) {
+            closeModal(); closePassphraseModal(); closeBbiniModal(); closeKycModal(); closeNavModal();
         }
-
-        // 외부 영역 클릭 시 모달 닫기
-        window.onclick = function(event) {
-            if (event.target.classList.contains('modal-overlay')) {
-                event.target.style.display = 'none';
-            }
-        }
-    </script>
+    }
+</script>
 </body>
 </html>
-
