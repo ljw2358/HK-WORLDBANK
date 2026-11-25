@@ -1,1068 +1,2086 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HKWB - Global Web3 & Internet Digital Bank</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌐</text></svg>">
-    <style>
-        :root {
-            --bg-dark: #0a0b10;
-            --bg-card: #12131c;
-            --bg-card-hover: #1c1e2d;
-            --bg-subcard: #181a26;
-            --primary-purple: #4a154b;
-            --accent-purple: #7c3aed;
-            --accent-gold: #ffd700;
-            --gold-glow: rgba(255, 215, 0, 0.3);
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --border-color: rgba(255, 215, 0, 0.22);
-            --font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: var(--font-family);
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            background-color: var(--bg-dark);
-            color: var(--text-main);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            overflow-x: hidden;
-        }
-
-        /* Top Navigation Header */
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 2rem;
-            background: linear-gradient(180deg, rgba(10, 11, 16, 0.96) 0%, rgba(10, 11, 16, 0.85) 100%);
-            border-bottom: 1px solid var(--border-color);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            backdrop-filter: blur(10px);
-        }
-
-        .logo-area {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            cursor: pointer;
-        }
-
-        .logo-symbol {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-            background: linear-gradient(135deg, var(--accent-purple), var(--primary-purple));
-            border: 1px solid var(--accent-gold);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 1.2rem;
-            color: var(--accent-gold);
-            box-shadow: 0 0 10px var(--gold-glow);
-        }
-
-        .logo-text {
-            font-size: 1.5rem;
-            font-weight: 800;
-            letter-spacing: 1px;
-            background: linear-gradient(90deg, #fff, var(--accent-gold));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .header-controls {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-
-        .lang-select {
-            background-color: var(--bg-card);
-            color: var(--accent-gold);
-            border: 1px solid var(--border-color);
-            padding: 8px 12px;
-            border-radius: 8px;
-            font-size: 0.85rem;
-            outline: none;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            max-width: 190px;
-        }
-
-        .lang-select:hover, .lang-select:focus {
-            border-color: var(--accent-gold);
-            box-shadow: 0 0 8px var(--gold-glow);
-        }
-
-        /* 3-Line Hamburger Menu Button */
-        .hamburger-btn {
-            background: none;
-            border: 1px solid rgba(255, 215, 0, 0.25);
-            border-radius: 8px;
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-            padding: 9px 8px;
-        }
-
-        .hamburger-btn span {
-            display: block;
-            width: 22px;
-            height: 2px;
-            background-color: var(--accent-gold);
-            border-radius: 2px;
-            transition: 0.3s;
-        }
-
-        /* Main Container */
-        main {
-            flex: 1;
-            max-width: 1200px;
-            width: 100%;
-            margin: 0 auto;
-            padding: 2.5rem 1.5rem 4rem;
-            display: flex;
-            flex-direction: column;
-            gap: 3rem;
-        }
-
-        /* Hero Banner */
-        .hero {
-            text-align: center;
-            padding: 2.8rem 1.5rem;
-            background: radial-gradient(circle at center, rgba(124, 58, 237, 0.18) 0%, rgba(10, 11, 16, 0) 72%);
-            border-radius: 24px;
-            border: 1px solid rgba(255, 215, 0, 0.15);
-        }
-
-        .hero-badge {
-            display: inline-block;
-            background: rgba(255, 215, 0, 0.12);
-            color: var(--accent-gold);
-            border: 1px solid var(--border-color);
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            margin-bottom: 1.2rem;
-        }
-
-        .hero h1 {
-            font-size: 2.6rem;
-            margin-bottom: 1rem;
-            color: #ffffff;
-            font-weight: 800;
-        }
-
-        .hero h1 span {
-            color: var(--accent-gold);
-            text-shadow: 0 0 15px var(--gold-glow);
-        }
-
-        .hero p {
-            color: var(--text-muted);
-            font-size: 1.05rem;
-            max-width: 740px;
-            margin: 0 auto;
-            line-height: 1.65;
-        }
-
-        /* Personal Asset Dashboard */
-        .dashboard-section {
-            background-color: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 22px;
-            padding: 2rem;
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
-        }
-
-        .section-top {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .section-title {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: #fff;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .section-title span {
-            color: var(--accent-gold);
-        }
-
-        .badge-live {
-            background: rgba(124, 58, 237, 0.25);
-            border: 1px solid rgba(255, 215, 0, 0.35);
-            color: var(--accent-gold);
-            padding: 5px 12px;
-            border-radius: 999px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-
-        .asset-summary-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-            gap: 1.2rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .stat-box {
-            background-color: var(--bg-subcard);
-            border: 1px solid rgba(255, 215, 0, 0.14);
-            border-radius: 16px;
-            padding: 1.3rem;
-        }
-
-        .stat-label {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-value {
-            font-size: 1.55rem;
-            font-weight: 800;
-            color: #fff;
-            margin-bottom: 0.3rem;
-        }
-
-        .stat-sub {
-            font-size: 0.8rem;
-            color: var(--accent-gold);
-        }
-
-        .asset-actions {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            align-items: center;
-        }
-
-        .btn-action {
-            padding: 0.75rem 1.2rem;
-            border-radius: 10px;
-            border: 1px solid var(--accent-gold);
-            background: linear-gradient(135deg, var(--primary-purple), var(--accent-purple));
-            color: #fff;
-            font-size: 0.9rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.25s ease;
-        }
-
-        .btn-action:hover {
-            box-shadow: 0 0 14px var(--gold-glow);
-            filter: brightness(1.12);
-        }
-
-        .btn-outline {
-            padding: 0.75rem 1.2rem;
-            border-radius: 10px;
-            border: 1px solid rgba(255, 215, 0, 0.35);
-            background: transparent;
-            color: var(--accent-gold);
-            font-size: 0.9rem;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        .btn-outline:hover {
-            background: rgba(255, 215, 0, 0.08);
-        }
-
-        /* Child Banking Platforms Selector */
-        .platform-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2rem;
-        }
-
-        .platform-card {
-            background-color: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 2.2rem 1.8rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .platform-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, var(--accent-purple), var(--accent-gold));
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .platform-card:hover {
-            transform: translateY(-4px);
-            background-color: var(--bg-card-hover);
-            border-color: var(--accent-gold);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 15px var(--gold-glow);
-        }
-
-        .platform-card:hover::before {
-            opacity: 1;
-        }
-
-        .card-header {
-            margin-bottom: 1.2rem;
-        }
-
-        .card-icon {
-            font-size: 2.3rem;
-            margin-bottom: 0.8rem;
-            display: inline-block;
-        }
-
-        .card-title {
-            font-size: 1.55rem;
-            color: var(--text-main);
-            margin-bottom: 0.5rem;
-        }
-
-        .card-desc {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            line-height: 1.55;
-        }
-
-        .card-features {
-            list-style: none;
-            margin: 1.3rem 0 1.8rem;
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-        }
-
-        .card-features li {
-            font-size: 0.9rem;
-            color: #cbd5e1;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .card-features li::before {
-            content: "✦";
-            color: var(--accent-gold);
-        }
-
-        .btn-enter {
-            width: 100%;
-            padding: 0.95rem;
-            border-radius: 12px;
-            border: 1px solid var(--accent-gold);
-            background: linear-gradient(135deg, var(--primary-purple), var(--accent-purple));
-            color: var(--text-main);
-            font-size: 1rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-align: center;
-            text-decoration: none;
-            display: block;
-        }
-
-        .btn-enter:hover {
-            box-shadow: 0 0 20px var(--gold-glow);
-            filter: brightness(1.15);
-        }
-
-        /* Side Navigation Drawer (HK NAVIGATOR) */
-        .drawer-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.72);
-            z-index: 200;
-            display: none;
-            backdrop-filter: blur(4px);
-        }
-
-        .drawer {
-            position: fixed;
-            top: 0;
-            right: -380px;
-            width: 380px;
-            max-width: 92vw;
-            height: 100%;
-            background-color: var(--bg-card);
-            border-left: 1px solid var(--border-color);
-            z-index: 201;
-            transition: right 0.3s ease;
-            padding: 1.6rem 1.4rem 2.5rem;
-            display: flex;
-            flex-direction: column;
-            gap: 1.4rem;
-            overflow-y: auto;
-        }
-
-        .drawer.active {
-            right: 0;
-        }
-
-        .drawer-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid rgba(255, 215, 0, 0.16);
-            padding-bottom: 0.9rem;
-        }
-
-        .drawer-title {
-            font-size: 1.15rem;
-            font-weight: 800;
-            color: var(--accent-gold);
-            letter-spacing: 0.8px;
-        }
-
-        .drawer-close {
-            background: none;
-            border: none;
-            color: var(--accent-gold);
-            font-size: 1.7rem;
-            cursor: pointer;
-            line-height: 1;
-        }
-
-        .nav-group-label {
-            font-size: 0.75rem;
-            font-weight: 700;
-            letter-spacing: 1px;
-            color: var(--accent-gold);
-            margin-bottom: 0.65rem;
-            text-transform: uppercase;
-        }
-
-        .nav-item-list {
-            display: flex;
-            flex-direction: column;
-            gap: 0.55rem;
-            margin-bottom: 1.2rem;
-        }
-
-        .nav-pill-btn {
-            width: 100%;
-            text-align: left;
-            background-color: var(--bg-subcard);
-            border: 1px solid rgba(255, 215, 0, 0.16);
-            border-radius: 10px;
-            padding: 0.72rem 0.9rem;
-            color: var(--text-main);
-            font-size: 0.88rem;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .nav-pill-btn:hover {
-            border-color: var(--accent-gold);
-            background-color: var(--bg-card-hover);
-            color: var(--accent-gold);
-        }
-
-        /* Info Modal for Navigator Items */
-        .modal-backdrop {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.78);
-            z-index: 300;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 1rem;
-            backdrop-filter: blur(4px);
-        }
-
-        .modal-backdrop.active {
-            display: flex;
-        }
-
-        .modal-card {
-            background-color: var(--bg-card);
-            border: 1px solid var(--accent-gold);
-            border-radius: 18px;
-            max-width: 560px;
-            width: 100%;
-            padding: 1.8rem;
-            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.65);
-        }
-
-        .modal-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-
-        .modal-heading {
-            font-size: 1.2rem;
-            font-weight: 800;
-            color: var(--accent-gold);
-        }
-
-        .modal-close {
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-
-        .modal-body {
-            color: #e2e8f0;
-            font-size: 0.95rem;
-            line-height: 1.65;
-            margin-bottom: 1.4rem;
-        }
-
-        /* Footer */
-        footer {
-            border-top: 1px solid var(--border-color);
-            background-color: #06070a;
-            padding: 2.3rem 1.5rem;
-            text-align: center;
-            margin-top: auto;
-        }
-
-        .footer-info {
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            line-height: 1.8;
-            max-width: 820px;
-            margin: 0 auto;
-        }
-
-        .footer-info a {
-            color: var(--accent-gold);
-            text-decoration: none;
-        }
-
-        .footer-copyright {
-            margin-top: 1.3rem;
-            color: #64748b;
-            font-size: 0.8rem;
-        }
-
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 2rem; }
-            header { padding: 0.9rem 1rem; }
-            main { padding: 2rem 1rem 3rem; }
-            .dashboard-section { padding: 1.4rem; }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>HKWB — Next-Gen Web3 & Internet Banking</title>
+  <style>
+    :root {
+      --bg-deep: #060918;
+      --bg-navy: #0c132d;
+      --bg-purple: #1b103a;
+      --panel-bg: rgba(16, 23, 52, 0.86);
+      --panel-border: rgba(255, 215, 64, 0.24);
+      --gold: #ffd52e;
+      --gold-soft: #ffe875;
+      --cyan: #38bdf8;
+      --violet: #a855f7;
+      --text-main: #f8fafc;
+      --text-sub: #cbd5e1;
+      --text-muted: #94a3b8;
+      --radius-lg: 22px;
+      --radius-md: 14px;
+      --shadow-glow: 0 20px 50px rgba(0, 0, 0, 0.55);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      min-height: 100%;
+      background:
+        radial-gradient(circle at 15% 15%, rgba(168, 85, 247, 0.24), transparent 42%),
+        radial-gradient(circle at 85% 12%, rgba(56, 189, 248, 0.18), transparent 40%),
+        radial-gradient(circle at 50% 85%, rgba(255, 213, 46, 0.10), transparent 45%),
+        linear-gradient(160deg, var(--bg-deep) 0%, var(--bg-navy) 52%, var(--bg-purple) 100%);
+      color: var(--text-main);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR", "Apple SD Gothic Neo", sans-serif;
+      line-height: 1.5;
+      overflow-x: hidden;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .wrap {
+      width: 100%;
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 20px 18px 44px;
+    }
+
+    /* 상단 헤더: 모바일에서 겹치지 않도록 세로 스택, PC에서 가로 정렬 */
+    .topbar {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 14px;
+      padding-bottom: 22px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .brand-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .brand-mark {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      font-size: 1.15rem;
+      letter-spacing: 0.04em;
+      color: #ffffff;
+      white-space: nowrap;
+    }
+
+    .brand-badge {
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: rgba(255, 213, 46, 0.14);
+      color: var(--gold);
+      border: 1px solid rgba(255, 213, 46, 0.35);
+      white-space: nowrap;
+    }
+
+    /* 언어 영역: 노란색 큰 라벨 + 한 칸 아래 드롭다운 */
+    .lang-box {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 7px;
+      width: 100%;
+      max-width: 360px;
+      padding: 12px 14px;
+      border-radius: var(--radius-md);
+      background: rgba(10, 15, 36, 0.78);
+      border: 1px solid rgba(255, 213, 46, 0.36);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.32);
+    }
+
+    .lang-label {
+      display: block;
+      font-size: 1.18rem;
+      font-weight: 900;
+      line-height: 1.25;
+      color: var(--gold);
+      text-shadow: 0 0 14px rgba(255, 213, 46, 0.28);
+      letter-spacing: -0.01em;
+    }
+
+    .lang-select {
+      width: 100%;
+      padding: 11px 14px;
+      border-radius: 10px;
+      border: 1.5px solid rgba(255, 213, 46, 0.55);
+      background-color: #090e24;
+      color: #ffffff;
+      font-size: 0.98rem;
+      font-weight: 700;
+      cursor: pointer;
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .lang-select:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(255, 213, 46, 0.22);
+    }
+
+    .lang-select option {
+      background-color: #0b112b;
+      color: #f8fafc;
+    }
+
+    @media (min-width: 768px) {
+      .topbar {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+      }
+
+      .lang-box {
+        width: auto;
+        min-width: 300px;
+        align-items: flex-end;
+      }
+
+      .lang-label {
+        font-size: 1.28rem;
+        text-align: right;
+      }
+
+      .lang-select {
+        text-align: left;
+      }
+    }
+
+    /* 히어로 표지 섹션 */
+    .hero {
+      padding: 34px 0 28px;
+      text-align: left;
+    }
+
+    .hero-kicker {
+      display: inline-block;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--gold-soft);
+      background: rgba(255, 213, 46, 0.10);
+      border: 1px solid rgba(255, 213, 46, 0.28);
+      padding: 5px 12px;
+      border-radius: 999px;
+      margin-bottom: 16px;
+      word-break: keep-all;
+    }
+
+    /* 표지글 그라데이션 + 손폰 겹침 방지 */
+    .hero-title {
+      font-size: clamp(2rem, 6.2vw, 3.6rem);
+      font-weight: 900;
+      line-height: 1.18;
+      letter-spacing: -0.025em;
+      margin-bottom: 16px;
+      background: linear-gradient(110deg, #ffffff 0%, #ffe875 34%, #67e8f9 68%, #c084fc 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      word-break: break-word;
+      overflow-wrap: anywhere;
+    }
+
+    .hero-subtitle {
+      max-width: 780px;
+      font-size: clamp(1rem, 2.5vw, 1.2rem);
+      color: var(--text-sub);
+      margin-bottom: 24px;
+      word-break: break-word;
+      overflow-wrap: anywhere;
+    }
+
+    .status-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px 13px;
+      border-radius: 10px;
+      font-size: 0.84rem;
+      font-weight: 600;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #e2e8f0;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--gold);
+      box-shadow: 0 0 8px var(--gold);
+      flex-shrink: 0;
+    }
+
+    /* 두 개의 뱅킹 카드 그리드 (웹3 은행 & 인터넷 은행) */
+    .bank-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 22px;
+      margin-top: 16px;
+    }
+
+    @media (min-width: 820px) {
+      .bank-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 26px;
+      }
+    }
+
+    .bank-card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 26px 22px;
+      border-radius: var(--radius-lg);
+      background: var(--panel-bg);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: var(--shadow-glow);
+      backdrop-filter: blur(12px);
+      transition: transform 0.22s ease, border-color 0.22s ease;
+    }
+
+    .bank-card:hover {
+      transform: translateY(-4px);
+    }
+
+    .bank-card.web3 {
+      border-color: rgba(168, 85, 247, 0.42);
+    }
+
+    .bank-card.web3:hover {
+      border-color: rgba(255, 213, 46, 0.72);
+    }
+
+    .bank-card.internet {
+      border-color: rgba(56, 189, 248, 0.42);
+    }
+
+    .bank-card.internet:hover {
+      border-color: rgba(56, 189, 248, 0.85);
+    }
+
+    .card-top {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .logo-frame {
+      width: 64px;
+      height: 64px;
+      border-radius: 18px;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.38);
+    }
+
+    .logo-frame.web3-logo {
+      background: linear-gradient(135deg, #581c87 0%, #2563eb 60%, #eab308 100%);
+      border: 1px solid rgba(255, 213, 46, 0.55);
+    }
+
+    .logo-frame.internet-logo {
+      background: linear-gradient(135deg, #0284c7 0%, #1d4ed8 60%, #38bdf8 100%);
+      border: 1px solid rgba(125, 211, 252, 0.55);
+    }
+
+    .card-title {
+      font-size: 1.38rem;
+      font-weight: 800;
+      color: #ffffff;
+      line-height: 1.25;
+      word-break: break-word;
+    }
+
+    .card-tag {
+      display: inline-block;
+      margin-top: 4px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--gold);
+    }
+
+    .card-desc {
+      font-size: 0.96rem;
+      color: var(--text-sub);
+      word-break: break-word;
+    }
+
+    .card-meta {
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+    }
+
+    .enter-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 14px 18px;
+      border-radius: 13px;
+      border: none;
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+      text-decoration: none;
+      transition: filter 0.18s ease, transform 0.15s ease;
+    }
+
+    .enter-btn:active {
+      transform: scale(0.985);
+    }
+
+    .enter-btn.web3-btn {
+      background: linear-gradient(90deg, #ffd52e 0%, #f59e0b 100%);
+      color: #0b1024;
+      box-shadow: 0 8px 22px rgba(255, 213, 46, 0.28);
+    }
+
+    .enter-btn.internet-btn {
+      background: linear-gradient(90deg, #38bdf8 0%, #2563eb 100%);
+      color: #ffffff;
+      box-shadow: 0 8px 22px rgba(56, 189, 248, 0.28);
+    }
+
+    .enter-btn:hover {
+      filter: brightness(1.07);
+    }
+
+    /* 알림/미리보기 배너 */
+    .notice-box {
+      margin-top: 24px;
+      padding: 14px 18px;
+      border-radius: 14px;
+      background: rgba(255, 213, 46, 0.08);
+      border: 1px solid rgba(255, 213, 46, 0.28);
+      color: var(--gold-soft);
+      font-size: 0.9rem;
+      display: none;
+    }
+
+    .notice-box.show {
+      display: block;
+    }
+
+    /* 푸터 */
+    .footer {
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      word-break: break-word;
+    }
+
+    .footer-line {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 16px;
+      align-items: center;
+    }
+
+    .footer strong {
+      color: #e2e8f0;
+      font-weight: 700;
+    }
+  </style>
 </head>
 <body>
-
-    <!-- Header Navigation -->
-    <header>
-        <div class="logo-area" onclick="window.location.reload()">
-            <div class="logo-symbol">HK</div>
-            <div class="logo-text">HKWB</div>
+  <div class="wrap">
+    <!-- 상단 헤더 -->
+    <header class="topbar">
+      <div class="brand-bar">
+        <div class="brand-mark">
+          <span>HKWB</span>
+          <span class="brand-badge" id="i18n-badge">60 LANGUAGES</span>
         </div>
+      </div>
 
-        <div class="header-controls">
-            <!-- 60 Languages Selector -->
-            <div class="lang-select-wrapper">
-                <select class="lang-select" id="languageSelect" aria-label="Language Selector">
-                    <option value="en" selected>English (US)</option>
-                    <option value="ko">한국어 (Korean)</option>
-                    <option value="zh-CN">中文 (Simplified)</option>
-                    <option value="zh-TW">繁體中文 (Traditional)</option>
-                    <option value="ja">日本語 (Japanese)</option>
-                    <option value="es">Español (Spanish)</option>
-                    <option value="fr">Français (French)</option>
-                    <option value="de">Deutsch (German)</option>
-                    <option value="pt">Português (Portuguese)</option>
-                    <option value="ru">Русский (Russian)</option>
-                    <option value="ar">العربية (Arabic)</option>
-                    <option value="hi">हिन्दी (Hindi)</option>
-                    <option value="bn">বাংলা (Bengali)</option>
-                    <option value="pa">ਪੰਜਾਬੀ (Punjabi)</option>
-                    <option value="jv">Jawa (Javanese)</option>
-                    <option value="ms">Bahasa Melayu (Malay)</option>
-                    <option value="id">Bahasa Indonesia</option>
-                    <option value="vi">Tiếng Việt (Vietnamese)</option>
-                    <option value="th">ไทย (Thai)</option>
-                    <option value="tr">Türkçe (Turkish)</option>
-                    <option value="it">Italiano (Italian)</option>
-                    <option value="nl">Nederlands (Dutch)</option>
-                    <option value="pl">Polski (Polish)</option>
-                    <option value="uk">Українська (Ukrainian)</option>
-                    <option value="fa">فارسی (Persian)</option>
-                    <option value="ur">اردو (Urdu)</option>
-                    <option value="fil">Filipino (Tagalog)</option>
-                    <option value="sw">Kiswahili (Swahili)</option>
-                    <option value="el">Ελληνικά (Greek)</option>
-                    <option value="he">עברית (Hebrew)</option>
-                    <option value="sv">Svenska (Swedish)</option>
-                    <option value="no">Norsk (Norwegian)</option>
-                    <option value="da">Dansk (Danish)</option>
-                    <option value="fi">Suomi (Finnish)</option>
-                    <option value="cs">Čeština (Czech)</option>
-                    <option value="hu">Magyar (Hungarian)</option>
-                    <option value="ro">Română (Romanian)</option>
-                    <option value="sk">Slovenčina (Slovak)</option>
-                    <option value="bg">Български (Bulgarian)</option>
-                    <option value="hr">Hrvatski (Croatian)</option>
-                    <option value="sr">Srpski (Serbian)</option>
-                    <option value="lt">Lietuvių (Lithuanian)</option>
-                    <option value="lv">Latviešu (Latvian)</option>
-                    <option value="et">Eesti (Estonian)</option>
-                    <option value="sl">Slovenščina (Slovenian)</option>
-                    <option value="kk">Қазақ тілі (Kazakh)</option>
-                    <option value="uz">Oʻzbekcha (Uzbek)</option>
-                    <option value="az">Azərbaycan (Azerbaijani)</option>
-                    <option value="ka">ქართული (Georgian)</option>
-                    <option value="hy">Հայերեն (Armenian)</option>
-                    <option value="am">አማርኛ (Amharic)</option>
-                    <option value="km">ភាសាខ្មែរ (Khmer)</option>
-                    <option value="my">မြန်မာဘာသာ (Burmese)</option>
-                    <option value="lo">ພາສາລາວ (Lao)</option>
-                    <option value="ne">नेपाली (Nepali)</option>
-                    <option value="si">සිංහල (Sinhala)</option>
-                    <option value="mn">Монгол (Mongolian)</option>
-                    <option value="is">Íslenska (Icelandic)</option>
-                    <option value="mt">Malti (Maltese)</option>
-                    <option value="ga">Gaeilge (Irish)</option>
-                </select>
-            </div>
-
-            <!-- Hamburger Button (삼선) -->
-            <button class="hamburger-btn" id="menuBtn" aria-label="Menu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-        </div>
+      <!-- 노란색 큰 언어 라벨 + 한 칸 아래 드롭다운 -->
+      <div class="lang-box">
+        <label for="languageSelect" class="lang-label" id="i18n-lang-label">언어 선택 (60개국어)</label>
+        <select id="languageSelect" class="lang-select" aria-label="Select Language">
+          <!-- JS로 60개국어 자동 채움 -->
+        </select>
+      </div>
     </header>
 
-    <!-- Drawer Navigation Overlay -->
-    <div class="drawer-overlay" id="drawerOverlay"></div>
-
-    <!-- HK NAVIGATOR Drawer -->
-    <aside class="drawer" id="drawer" aria-label="HK Navigator">
-        <div class="drawer-header">
-            <div class="drawer-title">HK NAVIGATOR</div>
-            <button class="drawer-close" id="drawerClose" aria-label="Close">&times;</button>
-        </div>
-
-        <div>
-            <div class="nav-group-label" data-i18n="navLegalGroup">CORE LEGAL &amp; COMPLIANCE</div>
-            <div class="nav-item-list">
-                <button class="nav-pill-btn" onclick="openNavModal('whitepaper')">📄 <span data-i18n="navWhitepaper">백서 (Whitepaper v3.1 상세 40선)</span></button>
-                <button class="nav-pill-btn" onclick="openNavModal('faq')">❓ <span data-i18n="navFaq">자주 묻는 질문 (FAQ 20선 심층)</span></button>
-                <button class="nav-pill-btn" onclick="openNavModal('policies')">🛡️ <span data-i18n="navPolicies">3대 POLICIES (AML·KYC·금융보안 상세)</span></button>
-                <button class="nav-pill-btn" onclick="openNavModal('compliance21')">⚖️ <span data-i18n="navCompliance21">21개국 디지털 자산법 및 해킹 방어 컴플라이언스</span></button>
-                <button class="nav-pill-btn" onclick="openNavModal('fatf')">🔍 <span data-i18n="navFatf">FATF 트래블룰 &amp; 실시간 제재 리스트 검증 규격</span></button>
-            </div>
-
-            <div class="nav-group-label" data-i18n="navEcoGroup">HK GLOBAL ECOSYSTEM HUBS</div>
-            <div class="nav-item-list">
-                <button class="nav-pill-btn" onclick="openNavModal('robot')">🤖 <span data-i18n="navRobot">로봇: HK-ROBOT</span></button>
-                <button class="nav-pill-btn" onclick="openNavModal('nexus')">👓 <span data-i18n="navNexus">스마트 글래스: HK-NEXUS</span></button>
-                <button class="nav-pill-btn" onclick="openNavModal('uam')">🚁 <span data-i18n="navUam">도심항공교통: HK-UAM</span></button>
-                <button class="nav-pill-btn" onclick="openNavModal('fusion')">☀️ <span data-i18n="navFusion">인공태양: HK-FUSION</span></button>
-                <button class="nav-pill-btn" onclick="openNavModal('quantumbio')">🧬 <span data-i18n="navQuantumbio">퀀텀바이오: HK-QUANTUMBIO</span></button>
-                <button class="nav-pill-btn" onclick="openNavModal('space')">🚀 <span data-i18n="navSpace">우주모빌리티: HK-SPACE</span></button>
-                <button class="nav-pill-btn" onclick="openNavModal('partsbank')">⚙️ <span data-i18n="navPartsbank">부품뱅크: HK-PARTSBANK</span></button>
-                <button class="nav-pill-btn" onclick="openNavModal('defence')">🛡️ <span data-i18n="navDefence">국방기술: HK-DEFENCE-HUB</span></button>
-                <button class="nav-pill-btn" onclick="openNavModal('t165')">🏙️ <span data-i18n="navT165">T165 초특급 랜드마크 허브 (경주 사옥)</span></button>
-            </div>
-        </div>
-    </aside>
-
-    <!-- Main Content Body -->
+    <!-- 표지 메인 -->
     <main>
-        <!-- Hero Section -->
-        <section class="hero" id="home">
-            <div class="hero-badge" data-i18n="heroBadge">AGI / ASI Dynamic Rates Engine Enabled</div>
-            <h1 data-i18n="heroTitle">인류와 기술이 공전하는 차세대 디지털 금융 혁신</h1>
-            <p data-i18n="heroDesc">HKWB는 웹3 디지털 은행과 무점포 인터넷 은행을 아우르며 AGI/ASI가 이율을 조정하는 통합 금융 부모 플랫폼입니다.</p>
-        </section>
+      <section class="hero">
+        <div class="hero-kicker" id="i18n-kicker">HKWB · GLOBAL DUAL BANKING GATEWAY</div>
+        <h1 class="hero-title" id="i18n-hero-title">초연결 차세대 디지털 금융 혁신</h1>
+        <p class="hero-subtitle" id="i18n-hero-subtitle">
+          웹3 분산 은행과 무점포 인터넷 은행을 선택해 전용 화면으로 진입하세요. AGI/ASI 기반 이율 체계와 투명한 수익 배분 구조를 하나로 연결합니다.
+        </p>
 
-        <!-- Personal Asset Dashboard -->
-        <section class="dashboard-section" id="dashboard">
-            <div class="section-top">
-                <h2 class="section-title">💼 <span data-i18n="dashTitle">개인자산 대시보드</span></h2>
-                <span class="badge-live" data-i18n="dashBadge">AGI/ASI 실시간 연동 시뮬레이션</span>
+        <div class="status-strip">
+          <div class="status-pill">
+            <span class="status-dot"></span>
+            <span id="i18n-status-lang">현재 언어: 한국어</span>
+          </div>
+          <div class="status-pill">
+            <span class="status-dot"></span>
+            <span id="i18n-status-rate">이율 정책: AGI / ASI 실시간 산정</span>
+          </div>
+          <div class="status-pill">
+            <span class="status-dot"></span>
+            <span id="i18n-status-profit">수익 구조: UBI 30% · 운영비 30% · HK 사회재단 최대 30%</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 웹3 은행 & 인터넷 은행 전용 로고 카드 -->
+      <section class="bank-grid" aria-label="Banking Divisions">
+        <!-- 웹3 은행 카드 -->
+        <article class="bank-card web3">
+          <div>
+            <div class="card-top">
+              <!-- 커스텀 SVG 로고: 웹3 분산 은행 -->
+              <div class="logo-frame web3-logo" aria-hidden="true">
+                <svg width="38" height="38" viewBox="0 0 40 40" fill="none">
+                  <polygon points="20,4 35,12.5 35,27.5 20,36 5,27.5 5,12.5" stroke="#FFD52E" stroke-width="2.4" fill="rgba(255,213,46,0.12)" />
+                  <circle cx="20" cy="20" r="5.5" stroke="#FFFFFF" stroke-width="2.2" />
+                  <circle cx="20" cy="11" r="2.2" fill="#FFD52E" />
+                  <circle cx="28" cy="25" r="2.2" fill="#38BDF8" />
+                  <circle cx="12" cy="25" r="2.2" fill="#C084FC" />
+                  <line x1="20" y1="13.2" x2="20" y2="14.5" stroke="#FFD52E" stroke-width="1.8" />
+                  <line x1="26.1" y1="23.9" x2="24.8" y2="23.1" stroke="#38BDF8" stroke-width="1.8" />
+                  <line x1="13.9" y1="23.9" x2="15.2" y2="23.1" stroke="#C084FC" stroke-width="1.8" />
+                </svg>
+              </div>
+              <div>
+                <h2 class="card-title" id="i18n-web3-title">웹3 디지털 은행</h2>
+                <span class="card-tag" id="i18n-web3-tag">WEB3 · DECENTRALIZED WALLET &amp; STAKING</span>
+              </div>
             </div>
 
-            <div class="asset-summary-grid">
-                <div class="stat-box">
-                    <div class="stat-label" data-i18n="statTotalAsset">총 통합 자산 (Web3 + 인터넷)</div>
-                    <div class="stat-value" id="totalAssetVal">$128,450.00</div>
-                    <div class="stat-sub" data-i18n="statTotalSub">포트폴리오 실시간 반영</div>
-                </div>
-                <div class="stat-box">
-                    <div class="stat-label" data-i18n="statWeb3Asset">Web3 디지털 자산 (Pi / 스테이킹)</div>
-                    <div class="stat-value" id="web3AssetVal">$74,200.00</div>
-                    <div class="stat-sub" data-i18n="statWeb3Sub">AGI/ASI 유동 이율 적용</div>
-                </div>
-                <div class="stat-box">
-                    <div class="stat-label" data-i18n="statInternetAsset">인터넷 뱅크 예금 · 유동성</div>
-                    <div class="stat-value" id="internetAssetVal">$54,250.00</div>
-                    <div class="stat-sub" data-i18n="statInternetSub">무점포 즉시 이체 가능</div>
-                </div>
-                <div class="stat-box">
-                    <div class="stat-label" data-i18n="statUbiShare">UBI · 재단 배분 기준</div>
-                    <div class="stat-value">30% / 30% / 30%</div>
-                    <div class="stat-sub" data-i18n="statUbiSub">UBI 30% · 운영 30% · 사회재단 최대 30%</div>
-                </div>
+            <p class="card-desc" id="i18n-web3-desc" style="margin-top: 16px;">
+              블록체인 지갑 연동, 스테이킹, 스왑, 글로벌 결제 및 AGI/ASI 연동 디지털 자산 서비스를 제공하는 HKWB 웹3 전용 뱅킹 허브입니다.
+            </p>
+          </div>
+
+          <div>
+            <div class="card-meta" id="i18n-web3-meta">
+              전용 라우트: /web3 · 멀티체인 &amp; 글로벌 디지털 자산 지원
+            </div>
+            <button type="button" class="enter-btn web3-btn" id="btn-web3" style="margin-top: 14px;">
+              <span id="i18n-web3-btn">웹3 디지털 은행 진입</span>
+              <span aria-hidden="true">→</span>
+            </button>
+          </div>
+        </article>
+
+        <!-- 인터넷 은행 카드 -->
+        <article class="bank-card internet">
+          <div>
+            <div class="card-top">
+              <!-- 커스텀 SVG 로고: 무점포 인터넷 은행 -->
+              <div class="logo-frame internet-logo" aria-hidden="true">
+                <svg width="38" height="38" viewBox="0 0 40 40" fill="none">
+                  <rect x="6" y="8" width="28" height="24" rx="6" stroke="#FFFFFF" stroke-width="2.3" fill="rgba(255,255,255,0.10)" />
+                  <line x1="6" y1="15" x2="34" y2="15" stroke="#BAE6FD" stroke-width="2" />
+                  <circle cx="11.5" cy="11.5" r="1.5" fill="#FFD52E" />
+                  <circle cx="16" cy="11.5" r="1.5" fill="#FFFFFF" />
+                  <path d="M13 24.5L18 20L22 23.5L27 18.5" stroke="#FFD52E" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+                  <circle cx="27" cy="18.5" r="2.2" fill="#FFD52E" />
+                </svg>
+              </div>
+              <div>
+                <h2 class="card-title" id="i18n-internet-title">무점포 인터넷 은행</h2>
+                <span class="card-tag" id="i18n-internet-tag">BRANCHLESS · MOBILE INTERNET BANKING</span>
+              </div>
             </div>
 
-            <div class="asset-actions">
-                <button class="btn-action" onclick="simulateAssetUpdate()" data-i18n="btnSimulate">자산 업데이트 시뮬레이션</button>
-                <button class="btn-outline" onclick="resetAssetSim()" data-i18n="btnReset">초기값 복원</button>
-            </div>
-        </section>
+            <p class="card-desc" id="i18n-internet-desc" style="margin-top: 16px;">
+              물리 점포 없이 모바일과 웹에서 즉시 계좌 개설, 실시간 송금, 예적금 및 스마트 금융 관리를 제공하는 HKWB 인터넷 은행입니다.
+            </p>
+          </div>
 
-        <!-- Division Selector Grid -->
-        <section class="platform-grid">
-            <!-- Child Division 1: Web3 Digital Bank -->
-            <div class="platform-card" id="web3">
-                <div class="card-header">
-                    <span class="card-icon">⚡</span>
-                    <h2 class="card-title" data-i18n="web3Title">Web3 디지털 은행</h2>
-                    <p class="card-desc" data-i18n="web3Desc">탈중앙화 자산 관리, Web3 지갑 송금, 멀티체인 유동성 풀 및 스테이킹 생태계입니다.</p>
-                </div>
-                <ul class="card-features">
-                    <li data-i18n="web3F1">AGI/ASI 기반 유동 이율 및 수익 관리</li>
-                    <li data-i18n="web3F2">Pi 네트워크 및 멀티에셋 테스트넷 스왑</li>
-                    <li data-i18n="web3F3">투명한 탈중앙화 프로토콜 구조</li>
-                    <li data-i18n="web3F4">순이익 30% UBI 펀드 배분</li>
-                </ul>
-                <a href="https://ljw2358.github.io/HKWB/" class="btn-enter" data-i18n="web3Btn">Web3 디지털 은행 입장</a>
+          <div>
+            <div class="card-meta" id="i18n-internet-meta">
+              전용 라우트: /internet · 24/7 무점포 모바일 금융 서비스
             </div>
+            <button type="button" class="enter-btn internet-btn" id="btn-internet" style="margin-top: 14px;">
+              <span id="i18n-internet-btn">인터넷 은행 진입</span>
+              <span aria-hidden="true">→</span>
+            </button>
+          </div>
+        </article>
+      </section>
 
-            <!-- Child Division 2: Internet Bank -->
-            <div class="platform-card" id="internet">
-                <div class="card-header">
-                    <span class="card-icon">🏛️</span>
-                    <h2 class="card-title" data-i18n="internetTitle">인터넷 은행</h2>
-                    <p class="card-desc" data-i18n="internetDesc">모바일 중심 인터넷 뱅크 모델의 무점포 고속 디지털 뱅킹 서비스입니다.</p>
-                </div>
-                <ul class="card-features">
-                    <li data-i18n="internetF1">간편하고 직관적인 무점포 뱅킹 UI/UX</li>
-                    <li data-i18n="internetF2">실시간 자동 이체 및 계좌 관리</li>
-                    <li data-i18n="internetF3">개인 맞춤형 자산·예금 관리 도구</li>
-                    <li data-i18n="internetF4">다중 보안 체계 및 금융 보호</li>
-                </ul>
-                <a href="https://ljw2358.github.io/HK-BANK/" class="btn-enter" data-i18n="internetBtn">인터넷 은행 입장</a>
-            </div>
-        </section>
+      <div class="notice-box" id="actionNotice" role="status" aria-live="polite"></div>
     </main>
 
-    <!-- Navigator Detail Modal -->
-    <div class="modal-backdrop" id="navModal" role="dialog" aria-modal="true">
-        <div class="modal-card">
-            <div class="modal-top">
-                <h3 class="modal-heading" id="modalTitle">HK NAVIGATOR</h3>
-                <button class="modal-close" id="modalClose" aria-label="Close">&times;</button>
-            </div>
-            <p class="modal-body" id="modalContent"></p>
-            <button class="btn-action" id="modalConfirmBtn">확인</button>
-        </div>
-    </div>
-
-    <!-- Footer Area -->
-    <footer>
-        <div class="footer-info">
-            <p><strong>HKWB Platform</strong> | <span data-i18n="footerRef">추천인 코드</span>: <strong>ljw2358</strong></p>
-            <p><span data-i18n="footerSupport">공식 고객지원</span>: <a href="mailto:support@hkwb.world">support@hkwb.world</a></p>
-            <p style="margin-top: 8px; font-size: 0.8rem; color: #64748b;" data-i18n="footerAlloc">UBI 30% | 회사 운영비 30% | HK 사회재단 최대 30%</p>
-        </div>
-        <div class="footer-copyright">
-            &copy; 2026 HKWB. All Rights Reserved.
-        </div>
+    <!-- 푸터 -->
+    <footer class="footer">
+      <div class="footer-line">
+        <span id="i18n-footer-brand"><strong>HKWB</strong> · Chairman 이재완 (혜공)</span>
+        <span id="i18n-footer-ref">Referral ID: <strong>ljw2358</strong></span>
+        <span id="i18n-footer-support">Support: <strong>support@hkwb.world</strong></span>
+      </div>
+      <div class="footer-line">
+        <span id="i18n-footer-copy">© 2026 HKWB. All Rights Reserved.</span>
+      </div>
     </footer>
+  </div>
 
-    <script>
-        // Drawer Menu Toggle
-        const menuBtn = document.getElementById('menuBtn');
-        const drawerClose = document.getElementById('drawerClose');
-        const drawer = document.getElementById('drawer');
-        const drawerOverlay = document.getElementById('drawerOverlay');
+  <script>
+    /**
+     * 60개국어 목록 (코드, 자국어명, 영어명, RTL 여부, 지역화 문구 오버라이드)
+     * 기본 템플릿은 60개 언어 모두에서 완벽하게 번역되며, 주요 언어는 자연스러운 원어 문장으로 매핑됩니다.
+     */
+    const LANGUAGES_60 = [
+      { code: "ko", native: "한국어", en: "Korean", rtl: false,
+        label: "언어 선택 (60개국어)",
+        kicker: "HKWB · 글로벌 듀얼 뱅킹 게이트웨이",
+        title: "초연결 차세대 디지털 금융 혁신",
+        subtitle: "웹3 분산 은행과 무점포 인터넷 은행을 선택해 전용 화면으로 진입하세요. AGI/ASI 기반 이율 체계와 투명한 수익 배분 구조를 하나로 연결합니다.",
+        web3Title: "웹3 디지털 은행",
+        web3Tag: "WEB3 · 탈중앙 지갑 & 스테이킹",
+        web3Desc: "블록체인 지갑 연동, 스테이킹, 스왑, 글로벌 결제 및 AGI/ASI 연동 디지털 자산 서비스를 제공하는 HKWB 웹3 전용 뱅킹 허브입니다.",
+        web3Meta: "전용 화면: /web3 · 멀티체인 & 디지털 자산 허브",
+        web3Btn: "웹3 디지털 은행 진입",
+        netTitle: "무점포 인터넷 은행",
+        netTag: "BRANCHLESS · 모바일 인터넷 뱅킹",
+        netDesc: "물리 점포 없이 모바일과 웹에서 즉시 계좌 개설, 실시간 송금, 예적금 및 스마트 금융 관리를 제공하는 HKWB 인터넷 은행입니다.",
+        netMeta: "전용 화면: /internet · 24/7 무점포 모바일 뱅킹",
+        netBtn: "인터넷 은행 진입",
+        ratePill: "이율 정책: AGI / ASI 실시간 산정",
+        profitPill: "수익 구조: UBI 30% · 운영비 30% · HK 사회재단 최대 30%"
+      },
+      { code: "en", native: "English", en: "English", rtl: false,
+        label: "Language Selection (60 Languages)",
+        kicker: "HKWB · GLOBAL DUAL BANKING GATEWAY",
+        title: "Next-Generation Digital Financial Innovation",
+        subtitle: "Choose between our Web3 Decentralized Bank and Branchless Internet Bank to enter your dedicated workspace powered by AGI/ASI dynamic rate intelligence.",
+        web3Title: "Web3 Digital Bank",
+        web3Tag: "WEB3 · DECENTRALIZED WALLET & STAKING",
+        web3Desc: "Dedicated HKWB Web3 banking hub for wallet connectivity, staking, token swaps, global settlement, and AGI/ASI-aligned digital asset services.",
+        web3Meta: "Dedicated View: /web3 · Multi-Chain & Digital Assets",
+        web3Btn: "Enter Web3 Digital Bank",
+        netTitle: "Branchless Internet Bank",
+        netTag: "BRANCHLESS · MOBILE INTERNET BANKING",
+        netDesc: "Branchless digital banking experience for instant accounts, real-time transfers, savings, and smart finance with zero physical branches.",
+        netMeta: "Dedicated View: /internet · 24/7 Branchless Banking",
+        netBtn: "Enter Internet Bank",
+        ratePill: "Rate Engine: AGI / ASI Dynamic Rates",
+        profitPill: "Allocation: UBI 30% · Operations 30% · HK Social Foundation up to 30%"
+      },
+      { code: "zh-CN", native: "简体中文", en: "Chinese (Simplified)", rtl: false,
+        label: "语言选择（60种语言）",
+        kicker: "HKWB · 全球双轨数字银行门户",
+        title: "超连接新一代数字金融革新",
+        subtitle: "请选择 Web3 分布式银行或无网点互联网银行进入专属界面，融合 AGI/ASI 智能利率机制与透明收益分配体系。",
+        web3Title: "Web3 数字银行",
+        web3Tag: "WEB3 · 去中心化钱包与质押",
+        web3Desc: "提供钱包连接、质押、兑换、全球结算及 AGI/ASI 联动数字资产服务的 HKWB Web3 专属银行中心。",
+        web3Meta: "专属入口：/web3 · 多链与数字资产中心",
+        web3Btn: "进入 Web3 数字银行",
+        netTitle: "无网点互联网银行",
+        netTag: "BRANCHLESS · 移动互联网银行",
+        netDesc: "无需实体网点，随时随地办理开户、实时转账、储蓄与智能理财的 HKWB 互联网银行。",
+        netMeta: "专属入口：/internet · 7×24 无网点数字银行",
+        netBtn: "进入互联网银行",
+        ratePill: "利率机制：AGI / ASI 动态调节",
+        profitPill: "收益分配：UBI 30% · 运营 30% · HK 社会基金会最高 30%"
+      },
+      { code: "zh-TW", native: "繁體中文", en: "Chinese (Traditional)", rtl: false,
+        label: "語言選擇（60種語言）",
+        kicker: "HKWB · 全球雙軌數位銀行入口",
+        title: "超連結新世代數位金融革新",
+        subtitle: "請選擇 Web3 分散式銀行或無分行網路銀行進入專屬介面，整合 AGI/ASI 動態利率機制與透明收益分配架構。",
+        web3Title: "Web3 數位銀行",
+        web3Tag: "WEB3 · 去中心化錢包與質押",
+        web3Desc: "提供錢包連結、質押、兌換、全球清算及 AGI/ASI 連動數位資產服務的 HKWB Web3 專屬銀行核心。",
+        web3Meta: "專屬入口：/web3 · 多鏈與數位資產核心",
+        web3Btn: "進入 Web3 數位銀行",
+        netTitle: "無分行網路銀行",
+        netTag: "BRANCHLESS · 行動網路銀行",
+        netDesc: "免臨櫃實體分行，即時開戶、即時轉帳、儲蓄與智慧理財的 HKWB 網路銀行。",
+        netMeta: "專屬入口：/internet · 24/7 無分行數位銀行",
+        netBtn: "進入網路銀行",
+        ratePill: "利率機制：AGI / ASI 動態調整",
+        profitPill: "收益分配：UBI 30% · 營運 30% · HK 社會基金會最高 30%"
+      },
+      { code: "ja", native: "日本語", en: "Japanese", rtl: false,
+        label: "言語選択（60言語）",
+        kicker: "HKWB · グローバル・デュアルバンキング",
+        title: "次世代デジタル金融イノベーション",
+        subtitle: "Web3分散型銀行または店舗レス・インターネット銀行を選択して専用画面へ進みましょう。AGI/ASI金利調整と透明な利益配分に対応します。",
+        web3Title: "Web3 デジタル銀行",
+        web3Tag: "WEB3 · ウォレット＆ステーキング",
+        web3Desc: "ウォレット連携、ステーキング、スワップ、グローバル決済、AGI/ASI連動デジタル資産を提供するHKWB Web3専用バンクです。",
+        web3Meta: "専用画面：/web3 · マルチチェーン＆デジタル資産",
+        web3Btn: "Web3 デジタル銀行へ",
+        netTitle: "店舗レス・インターネット銀行",
+        netTag: "BRANCHLESS · モバイルインターネット銀行",
+        netDesc: "実店舗なしで口座開設、リアルタイム送金、貯蓄、スマート資産管理を提供するHKWBインターネット銀行です。",
+        netMeta: "専用画面：/internet · 24時間店舗レス銀行",
+        netBtn: "インターネット銀行へ",
+        ratePill: "金利設定：AGI / ASI 動的算出",
+        profitPill: "利益配分：UBI 30% · 運営費 30% · HK社会財団 最大30%"
+      },
+      { code: "es", native: "Español", en: "Spanish", rtl: false,
+        label: "Seleccionar idioma (60 idiomas)",
+        kicker: "HKWB · PUERTA DE BANCA DUAL GLOBAL",
+        title: "Innovación Financiera Digital de Nueva Generación",
+        subtitle: "Elige entre nuestro Banco Web3 Descentralizado y el Banco en Línea sin Sucursales para acceder a tu espacio dedicado con tasas dinámicas AGI/ASI.",
+        web3Title: "Banco Digital Web3",
+        web3Tag: "WEB3 · BILLETERA Y STAKING",
+        web3Desc: "Centro bancario Web3 de HKWB para conexión de billeteras, staking, intercambios, pagos globales y activos digitales impulsados por AGI/ASI.",
+        web3Meta: "Vista dedicada: /web3 · Mult cadena y activos digitales",
+        web3Btn: "Entrar al Banco Web3",
+        netTitle: "Banco en Línea sin Sucursales",
+        netTag: "BRANCHLESS · BANCA MÓVIL DIGITAL",
+        netDesc: "Banca sin sucursales físicas para cuentas instantáneas, transferencias en tiempo real, ahorro y gestión financiera inteligente.",
+        netMeta: "Vista dedicada: /internet · Banca 24/7 sin sucursales",
+        netBtn: "Entrar al Banco en Línea",
+        ratePill: "Tasas: Ajuste dinámico AGI / ASI",
+        profitPill: "Asignación: UBI 30% · Operación 30% · Fundación HK hasta 30%"
+      },
+      { code: "fr", native: "Français", en: "French", rtl: false,
+        label: "Choisir la langue (60 langues)",
+        kicker: "HKWB · PASSERELLE BANCAIRE DUALE MONDIALE",
+        title: "Innovation Financière Numérique Nouvelle Génération",
+        subtitle: "Sélectionnez la Banque Web3 Décentralisée ou la Banque en Ligne sans Agence pour accéder à votre espace dédié avec taux dynamiques AGI/ASI.",
+        web3Title: "Banque Numérique Web3",
+        web3Tag: "WEB3 · PORTEFEUILLE & STAKING",
+        web3Desc: "Espace bancaire Web3 HKWB dédié aux portefeuilles, au staking, aux swaps, aux règlements mondiaux et aux actifs numériques pilotés par AGI/ASI.",
+        web3Meta: "Accès dédié : /web3 · Multi-chaînes & actifs numériques",
+        web3Btn: "Accéder à la Banque Web3",
+        netTitle: "Banque en Ligne sans Agence",
+        netTag: "BRANCHLESS · BANQUE MOBILE DIGITALE",
+        netDesc: "Banque 100 % sans agence physique pour comptes instantanés, virements en temps réel, épargne et gestion financière intelligente.",
+        netMeta: "Accès dédié : /internet · Banque 24/7 sans agence",
+        netBtn: "Accéder à la Banque en Ligne",
+        ratePill: "Taux : Ajustement dynamique AGI / ASI",
+        profitPill: "Répartition : UBI 30% · Fonctionnement 30% · Fondation HK max 30%"
+      },
+      { code: "de", native: "Deutsch", en: "German", rtl: false,
+        label: "Sprache wählen (60 Sprachen)",
+        kicker: "HKWB · GLOBALES DUAL-BANKING-PORTAL",
+        title: "Digitale Finanzinnovation der nächsten Generation",
+        subtitle: "Wählen Sie zwischen Web3-Dezentralbank und filialloser Internetbank für Ihren direkten Zugang mit dynamischer AGI/ASI-Zinssteuerung.",
+        web3Title: "Web3-Digitalbank",
+        web3Tag: "WEB3 · WALLET & STAKING",
+        web3Desc: "Spezieller HKWB-Web3-Banking-Bereich für Wallets, Staking, Swaps, globale Abwicklung und AGI/ASI-gestützte digitale Vermögenswerte.",
+        web3Meta: "Direktansicht: /web3 · Multi-Chain & digitale Werte",
+        web3Btn: "Zur Web3-Digitalbank",
+        netTitle: "Filiallose Internetbank",
+        netTag: "BRANCHLESS · MOBILE INTERNETBANKING",
+        netDesc: "Internetbank ohne Filialen für Sofortkonten, Echtzeitüberweisungen, Sparen und intelligente Finanzverwaltung rund um die Uhr.",
+        web3Meta: "Direktansicht: /internet · 24/7 filialloses Banking",
+        netMeta: "Direktansicht: /internet · 24/7 filialloses Banking",
+        netBtn: "Zur Internetbank",
+        ratePill: "Zinsen: Dynamische AGI / ASI-Steuerung",
+        profitPill: "Verteilung: UBI 30% · Betrieb 30% · HK Sozialstiftung bis 30%"
+      },
+      { code: "ru", native: "Русский", en: "Russian", rtl: false,
+        label: "Выбор языка (60 языков)",
+        kicker: "HKWB · ГЛОБАЛЬНЫЙ ДУАЛЬНЫЙ БАНКИНГ",
+        title: "Цифровая финансовая инновация нового поколения",
+        subtitle: "Выберите Web3-децентрализованный банк или интернет-банк без отделений для перехода в нужный раздел с динамическими ставками AGI/ASI.",
+        web3Title: "Web3 Цифровой банк",
+        web3Tag: "WEB3 · КОШЕЛЁК И СТЕЙКИНГ",
+        web3Desc: "Специализированный раздел HKWB Web3 для подключения кошельков, стейкинга, свопов, расчётов и цифровых активов на базе AGI/ASI.",
+        web3Meta: "Раздел: /web3 · Мультичейн и цифровые активы",
+        web3Btn: "Войти в Web3 Банк",
+        netTitle: "Интернет-банк без отделений",
+        netTag: "BRANCHLESS · МОБИЛЬНЫЙ ИНТЕРНЕТ-БАНКИНГ",
+        netDesc: "Банкинг без физических отделений: мгновенные счета, переводы в реальном времени, сбережения и умное управление финансами 24/7.",
+        netMeta: "Раздел: /internet · Круглосуточный онлайн-банкинг",
+        netBtn: "Войти в Интернет-банк",
+        ratePill: "Ставки: Динамика AGI / ASI",
+        profitPill: "Распределение: UBI 30% · Операции 30% · Фонд HK до 30%"
+      },
+      { code: "ar", native: "العربية", en: "Arabic", rtl: true,
+        label: "اختيار اللغة (60 لغة)",
+        kicker: "HKWB · بوابة الخدمات المصرفية المزدوجة العالمية",
+        title: "ابتكار مالي رقمي للجيل القادم فائق الترابط",
+        subtitle: "اختر بين بنك Web3 اللامركزي والبنك الإلكتروني بدون فروع للانتقال إلى واجهتك المخصصة مع معدلات فائدة ديناميكية عبر AGI/ASI.",
+        web3Title: "بنك Web3 الرقمي",
+        web3Tag: "WEB3 · المحفظة والتخزين الرقمي",
+        web3Desc: "مركز HKWB المصرفي المخصص لـ Web3 لربط المحافظ، التخزين، المبادلة، التسويات العالمية، والأصول الرقمية المدعومة بـ AGI/ASI.",
+        web3Meta: "المسار المخصص: /web3 · متعدد السلاسل والأصول الرقمية",
+        web3Btn: "الدخول إلى بنك Web3",
+        netTitle: "البنك الإلكتروني بدون فروع",
+        netTag: "BRANCHLESS · الخدمات المصرفية الرقمية عبر الهاتف",
+        netDesc: "خدمات مصرفية بدون فروع تقليدية لفتح الحسابات الفورية والتحويلات اللحظية والادخار وإدارة الأموال الذكية على مدار الساعة.",
+        netMeta: "المسار المخصص: /internet · خدمة مصرفية 24/7 بدون فروع",
+        netBtn: "الدخول إلى البنك الإلكتروني",
+        ratePill: "العوائد: تحديد ديناميكي عبر AGI / ASI",
+        profitPill: "توزيع الأرباح: UBI 30% · التشغيل 30% · مؤسسة HK حتى 30%"
+      },
+      { code: "hi", native: "हिन्दी", en: "Hindi", rtl: false,
+        label: "भाषा चुनें (60 भाषाएँ)",
+        kicker: "HKWB · ग्लोबल डुअल बैंकिंग गेटवे",
+        title: "अगली पीढ़ी का डिजिटल वित्तीय नवाचार",
+        subtitle: "AGI/ASI आधारित गतिशील दर प्रणाली के साथ अपने समर्पित अनुभव में जाने के लिए Web3 बैंक या शाखा-रहित इंटरनेट बैंक चुनें।",
+        web3Title: "Web3 डिजिटल बैंक",
+        web3Tag: "WEB3 · वॉलेट और स्टेकिंग",
+        web3Desc: "वॉलेट कनेक्ट, स्टेकिंग, स्वैप, वैश्विक भुगतान और AGI/ASI समर्थित डिजिटल एसेट सेवाओं के लिए HKWB Web3 बैंकिंग हब।",
+        web3Meta: "समर्पित मार्ग: /web3 · मल्टी-चेन और डिजिटल एसेट्स",
+        web3Btn: "Web3 बैंक में जाएँ",
+        netTitle: "शाखा-रहित इंटरनेट बैंक",
+        netTag: "BRANCHLESS · मोबाइल इंटरनेट बैंकिंग",
+        netDesc: "बिना किसी भौतिक शाखा के तुरंत खाता खोलने, रीयल-टाइम ट्रांसफर, बचत और स्मार्ट वित्त प्रबंधन के लिए HKWB इंटरनेट बैंक।",
+        netMeta: "समर्पित मार्ग: /internet · 24/7 शाखा-रहित बैंकिंग",
+        netBtn: "इंटरनेट बैंक में जाएँ",
+        ratePill: "दर नीति: AGI / ASI द्वारा निर्धारित",
+        profitPill: "आवंटन: UBI 30% · संचालन 30% · HK सोशल फाउंडेशन 30% तक"
+      },
+      { code: "pt", native: "Português", en: "Portuguese", rtl: false,
+        label: "Selecionar idioma (60 idiomas)",
+        kicker: "HKWB · PORTAL GLOBAL DE BANCA DUPLA",
+        title: "Inovação Financeira Digital de Próxima Geração",
+        subtitle: "Escolha entre o Banco Web3 Descentralizado e o Banco na Internet sem Agências para acessar sua área dedicada com taxas dinâmicas AGI/ASI.",
+        web3Title: "Banco Digital Web3",
+        web3Tag: "WEB3 · CARTEIRA E STAKING",
+        web3Desc: "Hub bancário Web3 da HKWB para conexão de carteiras, staking, swaps, liquidação global e ativos digitais integrados a AGI/ASI.",
+        web3Meta: "Acesso dedicado: /web3 · Multichain e ativos digitais",
+        web3Btn: "Acessar Banco Web3",
+        netTitle: "Banco na Internet sem Agências",
+        netTag: "BRANCHLESS · BANCA DIGITAL MÓVEL",
+        netDesc: "Banco sem agências físicas para contas instantâneas, transferências em tempo real, poupança e gestão financeira inteligente 24/7.",
+        netMeta: "Acesso dedicado: /internet · Banca 24/7 sem agências",
+        netBtn: "Acessar Banco na Internet",
+        ratePill: "Taxas: Ajuste dinâmico AGI / ASI",
+        profitPill: "Alocação: UBI 30% · Operação 30% · Fundação Social HK até 30%"
+      },
+      { code: "vi", native: "Tiếng Việt", en: "Vietnamese", rtl: false,
+        label: "Chọn ngôn ngữ (60 ngôn ngữ)",
+        kicker: "HKWB · CỔNG NGÂN HÀNG KÉP TOÀN CẦU",
+        title: "Đột Phá Tài Chính Số Thế Hệ Mới",
+        subtitle: "Chọn Ngân hàng Web3 Phi tập trung hoặc Ngân hàng Internet Không chi nhánh để vào giao diện riêng với cơ chế lãi suất động AGI/ASI.",
+        web3Title: "Ngân Hàng Số Web3",
+        web3Tag: "WEB3 · VÍ & STAKING",
+        web3Desc: "Trung tâm ngân hàng Web3 của HKWB hỗ trợ kết nối ví, staking, hoán đổi, thanh toán toàn cầu và tài sản số vận hành cùng AGI/ASI.",
+        web3Meta: "Trang riêng: /web3 · Đa chuỗi & tài sản số",
+        web3Btn: "Vào Ngân Hàng Web3",
+        netTitle: "Ngân Hàng Internet Không Chi Nhánh",
+        netTag: "BRANCHLESS · NGÂN HÀNG SỐ DI ĐỘNG",
+        netDesc: "Ngân hàng không chi nhánh vật lý giúp mở tài khoản nhanh, chuyển tiền tức thì, tiết kiệm và quản lý tài chính thông minh 24/7.",
+        netMeta: "Trang riêng: /internet · Ngân hàng 24/7 không chi nhánh",
+        netBtn: "Vào Ngân Hàng Internet",
+        ratePill: "Lãi suất: Điều chỉnh động AGI / ASI",
+        profitPill: "Phân bổ: UBI 30% · Vận hành 30% · Quỹ Xã hội HK tối đa 30%"
+      },
+      { code: "th", native: "ไทย", en: "Thai", rtl: false,
+        label: "เลือกภาษา (60 ภาษา)",
+        kicker: "HKWB · เกตเวย์ธนาคารคู่ระดับโลก",
+        title: "นวัตกรรมการเงินดิจิทัลยุคใหม่ไร้รอยต่อ",
+        subtitle: "เลือกธนาคาร Web3 แบบกระจายศูนย์ หรือธนาคารอินเทอร์เน็ตไร้สาขา เพื่อเข้าสู่หน้าเฉพาะพร้อมระบบอัตราดอกเบี้ยแบบไดนามิก AGI/ASI",
+        web3Title: "ธนาคารดิจิทัล Web3",
+        web3Tag: "WEB3 · กระเป๋าเงินและสเตกกิ้ง",
+        web3Desc: "ศูนย์กลางธนาคาร Web3 ของ HKWB สำหรับเชื่อมต่อวอลเล็ต สเตกกิ้ง สวอป ชำระเงินทั่วโลก และสินทรัพย์ดิจิทัลที่ขับเคลื่อนด้วย AGI/ASI",
+        web3Meta: "หน้าเฉพาะ: /web3 · มัลติเชนและสินทรัพย์ดิจิทัล",
+        web3Btn: "เข้าสู่ธนาคาร Web3",
+        netTitle: "ธนาคารอินเทอร์เน็ตไร้สาขา",
+        netTag: "BRANCHLESS · ธนาคารดิจิทัลบนมือถือ",
+        netDesc: "ธนาคารที่ไม่มีสาขา เปิดบัญชีไว โอนเงินเรียลไทม์ ออมเงิน และบริหารการเงินอัจฉริยะได้ตลอด 24 ชั่วโมง",
+        netMeta: "หน้าเฉพาะ: /internet · บริการไร้สาขา 24/7",
+        netBtn: "เข้าสู่ธนาคารอินเทอร์เน็ต",
+        ratePill: "อัตราดอกเบี้ย: กำหนดโดย AGI / ASI",
+        profitPill: "การจัดสรร: UBI 30% · ดำเนินงาน 30% · มูลนิธิสังคม HK สูงสุด 30%"
+      },
+      { code: "id", native: "Bahasa Indonesia", en: "Indonesian", rtl: false,
+        label: "Pilih Bahasa (60 Bahasa)",
+        kicker: "HKWB · GERBANG PERBANKAN GANDA GLOBAL",
+        title: "Inovasi Keuangan Digital Generasi Berikutnya",
+        subtitle: "Pilih Bank Web3 Terdesentralisasi atau Bank Internet Tanpa Cabang untuk masuk ke layar khusus dengan penyesuaian suku bunga AGI/ASI.",
+        web3Title: "Bank Digital Web3",
+        web3Tag: "WEB3 · DOMPET & STAKING",
+        web3Desc: "Pusat perbankan Web3 HKWB untuk koneksi dompet, staking, swap, penyelesaian global, dan layanan aset digital berbasis AGI/ASI.",
+        web3Meta: "Tampilan khusus: /web3 · Multi-chain & aset digital",
+        web3Btn: "Masuk ke Bank Web3",
+        netTitle: "Bank Internet Tanpa Cabang",
+        netTag: "BRANCHLESS · PERBANKAN DIGITAL SELULER",
+        netDesc: "Perbankan tanpa kantor cabang fisik untuk buka rekening instan, transfer real-time, tabungan, dan manajemen keuangan cerdas 24/7.",
+        netMeta: "Tampilan khusus: /internet · Layanan 24/7 tanpa cabang",
+        netBtn: "Masuk ke Bank Internet",
+        ratePill: "Suku Bunga: Dinamis AGI / ASI",
+        profitPill: "Alokasi: UBI 30% · Operasional 30% · Yayasan HK maks 30%"
+      },
+      { code: "tr", native: "Türkçe", en: "Turkish", rtl: false,
+        label: "Dil Seçin (60 Dil)",
+        kicker: "HKWB · KÜRESEL ÇİFT BANKACILIK GEÇİDİ",
+        title: "Yeni Nesil Dijital Finansal İnovasyon",
+        subtitle: "AGI/ASI destekli dinamik faiz yapısıyla özel ekranınıza geçmek için Web3 Merkeziyetsiz Banka veya Şubesiz İnternet Bankasını seçin.",
+        web3Title: "Web3 Dijital Bankası",
+        web3Tag: "WEB3 · CÜZDAN & STAKING",
+        web3Desc: "Cüzdan bağlantısı, staking, takas, küresel ödemeler ve AGI/ASI uyumlu dijital varlık hizmetleri sunan HKWB Web3 bankacılık merkezi.",
+        web3Meta: "Özel ekran: /web3 · Çoklu ağ ve dijital varlıklar",
+        web3Btn: "Web3 Bankasına Gir",
+        netTitle: "Şubesiz İnternet Bankası",
+        netTag: "BRANCHLESS · MOBİL İNTERNET BANKACILIĞI",
+        netDesc: "Fiziksel şube olmadan anında hesap, anlık transfer, birikim ve akıllı finans yönetimi sunan 7/24 HKWB internet bankası.",
+        netMeta: "Özel ekran: /internet · 7/24 şubesiz bankacılık",
+        netBtn: "İnternet Bankasına Gir",
+        ratePill: "Faiz: AGI / ASI Dinamik Oran",
+        profitPill: "Dağılım: UBI %30 · İşletme %30 · HK Sosyal Vakfı %30'a kadar"
+      },
+      { code: "it", native: "Italiano", en: "Italian", rtl: false,
+        label: "Seleziona lingua (60 lingue)",
+        kicker: "HKWB · PORTALE GLOBALE DOPPIO BANKING",
+        title: "Innovazione Finanziaria Digitale di Nuova Generazione",
+        subtitle: "Scegli tra Banca Web3 Decentralizzata e Banca Internet Senza Filiali per accedere alla tua area dedicata con tassi dinamici AGI/ASI.",
+        web3Title: "Banca Digitale Web3",
+        web3Tag: "WEB3 · WALLET & STAKING",
+        web3Desc: "Hub bancario Web3 di HKWB per connessione wallet, staking, swap, pagamenti globali e asset digitali guidati da AGI/ASI.",
+        web3Meta: "Accesso dedicato: /web3 · Multi-chain e asset digitali",
+        web3Btn: "Entra in Banca Web3",
+        netTitle: "Banca Internet Senza Filiali",
+        netTag: "BRANCHLESS · BANKING MOBILE DIGITALE",
+        netDesc: "Banca senza filiali fisiche per conti immediati, bonifici in tempo reale, risparmio e gestione finanziaria intelligente 24/7.",
+        netMeta: "Accesso dedicato: /internet · Banking 24/7 senza filiali",
+        netBtn: "Entra in Banca Internet",
+        ratePill: "Tassi: Regolazione dinamica AGI / ASI",
+        profitPill: "Allocazione: UBI 30% · Operatività 30% · Fondazione HK fino al 30%"
+      },
+      { code: "nl", native: "Nederlands", en: "Dutch", rtl: false,
+        label: "Taal selecteren (60 talen)",
+        kicker: "HKWB · WERELDWIJDE DUBBELE BANKPOORT",
+        title: "Digitale Financiële Innovatie van de Volgende Generatie",
+        subtitle: "Kies tussen de Web3 Decentrale Bank en de Kantoorloze Internetbank voor uw eigen omgeving met dynamische AGI/ASI-rentes.",
+        web3Title: "Web3 Digitale Bank",
+        web3Tag: "WEB3 · WALLET & STAKING",
+        web3Desc: "HKWB Web3-bankomgeving voor walletkoppeling, staking, swaps, wereldwijde betalingen en AGI/ASI-gestuurde digitale activa.",
+        web3Meta: "Eigen weergave: /web3 · Multi-chain & digitale activa",
+        web3Btn: "Naar Web3 Bank",
+        netTitle: "Kantoorloze Internetbank",
+        netTag: "BRANCHLESS · MOBIEL INTERNETBANKIEREN",
+        netDesc: "Bankieren zonder fysieke kantoren voor directe rekeningen, realtime overboekingen, sparen en slim financieel beheer 24/7.",
+        netMeta: "Eigen weergave: /internet · 24/7 kantoorloos bankieren",
+        netBtn: "Naar Internetbank",
+        ratePill: "Rente: Dynamische AGI / ASI-sturing",
+        profitPill: "Verdeling: UBI 30% · Bedrijfsvoering 30% · HK Stichting tot 30%"
+      },
+      { code: "pl", native: "Polski", en: "Polish", rtl: false,
+        label: "Wybierz język (60 języków)",
+        kicker: "HKWB · GLOBALNA BRAMA PODWÓJNEJ BANKOWOŚCI",
+        title: "Innowacja Finansowa Nowej Generacji",
+        subtitle: "Wybierz Bank Web3 lub Bank Internetowy bez Oddziałów, aby przejść do dedykowanego widoku z dynamicznym oprocentowaniem AGI/ASI.",
+        web3Title: "Bank Cyfrowy Web3",
+        web3Tag: "WEB3 · PORTFEL I STAKING",
+        web3Desc: "Centrum bankowości Web3 HKWB dla portfeli, stakingu, swapów, rozliczeń globalnych oraz aktywów cyfrowych wspieranych przez AGI/ASI.",
+        web3Meta: "Dedykowany widok: /web3 · Multi-chain i aktywa cyfrowe",
+        web3Btn: "Wejdź do Banku Web3",
+        netTitle: "Bank Internetowy bez Oddziałów",
+        netTag: "BRANCHLESS · BANKOWOŚĆ MOBILNA",
+        netDesc: "Bankowość bez placówek stacjonarnych: natychmiastowe konta, przelewy w czasie rzeczywistym, oszczędności i zarządzanie finansami 24/7.",
+        netMeta: "Dedykowany widok: /internet · Bankowość 24/7 bez oddziałów",
+        netBtn: "Wejdź do Banku Internetowego",
+        ratePill: "Oprocentowanie: Dynamika AGI / ASI",
+        profitPill: "Podział: UBI 30% · Koszty 30% · Fundacja HK do 30%"
+      },
+      { code: "uk", native: "Українська", en: "Ukrainian", rtl: false,
+        label: "Вибір мови (60 мов)",
+        kicker: "HKWB · ГЛОБАЛЬНИЙ ПОДВІЙНИЙ БАНКІНГ",
+        title: "Цифрова фінансова інновація нового покоління",
+        subtitle: "Оберіть Web3 децентралізований банк або інтернет-банк без відділень для переходу до потрібного розділу зі ставками AGI/ASI.",
+        web3Title: "Web3 Цифровий банк",
+        web3Tag: "WEB3 · ГАМАНЕЦЬ І СТЕЙКІНГ",
+        web3Desc: "Спеціалізований центр HKWB Web3 для підключення гаманців, стейкінгу, свопів, глобальних розрахунків і цифрових активів на базі AGI/ASI.",
+        web3Meta: "Окремий розділ: /web3 · Мультичейн та цифрові активи",
+        web3Btn: "Увійти до Web3 Банку",
+        netTitle: "Інтернет-банк без відділень",
+        netTag: "BRANCHLESS · МОБІЛЬНИЙ ІНТЕРНЕТ-БАНКІНГ",
+        netDesc: "Банкінг без фізичних відділень: миттєві рахунки, перекази в реальному часі, заощадження та розумне управління фінансами 24/7.",
+        netMeta: "Окремий розділ: /internet · Цілодобовий онлайн-банкінг",
+        netBtn: "Увійти до Інтернет-банку",
+        ratePill: "Ставки: Динаміка AGI / ASI",
+        profitPill: "Розподіл: UBI 30% · Операції 30% · Фонд HK до 30%"
+      },
+      { code: "sv", native: "Svenska", en: "Swedish", rtl: false,
+        label: "Välj språk (60 språk)",
+        kicker: "HKWB · GLOBAL DUBBEL BANKPORTAL",
+        title: "Nästa Generations Digitala Finansiella Innovation",
+        subtitle: "Välj Web3-bank eller kontorslös internetbank för att öppna din dedikerade vy med dynamisk räntesättning via AGI/ASI.",
+        web3Title: "Web3 Digital Bank",
+        web3Tag: "WEB3 · PLÅNBOK & STAKING",
+        web3Desc: "HKWB:s Web3-banknav för plånböcker, staking, swappar, globala betalningar och AGI/ASI-drivna digitala tillgångar.",
+        web3Meta: "Dedikerad vy: /web3 · Multi-chain & digitala tillgångar",
+        web3Btn: "Öppna Web3-bank",
+        netTitle: "Kontorslös Internetbank",
+        netTag: "BRANCHLESS · MOBIL INTERNETBANK",
+        netDesc: "Bank utan fysiska kontor för snabba konton, realtidsöverföringar, sparande och smart ekonomistyrning dygnet runt.",
+        netMeta: "Dedikerad vy: /internet · 24/7 kontorslös bank",
+        netBtn: "Öppna Internetbank",
+        ratePill: "Ränta: Dynamisk AGI / ASI",
+        profitPill: "Fördelning: UBI 30% · Drift 30% · HK Socialfond upp till 30%"
+      },
+      { code: "no", native: "Norsk", en: "Norwegian", rtl: false,
+        label: "Velg språk (60 språk)",
+        kicker: "HKWB · GLOBAL DOBBEL BANKPORTAL",
+        title: "Neste Generasjons Digitale Finansinnovasjon",
+        subtitle: "Velg Web3-bank eller nettbank uten fysiske filialer for å gå til dedikert visning med dynamiske renter styrt av AGI/ASI.",
+        web3Title: "Web3 Digital Bank",
+        web3Tag: "WEB3 · LOMMEBOK & STAKING",
+        web3Desc: "HKWB Web3-bankhub for lommebøker, staking, bytte, globale oppgjør og digitale eiendeler drevet av AGI/ASI.",
+        web3Meta: "Dedikert side: /web3 · Multi-chain og digitale eiendeler",
+        web3Btn: "Gå til Web3-bank",
+        netTitle: "Nettbank uten Filialer",
+        netTag: "BRANCHLESS · MOBIL NETTBANK",
+        netDesc: "Bank uten fysiske filialer med rask kontoåpning, sanntidsoverføringer, sparing og smart økonomistyring hele døgnet.",
+        netMeta: "Dedikert side: /internet · 24/7 filialfri bank",
+        netBtn: "Gå til Nettbank",
+        ratePill: "Rente: Dynamisk AGI / ASI",
+        profitPill: "Fordeling: UBI 30% · Drift 30% · HK Sosialstiftelse inntil 30%"
+      },
+      { code: "da", native: "Dansk", en: "Danish", rtl: false,
+        label: "Vælg sprog (60 sprog)",
+        kicker: "HKWB · GLOBAL DOBBEL BANKPORTAL",
+        title: "Næste Generations Digitale Finansielle Innovation",
+        subtitle: "Vælg Web3-bank eller filialfri netbank for at åbne din dedikerede side med dynamiske renter styret af AGI/ASI.",
+        web3Title: "Web3 Digital Bank",
+        web3Tag: "WEB3 · WALLET & STAKING",
+        web3Desc: "HKWB Web3-bankhub til wallets, staking, swaps, globale betalinger og AGI/ASI-drevne digitale aktiver.",
+        web3Meta: "Dedikeret side: /web3 · Multi-chain & digitale aktiver",
+        web3Btn: "Åbn Web3-bank",
+        netTitle: "Filialfri Netbank",
+        netTag: "BRANCHLESS · MOBIL NETBANK",
+        netDesc: "Netbank uden fysiske filialer med hurtig konto, straksoverførsler, opsparing og intelligent økonomistyring døgnet rundt.",
+        netMeta: "Dedikeret side: /internet · 24/7 filialfri bank",
+        netBtn: "Åbn Netbank",
+        ratePill: "Rente: Dynamisk AGI / ASI",
+        profitPill: "Fordeling: UBI 30% · Drift 30% · HK Socialfond op til 30%"
+      },
+      { code: "fi", native: "Suomi", en: "Finnish", rtl: false,
+        label: "Valitse kieli (60 kieltä)",
+        kicker: "HKWB · GLOBAALI KAKSOISPANKKIPORTAALI",
+        title: "Seuraavan Sukupolven Digitaalinen Talousinnovaatio",
+        subtitle: "Valitse Web3-pankki tai konttoriton verkkopankki siirtyäksesi omaan näkymään, jossa korot määräytyvät AGI/ASI-mallilla.",
+        web3Title: "Web3 Digitaalinen Pankki",
+        web3Tag: "WEB3 · LOMPAKKO & STAKING",
+        web3Desc: "HKWB:n Web3-pankkikeskus lompakoille, stakingille, swapeille, globaaleille maksuille ja AGI/ASI-pohjaisille digivaroille.",
+        web3Meta: "Oma näkymä: /web3 · Moniketju & digivarat",
+        web3Btn: "Siirry Web3-pankkiin",
+        netTitle: "Konttoriton Verkkopankki",
+        netTag: "BRANCHLESS · MOBIILIVERKKOPANKKI",
+        netDesc: "Pankki ilman fyysisiä konttoreita: nopeat tilit, reaaliaikaiset siirrot, säästäminen ja älykäs taloudenhallinta 24/7.",
+        netMeta: "Oma näkymä: /internet · 24/7 konttoriton pankki",
+        netBtn: "Siirry Verkkopankkiin",
+        ratePill: "Korko: Dynaamiset AGI / ASI",
+        profitPill: "Jako: UBI 30% · Toiminta 30% · HK Säätiö enintään 30%"
+      },
+      { code: "el", native: "Ελληνικά", en: "Greek", rtl: false,
+        label: "Επιλογή γλώσσας (60 γλώσσες)",
+        kicker: "HKWB · ΠΑΓΚΟΣΜΙΑ ΠΥΛΗ ΔΙΠΛΗΣ ΤΡΑΠΕΖΙΚΗΣ",
+        title: "Ψηφιακή Χρηματοοικονομική Καινοτομία Νέας Γενιάς",
+        subtitle: "Επιλέξτε Web3 Τράπεζα ή Internet Bank χωρίς καταστήματα για πρόσβαση στο αποκλειστικό περιβάλλον με δυναμικά επιτόκια AGI/ASI.",
+        web3Title: "Ψηφιακή Τράπεζα Web3",
+        web3Tag: "WEB3 · ΠΟΡΤΟΦΟΛΙ & STAKING",
+        web3Desc: "Κόμβος Web3 τραπεζικής HKWB για πορτοφόλια, staking, swaps, παγκόσμιες πληρωμές και ψηφιακά στοιχεία με AGI/ASI.",
+        web3Meta: "Αποκλειστική προβολή: /web3 · Multi-chain & ψηφιακά στοιχεία",
+        web3Btn: "Μετάβαση στην Τράπεζα Web3",
+        netTitle: "Internet Bank χωρίς Καταστήματα",
+        netTag: "BRANCHLESS · MOBILE INTERNET BANKING",
+        netDesc: "Τραπεζική χωρίς φυσικά καταστήματα για άμεσους λογαριασμούς, μεταφορές σε πραγματικό χρόνο, αποταμίευση και έξυπνη διαχείριση 24/7.",
+        netMeta: "Αποκλειστική προβολή: /internet · 24/7 χωρίς καταστήματα",
+        netBtn: "Μετάβαση στο Internet Bank",
+        ratePill: "Επιτόκια: Δυναμικά AGI / ASI",
+        profitPill: "Κατανομή: UBI 30% · Λειτουργία 30% · Ίδρυμα HK έως 30%"
+      },
+      { code: "he", native: "עברית", en: "Hebrew", rtl: true,
+        label: "בחירת שפה (60 שפות)",
+        kicker: "HKWB · שער בנקאות כפולה גלובלי",
+        title: "חדשנות פיננסית דיגיטלית מהדור הבא",
+        subtitle: "בחרו בין בנק Web3 מבוזר לבנק אינטרנטי ללא סניפים לכניסה למסך הייעודי עם ריביות דינמיות מבוססות AGI/ASI.",
+        web3Title: "בנק דיגיטלי Web3",
+        web3Tag: "WEB3 · ארנק וסטייקינג",
+        web3Desc: "מרכז בנקאות Web3 של HKWB לחיבור ארנקים, סטייקינג, החלפות, תשלומים גלובליים ונכסים דיגיטליים מונעי AGI/ASI.",
+        web3Meta: "מסך ייעודי: /web3 · ריבוי רשתות ונכסים דיגיטליים",
+        web3Btn: "כניסה לבנק Web3",
+        netTitle: "בנק אינטרנטי ללא סניפים",
+        netTag: "BRANCHLESS · בנקאות דיגיטלית בנייד",
+        netDesc: "בנקאות ללא סניפים פיזיים לפתיחת חשבון מיידית, העברות בזמן אמת, חיסכון וניהול פיננסי חכם 24/7.",
+        netMeta: "מסך ייעודי: /internet · בנקאות 24/7 ללא סניפים",
+        netBtn: "כניסה לבנק האינטרנטי",
+        ratePill: "ריבית: קביעה דינמית AGI / ASI",
+        profitPill: "חלוקה: UBI 30% · תפעול 30% · קרן HK עד 30%"
+      },
+      { code: "fa", native: "فارسی", en: "Persian", rtl: true,
+        label: "انتخاب زبان (۶۰ زبان)",
+        kicker: "HKWB · درگاه بانکداری دوگانه جهانی",
+        title: "نوآوری مالی دیجیتال نسل آینده",
+        subtitle: "برای ورود به بخش اختصاصی با نرخ های پویای AGI/ASI، بانک وب۳ غیرمتمرکز یا بانک اینترنتی بدون شعبه را انتخاب کنید.",
+        web3Title: "بانک دیجیتال وب۳",
+        web3Tag: "WEB3 · کیف پول و استیکینگ",
+        web3Desc: "مرکز بانکداری وب۳ در HKWB برای اتصال کیف پول، استیکینگ، سواپ، تسویه جهانی و دارایی های دیجیتال مبتنی بر AGI/ASI.",
+        web3Meta: "بخش اختصاصی: /web3 · چندزنجیره ای و دارایی دیجیتال",
+        web3Btn: "ورود به بانک وب۳",
+        netTitle: "بانک اینترنتی بدون شعبه",
+        netTag: "BRANCHLESS · بانکداری همراه دیجیتال",
+        netDesc: "بانکداری بدون شعبه فیزیکی برای افتتاح حساب آنی، انتقال لحظه ای، پس انداز و مدیریت هوشمند مالی به صورت ۲۴/۷.",
+        netMeta: "بخش اختصاصی: /internet · بانکداری ۲۴/۷ بدون شعبه",
+        netBtn: "ورود به بانک اینترنتی",
+        ratePill: "نرخ سود: تنظیم پویا با AGI / ASI",
+        profitPill: "تخصیص: UBI ۳۰% · هزینه ۳۰% · بنیاد HK تا ۳۰%"
+      },
+      { code: "ur", native: "اردو", en: "Urdu", rtl: true,
+        label: "زبان منتخب کریں (60 زبانیں)",
+        kicker: "HKWB · گلوبل ڈوئل بینکنگ گیٹ وے",
+        title: "اگلی نسل کی ڈیجیٹل مالیاتی جدت",
+        subtitle: "AGI/ASI متحرک شرحوں کے ساتھ اپنے مخصوص اسکرین میں جانے کے لیے Web3 بینک یا بغیر برانچ انٹرنیٹ بینک منتخب کریں۔",
+        web3Title: "Web3 ڈیجیٹل بینک",
+        web3Tag: "WEB3 · والیٹ اور اسٹیکنگ",
+        web3Desc: "والیٹ کنیکٹ، اسٹیکنگ، سویپ، عالمی ادائیگی اور AGI/ASI ڈیجیٹل اثاثوں کے لیے HKWB کا خصوصی Web3 بینکنگ ہب۔",
+        web3Meta: "مخصوص منظر: /web3 · ملٹی چین اور ڈیجیٹل اثاثے",
+        web3Btn: "Web3 بینک میں داخل ہوں",
+        netTitle: "بغیر برانچ انٹرنیٹ بینک",
+        netTag: "BRANCHLESS · موبائل انٹرنیٹ بینکنگ",
+        netDesc: "بغیر کسی جسمانی برانچ کے فوری اکاؤنٹ، ریئل ٹائم ٹرانسفر، بچت اور اسمارٹ مالیاتی نظم و نسق 24/7۔",
+        netMeta: "مخصوص منظر: /internet · 24/7 بغیر برانچ بینکنگ",
+        netBtn: "انٹرنیٹ بینک میں داخل ہوں",
+        ratePill: "شرح سود: AGI / ASI متحرک نظام",
+        profitPill: "تقسیم: UBI 30% · آپریشن 30% · HK فاؤنڈیشن 30% تک"
+      },
+      { code: "bn", native: "বাংলা", en: "Bengali", rtl: false,
+        label: "ভাষা নির্বাচন করুন (৬০টি ভাষা)",
+        kicker: "HKWB · গ্লোবাল ডুয়াল ব্যাংকিং গেটওয়ে",
+        title: "পরবর্তী প্রজন্মের ডিজিটাল আর্থিক উদ্ভাবন",
+        subtitle: "AGI/ASI ডাইনামিক রেট ব্যবস্থাসহ ডেডিকেটেড স্ক্রিনে যেতে Web3 ব্যাংক বা শাখাবিহীন ইন্টারনেট ব্যাংক বেছে নিন।",
+        web3Title: "Web3 ডিজিটাল ব্যাংক",
+        web3Tag: "WEB3 · ওয়ালেট ও স্টেকিং",
+        web3Desc: "ওয়ালেট সংযোগ, স্টেকিং, সোয়াপ, গ্লোবাল সেটেলমেন্ট এবং AGI/ASI ডিজিটাল অ্যাসেট সেবার জন্য HKWB Web3 ব্যাংকিং হাব।",
+        web3Meta: "নির্ধারিত ভিউ: /web3 · মাল্টি-চেইন ও ডিজিটাল অ্যাসেট",
+        web3Btn: "Web3 ব্যাংকে প্রবেশ করুন",
+        netTitle: "শাখাবিহীন ইন্টারনেট ব্যাংক",
+        netTag: "BRANCHLESS · মোবাইল ইন্টারনেট ব্যাংকিং",
+        netDesc: "ভৌত শাখা ছাড়াই তাৎক্ষণিক অ্যাকাউন্ট, রিয়েল-টাইম ট্রান্সফার, সঞ্চয় এবং স্মার্ট আর্থিক ব্যবস্থাপনা ২৪/৭।",
+        netMeta: "নির্ধারিত ভিউ: /internet · ২৪/৭ শাখাবিহীন ব্যাংকিং",
+        netBtn: "ইন্টারনেট ব্যাংকে প্রবেশ করুন",
+        ratePill: "হার নীতি: AGI / ASI নির্ধারিত",
+        profitPill: "বণ্টন: UBI ৩০% · পরিচালনা ৩০% · HK ফাউন্ডেশন ৩০% পর্যন্ত"
+      },
+      { code: "ta", native: "தமிழ்", en: "Tamil", rtl: false,
+        label: "மொழியைத் தேர்ந்தெடுக்கவும் (60 மொழிகள்)",
+        kicker: "HKWB · உலகளாவிய இரட்டை வங்கி நுழைவாயில்",
+        title: "அடுத்த தலைமுறை டிஜிட்டல் நிதிப் புரட்சி",
+        subtitle: "AGI/ASI மாறும் வட்டி அமைப்புடன் பிரத்யேக திரைக்குச் செல்ல Web3 வங்கி அல்லது கிளையற்ற இணைய வங்கியைத் தேர்ந்தெடுக்கவும்.",
+        web3Title: "Web3 டிஜிட்டல் வங்கி",
+        web3Tag: "WEB3 · வாலட் & ஸ்டேக்கிங்",
+        web3Desc: "வாலட் இணைப்பு, ஸ்டேக்கிங், ஸ்வாப், உலகளாவிய கட்டணம் மற்றும் AGI/ASI டிஜிட்டல் சொத்து சேவைகளுக்கான HKWB Web3 மையம்.",
+        web3Meta: "பிரத்யேக பக்கம்: /web3 · மல்டி-செயின் & டிஜிட்டல் சொத்துகள்",
+        web3Btn: "Web3 வங்கிக்குள் நுழைக",
+        netTitle: "கிளையற்ற இணைய வங்கி",
+        netTag: "BRANCHLESS · மொபைல் இணைய வங்கி",
+        netDesc: "நேரடி கிளைகள் இன்றி உடனடி கணக்கு, உடனடி பரிமாற்றம், சேமிப்பு மற்றும் 24/7 ஸ்மார்ட் நிதி மேலாண்மைக்கான HKWB இணைய வங்கி.",
+        netMeta: "பிரத்யேக பக்கம்: /internet · 24/7 கிளையற்ற வங்கி",
+        netBtn: "இணைய வங்கிக்குள் நுழைக",
+        ratePill: "வட்டி விகிதம்: AGI / ASI நிர்ணயம்",
+        profitPill: "பகிர்வு: UBI 30% · இயக்கம் 30% · HK அறக்கட்டளை 30% வரை"
+      },
+      { code: "te", native: "తెలుగు", en: "Telugu", rtl: false,
+        label: "భాషను ఎంచుకోండి (60 భాషలు)",
+        kicker: "HKWB · గ్లోబల్ డ్యూయల్ బ్యాంకింగ్ గేట్ వే",
+        title: "తదుపరి తరం డిజిటల్ ఆర్థిక ఆవిష్కరణ",
+        subtitle: "AGI/ASI డైనమిక్ రేట్ వ్యవస్థతో ప్రత్యేక స్క్రీన్ లోకి వెళ్లడానికి Web3 బ్యాంక్ లేదా బ్రాంచ్-రహిత ఇంటర్నెట్ బ్యాంక్ ను ఎంచుకోండి.",
+        web3Title: "Web3 డిజిటల్ బ్యాంక్",
+        web3Tag: "WEB3 · వాలెట్ & స్టేకింగ్",
+        web3Desc: "వాలెట్ కనెక్ట్, స్టేకింగ్, స్వాప్, గ్లోబల్ సెటిల్ మెంట్ మరియు AGI/ASI డిజిటల్ అసెట్ సేవల కోసం HKWB Web3 బ్యాంకింగ్ హబ్.",
+        web3Meta: "ప్రత్యేక పేజీ: /web3 · మల్టీ-చైన్ & డిజిటల్ ఆస్తులు",
+        web3Btn: "Web3 బ్యాంక్ లోకి వెళ్లండి",
+        netTitle: "బ్రాంచ్-రహిత ఇంటర్నెట్ బ్యాంక్",
+        netTag: "BRANCHLESS · మొబైల్ ఇంటర్నెట్ బ్యాంకింగ్",
+        netDesc: "భౌతిక బ్రాంచ్ లు లేకుండా తక్షణ ఖాతాలు, రియల్-టైమ్ బదిలీలు, పొదుపు మరియు 24/7 స్మార్ట్ ఫైనాన్స్ నిర్వహణ కోసం HKWB బ్యాంక్.",
+        netMeta: "ప్రత్యేక పేజీ: /internet · 24/7 బ్రాంచ్-రహిత బ్యాంకింగ్",
+        netBtn: "ఇంటర్నెట్ బ్యాంక్ లోకి వెళ్లండి",
+        ratePill: "వడ్డీ విధానం: AGI / ASI నిర్ణయం",
+        profitPill: "కేటాయింపు: UBI 30% · నిర్వహణ 30% · HK ఫౌండేషన్ 30% వరకు"
+      },
+      { code: "mr", native: "मराठी", en: "Marathi", rtl: false,
+        label: "भाषा निवडा (60 भाषा)",
+        kicker: "HKWB · ग्लोबल ड्युअल बँकिंग गेटवे",
+        title: "पुढील पिढीतील डिजिटल आर्थिक नवकल्पना",
+        subtitle: "AGI/ASI डायनॅमिक दर प्रणालीसह समर्पित स्क्रीनवर जाण्यासाठी Web3 बँक किंवा शाखारहित इंटरनेट बँक निवडा.",
+        web3Title: "Web3 डिजिटल बँक",
+        web3Tag: "WEB3 · वॉलेट आणि स्टेकिंग",
+        web3Desc: "वॉलेट कनेक्ट, स्टेकिंग, स्वॅप, जागतिक व्यवहार आणि AGI/ASI डिजिटल मालमत्ता सेवांसाठी HKWB Web3 बँकिंग हब.",
+        web3Meta: "समर्पित दृश्य: /web3 · मल्टी-चेन आणि डिजिटल मालमत्ता",
+        web3Btn: "Web3 बँकेत प्रवेश करा",
+        netTitle: "शाखारहित इंटरनेट बँक",
+        netTag: "BRANCHLESS · मोबाइल इंटरनेट बँकिंग",
+        netDesc: "भौतिक शाखांशिवाय त्वरित खाती, रिअल-टाइम ट्रान्सफर, बचत आणि 24/7 स्मार्ट आर्थिक व्यवस्थापनासाठी HKWB इंटरनेट बँक.",
+        netMeta: "समर्पित दृश्य: /internet · 24/7 शाखारहित बँकिंग",
+        netBtn: "इंटरनेट बँकेत प्रवेश करा",
+        ratePill: "दर धोरण: AGI / ASI निश्चित",
+        profitPill: "वाटप: UBI 30% · संचालन 30% · HK फाउंडेशन 30% पर्यंत"
+      },
+      { code: "ms", native: "Bahasa Melayu", en: "Malay", rtl: false,
+        label: "Pilih Bahasa (60 Bahasa)",
+        kicker: "HKWB · GERBANG PERBANKAN BERKEMBAR GLOBAL",
+        title: "Inovasi Kewangan Digital Generasi Baharu",
+        subtitle: "Pilih Bank Web3 Teragih atau Bank Internet Tanpa Cawangan untuk ke paparan khusus dengan kadar dinamik AGI/ASI.",
+        web3Title: "Bank Digital Web3",
+        web3Tag: "WEB3 · DOMPET & STAKING",
+        web3Desc: "Hab perbankan Web3 HKWB untuk sambungan dompet, staking, swap, penyelesaian global dan aset digital berasaskan AGI/ASI.",
+        web3Meta: "Paparan khusus: /web3 · Pelbagai rantaian & aset digital",
+        web3Btn: "Masuk Bank Web3",
+        netTitle: "Bank Internet Tanpa Cawangan",
+        netTag: "BRANCHLESS · PERBANKAN INTERNET MUDAH ALIH",
+        netDesc: "Perbankan tanpa cawangan fizikal untuk akaun segera, pindahan masa nyata, simpanan dan pengurusan kewangan pintar 24/7.",
+        netMeta: "Paparan khusus: /internet · Perbankan 24/7 tanpa cawangan",
+        netBtn: "Masuk Bank Internet",
+        ratePill: "Kadar: Penentuan dinamik AGI / ASI",
+        profitPill: "Peruntukan: UBI 30% · Operasi 30% · Yayasan HK hingga 30%"
+      },
+      { code: "tl", native: "Filipino", en: "Filipino", rtl: false,
+        label: "Pumili ng Wika (60 Wika)",
+        kicker: "HKWB · GLOBAL DUAL BANKING GATEWAY",
+        title: "Makabagong Inobasyong Pinansyal na Digitally Connected",
+        subtitle: "Pumili ng Web3 Bank o Branchless Internet Bank para pumasok sa nakalaang screen na may AGI/ASI dynamic rates.",
+        web3Title: "Web3 Digital Bank",
+        web3Tag: "WEB3 · WALLET & STAKING",
+        web3Desc: "HKWB Web3 banking hub para sa wallet connect, staking, swap, pandaigdigang bayad, at AGI/ASI digital assets.",
+        web3Meta: "Nakalaang view: /web3 · Multi-chain at digital assets",
+        web3Btn: "Pumasok sa Web3 Bank",
+        netTitle: "Branchless Internet Bank",
+        netTag: "BRANCHLESS · MOBILE INTERNET BANKING",
+        netDesc: "Bangko na walang pisikal na sangay para sa mabilis na account, real-time transfer, ipon, at 24/7 smart finance.",
+        netMeta: "Nakalaang view: /internet · 24/7 branchless banking",
+        netBtn: "Pumasok sa Internet Bank",
+        ratePill: "Rate: Dinamikong AGI / ASI",
+        profitPill: "Hatian: UBI 30% · Operasyon 30% · HK Foundation hanggang 30%"
+      },
+      { code: "sw", native: "Kiswahili", en: "Swahili", rtl: false,
+        label: "Chagua Lugha (Lugha 60)",
+        kicker: "HKWB · MLANGO WA KIBENKI WAWILI WA KIMATAIFA",
+        title: "Ubunifu wa Kifedha wa Kidijitali wa Kizazi Kijacho",
+        subtitle: "Chagua Benki ya Web3 au Benki ya Mtandaoni isiyo na Matawi kuingia kwenye skrini maalum yenye viwango vya AGI/ASI.",
+        web3Title: "Benki ya Kidijitali ya Web3",
+        web3Tag: "WEB3 · POCHI & STAKING",
+        web3Desc: "Kitovu cha benki cha Web3 cha HKWB kwa pochi, staking, ubadilishanaji, malipo ya kimataifa na mali za kidijitali za AGI/ASI.",
+        web3Meta: "Muonekano maalum: /web3 · Minyororo mingi na mali za kidijitali",
+        web3Btn: "Ingia Benki ya Web3",
+        netTitle: "Benki ya Mtandaoni isiyo na Matawi",
+        netTag: "BRANCHLESS · BENKI YA SIMU YA MTANDAONI",
+        netDesc: "Benki isiyo na matawi ya kimwili kwa akaunti za papo hapo, uhamisho wa moja kwa moja, akiba na usimamizi mahiri 24/7.",
+        netMeta: "Muonekano maalum: /internet · Huduma 24/7 bila matawi",
+        netBtn: "Ingia Benki ya Mtandaoni",
+        ratePill: "Viwango: Hupangwa na AGI / ASI",
+        profitPill: "Mgawanyo: UBI 30% · Uendeshaji 30% · Wakfu wa HK hadi 30%"
+      },
+      { code: "af", native: "Afrikaans", en: "Afrikaans", rtl: false,
+        label: "Kies Taal (60 Tale)",
+        kicker: "HKWB · WÊRELDWYDE DUBBELE BANKPOORT",
+        title: "Volgende Generasie Digitale Finansiële Innovasie",
+        subtitle: "Kies tussen Web3-bank of taklose internetbank om na jou toegewyde skerm te gaan met dinamiese AGI/ASI-koerse.",
+        web3Title: "Web3 Digitale Bank",
+        web3Tag: "WEB3 · BEURSIE & STAKING",
+        web3Desc: "HKWB se Web3-bankspilpunt vir beursies, staking, ruiltransaksies, wêreldwye betalings en AGI/ASI digitale bates.",
+        web3Meta: "Toegewyde aansig: /web3 · Multi-ketting & digitale bates",
+        web3Btn: "Betree Web3-bank",
+        netTitle: "Taklose Internetbank",
+        netTag: "BRANCHLESS · MOBIELE INTERNETBANKDIENS",
+        netDesc: "Bankdienste sonder fisiese takke vir onmiddellike rekeninge, intydse oorplasings, spaar en slim finansies 24/7.",
+        netMeta: "Toegewyde aansig: /internet · 24/7 taklose bankdienste",
+        netBtn: "Betree Internetbank",
+        ratePill: "Koerse: Dinamiese AGI / ASI",
+        profitPill: "Toewysing: UBI 30% · Bedryf 30% · HK Stigting tot 30%"
+      },
+      { code: "am", native: "አማርኛ", en: "Amharic", rtl: false,
+        label: "ቋንቋ ይምረጡ (60 ቋንቋዎች)",
+        kicker: "HKWB · ዓለም አቀፍ ጥምር ባንክ መግቢያ",
+        title: "የቀጣዩ ትውልድ ዲጂታል ፋይናንስ ፈጠራ",
+        subtitle: "በAGI/ASI ተለዋዋጭ ተመን ወደ ልዩ ገጽ ለመግባት የWeb3 ባንክ ወይም ቅርንጫፍ የሌለው የኢንተርኔት ባንክ ይምረጡ።",
+        web3Title: "Web3 ዲጂታል ባንክ",
+        web3Tag: "WEB3 · ቦርሳ እና ስቴኪንግ",
+        web3Desc: "ለቦርሳ ግንኙነት፣ ስቴኪንግ፣ ልውውጥ፣ ዓለም አቀፍ ክፍያ እና የAGI/ASI ዲጂታል ንብረቶች የHKWB Web3 የባንክ ማዕከል።",
+        web3Meta: "ልዩ እይታ: /web3 · መልቲ-ቼን እና ዲጂታል ንብረቶች",
+        web3Btn: "ወደ Web3 ባንክ ይግቡ",
+        netTitle: "ቅርንጫፍ የሌለው የኢንተርኔት ባንክ",
+        netTag: "BRANCHLESS · የሞባይል ኢንተርኔት ባንኪንግ",
+        netDesc: "ያለ አካላዊ ቅርንጫፍ ፈጣን ሂሳብ፣ ቅጽበታዊ ዝውውር፣ ቁጠባ እና ብልህ የፋይናንስ አስተዳደር 24/7።",
+        netMeta: "ልዩ እይታ: /internet · 24/7 ቅርንጫፍ የሌለው ባንክ",
+        netBtn: "ወደ ኢንተርኔት ባንክ ይግቡ",
+        ratePill: "ተመን: በAGI / ASI የሚወሰን",
+        profitPill: "ድልድል: UBI 30% · ስራ 30% · HK ፋውንዴሽን እስከ 30%"
+      },
+      { code: "az", native: "Azərbaycan", en: "Azerbaijani", rtl: false,
+        label: "Dil seçin (60 dil)",
+        kicker: "HKWB · QLOBAL İKİLİ BANKÇILIQ PORTALI",
+        title: "Yeni Nəsil Rəqəmsal Maliyyə İnnovasiyası",
+        subtitle: "AGI/ASI dinamik faiz sistemi ilə xüsusi ekrana keçmək üçün Web3 Bank və ya Filiallarsız İnternet Bank seçin.",
+        web3Title: "Web3 Rəqəmsal Bank",
+        web3Tag: "WEB3 · CÜZDAN VƏ STEYKİNQ",
+        web3Desc: "Cüzdan bağlantısı, steykinq, mübadilə, qlobal ödəniş və AGI/ASI rəqəmsal aktiv xidmətləri üçün HKWB Web3 mərkəzi.",
+        web3Meta: "Xüsusi görünüş: /web3 · Multi-çeyn və rəqəmsal aktivlər",
+        web3Btn: "Web3 Banka daxil ol",
+        netTitle: "Filiallarsız İnternet Bank",
+        netTag: "BRANCHLESS · MOBİL İNTERNET BANKÇILIQ",
+        netDesc: "Fiziki filialsız ani hesablar, real vaxt köçürmələr, yığım və 24/7 ağıllı maliyyə idarəetməsi təqdim edən internet bank.",
+        netMeta: "Xüsusi görünüş: /internet · 24/7 filialsız bankçılıq",
+        netBtn: "İnternet Banka daxil ol",
+        ratePill: "Faiz: Dinamik AGI / ASI",
+        profitPill: "Bölgü: UBI 30% · Əməliyyat 30% · HK Fondu 30%-dək"
+      },
+      { code: "eu", native: "Euskara", en: "Basque", rtl: false,
+        label: "Hizkuntza hautatu (60 hizkuntza)",
+        kicker: "HKWB · BANKU BIKOITZEKO ATARI GLOBALA",
+        title: "Hurrengo Belaunaldiko Finantza Berrikuntza Digitala",
+        subtitle: "Aukeratu Web3 Bankua edo Sukurtsalik Gabeko Internet Bankua AGI/ASI tasa dinamikoekin zure pantaila berezira sartzeko.",
+        web3Title: "Web3 Banku Digitala",
+        web3Tag: "WEB3 · ZORROA & STAKING",
+        web3Desc: "HKWB-ren Web3 banku-gunea zorroak konektatzeko, staking-erako, swap-etarako, ordainketa globaletarako eta AGI/ASI aktiboetarako.",
+        web3Meta: "Ikuspegi berezia: /web3 · Kate anitzekoa & aktibo digitalak",
+        web3Btn: "Web3 Bankura sartu",
+        netTitle: "Sukurtsalik Gabeko Internet Bankua",
+        netTag: "BRANCHLESS · MUGIKORREKO BANKA DIGITALA",
+        netDesc: "Sukurtsal fisikorik gabeko bankua berehalako kontuetarako, denbora errealeko transferentzietarako eta 24/7 kudeaketarako.",
+        netMeta: "Ikuspegi berezia: /internet · 24/7 sukurtsalik gabe",
+        netBtn: "Internet Bankura sartu",
+        ratePill: "Tasak: AGI / ASI dinamikoa",
+        profitPill: "Banaketa: UBI %30 · Eragiketak %30 · HK Fundazioa %30 arte"
+      },
+      { code: "be", native: "Беларуская", en: "Belarusian", rtl: false,
+        label: "Выберыце мову (60 моў)",
+        kicker: "HKWB · ГЛАБАЛЬНЫ ПАДВОЙНЫ БАНКІНГ",
+        title: "Лічбавая фінансавая інавацыя новага пакалення",
+        subtitle: "Абярыце Web3-банк або інтэрнэт-банк без аддзяленняў для пераходу ў патрэбны раздзел са стаўкамі AGI/ASI.",
+        web3Title: "Web3 Лічбавы банк",
+        web3Tag: "WEB3 · КАШАЛЁК І СТЭЙКІНГ",
+        web3Desc: "Цэнтр HKWB Web3 для кашалькоў, стэйкінгу, абмену, глабальных плацяжоў і лічбавых актываў на базе AGI/ASI.",
+        web3Meta: "Асобны раздзел: /web3 · Мультычэйн і лічбавыя актывы",
+        web3Btn: "Увайсці ў Web3 Банк",
+        netTitle: "Інтэрнэт-банк без аддзяленняў",
+        netTag: "BRANCHLESS · МАБІЛЬНЫ ІНТЭРНЭТ-БАНКІНГ",
+        netDesc: "Банкінг без фізічных аддзяленняў: імгненныя рахункі, пераводы ў рэальным часе, зберажэнні і кіраванне фінансамі 24/7.",
+        netMeta: "Асобны раздзел: /internet · Кругласутачны анлайн-банкінг",
+        netBtn: "Увайсці ў Інтэрнэт-банк",
+        ratePill: "Стаўкі: Дынаміка AGI / ASI",
+        profitPill: "Размеркаванне: UBI 30% · Аперацыі 30% · Фонд HK да 30%"
+      },
+      { code: "bs", native: "Bosanski", en: "Bosnian", rtl: false,
+        label: "Odaberi jezik (60 jezika)",
+        kicker: "HKWB · GLOBALNI DVOSTRUKI BANKARSKI PORTAL",
+        title: "Digitalna Finansijska Inovacija Sljedeće Generacije",
+        subtitle: "Odaberite Web3 Banku ili Internet Banku bez Poslovnica za poseban prikaz uz dinamične stope AGI/ASI.",
+        web3Title: "Web3 Digitalna Banka",
+        web3Tag: "WEB3 · NOVČANIK & STAKING",
+        web3Desc: "HKWB Web3 bankarski centar za novčanike, staking, swap, globalna plaćanja i digitalnu imovinu uz AGI/ASI.",
+        web3Meta: "Poseban prikaz: /web3 · Multi-chain i digitalna imovina",
+        web3Btn: "Uđi u Web3 Banku",
+        netTitle: "Internet Banka bez Poslovnica",
+        netTag: "BRANCHLESS · MOBILNO INTERNET BANKARSTVO",
+        netDesc: "Bankarstvo bez fizičkih poslovnica za brze račune, transfere u stvarnom vremenu, štednju i pametno upravljanje 24/7.",
+        netMeta: "Poseban prikaz: /internet · 24/7 bankarstvo bez poslovnica",
+        netBtn: "Uđi u Internet Banku",
+        ratePill: "Kamate: Dinamični AGI / ASI",
+        profitPill: "Raspodjela: UBI 30% · Rad 30% · HK Fondacija do 30%"
+      },
+      { code: "bg", native: "Български", en: "Bulgarian", rtl: false,
+        label: "Изберете език (60 езика)",
+        kicker: "HKWB · ГЛОБАЛЕН ДВОЕН БАНКИНГ ПОРТАЛ",
+        title: "Дигитална Финансова Иновация от Ново Поколение",
+        subtitle: "Изберете Web3 Банка или Интернет Банка без клонове за специалния изглед с динамични лихви AGI/ASI.",
+        web3Title: "Web3 Дигитална Банка",
+        web3Tag: "WEB3 · ПОРТФЕЙЛ И СТЕЙКИНГ",
+        web3Desc: "HKWB Web3 банков център за портфейли, стейкинг, суап, глобални разплащания и дигитални активи с AGI/ASI.",
+        web3Meta: "Специален изглед: /web3 · Мултичейн и дигитални активи",
+        web3Btn: "Вход в Web3 Банка",
+        netTitle: "Интернет Банка без Клонове",
+        netTag: "BRANCHLESS · МОБИЛНО ИНТЕРНЕТ БАНКИРАНЕ",
+        netDesc: "Банкиране без физически клонове за мигновени сметки, преводи в реално време, спестявания и управление 24/7.",
+        netMeta: "Специален изглед: /internet · 24/7 банкиране без клонове",
+        netBtn: "Вход в Интернет Банка",
+        ratePill: "Лихви: Динамични AGI / ASI",
+        profitPill: "Разпределение: UBI 30% · Операции 30% · Фондация HK до 30%"
+      },
+      { code: "my", native: "မြန်မာ", en: "Burmese", rtl: false,
+        label: "ဘာသာစကား ရွေးချယ်ရန် (၆၀ ဘာသာ)",
+        kicker: "HKWB · ကမ္ဘာလုံးဆိုင်ရာ ဒွယ်ဘဏ်လုပ်ငန်း ဝင်ပေါက်",
+        title: "မျိုးဆက်သစ် ဒစ်ဂျစ်တယ် ဘဏ္ဍာရေး ဆန်းသစ်မှု",
+        subtitle: "AGI/ASI အတိုးနှုန်းစနစ်ဖြင့် သီးသန့်မျက်နှာပြင်သို့ ဝင်ရောက်ရန် Web3 ဘဏ် သို့မဟုတ် ရုံးခွဲမဲ့ အင်တာနက်ဘဏ်ကို ရွေးချယ်ပါ။",
+        web3Title: "Web3 ဒစ်ဂျစ်တယ် ဘဏ်",
+        web3Tag: "WEB3 · WALLET & STAKING",
+        web3Desc: "Wallet ချိတ်ဆက်မှု၊ Staking၊ Swap၊ နိုင်ငံတကာ ငွေပေးချေမှုနှင့် AGI/ASI ဒစ်ဂျစ်တယ်ပိုင်ဆိုင်မှုများအတွက် HKWB Web3 ဗဟို။",
+        web3Meta: "သီးသန့်မြင်ကွင်း: /web3 · Multi-chain နှင့် ဒစ်ဂျစ်တယ်ပိုင်ဆိုင်မှု",
+        web3Btn: "Web3 ဘဏ်သို့ ဝင်မည်",
+        netTitle: "ရုံးခွဲမဲ့ အင်တာနက်ဘဏ်",
+        netTag: "BRANCHLESS · မိုဘိုင်း အင်တာနက်ဘဏ်လုပ်ငန်း",
+        netDesc: "ရုံးခွဲမလိုဘဲ အကောင့်ဖွင့်ခြင်း၊ လွှဲပြောင်းခြင်း၊ စုဆောင်းခြင်းနှင့် စမတ်ဘဏ္ဍာရေး စီမံခန့်ခွဲမှု ၂၄/၇ အင်တာနက်ဘဏ်။",
+        netMeta: "သီးသန့်မြင်ကွင်း: /internet · ၂၄/၇ ရုံးခွဲမဲ့ ဘဏ်ဝန်ဆောင်မှု",
+        netBtn: "အင်တာနက်ဘဏ်သို့ ဝင်မည်",
+        ratePill: "အတိုးနှုန်း: AGI / ASI သတ်မှတ်ချက်",
+        profitPill: "ခွဲဝေမှု: UBI ၃၀% · လုပ်ငန်း ၃၀% · HK ဖောင်ဒေးရှင်း ၃၀% အထိ"
+      },
+      { code: "ca", native: "Català", en: "Catalan", rtl: false,
+        label: "Selecciona l'idioma (60 idiomes)",
+        kicker: "HKWB · PORTAL GLOBAL DE BANCA DUAL",
+        title: "Innovació Financera Digital de Nova Generació",
+        subtitle: "Tria entre Banc Web3 Descentralitzat o Banc en Línia sense Oficines per accedir a la teva vista amb taxes AGI/ASI.",
+        web3Title: "Banc Digital Web3",
+        web3Tag: "WEB3 · CARTERA & STAKING",
+        web3Desc: "Nucli de banca Web3 de HKWB per a carteres, staking, swaps, pagaments globals i actius digitals amb AGI/ASI.",
+        web3Meta: "Vista dedicada: /web3 · Multichain i actius digitals",
+        web3Btn: "Entra al Banc Web3",
+        netTitle: "Banc en Línia sense Oficines",
+        netTag: "BRANCHLESS · BANCA MÒBIL DIGITAL",
+        netDesc: "Banca sense oficines físiques per a comptes instantanis, transferències en temps real, estalvi i gestió intel·ligent 24/7.",
+        netMeta: "Vista dedicada: /internet · Banca 24/7 sense oficines",
+        netBtn: "Entra al Banc en Línia",
+        ratePill: "Taxas: Ajust dinàmic AGI / ASI",
+        profitPill: "Assignació: UBI 30% · Operació 30% · Fundació HK fins al 30%"
+      },
+      { code: "hr", native: "Hrvatski", en: "Croatian", rtl: false,
+        label: "Odaberi jezik (60 jezika)",
+        kicker: "HKWB · GLOBALNI DVOSTRUKI BANKARSKI PORTAL",
+        title: "Digitalna Financijska Inovacija Sljedeće Generacije",
+        subtitle: "Odaberite Web3 Banku ili Internet Banku bez Poslovnica za poseban prikaz uz dinamične kamate AGI/ASI.",
+        web3Title: "Web3 Digitalna Banka",
+        web3Tag: "WEB3 · NOVČANIK & STAKING",
+        web3Desc: "HKWB Web3 bankovno središte za novčanike, staking, swap, globalna plaćanja i digitalnu imovinu uz AGI/ASI.",
+        web3Meta: "Poseban prikaz: /web3 · Multi-chain i digitalna imovina",
+        web3Btn: "Uđi u Web3 Banku",
+        netTitle: "Internet Banka bez Poslovnica",
+        netTag: "BRANCHLESS · MOBILNO INTERNET BANKARSTVO",
+        netDesc: "Bankarstvo bez fizičkih poslovnica za brze račune, prijenose u stvarnom vremenu, štednju i pametno upravljanje 24/7.",
+        netMeta: "Poseban prikaz: /internet · 24/7 bankarstvo bez poslovnica",
+        netBtn: "Uđi u Internet Banku",
+        ratePill: "Kamate: Dinamični AGI / ASI",
+        profitPill: "Raspodjela: UBI 30% · Rad 30% · HK Zaklada do 30%"
+      },
+      { code: "cs", native: "Čeština", en: "Czech", rtl: false,
+        label: "Vyberte jazyk (60 jazyků)",
+        kicker: "HKWB · GLOBÁLNÍ DUÁLNÍ BANKOVNÍ BRÁNA",
+        title: "Digitální Finanční Inovace Příští Generace",
+        subtitle: "Zvolte Web3 Banku nebo Internetovou Banku bez Poboček pro přechod do vyhrazeného prostředí s dynamickými sazbami AGI/ASI.",
+        web3Title: "Web3 Digitální Banka",
+        web3Tag: "WEB3 · PENĚŽENKA & STAKING",
+        web3Desc: "HKWB Web3 centrum pro peněženky, staking, swapy, globální platby a digitální aktiva řízená AGI/ASI.",
+        web3Meta: "Vyhrazené zobrazení: /web3 · Multi-chain a digitální aktiva",
+        web3Btn: "Vstoupit do Web3 Banky",
+        netTitle: "Internetová Banka bez Poboček",
+        netTag: "BRANCHLESS · MOBILNÍ INTERNETOVÉ BANKOVNICTVÍ",
+        netDesc: "Bankovnictví bez kamenných poboček pro okamžité účty, platby v reálném čase, spoření a chytrou správu financí 24/7.",
+        netMeta: "Vyhrazené zobrazení: /internet · 24/7 bez poboček",
+        netBtn: "Vstoupit do Internetové Banky",
+        ratePill: "Sazby: Dynamické AGI / ASI",
+        profitPill: "Rozdělení: UBI 30% · Provoz 30% · Nadace HK až 30%"
+      },
+      { code: "et", native: "Eesti", en: "Estonian", rtl: false,
+        label: "Vali keel (60 keelt)",
+        kicker: "HKWB · GLOBAALNE TOPELTPANGANDUSE PORTAAL",
+        title: "Järgmise Põlvkonna Digitaalne Finantsinnovatsioon",
+        subtitle: "Vali Web3 Pank või Kontorivaba Internetipank, et siseneda oma vaatesse AGI/ASI dünaamiliste intressidega.",
+        web3Title: "Web3 Digipank",
+        web3Tag: "WEB3 · RAHAKOTT & STAKING",
+        web3Desc: "HKWB Web3 panganduskeskus rahakottide, stakingu, vahetuste, globaalsete maksete ja AGI/ASI digivarade jaoks.",
+        web3Meta: "Spetsiaalne vaade: /web3 · Multi-chain ja digivarad",
+        web3Btn: "Sisene Web3 Panka",
+        netTitle: "Kontorivaba Internetipank",
+        netTag: "BRANCHLESS · MOBIILNE INTERNETIPANK",
+        netDesc: "Pangandus ilma füüsiliste kontoriteta: kiired kontod, reaalajas maksed, säästmine ja nutikas rahavoog 24/7.",
+        netMeta: "Spetsiaalne vaade: /internet · 24/7 kontorivaba pank",
+        netBtn: "Sisene Internetipanka",
+        ratePill: "Intress: Dünaamiline AGI / ASI",
+        profitPill: "Jaotus: UBI 30% · Tegevus 30% · HK Sihtasutus kuni 30%"
+      },
+      { code: "ka", native: "ქართული", en: "Georgian", rtl: false,
+        label: "აირჩიეთ ენა (60 ენა)",
+        kicker: "HKWB · გლობალური ორმაგი ბანკინგის პორტალი",
+        title: "ახალი თაობის ციფრული ფინანსური ინოვაცია",
+        subtitle: "აირჩიეთ Web3 ბანკი ან უფილიალო ინტერნეტბანკი AGI/ASI დინამიური განაკვეთების სპეციალურ ეკრანზე გადასასვლელად.",
+        web3Title: "Web3 ციფრული ბანკი",
+        web3Tag: "WEB3 · საფულე და სტეიკინგი",
+        web3Desc: "HKWB-ის Web3 ბანკინგის ცენტრი საფულეების, სტეიკინგის, სვოპის, გლობალური გადახდებისა და AGI/ASI აქტივებისთვის.",
+        web3Meta: "სპეციალური ხედი: /web3 · მულტიჩეინი და ციფრული აქტივები",
+        web3Btn: "შესვლა Web3 ბანკში",
+        netTitle: "უფილიალო ინტერნეტბანკი",
+        netTag: "BRANCHLESS · მობილური ინტერნეტბანკინგი",
+        netDesc: "ბანკინგი ფიზიკური ფილიალების გარეშე: მყისიერი ანგარიშები, რეალურ დროში გადარიცხვები, დანაზოგი და მართვა 24/7.",
+        netMeta: "სპეციალური ხედი: /internet · 24/7 უფილიალო ბანკინგი",
+        netBtn: "შესვლა ინტერნეტბანკში",
+        ratePill: "განაკვეთი: დინამიური AGI / ASI",
+        profitPill: "განაწილება: UBI 30% · ოპერაციები 30% · HK ფონდი 30%-მდე"
+      },
+      { code: "gu", native: "ગુજરાતી", en: "Gujarati", rtl: false,
+        label: "ભાષા પસંદ કરો (60 ભાષાઓ)",
+        kicker: "HKWB · ગ્લોબલ ડ્યુઅલ બેંકિંગ ગેટવે",
+        title: "આગામી પેઢીની ડિજિટલ નાણાકીય નવીનતા",
+        subtitle: "AGI/ASI ડાયનેમિક રેટ સિસ્ટમ સાથે ખાસ સ્ક્રીન પર જવા માટે Web3 બેંક અથવા શાખા-રહિત ઇન્ટરનેટ બેંક પસંદ કરો.",
+        web3Title: "Web3 ડિજિટલ બેંક",
+        web3Tag: "WEB3 · વૉલેટ અને સ્ટેકિંગ",
+        web3Desc: "વૉલેટ કનેક્ટ, સ્ટેકિંગ, સ્વેપ, વૈશ્વિક ચુકવણી અને AGI/ASI ડિજિટલ એસેટ સેવાઓ માટે HKWB Web3 બેંકિંગ હબ.",
+        web3Meta: "ખાસ વ્યૂ: /web3 · મલ્ટી-ચેન અને ડિજિટલ એસેટ્સ",
+        web3Btn: "Web3 બેંકમાં દાખલ થાઓ",
+        netTitle: "શાખા-રહિત ઇન્ટરનેટ બેંક",
+        netTag: "BRANCHLESS · મોબાઇલ ઇન્ટરનેટ બેંકિંગ",
+        netDesc: "ભૌતિક શાખાઓ વિના ત્વરિત ખાતા, રિયલ-ટાઇમ ટ્રાન્સફર, બચત અને 24/7 સ્માર્ટ નાણાકીય વ્યવસ્થાપન માટે HKWB બેંક.",
+        netMeta: "ખાસ વ્યૂ: /internet · 24/7 શાખા-રહિત બેંકિંગ",
+        netBtn: "ઇન્ટરનેટ બેંકમાં દાખલ થાઓ",
+        ratePill: "દર નીતિ: AGI / ASI નિર્ધારિત",
+        profitPill: "ફાળવણી: UBI 30% · સંચાલન 30% · HK ફાઉન્ડેશન 30% સુધી"
+      },
+      { code: "hu", native: "Magyar", en: "Hungarian", rtl: false,
+        label: "Nyelv kiválasztása (60 nyelv)",
+        kicker: "HKWB · GLOBÁLIS KETTŐS BANKI KAPU",
+        title: "Következő Generációs Digitális Pénzügyi Innováció",
+        subtitle: "Válassza a Web3 Bankot vagy a Fiók nélküli Internetbankot az AGI/ASI dinamikus kamatú dedikált nézethez.",
+        web3Title: "Web3 Digitális Bank",
+        web3Tag: "WEB3 · TÁRCA & STAKING",
+        web3Desc: "HKWB Web3 bankközpont tárcákhoz, stakinghez, swaphoz, globális fizetésekhez és AGI/ASI digitális eszközökhöz.",
+        web3Meta: "Dedikált nézet: /web3 · Multi-chain & digitális eszközök",
+        web3Btn: "Belépés a Web3 Bankba",
+        netTitle: "Fiók nélküli Internetbank",
+        netTag: "BRANCHLESS · MOBIL INTERNETBANKOLÁS",
+        netDesc: "Bankolás fizikai fiókok nélkül: azonnali számlák, valós idejű utalások, megtakarítás és okos pénzügyek 0-24.",
+        netMeta: "Dedikált nézet: /internet · 0-24 fiók nélküli bank",
+        netBtn: "Belépés az Internetbankba",
+        ratePill: "Kamat: Dinamikus AGI / ASI",
+        profitPill: "Elosztás: UBI 30% · Működés 30% · HK Alapítvány max. 30%"
+      },
+      { code: "is", native: "Íslenska", en: "Icelandic", rtl: false,
+        label: "Veldu tungumál (60 tungumál)",
+        kicker: "HKWB · ALÞJÓÐLEG TVÖFÖLD BANKAGÁTT",
+        title: "Næstu Kynslóðar Stafræn Fjármálanýsköpun",
+        subtitle: "Veldu Web3 banka eða útibúalausan netbanka til að opna sérstaka sýn með breytilegum AGI/ASI vöxtum.",
+        web3Title: "Web3 Stafrænn Banki",
+        web3Tag: "WEB3 · VESKI & STAKING",
+        web3Desc: "HKWB Web3 bankamiðstöð fyrir veski, staking, skipti, alþjóðlegar greiðslur og AGI/ASI stafrænar eignir.",
+        web3Meta: "Sérstök sýn: /web3 · Multi-chain & stafrænar eignir",
+        web3Btn: "Opna Web3 banka",
+        netTitle: "Útibúalaus Netbanki",
+        netTag: "BRANCHLESS · FARSÍMA NETBANKI",
+        netDesc: "Bankaþjónusta án útibúa með hraðvirkum reikningum, rauntíma millifærslum, sparnaði og snjallri fjármálastjórn 24/7.",
+        netMeta: "Sérstök sýn: /internet · 24/7 útibúalaus banki",
+        netBtn: "Opna Netbanka",
+        ratePill: "Vextir: Breytilegir AGI / ASI",
+        profitPill: "Skipting: UBI 30% · Rekstur 30% · HK Sjálfseignarstofnun allt að 30%"
+      },
+      { code: "ga", native: "Gaeilge", en: "Irish", rtl: false,
+        label: "Roghnaigh teanga (60 teanga)",
+        kicker: "HKWB · GEATA DÚBAIL BAINCÉIREACHTA DOMHANDA",
+        title: "Nuálaíocht Airgeadais Dhigiteach den Chéad Ghlúin Eile",
+        subtitle: "Roghnaigh Banc Web3 nó Banc Idirlín gan Brainse chun dul go dtí an radharc tiomnaithe le rátaí dinimiciúla AGI/ASI.",
+        web3Title: "Banc Digiteach Web3",
+        web3Tag: "WEB3 · SPARÁN & STAKING",
+        web3Desc: "Mol baincéireachta Web3 HKWB do sparáin, staking, babhtálacha, íocaíochtaí domhanda agus sócmhainní AGI/ASI.",
+        web3Meta: "Radharc tiomnaithe: /web3 · Ilshlabhra & sócmhainní digiteacha",
+        web3Btn: "Dul isteach i mBanc Web3",
+        netTitle: "Banc Idirlín gan Brainse",
+        netTag: "BRANCHLESS · BAINCÉIREACHT SOGHLUAISTE",
+        netDesc: "Baincéireacht gan brainsí fisiceacha do chuntais láithreacha, aistrithe fíor-ama, coigiltis agus bainistíocht chliste 24/7.",
+        netMeta: "Radharc tiomnaithe: /internet · Baincéireacht 24/7 gan brainse",
+        netBtn: "Dul isteach sa Bhanc Idirlín",
+        ratePill: "Rátaí: Dinimiciúil AGI / ASI",
+        profitPill: "Leithdháileadh: UBI 30% · Oibríocht 30% · Fondúireacht HK suas le 30%"
+      },
+      { code: "kn", native: "ಕನ್ನಡ", en: "Kannada", rtl: false,
+        label: "ಭಾಷೆಯನ್ನು ಆಯ್ಕೆಮಾಡಿ (60 ಭಾಷೆಗಳು)",
+        kicker: "HKWB · ಜಾಗತಿಕ ಡ್ಯುಯಲ್ ಬ್ಯಾಂಕಿಂಗ್ ಗೇಟ್ ವೇ",
+        title: "ಮುಂದಿನ ಪೀಳಿಗೆಯ ಡಿಜಿಟಲ್ ಹಣಕಾಸು ನಾವೀನ್ಯತೆ",
+        subtitle: "AGI/ASI ಡೈನಾಮಿಕ್ ದರ ವ್ಯವಸ್ಥೆಯೊಂದಿಗೆ ವಿಶೇಷ ಪರದೆಗೆ ಹೋಗಲು Web3 ಬ್ಯಾಂಕ್ ಅಥವಾ ಶಾಖಾರಹಿತ ಇಂಟರ್ನೆಟ್ ಬ್ಯಾಂಕ್ ಆಯ್ಕೆಮಾಡಿ.",
+        web3Title: "Web3 ಡಿಜಿಟಲ್ ಬ್ಯಾಂಕ್",
+        web3Tag: "WEB3 · ವಾಲೆಟ್ & ಸ್ಟೇಕಿಂಗ್",
+        web3Desc: "ವಾಲೆಟ್ ಸಂಪರ್ಕ, ಸ್ಟೇಕಿಂಗ್, ಸ್ವಾಪ್, ಜಾಗತಿಕ ಪಾವತಿ ಮತ್ತು AGI/ASI ಡಿಜಿಟಲ್ ಆಸ್ತಿ ಸೇವೆಗಳಿಗಾಗಿ HKWB Web3 ಬ್ಯಾಂಕಿಂಗ್ ಹಬ್.",
+        web3Meta: "ವಿಶೇಷ ವೀಕ್ಷಣೆ: /web3 · ಮಲ್ಟಿ-ಚೈನ್ ಮತ್ತು ಡಿಜಿಟಲ್ ಆಸ್ತಿಗಳು",
+        web3Btn: "Web3 ಬ್ಯಾಂಕ್ ಪ್ರವೇಶಿಸಿ",
+        netTitle: "ಶಾಖಾರಹಿತ ಇಂಟರ್ನೆಟ್ ಬ್ಯಾಂಕ್",
+        netTag: "BRANCHLESS · ಮೊಬೈಲ್ ಇಂಟರ್ನೆಟ್ ಬ್ಯಾಂಕಿಂಗ್",
+        netDesc: "ಭೌತಿಕ ಶಾಖೆಗಳಿಲ್ಲದೆ ತ್ವರಿತ ಖಾತೆಗಳು, ನೈಜ-ಸಮಯದ ವರ್ಗಾವಣೆ, ಉಳಿತಾಯ ಮತ್ತು 24/7 ಸ್ಮಾರ್ಟ್ ಹಣಕಾಸು ನಿರ್ವಹಣೆಗಾಗಿ HKWB ಬ್ಯಾಂಕ್.",
+        netMeta: "ವಿಶೇಷ ವೀಕ್ಷಣೆ: /internet · 24/7 ಶಾಖಾರಹಿತ ಬ್ಯಾಂಕಿಂಗ್",
+        netBtn: "ಇಂಟರ್ನೆಟ್ ಬ್ಯಾಂಕ್ ಪ್ರವೇಶಿಸಿ",
+        ratePill: "ದರ ನೀತಿ: AGI / ASI ನಿರ್ಧಾರ",
+        profitPill: "ಹಂಚಿಕೆ: UBI 30% · ನಿರ್ವಹಣೆ 30% · HK ಫೌಂಡೇಶನ್ 30% ವರೆಗೆ"
+      },
+      { code: "kk", native: "Қазақ тілі", en: "Kazakh", rtl: false,
+        label: "Тілді таңдаңыз (60 тіл)",
+        kicker: "HKWB · ЖАҺАНДЫҚ ҚОС БАНКИНГ ПОРТАЛЫ",
+        title: "Келесі Буын Цифрлық Қаржы Инновациясы",
+        subtitle: "AGI/ASI серпінді мөлшерлемесі бар арнайы бетке өту үшін Web3 банкін немесе бөлімшесіз интернет-банкті таңдаңыз.",
+        web3Title: "Web3 Цифрлық Банк",
+        web3Tag: "WEB3 · ӘМИЯН ЖӘНЕ СТЕЙКИНГ",
+        web3Desc: "Әмияндар, стейкинг, айырбас, жаһандық төлемдер және AGI/ASI цифрлық активтеріне арналған HKWB Web3 орталығы.",
+        web3Meta: "Арнайы бөлім: /web3 · Мультичейн және цифрлық активтер",
+        web3Btn: "Web3 Банкіне кіру",
+        netTitle: "Бөлімшесіз Интернет-Банк",
+        netTag: "BRANCHLESS · МОБИЛЬДІ ИНТЕРНЕТ-БАНКИНГ",
+        netDesc: "Физикалық бөлімшесіз лезде шоттар, нақты уақыттағы аударымдар, жинақ және 24/7 ақылды қаржы басқаруы.",
+        netMeta: "Арнайы бөлім: /internet · 24/7 бөлімшесіз банкинг",
+        netBtn: "Интернет-Банкке кіру",
+        ratePill: "Мөлшерлеме: Динамикалық AGI / ASI",
+        profitPill: "Бөлу: UBI 30% · Операция 30% · HK Қоры 30%-ға дейін"
+      },
+      { code: "km", native: "ខ្មែរ", en: "Khmer", rtl: false,
+        label: "ជ្រើសរើសភាសា (៦០ ភាសា)",
+        kicker: "HKWB · ច្រកទ្វារធនាគារទ្វេសកល",
+        title: "នវានុវត្តន៍ហិរញ្ញវត្ថុឌីជីថលជំនាន់ក្រោយ",
+        subtitle: "ជ្រើសរើសធនាគារ Web3 ឬធនាគារអ៊ីនធឺណិតគ្មានសាខា ដើម្បីចូលទៅកាន់អេក្រង់ពិសេសជាមួយអត្រា AGI/ASI។",
+        web3Title: "ធនាគារឌីជីថល Web3",
+        web3Tag: "WEB3 · កាបូប និង STAKING",
+        web3Desc: "មជ្ឈមណ្ឌលធនាគារ Web3 របស់ HKWB សម្រាប់ភ្ជាប់កាបូប Staking ផ្លាស់ប្តូរ ទូទាត់សកល និងទ្រព្យសកម្ម AGI/ASI។",
+        web3Meta: "ទិដ្ឋភាពពិសេស៖ /web3 · ពហុខ្សែសង្វាក់ និងទ្រព្យសកម្មឌីជីថល",
+        web3Btn: "ចូលធនាគារ Web3",
+        netTitle: "ធនាគារអ៊ីនធឺណិតគ្មានសាខា",
+        netTag: "BRANCHLESS · ធនាគារចល័តឌីជីថល",
+        netDesc: "ធនាគារគ្មានសាខារូបវន្ត សម្រាប់បើកគណនីភ្លាមៗ ផ្ទេរប្រាក់ភ្លាមៗ សន្សំ និងគ្រប់គ្រងហិរញ្ញវត្ថុ ២៤/៧។",
+        netMeta: "ទិដ្ឋភាពពិសេស៖ /internet · សេវា ២៤/៧ គ្មានសាខា",
+        netBtn: "ចូលធនាគារអ៊ីនធឺណិត",
+        ratePill: "អត្រាការប្រាក់៖ កំណត់ដោយ AGI / ASI",
+        profitPill: "ការបែងចែក៖ UBI ៣០% · ប្រតិបត្តិការ ៣០% · មូលនិធិ HK ដល់ ៣០%"
+      },
+      { code: "lo", native: "ລາວ", en: "Lao", rtl: false,
+        label: "ເລືອກພາສາ (60 ພາສາ)",
+        kicker: "HKWB · ປະຕູທະນາຄານຄູ່ລະດັບໂລກ",
+        title: "ນະວັດຕະກຳການເງິນດິຈິຕອນຍຸກໃໝ່",
+        subtitle: "ເລືອກທະນາຄານ Web3 ຫຼື ທະນາຄານອິນເຕີເນັດບໍ່ມີສາຂາ ເພື່ອເຂົ້າໜ້າສະເພາະພ້ອມອັດຕາ AGI/ASI.",
+        web3Title: "ທະນາຄານດິຈິຕອນ Web3",
+        web3Tag: "WEB3 · ກະເປົາ ແລະ STAKING",
+        web3Desc: "ສູນກາງທະນາຄານ Web3 ຂອງ HKWB ສຳລັບເຊື່ອມຕໍ່ກະເປົາ Staking ແລກປ່ຽນ ຊຳລະທົ່ວໂລກ ແລະ ຊັບສິນ AGI/ASI.",
+        web3Meta: "ໜ້າສະເພາະ: /web3 · ຫຼາຍເຄືອຂ່າຍ ແລະ ຊັບສິນດິຈິຕອນ",
+        web3Btn: "ເຂົ້າທະນາຄານ Web3",
+        netTitle: "ທະນາຄານອິນເຕີເນັດບໍ່ມີສາຂາ",
+        netTag: "BRANCHLESS · ທະນາຄານມືຖືດິຈິຕອນ",
+        netDesc: "ທະນາຄານບໍ່ມີສາຂາ ເປີດບັນຊີໄວ ໂອນເງິນທັນທີ ຝາກເງິນ ແລະ ບໍລິຫານການເງິນອັດສະລິຍະ 24/7.",
+        netMeta: "ໜ້າສະເພາະ: /internet · ບໍລິການ 24/7 ບໍ່ມີສາຂາ",
+        netBtn: "ເຂົ້າທະນາຄານອິນເຕີເນັດ",
+        ratePill: "ອັດຕາ: ກຳນົດໂດຍ AGI / ASI",
+        profitPill: "ການຈັດສັນ: UBI 30% · ດຳເນີນງານ 30% · ມູນນິທິ HK ສູງສຸດ 30%"
+      },
+      { code: "lv", native: "Latviešu", en: "Latvian", rtl: false,
+        label: "Izvēlēties valodu (60 valodas)",
+        kicker: "HKWB · GLOBĀLA DUBULTBĀNKAS PORTĀLS",
+        title: "Nākamās Paaudzes Digitālā Finanšu Inovācija",
+        subtitle: "Izvēlieties Web3 banku vai internetbanku bez filiālēm, lai atvērtu atsevišķu skatu ar AGI/ASI likmēm.",
+        web3Title: "Web3 Digitālā Banka",
+        web3Tag: "WEB3 · MAKS & STAKING",
+        web3Desc: "HKWB Web3 bankas centrs makiem, stakingam, maiņai, globāliem maksājumiem un AGI/ASI digitālajiem aktīviem.",
+        web3Meta: "Atsevišķs skats: /web3 · Multi-chain un digitālie aktīvi",
+        web3Btn: "Atvērt Web3 Banku",
+        netTitle: "Internetbanka bez Filiālēm",
+        netTag: "BRANCHLESS · MOBILĀ INTERNETBANKA",
+        netDesc: "Banka bez fiziskām filiālēm: tūlītēji konti, pārskaitījumi reāllaikā, uzkrājumi un finanšu pārvaldība 24/7.",
+        netMeta: "Atsevišķs skats: /internet · 24/7 bez filiālēm",
+        netBtn: "Atvērt Internetbanku",
+        ratePill: "Likmes: Dinamiskas AGI / ASI",
+        profitPill: "Sadalījums: UBI 30% · Darbība 30% · HK Fonds līdz 30%"
+      },
+      { code: "lt", native: "Lietuvių", en: "Lithuanian", rtl: false,
+        label: "Pasirinkti kalbą (60 kalbų)",
+        kicker: "HKWB · GLOBALUS DVIGUBOS BANKININKYSTĖS PORTALAS",
+        title: "Naujos Kartos Skaitmeninė Finansų Inovacija",
+        subtitle: "Pasirinkite „Web3“ banką arba interneto banką be skyrių, kad patektumėte į atskirą vaizdą su AGI/ASI palūkanomis.",
+        web3Title: "„Web3“ Skaitmeninis Bankas",
+        web3Tag: "WEB3 · PINIGINĖ IR STAKING",
+        web3Desc: "HKWB „Web3“ bankininkystės centras piniginėms, stakingui, keitimams, pasauliniams mokėjimams ir AGI/ASI aktyvams.",
+        web3Meta: "Atskiras vaizdas: /web3 · Kelių tinklų ir skaitmeninis turtas",
+        web3Btn: "Į „Web3“ Banką",
+        netTitle: "Interneto Bankas be Skyrių",
+        netTag: "BRANCHLESS · MOBILIOJI INTERNETO BANKININKYSTĖ",
+        netDesc: "Bankininkystė be fizinių skyrių: greitos sąskaitos, pervedimai realiuoju laiku, taupymas ir valdymas 24/7.",
+        netMeta: "Atskiras vaizdas: /internet · 24/7 be skyrių",
+        netBtn: "Į Interneto Banką",
+        ratePill: "Palūkanos: Dinaminės AGI / ASI",
+        profitPill: "Paskirstymas: UBI 30% · Veikla 30% · HK Fondas iki 30%"
+      },
+      { code: "mk", native: "Македонски", en: "Macedonian", rtl: false,
+        label: "Избери јазик (60 јазици)",
+        kicker: "HKWB · ГЛОБАЛЕН ДВОЕН БАНКАРСКИ ПОРТАЛ",
+        title: "Дигитална Финансиска Иновација од Нова Генерација",
+        subtitle: "Изберете Web3 Банка или Интернет Банка без филијали за посебен приказ со динамични стапки AGI/ASI.",
+        web3Title: "Web3 Дигитална Банка",
+        web3Tag: "WEB3 · ПАРИЧНИК И СТЕЈКИНГ",
+        web3Desc: "HKWB Web3 банкарски центар за паричници, стејкинг, размена, глобални плаќања и дигитални средства со AGI/ASI.",
+        web3Meta: "Посебен приказ: /web3 · Мултичејн и дигитални средства",
+        web3Btn: "Влез во Web3 Банка",
+        netTitle: "Интернет Банка без Филијали",
+        netTag: "BRANCHLESS · МОБИЛНО ИНТЕРНЕТ БАНКАРСТВО",
+        netDesc: "Банкарство без физички филијали за брзи сметки, трансфери во реално време, штедење и управување 24/7.",
+        netMeta: "Посебен приказ: /internet · 24/7 без филијали",
+        netBtn: "Влез во Интернет Банка",
+        ratePill: "Стапки: Динамични AGI / ASI",
+        profitPill: "Распределба: UBI 30% · Работа 30% · Фондација HK до 30%"
+      },
+      { code: "ml", native: "മലയാളം", en: "Malayalam", rtl: false,
+        label: "ഭാഷ തിരഞ്ഞെടുക്കുക (60 ഭാഷകൾ)",
+        kicker: "HKWB · ഗ്ലോബൽ ഡ്യുവൽ ബാങ്കിംഗ് ഗേറ്റ് വേ",
+        title: "അടുത്ത തലമുറ ഡിജിറ്റൽ സാമ്പത്തിക നവീകരണം",
+        subtitle: "AGI/ASI ഡൈനാമിക് നിരക്കുകളോടെ പ്രത്യേക സ് ക്രീനിലേക്ക് പോകാൻ Web3 ബാങ്ക് അല്ലെങ്കിൽ ശാഖാരഹിത ഇന്റർനെറ്റ് ബാങ്ക് തിരഞ്ഞെടുക്കുക.",
+        web3Title: "Web3 ഡിജിറ്റൽ ബാങ്ക്",
+        web3Tag: "WEB3 · വാലറ്റ് & സ്റ്റേക്കിംഗ്",
+        web3Desc: "വാലറ്റ് കണക്ട്, സ്റ്റേക്കിംഗ്, സ്വാപ്പ്, ആഗോള പേയ് മെന്റുകൾ, AGI/ASI ഡിജിറ്റൽ അസറ്റ് സേവനങ്ങൾക്കായുള്ള HKWB Web3 ഹബ്.",
+        web3Meta: "പ്രത്യേക കാഴ്ച: /web3 · മൾട്ടി-ചെയിൻ & ഡിജിറ്റൽ അസറ്റുകൾ",
+        web3Btn: "Web3 ബാങ്കിലേക്ക് പ്രവേശിക്കുക",
+        netTitle: "ശാഖാരഹിത ഇന്റർനെറ്റ് ബാങ്ക്",
+        netTag: "BRANCHLESS · മൊബൈൽ ഇന്റർനെറ്റ് ബാങ്കിംഗ്",
+        netDesc: "ഭൗതിക ശാഖകളില്ലാതെ തൽക്ഷണ അക്കൗണ്ടുകൾ, തത്സമയ കൈമാറ്റം, സമ്പാദ്യം, 24/7 സ്മാർട്ട് സാമ്പത്തിക മാനേജ്മെന്റ് എന്നിവയ്ക്കുള്ള ബാങ്ക്.",
+        netMeta: "പ്രത്യേക കാഴ്ച: /internet · 24/7 ശാഖാരഹിത ബാങ്കിംഗ്",
+        netBtn: "ഇന്റർനെറ്റ് ബാങ്കിലേക്ക് പ്രവേശിക്കുക",
+        ratePill: "നിരക്ക് നയം: AGI / ASI നിർണ്ണയം",
+        profitPill: "വിതരണം: UBI 30% · പ്രവർത്തനം 30% · HK ഫൗണ്ടേഷൻ 30% വരെ"
+      },
+      { code: "mt", native: "Malti", en: "Maltese", rtl: false,
+        label: "Agħżel il-lingwa (60 lingwa)",
+        kicker: "HKWB · PORTAL GLOBALI TA' BANKARJA DOPPJA",
+        title: "Innovazzjoni Finanzjarja Diġitali tal-Ġenerazzjoni li Jmiss",
+        subtitle: "Agħżel Bank Web3 jew Bank tal-Internet mingħajr Fergħat għall-vista dedikata b'rati dinamiċi AGI/ASI.",
+        web3Title: "Bank Diġitali Web3",
+        web3Tag: "WEB3 · WALLET & STAKING",
+        web3Desc: "Ċentru bankarju Web3 ta' HKWB għal wallets, staking, swaps, ħlasijiet globali u assi diġitali b'AGI/ASI.",
+        web3Meta: "Vista dedikata: /web3 · Multi-chain u assi diġitali",
+        web3Btn: "Idħol fil-Bank Web3",
+        netTitle: "Bank tal-Internet mingħajr Fergħat",
+        netTag: "BRANCHLESS · BANKARJA MOBBLI DIĠITALI",
+        netDesc: "Bankarju mingħajr fergħat fiżiċi għal kontijiet immedjati, trasferimenti f'ħin reali, tfaddil u ġestjoni 24/7.",
+        netMeta: "Vista dedikata: /internet · 24/7 mingħajr fergħat",
+        netBtn: "Idħol fil-Bank tal-Internet",
+        ratePill: "Rati: Dinamiċi AGI / ASI",
+        profitPill: "Allokazzjoni: UBI 30% · Operazzjoni 30% · Fondazzjoni HK sa 30%"
+      },
+      { code: "mn", native: "Монгол", en: "Mongolian", rtl: false,
+        label: "Хэл сонгох (60 хэл)",
+        kicker: "HKWB · ДЭЛХИЙН ХОС БАНКИНГ ПОРТАЛ",
+        title: "Дараа Үеийн Дижитал Санхүүгийн Инноваци",
+        subtitle: "AGI/ASI уян хатан хүүгийн тусгай дэлгэцэд орохын тулд Web3 банк эсвэл салбаргүй интернет банк сонгоно уу.",
+        web3Title: "Web3 Дижитал Банк",
+        web3Tag: "WEB3 · ХЭТЭВЧ БА СТЕЙКИНГ",
+        web3Desc: "Хэтэвч холбох, стейкинг, своп, олон улсын төлбөр болон AGI/ASI дижитал хөрөнгийн HKWB Web3 төв.",
+        web3Meta: "Тусгай хэсэг: /web3 · Олон сүлжээ ба дижитал хөрөнгө",
+        web3Btn: "Web3 Банк руу орох",
+        netTitle: "Салбаргүй Интернет Банк",
+        netTag: "BRANCHLESS · ГАР УТАСНЫ ИНТЕРНЕТ БАНК",
+        netDesc: "Биет салбаргүйгээр данс нээх, шууд шилжүүлэг, хадгаламж болон 24/7 ухаалаг санхүүгийн удирдлага.",
+        netMeta: "Тусгай хэсэг: /internet · 24/7 салбаргүй банк",
+        netBtn: "Интернет Банк руу орох",
+        ratePill: "Хүү: Динамик AGI / ASI",
+        profitPill: "Хуваарилалт: UBI 30% · Үйл ажиллагаа 30% · HK Сан 30% хүртэл"
+      },
+      { code: "ne", native: "नेपाली", en: "Nepali", rtl: false,
+        label: "भाषा छान्नुहोस् (६० भाषाहरू)",
+        kicker: "HKWB · ग्लोबल डुअल बैंकिङ गेटवे",
+        title: "अर्को पुस्ताको डिजिटल वित्तीय नवप्रवर्तन",
+        subtitle: "AGI/ASI गतिशील दर प्रणालीसहित समर्पित स्क्रिनमा जान Web3 बैंक वा शाखारहित इन्टरनेट बैंक छान्नुहोस्।",
+        web3Title: "Web3 डिजिटल बैंक",
+        web3Tag: "WEB3 · वालेट र स्टेकिङ",
+        web3Desc: "वालेट जडान, स्टेकिङ, स्वाप, विश्वव्यापी भुक्तानी र AGI/ASI डिजिटल सम्पत्ति सेवाका लागि HKWB Web3 हब।",
+        web3Meta: "समर्पित दृश्य: /web3 · मल्टी-चेन र डिजिटल सम्पत्ति",
+        web3Btn: "Web3 बैंकमा जानुहोस्",
+        netTitle: "शाखारहित इन्टरनेट बैंक",
+        netTag: "BRANCHLESS · मोबाइल इन्टरनेट बैंकिङ",
+        netDesc: "भौतिक शाखाबिना तत्काल खाता, रियल-टाइम ट्रान्सफर, बचत र २४/७ स्मार्ट वित्तीय व्यवस्थापनका लागि HKWB बैंक।",
+        netMeta: "समर्पित दृश्य: /internet · २४/७ शाखारहित बैंकिङ",
+        netBtn: "इन्टरनेट बैंकमा जानुहोस्",
+        ratePill: "दर नीति: AGI / ASI द्वारा तय",
+        profitPill: "बाँडफाँड: UBI ३०% · सञ्चालन ३०% · HK फाउन्डेसन ३०% सम्म"
+      },
+      { code: "pa", native: "ਪੰਜਾਬੀ", en: "Punjabi", rtl: false,
+        label: "ਭਾਸ਼ਾ ਚੁਣੋ (60 ਭਾਸ਼ਾਵਾਂ)",
+        kicker: "HKWB · ਗਲੋਬਲ ਡੁਅਲ ਬੈਂਕਿੰਗ ਗੇਟਵੇ",
+        title: "ਅਗਲੀ ਪੀੜ੍ਹੀ ਦੀ ਡਿਜੀਟਲ ਵਿੱਤੀ ਨਵੀਨਤਾ",
+        subtitle: "AGI/ASI ਡਾਇਨਾਮਿਕ ਦਰ ਸਿਸਟਮ ਨਾਲ ਖ਼ਾਸ ਸਕ੍ਰੀਨ 'ਤੇ ਜਾਣ ਲਈ Web3 ਬੈਂਕ ਜਾਂ ਸ਼ਾਖਾ-ਰਹਿਤ ਇੰਟਰਨੈੱਟ ਬੈਂਕ ਚੁਣੋ।",
+        web3Title: "Web3 ਡਿਜੀਟਲ ਬੈਂਕ",
+        web3Tag: "WEB3 · ਵਾਲਿਟ ਅਤੇ ਸਟੇਕਿੰਗ",
+        web3Desc: "ਵਾਲਿਟ ਕਨੈਕਟ, ਸਟੇਕਿੰਗ, ਸਵੈਪ, ਗਲੋਬਲ ਭੁਗਤਾਨ ਅਤੇ AGI/ASI ਡਿਜੀਟਲ ਸੰਪਤੀ ਸੇਵਾਵਾਂ ਲਈ HKWB Web3 ਬੈਂਕਿੰਗ ਹੱਬ।",
+        web3Meta: "ਖ਼ਾਸ ਦ੍ਰਿਸ਼: /web3 · ਮਲਟੀ-ਚੇਨ ਅਤੇ ਡਿਜੀਟਲ ਸੰਪਤੀਆਂ",
+        web3Btn: "Web3 ਬੈਂਕ ਵਿੱਚ ਜਾਓ",
+        netTitle: "ਸ਼ਾਖਾ-ਰਹਿਤ ਇੰਟਰਨੈੱਟ ਬੈਂਕ",
+        netTag: "BRANCHLESS · ਮੋਬਾਈਲ ਇੰਟਰਨੈੱਟ ਬੈਂਕਿੰਗ",
+        netDesc: "ਭੌਤਿਕ ਸ਼ਾਖਾਵਾਂ ਤੋਂ ਬਿਨਾਂ ਤੁਰੰਤ ਖਾਤੇ, ਰੀਅਲ-ਟਾਈਮ ਟ੍ਰਾਂਸਫਰ, ਬੱਚਤ ਅਤੇ 24/7 ਸਮਾਰਟ ਵਿੱਤੀ ਪ੍ਰਬੰਧਨ ਲਈ HKWB ਬੈਂਕ।",
+        netMeta: "ਖ਼ਾਸ ਦ੍ਰਿਸ਼: /internet · 24/7 ਸ਼ਾਖਾ-ਰਹਿਤ ਬੈਂਕਿੰਗ",
+        netBtn: "ਇੰਟਰਨੈੱਟ ਬੈਂਕ ਵਿੱਚ ਜਾਓ",
+        ratePill: "ਦਰ ਨੀਤੀ: AGI / ASI ਨਿਰਧਾਰਤ",
+        profitPill: "ਵੰਡ: UBI 30% · ਸੰਚਾਲਨ 30% · HK ਫਾਊਂਡੇਸ਼ਨ 30% ਤੱਕ"
+      },
+      { code: "ro", native: "Română", en: "Romanian", rtl: false,
+        label: "Selectează limba (60 de limbi)",
+        kicker: "HKWB · POARTĂ GLOBALĂ DE DUBLU BANKING",
+        title: "Inovație Financiară Digitală de Nouă Generație",
+        subtitle: "Alege Banca Web3 sau Banca Internet fără Sucursale pentru ecranul dedicat cu rate dinamice AGI/ASI.",
+        web3Title: "Bancă Digitală Web3",
+        web3Tag: "WEB3 · PORTOFEL & STAKING",
+        web3Desc: "Centru bancar Web3 HKWB pentru portofele, staking, swap, plăți globale și active digitale bazate pe AGI/ASI.",
+        web3Meta: "Ecran dedicat: /web3 · Multi-chain și active digitale",
+        web3Btn: "Intră în Banca Web3",
+        netTitle: "Bancă Internet fără Sucursale",
+        netTag: "BRANCHLESS · BANKING MOBIL DIGITAL",
+        netDesc: "Banking fără sucursale fizice pentru conturi instant, transferuri în timp real, economii și administrare 24/7.",
+        netMeta: "Ecran dedicat: /internet · 24/7 fără sucursale",
+        netBtn: "Intră în Banca Internet",
+        ratePill: "Dobânzi: Dinamice AGI / ASI",
+        profitPill: "Alocare: UBI 30% · Operațiuni 30% · Fundația HK până la 30%"
+      },
+      { code: "sr", native: "Српски", en: "Serbian", rtl: false,
+        label: "Изабери језик (60 језика)",
+        kicker: "HKWB · ГЛОБАЛНИ ДВОСТРУКИ БАНКАРСКИ ПОРТАЛ",
+        title: "Дигитална Финансијска Иновација Следеће Генерације",
+        subtitle: "Изаберите Web3 Банку или Интернет Банку без филијала за посебан приказ уз динамичне стопе AGI/ASI.",
+        web3Title: "Web3 Дигитална Банка",
+        web3Tag: "WEB3 · НОВЧАНИК И СТЕЈКИНГ",
+        web3Desc: "HKWB Web3 банкарски центар за новчанике, стејкинг, свап, глобална плаћања и дигиталну имовину уз AGI/ASI.",
+        web3Meta: "Посебан приказ: /web3 · Мултичејн и дигитална имовина",
+        web3Btn: "Уђи у Web3 Банку",
+        netTitle: "Интернет Банка без Филијала",
+        netTag: "BRANCHLESS · МОБИЛНО ИНТЕРНЕТ БАНКАРСТВО",
+        netDesc: "Банкарство без физичких филијала за брзе рачуне, преносе у реалном времену, штедњу и управљање 24/7.",
+        netMeta: "Посебан приказ: /internet · 24/7 без филијала",
+        netBtn: "Уђи у Интернет Банку",
+        ratePill: "Камате: Динамични AGI / ASI",
+        profitPill: "Расподела: UBI 30% · Рад 30% · Фондација HK до 30%"
+      },
+      { code: "sk", native: "Slovenčina", en: "Slovak", rtl: false,
+        label: "Vyberte jazyk (60 jazykov)",
+        kicker: "HKWB · GLOBÁLNA DUÁLNA BANKOVÁ BRÁNA",
+        title: "Digitálna Finančná Inovácia Novej Generácie",
+        subtitle: "Zvoľte Web3 Banku alebo Internetovú Banku bez Pobočiek pre vyhradené zobrazenie s dynamickými sadzbami AGI/ASI.",
+        web3Title: "Web3 Digitálna Banka",
+        web3Tag: "WEB3 · PEŇAŽENKA & STAKING",
+        web3Desc: "HKWB Web3 centrum pre peňaženky, staking, swapy, globálne platby a digitálne aktíva riadené AGI/ASI.",
+        web3Meta: "Vyhradené zobrazenie: /web3 · Multi-chain a digitálne aktíva",
+        web3Btn: "Vstúpiť do Web3 Banky",
+        netTitle: "Internetová Banka bez Pobočiek",
+        netTag: "BRANCHLESS · MOBILNÉ INTERNETOVÉ BANKOVNÍCTVO",
+        netDesc: "Bankovníctvo bez kamenných pobočiek pre okamžité účty, platby v reálnom čase, sporenie a správu financií 24/7.",
+        netMeta: "Vyhradené zobrazenie: /internet · 24/7 bez pobočiek",
+        netBtn: "Vstúpiť do Internetovej Banky",
+        ratePill: "Sadzby: Dynamické AGI / ASI",
+        profitPill: "Rozdelenie: UBI 30% · Prevádzka 30% · Nadácia HK až 30%"
+      },
+      { code: "sl", native: "Slovenščina", en: "Slovenian", rtl: false,
+        label: "Izberite jezik (60 jezikov)",
+        kicker: "HKWB · GLOBALNI DVOJNI BANČNI PORTAL",
+        title: "Digitalna Finančna Inovacija Naslednje Generacije",
+        subtitle: "Izberite Web3 Banko ali Spletno Banko brez Poslovalnic za namenski pogled z dinamičnimi obrestmi AGI/ASI.",
+        web3Title: "Web3 Digitalna Banka",
+        web3Tag: "WEB3 · DENARNICA & STAKING",
+        web3Desc: "HKWB Web3 bančno središče za denarnice, staking, zamenjave, globalna plačila in digitalna sredstva z AGI/ASI.",
+        web3Meta: "Namenski pogled: /web3 · Multi-chain in digitalna sredstva",
+        web3Btn: "Vstop v Web3 Banko",
+        netTitle: "Spletna Banka brez Poslovalnic",
+        netTag: "BRANCHLESS · MOBILNO SPLETNO BANČNIŠTVO",
+        netDesc: "Bančništvo brez fizičnih poslovalnic za hitre račune, nakazila v realnem času, varčevanje in upravljanje 24/7.",
+        netMeta: "Namenski pogled: /internet · 24/7 brez poslovalnic",
+        netBtn: "Vstop v Spletno Banko",
+        ratePill: "Obresti: Dinamični AGI / ASI",
+        profitPill: "Razdelitev: UBI 30% · Delovanje 30% · Fundacija HK do 30%"
+      },
+      { code: "si", native: "සිංහල", en: "Sinhala", rtl: false,
+        label: "භාෂාව තෝරන්න (භාෂා 60)",
+        kicker: "HKWB · ගෝලීය ද්විත්ව බැංකු ද්වාරය",
+        title: "ඊළඟ පරම්පරාවේ ඩිජිටල් මූල් ය නවෝත්පාදනය",
+        subtitle: "AGI/ASI ගතික අනුපාත සමඟ විශේෂ තිරයට යාමට Web3 බැංකුව හෝ ශාඛා රහිත අන්තර්ජාල බැංකුව තෝරන්න.",
+        web3Title: "Web3 ඩිජිටල් බැංකුව",
+        web3Tag: "WEB3 · WALLET & STAKING",
+        web3Desc: "Wallet සම්බන්ධතා, Staking, Swap, ගෝලීය ගෙවීම් සහ AGI/ASI ඩිජිටල් වත්කම් සඳහා HKWB Web3 මධ් යස්ථානය.",
+        web3Meta: "විශේෂ දසුන: /web3 · Multi-chain සහ ඩිජිටල් වත්කම්",
+        web3Btn: "Web3 බැංකුවට පිවිසෙන්න",
+        netTitle: "ශාඛා රහිත අන්තර්ජාල බැංකුව",
+        netTag: "BRANCHLESS · ජංගම අන්තර්ජාල බැංකුකරණය",
+        netDesc: "භෞතික ශාඛා නොමැතිව ක්ෂණික ගිණුම්, තත් ය කාලීන මාරු කිරීම්, ඉතුරුම් සහ 24/7 මූල් ය කළමනාකරණය.",
+        netMeta: "විශේෂ දසුන: /internet · 24/7 ශාඛා රහිත සේවාව",
+        netBtn: "අන්තර්ජාල බැංකුවට පිවිසෙන්න",
+        ratePill: "පොලී අනුපාතය: AGI / ASI තීරණය",
+        profitPill: "බෙදාහැරීම: UBI 30% · මෙහෙයුම් 30% · HK පදනම 30% දක්වා"
+      },
+      { code: "so", native: "Soomaali", en: "Somali", rtl: false,
+        label: "Dooro Luuqad (60 Luuqadood)",
+        kicker: "HKWB · MARINKA LABA-BANGI EE CAALAMKA",
+        title: "Hal-abuurka Maaliyadeed ee Dijitaalka ah ee Jiilka Cusub",
+        subtitle: "Dooro Bangiga Web3 ama Bangiga Interneedka ee Laan-la'aanta ah si aad u gasho shaashadda gaarka ah ee AGI/ASI.",
+        web3Title: "Bangiga Dijitaalka ah ee Web3",
+        web3Tag: "WEB3 · BOORSO & STAKING",
+        web3Desc: "Xarunta bangiga Web3 ee HKWB ee boorsooyinka, staking-ka, isweydaarsiga, lacag-bixinta caalamiga ah iyo hantida AGI/ASI.",
+        web3Meta: "Muuqaal gaar ah: /web3 · Multi-chain & hanti dijitaal ah",
+        web3Btn: "Gal Bangiga Web3",
+        netTitle: "Bangiga Interneedka ee Laan-la'aanta ah",
+        netTag: "BRANCHLESS · BANGIGA MOBILKA EE DIJITAALKA AH",
+        netDesc: "Bangiga aan lahayn laamo jireed oo leh akoonno degdeg ah, wareejin toos ah, kayd iyo maamul maaliyadeed 24/7.",
+        netMeta: "Muuqaal gaar ah: /internet · Adeeg 24/7 ah oo laan la'aan ah",
+        netBtn: "Gal Bangiga Interneedka",
+        ratePill: "Heerka: Waxaa go'aamiya AGI / ASI",
+        profitPill: "Qaybsiga: UBI 30% · Hawlgalka 30% · HK Foundation ilaa 30%"
+      },
+      { code: "tg", native: "Тоҷикӣ", en: "Tajik", rtl: false,
+        label: "Забонро интихоб кунед (60 забон)",
+        kicker: "HKWB · ДАРВОЗАИ ҶАҲОНИИ БОНКДОРИИ ДУГОНА",
+        title: "Навоварии Молиявии Рақамии Насли Оянда",
+        subtitle: "Барои ворид шудан ба саҳифаи махсус бо қурбҳои тағйирёбандаи AGI/ASI бонки Web3 ё бонки интернетии бешӯъбаро интихоб кунед.",
+        web3Title: "Бонки Рақамии Web3",
+        web3Tag: "WEB3 · ҲАМЁН ВА СТЕЙКИНГ",
+        web3Desc: "Маркази бонкии Web3 дар HKWB барои ҳамёнҳо, стейкинг, мубодила, пардохтҳои ҷаҳонӣ ва дороиҳои рақамии AGI/ASI.",
+        web3Meta: "Намоиши махсус: /web3 · Мултичейн ва дороиҳои рақамӣ",
+        web3Btn: "Вуруд ба Бонки Web3",
+        netTitle: "Бонки Интернетии Бешӯъба",
+        netTag: "BRANCHLESS · БОНКДОРИИ МОБИЛИИ РАҚАМӢ",
+        netDesc: "Бонкдорӣ бе шӯъбаҳои физикӣ барои ҳисобҳои фаврӣ, интиқоли фаврӣ, пасандоз ва идоракунии молиявии 24/7.",
+        netMeta: "Намоиши махсус: /internet · 24/7 бешӯъба",
+        netBtn: "Вуруд ба Бонки Интернетӣ",
+        ratePill: "Қурб: Динамикии AGI / ASI",
+        profitPill: "Тақсимот: UBI 30% · Амалиёт 30% · Бунёди HK то 30%"
+      },
+      { code: "uz", native: "Oʻzbek", en: "Uzbek", rtl: false,
+        label: "Tilni tanlang (60 ta til)",
+        kicker: "HKWB · GLOBAL QO'SH BANKING PORTALI",
+        title: "Keyingi Avlod Raqamli Moliyaviy Innovatsiyasi",
+        subtitle: "AGI/ASI dinamik stavkalari bilan maxsus ekranga o'tish uchun Web3 bank yoki filial siz internet-bankni tanlang.",
+        web3Title: "Web3 Raqamli Bank",
+        web3Tag: "WEB3 · HAMYON VA STEYKING",
+        web3Desc: "Hamyonlar, steyking, ayirboshlash, global to'lovlar va AGI/ASI raqamli aktivlari uchun HKWB Web3 markazi.",
+        web3Meta: "Maxsus ko'rinish: /web3 · Multi-chain va raqamli aktivlar",
+        web3Btn: "Web3 Bankka kirish",
+        netTitle: "Filialsiz Internet-Bank",
+        netTag: "BRANCHLESS · MOBIL INTERNET-BANKING",
+        netDesc: "Jismoniy filiallarsiz tezkor hisoblar, real vaqtda o'tkazmalar, jamg'arma va 24/7 aqlli moliyaviy boshqaruv.",
+        netMeta: "Maxsus ko'rinish: /internet · 24/7 filialsiz banking",
+        netBtn: "Internet-Bankka kirish",
+        ratePill: "Stavka: Dinamik AGI / ASI",
+        profitPill: "Taqsimot: UBI 30% · Operatsiya 30% · HK Jamg'armasi 30% gacha"
+      },
+      { code: "cy", native: "Cymraeg", en: "Welsh", rtl: false,
+        label: "Dewiswch iaith (60 iaith)",
+        kicker: "HKWB · PORTH BANCIO DEUOL BYD-EANG",
+        title: "Arloesedd Ariannol Digidol y Genhedlaeth Nesaf",
+        subtitle: "Dewiswch Fanc Web3 neu Fanc Rhyngrwyd Di-gangen i fynd i'r golwg bwrpasol gyda chyfraddau deinamig AGI/ASI.",
+        web3Title: "Banc Digidol Web3",
+        web3Tag: "WEB3 · WALLET & STAKING",
+        web3Desc: "Canolfan bancio Web3 HKWB ar gyfer waledi, staking, swaps, taliadau byd-eang ac asedau digidol AGI/ASI.",
+        web3Meta: "Golwg bwrpasol: /web3 · Aml-gadwyn ac asedau digidol",
+        web3Btn: "Mynd i Fanc Web3",
+        netTitle: "Banc Rhyngrwyd Di-gangen",
+        netTag: "BRANCHLESS · BANCIO SYML DIGIDOL",
+        netDesc: "Bancion heb ganghennau ffisegol ar gyfer cyfrifon ar unwaith, trosglwyddiadau amser real, cynilion a rheolaeth 24/7.",
+        netMeta: "Golwg bwrpasol: /internet · 24/7 di-gangen",
+        netBtn: "Mynd i Fanc Rhyngrwyd",
+        ratePill: "Cyfraddau: Deinaming AGI / ASI",
+        profitPill: "Dyraniad: UBI 30% · Gweithrediad 30% · Sefydliad HK hyd at 30%"
+      },
+      { code: "xh", native: "isiXhosa", en: "Xhosa", rtl: false,
+        label: "Khetha Ulwimi (Iilwimi ezingama-60)",
+        kicker: "HKWB · ISANGO LEBHANKI EMABINI LEHLABATHI",
+        title: "Ukuqamba Kwezemali Kwedijithali Kwesizukulwane Esilandelayo",
+        subtitle: "Khetha iBhanki ye-Web3 okanye iBhanki ye-Intanethi engenaSebe ukuze ungene kwisikrini esinezinga le-AGI/ASI.",
+        web3Title: "iBhanki yeDijithali ye-Web3",
+        web3Tag: "WEB3 · I-WALLET & STAKING",
+        web3Desc: "Iziko lebhanki le-Web3 le-HKWB le-wallets, staking, swaps, iintlawulo zehlabathi kunye nee-asethi ze-AGI/ASI.",
+        web3Meta: "Imbonakalo ekhethekileyo: /web3 · Multi-chain nee-asethi zedijithali",
+        web3Btn: "Ngena kwiBhanki ye-Web3",
+        netTitle: "iBhanki ye-Intanethi engenaSebe",
+        netTag: "BRANCHLESS · IBHANKI YESELULA YEDIJITHALI",
+        netDesc: "Ibhanki engenamasebe omzimba yee-akhawunti ezikhawulezayo, ukudlulisela ngoko nangoko, ukonga nolawulo 24/7.",
+        netMeta: "Imbonakalo ekhethekileyo: /internet · Inkonzo 24/7 engenamasebe",
+        netBtn: "Ngena kwiBhanki ye-Intanethi",
+        ratePill: "Izinga: Limiselwa yi-AGI / ASI",
+        profitPill: "Ulwabiwo: UBI 30% · Ukusebenza 30% · I-HK Foundation ukuya kuthi ga ku-30%"
+      },
+      { code: "yi", native: "ייִדיש", en: "Yiddish", rtl: true,
+        label: "קלייבט אויס שפּראַך (60 שפּראַכן)",
+        kicker: "HKWB · גלאָבאַלער צוויי-באַנק טויער",
+        title: "דיגיטאַלע פינאַנציעלע כידעש פונעם קומענדיקן דור",
+        subtitle: "קלייבט אויס Web3 באַנק אָדער אינטערנעט באַנק אָן צווייגן פֿאַר אייער ספּעציעלן עקראַן מיט AGI/ASI ראַטעס.",
+        web3Title: "Web3 דיגיטאַלער באַנק",
+        web3Tag: "WEB3 · וואָלעט און סטייקינג",
+        web3Desc: "HKWB Web3 באַנקינג צענטער פֿאַר וואָלעטס, סטייקינג, סוואַפּס, גלאָבאַלע צאָלונגען און AGI/ASI אַסעטס.",
+        web3Meta: "ספּעציעלע פֿענצטער: /web3 · מולטי-טשעין און דיגיטאַלע אַסעטס",
+        web3Btn: "אַרײַן אין Web3 באַנק",
+        netTitle: "אינטערנעט באַנק אָן צווייגן",
+        netTag: "BRANCHLESS · מאָבילע אינטערנעט באַנקינג",
+        netDesc: "באַנקינג אָן פיזישע צווייגן פֿאַר גלייכע קאָנטעס, טראַנספֿערס, שפּאָרן און קלוגע פֿינאַנץ פֿאַרוואַלטונג 24/7.",
+        netMeta: "ספּעציעלע פֿענצטער: /internet · 24/7 אָן צווייגן",
+        netBtn: "אַרײַן אין אינטערנעט באַנק",
+        ratePill: "ראַטע: דינאַמיש AGI / ASI",
+        profitPill: "פֿאַרטיילונג: UBI 30% · אָפּעראַציע 30% · HK פֿונדאַציע ביז 30%"
+      },
+      { code: "yo", native: "Yorùbá", en: "Yoruba", rtl: false,
+        label: "Yan Èdè (Àwọn Èdè 60)",
+        kicker: "HKWB · ẸNU-Ọ̀NÀ BÁNKÌ MÉJÌ ÀGBÁYÉ",
+        title: "Ìṣẹ̀dá Ìnáwó Dígítà Ìran Tó Ń Bọ̀",
+        subtitle: "Yan Bánkì Web3 tàbí Bánkì Íńtánẹ́ẹ̀tì Láìsí Ẹ̀ka láti wọ ojú-ìwé pàtàkì pẹ̀lú ìwọ̀n AGI/ASI.",
+        web3Title: "Bánkì Dígítà Web3",
+        web3Tag: "WEB3 · ÀPÓ OWÓ & STAKING",
+        web3Desc: "Ibùdó bánkì Web3 ti HKWB fún àpò owó, staking, pàṣípààrọ̀, ìsanwó àgbáyé àti dúkìá dígítà AGI/ASI.",
+        web3Meta: "Ìwò pàtàkì: /web3 · Multi-chain àti dúkìá dígítà",
+        web3Btn: "Wọ Bánkì Web3",
+        netTitle: "Bánkì Íńtánẹ́ẹ̀tì Láìsí Ẹ̀ka",
+        netTag: "BRANCHLESS · BÁNKÌ ALÁGBÀWÍ DÍGÍTÀ",
+        netDesc: "Bánkì láìsí ẹ̀ka ara fún àkọọ́lẹ̀ lẹ́sẹ̀kẹsẹ̀, ìfiránṣẹ́ lẹ́sẹ̀kẹsẹ̀, ìfowópamọ́ àti ìṣàkóso 24/7.",
+        web3Meta: "Ìwò pàtàkì: /internet · Iṣẹ́ 24/7 láìsí ẹ̀ka",
+        netMeta: "Ìwò pàtàkì: /internet · Iṣẹ́ 24/7 láìsí ẹ̀ka",
+        netBtn: "Wọ Bánkì Íńtánẹ́ẹ̀tì",
+        ratePill: "Ìwọ̀n: Àtúnṣe AGI / ASI",
+        profitPill: "Pínpín: UBI 30% · Ìṣiṣẹ́ 30% · HK Foundation tó 30%"
+      },
+      { code: "zu", native: "isiZulu", en: "Zulu", rtl: false,
+        label: "Khetha Ulimi (Izilimi ezingama-60)",
+        kicker: "HKWB · ISANGO LEBHANKI EZIMBILI LOMHLABA",
+        title: "Ukuqamba Kwezezimali Kwedijithali Kwesizukulwane Esilandelayo",
+        subtitle: "Khetha iBhange le-Web3 noma iBhange le-Inthanethi elingenamagatsha ukuze ungene esikrinini esinezinga le-AGI/ASI.",
+        web3Title: "iBhange leDijithali le-Web3",
+        web3Tag: "WEB3 · I-WALLET & STAKING",
+        web3Desc: "Isikhungo sebhange se-Web3 se-HKWB sama-wallets, staking, swaps, izinkokhelo zomhlaba nama-asethi e-AGI/ASI.",
+        web3Meta: "Ukubuka okukhethekile: /web3 · Multi-chain nama-asethi edijithali",
+        web3Btn: "Ngena eBhange le-Web3",
+        netTitle: "iBhange le-Inthanethi elingenamagatsha",
+        netTag: "BRANCHLESS · IBHANGE LESELULA LEDIJITHALI",
+        netDesc: "Ibhange elingenamagatsha omzimba lama-akhawunti asheshayo, ukudlulisa ngokushesha, ukonga nokuphatha 24/7.",
+        netMeta: "Ukubuka okukhethekile: /internet · Inkonzo 24/7 engenamagatsha",
+        netBtn: "Ngena eBhange le-Inthanethi",
+        ratePill: "Izinga: Linqunywa yi-AGI / ASI",
+        profitPill: "Ukwabiwa: UBI 30% · Ukusebenza 30% · I-HK Foundation kuze kufike ku-30%"
+      }
+    ];
 
-        function openDrawer() {
-            drawer.classList.add('active');
-            drawerOverlay.style.display = 'block';
-        }
+    // 60개 언어 보장 및 누락 시 영어 템플릿 기반 자동 보완
+    const enBase = LANGUAGES_60.find((l) => l.code === "en");
 
-        function closeDrawer() {
-            drawer.classList.remove('active');
-            drawerOverlay.style.display = 'none';
-        }
+    function buildLocalizedEntry(item) {
+      return {
+        code: item.code,
+        native: item.native,
+        en: item.en,
+        rtl: Boolean(item.rtl),
+        label: item.label || `${item.native} — ${enBase.label}`,
+        kicker: item.kicker || `${enBase.kicker} · ${item.native.toUpperCase()}`,
+        title: item.title || `${enBase.title} (${item.native})`,
+        subtitle: item.subtitle || `${enBase.subtitle} [${item.native}]`,
+        web3Title: item.web3Title || `${enBase.web3Title} (${item.native})`,
+        web3Tag: item.web3Tag || enBase.web3Tag,
+        web3Desc: item.web3Desc || enBase.web3Desc,
+        web3Meta: item.web3Meta || enBase.web3Meta,
+        web3Btn: item.web3Btn || `${enBase.web3Btn} · ${item.native}`,
+        netTitle: item.netTitle || `${enBase.netTitle} (${item.native})`,
+        netTag: item.netTag || enBase.netTag,
+        netDesc: item.netDesc || enBase.netDesc,
+        netMeta: item.netMeta || enBase.netMeta,
+        netBtn: item.netBtn || `${enBase.netBtn} · ${item.native}`,
+        ratePill: item.ratePill || enBase.ratePill,
+        profitPill: item.profitPill || enBase.profitPill
+      };
+    }
 
-        menuBtn.addEventListener('click', openDrawer);
-        drawerClose.addEventListener('click', closeDrawer);
-        drawerOverlay.addEventListener('click', closeDrawer);
+    const localizedMap = new Map();
+    LANGUAGES_60.forEach((item) => {
+      if (!localizedMap.has(item.code)) {
+        localizedMap.set(item.code, buildLocalizedEntry(item));
+      }
+    });
 
-        // Navigator Modal Data
-        const navDetails = {
-            whitepaper: {
-                koTitle: '백서 (Whitepaper v3.1 상세 40선)',
-                enTitle: 'Whitepaper (v3.1 - 40 Core Sections)',
-                koBody: 'HKWB 부모 플랫폼과 웹3 디지털 은행·인터넷 은행의 구조, AGI/ASI 기반 이율 산정 원리, 수익 배분 체계(UBI 30%, 회사 운영비 30%, HK 사회재단 최대 30%)를 담은 v3.1 핵심 40선 요약 모듈입니다.',
-                enBody: 'Summary module covering HKWB parent architecture, Web3 & Internet Banking divisions, AGI/ASI rate logic, and profit allocation (30% UBI, 30% operations, up to 30% HK Social Foundation).'
-            },
-            faq: {
-                koTitle: '자주 묻는 질문 (FAQ 20선 심층)',
-                enTitle: 'Frequently Asked Questions (20 Deep Topics)',
-                koBody: '계좌 및 지갑 연동, 무점포 인터넷 뱅크 이용 방식, AGI/ASI 변동 이율 적용 기준, UBI 분배 구조 등 핵심 20개 문답을 안내합니다.',
-                enBody: 'Detailed answers covering account/wallet linking, branchless internet banking, AGI/ASI rate adjustments, and UBI distribution rules.'
-            },
-            policies: {
-                koTitle: '3대 POLICIES (AML·KYC·금융보안 상세)',
-                enTitle: '3 Core Policies (AML · KYC · Financial Security)',
-                koBody: '자금세탁방지(AML), 고객확인제도(KYC), 다중서명 및 금융보안 프로토콜 기준을 통합 관리하는 컴플라이언스 정책입니다.',
-                enBody: 'Unified compliance framework governing Anti-Money Laundering (AML), Know Your Customer (KYC), and multi-layer financial security.'
-            },
-            compliance21: {
-                koTitle: '21개국 디지털 자산법 및 해킹 방어 컴플라이언스',
-                enTitle: '21-Jurisdiction Digital Asset & Anti-Hack Compliance',
-                koBody: '주요 21개국 디지털 자산 규제 프레임워크 대응과 실시간 이상징후 탐지·해킹 방어 보안 기준을 점검합니다.',
-                enBody: 'Regulatory alignment across 21 jurisdictions alongside real-time threat monitoring and anti-hacking safeguards.'
-            },
-            fatf: {
-                koTitle: 'FATF 트래블룰 & 실시간 제재 리스트 검증 규격',
-                enTitle: 'FATF Travel Rule & Real-Time Sanctions Screening',
-                koBody: '국제자금세탁방지기구(FATF) 트래블룰 정보 교환 규격과 글로벌 제재 대상 주소·엔티티 실시간 검증 기준입니다.',
-                enBody: 'FATF Travel Rule messaging standards and real-time sanctions list verification for compliant cross-border transfers.'
-            },
-            robot: {
-                koTitle: '로봇: HK-ROBOT',
-                enTitle: 'Robotics: HK-ROBOT',
-                koBody: '산업용·서비스 로보틱스 및 자동화 인프라 연계를 위한 HK 글로벌 생태계 허브입니다.',
-                enBody: 'HK Global Ecosystem Hub dedicated to industrial and service robotics automation infrastructure.'
-            },
-            nexus: {
-                koTitle: '스마트 글래스: HK-NEXUS',
-                enTitle: 'Smart Glasses: HK-NEXUS',
-                koBody: '차세대 웨어러블 디스플레이 및 공간 인터페이스를 다루는 HK-NEXUS 생태계 허브입니다.',
-                enBody: 'HK Global Ecosystem Hub focused on next-generation spatial display and wearable interface ecosystems.'
-            },
-            uam: {
-                koTitle: '도심항공교통: HK-UAM',
-                enTitle: 'Urban Air Mobility: HK-UAM',
-                koBody: '도심항공교통(UAM) 및 차세대 항공 모빌리티 네트워크 구상을 연결하는 허브입니다.',
-                enBody: 'Hub connecting Urban Air Mobility (UAM) and next-generation aerial transit networks.'
-            },
-            fusion: {
-                koTitle: '인공태양: HK-FUSION',
-                enTitle: 'Artificial Sun: HK-FUSION',
-                koBody: '핵융합(인공태양) 및 차세대 청정에너지 기술 비전을 담은 생태계 허브입니다.',
-                enBody: 'Ecosystem hub aligned with fusion energy ("Artificial Sun") and next-gen clean power.'
-            },
-            quantumbio: {
-                koTitle: '퀀텀바이오: HK-QUANTUMBIO',
-                enTitle: 'Quantum Bio: HK-QUANTUMBIO',
-                koBody: '양자 연산과 바이오 헬스케어 융합 연구·산업 생태계를 연결하는 허브입니다.',
-                enBody: 'Hub connecting quantum computing with bio-healthcare research and innovation.'
-            },
-            space: {
-                koTitle: '우주모빌리티: HK-SPACE',
-                enTitle: 'Space Mobility: HK-SPACE',
-                koBody: '궤도 수송, 위성 및 우주 모빌리티 인프라 생태계를 다루는 허브입니다.',
-                enBody: 'Hub covering orbital logistics, satellite systems, and space mobility infrastructure.'
-            },
-            partsbank: {
-                koTitle: '부품뱅크: HK-PARTSBANK',
-                enTitle: 'Parts Bank: HK-PARTSBANK',
-                koBody: '정밀 부품 공급망 및 모듈형 하드웨어 조달 체계를 지원하는 허브입니다.',
-                enBody: 'Hub supporting precision component supply chains and modular hardware sourcing.'
-            },
-            defence: {
-                koTitle: '국방기술: HK-DEFENCE-HUB',
-                enTitle: 'Defence Tech: HK-DEFENCE-HUB',
-                koBody: '첨단 방위·보안 기술 및 자율 방호 시스템 연계 허브입니다.',
-                enBody: 'Hub for advanced defence technology, cybersecurity, and autonomous protection systems.'
-            },
-            t165: {
-                koTitle: 'T165 초특급 랜드마크 허브 (경주 사옥)',
-                enTitle: 'T165 Ultra Landmark Hub (Gyeongju HQ)',
-                koBody: '경주 거점 T165 초특급 랜드마크 허브 및 글로벌 협력·입주 공간 구상 안내입니다.',
-                enBody: 'Overview of the T165 ultra landmark hub in Gyeongju and global partnership spaces.'
-            }
-        };
+    const allLanguages = Array.from(localizedMap.values()).slice(0, 60);
 
-        const navModal = document.getElementById('navModal');
-        const modalTitle = document.getElementById('modalTitle');
-        const modalContent = document.getElementById('modalContent');
-        const modalClose = document.getElementById('modalClose');
-        const modalConfirmBtn = document.getElementById('modalConfirmBtn');
+    const selectEl = document.getElementById("languageSelect");
+    const noticeEl = document.getElementById("actionNotice");
 
-        function openNavModal(key) {
-            const item = navDetails[key];
-            if (!item) return;
-            const isKo = document.getElementById('languageSelect').value === 'ko';
-            modalTitle.textContent = isKo ? item.koTitle : item.enTitle;
-            modalContent.textContent = isKo ? item.koBody : item.enBody;
-            modalConfirmBtn.textContent = isKo ? '확인' : 'OK';
-            navModal.classList.add('active');
-        }
+    function populateDropdown() {
+      selectEl.innerHTML = "";
+      allLanguages.forEach((lang, idx) => {
+        const opt = document.createElement("option");
+        opt.value = lang.code;
+        opt.textContent = `${String(idx + 1).padStart(2, "0")}. ${lang.native} (${lang.en})`;
+        selectEl.appendChild(opt);
+      });
+    }
 
-        function closeNavModal() {
-            navModal.classList.remove('active');
-        }
+    function applyLanguage(code) {
+      const lang = allLanguages.find((item) => item.code === code) || allLanguages[0];
 
-        modalClose.addEventListener('click', closeNavModal);
-        modalConfirmBtn.addEventListener('click', closeNavModal);
-        navModal.addEventListener('click', (e) => {
-            if (e.target === navModal) closeNavModal();
-        });
+      document.documentElement.lang = lang.code;
+      document.documentElement.dir = lang.rtl ? "rtl" : "ltr";
 
-        // Personal Asset Dashboard Simulation
-        let web3Balance = 74200;
-        let internetBalance = 54250;
+      document.getElementById("i18n-badge").textContent = `${allLanguages.length} LANGS · ${lang.native.toUpperCase()}`;
+      document.getElementById("i18n-lang-label").textContent = lang.label;
+      document.getElementById("i18n-kicker").textContent = lang.kicker;
+      document.getElementById("i18n-hero-title").textContent = lang.title;
+      document.getElementById("i18n-hero-subtitle").textContent = lang.subtitle;
 
-        function renderAssets() {
-            const total = web3Balance + internetBalance;
-            document.getElementById('totalAssetVal').textContent = '$' + total.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-            document.getElementById('web3AssetVal').textContent = '$' + web3Balance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-            document.getElementById('internetAssetVal').textContent = '$' + internetBalance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-        }
+      document.getElementById("i18n-status-lang").textContent =
+        lang.code === "ko"
+          ? `현재 언어: ${lang.native}`
+          : `${lang.native} (${lang.en})`;
 
-        function simulateAssetUpdate() {
-            web3Balance = Math.round((web3Balance * 1.024) * 100) / 100;
-            internetBalance = Math.round((internetBalance * 1.011) * 100) / 100;
-            renderAssets();
-        }
+      document.getElementById("i18n-status-rate").textContent = lang.ratePill;
+      document.getElementById("i18n-status-profit").textContent = lang.profitPill;
 
-        function resetAssetSim() {
-            web3Balance = 74200;
-            internetBalance = 54250;
-            renderAssets();
-        }
+      document.getElementById("i18n-web3-title").textContent = lang.web3Title;
+      document.getElementById("i18n-web3-tag").textContent = lang.web3Tag;
+      document.getElementById("i18n-web3-desc").textContent = lang.web3Desc;
+      document.getElementById("i18n-web3-meta").textContent = lang.web3Meta;
+      document.getElementById("i18n-web3-btn").textContent = lang.web3Btn;
 
-        renderAssets();
+      document.getElementById("i18n-internet-title").textContent = lang.netTitle;
+      document.getElementById("i18n-internet-tag").textContent = lang.netTag;
+      document.getElementById("i18n-internet-desc").textContent = lang.netDesc;
+      document.getElementById("i18n-internet-meta").textContent = lang.netMeta;
+      document.getElementById("i18n-internet-btn").textContent = lang.netBtn;
 
-        // Language Switching (Korean + English full translation, plus lang attribute for all 60 options)
-        const translations = {
-            ko: {
-                heroBadge: 'AGI / ASI 변동 이율 엔진 적용',
-                heroTitle: '인류와 기술이 공전하는 차세대 디지털 금융 혁신',
-                heroDesc: 'HKWB는 웹3 디지털 은행과 무점포 인터넷 은행을 아우르며 AGI/ASI가 이율을 조정하는 통합 금융 부모 플랫폼입니다.',
-                dashTitle: '개인자산 대시보드',
-                dashBadge: 'AGI/ASI 실시간 연동 시뮬레이션',
-                statTotalAsset: '총 통합 자산 (Web3 + 인터넷)',
-                statTotalSub: '포트폴리오 실시간 반영',
-                statWeb3Asset: 'Web3 디지털 자산 (Pi / 스테이킹)',
-                statWeb3Sub: 'AGI/ASI 유동 이율 적용',
-                statInternetAsset: '인터넷 뱅크 예금 · 유동성',
-                statInternetSub: '무점포 즉시 이체 가능',
-                statUbiShare: 'UBI · 재단 배분 기준',
-                statUbiSub: 'UBI 30% · 운영 30% · 사회재단 최대 30%',
-                btnSimulate: '자산 업데이트 시뮬레이션',
-                btnReset: '초기값 복원',
-                web3Title: 'Web3 디지털 은행',
-                web3Desc: '탈중앙화 자산 관리, Web3 지갑 송금, 멀티체인 유동성 풀 및 스테이킹 생태계입니다.',
-                web3F1: 'AGI/ASI 기반 유동 이율 및 수익 관리',
-                web3F2: 'Pi 네트워크 및 멀티에셋 테스트넷 스왑',
-                web3F3: '투명한 탈중앙화 프로토콜 구조',
-                web3F4: '순이익 30% UBI 펀드 배분',
-                web3Btn: 'Web3 디지털 은행 입장',
-                internetTitle: '인터넷 은행',
-                internetDesc: '모바일 중심 인터넷 뱅크 모델의 무점포 고속 디지털 뱅킹 서비스입니다.',
-                internetF1: '간편하고 직관적인 무점포 뱅킹 UI/UX',
-                internetF2: '실시간 자동 이체 및 계좌 관리',
-                internetF3: '개인 맞춤형 자산·예금 관리 도구',
-                internetF4: '다중 보안 체계 및 금융 보호',
-                internetBtn: '인터넷 은행 입장',
-                footerRef: '추천인 코드',
-                footerSupport: '공식 고객지원',
-                footerAlloc: 'UBI 30% | 회사 운영비 30% | HK 사회재단 최대 30%'
-            },
-            en: {
-                heroBadge: 'AGI / ASI Dynamic Rates Engine Enabled',
-                heroTitle: '인류와 기술이 공전하는 차세대 디지털 금융 혁신',
-                heroDesc: 'HKWB is the parent platform uniting Web3 Digital Banking and branchless Internet Banking with dynamic AGI/ASI rate governance.',
-                dashTitle: '개인자산 대시보드',
-                dashBadge: 'AGI/ASI Live Simulation',
-                statTotalAsset: 'Total Integrated Assets (Web3 + Internet)',
-                statTotalSub: 'Real-time portfolio view',
-                statWeb3Asset: 'Web3 Digital Assets (Pi / Staking)',
-                statWeb3Sub: 'Dynamic AGI/ASI yield applied',
-                statInternetAsset: 'Internet Bank Deposits & Liquidity',
-                statInternetSub: 'Branchless instant transfers',
-                statUbiShare: 'UBI & Foundation Allocation',
-                statUbiSub: 'UBI 30% · Ops 30% · Foundation up to 30%',
-                btnSimulate: 'Simulate Asset Update',
-                btnReset: 'Reset Demo Values',
-                web3Title: 'Web3 Digital Bank',
-                web3Desc: 'Decentralized asset management, Web3 wallet transfers, multi-chain liquidity pools, and staking ecosystem.',
-                web3F1: 'Dynamic AGI/ASI yield & rate management',
-                web3F2: 'Pi Network & multi-asset Testnet swap',
-                web3F3: 'Transparent decentralized protocols',
-                web3F4: '30% Net Profit allocation to UBI Fund',
-                web3Btn: 'Enter Web3 Digital Bank',
-                internetTitle: 'Internet Bank',
-                internetDesc: 'Branchless high-speed digital banking modeled after mobile-first internet banks with effortless UX.',
-                internetF1: 'Simplified branchless banking UI/UX',
-                internetF2: 'Real-time automated transfers',
-                internetF3: 'Personalized asset & account tools',
-                internetF4: 'Multi-layered financial security',
-                internetBtn: 'Enter Internet Bank',
-                footerRef: 'Referral ID',
-                footerSupport: 'Official Support',
-                footerAlloc: '30% UBI | 30% Company Operations | Up to 30% HK Social Foundation'
-            }
-        };
+      document.title = `HKWB — ${lang.web3Title} & ${lang.netTitle}`;
 
-        const languageSelect = document.getElementById('languageSelect');
+      try {
+        localStorage.setItem("hkwb_selected_lang", lang.code);
+      } catch (e) {
+        // 스토리지 제한 환경 무시
+      }
+    }
 
-        function applyLanguage(langCode) {
-            document.documentElement.lang = langCode;
-            const dict = translations[langCode] || translations.en;
-            document.querySelectorAll('[data-i18n]').forEach((el) => {
-                const key = el.getAttribute('data-i18n');
-                if (dict[key]) {
-                    el.textContent = dict[key];
-                }
-            });
-        }
+    function showNotice(message) {
+      noticeEl.textContent = message;
+      noticeEl.classList.add("show");
+    }
 
-        languageSelect.addEventListener('change', (e) => {
-            applyLanguage(e.target.value);
-        });
-    </script>
+    populateDropdown();
+
+    let savedLang = "ko";
+    try {
+      const fromStorage = localStorage.getItem("hkwb_selected_lang");
+      if (fromStorage && allLanguages.some((l) => l.code === fromStorage)) {
+        savedLang = fromStorage;
+      }
+    } catch (e) {
+      savedLang = "ko";
+    }
+
+    selectEl.value = savedLang;
+    applyLanguage(savedLang);
+
+    selectEl.addEventListener("change", (e) => {
+      applyLanguage(e.target.value);
+      noticeEl.classList.remove("show");
+    });
+
+    document.getElementById("btn-web3").addEventListener("click", () => {
+      const current = allLanguages.find((l) => l.code === selectEl.value) || allLanguages[0];
+      showNotice(`[${current.native}] ${current.web3Btn} → /web3 (Referral: ljw2358)`);
+    });
+
+    document.getElementById("btn-internet").addEventListener("click", () => {
+      const current = allLanguages.find((l) => l.code === selectEl.value) || allLanguages[0];
+      showNotice(`[${current.native}] ${current.netBtn} → /internet (Referral: ljw2358)`);
+    });
+  </script>
 </body>
 </html>
