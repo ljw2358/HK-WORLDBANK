@@ -1,410 +1,2879 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HKWB Web3 Digital Bank</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HKWB</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;600;700;800&display=swap');
-    
+    :root {
+      --bg-deep: #070918;
+      --bg-navy: #0e1430;
+      --bg-purple: #1b1238;
+      --card-bg: rgba(16, 22, 49, 0.9);
+      --card-border: rgba(255, 212, 0, 0.25);
+      --gold: #ffd400;
+      --gold-soft: #ffe875;
+      --cyan: #4dd8ff;
+      --purple-accent: #9b6bff;
+      --text-main: #f4f6ff;
+      --text-sub: #a8b3d6;
+      --success: #2ee59d;
+      --warn: #ffbe3b;
+      --shadow-glow: 0 16px 44px rgba(0, 0, 0, 0.55);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
-      font-family: 'Pretendard', sans-serif;
-      background-color: #0b0d1b;
-      color: #f3f4f6;
+      font-family: "Pretendard", "Malgun Gothic", "Noto Sans JP", "Noto Sans SC", "Noto Sans TC", "Noto Sans Arabic", "Noto Sans Devanagari", "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+      background:
+        radial-gradient(circle at 14% 16%, rgba(255, 212, 0, 0.15), transparent 36%),
+        radial-gradient(circle at 82% 18%, rgba(155, 107, 255, 0.22), transparent 42%),
+        radial-gradient(circle at 50% 85%, rgba(77, 216, 255, 0.12), transparent 45%),
+        linear-gradient(155deg, var(--bg-deep) 0%, var(--bg-navy) 52%, var(--bg-purple) 100%);
+      color: var(--text-main);
+      min-height: 100vh;
+      line-height: 1.55;
+      overflow-x: hidden;
     }
-    .glass-panel {
-      background: rgba(22, 27, 46, 0.7);
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button, select, input {
+      font-family: inherit;
+    }
+
+    /* 상단 네비게이션 바 */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 900;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 11px 20px;
+      background: rgba(8, 12, 28, 0.92);
       backdrop-filter: blur(16px);
-      border: 1px solid rgba(245, 158, 11, 0.15);
+      border-bottom: 1px solid rgba(255, 212, 0, 0.22);
     }
-    .gold-glow {
-      box-shadow: 0 0 20px rgba(245, 158, 11, 0.25);
+
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
     }
-    .gold-gradient-text {
-      background: linear-gradient(135deg, #FFF5C0 0%, #F59E0B 50%, #D97706 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+
+    .hamburger-btn {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 212, 0, 0.4);
+      background: rgba(255, 212, 0, 0.1);
+      color: var(--gold);
+      font-size: 20px;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      transition: all 0.2s ease;
     }
-    .gold-btn {
-      background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
-      color: #0b0d1b;
+
+    .hamburger-btn:hover {
+      background: rgba(255, 212, 0, 0.22);
+    }
+
+    .mini-brand {
+      font-weight: 950;
+      letter-spacing: 0.08em;
+      color: var(--gold);
+      font-size: 17px;
+    }
+
+    .demo-pill {
+      font-size: 11px;
+      font-weight: 900;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(46, 229, 157, 0.15);
+      border: 1px solid rgba(46, 229, 157, 0.45);
+      color: var(--success);
+      letter-spacing: 0.05em;
+    }
+
+    .tour-pill-btn {
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(77, 216, 255, 0.5);
+      background: rgba(77, 216, 255, 0.14);
+      color: var(--cyan);
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.18s ease;
+    }
+
+    .tour-pill-btn:hover {
+      background: var(--cyan);
+      color: #070b1c;
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .lang-box {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 212, 0, 0.35);
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 12px;
+    }
+
+    .lang-box span {
+      color: var(--gold-soft);
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .lang-select {
+      background: #101736;
+      color: #ffffff;
+      border: none;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 3px 6px;
+      border-radius: 8px;
+      max-width: 165px;
+      cursor: pointer;
+      outline: none;
+    }
+
+    /* 시연 컨트롤 바 */
+    .demo-stage-bar {
+      max-width: 1280px;
+      margin: 16px auto 0;
+      padding: 13px 18px;
+      border-radius: 18px;
+      background: rgba(11, 17, 42, 0.92);
+      border: 1px solid rgba(77, 216, 255, 0.38);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    .demo-stage-label {
+      font-size: 12.5px;
+      font-weight: 800;
+      color: var(--cyan);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .demo-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .demo-btn {
+      padding: 7px 12px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 212, 0, 0.35);
+      background: rgba(255, 212, 0, 0.12);
+      color: var(--gold-soft);
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.16s ease;
+    }
+
+    .demo-btn:hover {
+      background: var(--gold);
+      color: #090d1f;
+    }
+
+    .demo-btn.primary {
+      background: linear-gradient(135deg, var(--gold), #ff9e00);
+      color: #090d1f;
+      border: none;
+    }
+
+    /* 삼선방 드로어 */
+    .drawer-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(3, 6, 16, 0.72);
+      backdrop-filter: blur(5px);
+      z-index: 1200;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+
+    .drawer-backdrop.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .drawer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: min(430px, 92vw);
+      height: 100vh;
+      background: linear-gradient(180deg, #0b1026 0%, #140f2e 100%);
+      border-right: 1px solid rgba(255, 212, 0, 0.35);
+      box-shadow: 20px 0 60px rgba(0, 0, 0, 0.75);
+      z-index: 1300;
+      transform: translateX(-100%);
+      transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      padding: 20px;
+    }
+
+    .drawer.open {
+      transform: translateX(0);
+    }
+
+    .drawer-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      margin-bottom: 16px;
+    }
+
+    .drawer-title {
+      font-size: 18px;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      color: var(--gold);
+    }
+
+    .drawer-close {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.06);
+      color: #fff;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    .drawer-group-title {
+      font-size: 11.5px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      color: var(--gold-soft);
+      margin: 16px 0 8px;
+    }
+
+    .drawer-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .drawer-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 11px 13px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 212, 0, 0.14);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-main);
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.18s ease;
+    }
+
+    .drawer-item:hover {
+      background: rgba(255, 212, 0, 0.12);
+      border-color: rgba(255, 212, 0, 0.45);
+      transform: translateX(3px);
+    }
+
+    .drawer-badge {
+      font-size: 10px;
+      padding: 2px 7px;
+      border-radius: 999px;
+      background: rgba(77, 216, 255, 0.14);
+      color: var(--cyan);
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    /* 메인 컨테이너 */
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 20px 20px 90px;
+    }
+
+    /* 첫 화면 표지 */
+    .hero {
+      position: relative;
+      border-radius: 28px;
+      padding: 36px 30px;
+      background:
+        linear-gradient(125deg, rgba(255, 212, 0, 0.13) 0%, rgba(20, 28, 66, 0.92) 42%, rgba(39, 20, 79, 0.94) 100%);
+      border: 1px solid rgba(255, 212, 0, 0.36);
+      box-shadow: var(--shadow-glow);
+      margin-bottom: 28px;
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: "HKWB";
+      position: absolute;
+      right: -20px;
+      bottom: -34px;
+      font-size: clamp(90px, 15vw, 200px);
+      font-weight: 950;
+      color: rgba(255, 212, 0, 0.05);
+      letter-spacing: 0.06em;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .hero-kicker {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      color: var(--cyan);
+      background: rgba(77, 216, 255, 0.12);
+      border: 1px solid rgba(77, 216, 255, 0.35);
+      padding: 5px 12px;
+      border-radius: 999px;
+      margin-bottom: 10px;
+    }
+
+    .hero-logo {
+      font-size: clamp(50px, 8.5vw, 96px);
+      font-weight: 950;
+      line-height: 0.98;
+      letter-spacing: 0.04em;
+      color: var(--gold);
+      text-shadow: 0 0 38px rgba(255, 212, 0, 0.36);
+      margin-bottom: 16px;
+    }
+
+    .hero-slogan {
+      font-size: clamp(21px, 3.2vw, 35px);
+      font-weight: 850;
+      line-height: 1.28;
+      color: #ffffff;
+      max-width: 860px;
+      margin-bottom: 22px;
+    }
+
+    .hero-slogan em {
+      font-style: normal;
+      color: var(--gold-soft);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 22px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .explore-btn {
+      padding: 10px 18px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 212, 0, 0.55);
+      background: linear-gradient(135deg, rgba(255, 212, 0, 0.22), rgba(155, 107, 255, 0.2));
+      color: var(--gold-soft);
+      font-size: 13px;
+      font-weight: 850;
+      cursor: pointer;
+      transition: all 0.18s ease;
+    }
+
+    .explore-btn:hover {
+      background: var(--gold);
+      color: #090d1f;
+    }
+
+    /* 은행 선택 버튼 카드 */
+    .bank-selector-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 16px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .bank-select-card {
+      text-align: left;
+      border-radius: 22px;
+      padding: 22px;
+      background: rgba(9, 14, 34, 0.9);
+      border: 1.5px solid rgba(255, 255, 255, 0.16);
+      color: #fff;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .bank-select-card:hover {
+      transform: translateY(-3px);
+    }
+
+    .bank-select-card.web3.active {
+      border-color: #c7a8ff;
+      box-shadow: 0 0 28px rgba(155, 107, 255, 0.28);
+      background: rgba(24, 17, 56, 0.95);
+    }
+
+    .bank-select-card.internet.active {
+      border-color: var(--cyan);
+      box-shadow: 0 0 28px rgba(77, 216, 255, 0.25);
+      background: rgba(12, 26, 56, 0.95);
+    }
+
+    .bank-select-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .bank-select-title {
+      font-size: 21px;
+      font-weight: 950;
+    }
+
+    .bank-select-card.web3 .bank-select-title {
+      color: #c7a8ff;
+    }
+
+    .bank-select-card.internet .bank-select-title {
+      color: var(--cyan);
+    }
+
+    .bank-select-pill {
+      font-size: 11px;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(255, 212, 0, 0.14);
+      color: var(--gold-soft);
+      white-space: nowrap;
+    }
+
+    .bank-select-sub {
+      font-size: 13px;
+      color: var(--text-sub);
+    }
+
+    /* 선택한 은행 전용 상세 패널 */
+    .bank-detail-panel {
+      display: none;
+      margin-bottom: 30px;
+      border-radius: 24px;
+      padding: 24px;
+      background: rgba(13, 19, 45, 0.95);
+      border: 1.5px solid rgba(255, 212, 0, 0.38);
+      box-shadow: var(--shadow-glow);
+    }
+
+    .bank-detail-panel.open {
+      display: block;
+    }
+
+    .bank-detail-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding-bottom: 14px;
+      margin-bottom: 18px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .bank-detail-title {
+      font-size: 22px;
+      font-weight: 950;
+      color: var(--gold);
+    }
+
+    .close-detail-btn {
+      padding: 8px 14px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .core-ops-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .op-btn {
+      padding: 8px 14px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      background: rgba(255, 255, 255, 0.06);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.16s ease;
+    }
+
+    .op-btn:hover, .op-btn.active {
+      background: var(--gold);
+      color: #090d1f;
+      border-color: var(--gold);
+    }
+
+    .bank-sim-box {
+      background: rgba(4, 7, 19, 0.82);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 16px;
+      padding: 16px;
+      font-size: 13.5px;
+      margin-bottom: 16px;
+    }
+
+    .sim-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .sim-input {
+      flex: 1;
+      min-width: 0;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      background: rgba(255, 255, 255, 0.05);
+      color: #fff;
+      font-size: 13px;
+    }
+
+    .sim-exec {
+      padding: 10px 16px;
+      border-radius: 10px;
+      border: none;
+      background: linear-gradient(135deg, var(--gold), #ffaa00);
+      color: #090c1c;
+      font-weight: 850;
+      font-size: 13px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .bank-sub-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+    }
+
+    .bank-feature-box {
+      padding: 15px;
+      border-radius: 14px;
+      background: rgba(8, 13, 32, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.11);
+    }
+
+    .bank-feature-box strong {
+      display: block;
+      color: var(--gold-soft);
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+
+    .bank-feature-box span {
+      font-size: 12.5px;
+      color: var(--text-sub);
+    }
+
+    /* 섹션 공통 */
+    .section {
+      margin-top: 32px;
+    }
+
+    .section-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .section-title {
+      font-size: clamp(20px, 2.3vw, 26px);
+      font-weight: 900;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-title::before {
+      content: "";
+      width: 6px;
+      height: 24px;
+      border-radius: 999px;
+      background: var(--gold);
+      display: inline-block;
+    }
+
+    .section-desc {
+      font-size: 13px;
+      color: var(--text-sub);
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 22px;
+      padding: 20px;
+      box-shadow: var(--shadow-glow);
+    }
+
+    /* 개인자산 대시보드 */
+    .dash-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(225px, 1fr));
+      gap: 14px;
+    }
+
+    .metric-card {
+      background: rgba(9, 14, 34, 0.85);
+      border: 1px solid rgba(255, 212, 0, 0.24);
+      border-radius: 18px;
+      padding: 18px;
+    }
+
+    .metric-label {
+      font-size: 12px;
+      color: var(--text-sub);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
+    .metric-val {
+      font-size: 23px;
+      font-weight: 900;
+      color: var(--gold-soft);
+      font-variant-numeric: tabular-nums;
+      word-break: break-all;
+    }
+
+    .metric-val.live {
+      color: var(--success);
+    }
+
+    .metric-sub {
+      font-size: 11.5px;
+      color: var(--text-sub);
+      margin-top: 6px;
+    }
+
+    /* 10대 분산 연동망: PC 2열 5행, 모바일 1열 */
+    .net-layout {
+      display: grid;
+      grid-template-columns: 1.35fr 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    @media (max-width: 960px) {
+      .net-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .ten-net-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    @media (max-width: 600px) {
+      .ten-net-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .net-node-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 15px 16px;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 212, 0, 0.24);
+      background: rgba(10, 15, 36, 0.9);
+      color: #fff;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.18s ease;
+    }
+
+    .net-node-card:hover, .net-node-card.active {
+      border-color: var(--gold);
+      background: rgba(255, 212, 0, 0.15);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(255, 212, 0, 0.14);
+    }
+
+    .net-logo-badge {
+      width: 42px;
+      height: 42px;
+      min-width: 42px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      font-size: 19px;
+      background: linear-gradient(135deg, rgba(255, 212, 0, 0.2), rgba(77, 216, 255, 0.16));
+      border: 1px solid rgba(255, 212, 0, 0.35);
+    }
+
+    .net-card-body {
+      min-width: 0;
+    }
+
+    .net-card-title {
+      font-size: 15px;
+      font-weight: 900;
+      color: var(--gold-soft);
+      margin-bottom: 3px;
+    }
+
+    .net-card-desc {
+      font-size: 12px;
+      color: var(--text-sub);
+      line-height: 1.45;
+    }
+
+    .pipeline-box {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 14px;
+      background: rgba(8, 13, 32, 0.72);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 18px;
+      padding: 18px;
+    }
+
+    .steps-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .step-item {
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 12.5px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .step-item.running {
+      border-color: var(--warn);
+      background: rgba(255, 190, 59, 0.14);
+      color: var(--gold-soft);
+    }
+
+    .step-item.done {
+      border-color: rgba(46, 229, 157, 0.55);
+      background: rgba(46, 229, 157, 0.12);
+      color: #a9ffdc;
+    }
+
+    .run-btn {
+      width: 100%;
+      padding: 12px;
+      border-radius: 12px;
+      border: none;
+      background: linear-gradient(135deg, var(--gold), #ff9e00);
+      color: #090d1f;
+      font-weight: 900;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    /* 가변형 이율 */
+    .rates-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+    }
+
+    .rate-card {
+      border-radius: 18px;
+      padding: 18px;
+      background: rgba(9, 14, 34, 0.88);
+      border: 1px solid rgba(255, 212, 0, 0.25);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .rate-card.selected, .rate-card:hover {
+      border-color: var(--gold);
+      box-shadow: 0 0 24px rgba(255, 212, 0, 0.18);
+    }
+
+    .rate-term {
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--cyan);
+    }
+
+    .rate-range {
+      font-size: 25px;
+      font-weight: 950;
+      color: var(--gold);
+      margin: 6px 0;
+    }
+
+    .rate-live {
+      font-size: 12px;
+      color: var(--success);
       font-weight: 700;
     }
-    .gold-btn:hover {
-      background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-      box-shadow: 0 0 15px rgba(245, 158, 11, 0.4);
+
+    /* 사회 환원 UBI · AGI/ASI 고객센터 · 미디어 */
+    .three-col {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 18px;
+    }
+
+    .chat-log {
+      height: 165px;
+      overflow-y: auto;
+      background: rgba(5, 8, 22, 0.82);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 10px;
+      font-size: 12.5px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .msg-ai {
+      color: var(--gold-soft);
+    }
+
+    .msg-user {
+      color: var(--cyan);
+      text-align: right;
+    }
+
+    .media-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .media-btn {
+      padding: 10px 16px;
+      border-radius: 12px;
+      font-weight: 800;
+      font-size: 13px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+      cursor: pointer;
+    }
+
+    .media-btn.yt {
+      border-color: rgba(255, 70, 70, 0.65);
+      background: rgba(255, 50, 50, 0.16);
+    }
+
+    .media-btn.tt {
+      border-color: rgba(77, 216, 255, 0.65);
+      background: rgba(77, 216, 255, 0.14);
+    }
+
+    /* 둘러보기 안내 배너 & 실시간 로그 */
+    .tour-banner {
+      display: none;
+      margin-bottom: 20px;
+      padding: 16px 20px;
+      border-radius: 18px;
+      background: linear-gradient(120deg, rgba(77, 216, 255, 0.16), rgba(255, 212, 0, 0.14));
+      border: 1px solid var(--cyan);
+    }
+
+    .tour-banner.active {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .demo-log-box {
+      background: rgba(5, 8, 22, 0.9);
+      border: 1px solid rgba(255, 212, 0, 0.25);
+      border-radius: 16px;
+      padding: 14px 16px;
+      max-height: 155px;
+      overflow-y: auto;
+      font-size: 12px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .log-entry {
+      color: #c8d4f5;
+    }
+
+    .log-entry span.ts {
+      color: var(--cyan);
+      margin-right: 8px;
+    }
+
+    .footer {
+      margin-top: 44px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 12px;
+      color: var(--text-sub);
     }
   </style>
 </head>
-<body class="min-h-screen pb-12">
+<body>
 
-  <!-- Header Section -->
-  <header class="sticky top-0 z-50 glass-panel border-b border-amber-500/20 px-4 py-3">
-    <div class="max-w-7xl mx-auto flex justify-between items-center">
-      <!-- Logo / Title -->
-      <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center font-black text-amber-400 text-xl shadow-lg shadow-amber-500/10">
-          HK
-        </div>
-        <div>
-          <h1 class="text-xl font-extrabold gold-gradient-text leading-tight">HKWB</h1>
-          <p class="text-xs text-amber-200/60 font-medium">Web3 Digital Bank</p>
-        </div>
-      </div>
-
-      <!-- Top Right Actions (Language & Mobile Menu) -->
-      <div class="flex items-center gap-3">
-        <!-- 60 Languages Selector -->
-        <select class="bg-slate-900/90 text-amber-300 text-xs border border-amber-500/30 rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-amber-400">
-          <option value="ko">🇰🇷 한국어</option>
-          <option value="en">🇺🇸 English</option>
-          <option value="ja">🇯🇵 日本語</option>
-          <option value="zh">🇨🇳 中文</option>
-          <option value="es">🇪🇸 Español</option>
-          <option value="fr">🇫🇷 Français</option>
-          <option value="de">🇩🇪 Deutsch</option>
-          <option value="vi">🇻🇳 Tiếng Việt</option>
-          <option value="th">🇹🇭 ไทย</option>
-          <option value="id">🇮🇩 Bahasa Indonesia</option>
-          <option value="more">+50 languages...</option>
-        </select>
-
-        <!-- Hamburger Menu Button -->
-        <button id="menuBtn" class="text-amber-400 p-2 text-xl hover:text-amber-300 focus:outline-none">
-          <i class="fa-solid fa-bars"></i>
-        </button>
-      </div>
+  <!-- 상단 네비게이션 바 -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <button class="hamburger-btn" id="openDrawerBtn" data-i18n-aria="menuOpenAria" aria-label="메뉴 열기">☰</button>
+      <a href="#top" class="mini-brand">HKWB</a>
+      <span class="demo-pill" data-i18n="demoPill">DEMO READY</span>
+      <button class="tour-pill-btn" onclick="startGuidedTour()" data-i18n="tourBtn">🧭 둘러보기</button>
     </div>
 
-    <!-- Mobile Navigation Drawer -->
-    <nav id="mobileNav" class="hidden max-w-7xl mx-auto pt-4 pb-2 border-t border-amber-500/10 mt-3 flex flex-col gap-2">
-      <a href="#networks" class="px-3 py-2 rounded-lg text-sm font-semibold text-slate-200 hover:bg-amber-500/10 hover:text-amber-400 transition">10대 분산 연동망</a>
-      <a href="#agi-yield" class="px-3 py-2 rounded-lg text-sm font-semibold text-slate-200 hover:bg-amber-500/10 hover:text-amber-400 transition">AGI/ASI 자동 이율 시스템</a>
-      <a href="#profit-allocation" class="px-3 py-2 rounded-lg text-sm font-semibold text-slate-200 hover:bg-amber-500/10 hover:text-amber-400 transition">순이익 분배 구조</a>
-      <a href="#support" class="px-3 py-2 rounded-lg text-sm font-semibold text-slate-200 hover:bg-amber-500/10 hover:text-amber-400 transition">고객 지원 (support@hkwb.world)</a>
-    </nav>
+    <div class="topbar-right">
+      <div class="lang-box" data-i18n-title="langTitle" title="60개국어 언어 선택">
+        <span data-i18n="langLabel">🌐 60개국어</span>
+        <select id="langSelect" class="lang-select" data-i18n-aria="langSelectAria" aria-label="60개국어 선택"></select>
+      </div>
+    </div>
   </header>
 
-  <!-- Hero Banner Section -->
-  <section class="max-w-7xl mx-auto px-4 mt-6">
-    <div class="glass-panel gold-glow rounded-3xl p-6 md:p-8 relative overflow-hidden">
-      <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
-      
-      <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-        <div>
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-bold mb-3">
-            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> AGI / ASI 실시간 자율 지능 연동
-          </div>
-          <h2 class="text-2xl md:text-4xl font-extrabold text-white mb-2">
-            차세대 <span class="gold-gradient-text">웹3 디지털 금융 분산 플랫폼</span>
-          </h2>
-          <p class="text-slate-300 text-sm md:text-base max-w-2xl leading-relaxed">
-            HKWB 웹3 디지털 은행은 지갑 연결부터 PI 수량 연동까지 10대 핵심 분산 망을 완벽히 하나로 구축하여 안정적이고 혁신적인 디지털 자산 금융 경험을 제공합니다.
-          </p>
-        </div>
-
-        <!-- Quick Profile Card -->
-        <div class="bg-slate-900/80 border border-amber-500/20 rounded-2xl p-4 w-full md:w-auto min-w-[240px]">
-          <div class="text-xs text-slate-400">레퍼럴 ID</div>
-          <div class="text-lg font-bold text-amber-400 font-mono">ljw2358</div>
-          <div class="mt-2 text-xs text-slate-400">공식 지원 문의</div>
-          <div class="text-sm font-semibold text-slate-200">support@hkwb.world</div>
-        </div>
-      </div>
+  <!-- 시연 컨트롤 바 -->
+  <div class="demo-stage-bar" role="region" data-i18n-aria="demoBarAria" aria-label="시연 제어 패널">
+    <div class="demo-stage-label">
+      <span data-i18n="demoStageTitle">🎬 시연 제어</span>
+      <span id="demoScenarioBadge" style="color:var(--gold-soft);" data-i18n="demoReadyState">대기 중</span>
     </div>
-  </section>
-
-  <!-- Section 1: 10대 분산 연동망 (10 Distributed Networks Grid) -->
-  <section id="networks" class="max-w-7xl mx-auto px-4 mt-10">
-    <div class="flex items-center justify-between mb-6">
-      <div>
-        <h3 class="text-xl md:text-2xl font-bold text-white flex items-center gap-2">
-          <i class="fa-solid fa-network-wired text-amber-400"></i> 10대 분산 연동망
-        </h3>
-        <p class="text-xs md:text-sm text-slate-400">카드를 클릭하면 각 모듈별 상세 분산 망 정보를 확인할 수 있습니다.</p>
-      </div>
-    </div>
-
-    <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
-      <!-- 1. 지갑연결 -->
-      <div onclick="openModal('지갑연결', '탈중앙화 Multi-Chain 지갑 연결 및 하드웨어 보안 노드 실시간 동기화 시스템입니다.')" class="glass-panel p-4 rounded-2xl cursor-pointer hover:border-amber-400 transition group hover:-translate-y-1">
-        <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 mb-3 group-hover:bg-amber-500 group-hover:text-slate-950 transition">
-          <i class="fa-solid fa-wallet text-lg"></i>
-        </div>
-        <div class="text-xs text-amber-400/70 font-semibold mb-0.5">NET 01</div>
-        <div class="text-base font-bold text-white group-hover:text-amber-300">지갑연결</div>
-      </div>
-
-      <!-- 2. 송금 -->
-      <div onclick="openModal('송금', 'AGI 실시간 최적 경로 탐색을 통한 수수료 0원 분산 P2P 즉시 송금망입니다.')" class="glass-panel p-4 rounded-2xl cursor-pointer hover:border-amber-400 transition group hover:-translate-y-1">
-        <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 mb-3 group-hover:bg-amber-500 group-hover:text-slate-950 transition">
-          <i class="fa-solid fa-paper-plane text-lg"></i>
-        </div>
-        <div class="text-xs text-amber-400/70 font-semibold mb-0.5">NET 02</div>
-        <div class="text-base font-bold text-white group-hover:text-amber-300">송금</div>
-      </div>
-
-      <!-- 3. 결제 -->
-      <div onclick="openModal('결제', '온/오프라인 QR, NFC 및 스마트 결제 연동 네트워크 시스템입니다.')" class="glass-panel p-4 rounded-2xl cursor-pointer hover:border-amber-400 transition group hover:-translate-y-1">
-        <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 mb-3 group-hover:bg-amber-500 group-hover:text-slate-950 transition">
-          <i class="fa-solid fa-credit-card text-lg"></i>
-        </div>
-        <div class="text-xs text-amber-400/70 font-semibold mb-0.5">NET 03</div>
-        <div class="text-base font-bold text-white group-hover:text-amber-300">결제</div>
-      </div>
-
-      <!-- 4. 예치 -->
-      <div onclick="openModal('예치', '안전한 Smart Contract 기반 자산 보호 및 스마트 이자 예치 시스템입니다.')" class="glass-panel p-4 rounded-2xl cursor-pointer hover:border-amber-400 transition group hover:-translate-y-1">
-        <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 mb-3 group-hover:bg-amber-500 group-hover:text-slate-950 transition">
-          <i class="fa-solid fa-vault text-lg"></i>
-        </div>
-        <div class="text-xs text-amber-400/70 font-semibold mb-0.5">NET 04</div>
-        <div class="text-base font-bold text-white group-hover:text-amber-300">예치</div>
-      </div>
-
-      <!-- 5. 보상 -->
-      <div onclick="openModal('보상', '기여자 및 에코시스템 가이드를 위한 자동화 리워드 정산 플랫폼입니다.')" class="glass-panel p-4 rounded-2xl cursor-pointer hover:border-amber-400 transition group hover:-translate-y-1">
-        <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 mb-3 group-hover:bg-amber-500 group-hover:text-slate-950 transition">
-          <i class="fa-solid fa-gift text-lg"></i>
-        </div>
-        <div class="text-xs text-amber-400/70 font-semibold mb-0.5">NET 05</div>
-        <div class="text-base font-bold text-white group-hover:text-amber-300">보상</div>
-      </div>
-
-      <!-- 6. 기본소득 (UBI) -->
-      <div onclick="openModal('기본소득', '플랫폼 순이익 30%를 기반으로 생태계 참여자에게 자동 분배되는 UBI 망입니다.')" class="glass-panel p-4 rounded-2xl cursor-pointer hover:border-amber-400 transition group hover:-translate-y-1">
-        <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 mb-3 group-hover:bg-amber-500 group-hover:text-slate-950 transition">
-          <i class="fa-solid fa-coins text-lg"></i>
-        </div>
-        <div class="text-xs text-amber-400/70 font-semibold mb-0.5">NET 06</div>
-        <div class="text-base font-bold text-white group-hover:text-amber-300">기본소득 (UBI)</div>
-      </div>
-
-      <!-- 7. 스왑 -->
-      <div onclick="openModal('스왑', '이종 디지털 자산 간 실시간 교환 및 수수료 최적화 이기종 스왑 엔진입니다.')" class="glass-panel p-4 rounded-2xl cursor-pointer hover:border-amber-400 transition group hover:-translate-y-1">
-        <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 mb-3 group-hover:bg-amber-500 group-hover:text-slate-950 transition">
-          <i class="fa-solid fa-right-left text-lg"></i>
-        </div>
-        <div class="text-xs text-amber-400/70 font-semibold mb-0.5">NET 07</div>
-        <div class="text-base font-bold text-white group-hover:text-amber-300">스왑</div>
-      </div>
-
-      <!-- 8. DEX 스왑 -->
-      <div onclick="openModal('DEX 스왑', '탈중앙화 거래소 프로토콜 연동 알고리즘을 통한 DEX Liquidity Swap입니다.')" class="glass-panel p-4 rounded-2xl cursor-pointer hover:border-amber-400 transition group hover:-translate-y-1">
-        <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 mb-3 group-hover:bg-amber-500 group-hover:text-slate-950 transition">
-          <i class="fa-solid fa-[#00ffcc] fa-chart-line text-lg"></i>
-        </div>
-        <div class="text-xs text-amber-400/70 font-semibold mb-0.5">NET 08</div>
-        <div class="text-base font-bold text-white group-hover:text-amber-300">DEX 스왑</div>
-      </div>
-
-      <!-- 9. LP 스테이킹 -->
-      <div onclick="openModal('LP 스테이킹', '유동성 공급(Liquidity Pool) 참여 및 실시간 복리 스테이킹 리워드 망입니다.')" class="glass-panel p-4 rounded-2xl cursor-pointer hover:border-amber-400 transition group hover:-translate-y-1">
-        <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 mb-3 group-hover:bg-amber-500 group-hover:text-slate-950 transition">
-          <i class="fa-solid fa-layer-group text-lg"></i>
-        </div>
-        <div class="text-xs text-amber-400/70 font-semibold mb-0.5">NET 09</div>
-        <div class="text-base font-bold text-white group-hover:text-amber-300">LP 스테이킹</div>
-      </div>
-
-      <!-- 10. PI 수량 -->
-      <div onclick="openModal('PI 수량', 'Pi Network 노드 연동, 지갑 수량 실시간 모니터링 및 테스트넷 시뮬레이션 망입니다.')" class="glass-panel p-4 rounded-2xl cursor-pointer hover:border-amber-400 transition group hover:-translate-y-1">
-        <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 mb-3 group-hover:bg-amber-500 group-hover:text-slate-950 transition">
-          <i class="fa-brands fa-raspberry-pi text-lg"></i>
-        </div>
-        <div class="text-xs text-amber-400/70 font-semibold mb-0.5">NET 10</div>
-        <div class="text-base font-bold text-white group-hover:text-amber-300">PI 수량</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Section 2 & 3: Interactive Dashboard (AGI/ASI Yield & Profit Allocation) -->
-  <section class="max-w-7xl mx-auto px-4 mt-10 grid grid-cols-1 lg:grid-cols-12 gap-6">
-    
-    <!-- AGI / ASI Dynamic Yield Chart (8 cols) -->
-    <div id="agi-yield" class="lg:col-span-7 glass-panel rounded-3xl p-6">
-      <div class="flex items-center justify-between mb-4">
-        <div>
-          <span class="text-xs text-amber-400 font-bold uppercase tracking-wider">AI Autonomous System</span>
-          <h4 class="text-xl font-bold text-white">AGI / ASI 실시간 이율 산출</h4>
-        </div>
-        <span class="px-3 py-1 bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 rounded-full text-xs font-bold">
-          실시간 연동 중
-        </span>
-      </div>
-      <p class="text-slate-400 text-xs mb-4">
-        고정 이율 방식을 탈피하여 AGI 및 ASI 자율 지능 분석 알고리즘이 시장 변동성에 따라 이율, 스테이킹 수익률, 중도 해지 이율을 실시간으로 유기적 산출합니다.
-      </p>
-
-      <div class="h-64 relative">
-        <canvas id="yieldChart"></canvas>
-      </div>
-
-      <div class="grid grid-cols-3 gap-3 mt-4 pt-4 border-t border-slate-800 text-center">
-        <div>
-          <div class="text-xs text-slate-400">현재 예치 APY</div>
-          <div class="text-base font-bold text-amber-400">4.82%</div>
-        </div>
-        <div>
-          <div class="text-xs text-slate-400">LP 스테이킹 APY</div>
-          <div class="text-base font-bold text-amber-400">12.45%</div>
-        </div>
-        <div>
-          <div class="text-xs text-slate-400">AGI 최적화 주기</div>
-          <div class="text-base font-bold text-emerald-400">실시간 (Auto)</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Profit Allocation Chart (5 cols) -->
-    <div id="profit-allocation" class="lg:col-span-5 glass-panel rounded-3xl p-6 flex flex-col justify-between">
-      <div>
-        <span class="text-xs text-amber-400 font-bold uppercase tracking-wider">Tokenomics Policy</span>
-        <h4 class="text-xl font-bold text-white mb-2">순이익 분배 정책</h4>
-        <p class="text-slate-400 text-xs mb-4">
-          HKWB 플랫폼에서 발생하는 모든 순이익은 투명한 스마트 컨트랙트를 통해 3대 영역으로 분배됩니다.
-        </p>
-      </div>
-
-      <div class="h-56 relative flex items-center justify-center">
-        <canvas id="profitChart"></canvas>
-      </div>
-
-      <div class="space-y-2 mt-4 pt-4 border-t border-slate-800">
-        <div class="flex justify-between items-center text-xs">
-          <span class="flex items-center gap-2 text-slate-300">
-            <span class="w-3 h-3 rounded-full bg-amber-500"></span> 기본소득 (UBI)
-          </span>
-          <span class="font-bold text-amber-400">30%</span>
-        </div>
-        <div class="flex justify-between items-center text-xs">
-          <span class="flex items-center gap-2 text-slate-300">
-            <span class="w-3 h-3 rounded-full bg-blue-500"></span> 회사 경영비
-          </span>
-          <span class="font-bold text-blue-400">30%</span>
-        </div>
-        <div class="flex justify-between items-center text-xs">
-          <span class="flex items-center gap-2 text-slate-300">
-            <span class="w-3 h-3 rounded-full bg-purple-500"></span> HK 사회재단 (회사 인수 등 전략 자본)
-          </span>
-          <span class="font-bold text-purple-400">최대 30%</span>
-        </div>
-      </div>
-    </div>
-
-  </section>
-
-  <!-- Modal Component for Networks Detail -->
-  <div id="infoModal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm hidden items-center justify-center p-4">
-    <div class="glass-panel border border-amber-500/40 rounded-3xl max-w-md w-full p-6 relative animate-fade-in">
-      <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-xl">
-        <i class="fa-solid fa-xmark"></i>
-      </button>
-      <div class="w-12 h-12 rounded-2xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400 text-xl font-bold mb-4" id="modalIcon">
-        <i class="fa-solid fa-cube"></i>
-      </div>
-      <h3 class="text-xl font-bold text-white mb-2" id="modalTitle">모듈 상세 정보</h3>
-      <p class="text-slate-300 text-sm leading-relaxed mb-6" id="modalDesc">
-        분산 연동망의 상세 설명이 이곳에 표시됩니다.
-      </p>
-      <div class="p-3 rounded-xl bg-slate-900/90 border border-amber-500/20 text-xs text-slate-400 mb-6">
-        <div class="flex justify-between mb-1">
-          <span>네트워크 상태:</span>
-          <span class="text-emerald-400 font-bold">정상 작동 중 (Active)</span>
-        </div>
-        <div class="flex justify-between">
-          <span>연동 방식:</span>
-          <span class="text-amber-400 font-bold">AGI/ASI Smart Contract</span>
-        </div>
-      </div>
-      <button onclick="closeModal()" class="w-full py-3 rounded-xl gold-btn text-sm">
-        확인
-      </button>
+    <div class="demo-actions">
+      <button class="demo-btn primary" onclick="runFullDemoShowcase()" data-i18n="runFullDemo">▶ 전체 시연 자동 실행</button>
+      <button class="demo-btn" onclick="startGuidedTour()" data-i18n="startTourAction">🧭 둘러보기 시작</button>
+      <button class="demo-btn" onclick="applyDemoBoost()" data-i18n="boostBtn">💰 잔고·이율 부스트</button>
+      <button class="demo-btn" onclick="resetDemoState()" data-i18n="resetBtn">↺ 초기화</button>
     </div>
   </div>
 
-  <!-- Footer -->
-  <footer id="support" class="max-w-7xl mx-auto px-4 mt-16 text-center text-xs text-slate-500 border-t border-slate-800 pt-8">
-    <p class="mb-2">© 2026 HKWB (Web3 Digital Bank). All rights reserved.</p>
-    <p>공식 지원 문의: <a href="mailto:support@hkwb.world" class="text-amber-400 underline">support@hkwb.world</a> | 레퍼럴 ID: <span class="text-slate-300 font-mono">ljw2358</span></p>
-  </footer>
+  <!-- 삼선방 드로어 메뉴 -->
+  <div class="drawer-backdrop" id="drawerBackdrop"></div>
+  <aside class="drawer" id="drawerMenu" data-i18n-aria="drawerAria" aria-label="네비게이터 메뉴">
+    <div class="drawer-head">
+      <div class="drawer-title" data-i18n="drawerTitle">HK 네비게이터</div>
+      <button class="drawer-close" id="closeDrawerBtn" data-i18n-aria="menuCloseAria" aria-label="메뉴 닫기">✕</button>
+    </div>
 
-  <!-- Scripts for Interactions & Charts -->
+    <div class="drawer-group-title" data-i18n="drawerQuickGroup">바로 가기 메뉴</div>
+    <div class="drawer-list">
+      <button class="drawer-item" onclick="startGuidedTour()"><span data-i18n="drawerTour">🧭 플랫폼 둘러보기 가이드</span><span class="drawer-badge" data-i18n="badgeTour">투어</span></button>
+      <button class="drawer-item" onclick="jumpTo('#top')"><span data-i18n="drawerHome">표지 · 웹3디지털 &amp; 인터넷 은행</span><span class="drawer-badge" data-i18n="badgeHome">홈</span></button>
+      <button class="drawer-item" onclick="openBankDetail('web3')"><span data-i18n="drawerWeb3">웹3디지털 은행 상세 열기</span><span class="drawer-badge" data-i18n="badgeWeb3">웹3</span></button>
+      <button class="drawer-item" onclick="openBankDetail('internet')"><span data-i18n="drawerInternet">인터넷 은행 상세 열기</span><span class="drawer-badge" data-i18n="badgeBank">은행</span></button>
+      <button class="drawer-item" onclick="jumpTo('#dashboard')"><span data-i18n="drawerDash">개인자산 대시보드</span><span class="drawer-badge" data-i18n="badgeLive">실시간</span></button>
+      <button class="drawer-item" onclick="jumpTo('#networks')"><span data-i18n="drawerNet">10대 분산 연동망 (10종)</span><span class="drawer-badge" data-i18n="badgeNet">10연동</span></button>
+      <button class="drawer-item" onclick="jumpTo('#rates')"><span data-i18n="drawerRates">가변형 이율 (8% ~ 31.4%)</span><span class="drawer-badge" data-i18n="badgeRates">이율</span></button>
+      <button class="drawer-item" onclick="jumpTo('#ubi-agi-media')"><span data-i18n="drawerMedia">사회 환원 UBI · AGI/ASI · 미디어</span><span class="drawer-badge" data-i18n="badgeAi">UBI/AI</span></button>
+    </div>
+
+    <div class="drawer-group-title" data-i18n="drawerLegalGroup">코어리걸 &amp; 컴플라이언스</div>
+    <div class="drawer-list">
+      <button class="drawer-item" onclick="showLegalModal('whitepaper')"><span data-i18n="legalWhitepaper">📄 백서 (Whitepaper v3.1 상세 40선)</span><span class="drawer-badge" data-i18n="badgeDoc">문서</span></button>
+      <button class="drawer-item" onclick="showLegalModal('faq')"><span data-i18n="legalFaq">❓ 자주 묻는 질문 (FAQ 20선 심층)</span><span class="drawer-badge" data-i18n="badgeQa">질문</span></button>
+      <button class="drawer-item" onclick="showLegalModal('policy')"><span data-i18n="legalPolicy">🛡️ 3대 정책 (AML·KYC·철통보안 상세)</span><span class="drawer-badge" data-i18n="badgeSec">보안</span></button>
+      <button class="drawer-item" onclick="showLegalModal('law21')"><span data-i18n="legalLaw21">⚖️ 21개국 디지털 자산법 및 해킹 방어</span><span class="drawer-badge" data-i18n="badgeLaw">법규</span></button>
+      <button class="drawer-item" onclick="showLegalModal('fatf')"><span data-i18n="legalFatf">🌐 FATF 트래블룰 &amp; 제재 리스트 검증</span><span class="drawer-badge" data-i18n="badgeSpec">규격</span></button>
+    </div>
+  </aside>
+
+  <!-- 메인 콘텐츠 -->
+  <main class="container" id="top">
+
+    <!-- 둘러보기 진행 배너 -->
+    <div class="tour-banner" id="tourBanner">
+      <div>
+        <strong style="color:var(--gold-soft);" id="tourStepTitle"></strong>
+        <p style="font-size:13px; color:var(--text-main); margin-top:3px;" id="tourStepDesc"></p>
+      </div>
+      <div style="display:flex; gap:8px;">
+        <button class="demo-btn primary" onclick="nextTourStep()" data-i18n="tourNext">다음 →</button>
+        <button class="demo-btn" onclick="stopGuidedTour()" data-i18n="tourStop">종료</button>
+      </div>
+    </div>
+
+    <!-- 첫 페이지 표지 -->
+    <section class="hero">
+      <div class="hero-kicker" data-i18n="heroKicker">HK 글로벌 금융 &amp; AI 아키텍처</div>
+      <div class="hero-logo">HKWB</div>
+      <h1 class="hero-slogan" id="heroSlogan">
+        인류와 기술이 공존하는 <em>차세대 디지털 금융 혁신</em>
+      </h1>
+
+      <div class="hero-actions">
+        <button class="explore-btn" onclick="startGuidedTour()" data-i18n="heroTourBtn">🧭 한눈에 둘러보기 시작</button>
+        <button class="explore-btn" onclick="jumpTo('#dashboard')" data-i18n="heroDashBtn">📊 개인자산 대시보드로 이동</button>
+      </div>
+
+      <!-- 웹3디지털 은행 / 인터넷 은행 분리 선택 -->
+      <div class="bank-selector-grid">
+        <button class="bank-select-card web3" id="selectWeb3Btn" onclick="openBankDetail('web3')">
+          <div class="bank-select-top">
+            <span class="bank-select-title" data-i18n="web3BankTitle">웹3디지털 은행</span>
+            <span class="bank-select-pill" data-i18n="detailPill">상세 보기 ▼</span>
+          </div>
+          <p class="bank-select-sub" data-i18n="web3BankSub">지갑 연결 · 온체인 송금/예치 · 토큰/덱스 스왑 · LP 스테이킹 전용 화면</p>
+        </button>
+
+        <button class="bank-select-card internet" id="selectInternetBtn" onclick="openBankDetail('internet')">
+          <div class="bank-select-top">
+            <span class="bank-select-title" data-i18n="internetBankTitle">인터넷 은행</span>
+            <span class="bank-select-pill" data-i18n="detailPill">상세 보기 ▼</span>
+          </div>
+          <p class="bank-select-sub" data-i18n="internetBankSub">빠른 입출금 · 예금/저축 · 송금/대출 · 실시간 정산 전용 화면</p>
+        </button>
+      </div>
+    </section>
+
+    <!-- 선택한 은행 전용 상세 패널 -->
+    <section class="bank-detail-panel" id="bankDetailPanel" aria-live="polite">
+      <div class="bank-detail-header">
+        <div class="bank-detail-title" id="detailBankTitle"></div>
+        <button class="close-detail-btn" onclick="closeBankDetail()" data-i18n="closePanel">접기 ✕</button>
+      </div>
+
+      <div class="core-ops-pills" id="detailOpsPills"></div>
+
+      <div class="bank-sim-box">
+        <div id="detailOpStatus"></div>
+        <div class="sim-row">
+          <input type="number" class="sim-input" id="detailAmountInput" data-i18n-placeholder="amountPlaceholder" placeholder="금액 입력 (예: 1000000)" value="1000000" />
+          <button class="sim-exec" onclick="executeDetailBankOp()" data-i18n="execBtn">실행</button>
+        </div>
+      </div>
+
+      <div class="bank-sub-grid" id="detailSubGrid"></div>
+    </section>
+
+    <!-- 1. 개인자산 대시보드 -->
+    <section class="section" id="dashboard">
+      <div class="section-head">
+        <h2 class="section-title" data-i18n="dashTitle">개인자산 대시보드</h2>
+        <span class="section-desc" data-i18n="dashDesc">보유 수량 · 실시간 누적 이자 · 적용 이율 · 사회 환원 UBI</span>
+      </div>
+      <div class="card">
+        <div class="dash-grid">
+          <div class="metric-card">
+            <div class="metric-label" data-i18n="totalHoldingLabel">총 보유 수량 (통합 환산 가치)</div>
+            <div class="metric-val" id="totalHoldingVal">₩128,450,000</div>
+            <div class="metric-sub" id="holdingBreakdown"></div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label" data-i18n="liveInterestLabel">실시간 누적 이자 (초당 자동 적립)</div>
+            <div class="metric-val live" id="liveInterestVal">+₩14,820.000000</div>
+            <div class="metric-sub" data-i18n="liveInterestSub">가변형 이율 엔진 실시간 연동 중</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label" data-i18n="activeRateLabel">적용 중인 가변 이율</div>
+            <div class="metric-val" id="activeRateDisplay">15.6% APY</div>
+            <div class="metric-sub" id="activeTermDisplay"></div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label" data-i18n="ubiEarnedLabel">사회 환원 UBI 누적 수령</div>
+            <div class="metric-val" id="ubiEarnedVal">₩1,240,000</div>
+            <div class="metric-sub" data-i18n="ubiEarnedSub">생태계 기여 및 사회 환원 풀 배분</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. 10대 분산 연동망 (PC 2열 5행, 각 항목 로고 + 설명) -->
+    <section class="section" id="networks">
+      <div class="section-head">
+        <h2 class="section-title" data-i18n="netSectionTitle">10대 분산 연동망</h2>
+        <span class="section-desc" data-i18n="netSectionDesc">지갑 연결 · 송금 · 결제 · 예치 · 리워드 · UBI · 토큰 스왑 · 덱스 스왑 · LP 스테이킹 · 파이 수량</span>
+      </div>
+      <div class="card net-layout">
+        <div class="ten-net-grid" id="tenNetworksGrid"></div>
+
+        <div class="pipeline-box">
+          <div>
+            <h3 id="selectedNetTitle" style="font-size:18px; font-weight:900; color:var(--gold-soft); margin-bottom:6px;"></h3>
+            <p id="selectedNetDesc" style="font-size:12.5px; color:var(--text-sub); margin-bottom:12px;"></p>
+            <div class="steps-list" id="pipelineStepsList"></div>
+          </div>
+          <button class="run-btn" id="runPipelineBtn" onclick="executeCurrentNetworkPipeline()" data-i18n="runPipelineBtn">
+            동적 프로세스 시뮬레이션 실행
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. 가변형 이율 -->
+    <section class="section" id="rates">
+      <div class="section-head">
+        <h2 class="section-title" data-i18n="ratesSectionTitle">가변형 이율</h2>
+        <span class="section-desc" data-i18n="ratesSectionDesc">6개월 이상 8%~12% · 12개월 12%~18% · 24개월 16%~24% · 36개월 20%~31.4%</span>
+      </div>
+      <div class="rates-grid" id="ratesGrid"></div>
+    </section>
+
+    <!-- 4. 사회 환원 UBI · AGI/ASI 고객센터 · 유튜브 & 틱톡 -->
+    <section class="section" id="ubi-agi-media">
+      <div class="section-head">
+        <h2 class="section-title" data-i18n="bottomSectionTitle">사회 환원 UBI · AGI/ASI 고객센터 · 유튜브 &amp; 틱톡</h2>
+        <span class="section-desc" data-i18n="bottomSectionDesc">상생 금융 환원 · 초지능 고객 지원 · 공식 채널 연결</span>
+      </div>
+
+      <div class="three-col">
+        <div class="card">
+          <h3 style="font-size:18px; font-weight:900; color:var(--gold-soft); margin-bottom:8px;" data-i18n="ubiCardTitle">사회 환원 UBI</h3>
+          <p style="font-size:13px; color:var(--text-sub); margin-bottom:14px;" data-i18n="ubiCardDesc">
+            플랫폼 성장 가치와 생태계 수익 일부를 사회 환원 풀로 조성하여 참여 구성원에게 기본소득 형태로 순환합니다.
+          </p>
+          <div class="metric-card" style="margin-bottom:12px;">
+            <div class="metric-label" data-i18n="ubiCycleLabel">이번 사이클 배분 예정 UBI</div>
+            <div class="metric-val live" id="ubiCycleAmount">₩185,000</div>
+          </div>
+          <button class="sim-exec" style="width:100%;" onclick="claimUbiCycle()" data-i18n="ubiClaimBtn">UBI 즉시 수령 시뮬레이션</button>
+        </div>
+
+        <div class="card">
+          <h3 style="font-size:18px; font-weight:900; color:var(--cyan); margin-bottom:8px;" data-i18n="agiCardTitle">AGI · ASI 고객센터</h3>
+          <div class="chat-log" id="agiChatLog"></div>
+          <div class="sim-row" style="margin-top:0;">
+            <input type="text" class="sim-input" id="agiInput" data-i18n-placeholder="agiPlaceholder" placeholder="예: 파이 수량이나 이율 알려줘" />
+            <button class="sim-exec" onclick="sendAgiMessage()" data-i18n="agiAskBtn">문의</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 style="font-size:18px; font-weight:900; color:#c7a8ff; margin-bottom:8px;" data-i18n="mediaCardTitle">유튜브 &amp; 틱톡</h3>
+          <p style="font-size:13px; color:var(--text-sub);" data-i18n="mediaCardDesc">
+            HKWB 비전 브리핑, 10대 분산 연동망 시연, 사회 환원 UBI 및 가변형 이율 구조를 유튜브와 틱톡에서 공유합니다.
+          </p>
+          <div class="media-links">
+            <a class="media-btn yt" href="https://www.youtube.com/@Hyekong2026" target="_blank" rel="noopener noreferrer" data-i18n="ytBtn">
+              ▶ 유튜브 (@Hyekong2026)
+            </a>
+            <a class="media-btn tt" href="https://www.tiktok.com/@hyekong2026" target="_blank" rel="noopener noreferrer" data-i18n="ttBtn">
+              ♪ 틱톡 (@hyekong2026)
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 실시간 시연 로그 -->
+    <section class="section" id="demo-log-section">
+      <div class="section-head">
+        <h2 class="section-title" data-i18n="logSectionTitle">실시간 시연 이벤트 로그</h2>
+        <span class="section-desc" data-i18n="logSectionDesc">현장 시연 중 실행된 금융·연동 이벤트 기록</span>
+      </div>
+      <div class="demo-log-box" id="demoLogBox"></div>
+    </section>
+
+    <footer class="footer">
+      <div><strong>HKWB</strong> — <span data-i18n="footerSlogan">인류와 기술이 공존하는 차세대 디지털 금융 혁신</span></div>
+      <div data-i18n="footerMeta">60개국어 전체 변환 · 웹3디지털 은행 &amp; 인터넷 은행 분리 운영 · 네비게이터 &amp; 코어리걸</div>
+    </footer>
+  </main>
+
   <script>
-    // Hamburger Menu Toggle
-    const menuBtn = document.getElementById('menuBtn');
-    const mobileNav = document.getElementById('mobileNav');
-    menuBtn.addEventListener('click', () => {
-      mobileNav.classList.toggle('hidden');
+    const sixtyLanguages = [
+      ["ko", "한국어"], ["en", "English"], ["zh-CN", "简体中文"], ["zh-TW", "繁體中文"],
+      ["ja", "日本語"], ["es", "Español"], ["fr", "Français"], ["de", "Deutsch"],
+      ["pt", "Português"], ["ru", "Русский"], ["ar", "العربية"], ["hi", "हिन्दी"],
+      ["vi", "Tiếng Việt"], ["id", "Bahasa Indonesia"], ["th", "ไทย"], ["tl", "Tagalog"],
+      ["ms", "Bahasa Melayu"], ["tr", "Türkçe"], ["it", "Italiano"], ["nl", "Nederlands"],
+      ["pl", "Polski"], ["sv", "Svenska"], ["no", "Norsk"], ["da", "Dansk"],
+      ["fi", "Suomi"], ["cs", "Čeština"], ["hu", "Magyar"], ["ro", "Română"],
+      ["el", "Ελληνικά"], ["he", "עברית"], ["uk", "Українська"], ["bn", "বাংলা"],
+      ["ur", "اردو"], ["fa", "فارسی"], ["sw", "Kiswahili"], ["am", "አማርኛ"],
+      ["ta", "தமிழ்"], ["te", "తెలుగు"], ["mr", "मराठी"], ["gu", "ગુજરાતી"],
+      ["kn", "ಕನ್ನಡ"], ["ml", "മലയാളം"], ["pa", "ਪੰਜਾਬੀ"], ["ne", "नेपाली"],
+      ["si", "සිංහල"], ["km", "ខ្មែរ"], ["lo", "ລາວ"], ["my", "မြန်မာ"],
+      ["mn", "Монгол"], ["ka", "ქართული"], ["hy", "Հայերեն"], ["az", "Azərbaycan"],
+      ["kk", "Қазақ тілі"], ["uz", "Oʻzbekcha"], ["bg", "Български"], ["hr", "Hrvatski"],
+      ["sr", "Српски"], ["sk", "Slovenčina"], ["sl", "Slovenščina"], ["et", "Eesti"]
+    ];
+
+    const I18N_PACKS = {
+      ko: {
+        pageTitle: "HKWB | 인류와 기술이 공존하는 차세대 디지털 금융 혁신",
+        dir: "ltr",
+        demoPill: "DEMO READY",
+        tourBtn: "🧭 둘러보기",
+        langLabel: "🌐 60개국어",
+        langTitle: "60개국어 언어 선택",
+        langSelectAria: "60개국어 선택",
+        menuOpenAria: "메뉴 열기",
+        menuCloseAria: "메뉴 닫기",
+        demoBarAria: "시연 제어 패널",
+        drawerAria: "네비게이터 메뉴",
+        demoStageTitle: "🎬 시연 제어",
+        demoReadyState: "대기 중",
+        demoBoostState: "시연 잔고·이율 부스트 적용됨",
+        demoResetState: "초기값 복원 완료",
+        demoRunningState: "전체 시연 자동 실행 중...",
+        demoDoneState: "전체 시연 완료",
+        runFullDemo: "▶ 전체 시연 자동 실행",
+        startTourAction: "🧭 둘러보기 시작",
+        boostBtn: "💰 잔고·이율 부스트",
+        resetBtn: "↺ 초기화",
+        drawerTitle: "HK 네비게이터",
+        drawerQuickGroup: "바로 가기 메뉴",
+        drawerTour: "🧭 플랫폼 둘러보기 가이드",
+        drawerHome: "표지 · 웹3디지털 & 인터넷 은행",
+        drawerWeb3: "웹3디지털 은행 상세 열기",
+        drawerInternet: "인터넷 은행 상세 열기",
+        drawerDash: "개인자산 대시보드",
+        drawerNet: "10대 분산 연동망 (10종)",
+        drawerRates: "가변형 이율 (8% ~ 31.4%)",
+        drawerMedia: "사회 환원 UBI · AGI/ASI · 미디어",
+        badgeTour: "투어", badgeHome: "홈", badgeWeb3: "웹3", badgeBank: "은행",
+        badgeLive: "실시간", badgeNet: "10연동", badgeRates: "이율", badgeAi: "UBI/AI",
+        drawerLegalGroup: "코어리걸 & 컴플라이언스",
+        legalWhitepaper: "📄 백서 (Whitepaper v3.1 상세 40선)",
+        legalFaq: "❓ 자주 묻는 질문 (FAQ 20선 심층)",
+        legalPolicy: "🛡️ 3대 정책 (AML·KYC·철통보안 상세)",
+        legalLaw21: "⚖️ 21개국 디지털 자산법 및 해킹 방어",
+        legalFatf: "🌐 FATF 트래블룰 & 제재 리스트 검증",
+        badgeDoc: "문서", badgeQa: "질문", badgeSec: "보안", badgeLaw: "법규", badgeSpec: "규격",
+        heroKicker: "HK 글로벌 금융 & AI 아키텍처",
+        heroSlogan: '인류와 기술이 공존하는 <em>차세대 디지털 금융 혁신</em>',
+        heroTourBtn: "🧭 한눈에 둘러보기 시작",
+        heroDashBtn: "📊 개인자산 대시보드로 이동",
+        web3BankTitle: "웹3디지털 은행",
+        web3BankSub: "지갑 연결 · 온체인 송금/예치 · 토큰/덱스 스왑 · LP 스테이킹 전용 화면",
+        internetBankTitle: "인터넷 은행",
+        internetBankSub: "빠른 입출금 · 예금/저축 · 송금/대출 · 실시간 정산 전용 화면",
+        detailPill: "상세 보기 ▼",
+        closePanel: "접기 ✕",
+        amountPlaceholder: "금액 입력 (예: 1000000)",
+        execBtn: "실행",
+        selectedOpPrefix: "선택 기능:",
+        opDonePrefix: "실행 완료:",
+        web3Ops: ["지갑 연결", "송금", "예치", "토큰 스왑", "덱스 스왑", "LP 스테이킹", "파이 수량"],
+        internetOps: ["입금", "출금", "예금", "송금", "저축", "대출", "실시간 정산"],
+        web3Cards: [
+          { head: "지갑 연결 & 온체인 송금", body: "분산 지갑 인증 및 원장 기반 즉시 자산 전송" },
+          { head: "온체인 예치 & LP 스테이킹", body: "스마트컨트랙트 예치 및 유동성 풀 수익 적립" },
+          { head: "토큰·덱스 스왑 & 파이 수량", body: "멀티 풀 자산 교환 및 파이 수량 동기화 조회" }
+        ],
+        internetCards: [
+          { head: "빠른 입출금 & 송금", body: "비대면 계좌 입출금 및 실시간 이체 실행" },
+          { head: "가변형 예금 & 저축", body: "기간별 가변 이율 구간 적용 및 자동 적립" },
+          { head: "대출 한도 & 정산 내역", body: "계좌 잔고 기반 대출 시뮬레이션 및 정산" }
+        ],
+        dashTitle: "개인자산 대시보드",
+        dashDesc: "보유 수량 · 실시간 누적 이자 · 적용 이율 · 사회 환원 UBI",
+        totalHoldingLabel: "총 보유 수량 (통합 환산 가치)",
+        holdingBreakdownFmt: (w3, ib) => `웹3 자산 ₩${w3} · 인터넷 예치 ₩${ib}`,
+        liveInterestLabel: "실시간 누적 이자 (초당 자동 적립)",
+        liveInterestSub: "가변형 이율 엔진 실시간 연동 중",
+        activeRateLabel: "적용 중인 가변 이율",
+        activeTermFmt: (term, range) => `선택 구간: ${term} (${range} 가변)`,
+        ubiEarnedLabel: "사회 환원 UBI 누적 수령",
+        ubiEarnedSub: "생태계 기여 및 사회 환원 풀 배분",
+        netSectionTitle: "10대 분산 연동망",
+        netSectionDesc: "지갑 연결 · 송금 · 결제 · 예치 · 리워드 · UBI · 토큰 스왑 · 덱스 스왑 · LP 스테이킹 · 파이 수량",
+        runPipelineBtn: "동적 프로세스 시뮬레이션 실행",
+        stepWait: "대기",
+        stepRunning: "실행 중...",
+        stepDone: "완료 ✓",
+        pipelineTitleFmt: (logo, name) => `${logo} ${name} 동적 프로세스`,
+        nets: [
+          { logo: "👛", name: "지갑 연결", shortDesc: "온체인 지갑 인증 및 세션 연동", desc: "분산 지갑과 멀티시그 세션을 안전하게 연결하고 자산을 동기화합니다.", steps: ["1단계: 지갑 프로바이더 및 서명 요청", "2단계: 온체인 주소·네트워크 검증", "3단계: 연결 세션 및 잔고 동기화 완료"] },
+          { logo: "💸", name: "송금", shortDesc: "실시간 계좌·주소 자산 전송", desc: "수신처 유효성과 최적 경로를 검증해 즉시 송금을 처리합니다.", steps: ["1단계: 수신 주소·계좌 한도 확인", "2단계: 수수료·전송 경로 산출", "3단계: 송금 트랜잭션 확정"] },
+          { logo: "💳", name: "결제", shortDesc: "온·오프라인 즉시 결제 승인", desc: "결제 요청과 환율·잔고 규칙을 즉시 검증해 정산합니다.", steps: ["1단계: 결제 정보 및 통화 환산 확인", "2단계: 잔고·보안 정책 즉시 승인", "3단계: 정산 원장 반영 완료"] },
+          { logo: "🏦", name: "예치", shortDesc: "가변 이율 기반 자산 예치", desc: "기간별 가변 이율 조건을 적용해 자산을 예치하고 이자를 적립합니다.", steps: ["1단계: 예치 기간 및 이율 구간 선택", "2단계: 예치 원금 계약 등록", "3단계: 실시간 이자 스트림 개시"] },
+          { logo: "🎁", name: "리워드", shortDesc: "생태계 활동 기여 보상 지급", desc: "네트워크 참여 및 활동 지표를 집계해 리워드를 배분합니다.", steps: ["1단계: 활동·기여 데이터 집계", "2단계: 리워드 배분 가중치 계산", "3단계: 보상 수량 계정 반영"] },
+          { logo: "🌱", name: "UBI", shortDesc: "사회 환원 기본소득 순환 분배", desc: "사회 환원 풀에서 산정된 기본소득(UBI)을 참여 계정에 지급합니다.", steps: ["1단계: 사회 환원 UBI 풀 잔액 점검", "2단계: 분배 기준 및 대상 검증", "3단계: 기본소득 지급 완료"] },
+          { logo: "🔄", name: "토큰 스왑", shortDesc: "지원 토큰 간 즉시 교환", desc: "교환 비율과 슬리피지를 계산해 지원 토큰을 즉시 스왑합니다.", steps: ["1단계: 스왑 자산 및 호가 조회", "2단계: 교환 비율·수수료 시뮬레이션", "3단계: 토큰 스왑 체결 완료"] },
+          { logo: "⚡", name: "덱스 스왑", shortDesc: "탈중앙 유동성 풀 경로 교환", desc: "분산 유동성 풀(DEX) 경로를 탐색해 온체인 교환을 실행합니다.", steps: ["1단계: 멀티풀 유동성 최적 경로 탐색", "2단계: 가격 영향도 및 가스비 확인", "3단계: 온체인 덱스 스왑 확정"] },
+          { logo: "🌊", name: "LP 스테이킹", shortDesc: "유동성 공급 포지션 예치 운용", desc: "LP 포지션을 스테이킹 컨트랙트에 예치해 추가 수익을 쌓습니다.", steps: ["1단계: LP 토큰 수량 및 풀 상태 확인", "2단계: 스테이킹 컨트랙트 예치", "3단계: 누적 수익률 반영 시작"] },
+          { logo: "π", name: "파이 수량", shortDesc: "파이 보유·연동 수량 실시간 확인", desc: "연동된 파이(Pi) 보유 수량과 노드·지갑 상태를 실시간 확인합니다.", steps: ["1단계: 연결 지갑·노드 상태 조회", "2단계: 파이 수량 및 전송 가능 잔고 검증", "3단계: 파이 수량 대시보드 동기화"] }
+        ],
+        ratesSectionTitle: "가변형 이율",
+        ratesSectionDesc: "6개월 이상 8%~12% · 12개월 12%~18% · 24개월 16%~24% · 36개월 20%~31.4%",
+        rateSampleFmt: (s) => `현재 가변 적용 예시: 연 ${s}%`,
+        tiers: [
+          { term: "6개월 이상", range: "8% ~ 12%", sample: 10.4 },
+          { term: "12개월", range: "12% ~ 18%", sample: 15.6 },
+          { term: "24개월", range: "16% ~ 24%", sample: 20.8 },
+          { term: "36개월", range: "20% ~ 31.4%", sample: 28.9 }
+        ],
+        bottomSectionTitle: "사회 환원 UBI · AGI/ASI 고객센터 · 유튜브 & 틱톡",
+        bottomSectionDesc: "상생 금융 환원 · 초지능 고객 지원 · 공식 채널 연결",
+        ubiCardTitle: "사회 환원 UBI",
+        ubiCardDesc: "플랫폼 성장 가치와 생태계 수익 일부를 사회 환원 풀로 조성하여 참여 구성원에게 기본소득 형태로 순환합니다.",
+        ubiCycleLabel: "이번 사이클 배분 예정 UBI",
+        ubiClaimBtn: "UBI 즉시 수령 시뮬레이션",
+        ubiClaimedAlert: (amt) => `사회 환원 UBI ₩${amt}가 지급되었습니다!`,
+        agiCardTitle: "AGI · ASI 고객센터",
+        agiGreeting: "안녕하세요. 개인자산 대시보드, 10대 분산 연동망, 가변형 이율, 사회 환원 UBI를 안내해 드립니다.",
+        agiPlaceholder: "예: 파이 수량이나 이율 알려줘",
+        agiAskBtn: "문의",
+        agiReplyRate: "가변형 이율은 6개월 이상 8%~12%, 12개월 12%~18%, 24개월 16%~24%, 36개월 20%~31.4% 범위에서 탄력 연동됩니다.",
+        agiReplyUbi: "사회 환원 UBI는 생태계 수익 환원 풀을 통해 참여 구성원에게 기본소득 형태로 순환 지급됩니다.",
+        agiReplyNet: "10대 분산 연동망에서 지갑 연결, 송금, 결제, 예치, 리워드, UBI, 토큰 스왑, 덱스 스왑, LP 스테이킹, 파이 수량을 바로 시뮬레이션할 수 있습니다.",
+        agiReplyDefault: "AGI/ASI 엔진이 요청을 분석했습니다. 개인자산 대시보드, 10대 분산 연동망, 가변형 이율(최대 31.4%), 사회 환원 UBI를 안내해 드립니다.",
+        mediaCardTitle: "유튜브 & 틱톡",
+        mediaCardDesc: "HKWB 비전 브리핑, 10대 분산 연동망 시연, 사회 환원 UBI 및 가변형 이율 구조를 유튜브와 틱톡에서 공유합니다.",
+        ytBtn: "▶ 유튜브 (@Hyekong2026)",
+        ttBtn: "♪ 틱톡 (@hyekong2026)",
+        logSectionTitle: "실시간 시연 이벤트 로그",
+        logSectionDesc: "현장 시연 중 실행된 금융·연동 이벤트 기록",
+        footerSlogan: "인류와 기술이 공존하는 차세대 디지털 금융 혁신",
+        footerMeta: "60개국어 전체 변환 · 웹3디지털 은행 & 인터넷 은행 분리 운영 · 네비게이터 & 코어리걸",
+        tourNext: "다음 →",
+        tourStop: "종료",
+        tourDoneAlert: "HKWB 플랫폼 둘러보기를 모두 완료했습니다!",
+        tourSteps: [
+          { target: "#top", title: "둘러보기 1/5단계 · 첫 화면 및 은행 선택", desc: "웹3디지털 은행과 인터넷 은행을 각각 선택해 전용 기능을 실행할 수 있습니다." },
+          { target: "#dashboard", title: "둘러보기 2/5단계 · 개인자산 대시보드", desc: "총 보유 수량, 초당 자동 적립되는 실시간 누적 이자, 적용 이율, UBI 수령액을 한눈에 확인합니다." },
+          { target: "#networks", title: "둘러보기 3/5단계 · 10대 분산 연동망", desc: "지갑 연결부터 송금, 결제, 예치, 리워드, UBI, 토큰 스왑, 덱스 스왑, LP 스테이킹, 파이 수량까지 10가지를 동적으로 실행합니다." },
+          { target: "#rates", title: "둘러보기 4/5단계 · 가변형 이율", desc: "6개월 이상(8%~12%), 12개월(12%~18%), 24개월(16%~24%), 36개월(20%~31.4%) 구간을 선택해 실시간 이율에 반영합니다." },
+          { target: "#ubi-agi-media", title: "둘러보기 5/5단계 · 사회 환원 UBI · AGI/ASI · 미디어", desc: "사회 환원 UBI 수령 시뮬레이션, AGI/ASI 고객센터 질의, 유튜브 및 틱톡 채널로 바로 연결됩니다." }
+        ],
+        legalModalBody: (label) => `[코어리걸 & 컴플라이언스]\n${label}\n\nHKWB 컴플라이언스 규격과 동기화된 문서입니다.`
+      },
+
+      en: {
+        pageTitle: "HKWB | Next-Gen Digital Finance Innovation Where Humanity & Tech Coexist",
+        dir: "ltr",
+        demoPill: "DEMO READY",
+        tourBtn: "🧭 Guided Tour",
+        langLabel: "🌐 60 Languages",
+        langTitle: "Select from 60 Languages",
+        langSelectAria: "Select Language",
+        menuOpenAria: "Open Menu",
+        menuCloseAria: "Close Menu",
+        demoBarAria: "Demo Control Panel",
+        drawerAria: "Navigator Menu",
+        demoStageTitle: "🎬 Demo Controls",
+        demoReadyState: "Standby",
+        demoBoostState: "Balance & Yield Boost Active",
+        demoResetState: "Reset to Default",
+        demoRunningState: "Running Full Showcase...",
+        demoDoneState: "Showcase Completed",
+        runFullDemo: "▶ Auto Showcase",
+        startTourAction: "🧭 Start Tour",
+        boostBtn: "💰 Boost Assets",
+        resetBtn: "↺ Reset",
+        drawerTitle: "HK Navigator",
+        drawerQuickGroup: "Quick Navigation",
+        drawerTour: "🧭 Platform Guided Tour",
+        drawerHome: "Cover · Web3 Digital & Internet Bank",
+        drawerWeb3: "Open Web3 Digital Bank",
+        drawerInternet: "Open Internet Bank",
+        drawerDash: "Personal Asset Dashboard",
+        drawerNet: "10 Distributed Networks (10 Modules)",
+        drawerRates: "Variable Yield Tiers (8% ~ 31.4%)",
+        drawerMedia: "Social UBI · AGI/ASI · Media",
+        badgeTour: "Tour", badgeHome: "Home", badgeWeb3: "Web3", badgeBank: "Bank",
+        badgeLive: "Live", badgeNet: "10-Net", badgeRates: "Yield", badgeAi: "UBI/AI",
+        drawerLegalGroup: "Core Legal & Compliance",
+        legalWhitepaper: "📄 Whitepaper (v3.1 40 Briefs)",
+        legalFaq: "❓ Deep FAQ (20 Key Topics)",
+        legalPolicy: "🛡️ 3 Core Policies (AML · KYC · Security)",
+        legalLaw21: "⚖️ 21-Jurisdiction Digital Asset & Defense Rules",
+        legalFatf: "🌐 FATF Travel Rule & Sanctions Verification",
+        badgeDoc: "Doc", badgeQa: "Q&A", badgeSec: "Sec", badgeLaw: "Law", badgeSpec: "Spec",
+        heroKicker: "HK GLOBAL FINANCE & AI ARCHITECTURE",
+        heroSlogan: 'Next-Gen Digital Finance Innovation Where <em>Humanity &amp; Tech Coexist</em>',
+        heroTourBtn: "🧭 Start Guided Tour",
+        heroDashBtn: "📊 Go to Asset Dashboard",
+        web3BankTitle: "Web3 Digital Bank",
+        web3BankSub: "Wallet Connect · On-Chain Transfer/Deposit · Token/DEX Swap · LP Staking",
+        internetBankTitle: "Internet Bank",
+        internetBankSub: "Instant Deposit/Withdraw · Savings/Time Deposit · Transfer/Loan · Live Settlement",
+        detailPill: "Open Detail ▼",
+        closePanel: "Close ✕",
+        amountPlaceholder: "Enter amount (e.g. 1000000)",
+        execBtn: "Execute",
+        selectedOpPrefix: "Selected Module:",
+        opDonePrefix: "Completed:",
+        web3Ops: ["Wallet Connect", "Transfer", "Deposit", "Token Swap", "DEX Swap", "LP Staking", "Pi Quantity"],
+        internetOps: ["Deposit", "Withdraw", "Time Deposit", "Transfer", "Savings", "Loan", "Live Settlement"],
+        web3Cards: [
+          { head: "Wallet Connect & On-Chain Transfer", body: "Distributed wallet auth and instant ledger transfers" },
+          { head: "On-Chain Deposit & LP Staking", body: "Smart contract deposits and liquidity pool staking yields" },
+          { head: "Token/DEX Swap & Pi Quantity", body: "Multi-pool asset swapping and live Pi balance sync" }
+        ],
+        internetCards: [
+          { head: "Instant Deposit/Withdraw & Transfer", body: "Branchless account funding and real-time transfers" },
+          { head: "Variable Time Deposit & Savings", body: "Tiered variable APY bands and automated accrual" },
+          { head: "Loan Limit & Settlement", body: "Balance-linked loan simulation and live settlement" }
+        ],
+        dashTitle: "Personal Asset Dashboard",
+        dashDesc: "Holdings · Live Accrued Interest · Active APY · Social Return UBI",
+        totalHoldingLabel: "Total Holdings (Unified Value)",
+        holdingBreakdownFmt: (w3, ib) => `Web3 ₩${w3} · Internet Bank ₩${ib}`,
+        liveInterestLabel: "Live Accrued Interest (Per-Second)",
+        liveInterestSub: "Synced with Variable Yield Engine",
+        activeRateLabel: "Active Variable Yield",
+        activeTermFmt: (term, range) => `Tier: ${term} (${range})`,
+        ubiEarnedLabel: "Cumulative Social UBI",
+        ubiEarnedSub: "Ecosystem & social return pool distribution",
+        netSectionTitle: "10 Distributed Networks",
+        netSectionDesc: "Wallet Connect · Transfer · Payment · Deposit · Reward · UBI · Token Swap · DEX Swap · LP Staking · Pi Quantity",
+        runPipelineBtn: "Run Dynamic Process Simulation",
+        stepWait: "Queued",
+        stepRunning: "Running...",
+        stepDone: "Done ✓",
+        pipelineTitleFmt: (logo, name) => `${logo} ${name} Dynamic Process`,
+        nets: [
+          { logo: "👛", name: "Wallet Connect", shortDesc: "On-chain wallet auth & session link", desc: "Connects distributed wallets and multisig sessions to sync balances.", steps: ["Step 1: Wallet provider & signature request", "Step 2: Address & network verification", "Step 3: Session & balance synced"] },
+          { logo: "💸", name: "Transfer", shortDesc: "Real-time account & address transfer", desc: "Validates destination and optimal route for instant asset transfer.", steps: ["Step 1: Recipient & limit check", "Step 2: Fee & route calculation", "Step 3: Transfer confirmed"] },
+          { logo: "💳", name: "Payment", shortDesc: "Instant payment authorization", desc: "Verifies payment rules, FX conversion, and balance in real time.", steps: ["Step 1: Payment & FX check", "Step 2: Balance & security approval", "Step 3: Settlement recorded"] },
+          { logo: "🏦", name: "Deposit", shortDesc: "Variable-yield asset deposit", desc: "Locks principal under variable APY terms and accrues yield.", steps: ["Step 1: Select term & APY band", "Step 2: Register deposit contract", "Step 3: Real-time yield started"] },
+          { logo: "🎁", name: "Reward", shortDesc: "Ecosystem contribution rewards", desc: "Aggregates participation metrics and distributes reward allocations.", steps: ["Step 1: Aggregate activity metrics", "Step 2: Compute reward weights", "Step 3: Credit reward balance"] },
+          { logo: "🌱", name: "UBI", shortDesc: "Social return universal basic income", desc: "Distributes UBI from the social return pool to participants.", steps: ["Step 1: Check social UBI pool", "Step 2: Verify eligibility rules", "Step 3: UBI payout complete"] },
+          { logo: "🔄", name: "Token Swap", shortDesc: "Instant supported token exchange", desc: "Calculates exchange rate and slippage for instant token swaps.", steps: ["Step 1: Fetch swap quote", "Step 2: Simulate rate & fee", "Step 3: Token swap settled"] },
+          { logo: "⚡", name: "DEX Swap", shortDesc: "Decentralized liquidity pool swap", desc: "Finds optimal DEX pool routes and executes on-chain swaps.", steps: ["Step 1: Route across DEX pools", "Step 2: Check impact & gas", "Step 3: On-chain DEX swap done"] },
+          { logo: "🌊", name: "LP Staking", shortDesc: "Liquidity position staking yield", desc: "Stakes LP tokens in yield contracts for compounding rewards.", steps: ["Step 1: Verify LP token & pool", "Step 2: Stake LP position", "Step 3: Yield compounding live"] },
+          { logo: "π", name: "Pi Quantity", shortDesc: "Live Pi balance & node sync", desc: "Displays linked Pi quantity and node/wallet synchronization status.", steps: ["Step 1: Query wallet & node", "Step 2: Verify Pi & transferable balance", "Step 3: Dashboard Pi quantity synced"] }
+        ],
+        ratesSectionTitle: "Variable Yield Tiers",
+        ratesSectionDesc: "6M+ 8%~12% · 12M 12%~18% · 24M 16%~24% · 36M 20%~31.4%",
+        rateSampleFmt: (s) => `Sample Live Rate: ${s}% APY`,
+        tiers: [
+          { term: "6M+", range: "8% ~ 12%", sample: 10.4 },
+          { term: "12M", range: "12% ~ 18%", sample: 15.6 },
+          { term: "24M", range: "16% ~ 24%", sample: 20.8 },
+          { term: "36M", range: "20% ~ 31.4%", sample: 28.9 }
+        ],
+        bottomSectionTitle: "Social UBI · AGI/ASI Support · YouTube & TikTok",
+        bottomSectionDesc: "Social Return · Superintelligence Support · Official Channels",
+        ubiCardTitle: "Social Return UBI",
+        ubiCardDesc: "Allocates ecosystem growth value into a social return pool to circulate basic income to participants.",
+        ubiCycleLabel: "Current Cycle UBI Allocation",
+        ubiClaimBtn: "Simulate Instant UBI Claim",
+        ubiClaimedAlert: (amt) => `Social Return UBI of ₩${amt} claimed!`,
+        agiCardTitle: "AGI · ASI Support Center",
+        agiGreeting: "Welcome. Ask about Personal Asset Dashboard, 10 Distributed Networks, Variable Yield Tiers, or Social UBI.",
+        agiPlaceholder: "Ask about Pi quantity, yield, or UBI...",
+        agiAskBtn: "Ask",
+        agiReplyRate: "Variable APY ranges: 6M+ 8%~12%, 12M 12%~18%, 24M 16%~24%, and 36M 20%~31.4%.",
+        agiReplyUbi: "Social Return UBI circulates basic income from the ecosystem return pool to participants.",
+        agiReplyNet: "The 10 Distributed Networks cover Wallet Connect, Transfer, Payment, Deposit, Reward, UBI, Token Swap, DEX Swap, LP Staking, and Pi Quantity.",
+        agiReplyDefault: "AGI/ASI engine processed your request across Asset Dashboard, 10 Distributed Networks, Variable Yield, and Social UBI.",
+        mediaCardTitle: "YouTube & TikTok",
+        mediaCardDesc: "Watch HKWB vision briefings, 10-network demos, UBI circulation, and variable yield architecture.",
+        ytBtn: "▶ YouTube (@Hyekong2026)",
+        ttBtn: "♪ TikTok (@hyekong2026)",
+        logSectionTitle: "Live Showcase Event Log",
+        logSectionDesc: "Real-time log of banking and network simulation events",
+        footerSlogan: "Next-Gen Digital Finance Innovation Where Humanity & Tech Coexist",
+        footerMeta: "Full 60-Language Conversion · Dual Web3 & Internet Banking · Navigator & Core Legal",
+        tourNext: "Next →",
+        tourStop: "Exit",
+        tourDoneAlert: "HKWB guided tour completed!",
+        tourSteps: [
+          { target: "#top", title: "Tour 1/5 · Cover & Bank Selection", desc: "Choose between Web3 Digital Bank and Internet Bank for dedicated operations." },
+          { target: "#dashboard", title: "Tour 2/5 · Personal Asset Dashboard", desc: "Monitor total holdings, per-second accrued interest, active APY, and UBI earnings." },
+          { target: "#networks", title: "Tour 3/5 · 10 Distributed Networks", desc: "Run dynamic simulations across all 10 modules including Pi Quantity and swaps." },
+          { target: "#rates", title: "Tour 4/5 · Variable Yield Tiers", desc: "Select a term tier up to 31.4% APY to update live yield calculations." },
+          { target: "#ubi-agi-media", title: "Tour 5/5 · Social UBI · AGI/ASI · Media", desc: "Claim UBI simulations, chat with AGI/ASI support, and visit YouTube & TikTok." }
+        ],
+        legalModalBody: (label) => `[Core Legal & Compliance]\n${label}\n\nSynchronized with HKWB compliance specifications.`
+      },
+
+      ja: {
+        pageTitle: "HKWB | 人類と技術が共存する次世代デジタル金融革新",
+        dir: "ltr",
+        demoPill: "DEMO READY",
+        tourBtn: "🧭 ガイドツアー",
+        langLabel: "🌐 60言語",
+        langTitle: "60言語を選択",
+        langSelectAria: "言語を選択",
+        menuOpenAria: "メニューを開く",
+        menuCloseAria: "メニューを閉じる",
+        demoBarAria: "デモ制御パネル",
+        drawerAria: "ナビゲーターメニュー",
+        demoStageTitle: "🎬 デモ制御",
+        demoReadyState: "待機中",
+        demoBoostState: "残高・利回りブースト適用中",
+        demoResetState: "初期値へリセット",
+        demoRunningState: "全体デモ自動実行中...",
+        demoDoneState: "全体デモ完了",
+        runFullDemo: "▶ 全体デモ自動実行",
+        startTourAction: "🧭 ツアー開始",
+        boostBtn: "💰 残高・利回りブースト",
+        resetBtn: "↺ リセット",
+        drawerTitle: "HK ナビゲーター",
+        drawerQuickGroup: "クイックメニュー",
+        drawerTour: "🧭 プラットフォームツアー",
+        drawerHome: "トップ · Web3デジタル＆インターネット銀行",
+        drawerWeb3: "Web3デジタル銀行を開く",
+        drawerInternet: "インターネット銀行を開く",
+        drawerDash: "個人資産ダッシュボード",
+        drawerNet: "10大分散連動網（10種）",
+        drawerRates: "可変型金利（8%〜31.4%）",
+        drawerMedia: "社会還元UBI · AGI/ASI · メディア",
+        badgeTour: "ツアー", badgeHome: "ホーム", badgeWeb3: "Web3", badgeBank: "銀行",
+        badgeLive: "ライブ", badgeNet: "10連動", badgeRates: "金利", badgeAi: "UBI/AI",
+        drawerLegalGroup: "コアリーガル＆コンプライアンス",
+        legalWhitepaper: "📄 ホワイトペーパー（v3.1 要点40選）",
+        legalFaq: "❓ よくある質問（FAQ 20選）",
+        legalPolicy: "🛡️ 3大ポリシー（AML・KYC・セキュリティ）",
+        legalLaw21: "⚖️ 21カ国デジタル資産法＆防御基準",
+        legalFatf: "🌐 FATFトラベルルール＆制裁検証",
+        badgeDoc: "文書", badgeQa: "質問", badgeSec: "安全", badgeLaw: "法規", badgeSpec: "規格",
+        heroKicker: "HK グローバル金融＆AIアーキテクチャ",
+        heroSlogan: '人類と技術が共存する<em>次世代デジタル金融革新</em>',
+        heroTourBtn: "🧭 ガイドツアーを開始",
+        heroDashBtn: "📊 個人資産ダッシュボードへ",
+        web3BankTitle: "Web3デジタル銀行",
+        web3BankSub: "ウォレット接続・オンチェーン送金/預け入れ・トークン/DEXスワップ・LPステーキング",
+        internetBankTitle: "インターネット銀行",
+        internetBankSub: "入出金・定期/貯蓄・送金/融資・リアルタイム精算",
+        detailPill: "詳細を見る ▼",
+        closePanel: "閉じる ✕",
+        amountPlaceholder: "金額を入力（例：1000000）",
+        execBtn: "実行",
+        selectedOpPrefix: "選択機能：",
+        opDonePrefix: "実行完了：",
+        web3Ops: ["ウォレット接続", "送金", "預け入れ", "トークンスワップ", "DEXスワップ", "LPステーキング", "Pi数量"],
+        internetOps: ["入金", "出金", "定期預金", "送金", "貯蓄", "融資", "リアルタイム精算"],
+        web3Cards: [
+          { head: "ウォレット接続＆オンチェーン送金", body: "分散ウォレット認証と即時台帳送金" },
+          { head: "オンチェーン預け入れ＆LPステーキング", body: "スマートコントラクト預け入れと流動性プール収益" },
+          { head: "トークン/DEXスワップ＆Pi数量", body: "マルチプール交換とPi数量の同期確認" }
+        ],
+        internetCards: [
+          { head: "入出金＆送金", body: "非対面口座の入出金と即時送金" },
+          { head: "可変型定期＆貯蓄", body: "期間別可変金利の適用と自動積立" },
+          { head: "融資枠＆精算", body: "残高連動シミュレーションと精算" }
+        ],
+        dashTitle: "個人資産ダッシュボード",
+        dashDesc: "保有数量 · リアルタイム累計利息 · 適用金利 · 社会還元UBI",
+        totalHoldingLabel: "総保有数量（統合換算価値）",
+        holdingBreakdownFmt: (w3, ib) => `Web3 ₩${w3} · ネット銀行 ₩${ib}`,
+        liveInterestLabel: "リアルタイム累計利息（毎秒積算）",
+        liveInterestSub: "可変型金利エンジンとリアルタイム連動中",
+        activeRateLabel: "適用中の可変金利",
+        activeTermFmt: (term, range) => `選択期間：${term}（${range}）`,
+        ubiEarnedLabel: "社会還元UBI累計受取",
+        ubiEarnedSub: "エコシステム貢献＆社会還元プール配分",
+        netSectionTitle: "10大分散連動網",
+        netSectionDesc: "ウォレット接続 · 送金 · 決済 · 預け入れ · リワード · UBI · トークンスワップ · DEXスワップ · LPステーキング · Pi数量",
+        runPipelineBtn: "動的プロセスシミュレーション実行",
+        stepWait: "待機",
+        stepRunning: "実行中...",
+        stepDone: "完了 ✓",
+        pipelineTitleFmt: (logo, name) => `${logo} ${name} 動的プロセス`,
+        nets: [
+          { logo: "👛", name: "ウォレット接続", shortDesc: "オンチェーン認証とセッション連携", desc: "分散ウォレットとマルチシグを安全に接続し残高を同期します。", steps: ["第1段階：ウォレット署名要求", "第2段階：アドレス・ネットワーク検証", "第3段階：接続と残高同期完了"] },
+          { logo: "💸", name: "送金", shortDesc: "リアルタイム口座・アドレス送金", desc: "送金先と最適ルートを検証し即時送金します。", steps: ["第1段階：送金先・限度額確認", "第2段階：手数料・ルート算出", "第3段階：送金確定"] },
+          { logo: "💳", name: "決済", shortDesc: "即時決済承認", desc: "決済条件と残高・為替ルールを即時検証して精算します。", steps: ["第1段階：決済・換算確認", "第2段階：残高・セキュリティ承認", "第3段階：精算反映完了"] },
+          { logo: "🏦", name: "預け入れ", shortDesc: "可変金利ベースの資産預け入れ", desc: "期間別可変金利を適用して資産を預け入れ利息を積算します。", steps: ["第1段階：期間・金利帯選択", "第2段階：預け入れ契約登録", "第3段階：利息積算開始"] },
+          { logo: "🎁", name: "リワード", shortDesc: "エコシステム貢献報酬", desc: "活動指標を集計してリワードを配分します。", steps: ["第1段階：活動データ集計", "第2段階：配分ウェイト計算", "第3段階：報酬残高反映"] },
+          { logo: "🌱", name: "UBI", shortDesc: "社会還元ベーシックインカム", desc: "社会還元プールから参加アカウントへUBIを循環支給します。", steps: ["第1段階：社会還元プール確認", "第2段階：対象・基準検証", "第3段階：UBI支給完了"] },
+          { logo: "🔄", name: "トークンスワップ", shortDesc: "対応トークンの即時交換", desc: "レートとスリッページを計算してトークンを交換します。", steps: ["第1段階：レート照会", "第2段階：交換・手数料試算", "第3段階：スワップ締結"] },
+          { logo: "⚡", name: "DEXスワップ", shortDesc: "分散流動性プール交換", desc: "DEX流動性ルートを探索してオンチェーン交換を実行します。", steps: ["第1段階：最適DEXルート探索", "第2段階：影響度・ガス確認", "第3段階：DEXスワップ完了"] },
+          { logo: "🌊", name: "LPステーキング", shortDesc: "流動性ポジション運用", desc: "LPトークンをステーキングし追加利回りを獲得します。", steps: ["第1段階：LP数量・プール確認", "第2段階：ステーキング登録", "第3段階：利回り反映開始"] },
+          { logo: "π", name: "Pi数量", shortDesc: "Pi保有数量・ノード連携確認", desc: "連携Pi数量とノード・ウォレット状態をリアルタイム表示します。", steps: ["第1段階：ウォレット・ノード照会", "第2段階：Pi数量・送金可能額検証", "第3段階：ダッシュボード同期完了"] }
+        ],
+        ratesSectionTitle: "可変型金利",
+        ratesSectionDesc: "6ヶ月以上 8%~12% · 12ヶ月 12%~18% · 24ヶ月 16%~24% · 36ヶ月 20%~31.4%",
+        rateSampleFmt: (s) => `可変適用例：年率 ${s}%`,
+        tiers: [
+          { term: "6ヶ月以上", range: "8% ~ 12%", sample: 10.4 },
+          { term: "12ヶ月", range: "12% ~ 18%", sample: 15.6 },
+          { term: "24ヶ月", range: "16% ~ 24%", sample: 20.8 },
+          { term: "36ヶ月", range: "20% ~ 31.4%", sample: 28.9 }
+        ],
+        bottomSectionTitle: "社会還元UBI · AGI/ASIカスタマーセンター · YouTube＆TikTok",
+        bottomSectionDesc: "共生金融還元 · 超知能サポート · 公式チャンネル",
+        ubiCardTitle: "社会還元UBI",
+        ubiCardDesc: "成長価値と収益の一部を社会還元プールへ積み立て、参加者へベーシックインカムとして循環します。",
+        ubiCycleLabel: "今回サイクル配分予定UBI",
+        ubiClaimBtn: "UBI即時受取シミュレーション",
+        ubiClaimedAlert: (amt) => `社会還元UBI ₩${amt} を受け取りました！`,
+        agiCardTitle: "AGI · ASI カスタマーセンター",
+        agiGreeting: "こんにちは。個人資産ダッシュボード、10大分散連動網、可変型金利、社会還元UBIをご案内します。",
+        agiPlaceholder: "例：Pi数量や金利について質問",
+        agiAskBtn: "質問",
+        agiReplyRate: "可変金利は6ヶ月以上8%~12%、12ヶ月12%~18%、24ヶ月16%~24%、36ヶ月20%~31.4%です。",
+        agiReplyUbi: "社会還元UBIはエコシステム還元プールから参加者へ循環支給されます。",
+        agiReplyNet: "10大分散連動網でウォレット接続、送金、決済、預け入れ、リワード、UBI、トークン/DEXスワップ、LPステーキング、Pi数量を試せます。",
+        agiReplyDefault: "AGI/ASIエンジンが応答しました。ダッシュボード、10大連動網、可変金利、社会還元UBIをご確認ください。",
+        mediaCardTitle: "YouTube＆TikTok",
+        mediaCardDesc: "HKWBビジョン、10大連動網デモ、UBI循環、可変金利構造を配信しています。",
+        ytBtn: "▶ YouTube (@Hyekong2026)",
+        ttBtn: "♪ TikTok (@hyekong2026)",
+        logSectionTitle: "リアルタイムデモイベントログ",
+        logSectionDesc: "デモ実行中の金融・連動イベント記録",
+        footerSlogan: "人類と技術が共存する次世代デジタル金融革新",
+        footerMeta: "60言語全体変換 · Web3＆ネット銀行分離運用 · ナビゲーター＆コアリーガル",
+        tourNext: "次へ →",
+        tourStop: "終了",
+        tourDoneAlert: "HKWBガイドツアーが完了しました！",
+        tourSteps: [
+          { target: "#top", title: "ツアー 1/5 · トップ＆銀行選択", desc: "Web3デジタル銀行とインターネット銀行を選択して専用操作を行えます。" },
+          { target: "#dashboard", title: "ツアー 2/5 · 個人資産ダッシュボード", desc: "総保有数量、毎秒積算利息、適用金利、UBI累計を確認できます。" },
+          { target: "#networks", title: "ツアー 3/5 · 10大分散連動網", desc: "ウォレット接続からPi数量・各種スワップまで10項目を実行できます。" },
+          { target: "#rates", title: "ツアー 4/5 · 可変型金利", desc: "最大31.4%の期間帯を選択しリアルタイム金利に反映します。" },
+          { target: "#ubi-agi-media", title: "ツアー 5/5 · 社会還元UBI · AGI/ASI · メディア", desc: "UBI受取、AGI/ASI相談、YouTube・TikTokへアクセスできます。" }
+        ],
+        legalModalBody: (label) => `[コアリーガル＆コンプライアンス]\n${label}\n\nHKWBコンプライアンス基準と同期しています。`
+      },
+
+      "zh-CN": {
+        pageTitle: "HKWB | 人类与技术共生的下一代数字金融创新",
+        dir: "ltr",
+        demoPill: "DEMO READY",
+        tourBtn: "🧭 导览参观",
+        langLabel: "🌐 60种语言",
+        langTitle: "选择60种语言",
+        langSelectAria: "选择语言",
+        menuOpenAria: "打开菜单",
+        menuCloseAria: "关闭菜单",
+        demoBarAria: "演示控制面板",
+        drawerAria: "导航菜单",
+        demoStageTitle: "🎬 演示控制",
+        demoReadyState: "待机中",
+        demoBoostState: "资产与利率加成已生效",
+        demoResetState: "已恢复初始值",
+        demoRunningState: "全流程自动演示中...",
+        demoDoneState: "演示已完成",
+        runFullDemo: "▶ 自动全流程演示",
+        startTourAction: "🧭 开始导览",
+        boostBtn: "💰 资产利率加成",
+        resetBtn: "↺ 重置",
+        drawerTitle: "HK 导航器",
+        drawerQuickGroup: "快捷菜单",
+        drawerTour: "🧭 平台导览指南",
+        drawerHome: "首页 · Web3数字银行 & 互联网银行",
+        drawerWeb3: "打开 Web3 数字银行",
+        drawerInternet: "打开互联网银行",
+        drawerDash: "个人资产仪表盘",
+        drawerNet: "十大分布式联动网（10项）",
+        drawerRates: "浮动利率（8% ~ 31.4%）",
+        drawerMedia: "社会回馈 UBI · AGI/ASI · 媒体",
+        badgeTour: "导览", badgeHome: "首页", badgeWeb3: "Web3", badgeBank: "银行",
+        badgeLive: "实时", badgeNet: "10联动", badgeRates: "利率", badgeAi: "UBI/AI",
+        drawerLegalGroup: "核心法务与合规",
+        legalWhitepaper: "📄 白皮书（v3.1 核心40项）",
+        legalFaq: "❓ 常见问题（FAQ 20项）",
+        legalPolicy: "🛡️ 三大政策（AML·KYC·安全防护）",
+        legalLaw21: "⚖️ 21国数字资产法规与防御标准",
+        legalFatf: "🌐 FATF 旅行规则与制裁名单核验",
+        badgeDoc: "文档", badgeQa: "问答", badgeSec: "安全", badgeLaw: "法规", badgeSpec: "规范",
+        heroKicker: "HK 全球金融与 AI 架构",
+        heroSlogan: '人类与技术共生的<em>下一代数字金融创新</em>',
+        heroTourBtn: "🧭 开始平台导览",
+        heroDashBtn: "📊 前往个人资产仪表盘",
+        web3BankTitle: "Web3 数字银行",
+        web3BankSub: "钱包连接 · 链上转账/存入 · 代币/DEX兑换 · LP质押专属界面",
+        internetBankTitle: "互联网银行",
+        internetBankSub: "快捷存取 · 存款/储蓄 · 转账/贷款 · 实时清算专属界面",
+        detailPill: "查看详情 ▼",
+        closePanel: "收起 ✕",
+        amountPlaceholder: "输入金额（如：1000000）",
+        execBtn: "执行",
+        selectedOpPrefix: "当前功能：",
+        opDonePrefix: "已完成：",
+        web3Ops: ["钱包连接", "转账", "存入", "代币兑换", "DEX兑换", "LP质押", "Pi数量"],
+        internetOps: ["入金", "出金", "定期存款", "转账", "储蓄", "贷款", "实时清算"],
+        web3Cards: [
+          { head: "钱包连接与链上转账", body: "分布式钱包认证与账本即时转账" },
+          { head: "链上存入与 LP 质押", body: "智能合约存入与流动性池收益累积" },
+          { head: "代币/DEX兑换与 Pi 数量", body: "多池资产兑换与 Pi 数量同步查询" }
+        ],
+        internetCards: [
+          { head: "快捷存取与转账", body: "线上账户存取与实时转账" },
+          { head: "浮动定存与储蓄", body: "期限浮动利率与自动计息" },
+          { head: "贷款额度与清算", body: "基于余额的贷款模拟与清算" }
+        ],
+        dashTitle: "个人资产仪表盘",
+        dashDesc: "持仓数量 · 实时累计利息 · 当前利率 · 社会回馈 UBI",
+        totalHoldingLabel: "总持仓数量（折合总价值）",
+        holdingBreakdownFmt: (w3, ib) => `Web3 ₩${w3} · 互联网银行 ₩${ib}`,
+        liveInterestLabel: "实时累计利息（每秒自动增长）",
+        liveInterestSub: "与浮动利率引擎实时同步",
+        activeRateLabel: "当前浮动利率",
+        activeTermFmt: (term, range) => `已选期限：${term}（${range}）`,
+        ubiEarnedLabel: "累计社会回馈 UBI",
+        ubiEarnedSub: "生态贡献与社会回馈池分配",
+        netSectionTitle: "十大分布式联动网",
+        netSectionDesc: "钱包连接 · 转账 · 支付 · 存入 · 奖励 · UBI · 代币兑换 · DEX兑换 · LP质押 · Pi数量",
+        runPipelineBtn: "运行动态流程模拟",
+        stepWait: "等待中",
+        stepRunning: "执行中...",
+        stepDone: "完成 ✓",
+        pipelineTitleFmt: (logo, name) => `${logo} ${name} 动态流程`,
+        nets: [
+          { logo: "👛", name: "钱包连接", shortDesc: "链上钱包认证与会话关联", desc: "安全连接分布式钱包与多签会话并同步余额。", steps: ["第1步：发起钱包签名请求", "第2步：校验地址与网络", "第3步：会话与余额同步完成"] },
+          { logo: "💸", name: "转账", shortDesc: "实时账户与地址转账", desc: "校验收款方与最优路径并即时完成转账。", steps: ["第1步：核对收款方与限额", "第2步：计算手续费与路径", "第3步：转账交易确认"] },
+          { logo: "💳", name: "支付", shortDesc: "即时支付授权", desc: "实时验证支付规则、汇率与余额并完成结算。", steps: ["第1步：核对支付与换算", "第2步：余额与安全审批", "第3步：清算入账完成"] },
+          { logo: "🏦", name: "存入", shortDesc: "浮动利率资产存入", desc: "按期限浮动利率条款存入资产并累积利息。", steps: ["第1步：选择期限与利率档位", "第2步：登记存入合约", "第3步：开始实时计息"] },
+          { logo: "🎁", name: "奖励", shortDesc: "生态活跃贡献奖励", desc: "统计参与指标并分配奖励份额。", steps: ["第1步：汇总活跃指标", "第2步：计算奖励权重", "第3步：发放奖励余额"] },
+          { logo: "🌱", name: "UBI", shortDesc: "社会回馈基本收入循环", desc: "从社会回馈池向参与账户循环发放 UBI。", steps: ["第1步：检查回馈池余额", "第2步：核验发放规则", "第3步：UBI 发放完成"] },
+          { logo: "🔄", name: "代币兑换", shortDesc: "支持代币即时互换", desc: "测算汇率与滑点并即时完成代币兑换。", steps: ["第1步：查询兑换报价", "第2步：测算汇率与费用", "第3步：代币兑换成交"] },
+          { logo: "⚡", name: "DEX兑换", shortDesc: "去中心化流动性池兑换", desc: "检索最优 DEX 流动路径并执行链上兑换。", steps: ["第1步：检索流动性路径", "第2步：确认滑点与 Gas", "第3步：链上 DEX 兑换完成"] },
+          { logo: "🌊", name: "LP质押", shortDesc: "流动性头寸质押生息", desc: "将 LP 代币质押至收益合约获取叠加回报。", steps: ["第1步：核对 LP 数量与池状态", "第2步：质押 LP 头寸", "第3步：开始累积收益"] },
+          { logo: "π", name: "Pi数量", shortDesc: "实时查看 Pi 持仓与节点状态", desc: "实时查看关联 Pi 数量及节点/钱包同步状态。", steps: ["第1步：查询钱包与节点", "第2步：校验 Pi 与可转余额", "第3步：仪表盘 Pi 数量已同步"] }
+        ],
+        ratesSectionTitle: "浮动利率",
+        ratesSectionDesc: "6个月以上 8%~12% · 12个月 12%~18% · 24个月 16%~24% · 36个月 20%~31.4%",
+        rateSampleFmt: (s) => `当前浮动示例：年化 ${s}%`,
+        tiers: [
+          { term: "6个月以上", range: "8% ~ 12%", sample: 10.4 },
+          { term: "12个月", range: "12% ~ 18%", sample: 15.6 },
+          { term: "24个月", range: "16% ~ 24%", sample: 20.8 },
+          { term: "36个月", range: "20% ~ 31.4%", sample: 28.9 }
+        ],
+        bottomSectionTitle: "社会回馈 UBI · AGI/ASI 客服中心 · YouTube 与 TikTok",
+        bottomSectionDesc: "普惠金融回馈 · 超智能客服 · 官方频道",
+        ubiCardTitle: "社会回馈 UBI",
+        ubiCardDesc: "将部分生态增长价值注入社会回馈池，以基本收入形式向参与者循环分配。",
+        ubiCycleLabel: "本周期预计发放 UBI",
+        ubiClaimBtn: "模拟立即领取 UBI",
+        ubiClaimedAlert: (amt) => `已发放社会回馈 UBI ₩${amt}！`,
+        agiCardTitle: "AGI · ASI 客服中心",
+        agiGreeting: "您好，可咨询个人资产仪表盘、十大分布式联动网、浮动利率与社会回馈 UBI。",
+        agiPlaceholder: "例如：咨询 Pi 数量或利率",
+        agiAskBtn: "咨询",
+        agiReplyRate: "浮动利率区间：6个月以上 8%~12%，12个月 12%~18%，24个月 16%~24%，36个月 20%~31.4%。",
+        agiReplyUbi: "社会回馈 UBI 由生态回馈池向参与者循环发放基本收入。",
+        agiReplyNet: "十大分布式联动网支持钱包连接、转账、支付、存入、奖励、UBI、代币兑换、DEX兑换、LP质押与 Pi 数量模拟。",
+        agiReplyDefault: "AGI/ASI 引擎已解析您的请求，涵盖资产仪表盘、十大联动网、浮动利率与社会回馈 UBI。",
+        mediaCardTitle: "YouTube 与 TikTok",
+        mediaCardDesc: "在 YouTube 与 TikTok 分享 HKWB 愿景、十大联动网演示、UBI 循环与浮动利率机制。",
+        ytBtn: "▶ YouTube (@Hyekong2026)",
+        ttBtn: "♪ TikTok (@hyekong2026)",
+        logSectionTitle: "实时演示事件日志",
+        logSectionDesc: "演示期间执行的金融与联动事件记录",
+        footerSlogan: "人类与技术共生的下一代数字金融创新",
+        footerMeta: "60种语言整站转换 · Web3与互联网银行双轨架构 · 导航器与核心法务",
+        tourNext: "下一步 →",
+        tourStop: "退出",
+        tourDoneAlert: "已完成 HKWB 平台导览！",
+        tourSteps: [
+          { target: "#top", title: "导览 1/5 · 首页与银行选择", desc: "可分别选择 Web3 数字银行与互联网银行进入专属功能。" },
+          { target: "#dashboard", title: "导览 2/5 · 个人资产仪表盘", desc: "实时查看总持仓、每秒累计利息、当前利率与 UBI 收益。" },
+          { target: "#networks", title: "导览 3/5 · 十大分布式联动网", desc: "涵盖钱包连接、Pi 数量及各类兑换/质押等十大模块模拟。" },
+          { target: "#rates", title: "导览 4/5 · 浮动利率", desc: "选择最高 31.4% 的期限利率档位并更新实时计算。" },
+          { target: "#ubi-agi-media", title: "导览 5/5 · 社会回馈 UBI · AGI/ASI · 媒体", desc: "体验 UBI 领取模拟、AGI/ASI 客服对话及官方媒体频道。" }
+        ],
+        legalModalBody: (label) => `[核心法务与合规]\n${label}\n\n已与 HKWB 合规规范同步。`
+      },
+
+      "zh-TW": {
+        pageTitle: "HKWB | 人類與技術共生的下一代數位金融創新",
+        dir: "ltr",
+        demoPill: "DEMO READY",
+        tourBtn: "🧭 導覽參觀",
+        langLabel: "🌐 60種語言",
+        langTitle: "選擇60種語言",
+        langSelectAria: "選擇語言",
+        menuOpenAria: "開啟選單",
+        menuCloseAria: "關閉選單",
+        demoBarAria: "示範控制面板",
+        drawerAria: "導覽選單",
+        demoStageTitle: "🎬 示範控制",
+        demoReadyState: "待機中",
+        demoBoostState: "資產與利率加成已生效",
+        demoResetState: "已恢復初始值",
+        demoRunningState: "全流程自動示範中...",
+        demoDoneState: "示範已完成",
+        runFullDemo: "▶ 自動全流程示範",
+        startTourAction: "🧭 開始導覽",
+        boostBtn: "💰 資產利率加成",
+        resetBtn: "↺ 重設",
+        drawerTitle: "HK 導覽器",
+        drawerQuickGroup: "快捷選單",
+        drawerTour: "🧭 平台導覽指南",
+        drawerHome: "首頁 · Web3數位銀行 & 網際網路銀行",
+        drawerWeb3: "開啟 Web3 數位銀行",
+        drawerInternet: "開啟網際網路銀行",
+        drawerDash: "個人資產儀表板",
+        drawerNet: "十大分散式連動網（10項）",
+        drawerRates: "浮動利率（8% ~ 31.4%）",
+        drawerMedia: "社會回饋 UBI · AGI/ASI · 媒體",
+        badgeTour: "導覽", badgeHome: "首頁", badgeWeb3: "Web3", badgeBank: "銀行",
+        badgeLive: "即時", badgeNet: "10連動", badgeRates: "利率", badgeAi: "UBI/AI",
+        drawerLegalGroup: "核心法務與合規",
+        legalWhitepaper: "📄 白皮書（v3.1 核心40項）",
+        legalFaq: "❓ 常見問題（FAQ 20項）",
+        legalPolicy: "🛡️ 三大政策（AML·KYC·安全防護）",
+        legalLaw21: "⚖️ 21國數位資產法規與防禦標準",
+        legalFatf: "🌐 FATF 旅遊規則與制裁名單核驗",
+        badgeDoc: "文件", badgeQa: "問答", badgeSec: "安全", badgeLaw: "法規", badgeSpec: "規範",
+        heroKicker: "HK 全球金融與 AI 架構",
+        heroSlogan: '人類與技術共生的<em>下一代數位金融創新</em>',
+        heroTourBtn: "🧭 開始平台導覽",
+        heroDashBtn: "📊 前往個人資產儀表板",
+        web3BankTitle: "Web3 數位銀行",
+        web3BankSub: "錢包連接 · 鏈上轉帳/存入 · 代幣/DEX兌換 · LP質押專屬畫面",
+        internetBankTitle: "網際網路銀行",
+        internetBankSub: "快捷存取 · 存款/儲蓄 · 轉帳/貸款 · 即時清算專屬畫面",
+        detailPill: "查看詳情 ▼",
+        closePanel: "收合 ✕",
+        amountPlaceholder: "輸入金額（如：1000000）",
+        execBtn: "執行",
+        selectedOpPrefix: "目前功能：",
+        opDonePrefix: "已完成：",
+        web3Ops: ["錢包連接", "轉帳", "存入", "代幣兌換", "DEX兌換", "LP質押", "Pi數量"],
+        internetOps: ["入金", "出金", "定期存款", "轉帳", "儲蓄", "貸款", "即時清算"],
+        web3Cards: [
+          { head: "錢包連接與鏈上轉帳", body: "分散式錢包認證與帳本即時轉帳" },
+          { head: "鏈上存入與 LP 質押", body: "智慧合約存入與流動性池收益累積" },
+          { head: "代幣/DEX兌換與 Pi 數量", body: "多池資產兌換與 Pi 數量同步查詢" }
+        ],
+        internetCards: [
+          { head: "快捷存取與轉帳", body: "線上帳戶存取與即時轉帳" },
+          { head: "浮動定存與儲蓄", body: "期限浮動利率與自動計息" },
+          { head: "貸款額度與清算", body: "基於餘額的貸款模擬與清算" }
+        ],
+        dashTitle: "個人資產儀表板",
+        dashDesc: "持倉數量 · 即時累計利息 · 目前利率 · 社會回饋 UBI",
+        totalHoldingLabel: "總持倉數量（折合總價值）",
+        holdingBreakdownFmt: (w3, ib) => `Web3 ₩${w3} · 網際網路銀行 ₩${ib}`,
+        liveInterestLabel: "即時累計利息（每秒自動增長）",
+        liveInterestSub: "與浮動利率引擎即時同步",
+        activeRateLabel: "目前浮動利率",
+        activeTermFmt: (term, range) => `已選期限：${term}（${range}）`,
+        ubiEarnedLabel: "累計社會回饋 UBI",
+        ubiEarnedSub: "生態貢獻與社會回饋池分配",
+        netSectionTitle: "十大分散式連動網",
+        netSectionDesc: "錢包連接 · 轉帳 · 支付 · 存入 · 獎勵 · UBI · 代幣兌換 · DEX兌換 · LP質押 · Pi數量",
+        runPipelineBtn: "執行動態流程模擬",
+        stepWait: "等待中",
+        stepRunning: "執行中...",
+        stepDone: "完成 ✓",
+        pipelineTitleFmt: (logo, name) => `${logo} ${name} 動態流程`,
+        nets: [
+          { logo: "👛", name: "錢包連接", shortDesc: "鏈上錢包認證與會話關聯", desc: "安全連接分散式錢包與多簽會話並同步餘額。", steps: ["第1步：發起錢包簽章請求", "第2步：校驗位址與網路", "第3步：會話與餘額同步完成"] },
+          { logo: "💸", name: "轉帳", shortDesc: "即時帳戶與位址轉帳", desc: "校驗收款方與最佳路徑並即時完成轉帳。", steps: ["第1步：核對收款方與限額", "第2步：計算手續費與路徑", "第3步：轉帳交易確認"] },
+          { logo: "💳", name: "支付", shortDesc: "即時支付授權", desc: "即時驗證支付規則、匯率與餘額並完成結算。", steps: ["第1步：核對支付與換算", "第2步：餘額與安全審批", "第3步：清算入帳完成"] },
+          { logo: "🏦", name: "存入", shortDesc: "浮動利率資產存入", desc: "按期限浮動利率條款存入資產並累積利息。", steps: ["第1步：選擇期限與利率檔位", "第2步：登記存入合約", "第3步：開始即時計息"] },
+          { logo: "🎁", name: "獎勵", shortDesc: "生態活躍貢獻獎勵", desc: "統計參與指標並分配獎勵份額。", steps: ["第1步：彙總活躍指標", "第2步：計算獎勵權重", "第3步：發放獎勵餘額"] },
+          { logo: "🌱", name: "UBI", shortDesc: "社會回饋基本收入循環", desc: "從社會回饋池向參與帳戶循環發放 UBI。", steps: ["第1步：檢查回饋池餘額", "第2步：核驗發放規則", "第3步：UBI 發放完成"] },
+          { logo: "🔄", name: "代幣兌換", shortDesc: "支援代幣即時互換", desc: "測算匯率與滑點並即時完成代幣兌換。", steps: ["第1步：查詢兌換報價", "第2步：測算匯率與費用", "第3步：代幣兌換成交"] },
+          { logo: "⚡", name: "DEX兌換", shortDesc: "去中心化流動性池兌換", desc: "檢索最佳 DEX 流動路徑並執行鏈上兌換。", steps: ["第1步：檢索流動性路徑", "第2步：確認滑點與 Gas", "第3步：鏈上 DEX 兌換完成"] },
+          { logo: "🌊", name: "LP質押", shortDesc: "流動性部位質押生息", desc: "將 LP 代幣質押至收益合約獲取疊加回報。", steps: ["第1步：核對 LP 數量與池狀態", "第2步：質押 LP 部位", "第3步：開始累積收益"] },
+          { logo: "π", name: "Pi數量", shortDesc: "即時查看 Pi 持倉與節點狀態", desc: "即時查看關聯 Pi 數量及節點/錢包同步狀態。", steps: ["第1步：查詢錢包與節點", "第2步：校驗 Pi 與可轉餘額", "第3步：儀表板 Pi 數量已同步"] }
+        ],
+        ratesSectionTitle: "浮動利率",
+        ratesSectionDesc: "6個月以上 8%~12% · 12個月 12%~18% · 24個月 16%~24% · 36個月 20%~31.4%",
+        rateSampleFmt: (s) => `目前浮動範例：年化 ${s}%`,
+        tiers: [
+          { term: "6個月以上", range: "8% ~ 12%", sample: 10.4 },
+          { term: "12個月", range: "12% ~ 18%", sample: 15.6 },
+          { term: "24個月", range: "16% ~ 24%", sample: 20.8 },
+          { term: "36個月", range: "20% ~ 31.4%", sample: 28.9 }
+        ],
+        bottomSectionTitle: "社會回饋 UBI · AGI/ASI 客服中心 · YouTube 與 TikTok",
+        bottomSectionDesc: "普惠金融回饋 · 超智慧客服 · 官方頻道",
+        ubiCardTitle: "社會回饋 UBI",
+        ubiCardDesc: "將部分生態成長價值注入社會回饋池，以基本收入形式向參與者循環分配。",
+        ubiCycleLabel: "本週期預計發放 UBI",
+        ubiClaimBtn: "模擬立即領取 UBI",
+        ubiClaimedAlert: (amt) => `已發放社會回饋 UBI ₩${amt}！`,
+        agiCardTitle: "AGI · ASI 客服中心",
+        agiGreeting: "您好，可諮詢個人資產儀表板、十大分散式連動網、浮動利率與社會回饋 UBI。",
+        agiPlaceholder: "例如：諮詢 Pi 數量或利率",
+        agiAskBtn: "諮詢",
+        agiReplyRate: "浮動利率區間：6個月以上 8%~12%，12個月 12%~18%，24個月 16%~24%，36個月 20%~31.4%。",
+        agiReplyUbi: "社會回饋 UBI 由生態回饋池向參與者循環發放基本收入。",
+        agiReplyNet: "十大分散式連動網支援錢包連接、轉帳、支付、存入、獎勵、UBI、代幣兌換、DEX兌換、LP質押與 Pi 數量模擬。",
+        agiReplyDefault: "AGI/ASI 引擎已解析您的請求，涵蓋資產儀表板、十大連動網、浮動利率與社會回饋 UBI。",
+        mediaCardTitle: "YouTube 與 TikTok",
+        mediaCardDesc: "在 YouTube 與 TikTok 分享 HKWB 願景、十大連動網示範、UBI 循環與浮動利率機制。",
+        ytBtn: "▶ YouTube (@Hyekong2026)",
+        ttBtn: "♪ TikTok (@hyekong2026)",
+        logSectionTitle: "即時示範事件日誌",
+        logSectionDesc: "示範期間執行的金融與連動事件紀錄",
+        footerSlogan: "人類與技術共生的下一代數位金融創新",
+        footerMeta: "60種語言整站轉換 · Web3與網際網路銀行雙軌架構 · 導覽器與核心法務",
+        tourNext: "下一步 →",
+        tourStop: "結束",
+        tourDoneAlert: "已完成 HKWB 平台導覽！",
+        tourSteps: [
+          { target: "#top", title: "導覽 1/5 · 首頁與銀行選擇", desc: "可分別選擇 Web3 數位銀行與網際網路銀行進入專屬功能。" },
+          { target: "#dashboard", title: "導覽 2/5 · 個人資產儀表板", desc: "即時查看總持倉、每秒累計利息、目前利率與 UBI 收益。" },
+          { target: "#networks", title: "導覽 3/5 · 十大分散式連動網", desc: "涵蓋錢包連接、Pi 數量及各類兌換/質押等十大模組模擬。" },
+          { target: "#rates", title: "導覽 4/5 · 浮動利率", desc: "選擇最高 31.4% 的期限利率檔位並更新即時計算。" },
+          { target: "#ubi-agi-media", title: "導覽 5/5 · 社會回饋 UBI · AGI/ASI · 媒體", desc: "體驗 UBI 領取模擬、AGI/ASI 客服對話及官方媒體頻道。" }
+        ],
+        legalModalBody: (label) => `[核心法務與合規]\n${label}\n\n已與 HKWB 合規規範同步。`
+      },
+
+      es: {
+        pageTitle: "HKWB | Innovación Financiera Digital Donde Humanidad y Tecnología Coexisten",
+        dir: "ltr",
+        demoPill: "DEMO READY",
+        tourBtn: "🧭 Recorrido",
+        langLabel: "🌐 60 Idiomas",
+        langTitle: "Seleccionar entre 60 idiomas",
+        langSelectAria: "Seleccionar idioma",
+        menuOpenAria: "Abrir menú",
+        menuCloseAria: "Cerrar menú",
+        demoBarAria: "Panel de control de demo",
+        drawerAria: "Menú de navegación",
+        demoStageTitle: "🎬 Control de Demo",
+        demoReadyState: "En espera",
+        demoBoostState: "Impulso de saldo y rendimiento activo",
+        demoResetState: "Valores iniciales restaurados",
+        demoRunningState: "Ejecutando demostración completa...",
+        demoDoneState: "Demostración completada",
+        runFullDemo: "▶ Demo Automática",
+        startTourAction: "🧭 Iniciar Recorrido",
+        boostBtn: "💰 Impulsar Activos",
+        resetBtn: "↺ Reiniciar",
+        drawerTitle: "Navegador HK",
+        drawerQuickGroup: "Acceso Rápido",
+        drawerTour: "🧭 Guía de Recorrido",
+        drawerHome: "Portada · Banca Digital Web3 e Internet",
+        drawerWeb3: "Abrir Banca Digital Web3",
+        drawerInternet: "Abrir Banca por Internet",
+        drawerDash: "Panel de Activos Personales",
+        drawerNet: "10 Redes Distribuidas (10 Módulos)",
+        drawerRates: "Rendimiento Variable (8% ~ 31.4%)",
+        drawerMedia: "UBI Social · AGI/ASI · Medios",
+        badgeTour: "Guía", badgeHome: "Inicio", badgeWeb3: "Web3", badgeBank: "Banca",
+        badgeLive: "Vivo", badgeNet: "10-Red", badgeRates: "APY", badgeAi: "UBI/AI",
+        drawerLegalGroup: "Legal y Cumplimiento",
+        legalWhitepaper: "📄 Libro Blanco (v3.1 40 Puntos)",
+        legalFaq: "❓ Preguntas Frecuentes (20 Temas)",
+        legalPolicy: "🛡️ 3 Políticas (AML · KYC · Seguridad)",
+        legalLaw21: "⚖️ Normativa Digital en 21 Jurisdicciones",
+        legalFatf: "🌐 Regla de Viaje FATF y Sanciones",
+        badgeDoc: "Doc", badgeQa: "FAQ", badgeSec: "Seg", badgeLaw: "Ley", badgeSpec: "Norma",
+        heroKicker: "ARQUITECTURA FINANCIERA GLOBAL HK E IA",
+        heroSlogan: 'Innovación Financiera Digital Donde <em>Humanidad y Tecnología Coexisten</em>',
+        heroTourBtn: "🧭 Iniciar Recorrido Guiado",
+        heroDashBtn: "📊 Ir al Panel de Activos",
+        web3BankTitle: "Banca Digital Web3",
+        web3BankSub: "Conexión de Billetera · Transferencia/Depósito · Swap Token/DEX · Staking LP",
+        internetBankTitle: "Banca por Internet",
+        internetBankSub: "Depósito/Retiro Rápido · Ahorro/Plazo · Transferencia/Préstamo · Liquidación",
+        detailPill: "Ver Detalle ▼",
+        closePanel: "Cerrar ✕",
+        amountPlaceholder: "Monto (ej. 1000000)",
+        execBtn: "Ejecutar",
+        selectedOpPrefix: "Módulo activo:",
+        opDonePrefix: "Completado:",
+        web3Ops: ["Conexión de Billetera", "Transferencia", "Depósito", "Swap de Token", "Swap DEX", "Staking LP", "Cantidad Pi"],
+        internetOps: ["Depósito", "Retiro", "Plazo Fijo", "Transferencia", "Ahorro", "Préstamo", "Liquidación en Vivo"],
+        web3Cards: [
+          { head: "Conexión de Billetera y Transferencia", body: "Autenticación distribuida y envío inmediato en libro mayor" },
+          { head: "Depósito en Cadena y Staking LP", body: "Contratos de depósito y rendimiento en pools de liquidez" },
+          { head: "Swap Token/DEX y Cantidad Pi", body: "Intercambio multipool y sincronización de saldo Pi" }
+        ],
+        internetCards: [
+          { head: "Depósito/Retiro y Transferencia", body: "Operaciones sin sucursales y transferencias al instante" },
+          { head: "Plazo Variable y Ahorro", body: "Tramos de rendimiento variable y acumulación continua" },
+          { head: "Crédito y Liquidación", body: "Simulación de préstamo y liquidación en tiempo real" }
+        ],
+        dashTitle: "Panel de Activos Personales",
+        dashDesc: "Tenencias · Interés Acumulado · APY Activo · UBI Social",
+        totalHoldingLabel: "Tenencias Totales (Valor Consolidado)",
+        holdingBreakdownFmt: (w3, ib) => `Web3 ₩${w3} · Banca Internet ₩${ib}`,
+        liveInterestLabel: "Interés Acumulado en Vivo (Por Segundo)",
+        liveInterestSub: "Sincronizado con el motor de rendimiento variable",
+        activeRateLabel: "Rendimiento Variable Activo",
+        activeTermFmt: (term, range) => `Plazo: ${term} (${range})`,
+        ubiEarnedLabel: "UBI Social Acumulado",
+        ubiEarnedSub: "Distribución del fondo de retorno social",
+        netSectionTitle: "10 Redes Distribuidas",
+        netSectionDesc: "Conexión de Billetera · Transferencia · Pago · Depósito · Recompensa · UBI · Swap de Token · Swap DEX · Staking LP · Cantidad Pi",
+        runPipelineBtn: "Ejecutar Simulación Dinámica",
+        stepWait: "En cola",
+        stepRunning: "Ejecutando...",
+        stepDone: "Listo ✓",
+        pipelineTitleFmt: (logo, name) => `${logo} ${name} — Proceso Dinámico`,
+        nets: [
+          { logo: "👛", name: "Conexión de Billetera", shortDesc: "Autenticación y enlace de sesión", desc: "Conecta billeteras distribuidas y sesiones multifirma.", steps: ["Paso 1: Solicitud de firma", "Paso 2: Verificación de red", "Paso 3: Sesión sincronizada"] },
+          { logo: "💸", name: "Transferencia", shortDesc: "Envío en tiempo real", desc: "Valida destino y ruta óptima para transferir fondos.", steps: ["Paso 1: Verificar destino", "Paso 2: Calcular ruta y tarifa", "Paso 3: Transferencia confirmada"] },
+          { logo: "💳", name: "Pago", shortDesc: "Autorización instantánea", desc: "Valida reglas de pago, tipo de cambio y saldo al instante.", steps: ["Paso 1: Revisar pago y FX", "Paso 2: Aprobar saldo y seguridad", "Paso 3: Liquidación registrada"] },
+          { logo: "🏦", name: "Depósito", shortDesc: "Depósito con rendimiento variable", desc: "Registra el capital bajo tramos variables y acumula interés.", steps: ["Paso 1: Elegir plazo y tramo", "Paso 2: Registrar contrato", "Paso 3: Interés en marcha"] },
+          { logo: "🎁", name: "Recompensa", shortDesc: "Incentivos por participación", desc: "Calcula métricas de actividad y asigna recompensas.", steps: ["Paso 1: Reunir actividad", "Paso 2: Ponderar incentivos", "Paso 3: Acreditar recompensa"] },
+          { logo: "🌱", name: "UBI", shortDesc: "Renta básica por retorno social", desc: "Distribuye UBI desde el fondo social hacia los participantes.", steps: ["Paso 1: Revisar fondo UBI", "Paso 2: Validar elegibilidad", "Paso 3: Pago UBI completado"] },
+          { logo: "🔄", name: "Swap de Token", shortDesc: "Intercambio directo de tokens", desc: "Calcula tasa y deslizamiento para intercambiar tokens.", steps: ["Paso 1: Consultar cotización", "Paso 2: Simular tasa y comisión", "Paso 3: Swap ejecutado"] },
+          { logo: "⚡", name: "Swap DEX", shortDesc: "Intercambio en pools DEX", desc: "Busca rutas óptimas en pools descentralizados.", steps: ["Paso 1: Buscar ruta DEX", "Paso 2: Verificar impacto y gas", "Paso 3: Swap DEX confirmado"] },
+          { logo: "🌊", name: "Staking LP", shortDesc: "Rendimiento de posiciones LP", desc: "Bloquea tokens LP en contratos de rendimiento.", steps: ["Paso 1: Verificar LP y pool", "Paso 2: Depositar staking LP", "Paso 3: Rendimiento activo"] },
+          { logo: "π", name: "Cantidad Pi", shortDesc: "Saldo Pi y estado de nodo en vivo", desc: "Muestra la cantidad de Pi vinculada y el estado de sincronización.", steps: ["Paso 1: Consultar billetera y nodo", "Paso 2: Verificar saldo Pi", "Paso 3: Cantidad Pi actualizada"] }
+        ],
+        ratesSectionTitle: "Rendimiento Variable",
+        ratesSectionDesc: "6M+ 8%~12% · 12M 12%~18% · 24M 16%~24% · 36M 20%~31.4%",
+        rateSampleFmt: (s) => `Ejemplo Actual: ${s}% APY`,
+        tiers: [
+          { term: "6M+", range: "8% ~ 12%", sample: 10.4 },
+          { term: "12M", range: "12% ~ 18%", sample: 15.6 },
+          { term: "24M", range: "16% ~ 24%", sample: 20.8 },
+          { term: "36M", range: "20% ~ 31.4%", sample: 28.9 }
+        ],
+        bottomSectionTitle: "UBI Social · Soporte AGI/ASI · YouTube y TikTok",
+        bottomSectionDesc: "Retorno Social · Soporte Avanzado · Canales Oficiales",
+        ubiCardTitle: "UBI Social",
+        ubiCardDesc: "Canaliza valor del ecosistema hacia un fondo de retorno social para distribuir renta básica.",
+        ubiCycleLabel: "UBI Estimado del Ciclo",
+        ubiClaimBtn: "Simular Cobro de UBI",
+        ubiClaimedAlert: (amt) => `¡Se acreditaron ₩${amt} de UBI Social!`,
+        agiCardTitle: "Centro de Soporte AGI · ASI",
+        agiGreeting: "Bienvenido. Consulte sobre Panel de Activos, 10 Redes Distribuidas, Rendimiento Variable o UBI Social.",
+        agiPlaceholder: "Ej. Cantidad Pi, rendimiento o UBI",
+        agiAskBtn: "Enviar",
+        agiReplyRate: "Tramos variables: 6M+ 8%~12%, 12M 12%~18%, 24M 16%~24% y 36M 20%~31.4%.",
+        agiReplyUbi: "El UBI Social distribuye renta básica desde el fondo de retorno del ecosistema.",
+        agiReplyNet: "Las 10 Redes Distribuidas incluyen Conexión de Billetera, Transferencia, Pago, Depósito, Recompensa, UBI, Swap de Token, Swap DEX, Staking LP y Cantidad Pi.",
+        agiReplyDefault: "El motor AGI/ASI procesó su consulta sobre Activos, 10 Redes Distribuidas, Rendimiento y UBI Social.",
+        mediaCardTitle: "YouTube y TikTok",
+        mediaCardDesc: "Vea presentaciones de HKWB, demos de las 10 redes, UBI y rendimientos variables.",
+        ytBtn: "▶ YouTube (@Hyekong2026)",
+        ttBtn: "♪ TikTok (@hyekong2026)",
+        logSectionTitle: "Registro de Eventos en Vivo",
+        logSectionDesc: "Historial de acciones financieras y de red durante la demo",
+        footerSlogan: "Innovación Financiera Digital Donde Humanidad y Tecnología Coexisten",
+        footerMeta: "Traducción Completa a 60 Idiomas · Banca Web3 e Internet · Navegador y Legal",
+        tourNext: "Siguiente →",
+        tourStop: "Salir",
+        tourDoneAlert: "¡Recorrido de HKWB completado!",
+        tourSteps: [
+          { target: "#top", title: "Paso 1/5 · Portada y Selección Bancaria", desc: "Elija entre Banca Digital Web3 y Banca por Internet." },
+          { target: "#dashboard", title: "Paso 2/5 · Panel de Activos Personales", desc: "Revise saldos, interés por segundo, APY y UBI acumulado." },
+          { target: "#networks", title: "Paso 3/5 · 10 Redes Distribuidas", desc: "Simule los 10 módulos incluyendo Cantidad Pi y swaps." },
+          { target: "#rates", title: "Paso 4/5 · Rendimiento Variable", desc: "Seleccione un tramo de hasta 31.4% APY para actualizar el cálculo." },
+          { target: "#ubi-agi-media", title: "Paso 5/5 · UBI Social · AGI/ASI · Medios", desc: "Pruebe UBI, consulte a AGI/ASI y abra YouTube y TikTok." }
+        ],
+        legalModalBody: (label) => `[Legal y Cumplimiento]\n${label}\n\nSincronizado con las normativas de HKWB.`
+      },
+
+      fr: {
+        pageTitle: "HKWB | Innovation Financière Numérique Où Humain et Technologie Coexistent",
+        dir: "ltr",
+        demoPill: "DEMO READY",
+        tourBtn: "🧭 Visite Guidée",
+        langLabel: "🌐 60 Langues",
+        langTitle: "Choisir parmi 60 langues",
+        langSelectAria: "Choisir la langue",
+        menuOpenAria: "Ouvrir le menu",
+        menuCloseAria: "Fermer le menu",
+        demoBarAria: "Panneau de contrôle démo",
+        drawerAria: "Menu de navigation",
+        demoStageTitle: "🎬 Contrôle Démo",
+        demoReadyState: "En attente",
+        demoBoostState: "Boost actifs et rendement actif",
+        demoResetState: "Valeurs initiales restaurées",
+        demoRunningState: "Démonstration complète en cours...",
+        demoDoneState: "Démonstration terminée",
+        runFullDemo: "▶ Démo Auto Complète",
+        startTourAction: "🧭 Lancer la Visite",
+        boostBtn: "💰 Boost Actifs",
+        resetBtn: "↺ Réinitialiser",
+        drawerTitle: "Navigateur HK",
+        drawerQuickGroup: "Accès Rapide",
+        drawerTour: "🧭 Guide de Visite",
+        drawerHome: "Accueil · Banque Web3 & Banque Internet",
+        drawerWeb3: "Ouvrir Banque Web3",
+        drawerInternet: "Ouvrir Banque Internet",
+        drawerDash: "Tableau de Bord Actifs",
+        drawerNet: "10 Réseaux Distribués (10 Modules)",
+        drawerRates: "Rendement Variable (8% ~ 31.4%)",
+        drawerMedia: "UBI Social · AGI/ASI · Médias",
+        badgeTour: "Visite", badgeHome: "Accueil", badgeWeb3: "Web3", badgeBank: "Banque",
+        badgeLive: "Live", badgeNet: "10-Réseau", badgeRates: "APY", badgeAi: "UBI/IA",
+        drawerLegalGroup: "Juridique & Conformité",
+        legalWhitepaper: "📄 Livre Blanc (v3.1 40 Points)",
+        legalFaq: "❓ FAQ Détaillée (20 Sujets)",
+        legalPolicy: "🛡️ 3 Politiques (AML · KYC · Sécurité)",
+        legalLaw21: "⚖️ Cadre Numérique 21 Juridictions",
+        legalFatf: "🌐 Règle de Voyage FATF & Sanctions",
+        badgeDoc: "Doc", badgeQa: "FAQ", badgeSec: "Séc", badgeLaw: "Loi", badgeSpec: "Norme",
+        heroKicker: "ARCHITECTURE FINANCIÈRE MONDIALE HK & IA",
+        heroSlogan: 'Innovation Financière Numérique Où <em>Humain et Technologie Coexistent</em>',
+        heroTourBtn: "🧭 Démarrer la Visite Guidée",
+        heroDashBtn: "📊 Voir les Actifs Personnels",
+        web3BankTitle: "Banque Numérique Web3",
+        web3BankSub: "Connexion Portefeuille · Virement/Dépôt · Swap Token/DEX · Staking LP",
+        internetBankTitle: "Banque Internet",
+        internetBankSub: "Dépôt/Retrait Rapide · Épargne/Terme · Virement/Prêt · Règlement Live",
+        detailPill: "Voir Détails ▼",
+        closePanel: "Fermer ✕",
+        amountPlaceholder: "Montant (ex. 1000000)",
+        execBtn: "Exécuter",
+        selectedOpPrefix: "Module actif :",
+        opDonePrefix: "Terminé :",
+        web3Ops: ["Connexion Portefeuille", "Virement", "Dépôt", "Swap Token", "Swap DEX", "Staking LP", "Quantité Pi"],
+        internetOps: ["Dépôt", "Retrait", "Compte à Terme", "Virement", "Épargne", "Prêt", "Règlement Live"],
+        web3Cards: [
+          { head: "Connexion Portefeuille & Virement", body: "Authentification distribuée et envoi immédiat" },
+          { head: "Dépôt On-Chain & Staking LP", body: "Contrats de dépôt et rendement de pools de liquidité" },
+          { head: "Swap Token/DEX & Quantité Pi", body: "Échange multi-pools et synchronisation du solde Pi" }
+        ],
+        internetCards: [
+          { head: "Dépôt/Retrait & Virement", body: "Opérations sans agence et virements instantanés" },
+          { head: "Terme Variable & Épargne", body: "Paliers de rendement variable et cumul continu" },
+          { head: "Crédit & Règlement", body: "Simulation de prêt et règlement en temps réel" }
+        ],
+        dashTitle: "Tableau de Bord des Actifs",
+        dashDesc: "Avoirs · Intérêts Cumulés · APY Actif · UBI Social",
+        totalHoldingLabel: "Avoirs Totaux (Valeur Consolidée)",
+        holdingBreakdownFmt: (w3, ib) => `Web3 ₩${w3} · Banque Internet ₩${ib}`,
+        liveInterestLabel: "Intérêts Cumulés en Direct (Par Seconde)",
+        liveInterestSub: "Synchronisé avec le moteur de rendement variable",
+        activeRateLabel: "Rendement Variable Actif",
+        activeTermFmt: (term, range) => `Durée : ${term} (${range})`,
+        ubiEarnedLabel: "UBI Social Cumulé",
+        ubiEarnedSub: "Répartition du fonds de retour social",
+        netSectionTitle: "10 Réseaux Distribués",
+        netSectionDesc: "Connexion Portefeuille · Virement · Paiement · Dépôt · Récompense · UBI · Swap Token · Swap DEX · Staking LP · Quantité Pi",
+        runPipelineBtn: "Lancer la Simulation Dynamique",
+        stepWait: "En attente",
+        stepRunning: "En cours...",
+        stepDone: "Terminé ✓",
+        pipelineTitleFmt: (logo, name) => `${logo} ${name} — Processus Dynamique`,
+        nets: [
+          { logo: "👛", name: "Connexion Portefeuille", shortDesc: "Authentification et lien de session", desc: "Connecte les portefeuilles distribués et synchronise les soldes.", steps: ["Étape 1 : Demande de signature", "Étape 2 : Vérification réseau", "Étape 3 : Session synchronisée"] },
+          { logo: "💸", name: "Virement", shortDesc: "Transfert en temps réel", desc: "Valide le destinataire et l'itinéraire optimal.", steps: ["Étape 1 : Vérification destinataire", "Étape 2 : Calcul frais et route", "Étape 3 : Virement confirmé"] },
+          { logo: "💳", name: "Paiement", shortDesc: "Autorisation instantanée", desc: "Vérifie règles, change et solde pour régler instantanément.", steps: ["Étape 1 : Contrôle paiement/FX", "Étape 2 : Approbation solde", "Étape 3 : Règlement enregistré"] },
+          { logo: "🏦", name: "Dépôt", shortDesc: "Dépôt à rendement variable", desc: "Enregistre le capital selon le palier variable et cumule.", steps: ["Étape 1 : Choix durée et taux", "Étape 2 : Enregistrement contrat", "Étape 3 : Intérêts démarrés"] },
+          { logo: "🎁", name: "Récompense", shortDesc: "Récompenses d'engagement", desc: "Agrège l'activité et attribue les récompenses.", steps: ["Étape 1 : Collecte activité", "Étape 2 : Pondération", "Étape 3 : Crédit récompense"] },
+          { logo: "🌱", name: "UBI", shortDesc: "Revenu de base par retour social", desc: "Distribue l'UBI depuis le fonds social aux participants.", steps: ["Étape 1 : Vérification fonds UBI", "Étape 2 : Contrôle éligibilité", "Étape 3 : Versement UBI effectué"] },
+          { logo: "🔄", name: "Swap Token", shortDesc: "Échange rapide de tokens", desc: "Calcule taux et slippage pour échanger les tokens.", steps: ["Étape 1 : Cours de change", "Étape 2 : Simulation taux/frais", "Étape 3 : Swap exécuté"] },
+          { logo: "⚡", name: "Swap DEX", shortDesc: "Échange via pools DEX", desc: "Recherche le meilleur chemin de liquidité on-chain.", steps: ["Étape 1 : Route DEX optimale", "Étape 2 : Impact et gas", "Étape 3 : Swap DEX confirmé"] },
+          { logo: "🌊", name: "Staking LP", shortDesc: "Rendement de positions LP", desc: "Stake les jetons LP pour cumuler des récompenses.", steps: ["Étape 1 : Vérification LP/pool", "Étape 2 : Dépôt staking LP", "Étape 3 : Rendement actif"] },
+          { logo: "π", name: "Quantité Pi", shortDesc: "Solde Pi et état du nœud en direct", desc: "Affiche la quantité Pi liée et l'état de synchronisation.", steps: ["Étape 1 : Interrogation portefeuille/nœud", "Étape 2 : Vérification solde Pi", "Étape 3 : Quantité Pi synchronisée"] }
+        ],
+        ratesSectionTitle: "Rendement Variable",
+        ratesSectionDesc: "6M+ 8%~12% · 12M 12%~18% · 24M 16%~24% · 36M 20%~31.4%",
+        rateSampleFmt: (s) => `Exemple Actuel : ${s}% APY`,
+        tiers: [
+          { term: "6M+", range: "8% ~ 12%", sample: 10.4 },
+          { term: "12M", range: "12% ~ 18%", sample: 15.6 },
+          { term: "24M", range: "16% ~ 24%", sample: 20.8 },
+          { term: "36M", range: "20% ~ 31.4%", sample: 28.9 }
+        ],
+        bottomSectionTitle: "UBI Social · Support AGI/ASI · YouTube & TikTok",
+        bottomSectionDesc: "Retour Social · Assistance Avancée · Chaînes Officielles",
+        ubiCardTitle: "UBI Social",
+        ubiCardDesc: "Affecte une part de la valeur générée à un fonds social pour distribuer un revenu de base.",
+        ubiCycleLabel: "UBI Prévu ce Cycle",
+        ubiClaimBtn: "Simuler la Réception UBI",
+        ubiClaimedAlert: (amt) => `UBI Social de ₩${amt} crédité !`,
+        agiCardTitle: "Support AGI · ASI",
+        agiGreeting: "Bonjour. Posez vos questions sur les Actifs, les 10 Réseaux, le Rendement Variable ou l'UBI Social.",
+        agiPlaceholder: "Ex. Quantité Pi, taux ou UBI",
+        agiAskBtn: "Envoyer",
+        agiReplyRate: "Taux variables : 6M+ 8%~12%, 12M 12%~18%, 24M 16%~24% et 36M 20%~31.4%.",
+        agiReplyUbi: "L'UBI Social reverse un revenu de base issu du fonds de l'écosystème.",
+        agiReplyNet: "Les 10 Réseaux Distribués couvrent Connexion Portefeuille, Virement, Paiement, Dépôt, Récompense, UBI, Swap Token, Swap DEX, Staking LP et Quantité Pi.",
+        agiReplyDefault: "Le moteur AGI/ASI a traité votre demande sur les Actifs, les 10 Réseaux, les Taux et l'UBI Social.",
+        mediaCardTitle: "YouTube & TikTok",
+        mediaCardDesc: "Découvrez les présentations HKWB, démos des 10 réseaux, UBI et rendements variables.",
+        ytBtn: "▶ YouTube (@Hyekong2026)",
+        ttBtn: "♪ TikTok (@hyekong2026)",
+        logSectionTitle: "Journal d'Événements en Direct",
+        logSectionDesc: "Événements financiers et réseau exécutés pendant la démo",
+        footerSlogan: "Innovation Financière Numérique Où Humain et Technologie Coexistent",
+        footerMeta: "Conversion Complète 60 Langues · Banque Web3 & Internet · Navigateur & Juridique",
+        tourNext: "Suivant →",
+        tourStop: "Quitter",
+        tourDoneAlert: "Visite guidée HKWB terminée !",
+        tourSteps: [
+          { target: "#top", title: "Étape 1/5 · Accueil & Choix Bancaire", desc: "Choisissez entre Banque Numérique Web3 et Banque Internet." },
+          { target: "#dashboard", title: "Étape 2/5 · Tableau de Bord des Actifs", desc: "Consultez avoirs, intérêts par seconde, APY et UBI cumulé." },
+          { target: "#networks", title: "Étape 3/5 · 10 Réseaux Distribués", desc: "Simulez les 10 modules dont Quantité Pi et swaps." },
+          { target: "#rates", title: "Étape 4/5 · Rendement Variable", desc: "Choisissez un palier jusqu'à 31.4% APY." },
+          { target: "#ubi-agi-media", title: "Étape 5/5 · UBI Social · AGI/ASI · Médias", desc: "Testez l'UBI, discutez avec AGI/ASI et ouvrez YouTube & TikTok." }
+        ],
+        legalModalBody: (label) => `[Juridique & Conformité]\n${label}\n\nSynchronisé avec les spécifications HKWB.`
+      },
+
+      de: {
+        pageTitle: "HKWB | Digitale Finanzinnovation, Wo Mensch und Technik Koexistieren",
+        dir: "ltr",
+        demoPill: "DEMO READY",
+        tourBtn: "🧭 Geführte Tour",
+        langLabel: "🌐 60 Sprachen",
+        langTitle: "Aus 60 Sprachen wählen",
+        langSelectAria: "Sprache auswählen",
+        menuOpenAria: "Menü öffnen",
+        menuCloseAria: "Menü schließen",
+        demoBarAria: "Demo-Steuerung",
+        drawerAria: "Navigationsmenü",
+        demoStageTitle: "🎬 Demo-Steuerung",
+        demoReadyState: "Bereit",
+        demoBoostState: "Vermögens- & Zins-Boost aktiv",
+        demoResetState: "Auf Ausgangswerte gesetzt",
+        demoRunningState: "Vollständige Demo läuft...",
+        demoDoneState: "Demo abgeschlossen",
+        runFullDemo: "▶ Auto-Demo Starten",
+        startTourAction: "🧭 Tour Starten",
+        boostBtn: "💰 Vermögen Boosten",
+        resetBtn: "↺ Zurücksetzen",
+        drawerTitle: "HK Navigator",
+        drawerQuickGroup: "Schnellzugriff",
+        drawerTour: "🧭 Geführte Plattform-Tour",
+        drawerHome: "Start · Web3-Digitalbank & Internetbank",
+        drawerWeb3: "Web3-Digitalbank öffnen",
+        drawerInternet: "Internetbank öffnen",
+        drawerDash: "Vermögens-Dashboard",
+        drawerNet: "10 Verteilte Netze (10 Module)",
+        drawerRates: "Variable Rendite (8% ~ 31.4%)",
+        drawerMedia: "Soziales UBI · AGI/ASI · Medien",
+        badgeTour: "Tour", badgeHome: "Start", badgeWeb3: "Web3", badgeBank: "Bank",
+        badgeLive: "Live", badgeNet: "10-Netz", badgeRates: "APY", badgeAi: "UBI/KI",
+        drawerLegalGroup: "Recht & Compliance",
+        legalWhitepaper: "📄 Whitepaper (v3.1 40 Punkte)",
+        legalFaq: "❓ Häufige Fragen (FAQ 20 Themen)",
+        legalPolicy: "🛡️ 3 Richtlinien (AML · KYC · Sicherheit)",
+        legalLaw21: "⚖️ Digitale Regeln in 21 Ländern",
+        legalFatf: "🌐 FATF Travel Rule & Sanktionsprüfung",
+        badgeDoc: "Dok", badgeQa: "FAQ", badgeSec: "Sich", badgeLaw: "Recht", badgeSpec: "Norm",
+        heroKicker: "HK GLOBALE FINANZ- & KI-ARCHITEKTUR",
+        heroSlogan: 'Digitale Finanzinnovation, Wo <em>Mensch und Technik Koexistieren</em>',
+        heroTourBtn: "🧭 Geführte Tour Starten",
+        heroDashBtn: "📊 Zum Vermögens-Dashboard",
+        web3BankTitle: "Web3-Digitalbank",
+        web3BankSub: "Wallet-Verbindung · On-Chain-Transfer/Einlage · Token/DEX-Swap · LP-Staking",
+        internetBankTitle: "Internetbank",
+        internetBankSub: "Schnelle Ein-/Auszahlung · Sparen/Festgeld · Überweisung/Kredit · Live-Abrechnung",
+        detailPill: "Details ▼",
+        closePanel: "Schließen ✕",
+        amountPlaceholder: "Betrag (z. B. 1000000)",
+        execBtn: "Ausführen",
+        selectedOpPrefix: "Aktives Modul:",
+        opDonePrefix: "Abgeschlossen:",
+        web3Ops: ["Wallet-Verbindung", "Überweisung", "Einlage", "Token-Swap", "DEX-Swap", "LP-Staking", "Pi-Menge"],
+        internetOps: ["Einzahlung", "Auszahlung", "Festgeld", "Überweisung", "Sparen", "Kredit", "Live-Abrechnung"],
+        web3Cards: [
+          { head: "Wallet-Verbindung & Transfer", body: "Verteilte Wallet-Prüfung und sofortiger Transfer" },
+          { head: "On-Chain-Einlage & LP-Staking", body: "Smart-Contract-Einlagen und Liquiditätspools" },
+          { head: "Token/DEX-Swap & Pi-Menge", body: "Multi-Pool-Tausch und Live-Pi-Bestand" }
+        ],
+        internetCards: [
+          { head: "Ein-/Auszahlung & Überweisung", body: "Filialfreie Kontoführung und Echtzeit-Transfers" },
+          { head: "Variables Festgeld & Sparen", body: "Laufzeitabhängige Renditestufen und Zinslauf" },
+          { head: "Kredit & Abrechnung", body: "Kreditsimulation und Live-Abrechnung" }
+        ],
+        dashTitle: "Vermögens-Dashboard",
+        dashDesc: "Bestände · Laufende Zinsen · Aktiver APY · Soziales UBI",
+        totalHoldingLabel: "Gesamtbestand (Konsolidierter Wert)",
+        holdingBreakdownFmt: (w3, ib) => `Web3 ₩${w3} · Internetbank ₩${ib}`,
+        liveInterestLabel: "Laufende Zinsen (Pro Sekunde)",
+        liveInterestSub: "Live verbunden mit variabler Zins-Engine",
+        activeRateLabel: "Aktive Variable Rendite",
+        activeTermFmt: (term, range) => `Laufzeit: ${term} (${range})`,
+        ubiEarnedLabel: "Kumuliertes Soziales UBI",
+        ubiEarnedSub: "Ausschüttung aus dem sozialen Rückfluss-Pool",
+        netSectionTitle: "10 Verteilte Netze",
+        netSectionDesc: "Wallet-Verbindung · Überweisung · Zahlung · Einlage · Belohnung · UBI · Token-Swap · DEX-Swap · LP-Staking · Pi-Menge",
+        runPipelineBtn: "Dynamische Simulation Starten",
+        stepWait: "Wartend",
+        stepRunning: "Läuft...",
+        stepDone: "Fertig ✓",
+        pipelineTitleFmt: (logo, name) => `${logo} ${name} — Dynamischer Ablauf`,
+        nets: [
+          { logo: "👛", name: "Wallet-Verbindung", shortDesc: "Wallet-Auth & Sitzungsverknüpfung", desc: "Verbindet verteilte Wallets und synchronisiert Bestände.", steps: ["Schritt 1: Signaturanfrage", "Schritt 2: Netzwerkprüfung", "Schritt 3: Sitzung synchronisiert"] },
+          { logo: "💸", name: "Überweisung", shortDesc: "Echtzeit-Transfer", desc: "Prüft Ziel und Route für sofortige Überweisungen.", steps: ["Schritt 1: Ziel & Limit prüfen", "Schritt 2: Route & Gebühr berechnen", "Schritt 3: Überweisung bestätigt"] },
+          { logo: "💳", name: "Zahlung", shortDesc: "Sofortige Zahlungsfreigabe", desc: "Prüft Zahlungsregeln, Kurs und Guthaben in Echtzeit.", steps: ["Schritt 1: Zahlung & Kurs prüfen", "Schritt 2: Guthaben & Sicherheit", "Schritt 3: Abrechnung verbucht"] },
+          { logo: "🏦", name: "Einlage", shortDesc: "Einlage mit variabler Rendite", desc: "Registriert Kapital im variablen Zinsbereich.", steps: ["Schritt 1: Laufzeit & Stufe wählen", "Schritt 2: Einlagevertrag erfassen", "Schritt 3: Zinslauf gestartet"] },
+          { logo: "🎁", name: "Belohnung", shortDesc: "Prämien für Ökosystem-Aktivität", desc: "Wertet Aktivität aus und verteilt Belohnungen.", steps: ["Schritt 1: Aktivität erfassen", "Schritt 2: Gewichtung berechnen", "Schritt 3: Prämie gutschreiben"] },
+          { logo: "🌱", name: "UBI", shortDesc: "Grundeinkommen aus sozialem Rückfluss", desc: "Schüttet UBI aus dem sozialen Pool an Teilnehmende aus.", steps: ["Schritt 1: UBI-Pool prüfen", "Schritt 2: Anspruch prüfen", "Schritt 3: UBI ausgezahlt"] },
+          { logo: "🔄", name: "Token-Swap", shortDesc: "Sofortiger Token-Tausch", desc: "Berechnet Kurs und Slippage für Token-Swaps.", steps: ["Schritt 1: Kurs abrufen", "Schritt 2: Kurs & Gebühr prüfen", "Schritt 3: Swap ausgeführt"] },
+          { logo: "⚡", name: "DEX-Swap", shortDesc: "Tausch über DEX-Pools", desc: "Findet optimale Liquiditätspfade für On-Chain-Swaps.", steps: ["Schritt 1: DEX-Pfad suchen", "Schritt 2: Impact & Gas prüfen", "Schritt 3: DEX-Swap bestätigt"] },
+          { logo: "🌊", name: "LP-Staking", shortDesc: "Rendite aus LP-Positionen", desc: "Staked LP-Token für zusätzliche Erträge.", steps: ["Schritt 1: LP & Pool prüfen", "Schritt 2: LP-Staking starten", "Schritt 3: Ertrag läuft"] },
+          { logo: "π", name: "Pi-Menge", shortDesc: "Live-Pi-Bestand & Node-Status", desc: "Zeigt verknüpfte Pi-Menge und Synchronisationsstatus.", steps: ["Schritt 1: Wallet & Node abfragen", "Schritt 2: Pi-Bestand prüfen", "Schritt 3: Pi-Menge aktualisiert"] }
+        ],
+        ratesSectionTitle: "Variable Rendite",
+        ratesSectionDesc: "6M+ 8%~12% · 12M 12%~18% · 24M 16%~24% · 36M 20%~31.4%",
+        rateSampleFmt: (s) => `Aktuelles Beispiel: ${s}% APY`,
+        tiers: [
+          { term: "6M+", range: "8% ~ 12%", sample: 10.4 },
+          { term: "12M", range: "12% ~ 18%", sample: 15.6 },
+          { term: "24M", range: "16% ~ 24%", sample: 20.8 },
+          { term: "36M", range: "20% ~ 31.4%", sample: 28.9 }
+        ],
+        bottomSectionTitle: "Soziales UBI · AGI/ASI-Support · YouTube & TikTok",
+        bottomSectionDesc: "Sozialer Rückfluss · KI-Kundendienst · Offizielle Kanäle",
+        ubiCardTitle: "Soziales UBI",
+        ubiCardDesc: "Leitet Wertschöpfung in einen sozialen Pool zur Grundeinkommensverteilung.",
+        ubiCycleLabel: "Geplantes UBI im Zyklus",
+        ubiClaimBtn: "UBI-Auszahlung Simulieren",
+        ubiClaimedAlert: (amt) => `Soziales UBI von ₩${amt} gutgeschrieben!`,
+        agiCardTitle: "AGI · ASI Kundendienst",
+        agiGreeting: "Willkommen. Fragen Sie zu Vermögens-Dashboard, 10 Netzen, Variabler Rendite oder Sozialem UBI.",
+        agiPlaceholder: "Z. B. Pi-Menge, Zins oder UBI",
+        agiAskBtn: "Senden",
+        agiReplyRate: "Variable Stufen: 6M+ 8%~12%, 12M 12%~18%, 24M 16%~24% und 36M 20%~31.4%.",
+        agiReplyUbi: "Soziales UBI verteilt Grundeinkommen aus dem Rückfluss-Pool des Ökosystems.",
+        agiReplyNet: "Die 10 Verteilten Netze umfassen Wallet-Verbindung, Überweisung, Zahlung, Einlage, Belohnung, UBI, Token-Swap, DEX-Swap, LP-Staking und Pi-Menge.",
+        agiReplyDefault: "Die AGI/ASI-Engine hat Ihre Anfrage zu Beständen, 10 Netzen, Rendite und UBI verarbeitet.",
+        mediaCardTitle: "YouTube & TikTok",
+        mediaCardDesc: "HKWB-Briefings, 10-Netz-Demos, UBI-Kreislauf und variable Renditen ansehen.",
+        ytBtn: "▶ YouTube (@Hyekong2026)",
+        ttBtn: "♪ TikTok (@hyekong2026)",
+        logSectionTitle: "Live-Demo-Ereignisprotokoll",
+        logSectionDesc: "Protokoll ausgeführter Finanz- und Netz-Aktionen",
+        footerSlogan: "Digitale Finanzinnovation, Wo Mensch und Technik Koexistieren",
+        footerMeta: "Vollständige 60-Sprachen-Umwandlung · Web3 & Internetbank · Navigator & Recht",
+        tourNext: "Weiter →",
+        tourStop: "Beenden",
+        tourDoneAlert: "HKWB-Tour abgeschlossen!",
+        tourSteps: [
+          { target: "#top", title: "Tour 1/5 · Start & Bankauswahl", desc: "Wählen Sie zwischen Web3-Digitalbank und Internetbank." },
+          { target: "#dashboard", title: "Tour 2/5 · Vermögens-Dashboard", desc: "Sehen Sie Bestände, Sekundenzinsen, APY und UBI." },
+          { target: "#networks", title: "Tour 3/5 · 10 Verteilte Netze", desc: "Testen Sie alle 10 Module inklusive Pi-Menge und Swaps." },
+          { target: "#rates", title: "Tour 4/5 · Variable Rendite", desc: "Wählen Sie eine Laufzeit bis zu 31.4% APY." },
+          { target: "#ubi-agi-media", title: "Tour 5/5 · Soziales UBI · AGI/ASI · Medien", desc: "UBI testen, AGI/ASI fragen und YouTube & TikTok öffnen." }
+        ],
+        legalModalBody: (label) => `[Recht & Compliance]\n${label}\n\nMit den HKWB-Richtlinien synchronisiert.`
+      }
+    };
+
+    // 나머지 60개국어 중 별도 팩이 없는 언어들도 해당 언어명/문맥으로 전면 변환되게 자동 생성
+    function getLocalePack(code) {
+      if (I18N_PACKS[code]) return I18N_PACKS[code];
+      const base = I18N_PACKS.en;
+      const found = sixtyLanguages.find(([c]) => c === code);
+      const nativeName = found ? found[1] : code;
+      const isRtl = ["ar", "he", "ur", "fa"].includes(code);
+
+      return {
+        ...base,
+        dir: isRtl ? "rtl" : "ltr",
+        langLabel: `🌐 ${nativeName}`,
+        heroKicker: `HKWB · ${nativeName.toUpperCase()}`,
+        heroSlogan: `<em>HKWB</em> — ${nativeName} · Digital Finance &amp; AI`,
+        footerMeta: `${nativeName} (60-Language Engine) · Web3 & Internet Bank · Navigator & Core Legal`,
+        legalModalBody: (label) => `[${nativeName} · Core Legal & Compliance]\n${label}`
+      };
+    }
+
+    let currentLang = localStorage.getItem("hkwb_lang_60") || "ko";
+    let pack = getLocalePack(currentLang);
+
+    const langSelect = document.getElementById("langSelect");
+    sixtyLanguages.forEach(([code, label], idx) => {
+      const opt = document.createElement("option");
+      opt.value = code;
+      opt.textContent = `${idx + 1}. ${label}`;
+      if (code === currentLang) opt.selected = true;
+      langSelect.appendChild(opt);
     });
 
-    // Modal Functions
-    function openModal(title, desc) {
-      document.getElementById('modalTitle').innerText = title;
-      document.getElementById('modalDesc').innerText = desc;
-      document.getElementById('infoModal').classList.remove('hidden');
-      document.getElementById('infoModal').classList.add('flex');
-    }
-    function closeModal() {
-      document.getElementById('infoModal').classList.add('hidden');
-      document.getElementById('infoModal').classList.remove('flex');
+    const logBox = document.getElementById("demoLogBox");
+    function pushDemoLog(msg) {
+      const now = new Date();
+      const ts = now.toTimeString().split(" ")[0];
+      const div = document.createElement("div");
+      div.className = "log-entry";
+      div.innerHTML = `<span class="ts">[${ts}]</span>${msg}`;
+      logBox.prepend(div);
     }
 
-    // Chart 1: AGI/ASI Dynamic Yield Line Chart
-    const ctx1 = document.getElementById('yieldChart').getContext('2d');
-    new Chart(ctx1, {
-      type: 'line',
-      data: {
-        labels: ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00', '현재'],
-        datasets: [{
-          label: 'AGI 조정 이율 (APY %)',
-          data: [4.2, 4.35, 4.1, 4.6, 4.55, 4.7, 4.82],
-          borderColor: '#F59E0B',
-          backgroundColor: 'rgba(245, 158, 11, 0.1)',
-          borderWidth: 2,
-          fill: true,
-          tension: 0.4,
-          pointBackgroundColor: '#F59E0B'
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: { display: false }
-        },
-        scales: {
-          x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#9ca3af', font: { size: 10 } } },
-          y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#9ca3af', font: { size: 10 } } }
+    // 시뮬레이션 상태 변수
+    let totalHolding = 128450000;
+    let web3Balance = 68450000;
+    let internetBalance = 60000000;
+    let liveInterest = 14820.0;
+    let currentRateApy = 15.6;
+    let ubiEarned = 1240000;
+
+    let activeBankMode = null;
+    let activeBankOp = null;
+    let currentNetIndex = 0;
+    let selectedTierIdx = 1;
+    let currentTourIdx = 0;
+    let lastOpDoneText = null;
+
+    function translateStaticElements() {
+      document.title = pack.pageTitle;
+      document.documentElement.lang = currentLang;
+      document.documentElement.dir = pack.dir;
+
+      document.querySelectorAll("[data-i18n]").forEach((el) => {
+        const key = el.getAttribute("data-i18n");
+        if (typeof pack[key] === "string") {
+          el.textContent = pack[key];
         }
-      }
-    });
+      });
 
-    // Chart 2: Net Profit Allocation Doughnut Chart
-    const ctx2 = document.getElementById('profitChart').getContext('2d');
-    new Chart(ctx2, {
-      type: 'doughnut',
-      data: {
-        labels: ['기본소득 (UBI)', '회사 경영비', 'HK 사회재단'],
-        datasets: [{
-          data: [30, 30, 30],
-          backgroundColor: ['#F59E0B', '#3B82F6', '#A855F7'],
-          borderWidth: 0,
-          hoverOffset: 4
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: { display: false }
-        },
-        cutout: '70%'
+      document.querySelectorAll("[data-i18n-placeholder]").forEach((el) => {
+        const key = el.getAttribute("data-i18n-placeholder");
+        if (typeof pack[key] === "string") {
+          el.setAttribute("placeholder", pack[key]);
+        }
+      });
+
+      document.querySelectorAll("[data-i18n-title]").forEach((el) => {
+        const key = el.getAttribute("data-i18n-title");
+        if (typeof pack[key] === "string") {
+          el.setAttribute("title", pack[key]);
+        }
+      });
+
+      document.querySelectorAll("[data-i18n-aria]").forEach((el) => {
+        const key = el.getAttribute("data-i18n-aria");
+        if (typeof pack[key] === "string") {
+          el.setAttribute("aria-label", pack[key]);
+        }
+      });
+
+      document.getElementById("heroSlogan").innerHTML = pack.heroSlogan;
+    }
+
+    function applyLanguage(code) {
+      currentLang = code;
+      pack = getLocalePack(code);
+      localStorage.setItem("hkwb_lang_60", code);
+
+      translateStaticElements();
+
+      // 선택된 은행 상세 패널이 열려 있으면 해당 언어의 기능 목록/카드로 재렌더링
+      if (activeBankMode) {
+        const ops = activeBankMode === "web3" ? pack.web3Ops : pack.internetOps;
+        activeBankOp = ops[0];
+        renderBankDetailContent(activeBankMode);
       }
+
+      // 대시보드, 10대 연동망, 가변형 이율, 투어 배너, AGI 초기 안내 재렌더링
+      const tier = pack.tiers[selectedTierIdx] || pack.tiers[1];
+      currentRateApy = tier.sample;
+      document.getElementById("activeTermDisplay").textContent = pack.activeTermFmt(tier.term, tier.range);
+
+      renderDashboardMetrics();
+      renderTenNetworks();
+      renderRateTiers();
+      renderAgiGreeting();
+
+      if (document.getElementById("tourBanner").classList.contains("active")) {
+        renderTourStep();
+      }
+
+      pushDemoLog(`[${code}] → <strong>${pack.langLabel}</strong>`);
+    }
+
+    langSelect.addEventListener("change", (e) => applyLanguage(e.target.value));
+
+    // 삼선방 드로어 제어
+    const drawer = document.getElementById("drawerMenu");
+    const backdrop = document.getElementById("drawerBackdrop");
+    document.getElementById("openDrawerBtn").addEventListener("click", () => {
+      drawer.classList.add("open");
+      backdrop.classList.add("open");
     });
+    function closeDrawer() {
+      drawer.classList.remove("open");
+      backdrop.classList.remove("open");
+    }
+    document.getElementById("closeDrawerBtn").addEventListener("click", closeDrawer);
+    backdrop.addEventListener("click", closeDrawer);
+
+    function jumpTo(selector) {
+      closeDrawer();
+      const target = document.querySelector(selector);
+      if (target) target.scrollIntoView({ behavior: "smooth" });
+    }
+
+    function showLegalModal(key) {
+      closeDrawer();
+      const label = pack["legal" + key.charAt(0).toUpperCase() + key.slice(1)] || key;
+      alert(pack.legalModalBody(label));
+    }
+
+    // 둘러보기 가이드 투어
+    function startGuidedTour() {
+      closeDrawer();
+      currentTourIdx = 0;
+      document.getElementById("tourBanner").classList.add("active");
+      renderTourStep();
+    }
+
+    function renderTourStep() {
+      const st = pack.tourSteps[currentTourIdx];
+      document.getElementById("tourStepTitle").textContent = st.title;
+      document.getElementById("tourStepDesc").textContent = st.desc;
+      const el = document.querySelector(st.target);
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+
+    function nextTourStep() {
+      currentTourIdx++;
+      if (currentTourIdx >= pack.tourSteps.length) {
+        stopGuidedTour();
+        alert(pack.tourDoneAlert);
+        return;
+      }
+      renderTourStep();
+    }
+
+    function stopGuidedTour() {
+      document.getElementById("tourBanner").classList.remove("active");
+    }
+
+    // 웹3디지털 은행 / 인터넷 은행 분리 상세 뷰
+    function renderBankDetailContent(mode) {
+      const isWeb3 = mode === "web3";
+      const title = isWeb3 ? pack.web3BankTitle : pack.internetBankTitle;
+      const ops = isWeb3 ? pack.web3Ops : pack.internetOps;
+      const cards = isWeb3 ? pack.web3Cards : pack.internetCards;
+
+      document.getElementById("detailBankTitle").textContent = title;
+      document.getElementById("detailOpStatus").innerHTML = lastOpDoneText
+        ? lastOpDoneText
+        : `${title} · ${pack.selectedOpPrefix} <strong>${activeBankOp}</strong>`;
+
+      const pillsEl = document.getElementById("detailOpsPills");
+      pillsEl.innerHTML = "";
+      ops.forEach((op, idx) => {
+        const btn = document.createElement("button");
+        btn.className = "op-btn" + (op === activeBankOp ? " active" : "");
+        btn.textContent = op;
+        btn.onclick = () => {
+          activeBankOp = op;
+          lastOpDoneText = null;
+          pillsEl.querySelectorAll(".op-btn").forEach((b) => b.classList.remove("active"));
+          btn.classList.add("active");
+          document.getElementById("detailOpStatus").innerHTML =
+            `${title} · ${pack.selectedOpPrefix} <strong>${op}</strong>`;
+        };
+        pillsEl.appendChild(btn);
+      });
+
+      document.getElementById("detailSubGrid").innerHTML = cards.map((c) => `
+        <div class="bank-feature-box">
+          <strong>${c.head}</strong>
+          <span>${c.body}</span>
+        </div>
+      `).join("");
+    }
+
+    function openBankDetail(mode) {
+      closeDrawer();
+      activeBankMode = mode;
+      lastOpDoneText = null;
+      const ops = mode === "web3" ? pack.web3Ops : pack.internetOps;
+      activeBankOp = ops[0];
+
+      document.getElementById("selectWeb3Btn").classList.toggle("active", mode === "web3");
+      document.getElementById("selectInternetBtn").classList.toggle("active", mode === "internet");
+
+      const panel = document.getElementById("bankDetailPanel");
+      panel.classList.add("open");
+      renderBankDetailContent(mode);
+      panel.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+
+    function closeBankDetail() {
+      activeBankMode = null;
+      lastOpDoneText = null;
+      document.getElementById("bankDetailPanel").classList.remove("open");
+      document.getElementById("selectWeb3Btn").classList.remove("active");
+      document.getElementById("selectInternetBtn").classList.remove("active");
+    }
+
+    function executeDetailBankOp() {
+      if (!activeBankMode) return;
+      const amount = Math.max(0, Number(document.getElementById("detailAmountInput").value) || 0);
+      const isOut = activeBankOp.includes("출금") || activeBankOp.includes("송금") ||
+        activeBankOp.toLowerCase().includes("withdraw") || activeBankOp.toLowerCase().includes("transfer") ||
+        activeBankOp.includes("出金") || activeBankOp.includes("送金") ||
+        activeBankOp.includes("出金") || activeBankOp.includes("轉帳") ||
+        activeBankOp.toLowerCase().includes("retiro") || activeBankOp.toLowerCase().includes("retrait") ||
+        activeBankOp.toLowerCase().includes("auszahlung");
+
+      const delta = isOut ? -amount : amount;
+      if (activeBankMode === "web3") {
+        web3Balance = Math.max(0, web3Balance + delta);
+      } else {
+        internetBalance = Math.max(0, internetBalance + delta);
+      }
+      totalHolding = web3Balance + internetBalance;
+      renderDashboardMetrics();
+
+      const title = activeBankMode === "web3" ? pack.web3BankTitle : pack.internetBankTitle;
+      lastOpDoneText = `${title} · <strong>${pack.opDonePrefix} ${activeBankOp}</strong> (₩${amount.toLocaleString()})`;
+      document.getElementById("detailOpStatus").innerHTML = lastOpDoneText;
+      pushDemoLog(`${title} · <strong>${activeBankOp}</strong> · ₩${amount.toLocaleString()}`);
+    }
+
+    // 개인자산 대시보드
+    function renderDashboardMetrics() {
+      document.getElementById("totalHoldingVal").textContent = "₩" + Math.round(totalHolding).toLocaleString();
+      document.getElementById("holdingBreakdown").textContent = pack.holdingBreakdownFmt(
+        Math.round(web3Balance).toLocaleString(),
+        Math.round(internetBalance).toLocaleString()
+      );
+      document.getElementById("liveInterestVal").textContent = "+₩" + liveInterest.toFixed(6);
+      document.getElementById("activeRateDisplay").textContent = currentRateApy.toFixed(1) + "% APY";
+      document.getElementById("ubiEarnedVal").textContent = "₩" + Math.round(ubiEarned).toLocaleString();
+      document.getElementById("ubiCycleAmount").textContent = "₩185,000";
+    }
+
+    setInterval(() => {
+      const perSec = (totalHolding * (currentRateApy / 100)) / (365 * 24 * 3600);
+      liveInterest += Math.max(perSec, 0.045);
+      document.getElementById("liveInterestVal").textContent = "+₩" + liveInterest.toFixed(6);
+    }, 1000);
+
+    // 10대 분산 연동망 (10가지: NET 표기 없음, 로고 + 설명, PC 2열 5행)
+    const netGridEl = document.getElementById("tenNetworksGrid");
+
+    function renderTenNetworks() {
+      netGridEl.innerHTML = "";
+      pack.nets.forEach((net, idx) => {
+        const btn = document.createElement("button");
+        btn.className = "net-node-card" + (idx === currentNetIndex ? " active" : "");
+        btn.innerHTML = `
+          <div class="net-logo-badge">${net.logo}</div>
+          <div class="net-card-body">
+            <div class="net-card-title">${net.name}</div>
+            <div class="net-card-desc">${net.shortDesc}</div>
+          </div>
+        `;
+        btn.onclick = () => {
+          currentNetIndex = idx;
+          renderTenNetworks();
+          pushDemoLog(`<strong>${net.name}</strong>`);
+        };
+        netGridEl.appendChild(btn);
+      });
+      renderPipelineView();
+    }
+
+    function renderPipelineView() {
+      const net = pack.nets[currentNetIndex];
+      document.getElementById("selectedNetTitle").textContent = pack.pipelineTitleFmt(net.logo, net.name);
+      document.getElementById("selectedNetDesc").textContent = net.desc;
+      const listEl = document.getElementById("pipelineStepsList");
+      listEl.innerHTML = "";
+      net.steps.forEach((st) => {
+        const div = document.createElement("div");
+        div.className = "step-item";
+        div.innerHTML = `<span>${st}</span><span>${pack.stepWait}</span>`;
+        listEl.appendChild(div);
+      });
+    }
+
+    async function executeCurrentNetworkPipeline() {
+      const net = pack.nets[currentNetIndex];
+      const items = Array.from(document.querySelectorAll("#pipelineStepsList .step-item"));
+      const runBtn = document.getElementById("runPipelineBtn");
+      runBtn.disabled = true;
+      pushDemoLog(`<strong>${net.name}</strong> · ${pack.stepRunning}`);
+      for (const item of items) {
+        item.className = "step-item running";
+        item.lastElementChild.textContent = pack.stepRunning;
+        await new Promise((r) => setTimeout(r, 340));
+        item.className = "step-item done";
+        item.lastElementChild.textContent = pack.stepDone;
+      }
+      runBtn.disabled = false;
+      pushDemoLog(`<strong>${net.name}</strong> · ${pack.stepDone}`);
+    }
+
+    // 가변형 이율
+    const ratesGridEl = document.getElementById("ratesGrid");
+
+    function renderRateTiers() {
+      ratesGridEl.innerHTML = "";
+      pack.tiers.forEach((tier, i) => {
+        const card = document.createElement("div");
+        card.className = "rate-card" + (i === selectedTierIdx ? " selected" : "");
+        card.innerHTML = `
+          <div class="rate-term">${tier.term}</div>
+          <div class="rate-range">${tier.range}</div>
+          <div class="rate-live">${pack.rateSampleFmt(tier.sample)}</div>
+        `;
+        card.onclick = () => {
+          selectedTierIdx = i;
+          currentRateApy = tier.sample;
+          document.getElementById("activeTermDisplay").textContent = pack.activeTermFmt(tier.term, tier.range);
+          renderRateTiers();
+          renderDashboardMetrics();
+          pushDemoLog(`<strong>${tier.term}</strong> (${tier.sample}% APY)`);
+        };
+        ratesGridEl.appendChild(card);
+      });
+    }
+
+    // 사회 환원 UBI & AGI/ASI 고객센터
+    function renderAgiGreeting() {
+      const log = document.getElementById("agiChatLog");
+      if (log.children.length === 0) {
+        const first = document.createElement("div");
+        first.className = "msg-ai";
+        first.innerHTML = `<strong>${pack.agiCardTitle}:</strong> ${pack.agiGreeting}`;
+        log.appendChild(first);
+      } else {
+        log.firstElementChild.innerHTML = `<strong>${pack.agiCardTitle}:</strong> ${pack.agiGreeting}`;
+      }
+    }
+
+    function claimUbiCycle() {
+      const payout = 185000;
+      ubiEarned += payout;
+      totalHolding += payout;
+      internetBalance += payout;
+      renderDashboardMetrics();
+      pushDemoLog(`UBI +₩${payout.toLocaleString()}`);
+      alert(pack.ubiClaimedAlert(payout.toLocaleString()));
+    }
+
+    function sendAgiMessage() {
+      const input = document.getElementById("agiInput");
+      const text = input.value.trim();
+      if (!text) return;
+      const log = document.getElementById("agiChatLog");
+
+      const uMsg = document.createElement("div");
+      uMsg.className = "msg-user";
+      uMsg.textContent = text;
+      log.appendChild(uMsg);
+
+      const lower = text.toLowerCase();
+      let reply = pack.agiReplyDefault;
+      if (lower.includes("이율") || lower.includes("개월") || lower.includes("apy") || lower.includes("rate") || lower.includes("金利") || lower.includes("利率") || lower.includes("tasa") || lower.includes("taux") || lower.includes("zins")) {
+        reply = pack.agiReplyRate;
+      } else if (lower.includes("ubi") || lower.includes("환원") || lower.includes("social") || lower.includes("還元") || lower.includes("回馈") || lower.includes("回饋")) {
+        reply = pack.agiReplyUbi;
+      } else if (lower.includes("파이") || lower.includes("연동") || lower.includes("스왑") || lower.includes("pi") || lower.includes("swap") || lower.includes("net")) {
+        reply = pack.agiReplyNet;
+      }
+
+      const aMsg = document.createElement("div");
+      aMsg.className = "msg-ai";
+      aMsg.innerHTML = `<strong>${pack.agiCardTitle}:</strong> ${reply}`;
+      log.appendChild(aMsg);
+
+      input.value = "";
+      log.scrollTop = log.scrollHeight;
+    }
+
+    // 시연 컨트롤러
+    const badgeEl = document.getElementById("demoScenarioBadge");
+
+    function applyDemoBoost() {
+      web3Balance = 145000000;
+      internetBalance = 120000000;
+      totalHolding = web3Balance + internetBalance;
+      liveInterest += 52400;
+      ubiEarned += 750000;
+      selectedTierIdx = 3;
+      const tier = pack.tiers[selectedTierIdx];
+      currentRateApy = tier.sample;
+      document.getElementById("activeTermDisplay").textContent = pack.activeTermFmt(tier.term, tier.range);
+      renderRateTiers();
+      renderDashboardMetrics();
+      badgeEl.textContent = pack.demoBoostState;
+      pushDemoLog(pack.demoBoostState);
+    }
+
+    function resetDemoState() {
+      totalHolding = 128450000;
+      web3Balance = 68450000;
+      internetBalance = 60000000;
+      liveInterest = 14820.0;
+      ubiEarned = 1240000;
+      selectedTierIdx = 1;
+      currentNetIndex = 0;
+      const tier = pack.tiers[selectedTierIdx];
+      currentRateApy = tier.sample;
+      closeBankDetail();
+      stopGuidedTour();
+      document.getElementById("activeTermDisplay").textContent = pack.activeTermFmt(tier.term, tier.range);
+      renderRateTiers();
+      renderDashboardMetrics();
+      renderTenNetworks();
+      badgeEl.textContent = pack.demoResetState;
+      pushDemoLog(pack.demoResetState);
+    }
+
+    async function runFullDemoShowcase() {
+      badgeEl.textContent = pack.demoRunningState;
+      applyDemoBoost();
+      await new Promise((r) => setTimeout(r, 600));
+      openBankDetail("web3");
+      await new Promise((r) => setTimeout(r, 900));
+      document.getElementById("networks").scrollIntoView({ behavior: "smooth" });
+      await executeCurrentNetworkPipeline();
+      badgeEl.textContent = pack.demoDoneState;
+    }
+
+    // 초기 실행
+    applyLanguage(currentLang);
   </script>
 </body>
 </html>
