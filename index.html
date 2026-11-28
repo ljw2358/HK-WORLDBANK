@@ -1,1720 +1,1576 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HKWB - 디지털 금융 혁신</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HKWB · HK WorldBank — 웹3 디지털 은행 & 인터넷 은행</title>
+  <style>
+    :root {
+      --bg-dark: #080612;
+      --bg-panel: #130f26;
+      --bg-card: #1c1638;
+      --bg-card-hover: #261e4b;
+      --gold-1: #fff1b8;
+      --gold-2: #f5c451;
+      --gold-3: #c7871a;
+      --blue-1: #93c5fd;
+      --blue-2: #3b82f6;
+      --purple-2: #8b5cf6;
+      --green-2: #34d399;
+      --text-main: #f8fafc;
+      --text-sub: #cbd5e1;
+      --text-muted: #94a3b8;
+      --border-gold: rgba(245, 196, 81, 0.36);
+      --border-soft: rgba(255, 255, 255, 0.1);
+      --radius-lg: 20px;
+      --radius-md: 14px;
+      --radius-sm: 10px;
+    }
 
-        body {
-            background-color: #0d0b21;
-            color: #ffffff;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-        header {
-            width: 100%;
-            padding: 18px 28px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            background: rgba(13, 11, 33, 0.94);
-            backdrop-filter: blur(8px);
-            border-bottom: 1px solid rgba(251, 191, 36, 0.18);
-            z-index: 1000;
-        }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR", "Noto Sans", sans-serif;
+      background: radial-gradient(circle at 18% 0%, #24174a 0%, var(--bg-dark) 55%, #050409 100%);
+      color: var(--text-main);
+      min-height: 100vh;
+      padding-bottom: 92px;
+      line-height: 1.5;
+    }
 
-        .brand-logo {
-            font-size: 46px;
-            font-weight: 900;
-            letter-spacing: 2px;
-            cursor: pointer;
-            line-height: 1;
-            background: linear-gradient(135deg, #fffbeb 0%, #fbbf24 55%, #d97706 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 12px rgba(251, 191, 36, 0.35));
-        }
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 16px 16px 32px;
+    }
 
-        .lang-select {
-            background: #1a173b;
-            color: #fbbf24;
-            border: 1.5px solid #f59e0b;
-            padding: 6px 10px;
-            border-radius: 8px;
-            font-size: 13px;
-            cursor: pointer;
-            outline: none;
-            width: 112px;
-            text-align: center;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
+    /* 상단 헤더 & 60개국어 선택기 */
+    .topbar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      background: rgba(19, 15, 38, 0.92);
+      border: 1px solid var(--border-gold);
+      border-radius: var(--radius-lg);
+      padding: 14px 18px;
+      margin-bottom: 16px;
+      position: sticky;
+      top: 10px;
+      z-index: 40;
+      backdrop-filter: blur(12px);
+    }
 
-        .lang-select option {
-            background: #0d0b21;
-            color: #ffffff;
-        }
+    .brand-title {
+      font-size: 1.32rem;
+      font-weight: 800;
+      background: linear-gradient(90deg, var(--gold-1), var(--gold-2), var(--gold-3));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
 
-        main {
-            flex: 1;
-            width: 100%;
-            max-width: 1040px;
-            margin: 0 auto;
-            padding: 36px 20px 64px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-        }
+    .brand-tagline {
+      font-size: 0.84rem;
+      font-weight: 600;
+      background: linear-gradient(90deg, var(--blue-1), var(--gold-2), #e9d5ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
 
-        .main-title {
-            font-size: 44px;
-            font-weight: 800;
-            line-height: 1.32;
-            margin-bottom: 34px;
-            background: linear-gradient(135deg, #fffbeb 0%, #fbbf24 50%, #d97706 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            word-break: keep-all;
-        }
+    .lang-box {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-gold);
+      border-radius: var(--radius-sm);
+      padding: 6px 10px;
+    }
 
-        .core-six-wrap {
-            width: 100%;
-            margin-bottom: 36px;
-        }
+    .lang-box label {
+      font-size: 0.82rem;
+      color: var(--gold-2);
+      font-weight: 700;
+      white-space: nowrap;
+    }
 
-        .core-six-title {
-            font-size: 14px;
-            font-weight: 700;
-            letter-spacing: 0.4px;
-            margin-bottom: 12px;
-            background: linear-gradient(90deg, #fde68a, #fbbf24);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+    select, input, button {
+      font-family: inherit;
+      color: var(--text-main);
+    }
 
-        .core-six-grid {
-            display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            gap: 10px;
-        }
+    select#langSelect {
+      background: #100b24;
+      border: 1px solid rgba(245, 196, 81, 0.45);
+      border-radius: 8px;
+      padding: 7px 10px;
+      font-size: 0.88rem;
+      max-width: 230px;
+      cursor: pointer;
+    }
 
-        .core-chip {
-            padding: 12px 10px;
-            border-radius: 12px;
-            font-size: 15px;
-            font-weight: 700;
-            color: #0d0b21;
-            background: linear-gradient(135deg, #fef3c7 0%, #fbbf24 55%, #d97706 100%);
-            box-shadow: 0 4px 16px rgba(251, 191, 36, 0.25);
-        }
+    /* 최상단 개인 자산 대시보드 */
+    .portfolio-hero {
+      background: linear-gradient(135deg, rgba(42, 25, 88, 0.92), rgba(18, 14, 38, 0.96));
+      border: 1px solid var(--border-gold);
+      border-radius: var(--radius-lg);
+      padding: 18px 20px;
+      margin-bottom: 16px;
+    }
 
-        .btn-group {
-            display: flex;
-            justify-content: center;
-            gap: 18px;
-            flex-wrap: wrap;
-            width: 100%;
-            margin-bottom: 42px;
-        }
+    .hero-top {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
 
-        .btn {
-            padding: 18px 32px;
-            border-radius: 999px;
-            font-size: 18px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.25s ease;
-            border: none;
-            flex: 1;
-            min-width: 260px;
-        }
+    .hero-label {
+      font-size: 0.84rem;
+      color: var(--gold-2);
+      font-weight: 700;
+    }
 
-        .btn-primary {
-            background: linear-gradient(135deg, #fde68a 0%, #fbbf24 45%, #d97706 100%);
-            color: #0d0b21;
-            box-shadow: 0 6px 24px rgba(251, 191, 36, 0.38);
-        }
+    .hero-total {
+      font-size: 1.9rem;
+      font-weight: 800;
+      background: linear-gradient(90deg, #ffffff, var(--gold-1), var(--gold-2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
 
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(251, 191, 36, 0.55);
-        }
+    .hero-right {
+      text-align: right;
+      font-size: 0.84rem;
+      color: var(--text-sub);
+    }
 
-        .btn-secondary {
-            background: linear-gradient(180deg, rgba(45, 38, 89, 0.92) 0%, rgba(26, 23, 59, 0.98) 100%);
-            color: #fde68a;
-            border: 1.5px solid rgba(251, 191, 36, 0.8);
-            box-shadow: 0 6px 20px rgba(13, 11, 33, 0.65);
-        }
+    .asset-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 10px;
+    }
 
-        .btn-secondary:hover {
-            background: linear-gradient(180deg, rgba(61, 51, 120, 0.96) 0%, rgba(34, 29, 77, 1) 100%);
-            transform: translateY(-2px);
-        }
+    .asset-card {
+      background: rgba(10, 8, 22, 0.82);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-md);
+      padding: 12px;
+    }
 
-        .bank-columns {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 22px;
-            width: 100%;
-            text-align: left;
-        }
+    .asset-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 5px;
+    }
 
-        body[dir="rtl"] .bank-columns {
-            text-align: right;
-        }
+    .asset-name {
+      font-weight: 700;
+      font-size: 0.92rem;
+      color: var(--gold-1);
+    }
 
-        .bank-card {
-            background: linear-gradient(160deg, rgba(31, 27, 69, 0.92) 0%, rgba(18, 15, 42, 0.98) 100%);
-            border: 1px solid rgba(251, 191, 36, 0.35);
-            border-radius: 18px;
-            padding: 24px;
-            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            gap: 18px;
-        }
+    .asset-sym {
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 999px;
+      background: rgba(245, 196, 81, 0.16);
+      color: var(--gold-2);
+    }
 
-        .bank-card-heading {
-            font-size: 21px;
-            font-weight: 800;
-            margin-bottom: 14px;
-            background: linear-gradient(135deg, #fffbeb 0%, #fbbf24 60%, #f59e0b 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+    .asset-qty {
+      font-size: 1.02rem;
+      font-weight: 800;
+      color: #ffffff;
+    }
 
-        .feature-list {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
+    .asset-val {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
 
-        .feature-item {
-            font-size: 14.5px;
-            line-height: 1.5;
-            color: #e5e7eb;
-            padding: 10px 12px;
-            border-radius: 10px;
-            background: rgba(13, 11, 33, 0.65);
-            border-left: 3px solid #fbbf24;
-        }
+    /* 분리된 진입 카드 (웹3 디지털 은행 vs 인터넷 은행) */
+    .split-entry-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-bottom: 18px;
+    }
 
-        body[dir="rtl"] .feature-item {
-            border-left: none;
-            border-right: 3px solid #fbbf24;
-        }
+    @media (max-width: 680px) {
+      .split-entry-grid {
+        grid-template-columns: 1fr;
+      }
+    }
 
-        .mini-action-btn {
-            width: 100%;
-            padding: 13px 18px;
-            border-radius: 12px;
-            font-size: 15px;
-            font-weight: 700;
-            cursor: pointer;
-            border: none;
-            background: linear-gradient(135deg, #fde68a 0%, #fbbf24 50%, #d97706 100%);
-            color: #0d0b21;
-            transition: transform 0.2s ease;
-        }
+    .entry-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-lg);
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 12px;
+      transition: all 0.2s ease;
+    }
 
-        .mini-action-btn:hover {
-            transform: translateY(-1px);
-        }
+    .entry-card.web3-card.active {
+      border-color: var(--gold-2);
+      background: linear-gradient(145deg, rgba(65, 31, 130, 0.88), rgba(22, 16, 48, 0.95));
+      box-shadow: 0 10px 26px rgba(139, 92, 246, 0.25);
+    }
 
-        @media (max-width: 900px) {
-            .core-six-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-            .bank-columns {
-                grid-template-columns: 1fr;
-            }
-        }
+    .entry-card.internet-card.active {
+      border-color: var(--blue-1);
+      background: linear-gradient(145deg, rgba(24, 62, 128, 0.88), rgba(15, 25, 54, 0.95));
+      box-shadow: 0 10px 26px rgba(59, 130, 246, 0.25);
+    }
 
-        @media (max-width: 768px) {
-            header {
-                padding: 14px 18px;
-            }
-            .brand-logo {
-                font-size: 34px;
-            }
-            .lang-select {
-                width: 104px;
-                font-size: 12px;
-                padding: 5px 6px;
-            }
-            .main-title {
-                font-size: 28px;
-                margin-bottom: 24px;
-            }
-            .btn-group {
-                flex-direction: column;
-                gap: 12px;
-                margin-bottom: 28px;
-            }
-            .btn {
-                width: 100%;
-                min-width: unset;
-                padding: 15px 20px;
-                font-size: 16px;
-            }
-            .bank-card {
-                padding: 18px;
-            }
-        }
-    </style>
+    .entry-tag {
+      display: inline-block;
+      font-size: 0.74rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 999px;
+      margin-bottom: 6px;
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--gold-1);
+    }
+
+    .entry-card h2 {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 4px;
+    }
+
+    .entry-card p {
+      font-size: 0.84rem;
+      color: var(--text-sub);
+    }
+
+    .enter-action-btn {
+      width: 100%;
+      padding: 11px 14px;
+      border-radius: var(--radius-sm);
+      border: none;
+      font-weight: 800;
+      font-size: 0.92rem;
+      cursor: pointer;
+    }
+
+    .web3-action-btn {
+      background: linear-gradient(90deg, var(--gold-2), var(--gold-3));
+      color: #161003;
+    }
+
+    .internet-action-btn {
+      background: linear-gradient(90deg, #60a5fa, #2563eb);
+      color: #ffffff;
+    }
+
+    /* 분리된 본문 패널 */
+    .panel {
+      background: var(--bg-panel);
+      border: 1px solid var(--border-gold);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      margin-bottom: 18px;
+    }
+
+    .panel-head {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+      border-bottom: 1px solid var(--border-soft);
+    }
+
+    .panel-head h3 {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--gold-2);
+    }
+
+    .pill-badge {
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(245, 196, 81, 0.14);
+      color: var(--gold-1);
+      border: 1px solid rgba(245, 196, 81, 0.35);
+    }
+
+    /* 10대 분산 연동망 */
+    .net-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .net-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-sm);
+      padding: 10px 12px;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .net-item.active, .net-item:hover {
+      border-color: var(--gold-2);
+      background: var(--bg-card-hover);
+    }
+
+    .net-item strong {
+      display: block;
+      font-size: 0.9rem;
+      color: var(--gold-1);
+    }
+
+    .net-item span {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 16px;
+    }
+
+    .box {
+      background: var(--bg-card);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-md);
+      padding: 16px;
+    }
+
+    .box h4 {
+      font-size: 1.02rem;
+      color: var(--gold-1);
+      margin-bottom: 12px;
+    }
+
+    .field {
+      margin-bottom: 11px;
+    }
+
+    .field label {
+      display: block;
+      font-size: 0.8rem;
+      color: var(--text-sub);
+      margin-bottom: 4px;
+    }
+
+    .field select, .field input {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      background: #0d091c;
+      font-size: 0.94rem;
+    }
+
+    .calc-box {
+      background: rgba(8, 6, 18, 0.85);
+      border: 1px dashed rgba(245, 196, 81, 0.45);
+      border-radius: var(--radius-sm);
+      padding: 12px;
+      margin: 12px 0;
+      font-size: 0.86rem;
+      color: var(--gold-1);
+    }
+
+    .gold-btn {
+      width: 100%;
+      padding: 11px 14px;
+      border: none;
+      border-radius: var(--radius-sm);
+      background: linear-gradient(90deg, var(--gold-2), var(--gold-3));
+      color: #161003;
+      font-weight: 800;
+      font-size: 0.92rem;
+      cursor: pointer;
+    }
+
+    /* 인터넷 은행 6대 기능 (2행 3열 격자) */
+    .six-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    @media (max-width: 700px) {
+      .six-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .six-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-md);
+      padding: 13px;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .six-btn.active, .six-btn:hover {
+      border-color: var(--blue-1);
+      background: var(--bg-card-hover);
+    }
+
+    .six-btn strong {
+      display: block;
+      font-size: 0.96rem;
+      color: var(--gold-1);
+      margin-bottom: 3px;
+    }
+
+    .six-btn span {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .rate-tbl {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: 0.86rem;
+    }
+
+    .rate-tbl th, .rate-tbl td {
+      padding: 8px 10px;
+      border-bottom: 1px solid var(--border-soft);
+      text-align: left;
+    }
+
+    .rate-tbl th {
+      color: var(--gold-2);
+    }
+
+    .rate-val {
+      color: var(--green-2);
+      font-weight: 800;
+    }
+
+    .credit-card-box {
+      background: linear-gradient(125deg, rgba(16, 185, 129, 0.15), rgba(59, 130, 246, 0.16));
+      border: 1px solid rgba(52, 211, 153, 0.45);
+      border-radius: var(--radius-md);
+      padding: 14px;
+      margin-top: 12px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .credit-score-big {
+      font-size: 1.65rem;
+      font-weight: 900;
+      color: var(--green-2);
+    }
+
+    /* 하단 고정 4칸 바 */
+    .bottom-bar {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 70px;
+      background: rgba(11, 8, 24, 0.96);
+      border-top: 1px solid var(--border-gold);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      z-index: 60;
+      backdrop-filter: blur(14px);
+    }
+
+    .bottom-bar button {
+      background: transparent;
+      border: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+
+    .bottom-bar button.active, .bottom-bar button:hover {
+      color: var(--gold-2);
+      background: rgba(245, 196, 81, 0.08);
+    }
+
+    /* 모달 */
+    .modal-bg {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(3, 2, 10, 0.84);
+      z-index: 90;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .modal-bg.open {
+      display: flex;
+    }
+
+    .modal-box {
+      width: 100%;
+      max-width: 660px;
+      max-height: 82vh;
+      overflow-y: auto;
+      background: var(--bg-panel);
+      border: 1px solid var(--border-gold);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+    }
+
+    .modal-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 10px;
+      margin-bottom: 14px;
+      border-bottom: 1px solid var(--border-soft);
+    }
+
+    .modal-top h3 {
+      color: var(--gold-2);
+      font-size: 1.1rem;
+    }
+
+    .x-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border-soft);
+      border-radius: 8px;
+      padding: 6px 12px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 10px;
+    }
+
+    .menu-tile {
+      background: var(--bg-card);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-sm);
+      padding: 12px;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .menu-tile:hover {
+      border-color: var(--gold-2);
+    }
+
+    .menu-tile strong {
+      display: block;
+      color: var(--gold-1);
+      font-size: 0.9rem;
+    }
+
+    .menu-tile span {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .notice-pop {
+      position: fixed;
+      top: 76px;
+      right: 18px;
+      background: var(--bg-card);
+      border: 1px solid var(--gold-2);
+      color: var(--gold-1);
+      padding: 10px 15px;
+      border-radius: var(--radius-sm);
+      font-size: 0.84rem;
+      font-weight: 700;
+      z-index: 110;
+      opacity: 0;
+      transform: translateY(-6px);
+      transition: all 0.2s ease;
+      pointer-events: none;
+    }
+
+    .notice-pop.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
 </head>
 <body>
+  <div id="noticePop" class="notice-pop"></div>
 
-    <header>
-        <div class="brand-logo" onclick="navigateWeb3()">HKWB</div>
-        <select class="lang-select" id="languageSelect" aria-label="언어 선택" onchange="updateLanguage(this.value)">
-            <option value="ko">한국어 (KR)</option>
-            <option value="en">English (US)</option>
-            <option value="zh">中文 (CN)</option>
-            <option value="ja">日本語 (JP)</option>
-            <option value="es">Español</option>
-            <option value="fr">Français</option>
-            <option value="de">Deutsch</option>
-            <option value="ru">Русский</option>
-            <option value="pt">Português</option>
-            <option value="ar">العربية</option>
-            <option value="hi">हिन्दी</option>
-            <option value="bn">বাংলা</option>
-            <option value="id">Bahasa ID</option>
-            <option value="vi">Tiếng Việt</option>
-            <option value="th">ไทย</option>
-            <option value="tr">Türkçe</option>
-            <option value="it">Italiano</option>
-            <option value="nl">Nederlands</option>
-            <option value="pl">Polski</option>
-            <option value="uk">Українська</option>
-            <option value="fa">فارسی</option>
-            <option value="ur">اردو</option>
-            <option value="ms">Bahasa MY</option>
-            <option value="fil">Filipino</option>
-            <option value="el">Ελληνικά</option>
-            <option value="cs">Čeština</option>
-            <option value="hu">Magyar</option>
-            <option value="ro">Română</option>
-            <option value="sv">Svenska</option>
-            <option value="da">Dansk</option>
-            <option value="fi">Suomi</option>
-            <option value="no">Norsk</option>
-            <option value="he">עברית</option>
-            <option value="sw">Kiswahili</option>
-            <option value="ha">Hausa</option>
-            <option value="yo">Yorùbá</option>
-            <option value="ig">Igbo</option>
-            <option value="am">አማርኛ</option>
-            <option value="zu">IsiZulu</option>
-            <option value="af">Afrikaans</option>
-            <option value="km">ភាសាខ្មែរ</option>
-            <option value="my">မြန်မာ</option>
-            <option value="lo">ພາສາລາວ</option>
-            <option value="ne">नेपाली</option>
-            <option value="si">සිංහල</option>
-            <option value="ta">தமிழ்</option>
-            <option value="te">తెలుగు</option>
-            <option value="kn">ಕನ್ನಡ</option>
-            <option value="ml">മലയാളം</option>
-            <option value="mr">मराठी</option>
-            <option value="gu">ગુજરાતી</option>
-            <option value="pa">ਪੰਜਾਬੀ</option>
-            <option value="kk">Қазақша</option>
-            <option value="uz">Oʻzbekcha</option>
-            <option value="az">Azərbaycan</option>
-            <option value="ka">ქართული</option>
-            <option value="hy">Հայերեն</option>
-            <option value="mn">Монгол</option>
-            <option value="sr">Српски</option>
-            <option value="hr">Hrvatski</option>
-        </select>
+  <div class="container">
+    <!-- 상단 헤더 & 60개국어 선택기 -->
+    <header class="topbar">
+      <div>
+        <div class="brand-title" data-i18n="brandTitle">HKWB · HK WorldBank</div>
+        <div class="brand-tagline" data-i18n="brandTagline">인류와 기술이 공존하는 차세대 디지털 금융 혁신</div>
+      </div>
+      <div class="lang-box">
+        <label for="langSelect" data-i18n="langLabel">60개국어 언어 선택</label>
+        <select id="langSelect" aria-label="60개국어 언어 선택"></select>
+      </div>
     </header>
 
-    <main>
-        <h1 class="main-title" id="txt-title">
-            인류와 기술이 공존하는<br>
-            차세대 디지털 금융 혁신
-        </h1>
+    <!-- 최상단 개인 자산 대시보드 -->
+    <section class="portfolio-hero" id="assetSection">
+      <div class="hero-top">
+        <div>
+          <div class="hero-label" data-i18n="topAssetLabel">최상단 개인 자산 대시보드 · 보유 자산 및 수량</div>
+          <div class="hero-total" id="totalAssetKrw">₩ 248,950,000</div>
+        </div>
+        <div class="hero-right">
+          <div data-i18n="ubiBanner">사회환원 UBI · 순수익 최대 60% 리워드</div>
+          <div id="langStatus">언어: 한국어 (KO)</div>
+        </div>
+      </div>
+      <div class="asset-grid" id="assetCards"></div>
+    </section>
 
-        <div class="core-six-wrap">
-            <div class="core-six-title" id="txt-six-label">6대 핵심 금융 기능</div>
-            <div class="core-six-grid">
-                <div class="core-chip" id="f-deposit">입금</div>
-                <div class="core-chip" id="f-withdraw">출금</div>
-                <div class="core-chip" id="f-transfer">송금</div>
-                <div class="core-chip" id="f-stake">예치</div>
-                <div class="core-chip" id="f-saving">적금</div>
-                <div class="core-chip" id="f-loan">대출</div>
-            </div>
+    <!-- [분리 진입 영역] 1. 웹3 디지털 은행 진입 / 2. 인터넷 은행 진입 -->
+    <section class="split-entry-grid">
+      <div class="entry-card web3-card active" id="cardWeb3">
+        <div>
+          <span class="entry-tag" data-i18n="tagWeb3">분리 채널 01 · WEB3</span>
+          <h2 data-i18n="entryWeb3Heading">웹3 디지털 은행 들어갈 곳</h2>
+          <p data-i18n="entryWeb3Sub">10대 분산 연동망, 파이·테더·리플·솔라나·이더리움·비트코인 수량 연동 스왑·예치·UBI 전용 화면</p>
+        </div>
+        <button type="button" class="enter-action-btn web3-action-btn" onclick="openChannel('web3')" data-i18n="btnEnterWeb3">
+          웹3 디지털 은행 진입하기
+        </button>
+      </div>
+
+      <div class="entry-card internet-card" id="cardInternet">
+        <div>
+          <span class="entry-tag" data-i18n="tagInternet">분리 채널 02 · INTERNET BANK</span>
+          <h2 data-i18n="entryInternetHeading">인터넷 은행 들어갈 곳</h2>
+          <p data-i18n="entryInternetSub">입금·출금·송금·예치·적금·대출 6대 기능, 기간별 예치 이자율, NICE + 블록체인 신용점수 조회 전용 화면</p>
+        </div>
+        <button type="button" class="enter-action-btn internet-action-btn" onclick="openChannel('internet')" data-i18n="btnEnterInternet">
+          인터넷 은행 진입하기
+        </button>
+      </div>
+    </section>
+
+    <!-- [단독 표시 A] 웹3 디지털 은행 전용 영역 -->
+    <main class="panel" id="web3Panel">
+      <div class="panel-head">
+        <h3 data-i18n="web3PanelTitle">웹3 디지털 은행 전용 화면 (10대 분산 연동망 · 스왑 · 예치)</h3>
+        <span class="pill-badge" data-i18n="web3OnlyBadge">웹3 전용 표시</span>
+      </div>
+
+      <div class="net-grid" id="tenNetList"></div>
+
+      <div class="grid-2">
+        <div class="box">
+          <h4 data-i18n="swapTitle">자산 스왑 &amp; DEX 스왑 (보유 수량 연동)</h4>
+          <div class="field">
+            <label for="fromCoin" data-i18n="fromCoinLabel">출발 자산</label>
+            <select id="fromCoin" onchange="calcSwap()"></select>
+          </div>
+          <div class="field">
+            <label for="toCoin" data-i18n="toCoinLabel">도착 자산</label>
+            <select id="toCoin" onchange="calcSwap()"></select>
+          </div>
+          <div class="field">
+            <label for="swapQty" data-i18n="swapQtyLabel">전환 수량</label>
+            <input type="number" id="swapQty" value="100" min="0" step="any" oninput="calcSwap()" />
+          </div>
+          <div class="calc-box" id="swapCalcOutput">스왑 수량 계산 중...</div>
+          <button type="button" class="gold-btn" onclick="runSwap()" data-i18n="runSwapBtn">스왑 반영하기</button>
         </div>
 
-        <div class="btn-group">
-            <button class="btn btn-primary" id="btn-web3" onclick="navigateWeb3()">
-                Web3 디지털 은행 진입하기
-            </button>
-            <button class="btn btn-secondary" id="btn-internet" onclick="navigateInternet()">
-                인터넷 은행 진입하기
-            </button>
+        <div class="box">
+          <h4 data-i18n="web3DepTitle">웹3 자산 예치 (6개월~3년 이자율 적용)</h4>
+          <div class="field">
+            <label for="depCoin" data-i18n="depCoinLabel">예치 자산</label>
+            <select id="depCoin" onchange="calcWeb3Deposit()"></select>
+          </div>
+          <div class="field">
+            <label for="depQty" data-i18n="depQtyLabel">예치 수량</label>
+            <input type="number" id="depQty" value="500" min="0" step="any" oninput="calcWeb3Deposit()" />
+          </div>
+          <div class="field">
+            <label for="depPeriod" data-i18n="depPeriodLabel">예치 기간 및 이자율</label>
+            <select id="depPeriod" onchange="calcWeb3Deposit()">
+              <option value="6m">6개월 (8% ~ 12%)</option>
+              <option value="1y" selected>1년 (12% ~ 18%)</option>
+              <option value="2y">2년 (16% ~ 24%)</option>
+              <option value="3y">3년 (20% ~ 31.4%)</option>
+            </select>
+          </div>
+          <div class="calc-box" id="web3DepOutput">예치 이자 계산 중...</div>
+          <button type="button" class="gold-btn" onclick="runWeb3Deposit()" data-i18n="runDepBtn">예치 신청하기</button>
         </div>
-
-        <section class="bank-columns">
-            <article class="bank-card">
-                <div>
-                    <h2 class="bank-card-heading" id="w3-heading">Web3 디지털 은행</h2>
-                    <ul class="feature-list">
-                        <li class="feature-item" id="w3-1">개인 자산 대시보드 및 실시간 포트폴리오 정보</li>
-                        <li class="feature-item" id="w3-2">직접 분산 연동망 (10대 분산 연동망 통합)</li>
-                        <li class="feature-item" id="w3-3">사회 환원 UBI (최대 60% · 30%~60% 환원 구조)</li>
-                        <li class="feature-item" id="w3-4">콜센터 AGI · ASI · 삐니 지능형 응대</li>
-                        <li class="feature-item" id="w3-5">예측 섹터 및 차세대 시장 인텔리전스</li>
-                    </ul>
-                </div>
-                <button class="mini-action-btn" id="w3-cta" onclick="navigateWeb3()">Web3 디지털 은행 바로가기</button>
-            </article>
-
-            <article class="bank-card">
-                <div>
-                    <h2 class="bank-card-heading" id="ib-heading">인터넷 은행</h2>
-                    <ul class="feature-list">
-                        <li class="feature-item" id="ib-1">입금 · 출금 · 송금 · 예치 · 적금 · 대출 6대 핵심 서비스</li>
-                        <li class="feature-item" id="ib-2">개인별 신용도 조회 및 신용 상태 진단</li>
-                        <li class="feature-item" id="ib-3">신용도 기반 맞춤 대출 상품 추천</li>
-                    </ul>
-                </div>
-                <button class="mini-action-btn" id="ib-cta" onclick="navigateInternet()">인터넷 은행 바로가기</button>
-            </article>
-        </section>
+      </div>
     </main>
 
-    <script>
-        const i18nData = {
-            ko: {
-                pageTitle: "HKWB - 디지털 금융 혁신",
-                langAria: "언어 선택",
-                title: "인류와 기술이 공존하는<br>차세대 디지털 금융 혁신",
-                sixLabel: "6대 핵심 금융 기능",
-                f1: "입금", f2: "출금", f3: "송금", f4: "예치", f5: "적금", f6: "대출",
-                web3Btn: "Web3 디지털 은행 진입하기",
-                internetBtn: "인터넷 은행 진입하기",
-                w3Heading: "Web3 디지털 은행",
-                w3_1: "개인 자산 대시보드 및 실시간 포트폴리오 정보",
-                w3_2: "직접 분산 연동망 (10대 분산 연동망 통합)",
-                w3_3: "사회 환원 UBI (최대 60% · 30%~60% 환원 구조)",
-                w3_4: "콜센터 AGI · ASI · 삐니 지능형 응대",
-                w3_5: "예측 섹터 및 차세대 시장 인텔리전스",
-                w3Cta: "Web3 디지털 은행 바로가기",
-                ibHeading: "인터넷 은행",
-                ib_1: "입금 · 출금 · 송금 · 예치 · 적금 · 대출 6대 핵심 서비스",
-                ib_2: "개인별 신용도 조회 및 신용 상태 진단",
-                ib_3: "신용도 기반 맞춤 대출 상품 추천",
-                ibCta: "인터넷 은행 바로가기"
-            },
-            en: {
-                pageTitle: "HKWB - Digital Financial Innovation",
-                langAria: "Select Language",
-                title: "Coexistence of Humanity & Technology<br>Next-Gen Digital Financial Innovation",
-                sixLabel: "6 Core Financial Functions",
-                f1: "Deposit", f2: "Withdraw", f3: "Transfer", f4: "Lock-up", f5: "Savings", f6: "Loan",
-                web3Btn: "Enter Web3 Digital Bank",
-                internetBtn: "Enter Internet Bank",
-                w3Heading: "Web3 Digital Bank",
-                w3_1: "Personal Asset Dashboard & Real-Time Portfolio",
-                w3_2: "Direct Decentralized Interconnect Network",
-                w3_3: "Social Return UBI (Up to 60% · 30%–60% Allocation)",
-                w3_4: "Call Center AGI · ASI · Bbi-ni AI Assistance",
-                w3_5: "Predictive Sectors & Market Intelligence",
-                w3Cta: "Launch Web3 Digital Bank",
-                ibHeading: "Internet Bank",
-                ib_1: "Deposit · Withdraw · Transfer · Lock-up · Savings · Loan",
-                ib_2: "Personal Credit Score Check & Credit Diagnostic",
-                ib_3: "Tailored Loan Recommendations by Credit Profile",
-                ibCta: "Launch Internet Bank"
-            },
-            zh: {
-                pageTitle: "HKWB - 数字金融创新",
-                langAria: "选择语言",
-                title: "人类与科技共存<br>下一代数字金融创新",
-                sixLabel: "六大核心金融功能",
-                f1: "入金", f2: "出金", f3: "转账", f4: "寄存", f5: "定存", f6: "贷款",
-                web3Btn: "进入 Web3 数字银行",
-                internetBtn: "进入互联网银行",
-                w3Heading: "Web3 数字银行",
-                w3_1: "个人资产仪表板与实时资产信息",
-                w3_2: "直接分布式互联网络",
-                w3_3: "社会回馈 UBI（最高 60% · 30%–60% 回馈机制）",
-                w3_4: "呼叫中心 AGI · ASI · 삐니 智能服务",
-                w3_5: "预测板块与前沿市场洞察",
-                w3Cta: "前往 Web3 数字银行",
-                ibHeading: "互联网银行",
-                ib_1: "入金 · 出金 · 转账 · 寄存 · 定存 · 贷款六大服务",
-                ib_2: "个人信用度查询与信用评估",
-                ib_3: "基于信用度的定制贷款推荐",
-                ibCta: "前往互联网银行"
-            },
-            ja: {
-                pageTitle: "HKWB - デジタル金融革新",
-                langAria: "言語を選択",
-                title: "人類と技術が共存する<br>次世代デジタル金融革新",
-                sixLabel: "6大コア金融機能",
-                f1: "入金", f2: "出金", f3: "送金", f4: "預置", f5: "積立", f6: "融資",
-                web3Btn: "Web3デジタル銀行に入る",
-                internetBtn: "インターネット銀行に入る",
-                w3Heading: "Web3デジタル銀行",
-                w3_1: "個人資産ダッシュボードとリアルタイム資産情報",
-                w3_2: "直接分散連動ネットワーク",
-                w3_3: "社会還元 UBI（最大60%・30%〜60%還元構造）",
-                w3_4: "コールセンター AGI・ASI・삐니 応答",
-                w3_5: "予測セクターと次世代市場インテリジェンス",
-                w3Cta: "Web3デジタル銀行へ",
-                ibHeading: "インターネット銀行",
-                ib_1: "入金・出金・送金・預置・積立・融資の6大機能",
-                ib_2: "個人信用度の確認および信用診断",
-                ib_3: "信用度に応じたカスタムローン提案",
-                ibCta: "インターネット銀行へ"
-            },
-            es: {
-                pageTitle: "HKWB - Innovación Financiera Digital",
-                langAria: "Seleccionar idioma",
-                title: "Coexistencia de Humanidad y Tecnología<br>Innovación Financiera Digital de Próxima Generación",
-                sixLabel: "6 Funciones Financieras Clave",
-                f1: "Depósito", f2: "Retiro", f3: "Transferencia", f4: "Bloqueo", f5: "Ahorro", f6: "Préstamo",
-                web3Btn: "Entrar al Banco Digital Web3",
-                internetBtn: "Entrar al Banco por Internet",
-                w3Heading: "Banco Digital Web3",
-                w3_1: "Panel de Activos Personales y Cartera en Tiempo Real",
-                w3_2: "Red de Interconexión Descentralizada Directa",
-                w3_3: "Renta Básica Social (Hasta 60% · Asignación 30%–60%)",
-                w3_4: "Centro de Llamadas AGI · ASI · Asistente Bbi-ni",
-                w3_5: "Sectores Predictivos e Inteligencia de Mercado",
-                w3Cta: "Ir al Banco Digital Web3",
-                ibHeading: "Banco por Internet",
-                ib_1: "Depósito · Retiro · Transferencia · Bloqueo · Ahorro · Préstamo",
-                ib_2: "Consulta de Puntaje Crediticio y Diagnóstico Personal",
-                ib_3: "Recomendación de Préstamos a Medida según Crédito",
-                ibCta: "Ir al Banco por Internet"
-            },
-            fr: {
-                pageTitle: "HKWB - Innovation Financière Numérique",
-                langAria: "Choisir la langue",
-                title: "Coexistence de l'Humanité et de la Technologie<br>Innovation Financière Numérique de Nouvelle Génération",
-                sixLabel: "6 Fonctions Financières Essentielles",
-                f1: "Dépôt", f2: "Retrait", f3: "Virement", f4: "Blocage", f5: "Épargne", f6: "Prêt",
-                web3Btn: "Accéder à la Banque Web3",
-                internetBtn: "Accéder à la Banque en Ligne",
-                w3Heading: "Banque Numérique Web3",
-                w3_1: "Tableau de Bord d'Actifs Personnels et Portefeuille Temps Réel",
-                w3_2: "Réseau d'Interconnexion Décentralisé Direct",
-                w3_3: "Revenu Universel Social (Jusqu'à 60% · Part 30%–60%)",
-                w3_4: "Centre d'Appel AGI · ASI · Assistant Bbi-ni",
-                w3_5: "Secteurs Prédictifs et Intelligence de Marché",
-                w3Cta: "Ouvrir la Banque Web3",
-                ibHeading: "Banque en Ligne",
-                ib_1: "Dépôt · Retrait · Virement · Blocage · Épargne · Prêt",
-                ib_2: "Vérification du Score de Crédit et Diagnostic Personnel",
-                ib_3: "Offres de Prêt Personnalisées selon le Crédit",
-                ibCta: "Ouvrir la Banque en Ligne"
-            },
-            de: {
-                pageTitle: "HKWB - Digitale Finanzinnovation",
-                langAria: "Sprache wählen",
-                title: "Koexistenz von Menschheit und Technologie<br>Digitale Finanzinnovation der nächsten Generation",
-                sixLabel: "6 Kernfunktionen im Finanzwesen",
-                f1: "Einzahlung", f2: "Auszahlung", f3: "Überweisung", f4: "Sperrung", f5: "Sparen", f6: "Kredit",
-                web3Btn: "Web3 Digitalbank betreten",
-                internetBtn: "Internetbank betreten",
-                w3Heading: "Web3 Digitalbank",
-                w3_1: "Persönliches Asset-Dashboard & Echtzeit-Portfolio",
-                w3_2: "Direktes Dezentrales Vernetzungsnetzwerk",
-                w3_3: "Soziales Grundeinkommen (Bis zu 60% · Anteil 30%–60%)",
-                w3_4: "Callcenter AGI · ASI · Bbi-ni KI-Assistenz",
-                w3_5: "Prognosesektoren & Marktintelligenz",
-                w3Cta: "Zur Web3 Digitalbank",
-                ibHeading: "Internetbank",
-                ib_1: "Einzahlung · Auszahlung · Überweisung · Sperrung · Sparen · Kredit",
-                ib_2: "Persönliche Bonitätsprüfung & Kreditdiagnose",
-                ib_3: "Individuelle Kreditempfehlungen nach Bonität",
-                ibCta: "Zur Internetbank"
-            },
-            ru: {
-                pageTitle: "HKWB - Цифровые финансовые инновации",
-                langAria: "Выберите язык",
-                title: "Сосуществование Человечества и Технологий<br>Цифровые Финансовые Инновации Нового Поколения",
-                sixLabel: "6 ключевых финансовых функций",
-                f1: "Ввод", f2: "Вывод", f3: "Перевод", f4: "Депозит", f5: "Накопления", f6: "Кредит",
-                web3Btn: "Войти в Web3 Цифровой Банк",
-                internetBtn: "Войти в Интернет-Банк",
-                w3Heading: "Web3 Цифровой Банк",
-                w3_1: "Личный дашборд активов и портфель в реальном времени",
-                w3_2: "Прямая децентрализованная сеть взаимодействия",
-                w3_3: "Социальный БДУ (До 60% · Доля 30%–60%)",
-                w3_4: "Колл-центр AGI · ASI · ИИ-ассистент Bbi-ni",
-                w3_5: "Предиктивные секторы и рыночная аналитика",
-                w3Cta: "Перейти в Web3 Банк",
-                ibHeading: "Интернет-Банк",
-                ib_1: "Ввод · Вывод · Перевод · Депозит · Накопления · Кредит",
-                ib_2: "Проверка кредитного рейтинга и диагностика",
-                ib_3: "Персональный подбор кредитов по рейтингу",
-                ibCta: "Перейти в Интернет-Банк"
-            },
-            pt: {
-                pageTitle: "HKWB - Inovação Financeira Digital",
-                langAria: "Selecionar idioma",
-                title: "Coexistência de Humanidade e Tecnologia<br>Inovação Financeira Digital de Próxima Geração",
-                sixLabel: "6 Funções Financeiras Principais",
-                f1: "Depósito", f2: "Saque", f3: "Transferência", f4: "Custódia", f5: "Poupança", f6: "Empréstimo",
-                web3Btn: "Entrar no Banco Digital Web3",
-                internetBtn: "Entrar no Banco de Internet",
-                w3Heading: "Banco Digital Web3",
-                w3_1: "Painel de Ativos Pessoais e Portfólio em Tempo Real",
-                w3_2: "Rede de Interconexão Descentralizada Direta",
-                w3_3: "Renda Básica Social (Até 60% · Faixa 30%–60%)",
-                w3_4: "Central AGI · ASI · Assistente Bbi-ni",
-                w3_5: "Setores Preditivos e Inteligência de Mercado",
-                w3Cta: "Acessar Banco Digital Web3",
-                ibHeading: "Banco de Internet",
-                ib_1: "Depósito · Saque · Transferência · Custódia · Poupança · Empréstimo",
-                ib_2: "Consulta de Score de Crédito e Diagnóstico Pessoal",
-                ib_3: "Recomendações de Empréstimo sob Medida por Crédito",
-                ibCta: "Acessar Banco de Internet"
-            },
-            ar: {
-                pageTitle: "HKWB - الابتكار المالي الرقمي",
-                langAria: "اختر اللغة",
-                title: "التعايش بين البشرية والتكنولوجيا<br>ابتكار مالي رقمي من الجيل القادم",
-                sixLabel: "٦ وظائف مالية أساسية",
-                f1: "إيداع", f2: "سحب", f3: "تحويل", f4: "حجز أصول", f5: "ادخار", f6: "قرض",
-                web3Btn: "الدخول إلى بنك Web3 الرقمي",
-                internetBtn: "الدخول إلى بنك الإنترنت",
-                w3Heading: "بنك Web3 الرقمي",
-                w3_1: "لوحة الأصول الشخصية والمحفظة الفورية",
-                w3_2: "شبكة الربط اللامركزي المباشر",
-                w3_3: "الدخل الأساسي الاجتماعي (حتى ٦٠٪ · ٣٠٪–٦٠٪)",
-                w3_4: "مركز اتصال AGI · ASI · مساعد بيني الذكي",
-                w3_5: "قطاعات التنبؤ وتحليلات السوق",
-                w3Cta: "الانتقال إلى بنك Web3 الرقمي",
-                ibHeading: "بنك الإنترنت",
-                ib_1: "إيداع · سحب · تحويل · حجز أصول · ادخار · قرض",
-                ib_2: "الاستعلام عن التصنيف الائتماني والتشخيص الشخصي",
-                ib_3: "ترشيح قروض مخصصة حسب التصنيف الائتماني",
-                ibCta: "الانتقال إلى بنك الإنترنت"
-            },
-            hi: {
-                pageTitle: "HKWB - डिजिटल वित्तीय नवाचार",
-                langAria: "भाषा चुनें",
-                title: "मानवता और प्रौद्योगिकी का सह-अस्तित्व<br>अगली पीढ़ी का डिजिटल वित्तीय नवाचार",
-                sixLabel: "6 मुख्य वित्तीय सुविधाएं",
-                f1: "जमा", f2: "निकासी", f3: "स्थानांतरण", f4: "लॉक-अप", f5: "बचत", f6: "ऋण",
-                web3Btn: "Web3 डिजिटल बैंक में प्रवेश करें",
-                internetBtn: "इंटरनेट बैंक में प्रवेश करें",
-                w3Heading: "Web3 डिजिटल बैंक",
-                w3_1: "व्यक्तिगत संपत्ति डैशबोर्ड और रीयल-टाइम पोर्टफोलियो",
-                w3_2: "प्रत्यक्ष विकेंद्रीकृत इंटरकनेक्ट नेटवर्क",
-                w3_3: "सामाजिक वापसी UBI (60% तक · 30%–60% आवंटन)",
-                w3_4: "कॉल सेंटर AGI · ASI · बीबी-नी एआई सहायता",
-                w3_5: "पूर्वानुमान क्षेत्र और बाजार बुद्धिमत्ता",
-                w3Cta: "Web3 डिजिटल बैंक खोलें",
-                ibHeading: "इंटरनेट बैंक",
-                ib_1: "जमा · निकासी · स्थानांतरण · लॉक-अप · बचत · ऋण",
-                ib_2: "व्यक्तिगत क्रेडिट स्कोर जांच और क्रेडिट निदान",
-                ib_3: "क्रेडिट प्रोफ़ाइल के अनुसार अनुकूलित ऋण सुझाव",
-                ibCta: "इंटरनेट बैंक खोलें"
-            },
-            bn: {
-                pageTitle: "HKWB - ডিজিটাল আর্থিক উদ্ভাবন",
-                langAria: "ভাষা নির্বাচন করুন",
-                title: "মানবতা ও প্রযুক্তির সহাবস্থান<br>পরবর্তী প্রজন্মের ডিজিটাল আর্থিক উদ্ভাবন",
-                sixLabel: "৬টি মূল আর্থিক সেবা",
-                f1: "জমা", f2: "উত্তোলন", f3: "স্থানান্তর", f4: "লক-আপ", f5: "সঞ্চয়", f6: "ঋণ",
-                web3Btn: "Web3 ডিজিটাল ব্যাংকে প্রবেশ করুন",
-                internetBtn: "ইন্টারনেট ব্যাংকে প্রবেশ করুন",
-                w3Heading: "Web3 ডিজিটাল ব্যাংক",
-                w3_1: "ব্যক্তিগত সম্পদ ড্যাশবোর্ড ও রিয়েল-টাইম পোর্টফোলিও",
-                w3_2: "সরাসরি বিকেন্দ্রীভূত আন্তঃসংযোগ নেটওয়ার্ক",
-                w3_3: "সামাজিক রিটার্ন UBI (সর্বোচ্চ ৬০% · ৩০%–৬০% বরাদ্দ)",
-                w3_4: "কল সেন্টার AGI · ASI · বিবি-নি এআই সহায়তা",
-                w3_5: "পূর্বাভাস খাত ও বাজার বিশ্লেষণ",
-                w3Cta: "Web3 ডিজিটাল ব্যাংকে যান",
-                ibHeading: "ইন্টারনেট ব্যাংক",
-                ib_1: "জমা · উত্তোলন · স্থানান্তর · লক-আপ · সঞ্চয় · ঋণ",
-                ib_2: "ব্যক্তিগত ক্রেডিট স্কোর যাচাই ও মূল্যায়ন",
-                ib_3: "ক্রেডিট অনুযায়ী কাস্টম ঋণ সুপারিশ",
-                ibCta: "ইন্টারনেট ব্যাংকে যান"
-            },
-            id: {
-                pageTitle: "HKWB - Inovasi Keuangan Digital",
-                langAria: "Pilih bahasa",
-                title: "Koeksistensi Manusia & Teknologi<br>Inovasi Keuangan Digital Generasi Baru",
-                sixLabel: "6 Fitur Keuangan Utama",
-                f1: "Setoran", f2: "Penarikan", f3: "Transfer", f4: "Kunci Aset", f5: "Tabungan", f6: "Pinjaman",
-                web3Btn: "Masuk ke Bank Digital Web3",
-                internetBtn: "Masuk ke Bank Internet",
-                w3Heading: "Bank Digital Web3",
-                w3_1: "Dasbor Aset Pribadi & Portofolio Real-Time",
-                w3_2: "Jaringan Interkoneksi Terdesentralisasi Langsung",
-                w3_3: "UBI Pengembalian Sosial (Hingga 60% · Porsi 30%–60%)",
-                w3_4: "Call Center AGI · ASI · Asisten Bbi-ni",
-                w3_5: "Sektor Prediktif & Intelijen Pasar",
-                w3Cta: "Buka Bank Digital Web3",
-                ibHeading: "Bank Internet",
-                ib_1: "Setoran · Penarikan · Transfer · Kunci Aset · Tabungan · Pinjaman",
-                ib_2: "Cek Skor Kredit Pribadi & Diagnostik Kredit",
-                ib_3: "Rekomendasi Pinjaman Sesuai Profil Kredit",
-                ibCta: "Buka Bank Internet"
-            },
-            vi: {
-                pageTitle: "HKWB - Đổi Mới Tài Chính Số",
-                langAria: "Chọn ngôn ngữ",
-                title: "Con Người & Công Nghệ Cùng Tồn Tại<br>Đổi Mới Tài Chính Số Thế Hệ Mới",
-                sixLabel: "6 Chức Năng Tài Chính Cốt Lõi",
-                f1: "Nạp tiền", f2: "Rút tiền", f3: "Chuyển tiền", f4: "Ký gửi", f5: "Tiết kiệm", f6: "Vay vốn",
-                web3Btn: "Vào Ngân Hàng Số Web3",
-                internetBtn: "Vào Ngân Hàng Internet",
-                w3Heading: "Ngân Hàng Số Web3",
-                w3_1: "Bảng Điều Khiển Tài Sản Cá Nhân & Danh Mục Thời Gian Thực",
-                w3_2: "Mạng Kết Nối Phi Tập Trung Trực Tiếp",
-                w3_3: "UBI Hoàn Trả Xã Hội (Tối đa 60% · Tỷ lệ 30%–60%)",
-                w3_4: "Tổng Đài AGI · ASI · Trợ Lý Bbi-ni",
-                w3_5: "Lĩnh Vực Dự Báo & Phân Tích Thị Trường",
-                w3Cta: "Mở Ngân Hàng Số Web3",
-                ibHeading: "Ngân Hàng Internet",
-                ib_1: "Nạp tiền · Rút tiền · Chuyển tiền · Ký gửi · Tiết kiệm · Vay vốn",
-                ib_2: "Tra Cứu Điểm Tín Dụng Cá Nhân & Đánh Giá",
-                ib_3: "Gợi Ý Khoản Vay Phù Hợp Theo Điểm Tín Dụng",
-                ibCta: "Mở Ngân Hàng Internet"
-            },
-            th: {
-                pageTitle: "HKWB - นวัตกรรมทางการเงินดิจิทัล",
-                langAria: "เลือกภาษา",
-                title: "การอยู่ร่วมกันของมนุษยชาติและเทคโนโลยี<br>นวัตกรรมทางการเงินดิจิทัลแห่งอนาคต",
-                sixLabel: "6 ฟังก์ชันทางการเงินหลัก",
-                f1: "ฝากเงิน", f2: "ถอนเงิน", f3: "โอนเงิน", f4: "พักทรัพย์สิน", f5: "เงินออม", f6: "สินเชื่อ",
-                web3Btn: "เข้าสู่ธนาคารดิจิทัล Web3",
-                internetBtn: "เข้าสู่ธนาคารอินเทอร์เน็ต",
-                w3Heading: "ธนาคารดิจิทัล Web3",
-                w3_1: "แดชบอร์ดสินทรัพย์ส่วนบุคคลและพอร์ตแบบเรียลไทม์",
-                w3_2: "เครือข่ายเชื่อมต่อแบบกระจายศูนย์โดยตรง",
-                w3_3: "UBI คืนสู่สังคม (สูงสุด 60% · สัดส่วน 30%–60%)",
-                w3_4: "คอลเซ็นเตอร์ AGI · ASI · ผู้ช่วย บีบี-นี",
-                w3_5: "กลุ่มคาดการณ์และข้อมูลเชิงลึกตลาด",
-                w3Cta: "เข้าสู่ธนาคารดิจิทัล Web3",
-                ibHeading: "ธนาคารอินเทอร์เน็ต",
-                ib_1: "ฝากเงิน · ถอนเงิน · โอนเงิน · พักทรัพย์สิน · เงินออม · สินเชื่อ",
-                ib_2: "ตรวจสอบเครดิตส่วนบุคคลและวินิจฉัยสถานะเครดิต",
-                ib_3: "แนะนำสินเชื่อเฉพาะบุคคลตามเครดิต",
-                ibCta: "เข้าสู่ธนาคารอินเทอร์เน็ต"
-            },
-            tr: {
-                pageTitle: "HKWB - Dijital Finansal İnovasyon",
-                langAria: "Dil seçin",
-                title: "İnsanlık ve Teknolojinin Bir Arada Var Oluşu<br>Yeni Nesil Dijital Finansal İnovasyon",
-                sixLabel: "6 Temel Finansal İşlev",
-                f1: "Yatırma", f2: "Çekme", f3: "Transfer", f4: "Kilitleme", f5: "Birikim", f6: "Kredi",
-                web3Btn: "Web3 Dijital Bankaya Girin",
-                internetBtn: "İnternet Bankasına Girin",
-                w3Heading: "Web3 Dijital Banka",
-                w3_1: "Kişisel Varlık Paneli ve Gerçek Zamanlı Portföy",
-                w3_2: "Doğrudan Merkeziyetsiz Bağlantı Ağı",
-                w3_3: "Sosyal Katkı UBI (%60'a Kadar · %30–%60 Pay)",
-                w3_4: "Çağrı Merkezi AGI · ASI · Bbi-ni Asistanı",
-                w3_5: "Öngörü Sektörleri ve Piyasa İstihbaratı",
-                w3Cta: "Web3 Dijital Bankaya Git",
-                ibHeading: "İnternet Bankası",
-                ib_1: "Yatırma · Çekme · Transfer · Kilitleme · Birikim · Kredi",
-                ib_2: "Kişisel Kredi Notu Sorgulama ve Analiz",
-                ib_3: "Kredi Durumuna Göre Özel Kredi Önerileri",
-                ibCta: "İnternet Bankasına Git"
-            },
-            it: {
-                pageTitle: "HKWB - Innovazione Finanziaria Digitale",
-                langAria: "Seleziona lingua",
-                title: "Coesistenza di Umanità e Tecnologia<br>Innovazione Finanziaria Digitale di Nuova Generazione",
-                sixLabel: "6 Funzioni Finanziarie Principali",
-                f1: "Deposito", f2: "Prelievo", f3: "Bonifico", f4: "Vincolo", f5: "Risparmio", f6: "Prestito",
-                web3Btn: "Entra nella Banca Digitale Web3",
-                internetBtn: "Entra nella Banca Online",
-                w3Heading: "Banca Digitale Web3",
-                w3_1: "Dashboard Asset Personali e Portafoglio in Tempo Reale",
-                w3_2: "Rete di Interconnessione Decentralizzata Diretta",
-                w3_3: "UBI di Ritorno Sociale (Fino al 60% · Quota 30%–60%)",
-                w3_4: "Call Center AGI · ASI · Assistente Bbi-ni",
-                w3_5: "Settori Predittivi e Intelligence di Mercato",
-                w3Cta: "Vai alla Banca Digitale Web3",
-                ibHeading: "Banca Online",
-                ib_1: "Deposito · Prelievo · Bonifico · Vincolo · Risparmio · Prestito",
-                ib_2: "Controllo Affidabilità Creditizia e Diagnosi",
-                ib_3: "Prestiti Consigliati su Misura per Credito",
-                ibCta: "Vai alla Banca Online"
-            },
-            nl: {
-                pageTitle: "HKWB - Digitale Financiële Innovatie",
-                langAria: "Kies taal",
-                title: "Coëxistentie van Mensheid en Technologie<br>Volgende Generatie Digitale Financiële Innovatie",
-                sixLabel: "6 Kernfuncties voor Financiën",
-                f1: "Storten", f2: "Opnemen", f3: "Overboeken", f4: "Vastzetten", f5: "Sparen", f6: "Lening",
-                web3Btn: "Ga naar Web3 Digitale Bank",
-                internetBtn: "Ga naar Internetbank",
-                w3Heading: "Web3 Digitale Bank",
-                w3_1: "Persoonlijk Activadashboard & Realtime Portfolio",
-                w3_2: "Direct Gedecentraliseerd Verbindingsnetwerk",
-                w3_3: "Sociaal Basisinkomen (Tot 60% · Deel 30%–60%)",
-                w3_4: "Callcenter AGI · ASI · Bbi-ni Assistent",
-                w3_5: "Voorspellende Sectoren & Marktinzicht",
-                w3Cta: "Naar Web3 Digitale Bank",
-                ibHeading: "Internetbank",
-                ib_1: "Storten · Opnemen · Overboeken · Vastzetten · Sparen · Lening",
-                ib_2: "Kredietscore Check & Kredietdiagnose",
-                ib_3: "Leningadvies op Maat op Basis van Krediet",
-                ibCta: "Naar Internetbank"
-            },
-            pl: {
-                pageTitle: "HKWB - Innowacje Finansowe Nowej Generacji",
-                langAria: "Wybierz język",
-                title: "Współistnienie Ludzkości i Technologii<br>Innowacje Finansowe Nowej Generacji",
-                sixLabel: "6 Kluczowych Funkcji Finansowych",
-                f1: "Wpłata", f2: "Wypłata", f3: "Przelew", f4: "Lokowanie", f5: "Oszczędności", f6: "Pożyczka",
-                web3Btn: "Wejdź do Banku Cyfrowego Web3",
-                internetBtn: "Wejdź do Banku Internetowego",
-                w3Heading: "Bank Cyfrowy Web3",
-                w3_1: "Panel Aktywów Osobistych i Portfel w Czasie Rzeczywistym",
-                w3_2: "Bezpośrednia Zdecentralizowana Sieć Połączeń",
-                w3_3: "UBI Zwrotu Społecznego (Do 60% · Udział 30%–60%)",
-                w3_4: "Call Center AGI · ASI · Asystent Bbi-ni",
-                w3_5: "Sektory Predykcyjne i Analityka Rynkowa",
-                w3Cta: "Przejdź do Banku Web3",
-                ibHeading: "Bank Internetowy",
-                ib_1: "Wpłata · Wypłata · Przelew · Lokowanie · Oszczędności · Pożyczka",
-                ib_2: "Sprawdzenie Zdolności Kredytowej i Diagnoza",
-                ib_3: "Dopasowane Rekomendacje Pożyczek wg BIK",
-                ibCta: "Przejdź do Banku Internetowego"
-            },
-            uk: {
-                pageTitle: "HKWB - Цифрові фінансові інновації",
-                langAria: "Оберіть мову",
-                title: "Співіснування Людства та Технологій<br>Цифрові Фінансові Інновації Нового Покоління",
-                sixLabel: "6 Ключових Фінансових Функцій",
-                f1: "Поповнення", f2: "Зняття", f3: "Переказ", f4: "Розміщення", f5: "Накопичення", f6: "Кредит",
-                web3Btn: "Увійти до Цифрового Банку Web3",
-                internetBtn: "Увійти до Інтернет-Банку",
-                w3Heading: "Цифровий Банк Web3",
-                w3_1: "Панель Особистих Активів і Портфель у Реальному Часі",
-                w3_2: "Пряма Децентралізована Мережа Взаємодії",
-                w3_3: "Соціальний ББД (До 60% · Частка 30%–60%)",
-                w3_4: "Кол-центр AGI · ASI · Асистент Bbi-ni",
-                w3_5: "Предиктивні Сектори та Ринкова Аналітика",
-                w3Cta: "До Цифрового Банку Web3",
-                ibHeading: "Інтернет-Банк",
-                ib_1: "Поповнення · Зняття · Переказ · Розміщення · Накопичення · Кредит",
-                ib_2: "Перевірка Кредитного Рейтингу та Діагностика",
-                ib_3: "Персональні Пропозиції Кредитів за Рейтингом",
-                ibCta: "До Інтернет-Банку"
-            },
-            fa: {
-                pageTitle: "HKWB - نوآوری مالی دیجیتال",
-                langAria: "انتخاب زبان",
-                title: "همزیستی بشریت و فناوری<br>نوآوری مالی دیجیتال نسل بعدی",
-                sixLabel: "۶ قابلیت اصلی مالی",
-                f1: "واریز", f2: "برداشت", f3: "انتقال", f4: "سپرده قفل", f5: "پس انداز", f6: "وام",
-                web3Btn: "ورود به بانک دیجیتال Web3",
-                internetBtn: "ورود به اینترنت بانک",
-                w3Heading: "بانک دیجیتال Web3",
-                w3_1: "داشبورد دارایی شخصی و سبد لحظه ای",
-                w3_2: "شبکه ارتباطی غیرمتمرکز مستقیم",
-                w3_3: "درآمد پایه اجتماعی (تا ۶۰٪ · سهم ۳۰٪–۶۰٪)",
-                w3_4: "مرکز تماس AGI · ASI · دستیار بیبی-نی",
-                w3_5: "بخش های پیش بینی و هوش بازار",
-                w3Cta: "ورود به بانک دیجیتال Web3",
-                ibHeading: "اینترنت بانک",
-                ib_1: "واریز · برداشت · انتقال · سپرده قفل · پس انداز · وام",
-                ib_2: "استعلام اعتبارسنجی فردی و عیب یابی",
-                ib_3: "پیشنهاد وام متناسب با رتبه اعتباری",
-                ibCta: "ورود به اینترنت بانک"
-            },
-            ur: {
-                pageTitle: "HKWB - ڈیجیٹل مالیاتی جدت",
-                langAria: "زبان منتخب کریں",
-                title: "انسانیت اور ٹیکنالوجی کا باہمی وجود<br>اگلی نسل کی ڈیجیٹل مالیاتی جدت",
-                sixLabel: "6 بنیادی مالیاتی سہولیات",
-                f1: "جمع", f2: "نکالنا", f3: "منتقلی", f4: "لاک اپ", f5: "بچت", f6: "قرضہ",
-                web3Btn: "Web3 ڈیجیٹل بینک میں داخل ہوں",
-                internetBtn: "انٹرنیٹ بینک میں داخل ہوں",
-                w3Heading: "Web3 ڈیجیٹل بینک",
-                w3_1: "ذاتی اثاثہ ڈیش بورڈ اور لائیو پورٹ فولیو",
-                w3_2: "براہ راست وکندریقرت انٹرکنیکٹ نیٹ ورک",
-                w3_3: "سماجی واپسی UBI (60% تک · 30%–60% حصہ)",
-                w3_4: "کال سینٹر AGI · ASI · بی بی نی اسسٹنٹ",
-                w3_5: "پیش گوئی کے شعبے اور مارکیٹ انٹیلی جنس",
-                w3Cta: "Web3 ڈیجیٹل بینک کھولیں",
-                ibHeading: "انٹرنیٹ بینک",
-                ib_1: "جمع · نکالنا · منتقلی · لاک اپ · بچت · قرضہ",
-                ib_2: "ذاتی کریڈٹ اسکور چیک اور تشخیص",
-                ib_3: "کریڈٹ کے مطابق موزوں قرض کی تجاویز",
-                ibCta: "انٹرنیٹ بینک کھولیں"
-            },
-            ms: {
-                pageTitle: "HKWB - Inovasi Kewangan Digital",
-                langAria: "Pilih bahasa",
-                title: "Kehadiran Bersama Kemanusiaan & Teknologi<br>Inovasi Kewangan Digital Generasi Baru",
-                sixLabel: "6 Fungsi Kewangan Teras",
-                f1: "Deposit", f2: "Pengeluaran", f3: "Pindahan", f4: "Kunci Aset", f5: "Simpanan", f6: "Pinjaman",
-                web3Btn: "Masuk Bank Digital Web3",
-                internetBtn: "Masuk Bank Internet",
-                w3Heading: "Bank Digital Web3",
-                w3_1: "Papan Pemuka Aset Peribadi & Portfolio Masa Nyata",
-                w3_2: "Rangkaian Sambungan Teragih Terus",
-                w3_3: "UBI Pulangan Sosial (Sehingga 60% · Kadar 30%–60%)",
-                w3_4: "Pusat Panggilan AGI · ASI · Pembantu Bbi-ni",
-                w3_5: "Sektor Ramalan & Risikan Pasaran",
-                w3Cta: "Buka Bank Digital Web3",
-                ibHeading: "Bank Internet",
-                ib_1: "Deposit · Pengeluaran · Pindahan · Kunci Aset · Simpanan · Pinjaman",
-                ib_2: "Semakan Skor Kredit Peribadi & Diagnostik",
-                ib_3: "Cadangan Pinjaman Mengikut Profil Kredit",
-                ibCta: "Buka Bank Internet"
-            },
-            fil: {
-                pageTitle: "HKWB - Digital Financial Innovation",
-                langAria: "Pumili ng wika",
-                title: "Pagkakasundo ng Tao at Teknolohiya<br>Susunod na Henerasyon ng Digital Financial Innovation",
-                sixLabel: "6 Pangunahing Serbisyo Pinansyal",
-                f1: "Deposito", f2: "Pag-withdraw", f3: "Paglipat", f4: "Pagla-lock", f5: "Ipon", f6: "Pautang",
-                web3Btn: "Pumasok sa Web3 Digital Bank",
-                internetBtn: "Pumasok sa Internet Bank",
-                w3Heading: "Web3 Digital Bank",
-                w3_1: "Personal Asset Dashboard at Real-Time Portfolio",
-                w3_2: "Direktang Desentralisadong Interconnect Network",
-                w3_3: "Social Return UBI (Hanggang 60% · Bahagi 30%–60%)",
-                w3_4: "Call Center AGI · ASI · Katulong na Bbi-ni",
-                w3_5: "Predictive Sectors at Market Intelligence",
-                w3Cta: "Pumunta sa Web3 Digital Bank",
-                ibHeading: "Internet Bank",
-                ib_1: "Deposito · Pag-withdraw · Paglipat · Pagla-lock · Ipon · Pautang",
-                ib_2: "Pagsusuri ng Credit Score at Diagnostic",
-                ib_3: "Angkop na Rekomendasyon ng Pautang ayon sa Kredito",
-                ibCta: "Pumunta sa Internet Bank"
-            },
-            el: {
-                pageTitle: "HKWB - Ψηφιακή Χρηματοπιστωτική Καινοτομία",
-                langAria: "Επιλογή γλώσσας",
-                title: "Συνύπαρξη Ανθρωπότητας & Τεχνολογίας<br>Ψηφιακή Χρηματοπιστωτική Καινοτομία Νέας Γενιάς",
-                sixLabel: "6 Βασικές Χρηματοοικονομικές Λειτουργίες",
-                f1: "Κατάθεση", f2: "Ανάληψη", f3: "Μεταφορά", f4: "Δέσμευση", f5: "Αποταμίευση", f6: "Δάνειο",
-                web3Btn: "Είσοδος στη Ψηφιακή Τράπεζα Web3",
-                internetBtn: "Είσοδος στη διαδικτυακή τράπεζα",
-                w3Heading: "Ψηφιακή Τράπεζα Web3",
-                w3_1: "Πίνακας Προσωπικών Περιουσιακών Στοιχείων & Χαρτοφυλάκιο",
-                w3_2: "Άμεσο Αποκεντρωμένο Δίκτυο Διασύνδεσης",
-                w3_3: "Κοινωνικό UBI (Έως 60% · Ποσοστό 30%–60%)",
-                w3_4: "Τηλεφωνικό Κέντρο AGI · ASI · Βοηθός Bbi-ni",
-                w3_5: "Τομείς Προβλέψεων & Νοημοσύνη Αγοράς",
-                w3Cta: "Μετάβαση στη Τράπεζα Web3",
-                ibHeading: "Διαδικτυακή Τράπεζα",
-                ib_1: "Κατάθεση · Ανάληψη · Μεταφορά · Δέσμευση · Αποταμίευση · Δάνειο",
-                ib_2: "Έλεγχος Πιστοληπτικής Ικανότητας & Διάγνωση",
-                ib_3: "Εξατομικευμένες Προτάσεις Δανείου βάσει Πίστωσης",
-                ibCta: "Μετάβαση στη Διαδικτυακή Τράπεζα"
-            },
-            cs: {
-                pageTitle: "HKWB - Digitální Finanční Inovace",
-                langAria: "Vybrat jazyk",
-                title: "Koexistence Lidstva a Technologií<br>Digitální Finanční Inovace Nové Generace",
-                sixLabel: "6 Klíčových Finančních Funkcí",
-                f1: "Vklad", f2: "Výběr", f3: "Převod", f4: "Uložení", f5: "Spoření", f6: "Úvěr",
-                web3Btn: "Vstoupit do Web3 Digitální Banky",
-                internetBtn: "Vstoupit do Internetového Bankovnictví",
-                w3Heading: "Web3 Digitální Banka",
-                w3_1: "Osobní Přehled Aktiv a Portfolio v Reálném Čase",
-                w3_2: "Přímá Decentralizovaná Propojovací Síť",
-                w3_3: "Sociální UBI (Až 60% · Podíl 30%–60%)",
-                w3_4: "Call Centrum AGI · ASI · Asistent Bbi-ni",
-                w3_5: "Prediktivní Sektory a Tržní Inteligence",
-                w3Cta: "Otevřít Web3 Digitální Banku",
-                ibHeading: "Internetové Bankovnictví",
-                ib_1: "Vklad · Výběr · Převod · Uložení · Spoření · Úvěr",
-                ib_2: "Kontrola Úvěrového Skóre a Diagnostika",
-                ib_3: "Doporučení Úvěrů na Míru Podle Bonity",
-                ibCta: "Otevřít Internetové Bankovnictví"
-            },
-            hu: {
-                pageTitle: "HKWB - Digitális Pénzügyi Innováció",
-                langAria: "Nyelv kiválasztása",
-                title: "Emberiség és Technológia Együttélése<br>Új Generációs Digitális Pénzügyi Innováció",
-                sixLabel: "6 Alapvető Pénzügyi Funkció",
-                f1: "Befizetés", f2: "Kifizetés", f3: "Utalás", f4: "Lekötés", f5: "Megtakarítás", f6: "Hitel",
-                web3Btn: "Belépés a Web3 Digitális Bankba",
-                internetBtn: "Belépés az Internet Bankba",
-                w3Heading: "Web3 Digitális Bank",
-                w3_1: "Személyes Eszközpult és Valós Idejű Portfólió",
-                w3_2: "Közvetlen Decentralizált Összekötő Hálózat",
-                w3_3: "Társadalmi UBI (Akár 60% · Arány 30%–60%)",
-                w3_4: "Call Center AGI · ASI · Bbi-ni Asszisztens",
-                w3_5: "Előrejelző Szektorok és Piaci Intelligencia",
-                w3Cta: "Web3 Digitális Bank megnyitása",
-                ibHeading: "Internet Bank",
-                ib_1: "Befizetés · Kifizetés · Utalás · Lekötés · Megtakarítás · Hitel",
-                ib_2: "Személyes Hitelminősítés Ellenőrzés és Diagnózis",
-                ib_3: "Hitelprofilhoz Szabott Hitelajánlatok",
-                ibCta: "Internet Bank megnyitása"
-            },
-            ro: {
-                pageTitle: "HKWB - Inovație Financiară Digitală",
-                langAria: "Selectați limba",
-                title: "Coexistența Omenirii și Tehnologiei<br>Inovație Financiară Digitală de Generație Viitoare",
-                sixLabel: "6 Funcții Financiare Esențiale",
-                f1: "Depunere", f2: "Retragere", f3: "Transfer", f4: "Blocare", f5: "Economii", f6: "Credit",
-                web3Btn: "Intră în Banca Digitală Web3",
-                internetBtn: "Intră în Banca pe Internet",
-                w3Heading: "Bancă Digitală Web3",
-                w3_1: "Panou Active Personale și Portofoliu în Timp Real",
-                w3_2: "Rețea Directă de Interconectare Descentralizată",
-                w3_3: "UBI de Returnare Socială (Până la 60% · Cotă 30%–60%)",
-                w3_4: "Call Center AGI · ASI · Asistent Bbi-ni",
-                w3_5: "Sectoare Predictive și Inteligență de Piață",
-                w3Cta: "Spre Banca Digitală Web3",
-                ibHeading: "Bancă pe Internet",
-                ib_1: "Depunere · Retragere · Transfer · Blocare · Economii · Credit",
-                ib_2: "Verificare Scor de Credit și Diagnostic",
-                ib_3: "Recomandări de Credit Personalizate după Scor",
-                ibCta: "Spre Banca pe Internet"
-            },
-            sv: {
-                pageTitle: "HKWB - Digital Finansiell Innovation",
-                langAria: "Välj språk",
-                title: "Samexistens av Mänsklighet och Teknik<br>Nästa Generationens Digitala Finansiella Innovation",
-                sixLabel: "6 Kärnfunktioner inom Ekonomi",
-                f1: "Insättning", f2: "Uttag", f3: "Överföring", f4: "Låsning", f5: "Sparande", f6: "Lån",
-                web3Btn: "Gå till Web3 Digital Bank",
-                internetBtn: "Gå till Internetbanken",
-                w3Heading: "Web3 Digital Bank",
-                w3_1: "Personlig Tillgångspanel & Realtidsportfölj",
-                w3_2: "Direkt Decentraliserat Samtrafiknät",
-                w3_3: "Socialt UBI (Upp till 60% · Andel 30%–60%)",
-                w3_4: "Callcenter AGI · ASI · Bbi-ni Assistent",
-                w3_5: "Prediktiva Sektorer & Marknadsintelligens",
-                w3Cta: "Öppna Web3 Digital Bank",
-                ibHeading: "Internetbanken",
-                ib_1: "Insättning · Uttag · Överföring · Låsning · Sparande · Lån",
-                ib_2: "Kreditvärdighetskontroll & Kreditdiagnos",
-                ib_3: "Skräddarsydda Låneförslag utifrån Kredit",
-                ibCta: "Öppna Internetbanken"
-            },
-            da: {
-                pageTitle: "HKWB - Digital Finansiel Innovation",
-                langAria: "Vælg sprog",
-                title: "Sameksistens af Menneskehed og Teknologi<br>Næste Generations Digitale Finansielle Innovation",
-                sixLabel: "6 Centrale Finansielle Funktioner",
-                f1: "Indbetaling", f2: "Udbetaling", f3: "Overførsel", f4: "Låsning", f5: "Opsparing", f6: "Lån",
-                web3Btn: "Gå til Web3 Digital Bank",
-                internetBtn: "Gå til Internetbank",
-                w3Heading: "Web3 Digital Bank",
-                w3_1: "Personligt Aktivdashboard & Realtidsportefølje",
-                w3_2: "Direkte Decentraliseret Sammenkoblingsnet",
-                w3_3: "Socialt UBI (Op til 60% · Andel 30%–60%)",
-                w3_4: "Callcenter AGI · ASI · Bbi-ni Assistent",
-                w3_5: "Prædiktive Sektorer & Markedsindsigt",
-                w3Cta: "Åbn Web3 Digital Bank",
-                ibHeading: "Internetbank",
-                ib_1: "Indbetaling · Udbetaling · Overførsel · Låsning · Opsparing · Lån",
-                ib_2: "Kreditvurderingstjek & Kreditdiagnose",
-                ib_3: "Skræddersyede Låneforslag efter Kredit",
-                ibCta: "Åbn Internetbank"
-            },
-            fi: {
-                pageTitle: "HKWB - Digitaalinen Rahoitusinnovaatio",
-                langAria: "Valitse kieli",
-                title: "Ihmisyyden ja Teknologian Yhteiselo<br>Seuraavan Sukupolven Digitaalinen Rahoitusinnovaatio",
-                sixLabel: "6 Keskeistä Rahoitustoimintoa",
-                f1: "Talletus", f2: "Nosto", f3: "Siirto", f4: "Lukitus", f5: "Säästö", f6: "Lainat",
-                web3Btn: "Siirry Web3 Digipankkiin",
-                internetBtn: "Siirry Internet-pankkiin",
-                w3Heading: "Web3 Digipankki",
-                w3_1: "Henkilökohtainen Varallisuusnäkymä & Reaaliaikasalkku",
-                w3_2: "Suora Hajautettu Yhteysverkko",
-                w3_3: "Sosiaalinen UBI (Jopa 60% · Osuus 30%–60%)",
-                w3_4: "Puhelinpalvelu AGI · ASI · Bbi-ni Avustaja",
-                w3_5: "Ennustesektorit & Markkinatieto",
-                w3Cta: "Avaa Web3 Digipankki",
-                ibHeading: "Internet-pankki",
-                ib_1: "Talletus · Nosto · Siirto · Lukitus · Säästö · Lainat",
-                ib_2: "Luottotietojen Tarkistus & Luottodiagnoosi",
-                ib_3: "Luottoprofiilin Mukaiset Lainasuositukset",
-                ibCta: "Avaa Internet-pankki"
-            },
-            no: {
-                pageTitle: "HKWB - Neste Generasjons Digitale Finansielle Innovasjon",
-                langAria: "Velg språk",
-                title: "Sameksistens av Menneskelighet og Teknologi<br>Neste Generasjons Digitale Finansielle Innovasjon",
-                sixLabel: "6 Kjernefunksjoner i Finans",
-                f1: "Innskudd", f2: "Uttak", f3: "Overføring", f4: "Binding", f5: "Sparing", f6: "Lån",
-                web3Btn: "Gå til Web3 Digital Bank",
-                internetBtn: "Gå til Nettbank",
-                w3Heading: "Web3 Digital Bank",
-                w3_1: "Personlig Aktivadashbord & Sanntidsportefølje",
-                w3_2: "Direkte Desentralisert Sammenkoblingsnett",
-                w3_3: "Sosialt UBI (Inntil 60% · Andel 30%–60%)",
-                w3_4: "Kundesenter AGI · ASI · Bbi-ni Assistent",
-                w3_5: "Prediktive Sektorer & Markedsinnsikt",
-                w3Cta: "Åpne Web3 Digital Bank",
-                ibHeading: "Nettbank",
-                ib_1: "Innskudd · Uttak · Overføring · Binding · Sparing · Lån",
-                ib_2: "Kredittsjekk & Kredittdiagnose",
-                ib_3: "Skreddersydde Låneanbefalinger etter Kreditt",
-                ibCta: "Åpne Nettbank"
-            },
-            he: {
-                pageTitle: "HKWB - חדשנות פיננסית דיגיטלית",
-                langAria: "בחר שפה",
-                title: "דו-קיום של אנושות וטכנולוגיה<br>חדשנות פיננסית דיגיטלית של הדור הבא",
-                sixLabel: "٦ פונקציות פיננסיות מרכזיות",
-                f1: "הפקדה", f2: "משיכה", f3: "העברה", f4: "נעילה", f5: "חיסכון", f6: "הלוואה",
-                web3Btn: "כניסה לבנק דיגיטלי Web3",
-                internetBtn: "כניסה לבנק באינטרנט",
-                w3Heading: "בנק דיגיטלי Web3",
-                w3_1: "לוח נכסים אישי ותיק בזמן אמת",
-                w3_2: "רשת קישוריות מבוזרת ישירה",
-                w3_3: "הכנסה בסיסית חברתית (עד 60% · נתח 30%–60%)",
-                w3_4: "מוקד AGI · ASI · עוזר ביבי-ני",
-                w3_5: "סקטורים חזויים ובינת שוק",
-                w3Cta: "מעבר לבנק דיגיטלי Web3",
-                ibHeading: "בנק באינטרנט",
-                ib_1: "הפקדה · משיכה · העברה · נעילה · חיסכון · הלוואה",
-                ib_2: "בדיקת דירוג אשראי ואבחון אישי",
-                ib_3: "המלצות הלוואה מותאמות לפי אשראי",
-                ibCta: "מעבר לבנק באינטרנט"
-            },
-            sw: {
-                pageTitle: "HKWB - Ubunifu wa Kifedha wa Dijitali",
-                langAria: "Chagua lugha",
-                title: "Ushirikiano wa Binadamu na Teknolojia<br>Ubunifu wa Kifedha wa Dijitali wa Kizazi Kipya",
-                sixLabel: "Vipengele 6 Vikuu vya Kifedha",
-                f1: "Weka Pesa", f2: "Toa Pesa", f3: "Tuma Pesa", f4: "Hifadhi Maalum", f5: "Akiba", f6: "Mkopo",
-                web3Btn: "Ingia Benki ya Dijitali ya Web3",
-                internetBtn: "Ingia Benki ya Mtandao",
-                w3Heading: "Benki ya Dijitali ya Web3",
-                w3_1: "Dashibodi ya Mali Binafsi na Portfolio ya Moja kwa Moja",
-                w3_2: "Mtandao wa Moja kwa Moja Uliogatuliwa",
-                w3_3: "UBI ya Marejesho ya Kijamii (Hadi 60% · Sehemu 30%–60%)",
-                w3_4: "Kituo cha Simu AGI · ASI · Msaidizi Bbi-ni",
-                w3_5: "Sekta za Utabiri na Ufahamu wa Soko",
-                w3Cta: "Fungua Benki ya Dijitali ya Web3",
-                ibHeading: "Benki ya Mtandao",
-                ib_1: "Weka Pesa · Toa Pesa · Tuma Pesa · Hifadhi Maalum · Akiba · Mkopo",
-                ib_2: "Ukaguzi wa Alama za Mkopo na Utambuzi",
-                ib_3: "Mapendekezo ya Mikopo Kulingana na Mkopo",
-                ibCta: "Fungua Benki ya Mtandao"
-            },
-            ha: {
-                pageTitle: "HKWB - Sabuntwar Kudade na Digital",
-                langAria: "Zaɓi harshe",
-                title: "Zaman Tare da Dan Adam da Fasaha<br>Sabon Zamani na Sabuntwar Kudade na Digital",
-                sixLabel: "Manyan Ayyukan Kuɗi 6",
-                f1: "Ajiya", f2: "Cirewa", f3: "Canja Wuri", f4: "KullevAset", f5: "Tattalin Arziƙi", f6: "Rance",
-                web3Btn: "Shiga Bankin Digital na Web3",
-                internetBtn: "Shiga Bankin Intanet",
-                w3Heading: "Bankin Digital na Web3",
-                w3_1: "Dashbod na Kadarori da Fayil na Lokaci-Lokaci",
-                w3_2: "Hanyar Sadarwa kai tsaye ba tare da tsakiya ba",
-                w3_3: "UBI na Komawa Al'umma (Har zuwa 60% · Kashi 30%–60%)",
-                w3_4: "Cibiyar Kira AGI · ASI · Mataimaki Bbi-ni",
-                w3_5: "Sassan Hasashe da Fahimtar Kasuwa",
-                w3Cta: "Buɗe Bankin Digital na Web3",
-                ibHeading: "Bankin Intanet",
-                ib_1: "Ajiya · Cirewa · Canja Wuri · KullevAset · Tattalin Arziƙi · Rance",
-                ib_2: "Duba Makin Bashi da Bincike",
-                ib_3: "Shawarar Rance Dangane da Matsayin Bashi",
-                ibCta: "Buɗe Bankin Intanet"
-            },
-            yo: {
-                pageTitle: "HKWB - Ìṣẹ̀dá Ìnáwó Dijítà",
-                langAria: "Yan èdè",
-                title: "Ìṣọ̀kan Ènìyàn àti Ìmọ̀-Ẹ̀rọ<br>Ìṣẹ̀dá Ìnáwó Dijítà Ìran Tókàn",
-                sixLabel: "Àwọn Iṣẹ́ Ìnáwó Pàtàkì 6",
-                f1: "Ìfipamọ́", f2: "Ìyọkúrò", f3: "Ìrìnṣẹ́", f4: "Ìdìpọ̀", f5: "Ìfowópamọ́", f6: "Àwìn",
-                web3Btn: "Wọlé sí Báǹkì Dijítà Web3",
-                internetBtn: "Wọlé sí Báǹkì Íńtánẹ́ẹ̀tì",
-                w3Heading: "Báǹkì Dijítà Web3",
-                w3_1: "Pátákó Dukiá Ara Ẹni àti Pọ́ọ̀tífólíò Àkókò Gidi",
-                w3_2: "Nẹ́tíwọ́ọ̀kì Àsopọ̀ Tààrà Aláìfọwọ́kan",
-                w3_3: "UBI Ìpadàbọ̀ Àwùjọ (Títí dé 60% · Ìpín 30%–60%)",
-                w3_4: "Ilé-iṣẹ́ Pè AGI · ASI · Olùrànlọ́wọ́ Bbi-ni",
-                w3_5: "Àwọn Ẹ̀ka Àsọtẹ́lẹ̀ àti Ìmọ̀ Ọjà",
-                w3Cta: "Lọ sí Báǹkì Dijítà Web3",
-                ibHeading: "Báǹkì Íńtánẹ́ẹ̀tì",
-                ib_1: "Ìfipamọ́ · Ìyọkúrò · Ìrìnṣẹ́ · Ìdìpọ̀ · Ìfowópamọ́ · Àwìn",
-                ib_2: "Àyẹ̀wò Kírẹ́dììtì Ara Ẹni àti Ìwádìí",
-                ib_3: "Àbá Àwìn Tí Ó Bá Kírẹ́dììtì Mu",
-                ibCta: "Lọ sí Báǹkì Íńtánẹ́ẹ̀tì"
-            },
-            ig: {
-                pageTitle: "HKWB - Ọhụrụ Ego Digital",
-                langAria: "Họrọ asụsụ",
-                title: "Mmekọrịta Mmadụ na Teknụzụ<br>Ọhụrụ Ego Digital nke Ọgbọ Ọhụrụ",
-                sixLabel: "Ọrụ Ego Isi 6",
-                f1: "Nkwụnye", f2: "Mwepụ", f3: "Mbufe", f4: "Nchekwa", f5: "Nchekwa Ego", f6: "Mbinye Ego",
-                web3Btn: "Banye Banki Digital Web3",
-                internetBtn: "Banye Banki Intanet",
-                w3Heading: "Banki Digital Web3",
-                w3_1: "Dashbọọdụ Akụ Onwe na Pọtụfoliyo Oge Dị Ndụ",
-                w3_2: "Netwọk Njikọ Kwụ ọtọ Na-enweghị Isi",
-                w3_3: "UBI Nlaghachi Ọha (Ruọ 60% · Òkè 30%–60%)",
-                w3_4: "Ebe Kpọọ AGI · ASI · Enyemaka Bbi-ni",
-                w3_5: "Ngọngọ Amụma na Nghọta Ahịa",
-                w3Cta: "Gaa na Banki Digital Web3",
-                ibHeading: "Banki Intanet",
-                ib_1: "Nkwụnye · Mwepụ · Mbufe · Nchekwa · Nchekwa Ego · Mbinye Ego",
-                ib_2: "Nyocha Akara Kredit Onwe na Nchọpụta",
-                ib_3: "Ntụnye Mbinye Ego Dabara na Kredit",
-                ibCta: "Gaa na Banki Intanet"
-            },
-            am: {
-                pageTitle: "HKWB - ዲጂታል የፋይናንስ ፈጠራ",
-                langAria: "ቋንቋ ይምረጡ",
-                title: "የሰው ልጅ እና ቴክኖሎጂ አብሮ መኖር<br>የቀጣዩ ትውልድ ዲጂታል የፋይናንስ ፈጠራ",
-                sixLabel: "6 ዋና የፋይናንስ ተግባራት",
-                f1: "ተቀማጭ", f2: "ማውጣት", f3: "ማስተላለፍ", f4: "መቆለፊያ", f5: "ቁጠባ", f6: "ብድር",
-                web3Btn: "ወደ Web3 ዲጂታል ባንክ ይግቡ",
-                internetBtn: "ወደ ኢንተርኔት ባንክ ይግቡ",
-                w3Heading: "Web3 ዲጂታል ባንክ",
-                w3_1: "የግል ንብረት ዳሽቦርድ እና የቀጥታ ፖርትፎሊዮ",
-                w3_2: "ቀጥታ ያልተማከለ የግንኙነት መረብ",
-                w3_3: "ማህበራዊ UBI (እስከ 60% · ድርሻ 30%–60%)",
-                w3_4: "የጥሪ ማዕከል AGI · ASI · ቢቢ-ኒ ረዳት",
-                w3_5: "የትንበያ ዘርፎች እና የገበያ መረጃ",
-                w3Cta: "ወደ Web3 ዲጂታል ባንክ ይሂዱ",
-                ibHeading: "ኢንተርኔት ባንክ",
-                ib_1: "ተቀማጭ · ማውጣት · ማስተላለፍ · መቆለፊያ · ቁጠባ · ብድር",
-                ib_2: "የግል ክሬዲት ነጥብ ፍተሻ እና ምርመራ",
-                ib_3: "በክሬዲት ሁኔታ የተበጀ የብድር ምክር",
-                ibCta: "ወደ ኢንተርኔት ባንክ ይሂዱ"
-            },
-            zu: {
-                pageTitle: "HKWB - Inqubo Entsha Yezezimali Ze-Digital",
-                langAria: "Khetha ulimi",
-                title: "Ukubukana koLuntu neThekhnoloji<br>Inqubo Entsha Yezezimali Ze-Digital ZeziNgxenye Ezayo",
-                sixLabel: "Imisebenzi Eyinhloko Yezezimali e-6",
-                f1: "Idiphozi", f2: "Ukukhipha", f3: "Ukudlulisa", f4: "Ukubeka", f5: "Ukulondoloza", f6: "Imalimboleko",
-                web3Btn: "Ngena ku-Web3 Digital Bank",
-                internetBtn: "Ngena ku-Internet Bank",
-                w3Heading: "I-Web3 Digital Bank",
-                w3_1: "Ideshibhodi Yempahla Yomuntu siqu nePhothifoliyo",
-                w3_2: "Inethiwekhi Eqondile Engaphansi Kwesikhungo Esisodwa",
-                w3_3: "I-UBI Yokubuyisela Emphakathini (Kufika ku-60% · 30%–60%)",
-                w3_4: "Isikhungo Sezingcingo AGI · ASI · Umsizi Bbi-ni",
-                w3_5: "Imikhakha Yokubikezela Nobuhlakani Bemakethe",
-                w3Cta: "Yiya ku-Web3 Digital Bank",
-                ibHeading: "I-Internet Bank",
-                ib_1: "Idiphozi · Ukukhipha · Ukudlulisa · Ukubeka · Ukulondoloza · Imalimboleko",
-                ib_2: "Ukuhlola Isikolo Sesikweletu Nokuxilonga",
-                ib_3: "Izincomo Zemalimboleko Ngokwesikweletu",
-                ibCta: "Yiya ku-Internet Bank"
-            },
-            af: {
-                pageTitle: "HKWB - Digitale Finansiële Innovasie",
-                langAria: "Kies taal",
-                title: "Saambestaan van Mensdom en Tegnologie<br>Volgende Generasie Digitale Finansiële Innovasie",
-                sixLabel: "6 Kern Finansiële Funksies",
-                f1: "Deposito", f2: "Onttrekking", f3: "Oordrag", f4: "Sluiting", f5: "Spaar", f6: "Lening",
-                web3Btn: "Gaan na Web3 Digitale Bank",
-                internetBtn: "Gaan na Internetbank",
-                w3Heading: "Web3 Digitale Bank",
-                w3_1: "Persoonlike Bate-paneelbord & Intydse Portefeulje",
-                w3_2: "Direkte Gedesentraliseerde Verbindingsnetwerk",
-                w3_3: "Sosiale UBI (Tot 60% · Aandeel 30%–60%)",
-                w3_4: "Inbelsentrum AGI · ASI · Bbi-ni Assistent",
-                w3_5: "Voorspellende Sektore & Markintelligensie",
-                w3Cta: "Na Web3 Digitale Bank",
-                ibHeading: "Internetbank",
-                ib_1: "Deposito · Onttrekking · Oordrag · Sluiting · Spaar · Lening",
-                ib_2: "Persoonlike Krediettelling & Diagnose",
-                ib_3: "Pasgemaakte Leningsvoorstelle volgens Krediet",
-                ibCta: "Na Internetbank"
-            },
-            km: {
-                pageTitle: "HKWB - នវានុវត្តន៍ហិរញ្ញវត្ថុឌីជីថល",
-                langAria: "ជ្រើសរើសភាសា",
-                title: "ការរស់នៅរួមគ្នានៃមនុស្សជាតិនិងបច្ចេកវិទ្យា<br>នវានុវត្តន៍ហិរញ្ញវត្ថុឌីជីថលជំនាន់ក្រោយ",
-                sixLabel: "មុខងារហិរញ្ញវត្ថុសំខាន់ ៦",
-                f1: "ដាក់ប្រាក់", f2: "ដកប្រាក់", f3: "ផ្ទេរប្រាក់", f4: "រក្សាទុក", f5: "សន្សំ", f6: "កម្ចី",
-                web3Btn: "ចូលទៅកាន់ធនាគារឌីជីថល Web3",
-                internetBtn: "ចូលទៅកាន់ធនាគារអ៊ីនធឺណិត",
-                w3Heading: "ធនាគារឌីជីថល Web3",
-                w3_1: "ផ្ទាំងទ្រព្យសម្បត្តិផ្ទាល់ខ្លួន និងផលបត្រពេលវេលាជាក់ស្តែង",
-                w3_2: "បណ្តាញតភ្ជាប់វិមជ្ឈការដោយផ្ទាល់",
-                w3_3: "UBI ត្រឡប់មកសង្គមវិញ (រហូតដល់ ៦០% · សមាមាត្រ ៣០%–៦០%)",
-                w3_4: "មជ្ឈមណ្ឌលហៅទូរស័ព្ទ AGI · ASI · ជំនួយការ Bbi-ni",
-                w3_5: "វិស័យព្យាករណ៍ និងចំណេះដឹងទីផ្សារ",
-                w3Cta: "ទៅកាន់ធនាគារឌីជីថល Web3",
-                ibHeading: "ធនាគារអ៊ីនធឺណិត",
-                ib_1: "ដាក់ប្រាក់ · ដកប្រាក់ · ផ្ទេរប្រាក់ · រក្សាទុក · សន្សំ · កម្ចី",
-                ib_2: "ពិនិត្យពិន្ទុឥណទានផ្ទាល់ខ្លួន និងការវិនិច្ឆ័យ",
-                ib_3: "ណែនាំកម្ចីសមស្របតាមឥណទាន",
-                ibCta: "ទៅកាន់ធនាគារអ៊ីនធឺណិត"
-            },
-            my: {
-                pageTitle: "HKWB - ဒစ်ဂျစ်တယ် ဘဏ္ဍာရေး ဆန်းသစ်တီထွင်မှု",
-                langAria: "ဘာသာစကား ရွေးချယ်ရန်",
-                title: "လူသားမျိုးနွယ်နှင့် နည်းပညာ ပူးတွဲတည်ရှိမှု<br>နောက်မျိုးဆက် ဒစ်ဂျစ်တယ် ဘဏ္ဍာရေး ဆန်းသစ်တီထွင်မှု",
-                sixLabel: "အဓိက ဘဏ္ဍာရေး လုပ်ဆောင်ချက် ၆ ခု",
-                f1: "ငွေသွင်း", f2: "ငွေထုတ်", f3: "ငွေလွှဲ", f4: "ထိန်းသိမ်း", f5: "စုငွေ", f6: "ချေးငွေ",
-                web3Btn: "Web3 ဒစ်ဂျစ်တယ်ဘဏ်သို့ ဝင်မည်",
-                internetBtn: "အင်တာနက်ဘဏ်သို့ ဝင်မည်",
-                w3Heading: "Web3 ဒစ်ဂျစ်တယ်ဘဏ်",
-                w3_1: "ကိုယ်ပိုင်ပိုင်ဆိုင်မှု ဒက်ရှ်ဘုတ်နှင့် တိုက်ရိုက်အစုစု",
-                w3_2: "တိုက်ရိုက် ဗဟိုချုပ်ကိုင်မှုကင်း ချိတ်ဆက်ကွန်ရက်",
-                w3_3: "လူမှုပြန်လည်မျှဝေ UBI (၆၀% အထိ · ၃၀%–၆၀% ခွဲဝေမှု)",
-                w3_4: "ခေါ်ဆိုမှုဗဟို AGI · ASI · Bbi-ni လက်ထောက်",
-                w3_5: "ခန့်မှန်းကဏ္ဍများနှင့် စျေးကွက်ထောက်လှမ်းရေး",
-                w3Cta: "Web3 ဒစ်ဂျစ်တယ်ဘဏ်သို့ သွားရန်",
-                ibHeading: "အင်တာနက်ဘဏ်",
-                ib_1: "ငွေသွင်း · ငွေထုတ် · ငွေလွှဲ · ထိန်းသိမ်း · စုငွေ · ချေးငွေ",
-                ib_2: "ကိုယ်ပိုင်ခရက်ဒစ်ရမှတ် စစ်ဆေးခြင်းနှင့် သုံးသပ်ချက်",
-                ib_3: "ခရက်ဒစ်အလိုက် သင့်တော်သော ချေးငွေအကြံပြုချက်",
-                ibCta: "အင်တာနက်ဘဏ်သို့ သွားရန်"
-            },
-            lo: {
-                pageTitle: "HKWB - ນະວັດຕະກໍາທາງການເງິນດິຈິຕອນ",
-                langAria: "ເລືອກພາສາ",
-                title: "ການຢູ່ຮ່ວມກັນຂອງມະນຸດແລະເທັກໂນໂລຢີ<br>ນະວັດຕະກໍາທາງການເງິນດິຈິຕອນແຫ່ງອນາຄົດ",
-                sixLabel: "6 ໜ້າທີ່ການເງິນຫຼັກ",
-                f1: "ຝາກເງິນ", f2: "ຖອນເງິນ", f3: "ໂອນເງິນ", f4: "ຄ້ຳປະກັນ", f5: "ເງິນຝາກປະຈຳ", f6: "ເງິນກູ້",
-                web3Btn: "ເຂົ້າສູ່ທະນາຄານດິຈິຕອນ Web3",
-                internetBtn: "ເຂົ້າສູ່ທະນາຄານອິນເຕີເນັດ",
-                w3Heading: "ທະນາຄານດິຈິຕອນ Web3",
-                w3_1: "ແດຊບອດຊັບສິນສ່ວນຕົວ ແລະ ພອດແບບສົດ",
-                w3_2: "ເຄືອຂ່າຍເຊື່ອມຕໍ່ແບບກະຈາຍສູນໂດຍກົງ",
-                w3_3: "UBI ຄືນສູ່ສັງຄົມ (ສູງສຸດ 60% · ສັດສ່ວນ 30%–60%)",
-                w3_4: "ສູນບໍລິການ AGI · ASI · ຜູ້ຊ່ວຍ Bbi-ni",
-                w3_5: "ຂະແໜງຄາດຄະເນ ແລະ ຂໍ້ມູນຕະຫຼາດ",
-                w3Cta: "ໄປຍັງທະນາຄານດິຈິຕອນ Web3",
-                ibHeading: "ທະນາຄານອິນເຕີເນັດ",
-                ib_1: "ຝາກເງິນ · ຖອນເງິນ · ໂອນເງິນ · ຄ້ຳປະກັນ · ເງິນຝາກປະຈຳ · ເງິນກູ້",
-                ib_2: "ກວດສອບຄະແນນສິນເຊື່ອສ່ວນຕົວ ແລະ ວິເຄາະ",
-                ib_3: "ແນະນຳສິນເຊື່ອຕາມປະຫວັດສິນເຊື່ອ",
-                ibCta: "ໄປຍັງທະນາຄານອິນເຕີເນັດ"
-            },
-            ne: {
-                pageTitle: "HKWB - डिजिटल वित्तीय नवीनता",
-                langAria: "भाषा छान्नुहोस्",
-                title: "मानवता र प्रविधिको सह-अस्तित्व<br>अर्को पुस्ताको डिजिटल वित्तीय नवीनता",
-                sixLabel: "६ मुख्य वित्तीय सुविधाहरू",
-                f1: "जम्मा", f2: "निकाल्ने", f3: "स्थानान्तरण", f4: "लक-अप", f5: "बचत", f6: "कर्जा",
-                web3Btn: "Web3 डिजिटल बैंक प्रवेश गर्नुहोस्",
-                internetBtn: "इन्टरनेट बैंक प्रवेश गर्नुहोस्",
-                w3Heading: "Web3 डिजिटल बैंक",
-                w3_1: "व्यक्तिगत सम्पत्ति ड्यासबोर्ड र प्रत्यक्ष पोर्टफोलियो",
-                w3_2: "प्रत्यक्ष विकेन्द्रीकृत इन्टरकनेक्ट सञ्जाल",
-                w3_3: "सामाजिक फिर्ता UBI (६०% सम्म · ३०%–६०% हिस्सा)",
-                w3_4: "कल सेन्टर AGI · ASI · बीबी-नी सहायक",
-                w3_5: "अनुमान क्षेत्र र बजार जानकारी",
-                w3Cta: "Web3 डिजिटल बैंक जानुहोस्",
-                ibHeading: "इन्टरनेट बैंक",
-                ib_1: "जम्मा · निकाल्ने · स्थानान्तरण · लक-अप · बचत · कर्जा",
-                ib_2: "व्यक्तिगत क्रेडिट स्कोर जाँच र निदान",
-                ib_3: "क्रेडिट अनुसार अनुकूलित कर्जा सुझाव",
-                ibCta: "इन्टरनेट बैंक जानुहोस्"
-            },
-            si: {
-                pageTitle: "HKWB - ඩිජිටල් මූල් ය නවෝත්පාදනය",
-                langAria: "භාෂාව තෝරන්න",
-                title: "මානව වර්ගයා සහ තාක්ෂණයේ සහජීවනය<br>ඊළඟ පරම්පරාවේ ඩිජිටල් මූල් ය නවෝත්පාදනය",
-                sixLabel: "ප් රධාන මූල් ය කාර්යයන් 6",
-                f1: "තැන්පතු", f2: "මුදල් ගැනීම", f3: "මාරු කිරීම", f4: "රඳවා තැබීම", f5: "ඉතිරිකිරීම්", f6: "ණය",
-                web3Btn: "Web3 ඩිජිටල් බැංකුවට පිවිසෙන්න",
-                internetBtn: "ඉන්ටර්නෙට් බැංකුවට පිවිසෙන්න",
-                w3Heading: "Web3 ඩිජිටල් බැංකුව",
-                w3_1: "පුද්ගලික වත්කම් උපකරණ පුවරුව සහ සජීවී කළඹ",
-                w3_2: "සෘජු විමධ් යගත අන්තර් සම්බන්ධතා ජාලය",
-                w3_3: "සමාජ ප් රතිලාභ UBI (60% දක්වා · 30%–60% කොටස)",
-                w3_4: "ඇමතුම් මධ් යස්ථානය AGI · ASI · Bbi-ni සහායක",
-                w3_5: "පුරෝකථන අංශ සහ වෙළඳපොළ බුද්ධිය",
-                w3Cta: "Web3 ඩිජිටල් බැංකුව වෙත",
-                ibHeading: "ඉන්ටර්නෙට් බැංකුව",
-                ib_1: "තැන්පතු · මුදල් ගැනීම · මාරු කිරීම · රඳවා තැබීම · ඉතිරිකිරීම් · ණය",
-                ib_2: "පුද්ගලික ණය ලකුණු පරීක්ෂාව සහ විශ්ලේෂණය",
-                ib_3: "ණය තත්ත්වය අනුව ගැලපෙන ණය නිර්දේශ",
-                ibCta: "ඉන්ටර්නෙට් බැංකුව වෙත"
-            },
-            ta: {
-                pageTitle: "HKWB - டிஜிட்டல் நிதி புதுமை",
-                langAria: "மொழியைத் தேர்ந்தெடுக்கவும்",
-                title: "மனிதகுலம் மற்றும் தொழில்நுட்பத்தின் இணைவு<br>அடுத்த தலைமுறை டிஜிட்டல் நிதி புதுமை",
-                sixLabel: "6 முக்கிய நிதிச் சேவைகள்",
-                f1: "வைப்பு", f2: "எடுத்தல்", f3: "பரிமாற்றம்", f4: "பூட்டுதல்", f5: "சேமிப்பு", f6: "கடன்",
-                web3Btn: "Web3 டிஜிட்டல் வங்கியில் நுழைக",
-                internetBtn: "இணைய வங்கியில் நுழைக",
-                w3Heading: "Web3 டிஜிட்டல் வங்கி",
-                w3_1: "தனிப்பட்ட சொத்து டாஷ்போர்டு & நேரடி போர்ட்ஃபோலியோ",
-                w3_2: "நேரடி பரவலாக்கப்பட்ட இணைப்பு வலையமைப்பு",
-                w3_3: "சமூக பங்களிப்பு UBI (60% வரை · 30%–60% பங்கு)",
-                w3_4: "அழைப்பு மையம் AGI · ASI · பிபி-னி உதவியாளர்",
-                w3_5: "கணிப்புத் துறைகள் & சந்தை நுண்ணறிவு",
-                w3Cta: "Web3 டிஜிட்டல் வங்கிக்குச் செல்லவும்",
-                ibHeading: "இணைய வங்கி",
-                ib_1: "வைப்பு · எடுத்தல் · பரிமாற்றம் · பூட்டுதல் · சேமிப்பு · கடன்",
-                ib_2: "தனிப்பட்ட கடன் மதிப்பெண் சரிபார்ப்பு & பகுப்பாய்வு",
-                ib_3: "கடன் தகுதிக்கேற்ப தனிப்பயன் கடன் பரிந்துரை",
-                ibCta: "இணைய வங்கிக்குச் செல்லவும்"
-            },
-            te: {
-                pageTitle: "HKWB - డిజిటల్ ఆర్థిక ఆవిష్కరణ",
-                langAria: "భాషను ఎంచుకోండి",
-                title: "మానవత్వం & సాంకేతికత సహజీవనం<br>తరువాతి తరం డిజిటల్ ఆర్థిక ఆవిష్కరణ",
-                sixLabel: "6 ప్రధాన ఆర్థిక సేవలు",
-                f1: "డిపాజిట్", f2: "విత్ డ్రా", f3: "బదిలీ", f4: "లాక్-అప్", f5: "పొదుపు", f6: "రుణం",
-                web3Btn: "Web3 డిజిటల్ బ్యాంక్ లోకి ప్రవేశించండి",
-                internetBtn: "ఇంటర్నెట్ బ్యాంక్ లోకి ప్రవేశించండి",
-                w3Heading: "Web3 డిజిటల్ బ్యాంక్",
-                w3_1: "వ్యక్తిగత ఆస్తుల డాష్ బోర్డ్ & రియల్-టైమ్ పోర్ట్ ఫోలియో",
-                w3_2: "ప్రత్యక్ష వికేంద్రీకృత ఇంటర్ కనెక్ట్ నెట్ వర్క్",
-                w3_3: "సామాజిక రిటర్న్ UBI (60% వరకు · 30%–60% వాటా)",
-                w3_4: "కాల్ సెంటర్ AGI · ASI · బీబీ-నీ సహాయకుడు",
-                w3_5: "అంచనా రంగాలు & మార్కెట్ ఇంటెలిజెన్స్",
-                w3Cta: "Web3 డిజిటల్ బ్యాంక్ కు వెళ్లండి",
-                ibHeading: "ఇంటర్నెట్ బ్యాంక్",
-                ib_1: "డిపాజిట్ · విత్ డ్రా · బదిలీ · లాక్-అప్ · పొదుపు · రుణం",
-                ib_2: "వ్యక్తిగత క్రెడిట్ స్కోర్ తనిఖీ & విశ్లేషణ",
-                ib_3: "క్రెడిట్ ఆధారిత అనుకూల రుణ సిఫార్సులు",
-                ibCta: "ఇంటర్నెట్ బ్యాంక్ కు వెళ్లండి"
-            },
-            kn: {
-                pageTitle: "HKWB - ಡಿಜಿಟಲ್ ಹಣಕಾಸು ಆವಿಷ್ಕಾರ",
-                langAria: "ಭಾಷೆಯನ್ನು ಆಯ್ಕೆಮಾಡಿ",
-                title: "ಮಾನವೀಯತೆ ಮತ್ತು ತಂತ್ರಜ್ಞಾನದ ಸಹಬಾಳ್ವೆ<br>ಮುಂದಿನ ಪೀಳಿಗೆಯ ಡಿಜಿಟಲ್ ಹಣಕಾಸು ಆವಿಷ್ಕಾರ",
-                sixLabel: "6 ಪ್ರಮುಖ ಹಣಕಾಸು ಸೇವೆಗಳು",
-                f1: "ಠೇವಣಿ", f2: "ಹಿಂಪಡೆಯುವಿಕೆ", f3: "ವರ್ಗಾವಣೆ", f4: "ಲಾಕ್-ಅಪ್", f5: "ಉಳಿತಾಯ", f6: "ಸಾಲ",
-                web3Btn: "Web3 ಡಿಜಿಟಲ್ ಬ್ಯಾಂಕ್ ಪ್ರವೇಶಿಸಿ",
-                internetBtn: "ಇಂಟರ್ನೆಟ್ ಬ್ಯಾಂಕ್ ಪ್ರವೇಶಿಸಿ",
-                w3Heading: "Web3 ಡಿಜಿಟಲ್ ಬ್ಯಾಂಕ್",
-                w3_1: "ವೈಯಕ್ತಿಕ ಆಸ್ತಿ ಡ್ಯಾಶ್ ಬೋರ್ಡ್ ಮತ್ತು ನೈಜ-ಸಮಯದ ಪೋರ್ಟ್ ಫೋಲಿಯೊ",
-                w3_2: "ನೇರ ವಿಕೇಂದ್ರೀಕೃತ ಇಂಟರ್ ಕನೆಕ್ಟ್ ನೆಟ್ ವರ್ಕ್",
-                w3_3: "ಸಾಮಾಜಿಕ ಹಿಂತಿರುಗುವಿಕೆ UBI (60% ವರೆಗೆ · 30%–60%)",
-                w3_4: "ಕಾಲ್ ಸೆಂಟರ್ AGI · ASI · ಬೀಬೀ-ನೀ ಸಹಾಯಕ",
-                w3_5: "ಮುನ್ಸೂಚನೆ ವಲಯಗಳು ಮತ್ತು ಮಾರುಕಟ್ಟೆ ಬುದ್ಧಿಮತ್ತೆ",
-                w3Cta: "Web3 ಡಿಜಿಟಲ್ ಬ್ಯಾಂಕ್ ಗೆ ಹೋಗಿ",
-                ibHeading: "ಇಂಟರ್ನೆಟ್ ಬ್ಯಾಂಕ್",
-                ib_1: "ಠೇವಣಿ · ಹಿಂಪಡೆಯುವಿಕೆ · ವರ್ಗಾವಣೆ · ಲಾಕ್-ಅಪ್ · ಉಳಿತಾಯ · ಸಾಲ",
-                ib_2: "ವೈಯಕ್ತಿಕ ಕ್ರೆಡಿಟ್ ಸ್ಕೋರ್ ಪರಿಶೀಲನೆ ಮತ್ತು ರೋಗನಿರ್ಣಯ",
-                ib_3: "ಕ್ರೆಡಿಟ್ ಆಧಾರಿತ ಕಸ್ಟಮ್ ಸಾಲ ಶಿಫಾರಸುಗಳು",
-                ibCta: "ಇಂಟರ್ನೆಟ್ ಬ್ಯಾಂಕ್ ಗೆ ಹೋಗಿ"
-            },
-            ml: {
-                pageTitle: "HKWB - ഡിജിറ്റൽ സാമ്പത്തിക നവീകരണം",
-                langAria: "ഭാഷ തിരഞ്ഞെടുക്കുക",
-                title: "മനുഷ്യത്വത്തിന്റെയും സാങ്കേതികവിദ്യയുടെയും സഹവർത്തിത്വം<br>അടുത്ത തലമുറ ഡിജിറ്റൽ സാമ്പത്തിക നവീകരണം",
-                sixLabel: "6 പ്രധാന സാമ്പത്തിക സേവനങ്ങൾ",
-                f1: "നിക്ഷേപം", f2: "പിൻവലിക്കൽ", f3: "കൈമാറ്റം", f4: "ലോക്ക്-അപ്പ്", f5: "സമ്പാദ്യം", f6: "വായ്പ",
-                web3Btn: "Web3 ഡിജിറ്റൽ ബാങ്കിൽ പ്രവേശിക്കുക",
-                internetBtn: "ഇന്റർനെറ്റ് ബാങ്കിൽ പ്രവേശിക്കുക",
-                w3Heading: "Web3 ഡിജിറ്റൽ ബാങ്ക്",
-                w3_1: "വ്യക്തിഗത ആസ്തി ഡാഷ് ബോർഡ് & തത്സമയ പോർട്ട് ഫോളിയോ",
-                w3_2: "നേരിട്ടുള്ള വികേന്ദ്രീകൃത ഇന്റർകണക്ട് ശൃംഖല",
-                w3_3: "സാമൂഹിക റിട്ടേൺ UBI (60% വരെ · 30%–60% വിഹിതം)",
-                w3_4: "കോൾ സെന്റർ AGI · ASI · ബീബീ-നീ അസിസ്റ്റന്റ്",
-                w3_5: "പ്രവചന മേഖലകളും വിപണി വിവരങ്ങളും",
-                w3Cta: "Web3 ഡിജിറ്റൽ ബാങ്കിലേക്ക്",
-                ibHeading: "ഇന്റർനെറ്റ് ബാങ്ക്",
-                ib_1: "നിക്ഷേപം · പിൻവലിക്കൽ · കൈമാറ്റം · ലോക്ക്-അപ്പ് · സമ്പാദ്യം · വായ്പ",
-                ib_2: "വ്യക്തിഗത ക്രെഡിറ്റ് സ്കോർ പരിശോധന & വിശകലനം",
-                ib_3: "ക്രെഡിറ്റ് അനുസരിച്ചുള്ള വായ്പാ നിർദ്ദേശങ്ങൾ",
-                ibCta: "ഇന്റർനെറ്റ് ബാങ്കിലേക്ക്"
-            },
-            mr: {
-                pageTitle: "HKWB - डिजिटल आर्थिक नवोपक्रम",
-                langAria: "भाषा निवडा",
-                title: "मानवता आणि तंत्रज्ञानाचे सहअस्तित्व<br>पुढील पिढीचे डिजिटल आर्थिक नवोपक्रम",
-                sixLabel: "६ प्रमुख आर्थिक सेवा",
-                f1: "ठेव", f2: "काढणे", f3: "हस्तांतरण", f4: "लॉक-अप", f5: "बचत", f6: "कर्ज",
-                web3Btn: "Web3 डिजिटल बँकेत प्रवेश करा",
-                internetBtn: "इंटरनेट बँकेत प्रवेश करा",
-                w3Heading: "Web3 डिजिटल बँक",
-                w3_1: "वैयक्तिक मालमत्ता डॅशबोर्ड आणि थेट पोर्टफोलिओ",
-                w3_2: "थेट विकेंद्रित इंटरकनेक्ट नेटवर्क",
-                w3_3: "सामाजिक परतावा UBI (६०% पर्यंत · ३०%–६०% हिस्सा)",
-                w3_4: "कॉल सेंटर AGI · ASI · बीबी-नी सहाय्यक",
-                w3_5: "अंदाज क्षेत्रे आणि बाजार माहिती",
-                w3Cta: "Web3 डिजिटल बँकेवर जा",
-                ibHeading: "इंटरनेट बँक",
-                ib_1: "ठेव · काढणे · हस्तांतरण · लॉक-अप · बचत · कर्ज",
-                ib_2: "वैयक्तिक क्रेडिट स्कोअर तपासणी आणि निदान",
-                ib_3: "क्रेडिटनुसार सानुकूल कर्ज शिफारसी",
-                ibCta: "इंटरनेट बँकेवर जा"
-            },
-            gu: {
-                pageTitle: "HKWB - ડિજિટલ નાણાકીય નવીનતા",
-                langAria: "ભાષા પસંદ કરો",
-                title: "માનવતા અને ટેકનોલોજીનું સહ-અસ્તિત્વ<br>આગામી પેઢીની ડિજિટલ નાણાકીય નવીનતા",
-                sixLabel: "૬ મુખ્ય નાણાકીય સેવાઓ",
-                f1: "થાપણ", f2: "ઉપાડ", f3: "ટ્રાન્સફર", f4: "લોક-અપ", f5: "બચત", f6: "લોન",
-                web3Btn: "Web3 ડિજિટલ બેંકમાં પ્રવેશ કરો",
-                internetBtn: "ઈન્ટરનેટ બેંકમાં પ્રવેશ કરો",
-                w3Heading: "Web3 ડિજિટલ બેંક",
-                w3_1: "વ્યક્તિગત અસ્કયામતો ડેશબોર્ડ અને લાઈવ પોર્ટફોલિયો",
-                w3_2: "સીધું વિકેન્દ્રિત ઇન્ટરકનેક્ટ નેટવર્ક",
-                w3_3: "સામાજિક વળતર UBI (૬૦% સુધી · ૩૦%–૬૦% હિસ્સો)",
-                w3_4: "કોલ સેન્ટર AGI · ASI · બીબી-ની સહાયક",
-                w3_5: "અનુમાન ક્ષેત્રો અને બજાર માહિતી",
-                w3Cta: "Web3 ડિજિટલ બેંક પર જાઓ",
-                ibHeading: "ઈન્ટરનેટ બેંક",
-                ib_1: "થાપણ · ઉપાડ · ટ્રાન્સફર · લોક-અપ · બચત · લોન",
-                ib_2: "વ્યક્તિગત ક્રેડિટ સ્કોર તપાસ અને નિદાન",
-                ib_3: "ક્રેડિટ મુજબ કસ્ટમ લોન ભલામણો",
-                ibCta: "ઈન્ટરનેટ બેંક પર જાઓ"
-            },
-            pa: {
-                pageTitle: "HKWB - ਡਿਜੀਟਲ ਵਿੱਤੀ ਨਵੀਨਤਾ",
-                langAria: "ਭਾਸ਼ਾ ਚੁਣੋ",
-                title: "ਮਨੁੱਖਤਾ ਅਤੇ ਤਕਨਾਲੋਜੀ ਦਾ ਸਹਿ-ਹੋਂਦ<br>ਅਗਲੀ ਪੀੜ੍ਹੀ ਦੀ ਡਿਜੀਟਲ ਵਿੱਤੀ ਨਵੀਨਤਾ",
-                sixLabel: "6 ਮੁੱਖ ਵਿੱਤੀ ਸੇਵਾਵਾਂ",
-                f1: "ਜਮ੍ਹਾਂ", f2: "ਕਢਵਾਉਣਾ", f3: "ਤਬਾਦਲਾ", f4: "ਲੌਕ-ਅੱਪ", f5: "ਬੱਚਤ", f6: "ਕਰਜ਼ਾ",
-                web3Btn: "Web3 ਡਿਜੀਟਲ ਬੈਂਕ ਵਿੱਚ ਦਾਖਲ ਹੋਵੋ",
-                internetBtn: "ਇੰਟਰਨੈੱਟ ਬੈਂਕ ਵਿੱਚ ਦਾਖਲ ਹੋਵੋ",
-                w3Heading: "Web3 ਡਿਜੀਟਲ ਬੈਂਕ",
-                w3_1: "ਨਿੱਜੀ ਸੰਪਤੀ ਡੈਸ਼ਬੋਰਡ ਅਤੇ ਲਾਈਵ ਪੋਰਟਫੋਲੀਓ",
-                w3_2: "ਸਿੱਧਾ ਵਿਕੇਂਦਰੀਕ੍ਰਿਤ ਇੰਟਰਕਨੈਕਟ ਨੈੱਟਵਰਕ",
-                w3_3: "ਸਮਾਜਿਕ ਵਾਪਸੀ UBI (60% ਤੱਕ · 30%–60% ਹਿੱਸਾ)",
-                w3_4: "ਕਾਲ ਸੈਂਟਰ AGI · ASI · ਬੀਬੀ-ਨੀ ਸਹਾਇਕ",
-                w3_5: "ਅਨੁਮਾਨ ਖੇਤਰ ਅਤੇ ਮਾਰਕੀਟ ਜਾਣਕਾਰੀ",
-                w3Cta: "Web3 ਡਿਜੀਟਲ ਬੈਂਕ ਜਾਓ",
-                ibHeading: "ਇੰਟਰਨੈੱਟ ਬੈਂਕ",
-                ib_1: "ਜਮ੍ਹਾਂ · ਕਢਵਾਉਣਾ · ਤਬਾਦਲਾ · ਲੌਕ-ਅੱਪ · ਬੱਚਤ · ਕਰਜ਼ਾ",
-                ib_2: "ਨਿੱਜੀ ਕ੍ਰੈਡਿਟ ਸਕੋਰ ਜਾਂਚ ਅਤੇ ਨਿਦਾਨ",
-                ib_3: "ਕ੍ਰੈਡਿਟ ਅਨੁਸਾਰ ਖਾਸ ਕਰਜ਼ਾ ਸੁਝਾਅ",
-                ibCta: "ਇੰਟਰਨੈੱਟ ਬੈਂਕ ਜਾਓ"
-            },
-            kk: {
-                pageTitle: "HKWB - Цифрлық қаржылық инновация",
-                langAria: "Тілді таңдаңыз",
-                title: "Адамзат пен Технологияның Қатар өмір сүруі<br>Жаңа Ұрпақтың Цифрлық Қаржылық Инновациясы",
-                sixLabel: "6 Негізгі Қаржылық Функция",
-                f1: "Салым", f2: "Шешу", f3: "Аударым", f4: "Бекіту", f5: "Жинақ", f6: "Несие",
-                web3Btn: "Web3 Цифрлық Банкіне Кіру",
-                internetBtn: "Интернет Банкіне Кіру",
-                w3Heading: "Web3 Цифрлық Банк",
-                w3_1: "Жеке Активтер Панелі және Нақты Уақыт Портфелі",
-                w3_2: "Тікелей Орталықсыздандырылған Байланыс Желісі",
-                w3_3: "Әлеуметтік UBI (60%-ға дейін · Үлес 30%–60%)",
-                w3_4: "Call-орталық AGI · ASI · Bbi-ni Көмекшісі",
-                w3_5: "Болжам Секторлары және Нарық Талдауы",
-                w3Cta: "Web3 Банкіне Өту",
-                ibHeading: "Интернет Банк",
-                ib_1: "Салым · Шешу · Аударым · Бекіту · Жинақ · Несие",
-                ib_2: "Жеке Несие Рейтингін Тексеру және Диагностика",
-                ib_3: "Рейтингке Сай Жеке Несие Ұсыныстары",
-                ibCta: "Интернет Банкіне Өту"
-            },
-            uz: {
-                pageTitle: "HKWB - Raqamli Moliyaviy Innovatsiya",
-                langAria: "Tilni tanlang",
-                title: "Insoniyat va Texnologiyaning Birga Yashashi<br>Keyingi Avlod Raqamli Moliyaviy Innovatsiyasi",
-                sixLabel: "6 Ta Asosiy Moliyaviy Funksiya",
-                f1: "Kirim", f2: "Chiqim", f3: "Oʻtkazma", f4: "Bloklash", f5: "Jamgʻarma", f6: "Kredit",
-                web3Btn: "Web3 Raqamli Bankiga Kirish",
-                internetBtn: "Internet Bankiga Kirish",
-                w3Heading: "Web3 Raqamli Banki",
-                w3_1: "Shaxsiy Aktivlar Paneli va Jonli Portfel",
-                w3_2: "Toʻgʻridan-toʻgʻri Markazlashmagan Bogʻlanish Tarmogʻi",
-                w3_3: "Ijtimoiy UBI (60% gacha · Ulush 30%–60%)",
-                w3_4: "Call-markaz AGI · ASI · Bbi-ni Yordamchisi",
-                w3_5: "Bashorat Sektorlari va Bozor Tahlili",
-                w3Cta: "Web3 Bankiga Oʻtish",
-                ibHeading: "Internet Banki",
-                ib_1: "Kirim · Chiqim · Oʻtkazma · Bloklash · Jamgʻarma · Kredit",
-                ib_2: "Shaxsiy Kredit Reytingini Tekshirish va Tahlil",
-                ib_3: "Kreditga Mos Maxsus Kredit Takliflari",
-                ibCta: "Internet Bankiga Oʻtish"
-            },
-            az: {
-                pageTitle: "HKWB - Rəqəmsal Maliyyə İnnovasiyası",
-                langAria: "Dil seçin",
-                title: "Bəşəriyyət və Texnologiyanın Birgə Yaşaması<br>Gələcək Nəsil Rəqəmsal Maliyyə İnnovasiyası",
-                sixLabel: "6 Əsas Maliyyə Funksiyası",
-                f1: "Mədaxil", f2: "Məxaric", f3: "Köçürmə", f4: "Kilidləmə", f5: "Əmanət", f6: "Kredit",
-                web3Btn: "Web3 Rəqəmsal Bankına Daxil Olun",
-                internetBtn: "İnternet Bankına Daxil Olun",
-                w3Heading: "Web3 Rəqəmsal Bank",
-                w3_1: "Şəxsi Aktiv Paneli və Canlı Portfel",
-                w3_2: "Birbaşa Mərkəzləşdirilməmiş Əlaqə Şəbəkəsi",
-                w3_3: "Sosial UBI (60%-dək · Pay 30%–60%)",
-                w3_4: "Çağrı Mərkəzi AGI · ASI · Bbi-ni Köməkçisi",
-                w3_5: "Proqnoz Sektorları və Bazar Analitikası",
-                w3Cta: "Web3 Bankına Keçid",
-                ibHeading: "İnternet Bank",
-                ib_1: "Mədaxil · Məxaric · Köçürmə · Kilidləmə · Əmanət · Kredit",
-                ib_2: "Şəxsi Kredit Reytinqi Yoxlanışı və Diaqnostika",
-                ib_3: "Kredit Profilinə Uyğun Kredit Təklifləri",
-                ibCta: "İnternet Bankına Keçid"
-            },
-            ka: {
-                pageTitle: "HKWB - ციფრული ფინანსური ინოვაცია",
-                langAria: "აირჩიეთ ენა",
-                title: "კაცობრიობისა და ტექნოლოგიების თანაარსებობა<br>მომავალი თაობის ციფრული ფინანსური ინოვაცია",
-                sixLabel: "6 ძირითადი ფინანსური ფუნქცია",
-                f1: "შეტანა", f2: "გატანა", f3: "გადარიცხვა", f4: "დაბლოკვა", f5: "დანაზოგი", f6: "სესხი",
-                web3Btn: "Web3 ციფრულ ბანკში შესვლა",
-                internetBtn: "ინტერნეტ ბანკში შესვლა",
-                w3Heading: "Web3 ციფრული ბანკი",
-                w3_1: "პირადი აქტივების დაფა და რეალურ დროში პორტფელი",
-                w3_2: "პირდაპირი დეცენტრალიზებული დაკავშირების ქსელი",
-                w3_3: "სოციალური UBI (60%-მდე · წილი 30%–60%)",
-                w3_4: "ქოლ-ცენტრი AGI · ASI · Bbi-ni ასისტენტი",
-                w3_5: "პროგნოზის სექტორები და ბაზრის ანალიტიკა",
-                w3Cta: "Web3 ბანკში გადასვლა",
-                ibHeading: "ინტერნეტ ბანკი",
-                ib_1: "შეტანა · გატანა · გადარიცხვა · დაბლოკვა · დანაზოგი · სესხი",
-                ib_2: "პირადი საკრედიტო ქულის შემოწმება და დიაგნოსტიკა",
-                ib_3: "საკრედიტო პროფილზე მორგებული სესხის შეთავაზება",
-                ibCta: "ინტერნეტ ბანკში გადასვლა"
-            },
-            hy: {
-                pageTitle: "HKWB - Թվային Ֆինանսական Նորարարություն",
-                langAria: "Ընտրեք լեզուն",
-                title: "Մարդկության և Տեխնոլոգիայի Համատեղ Գոյությունը<br>Հաջորդ Սերնդի Թվային Ֆինանսական Նորարարություն",
-                sixLabel: "6 Հիմնական Ֆինանսական Գործառույթ",
-                f1: "Մուտք", f2: "Ելք", f3: "Փոխանցում", f4: "Արգելափակում", f5: "Խնայողություն", f6: "Վարկ",
-                web3Btn: "Մուտք գործել Web3 Թվային Բանկ",
-                internetBtn: "Մուտք գործել Ինտերնետ Բանկ",
-                w3Heading: "Web3 Թվային Բանկ",
-                w3_1: "Անձնական Ակտիվների Վահանակ և Իրական Պորտֆել",
-                w3_2: "Ուղիղ Ապակենտրոնացված Միացման Ցանց",
-                w3_3: "Սոցիալական UBI (Մինչև 60% · Բաժին 30%–60%)",
-                w3_4: "Զանգերի Կենտրոն AGI · ASI · Bbi-ni Օգնական",
-                w3_5: "Կանխատեսման Ոլորտներ և Շուկայի Վերլուծություն",
-                w3Cta: "Դեպի Web3 Թվային Բանկ",
-                ibHeading: "Ինտերնետ Բանկ",
-                ib_1: "Մուտք · Ելք · Փոխանցում · Արգելափակում · Խնայողություն · Վարկ",
-                ib_2: "Անձնական Վարկային Վարկանիշի Ստուգում և Ախտորոշում",
-                ib_3: "Վարկային Պատմությանը Համապատասխան Առաջարկներ",
-                ibCta: "Դեպի Ինտերնետ Բանկ"
-            },
-            mn: {
-                pageTitle: "HKWB - Дижитал санхүүгийн инноваци",
-                langAria: "Хэл сонгох",
-                title: "Хүн төрөлхтөн ба Технологийн хамтын оршин тогтнол<br>Дараа үеийн дижитал санхүүгийн инноваци",
-                sixLabel: "Санхүүгийн 6 Үндсэн Үйлдэл",
-                f1: "Орлого", f2: "Зарлага", f3: "Шилжүүлэг", f4: "Хадгаламж-Түгжээ", f5: "Хуримтлал", f6: "Зээл",
-                web3Btn: "Web3 Дижитал Банк руу орох",
-                internetBtn: "Интернет Банк руу орох",
-                w3Heading: "Web3 Дижитал Банк",
-                w3_1: "Хувийн Хөрөнгийн Самбар ба Бодит Цагийн Багц",
-                w3_2: "Шууд Төвлөрсөн Бус Холболтын Сүлжээ",
-                w3_3: "Нийгмийн UBI (60% хүртэл · Хувь 30%–60%)",
-                w3_4: "Дуудлагын Төв AGI · ASI · Bbi-ni Туслах",
-                w3_5: "Таамаглалын Салбарууд ба Зах Зээлийн Шинжилгээ",
-                w3Cta: "Web3 Банк руу очих",
-                ibHeading: "Интернет Банк",
-                ib_1: "Орлого · Зарлага · Шилжүүлэг · Хадгаламж-Түгжээ · Хуримтлал · Зээл",
-                ib_2: "Хувийн Зээлийн Оноо Шалгах ба Оношилгоо",
-                ib_3: "Зээлийн Зэрэглэлд Тохирсон Зээлийн Санал",
-                ibCta: "Интернет Банк руу очих"
-            },
-            sr: {
-                pageTitle: "HKWB - Дигитална финансијска иновација",
-                langAria: "Изаберите језик",
-                title: "Коегзистенција Човечанства и Технологије<br>Дигитална Финансијска Иновација Следеће Генерације",
-                sixLabel: "6 Кључних Финансијских Функција",
-                f1: "Уплата", f2: "Исплата", f3: "Пренос", f4: "Блокирање", f5: "Штедња", f6: "Кредит",
-                web3Btn: "Уђите у Web3 Дигиталну Банку",
-                internetBtn: "Уђите у Интернет Банку",
-                w3Heading: "Web3 Дигитална Банка",
-                w3_1: "Лични Панел Имовине и Портфолио у Реалном Времену",
-                w3_2: "Директна Децентрализована Мрежа Повезивања",
-                w3_3: "Друштвени UBI (До 60% · Удео 30%–60%)",
-                w3_4: "Кол Центар AGI · ASI · Bbi-ni Асистент",
-                w3_5: "Предиктивни Сектори и Тржишна Аналитика",
-                w3Cta: "Иди на Web3 Банку",
-                ibHeading: "Интернет Банка",
-                ib_1: "Уплата · Исплата · Пренос · Блокирање · Штедња · Кредит",
-                ib_2: "Провера Кредитног Рејтинга и Дијагностика",
-                ib_3: "Прилагођене Препоруке Кредита по Рејтингу",
-                ibCta: "Иди на Интернет Банку"
-            },
-            hr: {
-                pageTitle: "HKWB - Digitalna Financijska Inovacija",
-                langAria: "Odaberite jezik",
-                title: "Koegzistencija Čovječanstva i Tehnologije<br>Digitalna Financijska Inovacija Sljedeće Generacije",
-                sixLabel: "6 Ključnih Financijskih Funkcija",
-                f1: "Uplata", f2: "Isplata", f3: "Prijenos", f4: "Zaključavanje", f5: "Štednja", f6: "Kredit",
-                web3Btn: "Uđite u Web3 Digitalnu Banku",
-                internetBtn: "Uđite u Internet Banku",
-                w3Heading: "Web3 Digitalna Banka",
-                w3_1: "Osobna Nadzorna Ploča Imovine i Portfelj u Stvarnom Vremenu",
-                w3_2: "Izravna Decentralizirana Mreža Povezivanja",
-                w3_3: "Društveni UBI (Do 60% · Udio 30%–60%)",
-                w3_4: "Pozivni Centar AGI · ASI · Bbi-ni Asistent",
-                w3_5: "Prediktivni Sektori i Tržišna Inteligencija",
-                w3Cta: "Idi na Web3 Banku",
-                ibHeading: "Internet Banka",
-                ib_1: "Uplata · Isplata · Prijenos · Zaključavanje · Štednja · Kredit",
-                ib_2: "Provjera Kreditnog Rejtinga i Dijagnostika",
-                ib_3: "Prilagođene Preporuke Kredita prema Rejtingu",
-                ibCta: "Idi na Internet Banku"
-            }
-        };
+    <!-- [단독 표시 B] 인터넷 은행 전용 영역 -->
+    <section class="panel" id="internetPanel" style="display:none;">
+      <div class="panel-head">
+        <h3 data-i18n="internetPanelTitle">인터넷 은행 전용 화면 (6대 기능 · 예치 이자율 · 신용점수)</h3>
+        <span class="pill-badge" data-i18n="internetOnlyBadge">인터넷 은행 전용 표시</span>
+      </div>
 
-        function updateLanguage(lang) {
-            const data = i18nData[lang] || i18nData.en;
-            document.documentElement.lang = lang;
-            document.title = data.pageTitle;
-            document.getElementById('languageSelect').setAttribute('aria-label', data.langAria);
+      <!-- 6대 금융 기능 (2행 3열 격자) -->
+      <div class="six-grid">
+        <button type="button" class="six-btn active" data-fn="deposit" onclick="pickBankFn('deposit')">
+          <strong data-i18n="fnDeposit">1. 입금</strong>
+          <span data-i18n="fnDepositSub">계좌 입금 및 자금 적립</span>
+        </button>
+        <button type="button" class="six-btn" data-fn="withdraw" onclick="pickBankFn('withdraw')">
+          <strong data-i18n="fnWithdraw">2. 출금</strong>
+          <span data-i18n="fnWithdrawSub">즉시 출금 및 보안 확인</span>
+        </button>
+        <button type="button" class="six-btn" data-fn="transfer" onclick="pickBankFn('transfer')">
+          <strong data-i18n="fnTransfer">3. 송금</strong>
+          <span data-i18n="fnTransferSub">계좌·지갑 이체 송금</span>
+        </button>
+        <button type="button" class="six-btn" data-fn="staking" onclick="pickBankFn('staking')">
+          <strong data-i18n="fnStaking">4. 예치</strong>
+          <span data-i18n="fnStakingSub">6개월~3년 차등 이자율</span>
+        </button>
+        <button type="button" class="six-btn" data-fn="savings" onclick="pickBankFn('savings')">
+          <strong data-i18n="fnSavings">5. 적금</strong>
+          <span data-i18n="fnSavingsSub">목표 적금 설계</span>
+        </button>
+        <button type="button" class="six-btn" data-fn="loan" onclick="pickBankFn('loan')">
+          <strong data-i18n="fnLoan">6. 대출</strong>
+          <span data-i18n="fnLoanSub">NICE + 블록체인 신용 한도</span>
+        </button>
+      </div>
 
-            document.getElementById('txt-title').innerHTML = data.title;
-            document.getElementById('txt-six-label').innerText = data.sixLabel;
-            document.getElementById('f-deposit').innerText = data.f1;
-            document.getElementById('f-withdraw').innerText = data.f2;
-            document.getElementById('f-transfer').innerText = data.f3;
-            document.getElementById('f-stake').innerText = data.f4;
-            document.getElementById('f-saving').innerText = data.f5;
-            document.getElementById('f-loan').innerText = data.f6;
+      <div class="grid-2">
+        <div class="box">
+          <h4 data-i18n="bankCalcTitle">예치·금융 계산 및 기간별 이자율</h4>
+          <div class="field">
+            <label for="bankKrwInput" data-i18n="bankKrwLabel">금액 (KRW)</label>
+            <input type="number" id="bankKrwInput" value="10000000" min="10000" step="10000" oninput="calcBankFn()" />
+          </div>
+          <div class="field">
+            <label for="bankTermSel" data-i18n="bankTermLabel">예치 기간 선택</label>
+            <select id="bankTermSel" onchange="calcBankFn()">
+              <option value="6m">6개월 (8% ~ 12%)</option>
+              <option value="1y" selected>1년 (12% ~ 18%)</option>
+              <option value="2y">2년 (16% ~ 24%)</option>
+              <option value="3y">3년 (20% ~ 31.4%)</option>
+            </select>
+          </div>
+          <div class="calc-box" id="bankFnOutput">예상 금액 계산 중...</div>
+          <button type="button" class="gold-btn" onclick="runBankFn()" data-i18n="runBankFnBtn">선택 기능 실행</button>
 
-            document.getElementById('btn-web3').innerText = data.web3Btn;
-            document.getElementById('btn-internet').innerText = data.internetBtn;
+          <table class="rate-tbl">
+            <thead>
+              <tr>
+                <th data-i18n="thTerm">기간</th>
+                <th data-i18n="thRate">이자율</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>6개월</td><td class="rate-val">8% ~ 12%</td></tr>
+              <tr><td>1년</td><td class="rate-val">12% ~ 18%</td></tr>
+              <tr><td>2년</td><td class="rate-val">16% ~ 24%</td></tr>
+              <tr><td>3년</td><td class="rate-val">20% ~ 31.4%</td></tr>
+            </tbody>
+          </table>
+        </div>
 
-            document.getElementById('w3-heading').innerText = data.w3Heading;
-            document.getElementById('w3-1').innerText = data.w3_1;
-            document.getElementById('w3-2').innerText = data.w3_2;
-            document.getElementById('w3-3').innerText = data.w3_3;
-            document.getElementById('w3-4').innerText = data.w3_4;
-            document.getElementById('w3-5').innerText = data.w3_5;
-            document.getElementById('w3-cta').innerText = data.w3Cta;
+        <div class="box">
+          <h4 data-i18n="creditTitle">신용정보 조회 (NICE 평가 + 블록체인 원장)</h4>
+          <p style="font-size:0.82rem; color:var(--text-muted); margin-bottom:10px;" data-i18n="creditGuide">
+            개인 사용자가 버튼을 누르면 NICE 신용지표와 블록체인 원장 거래·자산 건전성 지표를 함께 반영해 신용점수를 보여줍니다.
+          </p>
+          <div class="field">
+            <label for="niceScoreIn" data-i18n="niceInLabel">NICE 신용·상환 지수 (0~100)</label>
+            <input type="number" id="niceScoreIn" value="88" min="0" max="100" />
+          </div>
+          <div class="field">
+            <label for="chainScoreIn" data-i18n="chainInLabel">블록체인 원장·예치 지수 (0~100)</label>
+            <input type="number" id="chainScoreIn" value="92" min="0" max="100" />
+          </div>
+          <button type="button" class="gold-btn" onclick="checkCredit()" data-i18n="checkCreditBtn">
+            신용정보 점수 조회
+          </button>
 
-            document.getElementById('ib-heading').innerText = data.ibHeading;
-            document.getElementById('ib-1').innerText = data.ib_1;
-            document.getElementById('ib-2').innerText = data.ib_2;
-            document.getElementById('ib-3').innerText = data.ib_3;
-            document.getElementById('ib-cta').innerText = data.ibCta;
+          <div class="credit-card-box" id="creditBox">
+            <div>
+              <div style="font-size:0.78rem; color:var(--text-sub);" data-i18n="creditOutLabel">통합 신용점수 (NICE + 블록체인)</div>
+              <div class="credit-score-big" id="creditScoreOut">915점 · 1등급</div>
+            </div>
+            <div style="font-size:0.82rem; text-align:right;" id="creditLoanOut">
+              추천 대출 한도: <strong>₩ 200,000,000</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
 
-            if (['ar', 'fa', 'ur', 'he'].includes(lang)) {
-                document.body.dir = 'rtl';
-                document.body.style.direction = 'rtl';
-            } else {
-                document.body.dir = 'ltr';
-                document.body.style.direction = 'ltr';
-            }
+  <!-- 하단 고정 4칸 바 -->
+  <nav class="bottom-bar" aria-label="하단 고정 네비게이션">
+    <button type="button" class="active" id="bNavHome" onclick="bottomAction('home')">
+      <span>🏠</span>
+      <span data-i18n="bNavHome">홈</span>
+    </button>
+    <button type="button" id="bNavWp" onclick="bottomAction('whitepaper')">
+      <span>📄</span>
+      <span data-i18n="bNavWp">백서</span>
+    </button>
+    <button type="button" id="bNavAssets" onclick="bottomAction('assets')">
+      <span>💼</span>
+      <span data-i18n="bNavAssets">자산</span>
+    </button>
+    <button type="button" id="bNavMenu" onclick="bottomAction('menu')">
+      <span>☰</span>
+      <span data-i18n="bNavMenu">전체 메뉴</span>
+    </button>
+  </nav>
+
+  <!-- 백서 모달 -->
+  <div class="modal-bg" id="wpModal" onclick="bgClose(event, 'wpModal')">
+    <div class="modal-box">
+      <div class="modal-top">
+        <h3 data-i18n="wpTitle">HKWB · HK WorldBank 백서</h3>
+        <button type="button" class="x-btn" onclick="closeModal('wpModal')" data-i18n="closeBtn">닫기</button>
+      </div>
+      <p style="font-size:0.88rem; color:var(--text-sub); margin-bottom:10px;" data-i18n="wpLine1">
+        • HKWB 아래 웹3 디지털 은행과 인터넷 은행(HK 뱅크)을 분리 운영합니다.
+      </p>
+      <p style="font-size:0.88rem; color:var(--text-sub); margin-bottom:10px;" data-i18n="wpLine2">
+        • 예치 이자율은 6개월 8~12%, 1년 12~18%, 2년 16~24%, 3년 20~31.4%로 적용됩니다.
+      </p>
+      <p style="font-size:0.88rem; color:var(--text-sub);" data-i18n="wpLine3">
+        • 순수익 최대 60% 사회환원 UBI와 NICE + 블록체인 원장 신용점수 조회를 지원합니다.
+      </p>
+    </div>
+  </div>
+
+  <!-- 전체 메뉴 모달 -->
+  <div class="modal-bg" id="menuModal" onclick="bgClose(event, 'menuModal')">
+    <div class="modal-box">
+      <div class="modal-top">
+        <h3 data-i18n="menuTitle">HKWB 전체 메뉴</h3>
+        <button type="button" class="x-btn" onclick="closeModal('menuModal')" data-i18n="closeBtn">닫기</button>
+      </div>
+      <div class="menu-grid">
+        <button type="button" class="menu-tile" onclick="goSection('assets')">
+          <strong data-i18n="mAsset">개인 자산 대시보드</strong>
+          <span>PI · USDT · XRP · SOL · ETH · BTC</span>
+        </button>
+        <button type="button" class="menu-tile" onclick="goSection('web3')">
+          <strong data-i18n="mWeb3">웹3 디지털 은행 진입</strong>
+          <span>10대 분산 연동망 · 스왑 · 예치</span>
+        </button>
+        <button type="button" class="menu-tile" onclick="goSection('internet')">
+          <strong data-i18n="mInternet">인터넷 은행 진입</strong>
+          <span>입금·출금·송금·예치·적금·대출</span>
+        </button>
+        <button type="button" class="menu-tile" onclick="goSection('credit')">
+          <strong data-i18n="mCredit">신용점수 조회</strong>
+          <span>NICE 평가 + 블록체인 원장 점수</span>
+        </button>
+        <button type="button" class="menu-tile" onclick="goSection('whitepaper')">
+          <strong data-i18n="mWp">백서 보기</strong>
+          <span>구조 · 이자율 · UBI 안내</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const LANGS_60 = [
+      { code: "ko", name: "한국어", native: "한국어" },
+      { code: "en", name: "영어", native: "English" },
+      { code: "zh-CN", name: "중국어(간체)", native: "简体中文" },
+      { code: "zh-TW", name: "중국어(번체)", native: "繁體中文" },
+      { code: "ja", name: "일본어", native: "日本語" },
+      { code: "es", name: "스페인어", native: "Español" },
+      { code: "fr", name: "프랑스어", native: "Français" },
+      { code: "de", name: "독일어", native: "Deutsch" },
+      { code: "it", name: "이탈리아어", native: "Italiano" },
+      { code: "pt", name: "포르투갈어", native: "Português" },
+      { code: "ru", name: "러시아어", native: "Русский" },
+      { code: "ar", name: "아랍어", native: "العربية" },
+      { code: "hi", name: "힌디어", native: "हिन्दी" },
+      { code: "bn", name: "벵골어", native: "বাংলা" },
+      { code: "ur", name: "우르두어", native: "اردو" },
+      { code: "vi", name: "베트남어", native: "Tiếng Việt" },
+      { code: "th", name: "태국어", native: "ไทย" },
+      { code: "id", name: "인도네시아어", native: "Bahasa Indonesia" },
+      { code: "ms", name: "말레이어", native: "Bahasa Melayu" },
+      { code: "tl", name: "필리핀어", native: "Filipino" },
+      { code: "tr", name: "튀르키예어", native: "Türkçe" },
+      { code: "nl", name: "네덜란드어", native: "Nederlands" },
+      { code: "pl", name: "폴란드어", native: "Polski" },
+      { code: "uk", name: "우크라이나어", native: "Українська" },
+      { code: "sv", name: "스웨덴어", native: "Svenska" },
+      { code: "no", name: "노르웨이어", native: "Norsk" },
+      { code: "da", name: "덴마크어", native: "Dansk" },
+      { code: "fi", name: "핀란드어", native: "Suomi" },
+      { code: "cs", name: "체코어", native: "Čeština" },
+      { code: "el", name: "그리스어", native: "Ελληνικά" },
+      { code: "he", name: "히브리어", native: "עברית" },
+      { code: "fa", name: "페르시아어", native: "فارسی" },
+      { code: "sw", name: "스와힐리어", native: "Kiswahili" },
+      { code: "af", name: "아프리칸스어", native: "Afrikaans" },
+      { code: "am", name: "암하라어", native: "አማርኛ" },
+      { code: "az", name: "아제르바이잔어", native: "Azərbaycan" },
+      { code: "be", name: "벨라루스어", native: "Беларуская" },
+      { code: "bg", name: "불가리아어", native: "Български" },
+      { code: "ca", name: "카탈루냐어", native: "Català" },
+      { code: "et", name: "에스토니아어", native: "Eesti" },
+      { code: "eu", name: "바스크어", native: "Euskara" },
+      { code: "gl", name: "갈리시아어", native: "Galego" },
+      { code: "ka", name: "조지아어", native: "ქართული" },
+      { code: "hr", name: "크로아티아어", native: "Hrvatski" },
+      { code: "hu", name: "헝가리어", native: "Magyar" },
+      { code: "is", name: "아이슬란드어", native: "Íslenska" },
+      { code: "kk", name: "카자흐어", native: "Қазақ тілі" },
+      { code: "km", name: "크메르어", native: "ខ្មែរ" },
+      { code: "kn", name: "칸나다어", native: "ಕನ್ನಡ" },
+      { code: "lo", name: "라오어", native: "ລາວ" },
+      { code: "lt", name: "리투아니아어", native: "Lietuvių" },
+      { code: "lv", name: "라트비아어", native: "Latviešu" },
+      { code: "mk", name: "마케도니아어", native: "Македонски" },
+      { code: "ml", name: "말라얄람어", native: "മലയാളം" },
+      { code: "mn", name: "몽골어", native: "Монгол" },
+      { code: "mr", name: "마라티어", native: "मराठी" },
+      { code: "my", name: "미얀마어", native: "မြန်မာ" },
+      { code: "ne", name: "네팔어", native: "नेपाली" },
+      { code: "ro", name: "루마니아어", native: "Română" },
+      { code: "si", name: "싱할라어", native: "සිංහල" }
+    ];
+
+    const DICTS = {
+      ko: {
+        brandTitle: "HKWB · HK WorldBank",
+        brandTagline: "인류와 기술이 공존하는 차세대 디지털 금융 혁신",
+        langLabel: "60개국어 언어 선택",
+        topAssetLabel: "최상단 개인 자산 대시보드 · 보유 자산 및 수량",
+        ubiBanner: "사회환원 UBI · 순수익 최대 60% 리워드",
+        tagWeb3: "분리 채널 01 · WEB3",
+        entryWeb3Heading: "웹3 디지털 은행 들어갈 곳",
+        entryWeb3Sub: "10대 분산 연동망, 파이·테더·리플·솔라나·이더리움·비트코인 수량 연동 스왑·예치·UBI 전용 화면",
+        btnEnterWeb3: "웹3 디지털 은행 진입하기",
+        tagInternet: "분리 채널 02 · INTERNET BANK",
+        entryInternetHeading: "인터넷 은행 들어갈 곳",
+        entryInternetSub: "입금·출금·송금·예치·적금·대출 6대 기능, 기간별 예치 이자율, NICE + 블록체인 신용점수 조회 전용 화면",
+        btnEnterInternet: "인터넷 은행 진입하기",
+        web3PanelTitle: "웹3 디지털 은행 전용 화면 (10대 분산 연동망 · 스왑 · 예치)",
+        web3OnlyBadge: "웹3 전용 표시",
+        swapTitle: "자산 스왑 & DEX 스왑 (보유 수량 연동)",
+        fromCoinLabel: "출발 자산",
+        toCoinLabel: "도착 자산",
+        swapQtyLabel: "전환 수량",
+        runSwapBtn: "스왑 반영하기",
+        web3DepTitle: "웹3 자산 예치 (6개월~3년 이자율 적용)",
+        depCoinLabel: "예치 자산",
+        depQtyLabel: "예치 수량",
+        depPeriodLabel: "예치 기간 및 이자율",
+        runDepBtn: "예치 신청하기",
+        internetPanelTitle: "인터넷 은행 전용 화면 (6대 기능 · 예치 이자율 · 신용점수)",
+        internetOnlyBadge: "인터넷 은행 전용 표시",
+        fnDeposit: "1. 입금",
+        fnDepositSub: "계좌 입금 및 자금 적립",
+        fnWithdraw: "2. 출금",
+        fnWithdrawSub: "즉시 출금 및 보안 확인",
+        fnTransfer: "3. 송금",
+        fnTransferSub: "계좌·지갑 이체 송금",
+        fnStaking: "4. 예치",
+        fnStakingSub: "6개월~3년 차등 이자율",
+        fnSavings: "5. 적금",
+        fnSavingsSub: "목표 적금 설계",
+        fnLoan: "6. 대출",
+        fnLoanSub: "NICE + 블록체인 신용 한도",
+        bankCalcTitle: "예치·금융 계산 및 기간별 이자율",
+        bankKrwLabel: "금액 (KRW)",
+        bankTermLabel: "예치 기간 선택",
+        runBankFnBtn: "선택 기능 실행",
+        thTerm: "기간",
+        thRate: "이자율",
+        creditTitle: "신용정보 조회 (NICE 평가 + 블록체인 원장)",
+        creditGuide: "개인 사용자가 버튼을 누르면 NICE 신용지표와 블록체인 원장 거래·자산 건전성 지표를 함께 반영해 신용점수를 보여줍니다.",
+        niceInLabel: "NICE 신용·상환 지수 (0~100)",
+        chainInLabel: "블록체인 원장·예치 지수 (0~100)",
+        checkCreditBtn: "신용정보 점수 조회",
+        creditOutLabel: "통합 신용점수 (NICE + 블록체인)",
+        bNavHome: "홈",
+        bNavWp: "백서",
+        bNavAssets: "자산",
+        bNavMenu: "전체 메뉴",
+        wpTitle: "HKWB · HK WorldBank 백서",
+        wpLine1: "• HKWB 아래 웹3 디지털 은행과 인터넷 은행(HK 뱅크)을 분리 운영합니다.",
+        wpLine2: "• 예치 이자율은 6개월 8~12%, 1년 12~18%, 2년 16~24%, 3년 20~31.4%로 적용됩니다.",
+        wpLine3: "• 순수익 최대 60% 사회환원 UBI와 NICE + 블록체인 원장 신용점수 조회를 지원합니다.",
+        menuTitle: "HKWB 전체 메뉴",
+        closeBtn: "닫기",
+        mAsset: "개인 자산 대시보드",
+        mWeb3: "웹3 디지털 은행 진입",
+        mInternet: "인터넷 은행 진입",
+        mCredit: "신용점수 조회",
+        mWp: "백서 보기"
+      },
+      en: {
+        brandTitle: "HKWB · HK WorldBank",
+        brandTagline: "Next-Gen Digital Finance Where Humanity & Tech Coexist",
+        langLabel: "60-Language Selector",
+        topAssetLabel: "Top Personal Asset Dashboard · Holdings & Quantities",
+        ubiBanner: "Social Return UBI · Up to 60% Net Profit Reward",
+        tagWeb3: "Channel 01 · WEB3",
+        entryWeb3Heading: "Web3 Digital Bank Entry",
+        entryWeb3Sub: "10 Decentralized Modules · PI/USDT/XRP/SOL/ETH/BTC Swap, Deposit & UBI",
+        btnEnterWeb3: "Enter Web3 Digital Bank",
+        tagInternet: "Channel 02 · INTERNET BANK",
+        entryInternetHeading: "Internet Bank Entry",
+        entryInternetSub: "6 Banking Modules · Term Deposit Rates · NICE + Blockchain Credit Score",
+        btnEnterInternet: "Enter Internet Bank",
+        web3PanelTitle: "Web3 Digital Bank View (10 Modules · Swap · Deposit)",
+        web3OnlyBadge: "Web3 Channel Only",
+        swapTitle: "Asset Swap & DEX Swap",
+        fromCoinLabel: "From Asset",
+        toCoinLabel: "To Asset",
+        swapQtyLabel: "Quantity",
+        runSwapBtn: "Apply Swap",
+        web3DepTitle: "Web3 Term Deposit (6M–3Y Rates)",
+        depCoinLabel: "Deposit Asset",
+        depQtyLabel: "Deposit Quantity",
+        depPeriodLabel: "Term & Interest Rate",
+        runDepBtn: "Submit Deposit",
+        internetPanelTitle: "Internet Bank View (6 Modules · Rates · Credit Score)",
+        internetOnlyBadge: "Internet Bank Only",
+        fnDeposit: "1. Deposit",
+        fnDepositSub: "Account deposit",
+        fnWithdraw: "2. Withdraw",
+        fnWithdrawSub: "Instant withdrawal",
+        fnTransfer: "3. Transfer",
+        fnTransferSub: "Account & wallet transfer",
+        fnStaking: "4. Term Deposit",
+        fnStakingSub: "6M–3Y interest tiers",
+        fnSavings: "5. Savings",
+        fnSavingsSub: "Goal savings plan",
+        fnLoan: "6. Loan",
+        fnLoanSub: "NICE + Blockchain limit",
+        bankCalcTitle: "Deposit Calculator & Term Rates",
+        bankKrwLabel: "Amount (KRW)",
+        bankTermLabel: "Deposit Term",
+        runBankFnBtn: "Execute Action",
+        thTerm: "Term",
+        thRate: "Rate",
+        creditTitle: "Credit Score Check (NICE + Blockchain)",
+        creditGuide: "Combines NICE credit history with blockchain ledger health to display your credit score.",
+        niceInLabel: "NICE Credit Index (0–100)",
+        chainInLabel: "Blockchain Ledger Index (0–100)",
+        checkCreditBtn: "Check Credit Score",
+        creditOutLabel: "Combined Credit Score",
+        bNavHome: "Home",
+        bNavWp: "Whitepaper",
+        bNavAssets: "Assets",
+        bNavMenu: "All Menu",
+        wpTitle: "HKWB · HK WorldBank Whitepaper",
+        wpLine1: "• Separates Web3 Digital Bank and Internet Bank under HKWB.",
+        wpLine2: "• Deposit rates: 6M (8–12%), 1Y (12–18%), 2Y (16–24%), 3Y (20–31.4%).",
+        wpLine3: "• Up to 60% social return UBI and NICE + Blockchain credit scoring.",
+        menuTitle: "HKWB All Menu",
+        closeBtn: "Close",
+        mAsset: "Personal Asset Dashboard",
+        mWeb3: "Enter Web3 Digital Bank",
+        mInternet: "Enter Internet Bank",
+        mCredit: "Credit Score Check",
+        mWp: "Whitepaper"
+      },
+      ja: {
+        brandTitle: "HKWB · HK WorldBank",
+        brandTagline: "人類と技術が共存する次世代デジタル金融",
+        langLabel: "60カ国語 選択",
+        topAssetLabel: "最上段 個人資産ダッシュボード · 保有数量",
+        ubiBanner: "社会還元 UBI · 純利益最大60%リワード",
+        tagWeb3: "チャネル01 · WEB3",
+        entryWeb3Heading: "Web3 デジタル銀行 入口",
+        entryWeb3Sub: "10大分散連動網 · PI/USDT/XRP/SOL/ETH/BTC スワップ・預け入れ・UBI",
+        btnEnterWeb3: "Web3 デジタル銀行へ入る",
+        tagInternet: "チャネル02 · インターネット銀行",
+        entryInternetHeading: "インターネット銀行 入口",
+        entryInternetSub: "6大機能 · 期間別金利 · NICE＋ブロックチェーン信用スコア",
+        btnEnterInternet: "インターネット銀行へ入る",
+        web3PanelTitle: "Web3 デジタル銀行 専用画面",
+        web3OnlyBadge: "Web3 専用表示",
+        swapTitle: "資産スワップ＆DEXスワップ",
+        fromCoinLabel: "交換元",
+        toCoinLabel: "交換先",
+        swapQtyLabel: "数量",
+        runSwapBtn: "スワップ実行",
+        web3DepTitle: "Web3 預け入れ（6カ月〜3年）",
+        depCoinLabel: "預け入れ資産",
+        depQtyLabel: "預け入れ数量",
+        depPeriodLabel: "期間と金利",
+        runDepBtn: "預け入れ申請",
+        internetPanelTitle: "インターネット銀行 専用画面",
+        internetOnlyBadge: "インターネット銀行 専用",
+        fnDeposit: "1. 入金",
+        fnDepositSub: "口座入金",
+        fnWithdraw: "2. 出金",
+        fnWithdrawSub: "即時出金",
+        fnTransfer: "3. 送金",
+        fnTransferSub: "送金・振込",
+        fnStaking: "4. 預金",
+        fnStakingSub: "6カ月〜3年金利",
+        fnSavings: "5. 積立",
+        fnSavingsSub: "積立プラン",
+        fnLoan: "6. ローン",
+        fnLoanSub: "NICE＋ブロックチェーン枠",
+        bankCalcTitle: "預金計算＆期間別金利",
+        bankKrwLabel: "金額 (KRW)",
+        bankTermLabel: "預け入れ期間",
+        runBankFnBtn: "機能実行",
+        thTerm: "期間",
+        thRate: "金利",
+        creditTitle: "信用スコア照会（NICE＋ブロックチェーン）",
+        creditGuide: "NICE指標とブロックチェーン台帳指標を合算して信用スコアを表示します。",
+        niceInLabel: "NICE 指数 (0〜100)",
+        chainInLabel: "ブロックチェーン台帳指数 (0〜100)",
+        checkCreditBtn: "信用スコアを照会",
+        creditOutLabel: "統合信用スコア",
+        bNavHome: "ホーム",
+        bNavWp: "白書",
+        bNavAssets: "資産",
+        bNavMenu: "全メニュー",
+        wpTitle: "HKWB · HK WorldBank 白書",
+        wpLine1: "• Web3デジタル銀行とインターネット銀行を独立提供します。",
+        wpLine2: "• 金利：6カ月8〜12%、1年12〜18%、2年16〜24%、3年20〜31.4%。",
+        wpLine3: "• 純利益最大60%の社会還元UBIとNICE＋ブロックチェーン信用評価。",
+        menuTitle: "HKWB 全メニュー",
+        closeBtn: "閉じる",
+        mAsset: "個人資産ダッシュボード",
+        mWeb3: "Web3 デジタル銀行",
+        mInternet: "インターネット銀行",
+        mCredit: "信用スコア照会",
+        mWp: "白書を見る"
+      },
+      "zh-CN": {
+        brandTitle: "HKWB · HK WorldBank",
+        brandTagline: "人类与科技共存的新一代数字金融",
+        langLabel: "60种语言选择",
+        topAssetLabel: "顶部个人资产仪表盘 · 持仓与数量",
+        ubiBanner: "社会回馈 UBI · 最高60%净利润奖励",
+        tagWeb3: "通道 01 · WEB3",
+        entryWeb3Heading: "Web3 数字银行入口",
+        entryWeb3Sub: "十大分布式联动 · PI/USDT/XRP/SOL/ETH/BTC 兑换·存入·UBI",
+        btnEnterWeb3: "进入 Web3 数字银行",
+        tagInternet: "通道 02 · 互联网银行",
+        entryInternetHeading: "互联网银行入口",
+        entryInternetSub: "六大功能 · 定期利率 · NICE + 区块链信用分",
+        btnEnterInternet: "进入 互联网银行",
+        web3PanelTitle: "Web3 数字银行专属页面",
+        web3OnlyBadge: "仅显示 Web3",
+        swapTitle: "资产兑换与 DEX 兑换",
+        fromCoinLabel: "转出资产",
+        toCoinLabel: "换入资产",
+        swapQtyLabel: "数量",
+        runSwapBtn: "确认兑换",
+        web3DepTitle: "Web3 定期存入（6个月~3年）",
+        depCoinLabel: "存入资产",
+        depQtyLabel: "存入数量",
+        depPeriodLabel: "期限与利率",
+        runDepBtn: "提交存入",
+        internetPanelTitle: "互联网银行专属页面",
+        internetOnlyBadge: "仅显示互联网银行",
+        fnDeposit: "1. 入金",
+        fnDepositSub: "账户入金",
+        fnWithdraw: "2. 出金",
+        fnWithdrawSub: "快速出金",
+        fnTransfer: "3. 转账",
+        fnTransferSub: "账户与钱包转账",
+        fnStaking: "4. 定期存入",
+        fnStakingSub: "6个月~3年利率",
+        fnSavings: "5. 储蓄",
+        fnSavingsSub: "目标储蓄",
+        fnLoan: "6. 信贷",
+        fnLoanSub: "NICE + 区块链额度",
+        bankCalcTitle: "存入计算与期限利率",
+        bankKrwLabel: "金额 (KRW)",
+        bankTermLabel: "存款期限",
+        runBankFnBtn: "执行功能",
+        thTerm: "期限",
+        thRate: "利率",
+        creditTitle: "信用分查询（NICE + 区块链账本）",
+        creditGuide: "综合 NICE 信用指标与区块链账本健康度评估信用分。",
+        niceInLabel: "NICE 指数 (0~100)",
+        chainInLabel: "区块链账本指数 (0~100)",
+        checkCreditBtn: "查询信用分",
+        creditOutLabel: "综合信用分",
+        bNavHome: "首页",
+        bNavWp: "白皮书",
+        bNavAssets: "资产",
+        bNavMenu: "全部菜单",
+        wpTitle: "HKWB · HK WorldBank 白皮书",
+        wpLine1: "• 在 HKWB 架构下独立提供 Web3 数字银行与互联网银行。",
+        wpLine2: "• 利率：6个月 8~12%，1年 12~18%，2年 16~24%，3年 20~31.4%。",
+        wpLine3: "• 最高60%净利润社会回馈 UBI 与 NICE + 区块链信用评估。",
+        menuTitle: "HKWB 全部菜单",
+        closeBtn: "关闭",
+        mAsset: "个人资产仪表盘",
+        mWeb3: "进入 Web3 数字银行",
+        mInternet: "进入 互联网银行",
+        mCredit: "信用分查询",
+        mWp: "查看白皮书"
+      }
+    };
+
+    const COINS = [
+      { id: "PI", name: "파이", sym: "PI", qty: 12500, krw: 2400 },
+      { id: "USDT", name: "테더", sym: "USDT", qty: 18400, krw: 1420 },
+      { id: "XRP", name: "리플", sym: "XRP", qty: 42000, krw: 1850 },
+      { id: "SOL", name: "솔라나", sym: "SOL", qty: 145, krw: 245000 },
+      { id: "ETH", name: "이더리움", sym: "ETH", qty: 14.5, krw: 4250000 },
+      { id: "BTC", name: "비트코인", sym: "BTC", qty: 0.65, krw: 118000000 }
+    ];
+
+    const TEN_NET = [
+      { id: "wallet", title: "1. 지갑연결", sub: "멀티체인 지갑" },
+      { id: "transfer", title: "2. 송금", sub: "즉시 이체" },
+      { id: "pay", title: "3. 결재", sub: "글로벌 결재" },
+      { id: "deposit", title: "4. 예치", sub: "기간별 이자 예치" },
+      { id: "reward", title: "5. 보상", sub: "참여 리워드" },
+      { id: "ubi", title: "6. 기본소득", sub: "최대 60% UBI" },
+      { id: "swap", title: "7. 스왑", sub: "자산 전환" },
+      { id: "dex", title: "8. DEX스왑", sub: "탈중앙 스왑" },
+      { id: "lp", title: "9. LP스테이킹", sub: "유동성 스테이킹" },
+      { id: "piQty", title: "10. PI수량", sub: "파이 보유 수량" }
+    ];
+
+    const PERIODS = {
+      "6m": { label: "6개월", min: 8.0, max: 12.0, yrs: 0.5 },
+      "1y": { label: "1년", min: 12.0, max: 18.0, yrs: 1.0 },
+      "2y": { label: "2년", min: 16.0, max: 24.0, yrs: 2.0 },
+      "3y": { label: "3년", min: 20.0, max: 31.4, yrs: 3.0 }
+    };
+
+    let activeLang = "ko";
+    let activeChannel = "web3"; // 'web3' | 'internet'
+    let activeNet = "swap";
+    let activeBankFn = "deposit";
+
+    function toast(msg) {
+      const el = document.getElementById("noticePop");
+      el.textContent = msg;
+      el.classList.add("show");
+      clearTimeout(toast._t);
+      toast._t = setTimeout(() => el.classList.remove("show"), 2500);
+    }
+
+    function fmtKrw(n) {
+      return "₩ " + Math.round(n).toLocaleString("ko-KR");
+    }
+
+    function fmtQty(n) {
+      if (n >= 1000) return n.toLocaleString("ko-KR", { maximumFractionDigits: 2 });
+      if (n >= 1) return n.toLocaleString("ko-KR", { maximumFractionDigits: 4 });
+      return n.toLocaleString("ko-KR", { maximumFractionDigits: 6 });
+    }
+
+    function buildLangSelect() {
+      const sel = document.getElementById("langSelect");
+      sel.innerHTML = LANGS_60.map((l, i) =>
+        `<option value="${l.code}">${i + 1}. ${l.native} (${l.name})</option>`
+      ).join("");
+      sel.value = activeLang;
+      sel.addEventListener("change", (e) => setLanguage(e.target.value));
+    }
+
+    function setLanguage(code) {
+      activeLang = code;
+      const meta = LANGS_60.find((x) => x.code === code) || LANGS_60[0];
+      const base = DICTS[code] || DICTS.en;
+      const ko = DICTS.ko;
+
+      document.querySelectorAll("[data-i18n]").forEach((el) => {
+        const key = el.getAttribute("data-i18n");
+        if (base[key]) {
+          el.textContent = base[key];
+        } else if (code !== "ko" && ko[key]) {
+          // 60개국어 전체 선택 시 선택 언어 이름/코드가 문구에도 반영되도록 표시
+          el.textContent = `${ko[key]} · ${meta.native}`;
         }
+      });
 
-        function navigateWeb3() {
-            window.location.href = "https://ljw2358.github.io/HKWB/";
-        }
+      document.getElementById("langStatus").textContent =
+        `언어: ${meta.native} (${meta.name} / ${code.toUpperCase()})`;
 
-        function navigateInternet() {
-            window.location.href = "https://ljw2358.github.io/bank/";
-        }
-    </script>
+      renderAssets();
+      renderNets();
+      calcSwap();
+      calcWeb3Deposit();
+      calcBankFn();
+      checkCredit();
+      toast(`언어가 ${meta.native}(${meta.name})로 변경되었습니다.`);
+    }
+
+    function renderAssets() {
+      const wrap = document.getElementById("assetCards");
+      let sum = 0;
+      wrap.innerHTML = COINS.map((c) => {
+        const val = c.qty * c.krw;
+        sum += val;
+        return `
+          <div class="asset-card">
+            <div class="asset-head">
+              <span class="asset-name">${c.name}</span>
+              <span class="asset-sym">${c.sym}</span>
+            </div>
+            <div class="asset-qty">${fmtQty(c.qty)} ${c.sym}</div>
+            <div class="asset-val">${fmtKrw(val)}</div>
+          </div>
+        `;
+      }).join("");
+      document.getElementById("totalAssetKrw").textContent = fmtKrw(sum);
+    }
+
+    function renderNets() {
+      const wrap = document.getElementById("tenNetList");
+      wrap.innerHTML = TEN_NET.map((n) => `
+        <button type="button" class="net-item ${activeNet === n.id ? "active" : ""}" onclick="pickNet('${n.id}')">
+          <strong>${n.title}</strong>
+          <span>${n.sub}</span>
+        </button>
+      `).join("");
+    }
+
+    function pickNet(id) {
+      activeNet = id;
+      renderNets();
+      const item = TEN_NET.find((x) => x.id === id);
+      if (item) toast(`${item.title} 선택`);
+    }
+
+    function fillCoinSelects() {
+      const opts = COINS.map((c) =>
+        `<option value="${c.id}">${c.name} (${c.sym}) · 보유 ${fmtQty(c.qty)}</option>`
+      ).join("");
+      const f = document.getElementById("fromCoin");
+      const t = document.getElementById("toCoin");
+      const d = document.getElementById("depCoin");
+      f.innerHTML = opts;
+      t.innerHTML = opts;
+      d.innerHTML = opts;
+      f.value = "PI";
+      t.value = "USDT";
+      d.value = "PI";
+    }
+
+    function calcSwap() {
+      const fId = document.getElementById("fromCoin").value;
+      const tId = document.getElementById("toCoin").value;
+      const qty = Math.max(0, parseFloat(document.getElementById("swapQty").value) || 0);
+      const cFrom = COINS.find((c) => c.id === fId) || COINS[0];
+      const cTo = COINS.find((c) => c.id === tId) || COINS[1];
+
+      const received = qty * (cFrom.krw / cTo.krw) * 0.997;
+      document.getElementById("swapCalcOutput").innerHTML = `
+        <strong>${fmtQty(qty)} ${cFrom.sym}</strong> → 예상 수령 <strong>${fmtQty(received)} ${cTo.sym}</strong><br/>
+        <span style="color:var(--text-muted); font-size:0.78rem;">환산 금액 ${fmtKrw(qty * cFrom.krw)} · ${activeLang.toUpperCase()}</span>
+      `;
+    }
+
+    function runSwap() {
+      const fId = document.getElementById("fromCoin").value;
+      const tId = document.getElementById("toCoin").value;
+      const qty = Math.max(0, parseFloat(document.getElementById("swapQty").value) || 0);
+      if (fId === tId) return toast("다른 자산을 선택해 주세요.");
+      const cFrom = COINS.find((c) => c.id === fId);
+      const cTo = COINS.find((c) => c.id === tId);
+      if (qty <= 0 || qty > cFrom.qty) return toast("보유 수량 내에서 입력해 주세요.");
+
+      const received = qty * (cFrom.krw / cTo.krw) * 0.997;
+      cFrom.qty -= qty;
+      cTo.qty += received;
+      renderAssets();
+      fillCoinSelects();
+      document.getElementById("fromCoin").value = fId;
+      document.getElementById("toCoin").value = tId;
+      calcSwap();
+      toast(`${cFrom.sym} → ${cTo.sym} 스왑 완료`);
+    }
+
+    function calcWeb3Deposit() {
+      const cId = document.getElementById("depCoin").value;
+      const qty = Math.max(0, parseFloat(document.getElementById("depQty").value) || 0);
+      const p = PERIODS[document.getElementById("depPeriod").value] || PERIODS["1y"];
+      const coin = COINS.find((c) => c.id === cId) || COINS[0];
+
+      const minInt = qty * (p.min / 100) * p.yrs;
+      const maxInt = qty * (p.max / 100) * p.yrs;
+      document.getElementById("web3DepOutput").innerHTML = `
+        예치: <strong>${fmtQty(qty)} ${coin.sym}</strong> (${p.label}, 연 ${p.min}%~${p.max}%)<br/>
+        예상 만기 이자: <strong>${fmtQty(minInt)} ~ ${fmtQty(maxInt)} ${coin.sym}</strong>
+      `;
+    }
+
+    function runWeb3Deposit() {
+      const cId = document.getElementById("depCoin").value;
+      const qty = Math.max(0, parseFloat(document.getElementById("depQty").value) || 0);
+      const p = PERIODS[document.getElementById("depPeriod").value];
+      const coin = COINS.find((c) => c.id === cId);
+      if (qty <= 0 || qty > coin.qty) return toast("보유 수량을 확인해 주세요.");
+      coin.qty -= qty;
+      renderAssets();
+      calcWeb3Deposit();
+      toast(`${coin.name} ${fmtQty(qty)} ${coin.sym} (${p.label}) 예치 완료`);
+    }
+
+    // 웹3 디지털 은행 / 인터넷 은행 화면 분리 전환
+    function openChannel(channel) {
+      activeChannel = channel;
+      const w3Panel = document.getElementById("web3Panel");
+      const inPanel = document.getElementById("internetPanel");
+      const w3Card = document.getElementById("cardWeb3");
+      const inCard = document.getElementById("cardInternet");
+
+      if (channel === "web3") {
+        w3Panel.style.display = "block";
+        inPanel.style.display = "none";
+        w3Card.classList.add("active");
+        inCard.classList.remove("active");
+        toast("웹3 디지털 은행 화면이 열렸습니다.");
+      } else {
+        w3Panel.style.display = "none";
+        inPanel.style.display = "block";
+        inCard.classList.add("active");
+        w3Card.classList.remove("active");
+        toast("인터넷 은행 화면이 열렸습니다.");
+      }
+    }
+
+    function pickBankFn(fn) {
+      activeBankFn = fn;
+      document.querySelectorAll(".six-btn").forEach((b) => {
+        b.classList.toggle("active", b.getAttribute("data-fn") === fn);
+      });
+      calcBankFn();
+    }
+
+    function calcBankFn() {
+      const amt = Math.max(0, parseFloat(document.getElementById("bankKrwInput").value) || 0);
+      const p = PERIODS[document.getElementById("bankTermSel").value] || PERIODS["1y"];
+      const minI = amt * (p.min / 100) * p.yrs;
+      const maxI = amt * (p.max / 100) * p.yrs;
+      const labels = {
+        deposit: "입금",
+        withdraw: "출금",
+        transfer: "송금",
+        staking: "예치",
+        savings: "적금",
+        loan: "대출"
+      };
+      document.getElementById("bankFnOutput").innerHTML = `
+        <strong>${labels[activeBankFn]}</strong> · 금액 <strong>${fmtKrw(amt)}</strong> (${p.label}, 연 ${p.min}%~${p.max}%)<br/>
+        예상 이자: <strong>${fmtKrw(minI)} ~ ${fmtKrw(maxI)}</strong>
+      `;
+    }
+
+    function runBankFn() {
+      const amt = Math.max(0, parseFloat(document.getElementById("bankKrwInput").value) || 0);
+      if (amt <= 0) return toast("금액을 입력해 주세요.");
+      toast(`${fmtKrw(amt)} 처리가 완료되었습니다.`);
+    }
+
+    function checkCredit() {
+      const niceVal = Math.max(0, Math.min(100, parseFloat(document.getElementById("niceScoreIn").value) || 0));
+      const chainVal = Math.max(0, Math.min(100, parseFloat(document.getElementById("chainScoreIn").value) || 0));
+      const combined = (niceVal * 0.55) + (chainVal * 0.45);
+      const score = Math.round(300 + (combined / 100) * 700);
+
+      let grade = "3등급";
+      let limit = 50000000;
+      if (score >= 900) {
+        grade = "1등급";
+        limit = 200000000;
+      } else if (score >= 800) {
+        grade = "2등급";
+        limit = 100000000;
+      }
+
+      document.getElementById("creditScoreOut").textContent = `${score}점 · ${grade}`;
+      document.getElementById("creditLoanOut").innerHTML =
+        `NICE ${niceVal} · 블록체인 ${chainVal}<br/>추천 대출 한도: <strong>${fmtKrw(limit)}</strong>`;
+    }
+
+    function bottomAction(tab) {
+      ["bNavHome", "bNavWp", "bNavAssets", "bNavMenu"].forEach((id) => {
+        document.getElementById(id).classList.remove("active");
+      });
+      if (tab === "home") {
+        document.getElementById("bNavHome").classList.add("active");
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      } else if (tab === "whitepaper") {
+        document.getElementById("bNavWp").classList.add("active");
+        document.getElementById("wpModal").classList.add("open");
+      } else if (tab === "assets") {
+        document.getElementById("bNavAssets").classList.add("active");
+        document.getElementById("assetSection").scrollIntoView({ behavior: "smooth" });
+      } else if (tab === "menu") {
+        document.getElementById("bNavMenu").classList.add("active");
+        document.getElementById("menuModal").classList.add("open");
+      }
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.remove("open");
+    }
+
+    function bgClose(e, id) {
+      if (e.target.id === id) closeModal(id);
+    }
+
+    function goSection(sec) {
+      closeModal("menuModal");
+      if (sec === "assets") {
+        document.getElementById("assetSection").scrollIntoView({ behavior: "smooth" });
+      } else if (sec === "web3") {
+        openChannel("web3");
+        document.getElementById("web3Panel").scrollIntoView({ behavior: "smooth" });
+      } else if (sec === "internet" || sec === "credit") {
+        openChannel("internet");
+        document.getElementById("internetPanel").scrollIntoView({ behavior: "smooth" });
+      } else if (sec === "whitepaper") {
+        document.getElementById("wpModal").classList.add("open");
+      }
+    }
+
+    buildLangSelect();
+    fillCoinSelects();
+    setLanguage("ko");
+  </script>
 </body>
 </html>
